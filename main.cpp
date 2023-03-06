@@ -1,46 +1,87 @@
 #include "WindowClass.h"
 
+
+#define WC_STYLE CS_HREDRAW | CS_VREDRAW
+#define WC_CBSIZE sizeof(WNDCLASSEX)
+
+#define WC_HCURSOR LoadCursor(NULL, IDC_ARROW)
+#define WC_HBRBACKGROUND (HBRUSH)COLOR_WINDOW
+
+#define WC_LPFNWNDPROC WindowProc
+#define WC_LPSZCLASSNAME L"WindowClass1"
+
+#define WINDOW_EX_STYLE NULL
+#define WINDOW_X_POS 0
+#define WINDOW_Y_POS 0
+#define WINDOW_TITLE L"Our First Windowed Program"
+#define WINDOW_WIDTH 500
+#define WINDOW_HEIGHT 500
+#define WINDOW_PARENT NULL
+#define WINDOW_MENUBAR NULL
+
+
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
+
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
+
+
 	WindowClass* wc = new WindowClass();
 	wc->Clean();
-	wc->SetHbrBackground((HBRUSH)COLOR_WINDOW)
-	  ->SetLpfnWndProc(WindowProc)->SetLpszClassName(L"WindowClass1")
-	  ->SetHCursor(LoadCursor(NULL, IDC_ARROW))->SetHInstance(hInstance)
-	  ->SetStyle(CS_HREDRAW | CS_VREDRAW)->SetCbSize(sizeof(WNDCLASSEX));
+
+	wc
+		->SetStyle(WC_STYLE)
+		->SetCbSize(WC_CBSIZE)
+
+		->SetHCursor(WC_HCURSOR)
+		->SetHInstance(hInstance)
+		->SetHbrBackground(WC_HBRBACKGROUND)
+
+		->SetLpfnWndProc(WC_LPFNWNDPROC)
+		->SetLpszClassName(WC_LPSZCLASSNAME);
+
 	wc->Build();
 
-	HWND hWnd = CreateWindowEx(NULL,
-		L"WindowClass1",    // name of the window class
-		L"Our First Windowed Program",   // title of the window
-		WS_OVERLAPPEDWINDOW,    // window style
-		300,    // x-position of the window
-		300,    // y-position of the window
-		500,    // width of the window
-		400,    // height of the window
-		NULL,    // we have no parent window, NULL
-		NULL,    // we aren't using menus, NULL
-		hInstance,    // application handle
-		NULL);    // used with multiple windows, NULL
 
-	// display the window on the screen
+	HWND hWnd = CreateWindowEx
+	(
+		WINDOW_EX_STYLE,
+		WC_LPSZCLASSNAME,
+		WINDOW_TITLE,
+		WS_OVERLAPPEDWINDOW,
+		WINDOW_X_POS,
+		WINDOW_Y_POS,
+		WINDOW_WIDTH,
+		WINDOW_HEIGHT,
+		WINDOW_PARENT,
+		WINDOW_MENUBAR,
+		hInstance,
+		NULL // used with multiple windows, NULL
+	);
+
 	ShowWindow(hWnd, nCmdShow);
 
-	// enter the main loop:
 
-	// this struct holds Windows event messages
 	MSG msg;
 
-	// wait for the next message in the queue, store the result in 'msg'
-	while (GetMessage(&msg, NULL, 0, 0))
+	while (1)
 	{
-		// translate keystroke messages into the right format
-		TranslateMessage(&msg);
+		// Check to see if any messages are waiting in the queue
+		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		{
+			// Translate the message and dispatch it to WindowProc()
+			TranslateMessage(&msg);
+			DispatchMessage(&msg);
+		}
 
-		// send the message to the WindowProc function
-		DispatchMessage(&msg);
+		// If the message is WM_QUIT, exit the while loop
+		if (msg.message == WM_QUIT)
+			break;
+
+		// Run game code here
+		// ...
+		// ...
 	}
 
 	// return this part of the WM_QUIT message to Windows
