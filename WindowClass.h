@@ -5,10 +5,6 @@
 class WindowClass
 {
 
-private:
-
-	WNDCLASSEX wce;
-
 public:
 
 	void Build();
@@ -28,5 +24,9 @@ public:
 	WindowClass* SetLpfnWndProc(WNDPROC);
 	WindowClass* SetLpszMenuName(LPCWSTR);
 	WindowClass* SetLpszClassName(LPCWSTR);
+
+private:
+
+	WNDCLASSEX wce;
 
 };
