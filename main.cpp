@@ -1,7 +1,9 @@
 #include <d3d9.h>
 #include <time.h>
+#include <d3dx9.h>
 #include "WindowClass.h"
 #pragma comment (lib, "d3d9.lib")
+#pragma comment (lib, "d3dx9.lib")
 
 #define WINDOWCLASS_WINDOWPROC WindowProc
 #define WINDOWCLASS_SIZE sizeof(WNDCLASSEX)
