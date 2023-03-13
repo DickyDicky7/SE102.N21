@@ -1,6 +1,7 @@
 #include <d3d9.h>
 #include <time.h>
 #include <d3dx9.h>
+#include "BillRunning.h"
 #include "WindowClass.h"
 #pragma comment (lib, "d3d9.lib")
 #pragma comment (lib, "d3dx9.lib")
@@ -24,12 +25,9 @@
 
 LPDIRECT3D9 d3d = NULL;
 LPDIRECT3DDEVICE9 d3ddev = NULL;
-LPDIRECT3DSURFACE9 surface = NULL;
 LPDIRECT3DSURFACE9 backBuffer = NULL;
 
-LPDIRECT3DSURFACE9 billRunSprites[6];
-long start = GetTickCount();
-int currentSprite = 0;
+BaseSprites* billRunning = new BillRunning();
 
 void GameInit(HWND);
 void GameRun(HWND);
@@ -149,94 +147,50 @@ void GameInit(HWND hWnd)
 	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 
 	d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);
-	d3ddev->CreateOffscreenPlainSurface(100, 100, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &surface, NULL);
-
-	/*RECT rect{};
-	rect.top = 10;
-	rect.bottom = 73;
-	rect.left = 0;
-	rect.right = 65;
-
-	D3DXLoadSurfaceFromFile
-	(
-		surface,
-		NULL,
-		NULL,
-		L"Resources\\Sprites\\MainCharacter.png",
-		&rect,
-		D3DX_DEFAULT,
-		0,
-		NULL
-	);*/
-
-	RECT rect{};
-	rect.top = 10;
-	rect.bottom = 73;
-	rect.left = 0;
-	rect.right = 65;
-	for (int i = 0; i < 6; i++)
-	{
-		d3ddev->CreateOffscreenPlainSurface(100, 100, D3DFMT_X8R8G8B8, D3DPOOL_DEFAULT, &billRunSprites[i], NULL);
-		D3DXLoadSurfaceFromFile
-		(
-			billRunSprites[i],
-			NULL,
-			NULL,
-			L"Resources\\Sprites\\MainCharacter.png",
-			&rect,
-			D3DX_DEFAULT,
-			0,
-			NULL
-		);
-		rect.left += 65;
-		rect.right += 65;
-	}
 
 	srand(time(NULL));
+
+	billRunning
+		->SetX(0)
+		->SetY(0)
+		->SetW(38)
+		->SetH(68)
+		->SetDx(3)
+		->SetDy(3)
+		->SetCurFrame(0)
+		->SetAnimDelay(3)
+		->SetAnimCount(0)
+		->BuildSurfaces(d3ddev);
 }
 
 void GameRun(HWND hWnd)
 {
-	Sleep(100);
+	Sleep(60);
 
 	RECT rect{};
-	rect.top = 0;
-	rect.bottom = 63;
-	rect.left = 0;
-	rect.right = 65;
+	rect.top = billRunning->GetY();
+	rect.bottom = billRunning->GetY() + billRunning->GetH();
+	rect.left = billRunning->GetX();
+	rect.right = billRunning->GetX() + billRunning->GetW();
 
 	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 
-	/*if (GetTickCount() - start >= 30)
-	{
-
-	}*/
-
 	d3ddev->BeginScene();
 
-	/*rect.left = rand() % WINDOW_WIDTH / 2;
-	rect.top = rand() % WINDOW_WIDTH / 2;
-	rect.right = rect.left + rand() % WINDOW_WIDTH / 2;
-	rect.bottom = rect.bottom + rand() % WINDOW_WIDTH / 2;
-
-	d3ddev->ColorFill(surface, NULL, D3DCOLOR_XRGB(0, 0, 0));
-	d3ddev->StretchRect(surface, NULL, backBuffer, &rect, D3DTEXF_NONE);*/
-
-	//d3ddev->StretchRect(surface, NULL, backBuffer, &rect, D3DTEXF_NONE);
-
-	d3ddev->StretchRect(billRunSprites[currentSprite], NULL, backBuffer, &rect, D3DTEXF_NONE);
+	d3ddev->StretchRect(billRunning->GetSurface(), NULL, backBuffer, &rect, D3DTEXF_NONE);
 
 	d3ddev->EndScene();
 
-	currentSprite++;
-	currentSprite %= 6;
+	billRunning->SetX(billRunning->GetX() + billRunning->GetDx());
+	if (billRunning->GetX() >= WINDOW_WIDTH)
+		billRunning->SetX(0);
 
 	d3ddev->Present(NULL, NULL, NULL, NULL);
 }
 
 void GameEnd(HWND hWnd)
 {
-	surface->Release();
+	billRunning->Release();
 	backBuffer->Release();
 	d3ddev->Release();
 	d3d->Release();
