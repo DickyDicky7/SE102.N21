@@ -1,7 +1,7 @@
 #include <d3d9.h>
-#include <time.h>
 #include <d3dx9.h>
-#include "BillRunning.h"
+#include "IDrawable.h"
+#include "BaseEntity.h"
 #include "WindowClass.h"
 #pragma comment (lib, "d3d9.lib")
 #pragma comment (lib, "d3dx9.lib")
@@ -25,15 +25,16 @@
 
 LPDIRECT3D9 d3d = NULL;
 LPDIRECT3DDEVICE9 d3ddev = NULL;
+LPD3DXSPRITE spriteHandler = NULL;
 LPDIRECT3DSURFACE9 backBuffer = NULL;
 
-BaseSprites* billRunning = new BillRunning();
+BaseEntity* bill = new BaseEntity();
+IDrawable* billRunning = new IDrawable();
 
 void GameInit(HWND);
 void GameRun(HWND);
 void GameEnd(HWND);
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
-
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
@@ -145,45 +146,42 @@ void GameInit(HWND hWnd)
 	);
 
 	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
-
 	d3ddev->GetBackBuffer(0, 0, D3DBACKBUFFER_TYPE_MONO, &backBuffer);
+	D3DXCreateSprite(d3ddev, &spriteHandler);
 
-	srand(time(NULL));
+	D3DXMATRIX matrix;
+	D3DXMatrixScaling(&matrix, 2.0f, 2.0f, 1.0f);
+	spriteHandler->SetTransform(&matrix);
 
-	billRunning
-		->SetX(0)
-		->SetY(0)
-		->SetW(38)
-		->SetH(68)
-		->SetDx(3)
-		->SetDy(3)
-		->SetCurFrame(0)
-		->SetAnimDelay(3)
-		->SetAnimCount(0)
-		->BuildSurfaces(d3ddev);
+	bill->SetDistanceX(3)->SetDistanceY(0)->SetDistanceZ(0)
+		->SetPositionX(0)->SetPositionY(0)->SetPositionZ(0);
+
+	billRunning->SetWidth(19)->SetHeight(34)
+		->SetTopPosition(67)->SetLeftPosition(6)
+		->SetCurrentSprite(0)->SetNumberOfSprites(6)
+		->SetImageFilePath(L"Resources\\Sprites\\MainCharacter2.bmp")->Build(d3ddev);
 }
 
 void GameRun(HWND hWnd)
 {
-	Sleep(60);
-
-	RECT rect{};
-	rect.top = billRunning->GetY();
-	rect.bottom = billRunning->GetY() + billRunning->GetH();
-	rect.left = billRunning->GetX();
-	rect.right = billRunning->GetX() + billRunning->GetW();
+	Sleep(100);
 
 	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 
 	d3ddev->BeginScene();
 
-	d3ddev->StretchRect(billRunning->GetSurface(), NULL, backBuffer, &rect, D3DTEXF_NONE);
+	D3DXVECTOR3 position(bill->GetPositionX(), bill->GetPositionY(), bill->GetPositionZ());
+	billRunning->Draw
+	(
+		spriteHandler, D3DXSPRITE_ALPHABLEND,
+		NULL, &position,
+		D3DCOLOR_XRGB(255, 255, 255)
+	);
 
 	d3ddev->EndScene();
 
-	billRunning->SetX(billRunning->GetX() + billRunning->GetDx());
-	if (billRunning->GetX() >= WINDOW_WIDTH)
-		billRunning->SetX(0);
+	bill->SetPositionX(bill->GetPositionX() + bill->GetDistanceX());
+	if (bill->GetPositionX() >= WINDOW_WIDTH / 2) bill->SetPositionX(0);
 
 	d3ddev->Present(NULL, NULL, NULL, NULL);
 }
@@ -191,6 +189,7 @@ void GameRun(HWND hWnd)
 void GameEnd(HWND hWnd)
 {
 	billRunning->Release();
+	spriteHandler->Release();
 	backBuffer->Release();
 	d3ddev->Release();
 	d3d->Release();

@@ -21,10 +21,10 @@
     <ClCompile Include="WindowClass.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BaseSprites.cpp">
+    <ClCompile Include="BaseEntity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="BillRunning.cpp">
+    <ClCompile Include="IDrawable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -32,10 +32,10 @@
     <ClInclude Include="WindowClass.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BaseSprites.h">
+    <ClInclude Include="BaseEntity.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BillRunning.h">
+    <ClInclude Include="IDrawable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

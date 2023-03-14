@@ -132,14 +132,14 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="BaseSprites.cpp" />
-    <ClCompile Include="BillRunning.cpp" />
+    <ClCompile Include="BaseEntity.cpp" />
+    <ClCompile Include="IDrawable.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="WindowClass.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseSprites.h" />
-    <ClInclude Include="BillRunning.h" />
+    <ClInclude Include="BaseEntity.h" />
+    <ClInclude Include="IDrawable.h" />
     <ClInclude Include="WindowClass.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
