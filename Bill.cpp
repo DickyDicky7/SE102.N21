@@ -3,7 +3,10 @@
 Bill::Bill() : Entity()
 {
 	self = this;
-	this->vx = 3;
+	this->vx = 2;
+	this->vy = 3;
+	this->position.x = 100;
+	this->position.y = 300;
 	//this->graphicsState = new GraphicsState();
 	OutputDebugString(L"\n\Bill's constructor called\n\n");
 }
@@ -13,7 +16,8 @@ Bill::~Bill()
 }
 void Bill::Update()
 {
-	position.x += vx;
+	position.y += vy;
+	if (position.y < 100 || position.y > 300) vy = -vy;
 	//graphicsState->SetAnimation(BILL_RUN, position);
-	SetAnimation(BILL_RUN);
+	SetAnimation(BILL_JUMP);
 }

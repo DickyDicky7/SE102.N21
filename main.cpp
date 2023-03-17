@@ -101,16 +101,56 @@ void initSprite()
 	GraphicsHelper::device = d3ddev;
 	GraphicsHelper::spriteHandler = spriteHandler;
 
-	GraphicsDatabase::textures.insert({ BILL, GraphicsHelper::CreateTexture(L"Resources\\Textures\\MainCharacter2.png") });
-	GraphicsDatabase::sprites.insert({ BILL_RUN_01, GraphicsHelper::CreateSprite(67,3,22,101,BILL) });
-	GraphicsDatabase::sprites.insert({ BILL_RUN_02, GraphicsHelper::CreateSprite(67,25,40,101,BILL) });
-	GraphicsDatabase::sprites.insert({ BILL_RUN_03, GraphicsHelper::CreateSprite(67,43,60,101,BILL) });
-	GraphicsDatabase::sprites.insert({ BILL_RUN_04, GraphicsHelper::CreateSprite(67,63,82,101,BILL) });
-	GraphicsDatabase::sprites.insert({ BILL_RUN_05, GraphicsHelper::CreateSprite(67,84,100,101,BILL) });
-	GraphicsDatabase::sprites.insert({ BILL_RUN_06, GraphicsHelper::CreateSprite(67,103,121,101,BILL) });
+	GraphicsDatabase::textures.insert({ BILL, GraphicsHelper::CreateTexture(L"Resources\\Textures\\MainCharacter2.bmp") });
 
-	GraphicsDatabase::animations.insert({ BILL_RUN, GraphicsHelper::CreateAnimation
-	(150, {{BILL_RUN_01,0},{BILL_RUN_02,0},{BILL_RUN_03,0},{BILL_RUN_04,0},{BILL_RUN_05,0},{BILL_RUN_06,0}}) });
+	GraphicsDatabase::sprites.insert({ BILL_NORMAL_01, GraphicsHelper::CreateSprite(31 ,2  ,24 ,64 ,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_NORMAL_02, GraphicsHelper::CreateSprite(31 ,27 ,49 ,64 ,BILL) });
+
+	GraphicsDatabase::sprites.insert({ BILL_RUN_01, GraphicsHelper::CreateSprite(67 ,3  ,22 ,101,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_02, GraphicsHelper::CreateSprite(67 ,25 ,40 ,101,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_03, GraphicsHelper::CreateSprite(67 ,43 ,60 ,101,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_04, GraphicsHelper::CreateSprite(67 ,63 ,82 ,101,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_05, GraphicsHelper::CreateSprite(67 ,84 ,100,101,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_06, GraphicsHelper::CreateSprite(67 ,103,121,101,BILL) });
+
+	GraphicsDatabase::sprites.insert({ BILL_JUMP_01, GraphicsHelper::CreateSprite(45 ,118,133,64 ,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_JUMP_02, GraphicsHelper::CreateSprite(45 ,136,154,64 ,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_JUMP_03, GraphicsHelper::CreateSprite(45 ,157,172,64 ,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_JUMP_04, GraphicsHelper::CreateSprite(45 ,175,193,64 ,BILL) });
+
+	GraphicsDatabase::animations.insert
+	({ BILL_NORMAL, GraphicsHelper::CreateAnimation
+	(150,
+		{
+			{BILL_NORMAL_01,0},
+			{BILL_NORMAL_02,0},
+		}
+	) });
+
+	GraphicsDatabase::animations.insert
+	({ BILL_RUN, GraphicsHelper::CreateAnimation
+	(150,
+		{
+			{BILL_RUN_01,0},
+			{BILL_RUN_02,0},
+			{BILL_RUN_03,0},
+			{BILL_RUN_04,0},
+			{BILL_RUN_05,0},
+			{BILL_RUN_06,0},
+		}
+	) });
+
+	GraphicsDatabase::animations.insert
+	({ BILL_JUMP, GraphicsHelper::CreateAnimation
+	(150,
+		{
+			{BILL_JUMP_01,0},
+			{BILL_JUMP_02,0},
+			{BILL_JUMP_03,0},
+			{BILL_JUMP_04,0},
+		}
+	) });
+
 }
 
 void drawSprite()
