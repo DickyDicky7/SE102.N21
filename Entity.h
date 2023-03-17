@@ -1,7 +1,8 @@
 #pragma once
 
 #include "Common.h"
-#include "GraphicsState.h"
+#include "GraphicsHelper.h"
+#include "GraphicsDatabase.h"
 
 template <class T>
 class Entity
@@ -17,6 +18,7 @@ public:
 	virtual T* SetY(FLOAT = 0.0f);
 	virtual T* SetVX(FLOAT = 0.0f);
 	virtual T* SetVY(FLOAT = 0.0f);
+	virtual T* SetAnimation(ANIMATION_ID);
 
 	virtual FLOAT GetX() const;
 	virtual FLOAT GetY() const;
@@ -29,13 +31,17 @@ protected:
 
 	FLOAT vx;
 	FLOAT vy;
+	INT currentFrame;
 	D3DXVECTOR3 position;
+	ULONGLONG lastFrameTime;
 
 };
 
 template <class T>
 inline Entity<T>::Entity() : position(0.0f, 0.0f, 0.0f), vx(0.0f), vy(0.0f)
 {
+	currentFrame = -1;
+	lastFrameTime = -1;
 	OutputDebugString(L"\n\nBaseEntity's constructor called\n\n");
 }
 
@@ -61,6 +67,31 @@ inline T* Entity<T>::SetVX(FLOAT vx) { this->vx = vx; return self; }
 
 template <class T>
 inline T* Entity<T>::SetVY(FLOAT vy) { this->vy = vy; return self; }
+
+template<class T>
+inline T* Entity<T>::SetAnimation(ANIMATION_ID animationId)
+{
+	ULONGLONG now = GetTickCount64();
+
+	if (currentFrame == -1)
+	{
+		currentFrame = 0;
+		lastFrameTime = now;
+	}
+	else
+	{
+		if (now - lastFrameTime > GraphicsDatabase::animations[animationId].second[currentFrame].second)
+		{
+			currentFrame++;
+			lastFrameTime = now;
+			if (currentFrame == GraphicsDatabase::animations[animationId].second.size()) currentFrame = 0;
+		}
+	}
+
+	GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[GraphicsDatabase::animations[animationId].second[currentFrame].first], position);
+
+	return self;
+}
 
 template <class T>
 inline FLOAT Entity<T>::GetX() const { return position.x; }

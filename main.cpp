@@ -101,15 +101,16 @@ void initSprite()
 	GraphicsHelper::device = d3ddev;
 	GraphicsHelper::spriteHandler = spriteHandler;
 
-	GraphicsDatabase::textures.insert({ 0, GraphicsHelper::CreateTexture(L"Resources\\Textures\\MainCharacter2.png") });
-	GraphicsDatabase::sprites.insert({ 101, GraphicsHelper::CreateSprite(67,3,22,101,0) });
-	GraphicsDatabase::sprites.insert({ 102, GraphicsHelper::CreateSprite(67,25,40,101,0) });
-	GraphicsDatabase::sprites.insert({ 103, GraphicsHelper::CreateSprite(67,43,60,101,0) });
-	GraphicsDatabase::sprites.insert({ 104, GraphicsHelper::CreateSprite(67,63,82,101,0) });
-	GraphicsDatabase::sprites.insert({ 105, GraphicsHelper::CreateSprite(67,84,100,101,0) });
-	GraphicsDatabase::sprites.insert({ 106, GraphicsHelper::CreateSprite(67,103,121,101,0) });
+	GraphicsDatabase::textures.insert({ BILL, GraphicsHelper::CreateTexture(L"Resources\\Textures\\MainCharacter2.png") });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_01, GraphicsHelper::CreateSprite(67,3,22,101,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_02, GraphicsHelper::CreateSprite(67,25,40,101,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_03, GraphicsHelper::CreateSprite(67,43,60,101,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_04, GraphicsHelper::CreateSprite(67,63,82,101,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_05, GraphicsHelper::CreateSprite(67,84,100,101,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_06, GraphicsHelper::CreateSprite(67,103,121,101,BILL) });
 
-	GraphicsDatabase::animations.insert({ 0, GraphicsHelper::CreateAnimation(100, {{101,0},{102,0},{103,0},{104,0},{105,0},{106,0}}) });
+	GraphicsDatabase::animations.insert({ BILL_RUN, GraphicsHelper::CreateAnimation
+	(150, {{BILL_RUN_01,0},{BILL_RUN_02,0},{BILL_RUN_03,0},{BILL_RUN_04,0},{BILL_RUN_05,0},{BILL_RUN_06,0}}) });
 }
 
 void drawSprite()

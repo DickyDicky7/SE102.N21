@@ -14,6 +14,6 @@ public:
 
 protected:
 
-	GraphicsState* graphicsState;
+	//GraphicsState* graphicsState;
 
 };

@@ -24,14 +24,12 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GraphicsDatabase.h" />
     <ClInclude Include="GraphicsHelper.h" />
-    <ClInclude Include="GraphicsState.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bill.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GraphicsDatabase.cpp" />
     <ClCompile Include="GraphicsHelper.cpp" />
-    <ClCompile Include="GraphicsState.cpp" />
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
