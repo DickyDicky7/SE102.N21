@@ -13,6 +13,8 @@ public:
 	Entity();
 	virtual ~Entity();
 	virtual void Update() = 0;
+	virtual void Render() = 0;
+	virtual void HandleInput() = 0;
 
 	virtual T* SetX(FLOAT = 0.0f);
 	virtual T* SetY(FLOAT = 0.0f);

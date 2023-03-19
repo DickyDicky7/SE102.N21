@@ -47,8 +47,8 @@ int WINAPI WinMain(
 		L"WindowClass", 					// name of the window class
 		L"Load Sprite Direct3D Program",  	// title of the window
 		WS_OVERLAPPEDWINDOW,   				// window style
-		300, 300, 							// x, y - position of the window
-		600, 400, 							// width, height of the window
+		0, 0, 							// x, y - position of the window
+		SCREEN_WIDTH, SCREEN_HEIGHT, 							// width, height of the window
 		NULL,   							// we have no parent window, NULL
 		NULL,								// we aren't using menus, NULL
 		hInstance, 							// application handle
@@ -155,7 +155,9 @@ void initSprite()
 
 void drawSprite()
 {
+	bill.HandleInput();
 	bill.Update();
+	bill.Render();
 	//GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[100], D3DXVECTOR3(100, 50, 0));
 }
 ///////////////////////////////////////////////////////////////////

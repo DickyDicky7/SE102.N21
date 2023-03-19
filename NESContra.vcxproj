@@ -24,6 +24,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GraphicsDatabase.h" />
     <ClInclude Include="GraphicsHelper.h" />
+    <ClInclude Include="State.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bill.cpp" />
@@ -31,6 +32,7 @@
     <ClCompile Include="GraphicsDatabase.cpp" />
     <ClCompile Include="GraphicsHelper.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="State.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

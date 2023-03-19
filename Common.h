@@ -4,7 +4,9 @@
 #include <d3d9.h>
 #include <d3dx9.h>
 #include <utility>
+#include <concepts>
 #include <Windows.h>
+#include <type_traits>
 #include <unordered_map>
 
 enum SPRITE_ID
@@ -83,3 +85,6 @@ enum ANIMATION_ID
 	BILL_DEAD,
 
 };
+
+#define SCREEN_WIDTH 1000
+#define SCREEN_HEIGHT 600
