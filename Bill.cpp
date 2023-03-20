@@ -20,7 +20,14 @@ Bill::~Bill()
 
 void Bill::Update()
 {
-	state->Update(*this);
+	BillState* newState = state->Update(*this);
+	if (newState)
+	{
+		state->Exit(*this);
+		delete state;
+		state = newState;
+		state->Enter(*this);
+	}
 }
 
 void Bill::Render()

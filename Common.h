@@ -5,6 +5,7 @@
 #include <d3dx9.h>
 #include <utility>
 #include <concepts>
+#include <dinput.h>
 #include <Windows.h>
 #include <type_traits>
 #include <unordered_map>
