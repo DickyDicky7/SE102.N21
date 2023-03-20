@@ -2,7 +2,7 @@
 
 Input::Input()
 {
-	DirectInput8Create
+	/*DirectInput8Create
 	(
 		GetModuleHandle(NULL), DIRECTINPUT_VERSION,
 		IID_IDirectInput8, (void**)input, NULL
@@ -10,11 +10,11 @@ Input::Input()
 	input->CreateDevice
 	(
 		GUID_SysKeyboard, &keyboard, NULL
-	);
+	);*/
 }
 
 Input::~Input()
 {
-	if (keyboard) keyboard->Release();
-	if (input) input->Release();
+	/*if (keyboard) keyboard->Release();
+	if (input) input->Release();*/
 }
