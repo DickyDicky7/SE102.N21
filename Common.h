@@ -1,5 +1,7 @@
 #pragma once
 
+#define DIRECTINPUT_VERSION 0x0800
+
 #include <vector>
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -89,3 +91,8 @@ enum ANIMATION_ID
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 600
+
+enum DIRECTION
+{
+	LEFT, RIGHT,
+};

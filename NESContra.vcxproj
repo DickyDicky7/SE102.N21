@@ -24,6 +24,7 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GraphicsDatabase.h" />
     <ClInclude Include="GraphicsHelper.h" />
+    <ClInclude Include="HasAnimations.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="State.h" />
   </ItemGroup>
@@ -32,6 +33,7 @@
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GraphicsDatabase.cpp" />
     <ClCompile Include="GraphicsHelper.cpp" />
+    <ClCompile Include="HasAnimations.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="State.cpp" />

@@ -1,5 +1,6 @@
 #pragma once
 
+#include "Input.h"
 #include "Common.h"
 #include "Entity.h"
 
@@ -17,7 +18,7 @@ public:
 	virtual void Render(E&) = 0;
 
 	virtual T* Update(E&) = 0;
-	virtual T* HandleInput(E&) = 0;
+	virtual T* HandleInput(E&, Input&) = 0;
 
 };
 

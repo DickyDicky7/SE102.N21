@@ -51,13 +51,45 @@ std::pair<DWORD, std::vector<std::pair<SPRITE_ID, DWORD>>> GraphicsHelper::Creat
 	return std::pair<DWORD, std::vector<std::pair<SPRITE_ID, DWORD>>>({ defaultTime, frames });
 }
 
-void GraphicsHelper::DrawSprite(std::pair<RECT*, TEXTURE_ID> sprite, D3DXVECTOR3 position)
+void GraphicsHelper::DrawSprite(std::pair<RECT*, TEXTURE_ID> sprite, D3DXVECTOR3 position, DIRECTION direction)
 {
-	spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-	spriteHandler->Draw
-	(
-		GraphicsDatabase::textures[sprite.second],
-		sprite.first, NULL, &position, D3DCOLOR_XRGB(255, 255, 255)
-	);
-	spriteHandler->End();
+	D3DXMATRIX flippingMatrix;
+	D3DXVECTOR2 flippingCenter(0, 0);
+
+	if (direction == LEFT)
+	{
+		D3DXVECTOR2 flippingRatio(-1.0f, 1.0f);
+		D3DXMatrixTransformation2D(&flippingMatrix, &flippingCenter, 0.0f, &flippingRatio, NULL, 0.0f, NULL);
+		D3DXVECTOR3 center((sprite.first->right - sprite.first->left) / 2, (sprite.first->bottom - sprite.first->top) / 2, 0);
+
+		position.x = -position.x;
+		RECT rect(*sprite.first);
+		std::swap(rect.left, rect.right);
+
+		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+		spriteHandler->SetTransform(&flippingMatrix);
+		spriteHandler->Draw
+		(
+			GraphicsDatabase::textures[sprite.second],
+			&rect, &center, &position, D3DCOLOR_XRGB(255, 255, 255)
+		);
+		spriteHandler->SetTransform(NULL);
+		spriteHandler->End();
+	}
+	if (direction == RIGHT)
+	{
+		D3DXVECTOR2 flippingRatio(+1.0f, 1.0f);
+		D3DXMatrixTransformation2D(&flippingMatrix, &flippingCenter, 0.0f, &flippingRatio, NULL, 0.0f, NULL);
+		D3DXVECTOR3 center((sprite.first->right - sprite.first->left) / 2, (sprite.first->bottom - sprite.first->top) / 2, 0);
+
+		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+		spriteHandler->SetTransform(&flippingMatrix);
+		spriteHandler->Draw
+		(
+			GraphicsDatabase::textures[sprite.second],
+			sprite.first, &center, &position, D3DCOLOR_XRGB(255, 255, 255)
+		);
+		spriteHandler->SetTransform(NULL);
+		spriteHandler->End();
+	}
 }

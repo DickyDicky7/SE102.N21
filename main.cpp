@@ -2,6 +2,9 @@
 #include "GraphicsHelper.h"
 #include "GraphicsDatabase.h"
 #include "Bill.h"
+#include "Input.h"
+
+Input* input;
 
 // global declarations
 LPDIRECT3D9 d3d;            // the pointer to our Direct3D interface
@@ -60,6 +63,8 @@ int WINAPI WinMain(
 	// set up and initialize Direct3D
 	initD3D(hWnd);
 
+	input = new Input(hInstance, hWnd);
+
 	// set up and initialize Sprite
 	initSprite();
 
@@ -85,6 +90,8 @@ int WINAPI WinMain(
 
 	// clean up DirectX and COM
 	cleanD3D();
+	delete input;
+	input = NULL;
 
 	// return this part of the WM_QUIT message to Windows
 	return msg.wParam;
@@ -117,6 +124,8 @@ void initSprite()
 	GraphicsDatabase::sprites.insert({ BILL_JUMP_02, GraphicsHelper::CreateSprite(45 ,136,154,64 ,BILL) });
 	GraphicsDatabase::sprites.insert({ BILL_JUMP_03, GraphicsHelper::CreateSprite(45 ,157,172,64 ,BILL) });
 	GraphicsDatabase::sprites.insert({ BILL_JUMP_04, GraphicsHelper::CreateSprite(45 ,175,193,64 ,BILL) });
+
+	GraphicsDatabase::sprites.insert({ BILL_LAYDOWN_01, GraphicsHelper::CreateSprite(49 ,84 ,115,64 ,BILL) });
 
 	GraphicsDatabase::animations.insert
 	({ BILL_NORMAL, GraphicsHelper::CreateAnimation
@@ -151,11 +160,19 @@ void initSprite()
 		}
 	) });
 
+	GraphicsDatabase::animations.insert
+	({ BILL_LAYDOWN, GraphicsHelper::CreateAnimation
+	(150,
+		{
+			{BILL_LAYDOWN_01,0},
+		}
+	) });
+
 }
 
 void drawSprite()
 {
-	bill.HandleInput();
+	bill.HandleInput(*input);
 	bill.Update();
 	bill.Render();
 	//GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[100], D3DXVECTOR3(100, 50, 0));
@@ -211,6 +228,7 @@ void initD3D(HWND hWnd)
 // this is the function used to render a single frame
 void render_frame(void)
 {
+	input->Capture();
 	// clear the window to a deep blue
 	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 
