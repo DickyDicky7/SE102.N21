@@ -110,22 +110,22 @@ void initSprite()
 
 	GraphicsDatabase::textures.insert({ BILL, GraphicsHelper::CreateTexture(L"Resources\\Textures\\MainCharacter2.bmp") });
 
-	GraphicsDatabase::sprites.insert({ BILL_NORMAL_01, GraphicsHelper::CreateSprite(31 ,2  ,24 ,64 ,BILL) });
-	GraphicsDatabase::sprites.insert({ BILL_NORMAL_02, GraphicsHelper::CreateSprite(31 ,27 ,49 ,64 ,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_NORMAL_01, GraphicsHelper::CreateSprite(30 ,1  ,25 ,65 ,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_NORMAL_02, GraphicsHelper::CreateSprite(30 ,26 ,50 ,65 ,BILL) });
 
-	GraphicsDatabase::sprites.insert({ BILL_RUN_01, GraphicsHelper::CreateSprite(67 ,3  ,22 ,101,BILL) });
-	GraphicsDatabase::sprites.insert({ BILL_RUN_02, GraphicsHelper::CreateSprite(67 ,25 ,40 ,101,BILL) });
-	GraphicsDatabase::sprites.insert({ BILL_RUN_03, GraphicsHelper::CreateSprite(67 ,43 ,60 ,101,BILL) });
-	GraphicsDatabase::sprites.insert({ BILL_RUN_04, GraphicsHelper::CreateSprite(67 ,63 ,82 ,101,BILL) });
-	GraphicsDatabase::sprites.insert({ BILL_RUN_05, GraphicsHelper::CreateSprite(67 ,84 ,100,101,BILL) });
-	GraphicsDatabase::sprites.insert({ BILL_RUN_06, GraphicsHelper::CreateSprite(67 ,103,121,101,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_01, GraphicsHelper::CreateSprite(66 ,2  ,23 ,102,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_02, GraphicsHelper::CreateSprite(66 ,24 ,41 ,102,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_03, GraphicsHelper::CreateSprite(66 ,42 ,61 ,102,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_04, GraphicsHelper::CreateSprite(66 ,62 ,83 ,102,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_05, GraphicsHelper::CreateSprite(66 ,84 ,101,102,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_06, GraphicsHelper::CreateSprite(66 ,102,122,102,BILL) });
 
-	GraphicsDatabase::sprites.insert({ BILL_JUMP_01, GraphicsHelper::CreateSprite(45 ,118,133,64 ,BILL) });
-	GraphicsDatabase::sprites.insert({ BILL_JUMP_02, GraphicsHelper::CreateSprite(45 ,136,154,64 ,BILL) });
-	GraphicsDatabase::sprites.insert({ BILL_JUMP_03, GraphicsHelper::CreateSprite(45 ,157,172,64 ,BILL) });
-	GraphicsDatabase::sprites.insert({ BILL_JUMP_04, GraphicsHelper::CreateSprite(45 ,175,193,64 ,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_JUMP_01, GraphicsHelper::CreateSprite(44 ,117,134,65 ,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_JUMP_02, GraphicsHelper::CreateSprite(44 ,135,155,65 ,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_JUMP_03, GraphicsHelper::CreateSprite(44 ,156,173,65 ,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_JUMP_04, GraphicsHelper::CreateSprite(44 ,174,194,65 ,BILL) });
 
-	GraphicsDatabase::sprites.insert({ BILL_LAYDOWN_01, GraphicsHelper::CreateSprite(49 ,84 ,115,64 ,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_LAYDOWN_01, GraphicsHelper::CreateSprite(30 ,83 ,116,65 ,BILL) });
 
 	GraphicsDatabase::animations.insert
 	({ BILL_NORMAL, GraphicsHelper::CreateAnimation

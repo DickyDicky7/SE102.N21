@@ -89,6 +89,10 @@ public:
 	virtual BillState* Update(Bill&) override;
 	virtual BillState* HandleInput(Bill&, Input&) override;
 
+protected:
+
+	DWORD time = 20;
+
 };
 
 

@@ -14,7 +14,7 @@ void HasAnimations::SetAnimation(ANIMATION_ID animationId, D3DXVECTOR3 position,
 {
 	ULONGLONG now = GetTickCount64();
 
-	if (currentFrame == -1 || currentFrame >= GraphicsDatabase::animations[animationId].second.size())
+	if (currentFrame == -1 || std::cmp_greater_equal(currentFrame, GraphicsDatabase::animations[animationId].second.size()))
 	{
 		currentFrame = 0;
 		lastFrameTime = now;
@@ -25,7 +25,7 @@ void HasAnimations::SetAnimation(ANIMATION_ID animationId, D3DXVECTOR3 position,
 		{
 			currentFrame++;
 			lastFrameTime = now;
-			if (currentFrame >= GraphicsDatabase::animations[animationId].second.size()) currentFrame = 0;
+			if (std::cmp_greater_equal(currentFrame, GraphicsDatabase::animations[animationId].second.size())) currentFrame = 0;
 		}
 	}
 

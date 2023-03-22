@@ -58,7 +58,7 @@ void GraphicsHelper::DrawSprite(std::pair<RECT*, TEXTURE_ID> sprite, D3DXVECTOR3
 
 	if (direction == LEFT)
 	{
-		D3DXVECTOR2 flippingRatio(-1.0f, 1.0f);
+		D3DXVECTOR2 flippingRatio(-2.0f, 2.0f);
 		D3DXMatrixTransformation2D(&flippingMatrix, &flippingCenter, 0.0f, &flippingRatio, NULL, 0.0f, NULL);
 		D3DXVECTOR3 center((sprite.first->right - sprite.first->left) / 2, (sprite.first->bottom - sprite.first->top) / 2, 0);
 
@@ -78,7 +78,7 @@ void GraphicsHelper::DrawSprite(std::pair<RECT*, TEXTURE_ID> sprite, D3DXVECTOR3
 	}
 	if (direction == RIGHT)
 	{
-		D3DXVECTOR2 flippingRatio(+1.0f, 1.0f);
+		D3DXVECTOR2 flippingRatio(+2.0f, 2.0f);
 		D3DXMatrixTransformation2D(&flippingMatrix, &flippingCenter, 0.0f, &flippingRatio, NULL, 0.0f, NULL);
 		D3DXVECTOR3 center((sprite.first->right - sprite.first->left) / 2, (sprite.first->bottom - sprite.first->top) / 2, 0);
 

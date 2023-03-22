@@ -6,18 +6,18 @@ Bill::Bill() : Entity(), HasAnimations()
 {
 	self = this;
 	this->vx = 3;
-	this->vy = 3;
-	this->position.x = 100;
-	this->position.y = 300;
+	this->vy = 7;
+	this->position.x = 50;
+	this->position.y = 150;
 	this->state = new BillNormalState(RIGHT);
 	this->updateState = NULL;
 	this->handleInputState = NULL;
-	OutputDebugString(L"\n\Bill's constructor called\n\n");
+	OutputDebugString(L"\n\nBill's constructor called\n\n");
 }
 
 Bill::~Bill()
 {
-	OutputDebugString(L"\n\Bill's destructor called\n\n");
+	OutputDebugString(L"\n\nBill's destructor called\n\n");
 }
 
 void Bill::Update()
@@ -135,14 +135,18 @@ void BillJumpState::Render(Bill& bill)
 
 BillState* BillJumpState::Update(Bill& bill)
 {
-	bill.SetY(bill.GetY() - bill.GetVY());
+	if (time == 20 || time == 0)
+		bill.SetY(bill.GetY() - bill.GetVY());
 	if (bill.GetY() <= 100)
 	{
-		bill.SetVY(-bill.GetVY());
+		if (time != 0)
+			time--;
+		if (time == 0)
+			bill.SetVY(-bill.GetVY());
 	}
-	if (bill.GetY() >= 300)
+	if (bill.GetY() >= 150)
 	{
-		bill.SetY(300);
+		bill.SetY(150);
 		bill.SetVY(-bill.GetVY());
 		return new BillNormalState(direction);
 	}
@@ -151,6 +155,14 @@ BillState* BillJumpState::Update(Bill& bill)
 
 BillState* BillJumpState::HandleInput(Bill& bill, Input& input)
 {
+	if (input.Is(DIK_A))
+	{
+		bill.SetX(bill.GetX() - bill.GetVX());
+	}
+	if (input.Is(DIK_D))
+	{
+		bill.SetX(bill.GetX() + bill.GetVX());
+	}
 	return NULL;
 }
 #pragma endregion Bill Jump State
