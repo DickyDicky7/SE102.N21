@@ -64,7 +64,7 @@ void GraphicsHelper::DrawSprite(std::pair<RECT*, TEXTURE_ID> sprite, D3DXVECTOR3
 
 		position.x = -position.x;
 		RECT rect(*sprite.first);
-		std::swap(rect.left, rect.right);
+		//std::swap(rect.left, rect.right);
 
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 		spriteHandler->SetTransform(&flippingMatrix);
