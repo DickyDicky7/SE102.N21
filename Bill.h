@@ -10,6 +10,7 @@
 class BillState;
 class BillRunState;
 class BillJumpState;
+class BillSwimState;
 class BillNormalState;
 class BillLayDownState;
 class BillRunShotAngleUpState;
@@ -94,6 +95,24 @@ public:
 protected:
 
 	DWORD time = 20;
+
+};
+
+
+class BillSwimState : public BillState
+{
+
+public:
+
+	BillSwimState(DIRECTION);
+	virtual ~BillSwimState();
+
+	virtual void Exit(Bill&) override;
+	virtual void Enter(Bill&) override;
+	virtual void Render(Bill&) override;
+
+	virtual BillState* Update(Bill&) override;
+	virtual BillState* HandleInput(Bill&, Input&) override;
 
 };
 

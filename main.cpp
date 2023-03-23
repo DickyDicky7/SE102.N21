@@ -18,7 +18,7 @@ void cleanD3D(void);        // closes Direct3D and releases memory
 // fucntion prototypes for sprite
 void initSprite();
 void drawSprite();
-
+Bill bill;
 // the WindowProc function prototype
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -85,7 +85,10 @@ int WINAPI WinMain(
 		if (msg.message == WM_QUIT)
 			break;
 
-		render_frame();
+		input->Capture();
+		bill.HandleInput(*input);
+		bill.Update();
+		bill.Render();
 	}
 
 	// clean up DirectX and COM
@@ -101,7 +104,7 @@ int WINAPI WinMain(
 // load Sprite here
 /////////////////////////////////////////////////////////////////////
 LPD3DXSPRITE spriteHandler;
-Bill bill;
+
 void initSprite()
 {
 	D3DXCreateSprite(d3ddev, &spriteHandler);
@@ -249,16 +252,23 @@ void initSprite()
 		}
 	) });
 
-}
+	GraphicsDatabase::animations.insert
+	({ BILL_BEGIN_SWIM, GraphicsHelper::CreateAnimation
+	(150,
+		{
+			{BILL_BEGIN_SWIM_01,0},
+		}
+	) });
 
-void drawSprite()
-{
-	bill.HandleInput(*input);
-	bill.Update();
-	bill.Render();
-	//GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[100], D3DXVECTOR3(100, 50, 0));
+	GraphicsDatabase::animations.insert
+	({ BILL_SWIM, GraphicsHelper::CreateAnimation
+	(150,
+		{
+			{BILL_SWIM_01,0},
+		}
+	) });
+
 }
-///////////////////////////////////////////////////////////////////
 
 // this is the main message handler for the program
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -304,24 +314,6 @@ void initD3D(HWND hWnd)
 		D3DCREATE_SOFTWARE_VERTEXPROCESSING,
 		&d3dpp,
 		&d3ddev);
-}
-
-// this is the function used to render a single frame
-void render_frame(void)
-{
-	input->Capture();
-	// clear the window to a deep blue
-	d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
-
-	d3ddev->BeginScene();
-
-	drawSprite();	// draw sprite
-
-	d3ddev->EndScene();
-
-	// displays the created frame on the screen
-	// translate backbuffer to frontbuffer
-	d3ddev->Present(NULL, NULL, NULL, NULL);
 }
 
 // this is the function that cleans up Direct3D and COM
