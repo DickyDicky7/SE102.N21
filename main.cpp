@@ -127,6 +127,14 @@ void initSprite()
 
 	GraphicsDatabase::sprites.insert({ BILL_LAYDOWN_01, GraphicsHelper::CreateSprite(30 ,83 ,116,65 ,BILL) });
 
+	GraphicsDatabase::sprites.insert({ BILL_RUN_SHOT_ANGLE_UP_01, GraphicsHelper::CreateSprite(66 ,123,144,102,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_SHOT_ANGLE_UP_02, GraphicsHelper::CreateSprite(66 ,145,162,102,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_SHOT_ANGLE_UP_03, GraphicsHelper::CreateSprite(66 ,163,183,102,BILL) });
+
+	GraphicsDatabase::sprites.insert({ BILL_RUN_SHOT_ANGLE_DOWN_01, GraphicsHelper::CreateSprite(66 ,184,206,102,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_SHOT_ANGLE_DOWN_02, GraphicsHelper::CreateSprite(66 ,207,228,102,BILL) });
+	GraphicsDatabase::sprites.insert({ BILL_RUN_SHOT_ANGLE_DOWN_03, GraphicsHelper::CreateSprite(66 ,229,251,102,BILL) });
+
 	GraphicsDatabase::animations.insert
 	({ BILL_NORMAL, GraphicsHelper::CreateAnimation
 	(150,
@@ -165,6 +173,26 @@ void initSprite()
 	(150,
 		{
 			{BILL_LAYDOWN_01,0},
+		}
+	) });
+
+	GraphicsDatabase::animations.insert
+	({ BILL_RUN_SHOT_ANGLE_UP, GraphicsHelper::CreateAnimation
+	(150,
+		{
+			{BILL_RUN_SHOT_ANGLE_UP_01,0},
+			{BILL_RUN_SHOT_ANGLE_UP_02,0},
+			{BILL_RUN_SHOT_ANGLE_UP_03,0},
+		}
+	) });
+
+	GraphicsDatabase::animations.insert
+	({ BILL_RUN_SHOT_ANGLE_DOWN, GraphicsHelper::CreateAnimation
+	(150,
+		{
+			{BILL_RUN_SHOT_ANGLE_DOWN_01,0},
+			{BILL_RUN_SHOT_ANGLE_DOWN_02,0},
+			{BILL_RUN_SHOT_ANGLE_DOWN_03,0},
 		}
 	) });
 

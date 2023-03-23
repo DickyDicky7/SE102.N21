@@ -12,6 +12,8 @@ class BillRunState;
 class BillJumpState;
 class BillNormalState;
 class BillLayDownState;
+class BillRunShotAngleUpState;
+class BillRunShotAngleDownState;
 
 
 class Bill : public Entity<Bill>, public HasAnimations
@@ -130,5 +132,58 @@ public:
 	virtual BillState* HandleInput(Bill&, Input&) override;
 
 };
+
+
+class BillRunShotAngleUpState : public BillState
+{
+
+public:
+
+	BillRunShotAngleUpState(DIRECTION);
+	virtual ~BillRunShotAngleUpState();
+
+	virtual void Exit(Bill&) override;
+	virtual void Enter(Bill&) override;
+	virtual void Render(Bill&) override;
+
+	virtual BillState* Update(Bill&) override;
+	virtual BillState* HandleInput(Bill&, Input&) override;
+
+};
+
+
+class BillRunShotAngleDownState : public BillState
+{
+
+public:
+
+	BillRunShotAngleDownState(DIRECTION);
+	virtual ~BillRunShotAngleDownState();
+
+	virtual void Exit(Bill&) override;
+	virtual void Enter(Bill&) override;
+	virtual void Render(Bill&) override;
+
+	virtual BillState* Update(Bill&) override;
+	virtual BillState* HandleInput(Bill&, Input&) override;
+
+};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 

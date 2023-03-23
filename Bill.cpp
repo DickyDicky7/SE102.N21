@@ -5,7 +5,7 @@
 Bill::Bill() : Entity(), HasAnimations()
 {
 	self = this;
-	this->vx = 3;
+	this->vx = 2;
 	this->vy = 7;
 	this->position.x = 50;
 	this->position.y = 150;
@@ -100,8 +100,20 @@ BillState* BillRunState::Update(Bill& bill)
 
 BillState* BillRunState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_A) || input.Is(DIK_D))
+	if (input.Is(DIK_LEFT) || input.Is(DIK_RIGHT))
 	{
+		if (input.Is(DIK_Z))
+		{
+			return new BillJumpState(direction);
+		}
+		if (input.Is(DIK_UP))
+		{
+			return new BillRunShotAngleUpState(direction);
+		}
+		if (input.Is(DIK_DOWN))
+		{
+			return new BillRunShotAngleDownState(direction);
+		}
 		return NULL;
 	}
 	return new BillNormalState(direction);
@@ -155,11 +167,11 @@ BillState* BillJumpState::Update(Bill& bill)
 
 BillState* BillJumpState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_A))
+	if (input.Is(DIK_LEFT))
 	{
 		bill.SetX(bill.GetX() - bill.GetVX());
 	}
-	if (input.Is(DIK_D))
+	if (input.Is(DIK_RIGHT))
 	{
 		bill.SetX(bill.GetX() + bill.GetVX());
 	}
@@ -199,22 +211,22 @@ BillState* BillNormalState::Update(Bill& bill)
 
 BillState* BillNormalState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_A))
+	if (input.Is(DIK_LEFT))
 	{
 		OutputDebugString(L"A entered\n");
 		return new BillRunState(LEFT);
 	}
-	if (input.Is(DIK_D))
+	if (input.Is(DIK_RIGHT))
 	{
 		OutputDebugString(L"D entered\n");
 		return new BillRunState(RIGHT);
 	}
-	if (input.Is(DIK_W))
+	if (input.Is(DIK_Z))
 	{
 		OutputDebugString(L"W entered\n");
 		return new BillJumpState(direction);
 	}
-	if (input.Is(DIK_S))
+	if (input.Is(DIK_DOWN))
 	{
 		OutputDebugString(L"S entered\n");
 		return new BillLayDownState(direction);
@@ -255,13 +267,110 @@ BillState* BillLayDownState::Update(Bill& bill)
 
 BillState* BillLayDownState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_S))
+	if (input.Is(DIK_DOWN))
 	{
 		return NULL;
 	}
 	return new BillNormalState(direction);
 }
 #pragma endregion Bill LayDown State
+
+
+#pragma region
+BillRunShotAngleUpState::BillRunShotAngleUpState(DIRECTION direction) : BillState(direction)
+{
+}
+
+BillRunShotAngleUpState::~BillRunShotAngleUpState()
+{
+}
+
+void BillRunShotAngleUpState::Exit(Bill& bill)
+{
+	bill.SetAnimation(BILL_RUN_SHOT_ANGLE_UP, bill.GetPosition(), direction);
+}
+
+void BillRunShotAngleUpState::Enter(Bill& bill)
+{
+	bill.SetAnimation(BILL_RUN_SHOT_ANGLE_UP, bill.GetPosition(), direction);
+}
+
+void BillRunShotAngleUpState::Render(Bill& bill)
+{
+	bill.SetAnimation(BILL_RUN_SHOT_ANGLE_UP, bill.GetPosition(), direction);
+}
+
+BillState* BillRunShotAngleUpState::Update(Bill& bill)
+{
+	if (direction == LEFT)
+		bill.SetX(bill.GetX() - bill.GetVX());
+	if (direction == RIGHT)
+		bill.SetX(bill.GetX() + bill.GetVX());
+	return NULL;
+}
+
+BillState* BillRunShotAngleUpState::HandleInput(Bill& bill, Input& input)
+{
+	if (input.Is(DIK_LEFT) || input.Is(DIK_RIGHT))
+	{
+		if (input.Is(DIK_UP))
+		{
+			return NULL;
+		}
+	}
+	return new BillNormalState(direction);
+}
+#pragma endregion Bill Run Shot Angle Up State
+
+
+#pragma region
+BillRunShotAngleDownState::BillRunShotAngleDownState(DIRECTION direction) : BillState(direction)
+{
+}
+
+BillRunShotAngleDownState::~BillRunShotAngleDownState()
+{
+}
+
+void BillRunShotAngleDownState::Exit(Bill& bill)
+{
+	bill.SetAnimation(BILL_RUN_SHOT_ANGLE_DOWN, bill.GetPosition(), direction);
+}
+
+void BillRunShotAngleDownState::Enter(Bill& bill)
+{
+	bill.SetAnimation(BILL_RUN_SHOT_ANGLE_DOWN, bill.GetPosition(), direction);
+}
+
+void BillRunShotAngleDownState::Render(Bill& bill)
+{
+	bill.SetAnimation(BILL_RUN_SHOT_ANGLE_DOWN, bill.GetPosition(), direction);
+}
+
+BillState* BillRunShotAngleDownState::Update(Bill& bill)
+{
+	if (direction == LEFT)
+		bill.SetX(bill.GetX() - bill.GetVX());
+	if (direction == RIGHT)
+		bill.SetX(bill.GetX() + bill.GetVX());
+	return NULL;
+}
+
+BillState* BillRunShotAngleDownState::HandleInput(Bill& bill, Input& input)
+{
+
+	if (input.Is(DIK_LEFT) || input.Is(DIK_RIGHT))
+	{
+		if (input.Is(DIK_DOWN))
+		{
+			return NULL;
+		}
+	}
+	return new BillNormalState(direction);
+}
+#pragma endregion Bill Run Shot Angle Down State
+
+
 
 
 
