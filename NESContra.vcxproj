@@ -33,7 +33,7 @@
     <ClCompile Include="BillJumpState.cpp" />
     <ClCompile Include="BillLayDownState.cpp" />
     <ClCompile Include="BillNormalState.cpp" />
-    <ClCompile Include="BillRunShotAngleDown.cpp" />
+    <ClCompile Include="BillRunShotAngleDownState.cpp" />
     <ClCompile Include="BillRunShotAngleUpState.cpp" />
     <ClCompile Include="BillRunState.cpp" />
     <ClCompile Include="BillState.cpp" />
