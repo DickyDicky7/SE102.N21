@@ -13,6 +13,9 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Source Files\BillStatesDefinitions">
+      <UniqueIdentifier>{16fc020b-a894-4edb-ba03-7c4c3d612104}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h">
@@ -64,6 +67,30 @@
     </ClCompile>
     <ClCompile Include="HasAnimations.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BillState.cpp">
+      <Filter>Source Files\BillStatesDefinitions</Filter>
+    </ClCompile>
+    <ClCompile Include="BillRunState.cpp">
+      <Filter>Source Files\BillStatesDefinitions</Filter>
+    </ClCompile>
+    <ClCompile Include="BillJumpState.cpp">
+      <Filter>Source Files\BillStatesDefinitions</Filter>
+    </ClCompile>
+    <ClCompile Include="BillSwimState.cpp">
+      <Filter>Source Files\BillStatesDefinitions</Filter>
+    </ClCompile>
+    <ClCompile Include="BillNormalState.cpp">
+      <Filter>Source Files\BillStatesDefinitions</Filter>
+    </ClCompile>
+    <ClCompile Include="BillLayDownState.cpp">
+      <Filter>Source Files\BillStatesDefinitions</Filter>
+    </ClCompile>
+    <ClCompile Include="BillRunShotAngleUpState.cpp">
+      <Filter>Source Files\BillStatesDefinitions</Filter>
+    </ClCompile>
+    <ClCompile Include="BillRunShotAngleDown.cpp">
+      <Filter>Source Files\BillStatesDefinitions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

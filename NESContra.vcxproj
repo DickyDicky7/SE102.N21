@@ -30,6 +30,14 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bill.cpp" />
+    <ClCompile Include="BillJumpState.cpp" />
+    <ClCompile Include="BillLayDownState.cpp" />
+    <ClCompile Include="BillNormalState.cpp" />
+    <ClCompile Include="BillRunShotAngleDown.cpp" />
+    <ClCompile Include="BillRunShotAngleUpState.cpp" />
+    <ClCompile Include="BillRunState.cpp" />
+    <ClCompile Include="BillState.cpp" />
+    <ClCompile Include="BillSwimState.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GraphicsDatabase.cpp" />
     <ClCompile Include="GraphicsHelper.cpp" />
