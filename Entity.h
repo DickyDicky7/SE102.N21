@@ -17,11 +17,15 @@ public:
 
 	virtual T* SetX(FLOAT = 0.0f);
 	virtual T* SetY(FLOAT = 0.0f);
+	virtual T* SetAX(FLOAT = 0.0f);
+	virtual T* SetAY(FLOAT = 0.0f);
 	virtual T* SetVX(FLOAT = 0.0f);
 	virtual T* SetVY(FLOAT = 0.0f);
 
 	virtual FLOAT GetX() const;
 	virtual FLOAT GetY() const;
+	virtual FLOAT GetAX() const;
+	virtual FLOAT GetAY() const;
 	virtual FLOAT GetVX() const;
 	virtual FLOAT GetVY() const;
 	virtual D3DXVECTOR3 GetPosition() const;
@@ -30,6 +34,8 @@ protected:
 
 	T* self = NULL;
 
+	FLOAT ax;
+	FLOAT ay;
 	FLOAT vx;
 	FLOAT vy;
 	D3DXVECTOR3 position;
@@ -37,20 +43,13 @@ protected:
 };
 
 template <class T>
-inline Entity<T>::Entity() : position(0.0f, 0.0f, 0.0f), vx(0.0f), vy(0.0f)
+inline Entity<T>::Entity() : position(0.0f, 0.0f, 0.0f), vx(0.0f), vy(0.0f), ax(0.0f), ay(0.0f)
 {
-	OutputDebugString(L"\n\nBaseEntity's constructor called\n\n");
 }
 
 template <class T>
 inline Entity<T>::~Entity()
 {
-	/*if (self)
-	{
-		delete self;
-		self = NULL;
-	}*/
-	OutputDebugString(L"\n\nBaseEntity's destructor called\n\n");
 }
 
 template <class T>
@@ -58,6 +57,12 @@ inline T* Entity<T>::SetX(FLOAT x) { position.x = x; return self; }
 
 template <class T>
 inline T* Entity<T>::SetY(FLOAT y) { position.y = y; return self; }
+
+template<class T>
+inline T* Entity<T>::SetAX(FLOAT ax) { this->ax = ax; return self; }
+
+template<class T>
+inline T* Entity<T>::SetAY(FLOAT ay) { this->ay = ay; return self; }
 
 template <class T>
 inline T* Entity<T>::SetVX(FLOAT vx) { this->vx = vx; return self; }
@@ -70,6 +75,12 @@ inline FLOAT Entity<T>::GetX() const { return position.x; }
 
 template <class T>
 inline FLOAT Entity<T>::GetY() const { return position.y; }
+
+template<class T>
+inline FLOAT Entity<T>::GetAX() const { return ax; }
+
+template<class T>
+inline FLOAT Entity<T>::GetAY() const { return ay; }
 
 template <class T>
 inline FLOAT Entity<T>::GetVX() const { return vx; }
