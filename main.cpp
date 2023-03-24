@@ -210,7 +210,7 @@ void initSprite()
 
 	GraphicsDatabase::animations.insert
 	({ BILL_JUMP, GraphicsHelper::CreateAnimation
-	(150,
+	(60,
 		{
 			{BILL_JUMP_01,0},
 			{BILL_JUMP_02,0},
@@ -221,7 +221,7 @@ void initSprite()
 
 	GraphicsDatabase::animations.insert
 	({ BILL_RUN, GraphicsHelper::CreateAnimation
-	(150,
+	(70,
 		{
 			{BILL_RUN_01,0},
 			{BILL_RUN_02,0},

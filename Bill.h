@@ -54,6 +54,7 @@ public:
 
 protected:
 
+	FLOAT time;
 	DIRECTION direction;
 
 };
@@ -94,7 +95,8 @@ public:
 
 protected:
 
-	DWORD time = 20;
+	BOOL hasMovedLeft;
+	BOOL hasMovedRight;
 
 };
 

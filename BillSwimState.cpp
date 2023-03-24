@@ -1,7 +1,5 @@
 #include "Bill.h"
 
-
-#pragma region
 BillSwimState::BillSwimState(DIRECTION direction) : BillState(direction)
 {
 }
@@ -12,13 +10,10 @@ BillSwimState::~BillSwimState()
 
 void BillSwimState::Exit(Bill& bill)
 {
-	bill.SetAnimation(BILL_SWIM, bill.GetPosition(), direction);
 }
 
 void BillSwimState::Enter(Bill& bill)
 {
-	//for (int i = 0; i <= 20; i++)
-	bill.SetAnimation(BILL_BEGIN_SWIM, bill.GetPosition(), direction);
 }
 
 void BillSwimState::Render(Bill& bill)
@@ -35,13 +30,13 @@ BillState* BillSwimState::HandleInput(Bill& bill, Input& input)
 {
 	if (input.Is(DIK_LEFT))
 	{
-		direction = LEFT;
-		bill.SetX(bill.GetX() - bill.GetVX());
+		//direction = LEFT;
+		//bill.SetX(bill.GetX() - bill.GetVX());
 	}
 	if (input.Is(DIK_RIGHT))
 	{
-		direction = RIGHT;
-		bill.SetX(bill.GetX() + bill.GetVX());
+		//direction = RIGHT;
+		//bill.SetX(bill.GetX() + bill.GetVX());
 	}
 
 	if (input.Is(DIK_N))
@@ -51,4 +46,3 @@ BillState* BillSwimState::HandleInput(Bill& bill, Input& input)
 
 	return NULL;
 }
-#pragma endregion Bill Swim State
