@@ -1,8 +1,9 @@
 #include "Bill.h"
 
-#pragma region
 BillJumpState::BillJumpState(DIRECTION direction) : BillState(direction)
 {
+	hasMovedLeft = 0;
+	hasMovedRight = 0;
 }
 
 BillJumpState::~BillJumpState()
@@ -11,12 +12,23 @@ BillJumpState::~BillJumpState()
 
 void BillJumpState::Exit(Bill& bill)
 {
-	bill.SetAnimation(BILL_JUMP, bill.GetPosition(), direction);
 }
 
 void BillJumpState::Enter(Bill& bill)
 {
-	bill.SetAnimation(BILL_JUMP, bill.GetPosition(), direction);
+	if (direction == LEFT)
+	{
+		bill.SetVX(+2.0f);
+		bill.SetAX(+0.0f);
+	}
+	if (direction == RIGHT)
+	{
+		bill.SetVX(-2.0f);
+		bill.SetAX(-0.0f);
+	}
+
+	bill.SetVY(-3.50f);
+	bill.SetAY(+0.05f);
 }
 
 void BillJumpState::Render(Bill& bill)
@@ -26,21 +38,41 @@ void BillJumpState::Render(Bill& bill)
 
 BillState* BillJumpState::Update(Bill& bill)
 {
-	if (time == 20 || time == 0)
-		bill.SetY(bill.GetY() - bill.GetVY());
-	if (bill.GetY() <= 100)
+	if (direction == LEFT)
 	{
-		if (time != 0)
-			time--;
-		if (time == 0)
-			bill.SetVY(-bill.GetVY());
+		bill.SetVX(-abs(bill.GetVX()));
+		bill.SetAX(-abs(bill.GetAX()));
 	}
-	if (bill.GetY() >= 150)
+	if (direction == RIGHT)
 	{
-		bill.SetY(150);
-		bill.SetVY(-bill.GetVY());
+		bill.SetVX(+abs(bill.GetVX()));
+		bill.SetAX(+abs(bill.GetAX()));
+	}
+	if (hasMovedLeft || hasMovedRight)
+	{
+		bill.SetX
+		(
+			bill.GetX() + bill.GetVX()
+		);
+	}
+
+	bill.SetY
+	(
+		bill.GetY() + bill.GetVY() * time + bill.GetAY() * pow(time, 2) / 2
+	);
+	bill.SetVY
+	(
+		bill.GetVY() + bill.GetAY() * time
+	);
+
+	time += 0.05f;
+
+	if (bill.GetVY() >= 0 && bill.GetY() >= SCREEN_HEIGHT / 2 - 50)
+	{
+		bill.SetY(SCREEN_HEIGHT / 2 - 50);
 		return new BillNormalState(direction);
 	}
+
 	return NULL;
 }
 
@@ -48,12 +80,14 @@ BillState* BillJumpState::HandleInput(Bill& bill, Input& input)
 {
 	if (input.Is(DIK_LEFT))
 	{
-		bill.SetX(bill.GetX() - bill.GetVX());
+		direction = LEFT;
+		hasMovedLeft = 1;
 	}
 	if (input.Is(DIK_RIGHT))
 	{
-		bill.SetX(bill.GetX() + bill.GetVX());
+		direction = RIGHT;
+		hasMovedRight = 1;
 	}
+
 	return NULL;
 }
-#pragma endregion Bill Jump State

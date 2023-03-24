@@ -1,22 +1,23 @@
 #include "Bill.h"
 
-#pragma region
 Bill::Bill() : Entity(), HasAnimations()
 {
 	self = this;
-	this->vx = 2;
-	this->vy = 7;
-	this->position.x = 50;
-	this->position.y = 150;
-	this->state = new BillNormalState(RIGHT);
+
+	this->vx = 1;
+	this->vy = 1;
+	this->ax = 0.1;
+	this->ay = 0.1;
+	this->position.x = SCREEN_WIDTH / 4;
+	this->position.y = SCREEN_HEIGHT / 2 - 50;
+
 	this->updateState = NULL;
 	this->handleInputState = NULL;
-	OutputDebugString(L"\n\nBill's constructor called\n\n");
+	this->state = new BillNormalState(RIGHT);
 }
 
 Bill::~Bill()
 {
-	OutputDebugString(L"\n\nBill's destructor called\n\n");
 }
 
 void Bill::Update()
@@ -49,24 +50,3 @@ void Bill::HandleInput(Input& input)
 {
 	handleInputState = state->HandleInput(*this, input);
 }
-#pragma endregion Bill
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

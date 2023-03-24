@@ -1,6 +1,5 @@
 #include "Bill.h"
 
-#pragma region
 BillNormalState::BillNormalState(DIRECTION direction) : BillState(direction)
 {
 }
@@ -11,12 +10,10 @@ BillNormalState::~BillNormalState()
 
 void BillNormalState::Exit(Bill& bill)
 {
-	bill.SetAnimation(BILL_NORMAL, bill.GetPosition(), direction);
 }
 
 void BillNormalState::Enter(Bill& bill)
 {
-	bill.SetAnimation(BILL_NORMAL, bill.GetPosition(), direction);
 }
 
 void BillNormalState::Render(Bill& bill)
@@ -60,4 +57,3 @@ BillState* BillNormalState::HandleInput(Bill& bill, Input& input)
 
 	return NULL;
 }
-#pragma endregion Bill Normal State
