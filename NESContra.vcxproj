@@ -27,6 +27,7 @@
     <ClInclude Include="HasAnimations.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="WallTurret.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bill.cpp" />
