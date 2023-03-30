@@ -1,6 +1,6 @@
 #include "Bill.h"
 
-BillJumpState::BillJumpState(DIRECTION direction) : BillState(direction)
+BillJumpState::BillJumpState() : BillState()
 {
 	hasMovedLeft = 0;
 	hasMovedRight = 0;
@@ -16,34 +16,34 @@ void BillJumpState::Exit(Bill& bill)
 
 void BillJumpState::Enter(Bill& bill)
 {
-	if (direction == LEFT)
+	if (bill.GetDirection() == LEFT)
 	{
 		bill.SetVX(+2.0f);
 		bill.SetAX(+0.0f);
 	}
-	if (direction == RIGHT)
+	if (bill.GetDirection() == RIGHT)
 	{
 		bill.SetVX(-2.0f);
 		bill.SetAX(-0.0f);
 	}
 
-	bill.SetVY(-3.50f);
-	bill.SetAY(+0.05f);
+	bill.SetVY(-4.00f);
+	bill.SetAY(+0.10f);
 }
 
 void BillJumpState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_JUMP, bill.GetPosition(), direction);
+	bill.SetAnimation(BILL_JUMP, bill.GetPosition(), bill.GetDirection());
 }
 
 BillState* BillJumpState::Update(Bill& bill)
 {
-	if (direction == LEFT)
+	if (bill.GetDirection() == LEFT)
 	{
 		bill.SetVX(-abs(bill.GetVX()));
 		bill.SetAX(-abs(bill.GetAX()));
 	}
-	if (direction == RIGHT)
+	if (bill.GetDirection() == RIGHT)
 	{
 		bill.SetVX(+abs(bill.GetVX()));
 		bill.SetAX(+abs(bill.GetAX()));
@@ -70,7 +70,7 @@ BillState* BillJumpState::Update(Bill& bill)
 	if (bill.GetVY() >= 0 && bill.GetY() >= SCREEN_HEIGHT / 2 - 50)
 	{
 		bill.SetY(SCREEN_HEIGHT / 2 - 50);
-		return new BillNormalState(direction);
+		return new BillNormalState();
 	}
 
 	return NULL;
@@ -80,13 +80,13 @@ BillState* BillJumpState::HandleInput(Bill& bill, Input& input)
 {
 	if (input.Is(DIK_LEFT))
 	{
-		direction = LEFT;
 		hasMovedLeft = 1;
+		bill.SetDirection(LEFT);
 	}
 	if (input.Is(DIK_RIGHT))
 	{
-		direction = RIGHT;
 		hasMovedRight = 1;
+		bill.SetDirection(RIGHT);
 	}
 
 	return NULL;

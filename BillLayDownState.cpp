@@ -1,6 +1,6 @@
 #include "Bill.h"
 
-BillLayDownState::BillLayDownState(DIRECTION direction) : BillState(direction)
+BillLayDownState::BillLayDownState() : BillState()
 {
 }
 
@@ -18,7 +18,7 @@ void BillLayDownState::Enter(Bill& bill)
 
 void BillLayDownState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_LAYDOWN, bill.GetPosition(), direction);
+	bill.SetAnimation(BILL_LAYDOWN, bill.GetPosition(), bill.GetDirection());
 }
 
 BillState* BillLayDownState::Update(Bill& bill)
@@ -32,5 +32,5 @@ BillState* BillLayDownState::HandleInput(Bill& bill, Input& input)
 	{
 		return NULL;
 	}
-	return new BillNormalState(direction);
+	return new BillNormalState();
 }
