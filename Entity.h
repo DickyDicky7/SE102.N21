@@ -21,6 +21,7 @@ public:
 	virtual T* SetAY(FLOAT = 0.0f);
 	virtual T* SetVX(FLOAT = 0.0f);
 	virtual T* SetVY(FLOAT = 0.0f);
+	virtual T* SetDirection(DIRECTION);
 
 	virtual FLOAT GetX() const;
 	virtual FLOAT GetY() const;
@@ -28,6 +29,7 @@ public:
 	virtual FLOAT GetAY() const;
 	virtual FLOAT GetVX() const;
 	virtual FLOAT GetVY() const;
+	virtual DIRECTION GetDirection() const;
 	virtual D3DXVECTOR3 GetPosition() const;
 
 protected:
@@ -38,12 +40,13 @@ protected:
 	FLOAT ay;
 	FLOAT vx;
 	FLOAT vy;
+	DIRECTION direction;
 	D3DXVECTOR3 position;
 
 };
 
 template <class T>
-inline Entity<T>::Entity() : position(0.0f, 0.0f, 0.0f), vx(0.0f), vy(0.0f), ax(0.0f), ay(0.0f)
+inline Entity<T>::Entity() : position(0.0f, 0.0f, 0.0f), vx(0.0f), vy(0.0f), ax(0.0f), ay(0.0f), direction(LEFT)
 {
 }
 
@@ -70,6 +73,9 @@ inline T* Entity<T>::SetVX(FLOAT vx) { this->vx = vx; return self; }
 template <class T>
 inline T* Entity<T>::SetVY(FLOAT vy) { this->vy = vy; return self; }
 
+template<class T>
+inline T* Entity<T>::SetDirection(DIRECTION direction) { this->direction = direction; return self; }
+
 template <class T>
 inline FLOAT Entity<T>::GetX() const { return position.x; }
 
@@ -87,6 +93,9 @@ inline FLOAT Entity<T>::GetVX() const { return vx; }
 
 template <class T>
 inline FLOAT Entity<T>::GetVY() const { return vy; }
+
+template<class T>
+inline DIRECTION Entity<T>::GetDirection() const { return direction; }
 
 template<class T>
 inline D3DXVECTOR3 Entity<T>::GetPosition() const { return position; }

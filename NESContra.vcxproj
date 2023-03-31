@@ -30,6 +30,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Bill.cpp" />
+    <ClCompile Include="BillDeadState.cpp" />
+    <ClCompile Include="BillDiveState.cpp" />
     <ClCompile Include="BillJumpState.cpp" />
     <ClCompile Include="BillLayDownState.cpp" />
     <ClCompile Include="BillNormalState.cpp" />

@@ -13,7 +13,7 @@ Bill::Bill() : Entity(), HasAnimations()
 
 	this->updateState = NULL;
 	this->handleInputState = NULL;
-	this->state = new BillNormalState(RIGHT);
+	this->state = new BillNormalState();
 }
 
 Bill::~Bill()

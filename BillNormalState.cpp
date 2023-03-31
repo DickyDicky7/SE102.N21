@@ -1,6 +1,6 @@
 #include "Bill.h"
 
-BillNormalState::BillNormalState(DIRECTION direction) : BillState(direction)
+BillNormalState::BillNormalState() : BillState()
 {
 }
 
@@ -18,7 +18,7 @@ void BillNormalState::Enter(Bill& bill)
 
 void BillNormalState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_NORMAL, bill.GetPosition(), direction);
+	bill.SetAnimation(BILL_NORMAL, bill.GetPosition(), bill.GetDirection());
 }
 
 BillState* BillNormalState::Update(Bill& bill)
@@ -30,29 +30,26 @@ BillState* BillNormalState::HandleInput(Bill& bill, Input& input)
 {
 	if (input.Is(DIK_LEFT))
 	{
-		OutputDebugString(L"LEFT entered\n");
-		return new BillRunState(LEFT);
+		bill.SetDirection(LEFT);
+		return new BillRunState();
 	}
 	if (input.Is(DIK_RIGHT))
 	{
-		OutputDebugString(L"RIGHT entered\n");
-		return new BillRunState(RIGHT);
+		bill.SetDirection(RIGHT);
+		return new BillRunState();
 	}
 	if (input.Is(DIK_Z))
 	{
-		OutputDebugString(L"Z entered\n");
-		return new BillJumpState(direction);
+		return new BillJumpState();
 	}
 	if (input.Is(DIK_DOWN))
 	{
-		OutputDebugString(L"DOWN entered\n");
-		return new BillLayDownState(direction);
+		return new BillLayDownState();
 	}
 
 	if (input.Is(DIK_B))
 	{
-		OutputDebugString(L"B entered\n");
-		return new BillSwimState(direction);
+		return new BillSwimState();
 	}
 
 	return NULL;

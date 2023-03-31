@@ -85,10 +85,16 @@ int WINAPI WinMain(
 		if (msg.message == WM_QUIT)
 			break;
 
+		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
+		d3ddev->BeginScene();
+
 		input->Capture();
 		bill.HandleInput(*input);
 		bill.Update();
 		bill.Render();
+
+		d3ddev->EndScene();
+		d3ddev->Present(NULL, NULL, NULL, NULL);
 	}
 
 	// clean up DirectX and COM
@@ -253,6 +259,17 @@ void initSprite()
 	) });
 
 	GraphicsDatabase::animations.insert
+	({ BILL_DEAD, GraphicsHelper::CreateAnimation
+	(150,
+		{
+			{BILL_DEAD_01,0},
+			{BILL_DEAD_02,0},
+			{BILL_DEAD_03,0},
+			{BILL_DEAD_04,0},
+		}
+	) });
+
+	GraphicsDatabase::animations.insert
 	({ BILL_BEGIN_SWIM, GraphicsHelper::CreateAnimation
 	(150,
 		{
@@ -261,10 +278,52 @@ void initSprite()
 	) });
 
 	GraphicsDatabase::animations.insert
+	({ BILL_DIVE, GraphicsHelper::CreateAnimation
+	(150,
+		{
+			{BILL_DIVE_01,0},
+		}
+	) });
+
+	GraphicsDatabase::animations.insert
 	({ BILL_SWIM, GraphicsHelper::CreateAnimation
 	(150,
 		{
 			{BILL_SWIM_01,0},
+		}
+	) });
+
+	GraphicsDatabase::animations.insert
+	({ BILL_SWIM_SHOT_ANGLE_UP, GraphicsHelper::CreateAnimation
+	(150,
+		{
+			{BILL_SWIM_SHOT_ANGLE_UP_01,0},
+		}
+	) });
+
+	GraphicsDatabase::animations.insert
+	({ BILL_SWIM_SHOT_STRAIGHT_UP, GraphicsHelper::CreateAnimation
+	(150,
+		{
+			{BILL_SWIM_SHOT_STRAIGHT_UP_01,0},
+		}
+	) });
+
+	GraphicsDatabase::animations.insert
+	({ BILL_SWIM_SHOT, GraphicsHelper::CreateAnimation
+	(150,
+		{
+			{BILL_SWIM_SHOT_01,0},
+		}
+	) });
+
+	GraphicsDatabase::animations.insert
+	({ BILL_RUN_SHOT, GraphicsHelper::CreateAnimation
+	(150,
+		{
+			{BILL_RUN_SHOT_01,0},
+			{BILL_RUN_SHOT_02,0},
+			{BILL_RUN_SHOT_03,0},
 		}
 	) });
 
