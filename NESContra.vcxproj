@@ -48,6 +48,12 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="WallTurret.cpp" />
+    <ClCompile Include="WallTurretLeftState.cpp" />
+    <ClCompile Include="WallTurretState.cpp" />
+    <ClCompile Include="WallTurretRightState.cpp" />
+    <ClCompile Include="WallTurretUpState.cpp" />
+    <ClCompile Include="WallTurretDownState.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

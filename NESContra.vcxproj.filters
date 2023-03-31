@@ -19,6 +19,12 @@
     <Filter Include="Source Files\Bill\BillState">
       <UniqueIdentifier>{bd0fda84-ecf8-476e-a06d-43d9fb4faf94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\WallTurret">
+      <UniqueIdentifier>{f2cd795a-178c-4b6f-bbc5-ebabd819b6e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\WallTurret\WallTurretState">
+      <UniqueIdentifier>{3887bf97-f37e-4fed-b077-c468432bd6de}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h">
@@ -62,9 +68,6 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Bill.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="State.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -73,9 +76,6 @@
     </ClCompile>
     <ClCompile Include="HasAnimations.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="BillState.cpp">
-      <Filter>Source Files\Bill</Filter>
     </ClCompile>
     <ClCompile Include="BillRunState.cpp">
       <Filter>Source Files\Bill\BillState</Filter>
@@ -98,11 +98,35 @@
     <ClCompile Include="BillRunShotAngleDownState.cpp">
       <Filter>Source Files\Bill\BillState</Filter>
     </ClCompile>
+    <ClCompile Include="Bill.cpp">
+      <Filter>Source Files\Bill</Filter>
+    </ClCompile>
+    <ClCompile Include="BillState.cpp">
+      <Filter>Source Files\Bill</Filter>
+    </ClCompile>
     <ClCompile Include="BillDiveState.cpp">
       <Filter>Source Files\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillDeadState.cpp">
       <Filter>Source Files\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurret.cpp">
+      <Filter>Source Files\WallTurret</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretState.cpp">
+      <Filter>Source Files\WallTurret</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretLeftState.cpp">
+      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretUpState.cpp">
+      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretDownState.cpp">
+      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretRightState.cpp">
+      <Filter>Source Files\WallTurret\WallTurretState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

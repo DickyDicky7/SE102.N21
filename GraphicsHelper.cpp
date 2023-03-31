@@ -72,7 +72,7 @@ void GraphicsHelper::DrawSprite(std::pair<RECT*, TEXTURE_ID> sprite, D3DXVECTOR3
 	//device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 	//device->BeginScene();
 
-	spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+	//spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 	spriteHandler->SetTransform(&flippingMatrix);
 	spriteHandler->Draw
 	(
@@ -80,7 +80,7 @@ void GraphicsHelper::DrawSprite(std::pair<RECT*, TEXTURE_ID> sprite, D3DXVECTOR3
 		sprite.first, &center, &position, D3DCOLOR_XRGB(255, 255, 255)
 	);
 	spriteHandler->SetTransform(NULL);
-	spriteHandler->End();
+	//spriteHandler->End();
 
 	//device->EndScene();
 	//device->Present(NULL, NULL, NULL, NULL);

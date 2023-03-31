@@ -3,6 +3,8 @@
 #include "GraphicsDatabase.h"
 #include "Bill.h"
 #include "Input.h"
+#include "WallTurret.h"
+//#include "WallTurretCommon.cpp"
 
 Input* input;
 
@@ -19,6 +21,7 @@ void cleanD3D(void);        // closes Direct3D and releases memory
 void initSprite();
 void drawSprite();
 Bill bill;
+WallTurret wallTurret;
 // the WindowProc function prototype
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -85,16 +88,23 @@ int WINAPI WinMain(
 		if (msg.message == WM_QUIT)
 			break;
 
-		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
-		d3ddev->BeginScene();
-
 		input->Capture();
 		bill.HandleInput(*input);
 		bill.Update();
-		bill.Render();
+		wallTurret.Update();
 
-		d3ddev->EndScene();
-		d3ddev->Present(NULL, NULL, NULL, NULL);
+		GraphicsHelper::device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
+		GraphicsHelper::device->BeginScene();
+		GraphicsHelper::spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+
+		//draw
+		bill.Render();
+		wallTurret.Render();
+
+		GraphicsHelper::spriteHandler->End();
+
+		GraphicsHelper::device->EndScene();
+		GraphicsHelper::device->Present(NULL, NULL, NULL, NULL);
 	}
 
 	// clean up DirectX and COM
@@ -327,6 +337,7 @@ void initSprite()
 		}
 	) });
 
+	wallTurret.LoadSprite();
 }
 
 // this is the main message handler for the program
