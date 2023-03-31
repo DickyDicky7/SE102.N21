@@ -1,6 +1,6 @@
 #include "Bill.h"
 
-BillRunState::BillRunState(DIRECTION direction) : BillState(direction)
+BillRunState::BillRunState() : BillState()
 {
 }
 
@@ -14,12 +14,12 @@ void BillRunState::Exit(Bill& bill)
 
 void BillRunState::Enter(Bill& bill)
 {
-	if (direction == LEFT)
+	if (bill.GetDirection() == LEFT)
 	{
 		bill.SetVX(+2.00f);
 		bill.SetAX(+0.01f);
 	}
-	if (direction == RIGHT)
+	if (bill.GetDirection() == RIGHT)
 	{
 		bill.SetVX(-2.00f);
 		bill.SetAX(-0.01f);
@@ -28,17 +28,17 @@ void BillRunState::Enter(Bill& bill)
 
 void BillRunState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_RUN, bill.GetPosition(), direction);
+	bill.SetAnimation(BILL_RUN, bill.GetPosition(), bill.GetDirection());
 }
 
 BillState* BillRunState::Update(Bill& bill)
 {
-	if (direction == LEFT)
+	if (bill.GetDirection() == LEFT)
 	{
 		bill.SetVX(-abs(bill.GetVX()));
 		bill.SetAX(-abs(bill.GetAX()));
 	}
-	if (direction == RIGHT)
+	if (bill.GetDirection() == RIGHT)
 	{
 		bill.SetVX(+abs(bill.GetVX()));
 		bill.SetAX(+abs(bill.GetAX()));
@@ -46,9 +46,12 @@ BillState* BillRunState::Update(Bill& bill)
 
 	bill.SetX
 	(
+		// x = x0 + v0*t + a*(t^2)/2 -- uniform accelerated motion
 		bill.GetX() + bill.GetVX() * time + bill.GetAX() * pow(time, 2) / 2
 	);
 
+	// Restrict Ox velocity and time. Make this part "v0*t + a*(t^2)/2" become a constant => uniform motion
+	// If not, entity will move too fast. The code here is temporary
 	if (abs(bill.GetVX()) < +3.00f)
 	{
 		bill.SetVX
@@ -57,6 +60,8 @@ BillState* BillRunState::Update(Bill& bill)
 		);
 	}
 
+	// Restrict Ox velocity and time. Make this part "v0*t + a*(t^2)/2" become a constant => uniform motion
+	// If not, entity will move too fast. The code here is temporary
 	if (time < +2.00f)
 	{
 		time += 0.05f;
@@ -71,17 +76,17 @@ BillState* BillRunState::HandleInput(Bill& bill, Input& input)
 	{
 		if (input.Is(DIK_Z))
 		{
-			return new BillJumpState(direction);
+			return new BillJumpState();
 		}
 		if (input.Is(DIK_UP))
 		{
-			return new BillRunShotAngleUpState(direction);
+			return new BillRunShotAngleUpState();
 		}
 		if (input.Is(DIK_DOWN))
 		{
-			return new BillRunShotAngleDownState(direction);
+			return new BillRunShotAngleDownState();
 		}
 		return NULL;
 	}
-	return new BillNormalState(direction);
+	return new BillNormalState();
 }

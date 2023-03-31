@@ -98,5 +98,11 @@
     <ClCompile Include="BillRunShotAngleDownState.cpp">
       <Filter>Source Files\Bill\BillState</Filter>
     </ClCompile>
+    <ClCompile Include="BillDiveState.cpp">
+      <Filter>Source Files\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="BillDeadState.cpp">
+      <Filter>Source Files\Bill\BillState</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

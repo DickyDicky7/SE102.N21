@@ -1,6 +1,6 @@
 #include "Bill.h"
 
-BillRunShotAngleUpState::BillRunShotAngleUpState(DIRECTION direction) : BillState(direction)
+BillRunShotAngleUpState::BillRunShotAngleUpState() : BillState()
 {
 }
 
@@ -18,17 +18,17 @@ void BillRunShotAngleUpState::Enter(Bill& bill)
 
 void BillRunShotAngleUpState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_RUN_SHOT_ANGLE_UP, bill.GetPosition(), direction);
+	bill.SetAnimation(BILL_RUN_SHOT_ANGLE_UP, bill.GetPosition(), bill.GetDirection());
 }
 
 BillState* BillRunShotAngleUpState::Update(Bill& bill)
 {
-	if (direction == LEFT)
+	if (bill.GetDirection() == LEFT)
 	{
 		bill.SetVX(-abs(bill.GetVX()));
 		bill.SetAX(-abs(bill.GetAX()));
 	}
-	if (direction == RIGHT)
+	if (bill.GetDirection() == RIGHT)
 	{
 		bill.SetVX(+abs(bill.GetVX()));
 		bill.SetAX(+abs(bill.GetAX()));
@@ -51,5 +51,5 @@ BillState* BillRunShotAngleUpState::HandleInput(Bill& bill, Input& input)
 			return NULL;
 		}
 	}
-	return new BillNormalState(direction);
+	return new BillNormalState();
 }

@@ -1,6 +1,6 @@
 #include "Bill.h"
 
-BillRunShotAngleDownState::BillRunShotAngleDownState(DIRECTION direction) : BillState(direction)
+BillRunShotAngleDownState::BillRunShotAngleDownState() : BillState()
 {
 }
 
@@ -18,17 +18,17 @@ void BillRunShotAngleDownState::Enter(Bill& bill)
 
 void BillRunShotAngleDownState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_RUN_SHOT_ANGLE_DOWN, bill.GetPosition(), direction);
+	bill.SetAnimation(BILL_RUN_SHOT_ANGLE_DOWN, bill.GetPosition(), bill.GetDirection());
 }
 
 BillState* BillRunShotAngleDownState::Update(Bill& bill)
 {
-	if (direction == LEFT)
+	if (bill.GetDirection() == LEFT)
 	{
 		bill.SetVX(-abs(bill.GetVX()));
 		bill.SetAX(-abs(bill.GetAX()));
 	}
-	if (direction == RIGHT)
+	if (bill.GetDirection() == RIGHT)
 	{
 		bill.SetVX(+abs(bill.GetVX()));
 		bill.SetAX(+abs(bill.GetAX()));
@@ -44,7 +44,6 @@ BillState* BillRunShotAngleDownState::Update(Bill& bill)
 
 BillState* BillRunShotAngleDownState::HandleInput(Bill& bill, Input& input)
 {
-
 	if (input.Is(DIK_LEFT) || input.Is(DIK_RIGHT))
 	{
 		if (input.Is(DIK_DOWN))
@@ -52,5 +51,5 @@ BillState* BillRunShotAngleDownState::HandleInput(Bill& bill, Input& input)
 			return NULL;
 		}
 	}
-	return new BillNormalState(direction);
+	return new BillNormalState();
 }
