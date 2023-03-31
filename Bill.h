@@ -37,6 +37,7 @@ public:
 	void Update() override;
 	void Render() override;
 	void HandleInput(Input&) override;
+	void LoadSprite() override;
 
 protected:
 

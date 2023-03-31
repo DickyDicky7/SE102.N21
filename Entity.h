@@ -32,6 +32,8 @@ public:
 	virtual DIRECTION GetDirection() const;
 	virtual D3DXVECTOR3 GetPosition() const;
 
+	virtual void LoadSprite() = 0;
+
 protected:
 
 	T* self = NULL;
@@ -99,3 +101,6 @@ inline DIRECTION Entity<T>::GetDirection() const { return direction; }
 
 template<class T>
 inline D3DXVECTOR3 Entity<T>::GetPosition() const { return position; }
+
+template<class T>
+inline void Entity<T>::LoadSprite() {}
