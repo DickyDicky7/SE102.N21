@@ -46,9 +46,11 @@ BillState* BillRunState::Update(Bill& bill)
 
 	bill.SetX
 	(
+		// x = x0 + v0*t + a*(t^2)/2
 		bill.GetX() + bill.GetVX() * time + bill.GetAX() * pow(time, 2) / 2
 	);
 
+	// Restrict Ox velocity. If not, entity will move too fast. The code here is temporary.
 	if (abs(bill.GetVX()) < +3.00f)
 	{
 		bill.SetVX
