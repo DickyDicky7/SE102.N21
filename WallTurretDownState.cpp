@@ -7,7 +7,7 @@ WallTurretDownState::~WallTurretDownState() {}
 void WallTurretDownState::Exit(WallTurret& WallTurret) {}
 
 void WallTurretDownState::Render(WallTurret& WallTurret) {
-	WallTurret.SetAnimation(WALL_TURRET_LEFT, WallTurret.GetPosition(), WallTurret.GetDirection());
+	WallTurret.SetAnimation(WALL_TURRET_DOWN, WallTurret.GetPosition(), WallTurret.GetDirection());
 }
 
 void WallTurretDownState::Enter(WallTurret& WallTurret) {}

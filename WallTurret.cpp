@@ -1,5 +1,14 @@
 #include "WallTurret.h"
 
+int TurretHeight, TurretWidth = TurretHeight = 32;
+
+void AutoIncreasePositionSpriteLoader(
+	std::vector<std::pair<int, int>> TopRightConnerOfSpritePositions,
+	std::vector<std::pair<SPRITE_ID, DWORD>> SpriteIdList,
+	ANIMATION_ID AnimationId,
+	TEXTURE_ID TextureId
+);
+
 WallTurret::WallTurret() : Entity(), HasAnimations()
 {
 	self = this;
@@ -8,11 +17,11 @@ WallTurret::WallTurret() : Entity(), HasAnimations()
 	this->vy = 1;
 	this->ax = 0.1;
 	this->ay = 0.1;
-	this->position.x = 16;
-	this->position.y = 32;
+	this->position.x = SCREEN_WIDTH / 3;
+	this->position.y = SCREEN_HEIGHT / 2 - 100;
 
 	this->updateState = NULL;
-	this->state = new WallTurretLeftState();
+	this->state = new WallTurretUpState();
 }
 
 WallTurret::~WallTurret() {}
@@ -35,19 +44,105 @@ void WallTurret::Render() {
 
 void WallTurret::HandleInput(Input& input) {}
 
+
 void WallTurret::LoadSprite() {
 	GraphicsDatabase::textures.insert({ WALL_TURRET, GraphicsHelper::CreateTexture(L"Resources\\Textures\\Wall_turret.bmp") });
 
-	GraphicsDatabase::sprites.insert({ WALL_TURRET_LEFT_01, GraphicsHelper::CreateSprite(69 ,1 ,33 ,101 ,WALL_TURRET) });
-	GraphicsDatabase::sprites.insert({ WALL_TURRET_LEFT_02, GraphicsHelper::CreateSprite(69 ,35 ,67 ,101 ,WALL_TURRET) });
-	GraphicsDatabase::sprites.insert({ WALL_TURRET_LEFT_03, GraphicsHelper::CreateSprite(69 ,69 ,101 ,101 ,WALL_TURRET) });
+	std::vector<std::pair<int, int>> TopRightConnerOfSpritePositions;
+	std::vector<std::pair<SPRITE_ID, DWORD>> SpriteIdList;
 
-	GraphicsDatabase::animations.insert({ WALL_TURRET_LEFT, GraphicsHelper::CreateAnimation
-	(150,
-		{
-			{WALL_TURRET_LEFT_01, 0},
-			{WALL_TURRET_LEFT_02, 0},
-			{WALL_TURRET_LEFT_03, 0},
-		}
-	) });
+#pragma region WALL_TURRET_LEFT SPRITE
+
+	TopRightConnerOfSpritePositions.push_back({ 69, 1 });
+	TopRightConnerOfSpritePositions.push_back({ 69, 35 });
+	TopRightConnerOfSpritePositions.push_back({ 69, 69 });
+
+	SpriteIdList.push_back({ WALL_TURRET_LEFT_01, 0 });
+	SpriteIdList.push_back({ WALL_TURRET_LEFT_02, 0 });
+	SpriteIdList.push_back({ WALL_TURRET_LEFT_03, 0 });
+
+	AutoIncreasePositionSpriteLoader(TopRightConnerOfSpritePositions, SpriteIdList, WALL_TURRET_LEFT, WALL_TURRET);
+
+	TopRightConnerOfSpritePositions.clear();
+	SpriteIdList.clear();
+
+#pragma endregion
+
+#pragma region WALL_TURRET_RIGHT SPRITE
+
+	TopRightConnerOfSpritePositions.push_back({ 1, 1 });
+	TopRightConnerOfSpritePositions.push_back({ 1, 35 });
+	TopRightConnerOfSpritePositions.push_back({ 1, 69 });
+
+	SpriteIdList.push_back({ WALL_TURRET_RIGHT_01, 0 });
+	SpriteIdList.push_back({ WALL_TURRET_RIGHT_02, 0 });
+	SpriteIdList.push_back({ WALL_TURRET_RIGHT_03, 0 });
+
+	AutoIncreasePositionSpriteLoader(TopRightConnerOfSpritePositions, SpriteIdList, WALL_TURRET_RIGHT, WALL_TURRET);
+
+	TopRightConnerOfSpritePositions.clear();
+	SpriteIdList.clear();
+
+#pragma endregion
+
+#pragma region WALL_TURRET_UP SPRITE
+
+	TopRightConnerOfSpritePositions.push_back({ 103, 1 });
+	TopRightConnerOfSpritePositions.push_back({ 103, 35 });
+	TopRightConnerOfSpritePositions.push_back({ 103, 69 });
+
+	SpriteIdList.push_back({ WALL_TURRET_UP_01, 0 });
+	SpriteIdList.push_back({ WALL_TURRET_UP_02, 0 });
+	SpriteIdList.push_back({ WALL_TURRET_UP_03, 0 });
+
+	AutoIncreasePositionSpriteLoader(TopRightConnerOfSpritePositions, SpriteIdList, WALL_TURRET_UP, WALL_TURRET);
+
+	TopRightConnerOfSpritePositions.clear();
+	SpriteIdList.clear();
+
+#pragma endregion
+
+#pragma region WALL_TURRET_DOWN SPRITE
+
+
+	TopRightConnerOfSpritePositions.push_back({ 35, 1 });
+	TopRightConnerOfSpritePositions.push_back({ 35, 35 });
+	TopRightConnerOfSpritePositions.push_back({ 35, 6 });
+
+	SpriteIdList.push_back({ WALL_TURRET_DOWN_01, 0 });
+	SpriteIdList.push_back({ WALL_TURRET_DOWN_01, 0 });
+	SpriteIdList.push_back({ WALL_TURRET_DOWN_01, 0 });
+
+	AutoIncreasePositionSpriteLoader(TopRightConnerOfSpritePositions, SpriteIdList, WALL_TURRET_DOWN, WALL_TURRET);
+
+	TopRightConnerOfSpritePositions.clear();
+	SpriteIdList.clear();
+
+#pragma endregion
+
+}
+
+void AutoIncreasePositionSpriteLoader(
+	std::vector<std::pair<int, int>> TopRightConnerOfSpritePositions,
+	std::vector<std::pair<SPRITE_ID, DWORD>> SpriteIdList,
+	ANIMATION_ID AnimationId,
+	TEXTURE_ID TextureId
+)
+{
+	std::vector<std::pair<SPRITE_ID, DWORD>> SpriteIdCombineWithFrameRefresh;
+
+	for (int i = 0; i < TopRightConnerOfSpritePositions.size(); i++)
+	{
+		GraphicsDatabase::sprites.insert(
+			{ SpriteIdList[i].first, GraphicsHelper::CreateSprite(
+				TopRightConnerOfSpritePositions[i].first ,
+				TopRightConnerOfSpritePositions[i].second ,
+				TopRightConnerOfSpritePositions[i].second + TurretWidth ,
+				TopRightConnerOfSpritePositions[i].first + TurretHeight ,
+				TextureId)
+			});
+		SpriteIdCombineWithFrameRefresh.push_back(SpriteIdList[i]);
+	}
+
+	GraphicsDatabase::animations.insert({ AnimationId, GraphicsHelper::CreateAnimation(150, SpriteIdCombineWithFrameRefresh) });
 }
