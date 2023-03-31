@@ -59,6 +59,7 @@ BillState* BillRunState::Update(Bill& bill)
 		);
 	}
 
+	// Restrict time for accelaration. If not, entity will move too fast. The code here is temporary.
 	if (time < +2.00f)
 	{
 		time += 0.05f;
