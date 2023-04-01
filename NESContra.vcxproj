@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseEnemy.h" />
     <ClInclude Include="Bill.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Entity.h" />
@@ -26,9 +27,12 @@
     <ClInclude Include="GraphicsHelper.h" />
     <ClInclude Include="HasAnimations.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="ScubaSoldier.h" />
+    <ClInclude Include="Soldier.h" />
     <ClInclude Include="State.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseEnemy.cpp" />
     <ClCompile Include="Bill.cpp" />
     <ClCompile Include="BillDeadState.cpp" />
     <ClCompile Include="BillDiveState.cpp" />
@@ -46,6 +50,8 @@
     <ClCompile Include="HasAnimations.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ScubaSoldier.cpp" />
+    <ClCompile Include="Soldier.cpp" />
     <ClCompile Include="State.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

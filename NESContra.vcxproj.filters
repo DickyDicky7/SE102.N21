@@ -13,10 +13,22 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Bill">
+    <Filter Include="Header Files\Objects">
+      <UniqueIdentifier>{6e7f6abf-7bd8-4b45-9fa2-c1b8690f01e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies">
+      <UniqueIdentifier>{74f7207f-f0b3-4c07-a44f-6a5c2a1b9d59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects">
+      <UniqueIdentifier>{1b2d88d2-bc64-4ebf-a962-dedacfec1273}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies">
+      <UniqueIdentifier>{e39ceb5c-66af-4ed9-877b-e04acf34a59f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Bill">
       <UniqueIdentifier>{16fc020b-a894-4edb-ba03-7c4c3d612104}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Bill\BillState">
+    <Filter Include="Source Files\Objects\Bill\BillState">
       <UniqueIdentifier>{bd0fda84-ecf8-476e-a06d-43d9fb4faf94}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -30,12 +42,6 @@
     <ClInclude Include="GraphicsDatabase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Bill.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="State.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -44,6 +50,21 @@
     </ClInclude>
     <ClInclude Include="HasAnimations.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseEnemy.h">
+      <Filter>Header Files\Objects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="ScubaSoldier.h">
+      <Filter>Header Files\Objects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Soldier.h">
+      <Filter>Header Files\Objects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Bill.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -56,12 +77,6 @@
     <ClCompile Include="GraphicsDatabase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Bill.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="State.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -72,34 +87,49 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BillState.cpp">
-      <Filter>Source Files\Bill</Filter>
+      <Filter>Source Files\Objects\Bill</Filter>
     </ClCompile>
     <ClCompile Include="BillRunState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillJumpState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillSwimState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillNormalState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillLayDownState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillRunShotAngleUpState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillRunShotAngleDownState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillDiveState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillDeadState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseEnemy.cpp">
+      <Filter>Source Files\Objects\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="ScubaSoldier.cpp">
+      <Filter>Source Files\Objects\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Soldier.cpp">
+      <Filter>Source Files\Objects\Enemies</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="Bill.cpp">
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
