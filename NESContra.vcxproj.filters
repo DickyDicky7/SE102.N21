@@ -45,6 +45,15 @@
     <ClInclude Include="HasAnimations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="HasTextures.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="HasSprites.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TestingEntity.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -100,6 +109,15 @@
     </ClCompile>
     <ClCompile Include="BillDeadState.cpp">
       <Filter>Source Files\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="HasTextures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HasSprites.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestingEntity.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

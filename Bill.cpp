@@ -1,6 +1,6 @@
 #include "Bill.h"
 
-Bill::Bill() : Entity(), HasAnimations()
+Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 	self = this;
 
@@ -51,9 +51,12 @@ void Bill::HandleInput(Input& input)
 	handleInputState = state->HandleInput(*this, input);
 }
 
-void Bill::LoadSprite()
+void Bill::LoadSprites()
 {
-	GraphicsDatabase::textures.insert({ BILL, GraphicsHelper::CreateTexture(L"Resources\\Textures\\MainCharacter2.bmp") });
+	if (HasSprites<Bill>::hasBeenLoaded.value) return;
+	HasSprites<Bill>::hasBeenLoaded.value = true;
+
+#pragma region Load Sprites
 
 	GraphicsDatabase::sprites.insert({ BILL_NORMAL_01, GraphicsHelper::CreateSprite(30 ,1  ,25 ,65 ,BILL) });
 
@@ -107,6 +110,28 @@ void Bill::LoadSprite()
 	GraphicsDatabase::sprites.insert({ BILL_RUN_SHOT_01, GraphicsHelper::CreateSprite(189,155,181,224,BILL) });
 	GraphicsDatabase::sprites.insert({ BILL_RUN_SHOT_02, GraphicsHelper::CreateSprite(189,184,208,224,BILL) });
 	GraphicsDatabase::sprites.insert({ BILL_RUN_SHOT_03, GraphicsHelper::CreateSprite(189,210,236,224,BILL) });
+
+#pragma endregion Load Sprites
+
+	OutputDebugString(L"Bill Sprites Loaded Successfully\n");
+}
+
+void Bill::LoadTextures()
+{
+	if (HasTextures<Bill>::hasBeenLoaded.value) return;
+	HasTextures<Bill>::hasBeenLoaded.value = true;
+
+	GraphicsDatabase::textures.insert({ BILL, GraphicsHelper::CreateTexture(L"Resources\\Textures\\MainCharacter2.bmp") });
+
+	OutputDebugString(L"Bill Textures Loaded Successfully\n");
+}
+
+void Bill::LoadAnimations()
+{
+	if (HasAnimations<Bill>::hasBeenLoaded.value) return;
+	HasAnimations<Bill>::hasBeenLoaded.value = true;
+
+#pragma region Load Animations
 
 	GraphicsDatabase::animations.insert
 	({ BILL_NORMAL, GraphicsHelper::CreateAnimation
@@ -262,4 +287,8 @@ void Bill::LoadSprite()
 			{BILL_RUN_SHOT_03,0},
 		}
 	) });
+
+#pragma endregion Load Animations
+
+	OutputDebugString(L"Bill Animations Loaded Successfully\n");
 }

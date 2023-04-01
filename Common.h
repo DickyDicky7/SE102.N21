@@ -106,3 +106,6 @@ enum DIRECTION
 {
 	LEFT, RIGHT,
 };
+
+template <class T>
+struct Bool { BOOL value; };
