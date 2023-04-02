@@ -51,6 +51,12 @@ void Soldier::HandleInput(Input& input)
 	handleInputState = state->HandleInput(*this, input);
 }
 
+void insertSprite(SPRITE_ID spriteId, INT top, INT left, INT right, INT bottom, TEXTURE_ID textureId)
+{
+	// i write this function to shorten the fuction: GraphicsHelper
+	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, textureId);
+}
+
 void Soldier::LoadSprites()
 {
 	if (HasSprites<Soldier>::hasBeenLoaded.value) return;
@@ -59,8 +65,21 @@ void Soldier::LoadSprites()
 #pragma region Load Sprites
 
 	// SPRITES
-	GraphicsHelper::InsertSprite(SOLDIER_SPRITE_ID::RUN_01, 30, 1, 25, 65, BILL_TEXTURE_ID::BILL_01);
+	insertSprite(SOLDIER_SPRITE_ID::RUN_01, 90,	0, 106, 32, BILL_TEXTURE_ID::BILL_01);
+	insertSprite(SOLDIER_SPRITE_ID::RUN_02, 72, 0, 88, 32, BILL_TEXTURE_ID::BILL_01);
+	insertSprite(SOLDIER_SPRITE_ID::RUN_03, 54, 0, 70, 32, BILL_TEXTURE_ID::BILL_01);
+	insertSprite(SOLDIER_SPRITE_ID::RUN_04, 36, 0, 52, 32, BILL_TEXTURE_ID::BILL_01);
+	insertSprite(SOLDIER_SPRITE_ID::RUN_05, 18, 0, 34, 32, BILL_TEXTURE_ID::BILL_01);
+	insertSprite(SOLDIER_SPRITE_ID::RUN_06,  0, 0, 16, 32, BILL_TEXTURE_ID::BILL_01);
 
+	insertSprite(SOLDIER_SPRITE_ID::JUMP_01, 108, 0, 124, 32, BILL_TEXTURE_ID::BILL_01);
+
+	insertSprite(SOLDIER_SPRITE_ID::SHOOT_01, 126, 0, 150, 32, BILL_TEXTURE_ID::BILL_01);
+	insertSprite(SOLDIER_SPRITE_ID::SHOOT_02, 152, 0, 176, 32, BILL_TEXTURE_ID::BILL_01);
+
+	insertSprite(SOLDIER_SPRITE_ID::LAY_DOWN_01, 178, 0, 210, 32, BILL_TEXTURE_ID::BILL_01);
+
+	insertSprite(SOLDIER_SPRITE_ID::DIE_01, 212, 0, 227, 32, BILL_TEXTURE_ID::BILL_01);
 
 #pragma endregion Load Sprites
 
@@ -84,11 +103,32 @@ void Soldier::LoadAnimations()
 
 #pragma region Load Animations
 
-	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::RUN, 150,
+	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::RUN, 70,
 		{
-			{BILL_SPRITE_ID::NORMAL_01,0},
+			{SOLDIER_SPRITE_ID::RUN_01,0},
+			{SOLDIER_SPRITE_ID::RUN_02,0},
+			{SOLDIER_SPRITE_ID::RUN_03,0},
+			{SOLDIER_SPRITE_ID::RUN_04,0},
+			{SOLDIER_SPRITE_ID::RUN_05,0},
+			{SOLDIER_SPRITE_ID::RUN_06,0},
 		});
-
+	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::JUMP, 60,
+		{
+			{SOLDIER_SPRITE_ID::JUMP_01,0},
+		});
+	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::SHOOT, 150,
+		{
+			{SOLDIER_SPRITE_ID::SHOOT_01,0},
+			{SOLDIER_SPRITE_ID::SHOOT_02,0},
+		});
+	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::LAY_DOWN, 150,
+		{
+			{SOLDIER_SPRITE_ID::LAY_DOWN_01,0},
+		});
+	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::DIE, 150,
+		{
+			{SOLDIER_SPRITE_ID::DIE_01,0},
+		});
 
 #pragma endregion Load Animations
 

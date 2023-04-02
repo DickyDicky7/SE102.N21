@@ -78,5 +78,16 @@ SoldierState* SoldierJumpState::Update(Soldier& soldier)
 
 SoldierState* SoldierJumpState::HandleInput(Soldier& soldier, Input& input)
 {
+	if (input.Is(DIK_LEFT))
+	{
+		hasMovedLeft = 1;
+		soldier.SetDirection(DIRECTION::LEFT);
+	}
+	if (input.Is(DIK_RIGHT))
+	{
+		hasMovedRight = 1;
+		soldier.SetDirection(DIRECTION::RIGHT);
+	}
+
 	return NULL;
 }

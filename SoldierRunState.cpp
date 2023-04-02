@@ -70,6 +70,13 @@ SoldierState* SoldierRunState::Update(Soldier& soldier) {
 	return NULL;
 }
 SoldierState* SoldierRunState::HandleInput(Soldier& soldier, Input& input) {
-	// soldier don't handle input 
-	return NULL;
+
+	if (input.Is(DIK_BACKSPACE))
+	{
+		return new SoldierJumpState();
+	}
+	if (input.Is(DIK_DOWN))
+	{
+		return new SoldierLayDownState();
+	}
 }
