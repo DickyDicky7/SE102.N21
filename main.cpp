@@ -115,7 +115,7 @@ LPD3DXSPRITE spriteHandler;
 
 void LoadResources() {
 	// load all object resources here
-	bill.LoadAssets(d3ddev, spriteHandler);
+	bill.LoadAssets(&d3ddev, &spriteHandler);
 }
 
 // this is the main message handler for the program

@@ -20,11 +20,11 @@ Bill::~Bill()
 {
 }
 
-void Bill::LoadAssets(LPDIRECT3DDEVICE9 d3ddev, LPD3DXSPRITE spriteHandler)
+void Bill::LoadAssets(LPDIRECT3DDEVICE9 *d3ddev, LPD3DXSPRITE *spriteHandler)
 {
-	D3DXCreateSprite(d3ddev, &spriteHandler);
-	GraphicsHelper::device = d3ddev;
-	GraphicsHelper::spriteHandler = spriteHandler;
+	D3DXCreateSprite(*d3ddev, &*spriteHandler);
+	GraphicsHelper::device = *d3ddev;
+	GraphicsHelper::spriteHandler = *spriteHandler;
 
 	// TEXURES
 	GraphicsHelper::InsertTexures(BILL, L"Resources\\Textures\\MainCharacter2.bmp");
