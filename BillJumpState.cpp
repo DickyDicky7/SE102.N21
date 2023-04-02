@@ -16,12 +16,12 @@ void BillJumpState::Exit(Bill& bill)
 
 void BillJumpState::Enter(Bill& bill)
 {
-	if (bill.GetDirection() == LEFT)
+	if (bill.GetDirection() == DIRECTION::LEFT)
 	{
 		bill.SetVX(+2.0f);
 		bill.SetAX(+0.0f);
 	}
-	if (bill.GetDirection() == RIGHT)
+	if (bill.GetDirection() == DIRECTION::RIGHT)
 	{
 		bill.SetVX(-2.0f);
 		bill.SetAX(-0.0f);
@@ -33,17 +33,17 @@ void BillJumpState::Enter(Bill& bill)
 
 void BillJumpState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_JUMP, bill.GetPosition(), bill.GetDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::JUMP, bill.GetPosition(), bill.GetDirection());
 }
 
 BillState* BillJumpState::Update(Bill& bill)
 {
-	if (bill.GetDirection() == LEFT)
+	if (bill.GetDirection() == DIRECTION::LEFT)
 	{
 		bill.SetVX(-abs(bill.GetVX()));
 		bill.SetAX(-abs(bill.GetAX()));
 	}
-	if (bill.GetDirection() == RIGHT)
+	if (bill.GetDirection() == DIRECTION::RIGHT)
 	{
 		bill.SetVX(+abs(bill.GetVX()));
 		bill.SetAX(+abs(bill.GetAX()));
@@ -81,12 +81,12 @@ BillState* BillJumpState::HandleInput(Bill& bill, Input& input)
 	if (input.Is(DIK_LEFT))
 	{
 		hasMovedLeft = 1;
-		bill.SetDirection(LEFT);
+		bill.SetDirection(DIRECTION::LEFT);
 	}
 	if (input.Is(DIK_RIGHT))
 	{
 		hasMovedRight = 1;
-		bill.SetDirection(RIGHT);
+		bill.SetDirection(DIRECTION::RIGHT);
 	}
 
 	return NULL;

@@ -4,6 +4,8 @@
 #include "Bill.h"
 #include "TestingEntity.h"
 #include "Input.h"
+#include "String.h"
+#include <string>
 
 Input* input;
 

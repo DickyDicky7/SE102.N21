@@ -12,4 +12,3 @@ public:
 	static std::unordered_map<ANIMATION_ID, std::pair<DWORD, std::vector<std::pair<SPRITE_ID, DWORD>>>> animations;
 
 };
-
