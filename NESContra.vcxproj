@@ -21,7 +21,7 @@
   <ItemGroup>
     <ClInclude Include="BaseEnemy.h" />
     <ClInclude Include="Bill.h" />
-    <ClInclude Include="Bill_common.h" />
+    <ClInclude Include="BillCommon.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GraphicsDatabase.h" />
@@ -31,10 +31,12 @@
     <ClInclude Include="HasTextures.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="ScubaSoldier.h" />
+    <ClInclude Include="ScubaSoldierCommon.h" />
     <ClInclude Include="Soldier.h" />
-    <ClInclude Include="soldier_common.h" />
+    <ClInclude Include="SoldierCommon.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TestingEntity.h" />
+    <ClInclude Include="TestingEntityCommon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseEnemy.cpp" />

@@ -18,17 +18,17 @@ void BillRunShotAngleUpState::Enter(Bill& bill)
 
 void BillRunShotAngleUpState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_RUN_SHOT_ANGLE_UP, bill.GetPosition(), bill.GetDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::RUN_SHOT_ANGLE_UP, bill.GetPosition(), bill.GetDirection());
 }
 
 BillState* BillRunShotAngleUpState::Update(Bill& bill)
 {
-	if (bill.GetDirection() == LEFT)
+	if (bill.GetDirection() == DIRECTION::LEFT)
 	{
 		bill.SetVX(-abs(bill.GetVX()));
 		bill.SetAX(-abs(bill.GetAX()));
 	}
-	if (bill.GetDirection() == RIGHT)
+	if (bill.GetDirection() == DIRECTION::RIGHT)
 	{
 		bill.SetVX(+abs(bill.GetVX()));
 		bill.SetAX(+abs(bill.GetAX()));

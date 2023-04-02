@@ -57,13 +57,13 @@ void GraphicsHelper::DrawSprite(std::pair<RECT*, TEXTURE_ID> sprite, D3DXVECTOR3
 	D3DXVECTOR2 flippingCenter(0, 0);
 	D3DXVECTOR3 center((FLOAT)(sprite.first->right - sprite.first->left) / 2.0f, (FLOAT)(sprite.first->bottom - sprite.first->top), 0.0f);
 
-	if (direction == LEFT)
+	if (direction == DIRECTION::LEFT)
 	{
 		position.x = -position.x;
 		D3DXVECTOR2 flippingRatio(-2.0f, 2.0f);
 		D3DXMatrixTransformation2D(&flippingMatrix, &flippingCenter, 0.0f, &flippingRatio, NULL, 0.0f, NULL);
 	}
-	if (direction == RIGHT)
+	if (direction == DIRECTION::RIGHT)
 	{
 		D3DXVECTOR2 flippingRatio(+2.0f, 2.0f);
 		D3DXMatrixTransformation2D(&flippingMatrix, &flippingCenter, 0.0f, &flippingRatio, NULL, 0.0f, NULL);
@@ -86,18 +86,18 @@ void GraphicsHelper::DrawSprite(std::pair<RECT*, TEXTURE_ID> sprite, D3DXVECTOR3
 	//device->Present(NULL, NULL, NULL, NULL);
 }
 
-void GraphicsHelper::InsertTexures(TEXTURE_ID id, LPCWSTR link) {
-	GraphicsDatabase::textures.insert({ id, GraphicsHelper::CreateTexture(link) });
+void GraphicsHelper::InsertTexure(TEXTURE_ID textureId, LPCWSTR filePath)
+{
+	GraphicsDatabase::textures.insert({ textureId, GraphicsHelper::CreateTexture(filePath) });
 }
 
-void GraphicsHelper::InsertSprites(SPRITE_ID ID_SPRITE, INT top, INT left, INT right, INT bottom, TEXTURE_ID textureId) {
-	GraphicsDatabase::sprites.insert({ ID_SPRITE, GraphicsHelper::CreateSprite(top ,left  ,right ,bottom ,textureId) });
+void GraphicsHelper::InsertSprite(SPRITE_ID spriteId, INT top, INT left, INT right, INT bottom, TEXTURE_ID textureId)
+{
+	GraphicsDatabase::sprites.insert({ spriteId, GraphicsHelper::CreateSprite(top, left, right, bottom, textureId) });
 }
 
-void GraphicsHelper::InsertAnimation(ANIMATION_ID ID_ANI, DWORD defaultTime, std::vector<std::pair<SPRITE_ID, DWORD>> frames) {
+void GraphicsHelper::InsertAnimation(ANIMATION_ID animationId, DWORD defaultTime, std::vector<std::pair<SPRITE_ID, DWORD>> frames)
+{
 	GraphicsDatabase::animations.insert
-	({ ID_ANI,
-		// list textures to create animation
-		GraphicsHelper::CreateAnimation(defaultTime, frames)
-	});
+	({ animationId, GraphicsHelper::CreateAnimation(defaultTime, frames) /* list textures to create animation */ });
 }
