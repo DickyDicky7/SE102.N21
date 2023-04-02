@@ -132,6 +132,10 @@ void initSprite()
 	bill.LoadSprites();
 	bill.LoadAnimations();
 
+	wallTurret.LoadTextures();
+	wallTurret.LoadSprites();
+	wallTurret.LoadAnimations();
+
 }
 
 // this is the main message handler for the program

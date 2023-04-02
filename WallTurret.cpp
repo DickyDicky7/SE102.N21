@@ -22,7 +22,7 @@ WallTurret::WallTurret() : Entity(), HasAnimations()
 	this->position.y = SCREEN_HEIGHT / 2 - 100;
 
 	this->updateState = NULL;
-	this->state = new WallTurretUpState();
+	this->state = new WallTurretLeftState();
 }
 
 WallTurret::~WallTurret() {}
@@ -52,7 +52,7 @@ void WallTurret::LoadTextures() {
 	}
 	HasTextures<WallTurret>::hasBeenLoaded.value = true;
 
-	//GraphicsDatabase::textures.insert({ WALL_TURRET, GraphicsHelper::CreateTexture(L"Resources\\Textures\\Wall_turret.bmp") });
+	GraphicsDatabase::textures.insert({ WALL_TURRET, GraphicsHelper::CreateTexture(L"Resources\\Textures\\Wall_turret.bmp") });
 
 	return;
 }
@@ -64,56 +64,56 @@ void WallTurret::LoadSprites() {
 	}
 	HasSprites<WallTurret>::hasBeenLoaded.value = true;
 
-//	std::vector<std::pair<int, int>> TopRightConnerOfSpritePositions;
-//
-//#pragma region WALL_TURRET_LEFT SPRITE
-//
-//	TopRightConnerOfSpritePositions.push_back({ 69, 1 });
-//	TopRightConnerOfSpritePositions.push_back({ 69, 35 });
-//	TopRightConnerOfSpritePositions.push_back({ 69, 69 });
-//
-//	AutoIncreasePositionSpriteLoader(TopRightConnerOfSpritePositions, WALL_TURRET_LEFT_01, WALL_TURRET);
-//
-//	TopRightConnerOfSpritePositions.clear();
-//
-//#pragma endregion
-//
-//#pragma region WALL_TURRET_RIGHT SPRITE
-//
-//	TopRightConnerOfSpritePositions.push_back({ 1, 1 });
-//	TopRightConnerOfSpritePositions.push_back({ 1, 35 });
-//	TopRightConnerOfSpritePositions.push_back({ 1, 69 });
-//
-//	AutoIncreasePositionSpriteLoader(TopRightConnerOfSpritePositions, WALL_TURRET_RIGHT_01,WALL_TURRET);
-//
-//	TopRightConnerOfSpritePositions.clear();
-//
-//#pragma endregion
-//
-//#pragma region WALL_TURRET_UP SPRITE
-//
-//	TopRightConnerOfSpritePositions.push_back({ 103, 1 });
-//	TopRightConnerOfSpritePositions.push_back({ 103, 35 });
-//	TopRightConnerOfSpritePositions.push_back({ 103, 69 });
-//
-//	AutoIncreasePositionSpriteLoader(TopRightConnerOfSpritePositions, WALL_TURRET_UP_01, WALL_TURRET);
-//
-//	TopRightConnerOfSpritePositions.clear();
-//
-//#pragma endregion
-//
-//#pragma region WALL_TURRET_DOWN SPRITE
-//
-//
-//	TopRightConnerOfSpritePositions.push_back({ 35, 1 });
-//	TopRightConnerOfSpritePositions.push_back({ 35, 35 });
-//	TopRightConnerOfSpritePositions.push_back({ 35, 6 });
-//
-//	AutoIncreasePositionSpriteLoader(TopRightConnerOfSpritePositions, WALL_TURRET_DOWN_01, WALL_TURRET);
-//
-//	TopRightConnerOfSpritePositions.clear();
-//
-//#pragma endregion
+	std::vector<std::pair<int, int>> TopRightConnerOfSpritePositions;
+
+#pragma region WALL_TURRET_LEFT SPRITE
+
+	TopRightConnerOfSpritePositions.push_back({ 69, 1 });
+	TopRightConnerOfSpritePositions.push_back({ 69, 35 });
+	TopRightConnerOfSpritePositions.push_back({ 69, 69 });
+
+	AutoIncreasePositionSpriteLoader(TopRightConnerOfSpritePositions, WALL_TURRET_LEFT_01, WALL_TURRET);
+
+	TopRightConnerOfSpritePositions.clear();
+
+#pragma endregion
+
+#pragma region WALL_TURRET_RIGHT SPRITE
+
+	TopRightConnerOfSpritePositions.push_back({ 1, 1 });
+	TopRightConnerOfSpritePositions.push_back({ 1, 35 });
+	TopRightConnerOfSpritePositions.push_back({ 1, 69 });
+
+	AutoIncreasePositionSpriteLoader(TopRightConnerOfSpritePositions, WALL_TURRET_RIGHT_01,WALL_TURRET);
+
+	TopRightConnerOfSpritePositions.clear();
+
+#pragma endregion
+
+#pragma region WALL_TURRET_UP SPRITE
+
+	TopRightConnerOfSpritePositions.push_back({ 103, 1 });
+	TopRightConnerOfSpritePositions.push_back({ 103, 35 });
+	TopRightConnerOfSpritePositions.push_back({ 103, 69 });
+
+	AutoIncreasePositionSpriteLoader(TopRightConnerOfSpritePositions, WALL_TURRET_UP_01, WALL_TURRET);
+
+	TopRightConnerOfSpritePositions.clear();
+
+#pragma endregion
+
+#pragma region WALL_TURRET_DOWN SPRITE
+
+
+	TopRightConnerOfSpritePositions.push_back({ 35, 1 });
+	TopRightConnerOfSpritePositions.push_back({ 35, 35 });
+	TopRightConnerOfSpritePositions.push_back({ 35, 6 });
+
+	AutoIncreasePositionSpriteLoader(TopRightConnerOfSpritePositions, WALL_TURRET_DOWN_01, WALL_TURRET);
+
+	TopRightConnerOfSpritePositions.clear();
+
+#pragma endregion
 
 }
 
@@ -124,10 +124,10 @@ void WallTurret::LoadAnimations() {
 	}
 	HasAnimations<WallTurret>::hasBeenLoaded.value = true;
 
-	//AutoInscreaseSpriteIdLoadAnimations(WALL_TURRET_LEFT_01, 3, WALL_TURRET_LEFT);
-	//AutoInscreaseSpriteIdLoadAnimations(WALL_TURRET_RIGHT_01, 3, WALL_TURRET_RIGHT);
-	//AutoInscreaseSpriteIdLoadAnimations(WALL_TURRET_DOWN_01, 3, WALL_TURRET_DOWN);
-	//AutoInscreaseSpriteIdLoadAnimations(WALL_TURRET_UP_01, 3, WALL_TURRET_UP);
+	AutoInscreaseSpriteIdLoadAnimations(WALL_TURRET_LEFT_01, 3, WALL_TURRET_LEFT);
+	AutoInscreaseSpriteIdLoadAnimations(WALL_TURRET_RIGHT_01, 3, WALL_TURRET_RIGHT);
+	AutoInscreaseSpriteIdLoadAnimations(WALL_TURRET_DOWN_01, 3, WALL_TURRET_DOWN);
+	AutoInscreaseSpriteIdLoadAnimations(WALL_TURRET_UP_01, 3, WALL_TURRET_UP);
 }
 
 
