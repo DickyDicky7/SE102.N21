@@ -48,13 +48,11 @@ SoldierState* SoldierJumpState::Update(Soldier& soldier)
 		soldier.SetVX(+abs(soldier.GetVX()));
 		soldier.SetAX(+abs(soldier.GetAX()));
 	}
-	if (hasMovedLeft || hasMovedRight)
-	{
-		soldier.SetX
-		(
-			soldier.GetX() + soldier.GetVX()
-		);
-	}
+
+	soldier.SetX
+	(
+		soldier.GetX() + soldier.GetVX()
+	);
 
 	soldier.SetY
 	(
@@ -78,7 +76,7 @@ SoldierState* SoldierJumpState::Update(Soldier& soldier)
 
 SoldierState* SoldierJumpState::HandleInput(Soldier& soldier, Input& input)
 {
-	if (input.Is(DIK_LEFT))
+	/*if (input.Is(DIK_LEFT))
 	{
 		hasMovedLeft = 1;
 		soldier.SetDirection(DIRECTION::LEFT);
@@ -88,6 +86,6 @@ SoldierState* SoldierJumpState::HandleInput(Soldier& soldier, Input& input)
 		hasMovedRight = 1;
 		soldier.SetDirection(DIRECTION::RIGHT);
 	}
-
+	*/
 	return NULL;
 }

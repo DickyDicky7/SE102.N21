@@ -14,12 +14,12 @@ void SoldierRunState::Exit(Soldier&)
 void SoldierRunState::Enter(Soldier& soldier) {
 	if (soldier.GetDirection() == DIRECTION::LEFT)
 	{
-		soldier.SetVX(+2.00f);
+		soldier.SetVX(+1.00f);
 		soldier.SetAX(+0.01f);
 	}
 	if (soldier.GetDirection() == DIRECTION::RIGHT)
 	{
-		soldier.SetVX(-2.00f);
+		soldier.SetVX(-1.00f);
 		soldier.SetAX(-0.01f);
 	}
 }
@@ -31,7 +31,8 @@ void SoldierRunState::Render(Soldier& soldier) {
 SoldierState* SoldierRunState::Update(Soldier& soldier) {
 	float solVX = soldier.GetVX();
 	float solAX = soldier.GetAX();
-
+	float solX = soldier.GetX();
+	const float WIDTH_SOLDIE = 500;
 	if (soldier.GetDirection() == DIRECTION::LEFT)
 	{
 		soldier.SetVX(-abs(solVX));
@@ -44,11 +45,12 @@ SoldierState* SoldierRunState::Update(Soldier& soldier) {
 	}
 	
 	// soldier moves left and right of the screen
-	if (solVX <= 0) {
+	if (solX <= 0) {
 		// if you hit the left wall
 		soldier.SetDirection(DIRECTION::RIGHT);
 	}
-	else if (solVX >= SCREEN_WIDTH) {
+	// i find that the soldier will go over left screen about WIDTH_SOLDIE so i minus it
+	else if (solX >= SCREEN_WIDTH  - WIDTH_SOLDIE) {
 		// if you hit the left wall
 		soldier.SetDirection(DIRECTION::LEFT);
 	}
@@ -57,7 +59,7 @@ SoldierState* SoldierRunState::Update(Soldier& soldier) {
 	soldier.SetX
 	(
 		// x = x0 + v0*t -- uniform accelerated motion
-		soldier.GetX() + solVX * time
+		solX + solVX * time
 	);
 
 	// Restrict Ox velocity and time. Make this part "v0*t + a*(t^2)/2" become a constant => uniform motion
@@ -71,7 +73,7 @@ SoldierState* SoldierRunState::Update(Soldier& soldier) {
 }
 SoldierState* SoldierRunState::HandleInput(Soldier& soldier, Input& input) {
 
-	if (input.Is(DIK_BACKSPACE))
+	if (input.Is(DIK_SPACE))
 	{
 		return new SoldierJumpState();
 	}
