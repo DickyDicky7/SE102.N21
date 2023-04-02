@@ -19,7 +19,7 @@ void render_frame(void);    // renders a single frame
 void cleanD3D(void);        // closes Direct3D and releases memory
 
 // fucntion prototypes for sprite
-void LoadResources();
+void initSprite();
 void drawSprite();
 Bill bill;
 // the WindowProc function prototype
@@ -69,7 +69,7 @@ int WINAPI WinMain(
 	input = new Input(hInstance, hWnd);
 
 	// set up and initialize Sprite
-	LoadResources();
+	initSprite();
 
 	// this struct holds Windows event messages
 	MSG msg;
