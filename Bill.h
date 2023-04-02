@@ -4,6 +4,8 @@
 #include "State.h"
 #include "Common.h"
 #include "Entity.h"
+#include "HasSprites.h"
+#include "HasTextures.h"
 #include "HasAnimations.h"
 
 
@@ -27,7 +29,7 @@ class BillRunShotAngleDownState;
 class BillSwimShotStraightUpState;
 
 
-class Bill : public Entity<Bill>, public HasAnimations
+class Bill : public Entity<Bill>, public HasTextures<Bill>, public HasSprites<Bill>, public HasAnimations<Bill>
 {
 
 public:
@@ -37,6 +39,10 @@ public:
 	void Update() override;
 	void Render() override;
 	void HandleInput(Input&) override;
+
+	void LoadSprites() override;
+	void LoadTextures() override;
+	void LoadAnimations() override;
 
 protected:
 

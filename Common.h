@@ -175,3 +175,7 @@ enum DIRECTION
 {
 	LEFT, RIGHT, CLOCKWISE, COUNTERCLOCKWISE
 };
+
+
+template <class T>
+struct Bool { BOOL value; };
