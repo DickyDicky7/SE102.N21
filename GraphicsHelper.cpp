@@ -99,5 +99,5 @@ void GraphicsHelper::InsertAnimation(ANIMATION_ID ID_ANI, DWORD defaultTime, std
 	({ ID_ANI,
 		// list textures to create animation
 		GraphicsHelper::CreateAnimation(defaultTime, frames)
-		});
+	});
 }

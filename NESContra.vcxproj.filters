@@ -34,11 +34,11 @@
     <Filter Include="Header Files\Objects\Enemies\Soldier">
       <UniqueIdentifier>{bf4f33db-920a-4578-85f3-889c9d446859}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Bill">
+      <UniqueIdentifier>{df7d36ea-3972-4de3-827c-8e972538dd00}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicsHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
@@ -63,9 +63,6 @@
     <ClInclude Include="BaseEnemy.h">
       <Filter>Header Files\Objects\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Bill.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
@@ -80,6 +77,15 @@
     </ClInclude>
     <ClInclude Include="ScubaSoldier.h">
       <Filter>Header Files\Objects\Enemies\Soldier</Filter>
+    </ClInclude>
+    <ClInclude Include="Bill.h">
+      <Filter>Header Files\Objects\Bill</Filter>
+    </ClInclude>
+    <ClInclude Include="Bill_common.h">
+      <Filter>Header Files\Objects\Bill</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Header Files\Objects</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -152,9 +158,6 @@
     <ClCompile Include="HasSprites.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="TestingEntity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="HasTextures.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -163,6 +166,9 @@
     </ClCompile>
     <ClCompile Include="TestingEntity.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestingEntity.cpp">
+      <Filter>Source Files\Objects</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

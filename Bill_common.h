@@ -1,31 +1,8 @@
-#pragma once
+#pragma once#pragma once
 
-#define DIRECTINPUT_VERSION 0x0800
+#include "Common.h"
 
-#include <vector>
-#include <d3d9.h>
-#include <d3dx9.h>
-#include <utility>
-#include <concepts>
-#include <dinput.h>
-#include <Windows.h>
-#include <type_traits>
-#include <unordered_map>
-
-enum OBJECT_ID
-{
-	BILL,
-	SOLDIER,
-	SCUBA_SOLDIER,
-};
-
-enum TEXTURE_ID
-{
-	BILL,
-	SOLDIER,
-};
-
-enum SPRITE_ID
+enum BILL_SPRITE_ID
 {
 	BILL_NORMAL_01,
 
@@ -79,10 +56,13 @@ enum SPRITE_ID
 	BILL_RUN_SHOT_01,
 	BILL_RUN_SHOT_02,
 	BILL_RUN_SHOT_03,
+
 };
 
-enum ANIMATION_ID
+
+enum BILL_ANIMATION_ID
 {
+
 	BILL_NORMAL,
 	BILL_NORMAL_SHOT,
 	BILL_STRAIGHT_UP,
@@ -100,16 +80,5 @@ enum ANIMATION_ID
 	BILL_SWIM_SHOT_STRAIGHT_UP,
 	BILL_SWIM_SHOT,
 	BILL_RUN_SHOT,
-
 };
 
-#define SCREEN_WIDTH 1000
-#define SCREEN_HEIGHT 600
-
-enum DIRECTION
-{
-	LEFT, RIGHT,
-};
-
-template <class T>
-struct Bool { BOOL value; };

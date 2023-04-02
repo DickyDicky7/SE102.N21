@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="BaseEnemy.h" />
     <ClInclude Include="Bill.h" />
+    <ClInclude Include="Bill_common.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GraphicsDatabase.h" />
