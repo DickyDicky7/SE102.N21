@@ -26,11 +26,14 @@
     <ClInclude Include="GraphicsDatabase.h" />
     <ClInclude Include="GraphicsHelper.h" />
     <ClInclude Include="HasAnimations.h" />
+    <ClInclude Include="HasSprites.h" />
+    <ClInclude Include="HasTextures.h" />
     <ClInclude Include="Input.h" />
     <ClInclude Include="ScubaSoldier.h" />
     <ClInclude Include="Soldier.h" />
     <ClInclude Include="soldier_common.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="TestingEntity.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BaseEnemy.cpp" />
@@ -49,11 +52,14 @@
     <ClCompile Include="GraphicsDatabase.cpp" />
     <ClCompile Include="GraphicsHelper.cpp" />
     <ClCompile Include="HasAnimations.cpp" />
+    <ClCompile Include="HasSprites.cpp" />
+    <ClCompile Include="HasTextures.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ScubaSoldier.cpp" />
     <ClCompile Include="Soldier.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="TestingEntity.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

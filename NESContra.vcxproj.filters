@@ -54,23 +54,14 @@
     <ClInclude Include="HasAnimations.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="BaseEnemy.h">
-      <Filter>Header Files\Objects\Enemies</Filter>
+    <ClInclude Include="HasTextures.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ScubaSoldier.h">
-      <Filter>Header Files\Objects\Enemies</Filter>
+    <ClInclude Include="HasSprites.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="Bill.h">
-      <Filter>Header Files\Objects</Filter>
-    </ClInclude>
-    <ClInclude Include="soldier_common.h">
-      <Filter>Header Files\Objects\Enemies\Soldier</Filter>
-    </ClInclude>
-    <ClInclude Include="Soldier.h">
-      <Filter>Header Files\Objects\Enemies\Soldier</Filter>
+    <ClInclude Include="TestingEntity.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -136,6 +127,24 @@
     </ClCompile>
     <ClCompile Include="Bill.cpp">
       <Filter>Source Files\Objects\Bill</Filter>
+    </ClCompile>
+    <ClCompile Include="HasTextures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HasSprites.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestingEntity.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HasTextures.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="HasSprites.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TestingEntity.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -2,6 +2,7 @@
 #include "GraphicsHelper.h"
 #include "GraphicsDatabase.h"
 #include "Bill.h"
+#include "TestingEntity.h"
 #include "Input.h"
 #include "String.h"
 #include <string>
@@ -113,9 +114,32 @@ int WINAPI WinMain(
 /////////////////////////////////////////////////////////////////////
 LPD3DXSPRITE spriteHandler;
 
-void LoadResources() {
-	// load all object resources here
-	bill.LoadAssets(&d3ddev, &spriteHandler);
+void initSprite()
+{
+	D3DXCreateSprite(d3ddev, &spriteHandler);
+	GraphicsHelper::device = d3ddev;
+	GraphicsHelper::spriteHandler = spriteHandler;
+
+	bill.LoadTextures();
+	bill.LoadSprites();
+	bill.LoadAnimations();
+
+	Bill bill2;
+	bill2.LoadTextures();
+	bill2.LoadSprites();
+	bill2.LoadAnimations();
+
+	TestingEntity testingEntity1;
+	testingEntity1.LoadTextures();
+	testingEntity1.LoadSprites();
+	testingEntity1.LoadAnimations();
+
+	TestingEntity testingEntity2;
+	testingEntity2.LoadTextures();
+	testingEntity2.LoadSprites();
+	testingEntity2.LoadAnimations();
+
+	OutputDebugString(L"@@@@@@@@@@@@\n");
 }
 
 // this is the main message handler for the program
