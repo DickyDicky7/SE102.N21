@@ -34,7 +34,7 @@ public:
 
 	Bill();
 	virtual ~Bill();
-	void LoadAssets() override;
+	void LoadAssets(LPDIRECT3DDEVICE9 d3ddev, LPD3DXSPRITE spriteHandler) override;
 	void Update() override;
 	void Render() override;
 	void HandleInput(Input&) override;

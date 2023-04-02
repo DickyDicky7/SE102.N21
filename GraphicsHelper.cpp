@@ -85,3 +85,19 @@ void GraphicsHelper::DrawSprite(std::pair<RECT*, TEXTURE_ID> sprite, D3DXVECTOR3
 	//device->EndScene();
 	//device->Present(NULL, NULL, NULL, NULL);
 }
+
+void GraphicsHelper::InsertTexures(TEXTURE_ID id, LPCWSTR link) {
+	GraphicsDatabase::textures.insert({ id, GraphicsHelper::CreateTexture(link) });
+}
+
+void GraphicsHelper::InsertSprites(SPRITE_ID ID_SPRITE, INT top, INT left, INT right, INT bottom, TEXTURE_ID textureId) {
+	GraphicsDatabase::sprites.insert({ ID_SPRITE, GraphicsHelper::CreateSprite(top ,left  ,right ,bottom ,textureId) });
+}
+
+void GraphicsHelper::InsertAnimation(ANIMATION_ID ID_ANI, DWORD defaultTime, std::vector<std::pair<SPRITE_ID, DWORD>> frames) {
+	GraphicsDatabase::animations.insert
+	({ ID_ANI,
+		// list textures to create animation
+		GraphicsHelper::CreateAnimation(defaultTime, frames)
+		});
+}
