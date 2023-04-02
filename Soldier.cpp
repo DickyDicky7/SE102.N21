@@ -19,6 +19,21 @@ Soldier::Soldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 	this->state = new SoldierRunState();
 }
 
+/// <summary>
+/// this fuction is check is the Bill hit the wall left and right ?
+/// </summary>
+/// <returns></returns>
+BOOL Soldier::IsHitWall() {
+	BOOL isHited = 0;
+	// check is hit the wall left
+	bool isHitLeftWall = (GetX() <= 0) && (GetDirection() == DIRECTION::LEFT);
+	bool isHitRightWall = (GetX() >= SCREEN_WIDTH - 520) && (GetDirection() == DIRECTION::RIGHT);
+
+	if (!isHitLeftWall && !isHitRightWall) isHited = 1;
+
+	return isHited;
+}
+
 Soldier::~Soldier()
 {
 }

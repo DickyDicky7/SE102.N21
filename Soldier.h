@@ -27,6 +27,7 @@ public:
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
+	BOOL IsHitWall();
 protected:
 
 	SoldierState* state;

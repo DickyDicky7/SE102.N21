@@ -32,7 +32,7 @@ SoldierState* SoldierRunState::Update(Soldier& soldier) {
 	float solVX = soldier.GetVX();
 	float solAX = soldier.GetAX();
 	float solX = soldier.GetX();
-	const float WIDTH_SOLDIE = 500;
+	const float WIDTH_SOLDIE = 520;
 	if (soldier.GetDirection() == DIRECTION::LEFT)
 	{
 		soldier.SetVX(-abs(solVX));
