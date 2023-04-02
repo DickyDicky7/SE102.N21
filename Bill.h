@@ -34,6 +34,7 @@ public:
 
 	Bill();
 	virtual ~Bill();
+	void LoadAssets() override;
 	void Update() override;
 	void Render() override;
 	void HandleInput(Input&) override;

@@ -29,6 +29,7 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="ScubaSoldier.h" />
     <ClInclude Include="Soldier.h" />
+    <ClInclude Include="soldier_common.h" />
     <ClInclude Include="State.h" />
   </ItemGroup>
   <ItemGroup>

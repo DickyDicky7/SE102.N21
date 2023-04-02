@@ -31,6 +31,9 @@
     <Filter Include="Source Files\Objects\Bill\BillState">
       <UniqueIdentifier>{bd0fda84-ecf8-476e-a06d-43d9fb4faf94}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Enemies\Soldier">
+      <UniqueIdentifier>{bf4f33db-920a-4578-85f3-889c9d446859}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Common.h">
@@ -57,14 +60,17 @@
     <ClInclude Include="ScubaSoldier.h">
       <Filter>Header Files\Objects\Enemies</Filter>
     </ClInclude>
-    <ClInclude Include="Soldier.h">
-      <Filter>Header Files\Objects\Enemies</Filter>
-    </ClInclude>
     <ClInclude Include="Entity.h">
       <Filter>Header Files\Objects</Filter>
     </ClInclude>
     <ClInclude Include="Bill.h">
       <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="soldier_common.h">
+      <Filter>Header Files\Objects\Enemies\Soldier</Filter>
+    </ClInclude>
+    <ClInclude Include="Soldier.h">
+      <Filter>Header Files\Objects\Enemies\Soldier</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -129,7 +135,7 @@
       <Filter>Source Files\Objects</Filter>
     </ClCompile>
     <ClCompile Include="Bill.cpp">
-      <Filter>Source Files\Objects</Filter>
+      <Filter>Source Files\Objects\Bill</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
