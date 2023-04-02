@@ -21,6 +21,7 @@ public:
 	virtual ~Soldier();
 	void Update() override;
 	void Render() override;
+	void HandleInput(Input&) override;
 
 	void LoadSprites() override;
 	void LoadTextures() override;
@@ -31,7 +32,6 @@ protected:
 	SoldierState* state;
 	SoldierState* updateState;
 	SoldierState* handleInputState;
-
 };
 
 // build state of soldier
