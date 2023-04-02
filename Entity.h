@@ -11,7 +11,6 @@ public:
 
 	Entity();
 	virtual ~Entity();
-	virtual void LoadAssets(LPDIRECT3DDEVICE9 *d3ddev, LPD3DXSPRITE *spriteHandler) = 0;
 	virtual void Update() = 0;
 	virtual void Render() = 0;
 	virtual void HandleInput(Input&) = 0;

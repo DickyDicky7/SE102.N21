@@ -60,8 +60,26 @@
     <ClInclude Include="HasSprites.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BaseEnemy.h">
+      <Filter>Header Files\Objects\Enemies</Filter>
+    </ClInclude>
+    <ClInclude Include="Bill.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Soldier.h">
+      <Filter>Header Files\Objects\Enemies\Soldier</Filter>
+    </ClInclude>
+    <ClInclude Include="soldier_common.h">
+      <Filter>Header Files\Objects\Enemies\Soldier</Filter>
+    </ClInclude>
     <ClInclude Include="TestingEntity.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ScubaSoldier.h">
+      <Filter>Header Files\Objects\Enemies\Soldier</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
