@@ -33,6 +33,7 @@ SoldierState* SoldierRunState::Update(Soldier& soldier) {
 	float solAX = soldier.GetAX();
 	float solX = soldier.GetX();
 	const float WIDTH_SOLDIE = 520;
+  
 	if (soldier.GetDirection() == DIRECTION::LEFT)
 	{
 		soldier.SetVX(-abs(solVX));
@@ -60,6 +61,7 @@ SoldierState* SoldierRunState::Update(Soldier& soldier) {
 	(
 		// x = x0 + v0*t -- uniform accelerated motion
 		solX + solVX * time
+
 	);
 
 	// Restrict Ox velocity and time. Make this part "v0*t + a*(t^2)/2" become a constant => uniform motion

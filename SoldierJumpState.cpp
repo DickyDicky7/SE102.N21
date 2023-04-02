@@ -48,7 +48,7 @@ SoldierState* SoldierJumpState::Update(Soldier& soldier)
 		soldier.SetVX(+abs(soldier.GetVX()));
 		soldier.SetAX(+abs(soldier.GetAX()));
 	}
-
+  
 	if(soldier.IsHitWall())
 	soldier.SetX
 	(
