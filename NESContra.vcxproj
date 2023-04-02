@@ -59,6 +59,12 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ScubaSoldier.cpp" />
     <ClCompile Include="Soldier.cpp" />
+    <ClCompile Include="SoldierDieState.cpp" />
+    <ClCompile Include="SoldierJumpState.cpp" />
+    <ClCompile Include="SoldierLayDownState.cpp" />
+    <ClCompile Include="SoldierRunState.cpp" />
+    <ClCompile Include="SoldierShootState.cpp" />
+    <ClCompile Include="SoldierState.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="TestingEntity.cpp" />
   </ItemGroup>
