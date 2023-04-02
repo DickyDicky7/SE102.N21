@@ -3,6 +3,8 @@
 #include "Common.h"
 #include "Entity.h"
 #include "HasAnimations.h"
+#include "HasSprites.h"
+#include "HasTextures.h"
 
 class WallTurret;
 class WallTurretState;
@@ -28,7 +30,7 @@ class WallTurretLeftDown30State;
 class WallTurretLeftDown60State;
 
 
-class WallTurret : public Entity<WallTurret>, public HasAnimations
+class WallTurret : public Entity<WallTurret>, public HasTextures<WallTurret>, public HasSprites<WallTurret>, public HasAnimations<WallTurret>
 {
 public:
 	WallTurret();
@@ -36,7 +38,10 @@ public:
 	void Update() override;
 	void Render() override;
 	void HandleInput(Input&) override;
-	void LoadSprite();
+
+	void LoadSprites() override;
+	void LoadTextures() override;
+	void LoadAnimations() override;
 
 protected:
 	WallTurretState* state;

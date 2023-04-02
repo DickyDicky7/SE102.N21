@@ -132,22 +132,6 @@ void initSprite()
 	bill.LoadSprites();
 	bill.LoadAnimations();
 
-	Bill bill2;
-	bill2.LoadTextures();
-	bill2.LoadSprites();
-	bill2.LoadAnimations();
-
-	TestingEntity testingEntity1;
-	testingEntity1.LoadTextures();
-	testingEntity1.LoadSprites();
-	testingEntity1.LoadAnimations();
-
-	TestingEntity testingEntity2;
-	testingEntity2.LoadTextures();
-	testingEntity2.LoadSprites();
-	testingEntity2.LoadAnimations();
-
-	OutputDebugString(L"@@@@@@@@@@@@\n");
 }
 
 // this is the main message handler for the program
