@@ -46,7 +46,7 @@ protected:
 };
 
 template <class T>
-inline Entity<T>::Entity() : position(0.0f, 0.0f, 0.0f), vx(0.0f), vy(0.0f), ax(0.0f), ay(0.0f), direction(LEFT)
+inline Entity<T>::Entity() : position(0.0f, 0.0f, 0.0f), vx(0.0f), vy(0.0f), ax(0.0f), ay(0.0f), direction(DIRECTION::LEFT)
 {
 }
 

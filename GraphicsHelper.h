@@ -17,8 +17,8 @@ public:
 
 	static void DrawSprite(std::pair<RECT*, TEXTURE_ID>, D3DXVECTOR3, DIRECTION);
 
-	static void InsertTexures(TEXTURE_ID id, LPCWSTR link);
-	static void InsertSprites(SPRITE_ID ID_SPRITE, INT top, INT left, INT right, INT bottom, TEXTURE_ID textureId);
-	static void InsertAnimation(ANIMATION_ID ID_ANI, DWORD defaultTime, std::vector<std::pair<SPRITE_ID, DWORD>> frames);
-};
+	static void InsertTexure(TEXTURE_ID, LPCWSTR);
+	static void InsertSprite(SPRITE_ID, INT, INT, INT, INT, TEXTURE_ID);
+	static void InsertAnimation(ANIMATION_ID, DWORD, std::vector<std::pair<SPRITE_ID, DWORD>>);
 
+};

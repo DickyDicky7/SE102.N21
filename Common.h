@@ -1,10 +1,13 @@
 #pragma once
 
+#define SCREEN_WIDTH 1000
+#define SCREEN_HEIGHT 600
 #define DIRECTINPUT_VERSION 0x0800
 
 #include <vector>
 #include <d3d9.h>
 #include <d3dx9.h>
+#include <variant>
 #include <utility>
 #include <concepts>
 #include <dinput.h>
@@ -12,22 +15,14 @@
 #include <type_traits>
 #include <unordered_map>
 
-enum OBJECT_ID
-{
-	BILL,
-	SOLDIER,
-	SCUBA_SOLDIER,
-};
+#include "BillCommon.h"
+#include "SoldierCommon.h"
 
-enum TEXTURE_ID
+enum class DIRECTION
 {
-	BILL,
-	SOLDIER,
-};
 
 enum SPRITE_ID
 {
-	// bill
 	BILL_NORMAL_01,
 
 	BILL_NORMAL_SHOT_01,
@@ -80,14 +75,10 @@ enum SPRITE_ID
 	BILL_RUN_SHOT_01,
 	BILL_RUN_SHOT_02,
 	BILL_RUN_SHOT_03,
-
-	// soldier
-
 };
 
 enum ANIMATION_ID
 {
-	// Bill
 	BILL_NORMAL,
 	BILL_NORMAL_SHOT,
 	BILL_STRAIGHT_UP,
@@ -110,13 +101,9 @@ enum ANIMATION_ID
 
 };
 
-#define SCREEN_WIDTH 1000
-#define SCREEN_HEIGHT 600
-
-enum DIRECTION
-{
-	LEFT, RIGHT,
-};
-
 template <class T>
 struct Bool { BOOL value; };
+
+using SPRITE_ID = std::variant<BILL_SPRITE_ID, SOLDIER_SPRITE_ID>;
+using TEXTURE_ID = std::variant<BILL_TEXTURE_ID, SOLDIER_TEXTURE_ID>;
+using ANIMATION_ID = std::variant<BILL_ANIMATION_ID, SOLDIER_ANIMATION_ID>;

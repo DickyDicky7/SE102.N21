@@ -18,7 +18,7 @@ void BillSwimState::Enter(Bill& bill)
 
 void BillSwimState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_SWIM, bill.GetPosition(), bill.GetDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::SWIM, bill.GetPosition(), bill.GetDirection());
 }
 
 BillState* BillSwimState::Update(Bill& bill)
@@ -30,11 +30,11 @@ BillState* BillSwimState::HandleInput(Bill& bill, Input& input)
 {
 	if (input.Is(DIK_LEFT))
 	{
-		bill.SetDirection(LEFT);
+		bill.SetDirection(DIRECTION::LEFT);
 	}
 	if (input.Is(DIK_RIGHT))
 	{
-		bill.SetDirection(RIGHT);
+		bill.SetDirection(DIRECTION::RIGHT);
 	}
 	if (input.Is(DIK_DOWN))
 	{

@@ -18,7 +18,7 @@ void BillLayDownState::Enter(Bill& bill)
 
 void BillLayDownState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_LAYDOWN, bill.GetPosition(), bill.GetDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::LAYDOWN, bill.GetPosition(), bill.GetDirection());
 }
 
 BillState* BillLayDownState::Update(Bill& bill)
