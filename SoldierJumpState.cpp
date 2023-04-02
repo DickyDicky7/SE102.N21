@@ -16,12 +16,12 @@ void SoldierJumpState::Exit(Soldier& soldier)
 
 void SoldierJumpState::Enter(Soldier& soldier)
 {
-	if (soldier.GetDirection() == LEFT)
+	if (soldier.GetDirection() == DIRECTION::LEFT)
 	{
 		soldier.SetVX(+2.0f);
 		soldier.SetAX(+0.0f);
 	}
-	if (soldier.GetDirection() == RIGHT)
+	if (soldier.GetDirection() == DIRECTION::RIGHT)
 	{
 		soldier.SetVX(-2.0f);
 		soldier.SetAX(-0.0f);
@@ -33,17 +33,17 @@ void SoldierJumpState::Enter(Soldier& soldier)
 
 void SoldierJumpState::Render(Soldier& soldier)
 {
-	soldier.SetAnimation(BILL_JUMP, soldier.GetPosition(), soldier.GetDirection());
+	soldier.SetAnimation(SOLDIER_ANIMATION_ID::JUMP, soldier.GetPosition(), soldier.GetDirection());
 }
 
 SoldierState* SoldierJumpState::Update(Soldier& soldier)
 {
-	if (soldier.GetDirection() == LEFT)
+	if (soldier.GetDirection() == DIRECTION::LEFT)
 	{
 		soldier.SetVX(-abs(soldier.GetVX()));
 		soldier.SetAX(-abs(soldier.GetAX()));
 	}
-	if (soldier.GetDirection() == RIGHT)
+	if (soldier.GetDirection() == DIRECTION::RIGHT)
 	{
 		soldier.SetVX(+abs(soldier.GetVX()));
 		soldier.SetAX(+abs(soldier.GetAX()));
@@ -78,5 +78,5 @@ SoldierState* SoldierJumpState::Update(Soldier& soldier)
 
 SoldierState* SoldierJumpState::HandleInput(Soldier& soldier, Input& input)
 {
-
+	return NULL;
 }

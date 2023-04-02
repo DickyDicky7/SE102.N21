@@ -12,12 +12,12 @@ void SoldierRunState::Exit(Soldier&)
 	// exit here
 }
 void SoldierRunState::Enter(Soldier& soldier) {
-	if (soldier.GetDirection() == LEFT)
+	if (soldier.GetDirection() == DIRECTION::LEFT)
 	{
 		soldier.SetVX(+2.00f);
 		soldier.SetAX(+0.01f);
 	}
-	if (soldier.GetDirection() == RIGHT)
+	if (soldier.GetDirection() == DIRECTION::RIGHT)
 	{
 		soldier.SetVX(-2.00f);
 		soldier.SetAX(-0.01f);
@@ -25,19 +25,19 @@ void SoldierRunState::Enter(Soldier& soldier) {
 }
 
 void SoldierRunState::Render(Soldier& soldier) {
-	soldier.SetAnimation(BILL_RUN, soldier.GetPosition(), soldier.GetDirection());
+	soldier.SetAnimation(SOLDIER_ANIMATION_ID::RUN, soldier.GetPosition(), soldier.GetDirection());
 }
 
 SoldierState* SoldierRunState::Update(Soldier& soldier) {
 	float solVX = soldier.GetVX();
 	float solAX = soldier.GetAX();
 
-	if (soldier.GetDirection() == LEFT)
+	if (soldier.GetDirection() == DIRECTION::LEFT)
 	{
 		soldier.SetVX(-abs(solVX));
 		soldier.SetAX(-abs(solAX));
 	}
-	if (soldier.GetDirection() == RIGHT)
+	if (soldier.GetDirection() == DIRECTION::RIGHT)
 	{
 		soldier.SetVX(+abs(solVX));
 		soldier.SetAX(+abs(solAX));
@@ -46,11 +46,11 @@ SoldierState* SoldierRunState::Update(Soldier& soldier) {
 	// soldier moves left and right of the screen
 	if (solVX <= 0) {
 		// if you hit the left wall
-		soldier.SetDirection(RIGHT);
+		soldier.SetDirection(DIRECTION::RIGHT);
 	}
 	else if (solVX >= SCREEN_WIDTH) {
 		// if you hit the left wall
-		soldier.SetDirection(LEFT);
+		soldier.SetDirection(DIRECTION::LEFT);
 	}
 
 	// set X of soldier
@@ -71,4 +71,5 @@ SoldierState* SoldierRunState::Update(Soldier& soldier) {
 }
 SoldierState* SoldierRunState::HandleInput(Soldier& soldier, Input& input) {
 	// soldier don't handle input 
+	return NULL;
 }
