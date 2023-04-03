@@ -45,6 +45,7 @@ public:
 	void LoadAnimations() override;
 
 	BOOL IsHitWall();
+	
 protected:
 
 	BillState* state;
