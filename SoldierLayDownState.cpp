@@ -18,7 +18,7 @@ void SoldierLayDownState::Enter(Soldier& soldier)
 
 void SoldierLayDownState::Render(Soldier& soldier)
 {
-	soldier.SetAnimation(SOLDIER_ANIMATION_ID::LAY_DOWN, soldier.GetPosition(), soldier.GetDirection());
+	soldier.SetAnimation(SOLDIER_ANIMATION_ID::LAY_DOWN, soldier.GetPosition(), soldier.GetMovingDirection());
 }
 
 SoldierState* SoldierLayDownState::Update(Soldier& soldier)

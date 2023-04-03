@@ -18,7 +18,7 @@ void BillDiveState::Enter(Bill& bill)
 
 void BillDiveState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::DIVE, bill.GetPosition(), bill.GetDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::DIVE, bill.GetPosition(), bill.GetMovingDirection());
 }
 
 BillState* BillDiveState::Update(Bill& bill)
@@ -32,11 +32,11 @@ BillState* BillDiveState::HandleInput(Bill& bill, Input& input)
 	{
 		if (input.Is(DIK_LEFT))
 		{
-			bill.SetDirection(DIRECTION::LEFT);
+			bill.SetMovingDirection(DIRECTION::LEFT);
 		}
 		if (input.Is(DIK_RIGHT))
 		{
-			bill.SetDirection(DIRECTION::RIGHT);
+			bill.SetMovingDirection(DIRECTION::RIGHT);
 		}
 
 		return NULL;

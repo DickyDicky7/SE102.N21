@@ -1,11 +1,11 @@
 #include "Common.h"
-#include "GraphicsHelper.h"
-#include "GraphicsDatabase.h"
+//#include "GraphicsHelper.h"
+//#include "GraphicsDatabase.h"
 #include "Bill.h"
 #include "TestingEntity.h"
 #include "Input.h"
-#include "String.h"
-#include <string>
+//#include "String.h"
+//#include <string>
 #include "Soldier.h"
 
 Input* input;

@@ -14,7 +14,7 @@ Soldier::Soldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 	this->updateState = NULL;
 	this->handleInputState = NULL;
 	// set direction default is right
-	this->SetDirection(DIRECTION::RIGHT);
+	this->movingDirection = DIRECTION::RIGHT;
 	// set state begin is run
 	this->state = new SoldierRunState();
 }
@@ -26,8 +26,8 @@ Soldier::Soldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 BOOL Soldier::IsHitWall() {
 	BOOL isHited = 0;
 	// check is hit the wall left
-	bool isHitLeftWall = (GetX() <= 0) && (GetDirection() == DIRECTION::LEFT);
-	bool isHitRightWall = (GetX() >= SCREEN_WIDTH - 520) && (GetDirection() == DIRECTION::RIGHT);
+	bool isHitLeftWall = (GetX() <= 0) && (GetMovingDirection() == DIRECTION::LEFT);
+	bool isHitRightWall = (GetX() >= SCREEN_WIDTH - 520) && (GetMovingDirection() == DIRECTION::RIGHT);
 
 	if (!isHitLeftWall && !isHitRightWall) isHited = 1;
 
@@ -69,10 +69,10 @@ void Soldier::HandleInput(Input& input)
 	handleInputState = state->HandleInput(*this, input);
 }
 
-void insertSprite(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom, TEXTURE_ID textureId)
+void insertSprite(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom, DIRECTION spriteDirection, TEXTURE_ID textureId)
 {
 	// i write this function to shorten the fuction: GraphicsHelper
-	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, textureId);
+	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, spriteDirection, textureId);
 }
 
 void Soldier::LoadSprites()
@@ -83,21 +83,21 @@ void Soldier::LoadSprites()
 #pragma region Load Sprites
 
 	// SPRITES
-	insertSprite(SOLDIER_SPRITE_ID::RUN_01, 90,	0, 106, 32, SOLDIER_TEXTURE_ID::SOLDIER_01);
-	insertSprite(SOLDIER_SPRITE_ID::RUN_02, 72, 0, 88, 32, SOLDIER_TEXTURE_ID::SOLDIER_01);
-	insertSprite(SOLDIER_SPRITE_ID::RUN_03, 54, 0, 70, 32, SOLDIER_TEXTURE_ID::SOLDIER_01);
-	insertSprite(SOLDIER_SPRITE_ID::RUN_04, 36, 0, 52, 32, SOLDIER_TEXTURE_ID::SOLDIER_01);
-	insertSprite(SOLDIER_SPRITE_ID::RUN_05, 18, 0, 34, 32, SOLDIER_TEXTURE_ID::SOLDIER_01);
-	insertSprite(SOLDIER_SPRITE_ID::RUN_06,  0, 0, 16, 32, SOLDIER_TEXTURE_ID::SOLDIER_01);
+	insertSprite(SOLDIER_SPRITE_ID::RUN_01, 90, 0, 106, 32, DIRECTION::LEFT, SOLDIER_TEXTURE_ID::SOLDIER_01);
+	insertSprite(SOLDIER_SPRITE_ID::RUN_02, 72, 0, 88, 32, DIRECTION::LEFT, SOLDIER_TEXTURE_ID::SOLDIER_01);
+	insertSprite(SOLDIER_SPRITE_ID::RUN_03, 54, 0, 70, 32, DIRECTION::LEFT, SOLDIER_TEXTURE_ID::SOLDIER_01);
+	insertSprite(SOLDIER_SPRITE_ID::RUN_04, 36, 0, 52, 32, DIRECTION::LEFT, SOLDIER_TEXTURE_ID::SOLDIER_01);
+	insertSprite(SOLDIER_SPRITE_ID::RUN_05, 18, 0, 34, 32, DIRECTION::LEFT, SOLDIER_TEXTURE_ID::SOLDIER_01);
+	insertSprite(SOLDIER_SPRITE_ID::RUN_06, 0, 0, 16, 32, DIRECTION::LEFT, SOLDIER_TEXTURE_ID::SOLDIER_01);
 
-	insertSprite(SOLDIER_SPRITE_ID::JUMP_01, 108, 0, 124, 32, SOLDIER_TEXTURE_ID::SOLDIER_01);
+	insertSprite(SOLDIER_SPRITE_ID::JUMP_01, 108, 0, 124, 32, DIRECTION::LEFT, SOLDIER_TEXTURE_ID::SOLDIER_01);
 
-	insertSprite(SOLDIER_SPRITE_ID::SHOOT_01, 126, 0, 150, 32, SOLDIER_TEXTURE_ID::SOLDIER_01);
-	insertSprite(SOLDIER_SPRITE_ID::SHOOT_02, 152, 0, 176, 32, SOLDIER_TEXTURE_ID::SOLDIER_01);
+	insertSprite(SOLDIER_SPRITE_ID::SHOOT_01, 126, 0, 150, 32, DIRECTION::LEFT, SOLDIER_TEXTURE_ID::SOLDIER_01);
+	insertSprite(SOLDIER_SPRITE_ID::SHOOT_02, 152, 0, 176, 32, DIRECTION::LEFT, SOLDIER_TEXTURE_ID::SOLDIER_01);
 
-	insertSprite(SOLDIER_SPRITE_ID::LAY_DOWN_01, 178, 0, 210, 32, SOLDIER_TEXTURE_ID::SOLDIER_01);
+	insertSprite(SOLDIER_SPRITE_ID::LAY_DOWN_01, 178, 0, 210, 32, DIRECTION::LEFT, SOLDIER_TEXTURE_ID::SOLDIER_01);
 
-	insertSprite(SOLDIER_SPRITE_ID::DIE_01, 212, 0, 227, 32, SOLDIER_TEXTURE_ID::SOLDIER_01);
+	insertSprite(SOLDIER_SPRITE_ID::DIE_01, 212, 0, 227, 32, DIRECTION::LEFT, SOLDIER_TEXTURE_ID::SOLDIER_01);
 
 #pragma endregion Load Sprites
 

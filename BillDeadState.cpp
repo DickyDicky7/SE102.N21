@@ -18,7 +18,7 @@ void BillDeadState::Enter(Bill& bill)
 
 void BillDeadState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::DEAD, bill.GetPosition(), bill.GetDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::DEAD, bill.GetPosition(), bill.GetMovingDirection());
 }
 
 BillState* BillDeadState::Update(Bill& bill)

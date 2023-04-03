@@ -14,12 +14,12 @@ void BillRunState::Exit(Bill& bill)
 
 void BillRunState::Enter(Bill& bill)
 {
-	if (bill.GetDirection() == DIRECTION::LEFT)
+	if (bill.GetMovingDirection() == DIRECTION::LEFT)
 	{
 		bill.SetVX(+2.00f);
 		bill.SetAX(+0.01f);
 	}
-	if (bill.GetDirection() == DIRECTION::RIGHT)
+	if (bill.GetMovingDirection() == DIRECTION::RIGHT)
 	{
 		bill.SetVX(-2.00f);
 		bill.SetAX(-0.01f);
@@ -28,17 +28,17 @@ void BillRunState::Enter(Bill& bill)
 
 void BillRunState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::RUN, bill.GetPosition(), bill.GetDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::RUN, bill.GetPosition(), bill.GetMovingDirection());
 }
 
 BillState* BillRunState::Update(Bill& bill)
 {
-	if (bill.GetDirection() == DIRECTION::LEFT)
+	if (bill.GetMovingDirection() == DIRECTION::LEFT)
 	{
 		bill.SetVX(-abs(bill.GetVX()));
 		bill.SetAX(-abs(bill.GetAX()));
 	}
-	if (bill.GetDirection() == DIRECTION::RIGHT)
+	if (bill.GetMovingDirection() == DIRECTION::RIGHT)
 	{
 		bill.SetVX(+abs(bill.GetVX()));
 		bill.SetAX(+abs(bill.GetAX()));
