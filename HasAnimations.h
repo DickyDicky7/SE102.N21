@@ -36,26 +36,28 @@ inline HasAnimations<T>::~HasAnimations()
 }
 
 template <class T>
-inline void HasAnimations<T>::SetAnimation(ANIMATION_ID animationId, D3DXVECTOR3 position, DIRECTION direction)
+inline void HasAnimations<T>::SetAnimation(ANIMATION_ID animationId, D3DXVECTOR3 position, DIRECTION movingDirection)
 {
 	ULONGLONG now = GetTickCount64();
+	std::vector<std::tuple<SPRITE_ID, TIME>>& frames = std::get<
+	std::vector<std::tuple<SPRITE_ID, TIME>>>(GraphicsDatabase::animations[animationId]);
 
-	if (currentFrame == -1 || std::cmp_greater_equal(currentFrame, GraphicsDatabase::animations[animationId].second.size()))
+	if (currentFrame == -1 || std::cmp_greater_equal(currentFrame, frames.size()))
 	{
 		currentFrame = 0;
 		lastFrameTime = now;
 	}
 	else
 	{
-		if (now - lastFrameTime > GraphicsDatabase::animations[animationId].second[currentFrame].second)
+		if (now - lastFrameTime > std::get<TIME>(frames[currentFrame]))
 		{
 			currentFrame++;
 			lastFrameTime = now;
-			if (std::cmp_greater_equal(currentFrame, GraphicsDatabase::animations[animationId].second.size())) currentFrame = 0;
+			if (std::cmp_greater_equal(currentFrame, frames.size())) currentFrame = 0;
 		}
 	}
 
-	GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[GraphicsDatabase::animations[animationId].second[currentFrame].first], position, direction);
+	GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[std::get<SPRITE_ID>(frames[currentFrame])], position, movingDirection);
 }
 
 template <class T>

@@ -3,11 +3,11 @@
 LPDIRECT3DDEVICE9 GraphicsHelper::device;
 LPD3DXSPRITE GraphicsHelper::spriteHandler;
 
-LPDIRECT3DTEXTURE9 GraphicsHelper::CreateTexture(LPCWSTR textureFilePath)
+TEXTURE GraphicsHelper::CreateTexture(LPCWSTR textureFilePath)
 {
 	HRESULT result;
+	TEXTURE texture;
 	D3DXIMAGE_INFO info;
-	LPDIRECT3DTEXTURE9 texture;
 
 	result = D3DXGetImageInfoFromFile(textureFilePath, &info);
 	if (result != D3D_OK)
@@ -32,38 +32,43 @@ LPDIRECT3DTEXTURE9 GraphicsHelper::CreateTexture(LPCWSTR textureFilePath)
 	return texture;
 }
 
-std::pair<RECT*, TEXTURE_ID> GraphicsHelper::CreateSprite(INT top, INT left, INT right, INT bottom, TEXTURE_ID textureId)
+SPRITE GraphicsHelper::CreateSprite(INT top, INT left, INT right, INT bottom, DIRECTION spriteDirection, TEXTURE_ID textureId)
 {
 	RECT* rect = new RECT();
 	rect->top = top;
 	rect->left = left;
 	rect->right = right;
 	rect->bottom = bottom;
-	return std::pair<RECT*, TEXTURE_ID>({ rect, textureId });
+	return SPRITE({ rect, spriteDirection, textureId });
 }
 
-std::pair<DWORD, std::vector<std::pair<SPRITE_ID, DWORD>>> GraphicsHelper::CreateAnimation(DWORD defaultTime, std::vector<std::pair<SPRITE_ID, DWORD>> frames)
+ANIMATION GraphicsHelper::CreateAnimation(DEFAULT_TIME defaultTime, std::vector<std::tuple<SPRITE_ID, TIME>> frames)
 {
 	for (auto& frame : frames)
 	{
-		if (frame.second == 0) frame.second = defaultTime;
+		if (std::get<TIME>(frame) == 0)
+			std::get<TIME>(frame) = defaultTime;
 	}
-	return std::pair<DWORD, std::vector<std::pair<SPRITE_ID, DWORD>>>({ defaultTime, frames });
+	return ANIMATION({ defaultTime, frames });
 }
 
-void GraphicsHelper::DrawSprite(std::pair<RECT*, TEXTURE_ID> sprite, D3DXVECTOR3 position, DIRECTION direction)
+void GraphicsHelper::DrawSprite(SPRITE sprite, D3DXVECTOR3 position, DIRECTION movingDirection)
 {
+	RECT*      rect            = std::get<RECT*>(sprite);
+	DIRECTION  spriteDirection = std::get<DIRECTION>(sprite);
+	TEXTURE_ID textureId       = std::get<TEXTURE_ID>(sprite);
+
 	D3DXMATRIX flippingMatrix;
 	D3DXVECTOR2 flippingCenter(0, 0);
-	D3DXVECTOR3 center((FLOAT)(sprite.first->right - sprite.first->left) / 2.0f, (FLOAT)(sprite.first->bottom - sprite.first->top), 0.0f);
+	D3DXVECTOR3 center((FLOAT)(rect->right - rect->left) / 2.0f, (FLOAT)(rect->bottom - rect->top), 0.0f);
 
-	if (direction == LEFT)
+	if (movingDirection != spriteDirection)
 	{
 		position.x = -position.x;
 		D3DXVECTOR2 flippingRatio(-2.0f, 2.0f);
 		D3DXMatrixTransformation2D(&flippingMatrix, &flippingCenter, 0.0f, &flippingRatio, NULL, 0.0f, NULL);
 	}
-	if (direction == RIGHT)
+	if (movingDirection == spriteDirection)
 	{
 		D3DXVECTOR2 flippingRatio(+2.0f, 2.0f);
 		D3DXMatrixTransformation2D(&flippingMatrix, &flippingCenter, 0.0f, &flippingRatio, NULL, 0.0f, NULL);
@@ -76,12 +81,28 @@ void GraphicsHelper::DrawSprite(std::pair<RECT*, TEXTURE_ID> sprite, D3DXVECTOR3
 	spriteHandler->SetTransform(&flippingMatrix);
 	spriteHandler->Draw
 	(
-		GraphicsDatabase::textures[sprite.second],
-		sprite.first, &center, &position, D3DCOLOR_XRGB(255, 255, 255)
+		GraphicsDatabase::textures[textureId],
+		rect, &center, &position, D3DCOLOR_XRGB(255, 255, 255)
 	);
 	spriteHandler->SetTransform(NULL);
 	//spriteHandler->End();
 
 	//device->EndScene();
 	//device->Present(NULL, NULL, NULL, NULL);
+}
+
+void GraphicsHelper::InsertTexure(TEXTURE_ID textureId, LPCWSTR textureFilePath)
+{
+	GraphicsDatabase::textures.insert({ textureId, GraphicsHelper::CreateTexture(textureFilePath) });
+}
+
+void GraphicsHelper::InsertSprite(SPRITE_ID spriteId, INT top, INT left, INT right, INT bottom, DIRECTION spriteDirection, TEXTURE_ID textureId)
+{
+	GraphicsDatabase::sprites.insert({ spriteId, GraphicsHelper::CreateSprite(top, left, right, bottom, spriteDirection, textureId) });
+}
+
+void GraphicsHelper::InsertAnimation(ANIMATION_ID animationId, DEFAULT_TIME defaultTime, std::vector<std::tuple<SPRITE_ID, TIME>> frames)
+{
+	GraphicsDatabase::animations.insert
+	({ animationId, GraphicsHelper::CreateAnimation(defaultTime, frames) /* list textures to create animation */ });
 }

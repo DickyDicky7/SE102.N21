@@ -19,7 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="BaseEnemy.h" />
     <ClInclude Include="Bill.h" />
+    <ClInclude Include="BillCommon.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GraphicsDatabase.h" />
@@ -28,11 +30,17 @@
     <ClInclude Include="HasSprites.h" />
     <ClInclude Include="HasTextures.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="ScubaSoldier.h" />
+    <ClInclude Include="ScubaSoldierCommon.h" />
+    <ClInclude Include="Soldier.h" />
+    <ClInclude Include="SoldierCommon.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TestingEntity.h" />
     <ClInclude Include="WallTurret.h" />
+    <ClInclude Include="TestingEntityCommon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BaseEnemy.cpp" />
     <ClCompile Include="Bill.cpp" />
     <ClCompile Include="BillDeadState.cpp" />
     <ClCompile Include="BillDiveState.cpp" />
@@ -52,6 +60,14 @@
     <ClCompile Include="HasTextures.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="ScubaSoldier.cpp" />
+    <ClCompile Include="Soldier.cpp" />
+    <ClCompile Include="SoldierDieState.cpp" />
+    <ClCompile Include="SoldierJumpState.cpp" />
+    <ClCompile Include="SoldierLayDownState.cpp" />
+    <ClCompile Include="SoldierRunState.cpp" />
+    <ClCompile Include="SoldierShootState.cpp" />
+    <ClCompile Include="SoldierState.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="TestingEntity.cpp" />
     <ClCompile Include="WallTurret.cpp" />

@@ -1,9 +1,12 @@
 #include "Common.h"
-#include "GraphicsHelper.h"
-#include "GraphicsDatabase.h"
+//#include "GraphicsHelper.h"
+//#include "GraphicsDatabase.h"
 #include "Bill.h"
 #include "TestingEntity.h"
 #include "Input.h"
+//#include "String.h"
+//#include <string>
+#include "Soldier.h"
 #include "WallTurret.h"
 //#include "WallTurretCommon.cpp"
 
@@ -22,6 +25,7 @@ void cleanD3D(void);        // closes Direct3D and releases memory
 void initSprite();
 void drawSprite();
 Bill bill;
+Soldier soldier;
 WallTurret wallTurret;
 // the WindowProc function prototype
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -90,6 +94,7 @@ int WINAPI WinMain(
 			break;
 
 		input->Capture();
+
 		bill.HandleInput(*input);
 		bill.Update();
 		wallTurret.Update();
@@ -102,10 +107,12 @@ int WINAPI WinMain(
 		bill.Render();
 		wallTurret.Render();
 
-		GraphicsHelper::spriteHandler->End();
+		soldier.HandleInput(*input);
+		soldier.Update();
+		soldier.Render();
 
-		GraphicsHelper::device->EndScene();
-		GraphicsHelper::device->Present(NULL, NULL, NULL, NULL);
+		d3ddev->EndScene();
+		d3ddev->Present(NULL, NULL, NULL, NULL);
 	}
 
 	// clean up DirectX and COM
@@ -128,10 +135,19 @@ void initSprite()
 	GraphicsHelper::device = d3ddev;
 	GraphicsHelper::spriteHandler = spriteHandler;
 
+	// bill
 	bill.LoadTextures();
 	bill.LoadSprites();
 	bill.LoadAnimations();
+	// soldier
+	soldier.LoadTextures();
+	soldier.LoadSprites();
+	soldier.LoadAnimations();
 
+	TestingEntity testingEntity;
+	testingEntity.LoadTextures();
+	testingEntity.LoadSprites();
+	testingEntity.LoadAnimations();
 	wallTurret.LoadTextures();
 	wallTurret.LoadSprites();
 	wallTurret.LoadAnimations();

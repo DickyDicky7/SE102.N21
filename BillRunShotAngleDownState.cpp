@@ -18,22 +18,23 @@ void BillRunShotAngleDownState::Enter(Bill& bill)
 
 void BillRunShotAngleDownState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_RUN_SHOT_ANGLE_DOWN, bill.GetPosition(), bill.GetDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::RUN_SHOT_ANGLE_DOWN, bill.GetPosition(), bill.GetMovingDirection());
 }
 
 BillState* BillRunShotAngleDownState::Update(Bill& bill)
 {
-	if (bill.GetDirection() == LEFT)
+	if (bill.GetMovingDirection() == DIRECTION::LEFT)
 	{
 		bill.SetVX(-abs(bill.GetVX()));
 		bill.SetAX(-abs(bill.GetAX()));
 	}
-	if (bill.GetDirection() == RIGHT)
+	if (bill.GetMovingDirection() == DIRECTION::RIGHT)
 	{
 		bill.SetVX(+abs(bill.GetVX()));
 		bill.SetAX(+abs(bill.GetAX()));
 	}
 
+	if (bill.IsHitWall())
 	bill.SetX
 	(
 		bill.GetX() + bill.GetVX()

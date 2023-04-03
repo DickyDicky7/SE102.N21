@@ -13,11 +13,68 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="Source Files\Bill">
+    <Filter Include="Header Files\Objects">
+      <UniqueIdentifier>{6e7f6abf-7bd8-4b45-9fa2-c1b8690f01e0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies">
+      <UniqueIdentifier>{74f7207f-f0b3-4c07-a44f-6a5c2a1b9d59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects">
+      <UniqueIdentifier>{1b2d88d2-bc64-4ebf-a962-dedacfec1273}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies">
+      <UniqueIdentifier>{e39ceb5c-66af-4ed9-877b-e04acf34a59f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Bill">
       <UniqueIdentifier>{16fc020b-a894-4edb-ba03-7c4c3d612104}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Bill\BillState">
+    <Filter Include="Source Files\Objects\Bill\BillState">
       <UniqueIdentifier>{bd0fda84-ecf8-476e-a06d-43d9fb4faf94}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\Soldier">
+      <UniqueIdentifier>{bf4f33db-920a-4578-85f3-889c9d446859}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Bill">
+      <UniqueIdentifier>{df7d36ea-3972-4de3-827c-8e972538dd00}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Abstractions">
+      <UniqueIdentifier>{9ba54ad0-e114-4056-a582-4717d80d7e18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Abstractions\Object Abstractions">
+      <UniqueIdentifier>{d84f4867-f1bd-4d9a-ba13-a12f774fe8f0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Abstractions\Graphics Abstractions">
+      <UniqueIdentifier>{a474935d-6596-4cbd-9d7a-e4fbd1945296}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\ScubaSoldier">
+      <UniqueIdentifier>{ce627cf7-08a6-467b-8044-f5c591fbfdeb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\TestingEntity">
+      <UniqueIdentifier>{683898e2-62ef-40cf-9911-cdbf3a5cec5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Abstractions">
+      <UniqueIdentifier>{4b7dd734-8732-44ef-b1f3-a08c73dcd8a6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Abstractions\Object Abstractions">
+      <UniqueIdentifier>{0cd5ee03-3357-4d90-a95f-8e08f33242ae}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Abstractions\Graphics Abstractions">
+      <UniqueIdentifier>{1e585eeb-dacb-4aa0-bc54-9abf4742f67b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\TestingEntity">
+      <UniqueIdentifier>{11eba976-12b6-445c-a983-af1e80c495e5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\Soldier">
+      <UniqueIdentifier>{cfe66d06-a43b-4ba9-ac2f-839559ae2570}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\ScubaSoldier">
+      <UniqueIdentifier>{e57e8cc9-074e-4b39-b0d1-a2c80d20aaaa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\Soldier">
+      <UniqueIdentifier>{5545e3d2-e933-470b-83e4-3788fe656759}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\Soldier\SoldierState">
+      <UniqueIdentifier>{27533dfb-7b0d-4735-8970-0db29728b6c0}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\WallTurret">
       <UniqueIdentifier>{f2cd795a-178c-4b6f-bbc5-ebabd819b6e2}</UniqueIdentifier>
@@ -27,38 +84,59 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="GraphicsHelper.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GraphicsDatabase.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Bill.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Input.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="HasAnimations.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Soldier.h">
+      <Filter>Header Files\Objects\Enemies\Soldier</Filter>
     </ClInclude>
-    <ClInclude Include="HasTextures.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="Bill.h">
+      <Filter>Header Files\Objects\Bill</Filter>
     </ClInclude>
     <ClInclude Include="HasSprites.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Abstractions\Graphics Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="HasAnimations.h">
+      <Filter>Header Files\Abstractions\Graphics Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="HasTextures.h">
+      <Filter>Header Files\Abstractions\Graphics Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="Entity.h">
+      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="State.h">
+      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="BaseEnemy.h">
+      <Filter>Header Files\Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="ScubaSoldier.h">
+      <Filter>Header Files\Objects\Enemies\ScubaSoldier</Filter>
+    </ClInclude>
+    <ClInclude Include="ScubaSoldierCommon.h">
+      <Filter>Header Files\Objects\Enemies\ScubaSoldier</Filter>
+    </ClInclude>
+    <ClInclude Include="SoldierCommon.h">
+      <Filter>Header Files\Objects\Enemies\Soldier</Filter>
     </ClInclude>
     <ClInclude Include="TestingEntity.h">
+      <Filter>Header Files\Objects\TestingEntity</Filter>
+    </ClInclude>
+    <ClInclude Include="TestingEntityCommon.h">
+      <Filter>Header Files\Objects\TestingEntity</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="BillCommon.h">
+      <Filter>Header Files\Objects\Bill</Filter>
     </ClInclude>
     <ClInclude Include="WallTurret.h">
       <Filter>Header Files</Filter>
@@ -83,29 +161,32 @@
     <ClCompile Include="Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="BillState.cpp">
+      <Filter>Source Files\Objects\Bill</Filter>
+    </ClCompile>
     <ClCompile Include="HasAnimations.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BillRunState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillJumpState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillSwimState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillNormalState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillLayDownState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillRunShotAngleUpState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillRunShotAngleDownState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="Bill.cpp">
       <Filter>Source Files\Bill</Filter>
@@ -114,19 +195,112 @@
       <Filter>Source Files\Bill</Filter>
     </ClCompile>
     <ClCompile Include="BillDiveState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillDeadState.cpp">
-      <Filter>Source Files\Bill\BillState</Filter>
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="HasTextures.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="Bill.cpp">
+      <Filter>Source Files\Objects\Bill</Filter>
+    </ClCompile>
+    <ClCompile Include="HasAnimations.cpp">
+      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
     </ClCompile>
     <ClCompile Include="HasSprites.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="HasTextures.cpp">
+      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseEnemy.cpp">
+      <Filter>Source Files\Abstractions</Filter>
     </ClCompile>
     <ClCompile Include="TestingEntity.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Objects\TestingEntity</Filter>
+    </ClCompile>
+    <ClCompile Include="Soldier.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="ScubaSoldier.cpp">
+      <Filter>Source Files\Objects\Enemies\ScubaSoldier</Filter>
+    </ClCompile>
+    <ClCompile Include="BillState.cpp">
+      <Filter>Source Files\Objects\Bill</Filter>
+    </ClCompile>
+    <ClCompile Include="Soldier.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="BillState.cpp">
+      <Filter>Source Files\Objects\Bill</Filter>
+    </ClCompile>
+    <ClCompile Include="Soldier.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierRunState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierJumpState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierShootState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierLayDownState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierDieState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="Soldier.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    </ClCompile>
+    <ClCompile Include="HasAnimations.cpp">
+      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="HasSprites.cpp">
+      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="HasTextures.cpp">
+      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="ScubaSoldier.cpp">
+      <Filter>Source Files\Objects\Enemies\ScubaSoldier</Filter>
+    </ClCompile>
+    <ClCompile Include="BaseEnemy.cpp">
+      <Filter>Source Files\Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="TestingEntity.cpp">
+      <Filter>Source Files\Objects\TestingEntity</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierDieState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierJumpState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierLayDownState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierRunState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierShootState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
     </ClCompile>
     <ClCompile Include="WallTurret.cpp">
       <Filter>Source Files\WallTurret</Filter>

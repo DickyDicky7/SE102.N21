@@ -18,7 +18,7 @@ void BillNormalState::Enter(Bill& bill)
 
 void BillNormalState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_NORMAL, bill.GetPosition(), bill.GetDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::NORMAL, bill.GetPosition(), bill.GetMovingDirection());
 }
 
 BillState* BillNormalState::Update(Bill& bill)
@@ -30,12 +30,12 @@ BillState* BillNormalState::HandleInput(Bill& bill, Input& input)
 {
 	if (input.Is(DIK_LEFT))
 	{
-		bill.SetDirection(LEFT);
+		bill.SetMovingDirection(DIRECTION::LEFT);
 		return new BillRunState();
 	}
 	if (input.Is(DIK_RIGHT))
 	{
-		bill.SetDirection(RIGHT);
+		bill.SetMovingDirection(DIRECTION::RIGHT);
 		return new BillRunState();
 	}
 	if (input.Is(DIK_Z))
