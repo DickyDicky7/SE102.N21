@@ -76,10 +76,13 @@
     <Filter Include="Source Files\Objects\Enemies\Soldier\SoldierState">
       <UniqueIdentifier>{27533dfb-7b0d-4735-8970-0db29728b6c0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\WallTurret">
+    <Filter Include="Header Files\Objects\Enemies\WallTurret">
+      <UniqueIdentifier>{9768cc23-d528-4df8-b3ab-e7b008386ee6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\WallTurret">
       <UniqueIdentifier>{f2cd795a-178c-4b6f-bbc5-ebabd819b6e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\WallTurret\WallTurretState">
+    <Filter Include="Source Files\Objects\Enemies\WallTurret\WallTurretState">
       <UniqueIdentifier>{3887bf97-f37e-4fed-b077-c468432bd6de}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
@@ -139,7 +142,7 @@
       <Filter>Header Files\Objects\Bill</Filter>
     </ClInclude>
     <ClInclude Include="WallTurret.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Objects\Enemies\WallTurret</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -300,51 +303,52 @@
       <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
     </ClCompile>
     <ClCompile Include="WallTurret.cpp">
-      <Filter>Source Files\WallTurret</Filter>
+      <Filter>Source Files\Objects\Enemies\WallTurret</Filter>
     </ClCompile>
     <ClCompile Include="WallTurretState.cpp">
-      <Filter>Source Files\WallTurret</Filter>
+      <Filter>Source Files\Objects\Enemies\WallTurret</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretLeftState.cpp">
-      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="WallTurretLeft90State.cpp">
+      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
     <ClCompile Include="WallTurretUpState.cpp">
-      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
     <ClCompile Include="WallTurretDownState.cpp">
-      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretRightState.cpp">
-      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="WallTurretRight90State.cpp">
+      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretLeft120State.cpp">
+      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretLeft150State.cpp">
+      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretLeft60State.cpp">
+      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretLeft30State.cpp">
+      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretRight120State.cpp">
+      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretRight150State.cpp">
+      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretRight60State.cpp">
+      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
     <ClCompile Include="Bill.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Objects\Bill</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretLeftDown30.cpp">
-      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="WallTurretCommon.h">
+      <Filter>Header Files\Objects\Enemies\WallTurret</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretLeftDown60.cpp">
-      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="WallTurretRight30State.cpp">
+      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretLeftUp30.cpp">
-      <Filter>Source Files\WallTurret\WallTurretState</Filter>
-    </ClCompile>
-    <ClCompile Include="WallTurretLeftUp60.cpp">
-      <Filter>Source Files\WallTurret\WallTurretState</Filter>
-    </ClCompile>
-    <ClCompile Include="WallTurretRightDown30.cpp">
-      <Filter>Source Files\WallTurret\WallTurretState</Filter>
-    </ClCompile>
-    <ClCompile Include="WallTurretRightDown60.cpp">
-      <Filter>Source Files\WallTurret\WallTurretState</Filter>
-    </ClCompile>
-    <ClCompile Include="WallTurretRightUp30.cpp">
-      <Filter>Source Files\WallTurret\WallTurretState</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="WallTurretRightUp60.cpp">
-      <Filter>Source Files\WallTurret\WallTurretState</Filter>
-    </None>
   </ItemGroup>
 </Project>

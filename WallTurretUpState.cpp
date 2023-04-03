@@ -4,14 +4,14 @@ WallTurretUpState::WallTurretUpState() {}
 
 WallTurretUpState::~WallTurretUpState() {}
 
-void WallTurretUpState::Exit(WallTurret& WallTurret) {}
+void WallTurretUpState::Exit(WallTurret& wallTurret) {}
 
-void WallTurretUpState::Render(WallTurret& WallTurret) {
-	WallTurret.SetAnimation(WALL_TURRET_UP, WallTurret.GetPosition(), WallTurret.GetDirection());
+void WallTurretUpState::Render(WallTurret& wallTurret) {
+	wallTurret.SetAnimation(WALL_TURRET_ANIMATIONS_ID::UP, wallTurret.GetPosition(), wallTurret.GetMovingDirection());
 }
 
-void WallTurretUpState::Enter(WallTurret& WallTurret) {}
+void WallTurretUpState::Enter(WallTurret& wallTurret) {}
 
-WallTurretState* WallTurretUpState::Update(WallTurret& WallTurret) {
+WallTurretState* WallTurretUpState::Update(WallTurret& wallTurret) {
 	return NULL;
 }

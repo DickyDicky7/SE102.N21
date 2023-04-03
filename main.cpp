@@ -1,14 +1,9 @@
 #include "Common.h"
-//#include "GraphicsHelper.h"
-//#include "GraphicsDatabase.h"
 #include "Bill.h"
 #include "TestingEntity.h"
 #include "Input.h"
-//#include "String.h"
-//#include <string>
 #include "Soldier.h"
 #include "WallTurret.h"
-//#include "WallTurretCommon.cpp"
 
 Input* input;
 
@@ -23,10 +18,11 @@ void cleanD3D(void);        // closes Direct3D and releases memory
 
 // fucntion prototypes for sprite
 void initSprite();
-void drawSprite();
+
 Bill bill;
 Soldier soldier;
 WallTurret wallTurret;
+
 // the WindowProc function prototype
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -96,8 +92,11 @@ int WINAPI WinMain(
 		input->Capture();
 
 		bill.HandleInput(*input);
+		soldier.HandleInput(*input);
 		bill.Update();
+		wallTurret.CalculateBillAngle(&bill);
 		wallTurret.Update();
+		soldier.Update();
 
 		GraphicsHelper::device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 		GraphicsHelper::device->BeginScene();
@@ -106,13 +105,11 @@ int WINAPI WinMain(
 		//draw
 		bill.Render();
 		wallTurret.Render();
-
-		soldier.HandleInput(*input);
-		soldier.Update();
 		soldier.Render();
 
-		d3ddev->EndScene();
-		d3ddev->Present(NULL, NULL, NULL, NULL);
+		GraphicsHelper::spriteHandler->End();
+		GraphicsHelper::device->EndScene();
+		GraphicsHelper::device->Present(NULL, NULL, NULL, NULL);
 	}
 
 	// clean up DirectX and COM

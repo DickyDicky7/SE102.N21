@@ -4,16 +4,16 @@ WallTurretState::WallTurretState(){}
 
 WallTurretState::~WallTurretState(){}
 
-void WallTurretState::Enter(WallTurret& WallTurret){}
+void WallTurretState::Enter(WallTurret& wallTurret){}
 
-void WallTurretState::Exit(WallTurret& WallTurret){}
+void WallTurretState::Exit(WallTurret& wallTurret){}
 
-void WallTurretState::Render(WallTurret& WallTurret){}
+void WallTurretState::Render(WallTurret& wallTurret){}
 
-WallTurretState* WallTurretState::Update(WallTurret& WallTurret) {
+WallTurretState* WallTurretState::Update(WallTurret& wallTurret) {
 	return NULL;
 }
 
-WallTurretState* WallTurretState::HandleInput(WallTurret& WallTurret, Input& Input) {
+WallTurretState* WallTurretState::HandleInput(WallTurret& wallTurret, Input& Input) {
 	return NULL;
 }

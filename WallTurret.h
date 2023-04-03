@@ -5,29 +5,28 @@
 #include "HasAnimations.h"
 #include "HasSprites.h"
 #include "HasTextures.h"
+#include "Bill.h"
 
 class WallTurret;
 class WallTurretState;
 
-// basic
-class WallTurretLeftState;
-class WallTurretRightState;
 class WallTurretUpState;
 class WallTurretDownState;
 
 //angle right side of circle
-class WallTurretRightUp30State;
-class WallTurretRightUp60State;
+class WallTurretRight30State;
+class WallTurretRight60State;
+class WallTurretRight90State;
+class WallTurretRight120State;
+class WallTurretRight180State;
 
-class WallTurretRightDown30State;
-class WallTurretRightDown60State;
 
 //angle left side of circle
-class WallTurretLeftUp30State;
-class WallTurretLeftUp60State;
-
-class WallTurretLeftDown30State;
-class WallTurretLeftDown60State;
+class WallTurretLeft30State;
+class WallTurretLeft60State;
+class WallTurretLeft90State;
+class WallTurretLeft120State;
+class WallTurretLeft150State;
 
 
 class WallTurret : public Entity<WallTurret>, public HasTextures<WallTurret>, public HasSprites<WallTurret>, public HasAnimations<WallTurret>
@@ -43,9 +42,13 @@ public:
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
+	void CalculateBillAngle(Bill*);
+
 protected:
 	WallTurretState* state;
 	WallTurretState* updateState;
+
+	int billAngle;
 };
 
 class WallTurretState : public State<WallTurretState, WallTurret>
@@ -62,11 +65,11 @@ public:
 	virtual WallTurretState* HandleInput(WallTurret&, Input&) override;
 };
 
-class WallTurretLeftState : public WallTurretState
+class WallTurretLeft90State : public WallTurretState
 {
 public:
-	WallTurretLeftState();
-	virtual ~WallTurretLeftState();
+	WallTurretLeft90State();
+	virtual ~WallTurretLeft90State();
 
 	virtual void Exit(WallTurret&) override;
 	virtual void Enter(WallTurret&) override;
@@ -75,11 +78,11 @@ public:
 	virtual WallTurretState* Update(WallTurret&) override;
 };
 
-class WallTurretRightState : public WallTurretState
+class WallTurretRight90State : public WallTurretState
 {
 public:
-	WallTurretRightState();
-	virtual ~WallTurretRightState();
+	WallTurretRight90State();
+	virtual ~WallTurretRight90State();
 
 	virtual void Exit(WallTurret&) override;
 	virtual void Enter(WallTurret&) override;
@@ -114,11 +117,11 @@ public:
 	virtual WallTurretState* Update(WallTurret&) override;
 };
 
-class WallTurretRightUp30State : public WallTurretState
+class WallTurretRight60State : public WallTurretState
 {
 public:
-	WallTurretRightUp30State();
-	virtual ~WallTurretRightUp30State();
+	WallTurretRight60State();
+	virtual ~WallTurretRight60State();
 
 	virtual void Render(WallTurret&) override;
 	virtual void Exit(WallTurret&) override;
@@ -127,11 +130,11 @@ public:
 	virtual WallTurretState* Update(WallTurret&) override;
 };
 
-class WallTurretRightUp60State : public WallTurretState
+class WallTurretRight30State : public WallTurretState
 {
 public:
-	WallTurretRightUp60State();
-	virtual ~WallTurretRightUp60State();
+	WallTurretRight30State();
+	virtual ~WallTurretRight30State();
 
 	virtual void Render(WallTurret&) override;
 	virtual void Exit(WallTurret&) override;
@@ -140,11 +143,11 @@ public:
 	virtual WallTurretState* Update(WallTurret&) override;
 };
 
-class WallTurretRightDown30State : public WallTurretState
+class WallTurretRight120State : public WallTurretState
 {
 public:
-	WallTurretRightDown30State();
-	virtual ~WallTurretRightDown30State();
+	WallTurretRight120State();
+	virtual ~WallTurretRight120State();
 
 	virtual void Render(WallTurret&) override;
 	virtual void Exit(WallTurret&) override;
@@ -153,11 +156,11 @@ public:
 	virtual WallTurretState* Update(WallTurret&) override;
 };
 
-class WallTurretRightDown60State : public WallTurretState
+class WallTurretRight150State : public WallTurretState
 {
 public:
-	WallTurretRightDown60State();
-	virtual ~WallTurretRightDown60State();
+	WallTurretRight150State();
+	virtual ~WallTurretRight150State();
 
 	virtual void Render(WallTurret&) override;
 	virtual void Exit(WallTurret&) override;
@@ -166,11 +169,11 @@ public:
 	virtual WallTurretState* Update(WallTurret&) override;
 };
 
-class WallTurretLeftUp30State : public WallTurretState
+class WallTurretLeft60State : public WallTurretState
 {
 public:
-	WallTurretLeftUp30State();
-	virtual ~WallTurretLeftUp30State();
+	WallTurretLeft60State();
+	virtual ~WallTurretLeft60State();
 
 	virtual void Render(WallTurret&) override;
 	virtual void Exit(WallTurret&) override;
@@ -179,11 +182,11 @@ public:
 	virtual WallTurretState* Update(WallTurret&) override;
 };
 
-class WallTurretLeftUp60State : public WallTurretState
+class WallTurretLeft30State : public WallTurretState
 {
 public:
-	WallTurretLeftUp60State();
-	virtual ~WallTurretLeftUp60State();
+	WallTurretLeft30State();
+	virtual ~WallTurretLeft30State();
 
 	virtual void Render(WallTurret&) override;
 	virtual void Exit(WallTurret&) override;
@@ -192,11 +195,11 @@ public:
 	virtual WallTurretState* Update(WallTurret&) override;
 };
 
-class WallTurretLeftDown30State : public WallTurretState
+class WallTurretLeft120State : public WallTurretState
 {
 public:
-	WallTurretLeftDown30State();
-	virtual ~WallTurretLeftDown30State();
+	WallTurretLeft120State();
+	virtual ~WallTurretLeft120State();
 
 	virtual void Render(WallTurret&) override;
 	virtual void Exit(WallTurret&) override;
@@ -205,11 +208,11 @@ public:
 	virtual WallTurretState* Update(WallTurret&) override;
 };
 
-class WallTurretLeftDown60State : public WallTurretState
+class WallTurretLeft150State : public WallTurretState
 {
 public:
-	WallTurretLeftDown60State();
-	virtual ~WallTurretLeftDown60State();
+	WallTurretLeft150State();
+	virtual ~WallTurretLeft150State();
 
 	virtual void Render(WallTurret&) override;
 	virtual void Exit(WallTurret&) override;

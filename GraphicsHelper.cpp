@@ -74,10 +74,6 @@ void GraphicsHelper::DrawSprite(SPRITE sprite, D3DXVECTOR3 position, DIRECTION m
 		D3DXMatrixTransformation2D(&flippingMatrix, &flippingCenter, 0.0f, &flippingRatio, NULL, 0.0f, NULL);
 	}
 
-	//device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
-	//device->BeginScene();
-
-	//spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 	spriteHandler->SetTransform(&flippingMatrix);
 	spriteHandler->Draw
 	(
@@ -85,10 +81,6 @@ void GraphicsHelper::DrawSprite(SPRITE sprite, D3DXVECTOR3 position, DIRECTION m
 		rect, &center, &position, D3DCOLOR_XRGB(255, 255, 255)
 	);
 	spriteHandler->SetTransform(NULL);
-	//spriteHandler->End();
-
-	//device->EndScene();
-	//device->Present(NULL, NULL, NULL, NULL);
 }
 
 void GraphicsHelper::InsertTexure(TEXTURE_ID textureId, LPCWSTR textureFilePath)
