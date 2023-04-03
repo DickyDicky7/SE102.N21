@@ -55,11 +55,21 @@
     <ClCompile Include="State.cpp" />
     <ClCompile Include="TestingEntity.cpp" />
     <ClCompile Include="WallTurret.cpp" />
+    <ClCompile Include="WallTurretLeftDown30.cpp" />
+    <ClCompile Include="WallTurretLeftDown60.cpp" />
     <ClCompile Include="WallTurretLeftState.cpp" />
+    <ClCompile Include="WallTurretLeftUp30.cpp" />
+    <ClCompile Include="WallTurretLeftUp60.cpp" />
+    <ClCompile Include="WallTurretRightDown30.cpp" />
+    <ClCompile Include="WallTurretRightDown60.cpp" />
+    <ClCompile Include="WallTurretRightUp30.cpp" />
     <ClCompile Include="WallTurretState.cpp" />
     <ClCompile Include="WallTurretRightState.cpp" />
     <ClCompile Include="WallTurretUpState.cpp" />
     <ClCompile Include="WallTurretDownState.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WallTurretRightUp60.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
