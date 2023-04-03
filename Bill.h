@@ -51,7 +51,7 @@ protected:
 	BillState* state;
 	BillState* updateState;
 	BillState* handleInputState;
-	
+
 };
 
 
