@@ -153,7 +153,6 @@ void Bill::LoadAnimations()
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::NORMAL, 150,
 	{
 		{BILL_SPRITE_ID::NORMAL_01,0},
-		{BILL_SPRITE_ID::NORMAL_02,0},
 	});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::NORMAL_SHOT, 150,
