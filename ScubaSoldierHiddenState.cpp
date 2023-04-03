@@ -19,7 +19,7 @@ void ScubaSoldierHiddenState::Enter(ScubaSoldier& scubaSoldier)
 
 void ScubaSoldierHiddenState::Render(ScubaSoldier& scubaSoldier)
 {
-	scubaSoldier.SetAnimation(BILL_ANIMATION_ID::NORMAL, scubaSoldier.GetPosition(), scubaSoldier.GetMovingDirection());
+	scubaSoldier.SetAnimation(SCUBA_SOLDIER_ANIMATION_ID::HIDDEN, scubaSoldier.GetPosition(), scubaSoldier.GetMovingDirection());
 }
 
 ScubaSoldierState* ScubaSoldierHiddenState::Update(ScubaSoldier& scubaSoldier)

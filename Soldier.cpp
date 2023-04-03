@@ -69,7 +69,7 @@ void Soldier::HandleInput(Input& input)
 	handleInputState = state->HandleInput(*this, input);
 }
 
-void insertSprite(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
+void insertSpriteSoldier(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
 {
 	// i write this function to shorten the fuction: GraphicsHelper
 	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, DIRECTION::LEFT, SOLDIER_TEXTURE_ID::SOLDIER_01);
@@ -83,21 +83,21 @@ void Soldier::LoadSprites()
 #pragma region Load Sprites
 
 	// SPRITES
-	insertSprite(SOLDIER_SPRITE_ID::RUN_01, 90, 0, 106, 32);
-	insertSprite(SOLDIER_SPRITE_ID::RUN_02, 72, 0, 88, 32);
-	insertSprite(SOLDIER_SPRITE_ID::RUN_03, 54, 0, 70, 32);
-	insertSprite(SOLDIER_SPRITE_ID::RUN_04, 36, 0, 52, 32);
-	insertSprite(SOLDIER_SPRITE_ID::RUN_05, 18, 0, 34, 32);
-	insertSprite(SOLDIER_SPRITE_ID::RUN_06, 0, 0, 16, 32);
+	insertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_01, 90, 0, 106, 32);
+	insertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_02, 72, 0, 88, 32);
+	insertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_03, 54, 0, 70, 32);
+	insertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_04, 36, 0, 52, 32);
+	insertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_05, 18, 0, 34, 32);
+	insertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_06, 0, 0, 16, 32);
 
-	insertSprite(SOLDIER_SPRITE_ID::JUMP_01, 108, 0, 124, 32);
+	insertSpriteSoldier(SOLDIER_SPRITE_ID::JUMP_01, 108, 0, 124, 32);
 
-	insertSprite(SOLDIER_SPRITE_ID::SHOOT_01, 126, 0, 150, 32);
-	insertSprite(SOLDIER_SPRITE_ID::SHOOT_02, 152, 0, 176, 32);
+	insertSpriteSoldier(SOLDIER_SPRITE_ID::SHOOT_01, 126, 0, 150, 32);
+	insertSpriteSoldier(SOLDIER_SPRITE_ID::SHOOT_02, 152, 0, 176, 32);
 
-	insertSprite(SOLDIER_SPRITE_ID::LAY_DOWN_01, 178, 0, 210, 32);
+	insertSpriteSoldier(SOLDIER_SPRITE_ID::LAY_DOWN_01, 178, 0, 210, 32);
 
-	insertSprite(SOLDIER_SPRITE_ID::DIE_01, 212, 0, 227, 32);
+	insertSpriteSoldier(SOLDIER_SPRITE_ID::DIE_01, 212, 0, 227, 32);
 
 #pragma endregion Load Sprites
 

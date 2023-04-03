@@ -67,7 +67,7 @@ void Bill::HandleInput(Input& input)
 	handleInputState = state->HandleInput(*this, input);
 }
 
-void InsertSprite(SPRITE_ID spriteId, INT top, INT left, INT right, INT bottom) 
+void InsertSpriteBill(SPRITE_ID spriteId, INT top, INT left, INT right, INT bottom) 
 {
 	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, DIRECTION::RIGHT, BILL_TEXTURE_ID::BILL_01);
 }
@@ -79,59 +79,59 @@ void Bill::LoadSprites()
 #pragma region Load Sprites
 
 	// SPRITES
-	InsertSprite(BILL_SPRITE_ID::NORMAL_01, 30, 1, 25, 65);
-	InsertSprite(BILL_SPRITE_ID::NORMAL_02, 30, 26, 50, 65);
-
-	InsertSprite(BILL_SPRITE_ID::NORMAL_SHOT_01, 30, 1, 25, 65);
-	InsertSprite(BILL_SPRITE_ID::NORMAL_SHOT_02,  30,  1, 25, 65);
-
-	InsertSprite(BILL_SPRITE_ID::STRAIGHT_UP_01,  19, 51, 66, 65);
-
-	InsertSprite(BILL_SPRITE_ID::SHOT_STRAIGHT_UP_01,  19, 51, 66, 65);
-	InsertSprite(BILL_SPRITE_ID::SHOT_STRAIGHT_UP_02,  19, 67, 82, 65);
-
-	InsertSprite(BILL_SPRITE_ID::LAYDOWN_01,  48, 83,116, 65);
-
-	InsertSprite(BILL_SPRITE_ID::JUMP_01,  44,117,134, 65);
-	InsertSprite(BILL_SPRITE_ID::JUMP_02,  44,135,155, 65);
-	InsertSprite(BILL_SPRITE_ID::JUMP_03,  44,156,173, 65);
-	InsertSprite(BILL_SPRITE_ID::JUMP_04,  44,174,194, 65);
-
-	InsertSprite(BILL_SPRITE_ID::RUN_01,  66,  2, 23,102);
-	InsertSprite(BILL_SPRITE_ID::RUN_02,  66, 24, 41,102);
-	InsertSprite(BILL_SPRITE_ID::RUN_03,  66, 42, 61,102);
-	InsertSprite(BILL_SPRITE_ID::RUN_04,  66, 62, 83,102);
-	InsertSprite(BILL_SPRITE_ID::RUN_05,  66, 84,101,102);
-	InsertSprite(BILL_SPRITE_ID::RUN_06,  66,102,122,102);
-
-	InsertSprite(BILL_SPRITE_ID::RUN_SHOT_ANGLE_UP_01,  66,123,144,102);
-	InsertSprite(BILL_SPRITE_ID::RUN_SHOT_ANGLE_UP_02,  66,145,162,102);
-	InsertSprite(BILL_SPRITE_ID::RUN_SHOT_ANGLE_UP_03,  66,163,183,102);
-
-	InsertSprite(BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_01,  66,184,206,102);
-	InsertSprite(BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_02,  66,207,228,102);
-	InsertSprite(BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_03,  66,229,251,102);
-
-	InsertSprite(BILL_SPRITE_ID::DEAD_01, 107,  2, 18,131);
-	InsertSprite(BILL_SPRITE_ID::DEAD_02, 112, 19, 42,131);
-	InsertSprite(BILL_SPRITE_ID::DEAD_03, 107, 43, 59,131);
-	InsertSprite(BILL_SPRITE_ID::DEAD_04, 120, 60, 93,131);
-
-	InsertSprite(BILL_SPRITE_ID::BEGIN_SWIM_01, 115, 94,111,131);
-
-	InsertSprite(BILL_SPRITE_ID::DIVE_01, 123,112,129,131);
-
-	InsertSprite(BILL_SPRITE_ID::SWIM_01, 115,130,147,131);
-
-	InsertSprite(BILL_SPRITE_ID::SWIM_SHOT_ANGLE_UP_01, 113,148,168,131);
-
-	InsertSprite(BILL_SPRITE_ID::SWIM_SHOT_STRAIGHT_UP_01, 103,169,187,131);
-
-	InsertSprite(BILL_SPRITE_ID::SWIM_SHOT_01, 113,191,217,131);
-
-	InsertSprite(BILL_SPRITE_ID::RUN_SHOT_01, 189,155,181,224);
-	InsertSprite(BILL_SPRITE_ID::RUN_SHOT_02, 189,184,208,224);
-	InsertSprite(BILL_SPRITE_ID::RUN_SHOT_03, 189,210,236,224);
+	InsertSpriteBill(BILL_SPRITE_ID::NORMAL_01, 30, 1, 25, 65);
+	InsertSpriteBill(BILL_SPRITE_ID::NORMAL_02, 30, 26, 50, 65);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::NORMAL_SHOT_01, 30, 1, 25, 65);
+	InsertSpriteBill(BILL_SPRITE_ID::NORMAL_SHOT_02,  30,  1, 25, 65);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::STRAIGHT_UP_01,  19, 51, 66, 65);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::SHOT_STRAIGHT_UP_01,  19, 51, 66, 65);
+	InsertSpriteBill(BILL_SPRITE_ID::SHOT_STRAIGHT_UP_02,  19, 67, 82, 65);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::LAYDOWN_01,  48, 83,116, 65);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::JUMP_01,  44,117,134, 65);
+	InsertSpriteBill(BILL_SPRITE_ID::JUMP_02,  44,135,155, 65);
+	InsertSpriteBill(BILL_SPRITE_ID::JUMP_03,  44,156,173, 65);
+	InsertSpriteBill(BILL_SPRITE_ID::JUMP_04,  44,174,194, 65);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::RUN_01,  66,  2, 23,102);
+	InsertSpriteBill(BILL_SPRITE_ID::RUN_02,  66, 24, 41,102);
+	InsertSpriteBill(BILL_SPRITE_ID::RUN_03,  66, 42, 61,102);
+	InsertSpriteBill(BILL_SPRITE_ID::RUN_04,  66, 62, 83,102);
+	InsertSpriteBill(BILL_SPRITE_ID::RUN_05,  66, 84,101,102);
+	InsertSpriteBill(BILL_SPRITE_ID::RUN_06,  66,102,122,102);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::RUN_SHOT_ANGLE_UP_01,  66,123,144,102);
+	InsertSpriteBill(BILL_SPRITE_ID::RUN_SHOT_ANGLE_UP_02,  66,145,162,102);
+	InsertSpriteBill(BILL_SPRITE_ID::RUN_SHOT_ANGLE_UP_03,  66,163,183,102);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_01,  66,184,206,102);
+	InsertSpriteBill(BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_02,  66,207,228,102);
+	InsertSpriteBill(BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_03,  66,229,251,102);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::DEAD_01, 107,  2, 18,131);
+	InsertSpriteBill(BILL_SPRITE_ID::DEAD_02, 112, 19, 42,131);
+	InsertSpriteBill(BILL_SPRITE_ID::DEAD_03, 107, 43, 59,131);
+	InsertSpriteBill(BILL_SPRITE_ID::DEAD_04, 120, 60, 93,131);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::BEGIN_SWIM_01, 115, 94,111,131);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::DIVE_01, 123,112,129,131);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::SWIM_01, 115,130,147,131);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::SWIM_SHOT_ANGLE_UP_01, 113,148,168,131);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::SWIM_SHOT_STRAIGHT_UP_01, 103,169,187,131);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::SWIM_SHOT_01, 113,191,217,131);
+				
+	InsertSpriteBill(BILL_SPRITE_ID::RUN_SHOT_01, 189,155,181,224);
+	InsertSpriteBill(BILL_SPRITE_ID::RUN_SHOT_02, 189,184,208,224);
+	InsertSpriteBill(BILL_SPRITE_ID::RUN_SHOT_03, 189,210,236,224);
 
 #pragma endregion Load Sprites
 
