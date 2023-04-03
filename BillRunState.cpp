@@ -44,7 +44,6 @@ BillState* BillRunState::Update(Bill& bill)
 		bill.SetAX(+abs(bill.GetAX()));
 	}
 
-	
 	// check is in screen
 	if (bill.IsHitWall())
 	{
