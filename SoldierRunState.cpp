@@ -12,12 +12,12 @@ void SoldierRunState::Exit(Soldier&)
 	// exit here
 }
 void SoldierRunState::Enter(Soldier& soldier) {
-	if (soldier.GetDirection() == DIRECTION::LEFT)
+	if (soldier.GetMovingDirection() == DIRECTION::LEFT)
 	{
 		soldier.SetVX(+1.00f);
 		soldier.SetAX(+0.01f);
 	}
-	if (soldier.GetDirection() == DIRECTION::RIGHT)
+	if (soldier.GetMovingDirection() == DIRECTION::RIGHT)
 	{
 		soldier.SetVX(-1.00f);
 		soldier.SetAX(-0.01f);
@@ -25,7 +25,7 @@ void SoldierRunState::Enter(Soldier& soldier) {
 }
 
 void SoldierRunState::Render(Soldier& soldier) {
-	soldier.SetAnimation(SOLDIER_ANIMATION_ID::RUN, soldier.GetPosition(), soldier.GetDirection());
+	soldier.SetAnimation(SOLDIER_ANIMATION_ID::RUN, soldier.GetPosition(), soldier.GetMovingDirection());
 }
 
 SoldierState* SoldierRunState::Update(Soldier& soldier) {
@@ -33,27 +33,27 @@ SoldierState* SoldierRunState::Update(Soldier& soldier) {
 	float solAX = soldier.GetAX();
 	float solX = soldier.GetX();
 	const float WIDTH_SOLDIE = 520;
-  
-	if (soldier.GetDirection() == DIRECTION::LEFT)
+
+	if (soldier.GetMovingDirection() == DIRECTION::LEFT)
 	{
 		soldier.SetVX(-abs(solVX));
 		soldier.SetAX(-abs(solAX));
 	}
-	if (soldier.GetDirection() == DIRECTION::RIGHT)
+	if (soldier.GetMovingDirection() == DIRECTION::RIGHT)
 	{
 		soldier.SetVX(+abs(solVX));
 		soldier.SetAX(+abs(solAX));
 	}
-	
+
 	// soldier moves left and right of the screen
 	if (solX <= 0) {
 		// if you hit the left wall
-		soldier.SetDirection(DIRECTION::RIGHT);
+		soldier.SetMovingDirection(DIRECTION::RIGHT);
 	}
 	// i find that the soldier will go over left screen about WIDTH_SOLDIE so i minus it
-	else if (solX >= SCREEN_WIDTH  - WIDTH_SOLDIE) {
+	else if (solX >= SCREEN_WIDTH - WIDTH_SOLDIE) {
 		// if you hit the left wall
-		soldier.SetDirection(DIRECTION::LEFT);
+		soldier.SetMovingDirection(DIRECTION::LEFT);
 	}
 
 	// set X of soldier
@@ -83,4 +83,5 @@ SoldierState* SoldierRunState::HandleInput(Soldier& soldier, Input& input) {
 	{
 		return new SoldierLayDownState();
 	}
+	return NULL;
 }

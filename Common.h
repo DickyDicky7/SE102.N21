@@ -4,6 +4,7 @@
 #define SCREEN_HEIGHT 600
 #define DIRECTINPUT_VERSION 0x0800
 
+#include <tuple>
 #include <vector>
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -32,3 +33,10 @@ struct Bool { BOOL value; };
 using SPRITE_ID = std::variant<BILL_SPRITE_ID, SOLDIER_SPRITE_ID>;
 using TEXTURE_ID = std::variant<BILL_TEXTURE_ID, SOLDIER_TEXTURE_ID>;
 using ANIMATION_ID = std::variant<BILL_ANIMATION_ID, SOLDIER_ANIMATION_ID>;
+
+using         TIME = DWORD;
+using DEFAULT_TIME = DWORD;
+
+using TEXTURE   = LPDIRECT3DTEXTURE9;
+using SPRITE    = std::tuple<RECT*, DIRECTION, TEXTURE_ID>;
+using ANIMATION = std::tuple<DEFAULT_TIME, std::vector<std::tuple<SPRITE_ID, TIME>>>;

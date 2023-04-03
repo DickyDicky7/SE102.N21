@@ -18,7 +18,7 @@ void SoldierShootState::Enter(Soldier& soldier)
 
 void SoldierShootState::Render(Soldier& soldier)
 {
-	soldier.SetAnimation(SOLDIER_ANIMATION_ID::SHOOT, soldier.GetPosition(), soldier.GetDirection());
+	soldier.SetAnimation(SOLDIER_ANIMATION_ID::SHOOT, soldier.GetPosition(), soldier.GetMovingDirection());
 }
 
 SoldierState* SoldierShootState::Update(Soldier& soldier)
