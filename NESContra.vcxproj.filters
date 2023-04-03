@@ -188,9 +188,6 @@
     <ClCompile Include="BillRunShotAngleDownState.cpp">
       <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="Bill.cpp">
-      <Filter>Source Files\Bill</Filter>
-    </ClCompile>
     <ClCompile Include="BillState.cpp">
       <Filter>Source Files\Bill</Filter>
     </ClCompile>
@@ -320,5 +317,34 @@
     <ClCompile Include="WallTurretRightState.cpp">
       <Filter>Source Files\WallTurret\WallTurretState</Filter>
     </ClCompile>
+    <ClCompile Include="Bill.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretLeftDown30.cpp">
+      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretLeftDown60.cpp">
+      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretLeftUp30.cpp">
+      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretLeftUp60.cpp">
+      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretRightDown30.cpp">
+      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretRightDown60.cpp">
+      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretRightUp30.cpp">
+      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="WallTurretRightUp60.cpp">
+      <Filter>Source Files\WallTurret\WallTurretState</Filter>
+    </None>
   </ItemGroup>
 </Project>
