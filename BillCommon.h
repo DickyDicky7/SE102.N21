@@ -32,6 +32,7 @@ enum class BILL_SPRITE_ID
 	SWIM_01,
 
 	NORMAL_01,
+	NORMAL_02,
 
 	LAYDOWN_01,
 
