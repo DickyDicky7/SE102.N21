@@ -87,3 +87,4 @@ enum class BILL_ANIMATION_ID
 	SWIM_SHOT_STRAIGHT_UP,
 
 };
+

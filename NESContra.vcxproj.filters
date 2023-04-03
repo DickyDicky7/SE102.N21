@@ -76,6 +76,9 @@
     <Filter Include="Source Files\Objects\Enemies\Soldier\SoldierState">
       <UniqueIdentifier>{27533dfb-7b0d-4735-8970-0db29728b6c0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Objects\Enemies\ScubaSoldier\ScubaSoldierState">
+      <UniqueIdentifier>{bf9a1c6d-c915-4f0b-a43a-4d37b838f7ef}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Objects\Enemies\WallTurret">
       <UniqueIdentifier>{9768cc23-d528-4df8-b3ab-e7b008386ee6}</UniqueIdentifier>
     </Filter>
@@ -236,9 +239,6 @@
     <ClCompile Include="Soldier.cpp">
       <Filter>Source Files\Objects\Enemies\Soldier</Filter>
     </ClCompile>
-    <ClCompile Include="SoldierState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
-    </ClCompile>
     <ClCompile Include="BillState.cpp">
       <Filter>Source Files\Objects\Bill</Filter>
     </ClCompile>
@@ -246,21 +246,6 @@
       <Filter>Source Files\Objects\Enemies\Soldier</Filter>
     </ClCompile>
     <ClCompile Include="SoldierState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
-    </ClCompile>
-    <ClCompile Include="SoldierRunState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
-    </ClCompile>
-    <ClCompile Include="SoldierJumpState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
-    </ClCompile>
-    <ClCompile Include="SoldierShootState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
-    </ClCompile>
-    <ClCompile Include="SoldierLayDownState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
-    </ClCompile>
-    <ClCompile Include="SoldierDieState.cpp">
       <Filter>Source Files\Objects\Enemies\Soldier</Filter>
     </ClCompile>
     <ClCompile Include="Soldier.cpp">
@@ -286,6 +271,21 @@
     </ClCompile>
     <ClCompile Include="TestingEntity.cpp">
       <Filter>Source Files\Objects\TestingEntity</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierDieState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierJumpState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierLayDownState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierRunState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    </ClCompile>
+    <ClCompile Include="SoldierShootState.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
     </ClCompile>
     <ClCompile Include="SoldierDieState.cpp">
       <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
@@ -349,6 +349,15 @@
     </ClCompile>
     <ClCompile Include="WallTurretRight30State.cpp">
       <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="ScubaSoldierHiddenState.cpp">
+      <Filter>Source Files\Objects\Enemies\ScubaSoldier\ScubaSoldierState</Filter>
+    </ClCompile>
+    <ClCompile Include="ScubaSoldierShootingState.cpp">
+      <Filter>Source Files\Objects\Enemies\ScubaSoldier\ScubaSoldierState</Filter>
+    </ClCompile>
+    <ClCompile Include="ScubaSoldierState.cpp">
+      <Filter>Source Files\Objects\Enemies\ScubaSoldier</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

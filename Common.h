@@ -19,6 +19,7 @@
 #include "BillCommon.h"
 #include "SoldierCommon.h"
 #include "WallTurretCommon.h"
+#include "ScubaSoldierCommon.h"
 
 enum class DIRECTION
 {
@@ -31,9 +32,28 @@ enum class DIRECTION
 template <class T>
 struct Bool { BOOL value; };
 
-using SPRITE_ID = std::variant<BILL_SPRITE_ID, SOLDIER_SPRITE_ID, WALL_TURRET_SPRITES_ID>;
-using TEXTURE_ID = std::variant<BILL_TEXTURE_ID, SOLDIER_TEXTURE_ID, WALL_TURRET_TEXTURE_ID>;
-using ANIMATION_ID = std::variant<BILL_ANIMATION_ID, SOLDIER_ANIMATION_ID, WALL_TURRET_ANIMATIONS_ID>;
+// If u add an object, u must add id of object here
+using SPRITE_ID = std::variant
+<
+	BILL_SPRITE_ID, 
+	SOLDIER_SPRITE_ID, 
+	SCUBA_SOLDIER_SPRITE_ID,
+	WALL_TURRET_SPRITES_ID
+>;
+using TEXTURE_ID = std::variant
+<
+	BILL_TEXTURE_ID, 
+	SOLDIER_TEXTURE_ID, 
+	SCUBA_SOLDIER_TEXTURE_ID,
+	WALL_TURRET_TEXTURE_ID
+>;
+using ANIMATION_ID = std::variant
+<
+	BILL_ANIMATION_ID, 
+	SOLDIER_ANIMATION_ID, 
+	SCUBA_SOLDIER_ANIMATION_ID,
+	WALL_TURRET_ANIMATIONS_ID
+>;
 
 using         TIME = DWORD;
 using DEFAULT_TIME = DWORD;
