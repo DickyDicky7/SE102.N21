@@ -48,8 +48,10 @@ BillState* BillJumpState::Update(Bill& bill)
 		bill.SetVX(+abs(bill.GetVX()));
 		bill.SetAX(+abs(bill.GetAX()));
 	}
+
 	if (hasMovedLeft || hasMovedRight)
 	{
+		if (bill.IsHitWall())
 		bill.SetX
 		(
 			bill.GetX() + bill.GetVX()

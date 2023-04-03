@@ -6,6 +6,7 @@
 #include "Input.h"
 #include "String.h"
 #include <string>
+#include "Soldier.h"
 
 Input* input;
 
@@ -22,6 +23,7 @@ void cleanD3D(void);        // closes Direct3D and releases memory
 void initSprite();
 void drawSprite();
 Bill bill;
+Soldier soldier;
 // the WindowProc function prototype
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -92,9 +94,14 @@ int WINAPI WinMain(
 		d3ddev->BeginScene();
 
 		input->Capture();
+
 		bill.HandleInput(*input);
 		bill.Update();
 		bill.Render();
+
+		soldier.HandleInput(*input);
+		soldier.Update();
+		soldier.Render();
 
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
@@ -120,24 +127,19 @@ void initSprite()
 	GraphicsHelper::device = d3ddev;
 	GraphicsHelper::spriteHandler = spriteHandler;
 
+	// bill
 	bill.LoadTextures();
 	bill.LoadSprites();
 	bill.LoadAnimations();
+	// soldier
+	soldier.LoadTextures();
+	soldier.LoadSprites();
+	soldier.LoadAnimations();
 
-	Bill bill2;
-	bill2.LoadTextures();
-	bill2.LoadSprites();
-	bill2.LoadAnimations();
-
-	TestingEntity testingEntity1;
-	testingEntity1.LoadTextures();
-	testingEntity1.LoadSprites();
-	testingEntity1.LoadAnimations();
-
-	TestingEntity testingEntity2;
-	testingEntity2.LoadTextures();
-	testingEntity2.LoadSprites();
-	testingEntity2.LoadAnimations();
+	TestingEntity testingEntity;
+	testingEntity.LoadTextures();
+	testingEntity.LoadSprites();
+	testingEntity.LoadAnimations();
 
 	OutputDebugString(L"@@@@@@@@@@@@\n");
 }

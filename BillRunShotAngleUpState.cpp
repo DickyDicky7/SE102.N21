@@ -34,6 +34,7 @@ BillState* BillRunShotAngleUpState::Update(Bill& bill)
 		bill.SetAX(+abs(bill.GetAX()));
 	}
 
+	if (bill.IsHitWall())
 	bill.SetX
 	(
 		bill.GetX() + bill.GetVX()
