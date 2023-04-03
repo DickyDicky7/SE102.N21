@@ -1,1 +1,26 @@
 #pragma once
+
+enum class SCUBA_SOLDIER_TEXTURE_ID
+{
+
+	SCUBA_SOLDIER_01,
+
+};
+
+enum class SCUBA_SOLDIER_SPRITE_ID
+{
+
+	HIDDEN_01,
+
+	SHOOTING_01,
+
+};
+
+enum class SCUBA_SOLDIER_ANIMATION_ID
+{
+
+	HIDDEN,
+
+	SHOOTING,
+
+};

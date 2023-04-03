@@ -60,6 +60,9 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="ScubaSoldier.cpp" />
+    <ClCompile Include="ScubaSoldierHiddenState.cpp" />
+    <ClCompile Include="ScubaSoldierShootingState.cpp" />
+    <ClCompile Include="ScubaSoldierState.cpp" />
     <ClCompile Include="Soldier.cpp" />
     <ClCompile Include="SoldierDieState.cpp" />
     <ClCompile Include="SoldierJumpState.cpp" />
