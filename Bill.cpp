@@ -4,8 +4,8 @@ Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 	self = this;
 
-	this->vx = 1;
-	this->vy = 1;
+	this->vx = 1.0f;
+	this->vy = 1.0f;
 	this->ax = 0.1f;
 	this->ay = 0.1f;
 	this->position.x = SCREEN_WIDTH / 4;
@@ -24,7 +24,8 @@ Bill::~Bill()
 /// this fuction is check is the Bill hit the wall left and right ?
 /// </summary>
 /// <returns></returns>
-BOOL Bill::IsHitWall() {
+BOOL Bill::IsHitWall()
+{
 	BOOL isHited = 0;
 	// check is hit the wall left
 	bool isHitLeftWall = (GetX() <= 0) && (GetDirection() == DIRECTION::LEFT);
@@ -202,11 +203,11 @@ void Bill::LoadAnimations()
 	});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::RUN_SHOT_ANGLE_DOWN, 150,
-		{
-			{BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_01,0},
-			{BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_02,0},
-			{BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_03,0},
-		});
+	{
+		{BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_01,0},
+		{BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_02,0},
+		{BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_03,0},
+	});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::DEAD, 150,
 	{
