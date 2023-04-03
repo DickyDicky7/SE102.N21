@@ -1,12 +1,9 @@
 #include "Common.h"
-//#include "GraphicsHelper.h"
-//#include "GraphicsDatabase.h"
 #include "Bill.h"
 #include "TestingEntity.h"
 #include "Input.h"
-//#include "String.h"
-//#include <string>
 #include "Soldier.h"
+#include "ScubaSoldier.h"
 
 Input* input;
 
@@ -22,8 +19,12 @@ void cleanD3D(void);        // closes Direct3D and releases memory
 // fucntion prototypes for sprite
 void initSprite();
 void drawSprite();
+
+// objects of game
 Bill bill;
 Soldier soldier;
+ScubaSoldier scubaSoldier;
+
 // the WindowProc function prototype
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -94,14 +95,18 @@ int WINAPI WinMain(
 		d3ddev->BeginScene();
 
 		input->Capture();
-
+		// bill 
 		bill.HandleInput(*input);
 		bill.Update();
 		bill.Render();
-
+		// soldier
 		soldier.HandleInput(*input);
 		soldier.Update();
 		soldier.Render();
+		// scubaSoldier
+		scubaSoldier.HandleInput(*input);
+		scubaSoldier.Update();
+		scubaSoldier.Render();
 
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
@@ -135,6 +140,11 @@ void initSprite()
 	soldier.LoadTextures();
 	soldier.LoadSprites();
 	soldier.LoadAnimations();
+
+	// scubaSoldier
+	scubaSoldier.LoadTextures();
+	scubaSoldier.LoadSprites();
+	scubaSoldier.LoadAnimations();
 
 	TestingEntity testingEntity;
 	testingEntity.LoadTextures();
