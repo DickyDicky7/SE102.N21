@@ -3,6 +3,7 @@
 #include "TestingEntity.h"
 #include "Input.h"
 #include "Soldier.h"
+#include "WallTurret.h"
 #include "ScubaSoldier.h"
 
 Input* input;
@@ -18,11 +19,11 @@ void cleanD3D(void);        // closes Direct3D and releases memory
 
 // fucntion prototypes for sprite
 void initSprite();
-void drawSprite();
 
-// objects of game
 Bill bill;
 Soldier soldier;
+WallTurret wallTurret;
+
 ScubaSoldier scubaSoldier;
 
 // the WindowProc function prototype
@@ -91,25 +92,33 @@ int WINAPI WinMain(
 		if (msg.message == WM_QUIT)
 			break;
 
-		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
-		d3ddev->BeginScene();
-
 		input->Capture();
 		// bill 
 		bill.HandleInput(*input);
-		bill.Update();
-		bill.Render();
-		// soldier
 		soldier.HandleInput(*input);
-		soldier.Update();
-		soldier.Render();
-		// scubaSoldier
 		scubaSoldier.HandleInput(*input);
+
+
+		bill.Update();
+		soldier.Update();
 		scubaSoldier.Update();
+		
+		wallTurret.CalculateBillAngle(&bill);
+		wallTurret.Update();
+		// scubaSoldier
+
+		GraphicsHelper::device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
+		GraphicsHelper::device->BeginScene();
+
+		//draw
+		bill.Render();
+		wallTurret.Render();
+		soldier.Render();
 		scubaSoldier.Render();
 
-		d3ddev->EndScene();
-		d3ddev->Present(NULL, NULL, NULL, NULL);
+		GraphicsHelper::spriteHandler->End();
+		GraphicsHelper::device->EndScene();
+		GraphicsHelper::device->Present(NULL, NULL, NULL, NULL);
 	}
 
 	// clean up DirectX and COM
@@ -150,8 +159,10 @@ void initSprite()
 	testingEntity.LoadTextures();
 	testingEntity.LoadSprites();
 	testingEntity.LoadAnimations();
+	wallTurret.LoadTextures();
+	wallTurret.LoadSprites();
+	wallTurret.LoadAnimations();
 
-	OutputDebugString(L"@@@@@@@@@@@@\n");
 }
 
 // this is the main message handler for the program

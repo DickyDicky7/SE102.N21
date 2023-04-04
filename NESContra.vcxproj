@@ -36,6 +36,7 @@
     <ClInclude Include="SoldierCommon.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="TestingEntity.h" />
+    <ClInclude Include="WallTurret.h" />
     <ClInclude Include="TestingEntityCommon.h" />
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +73,21 @@
     <ClCompile Include="SoldierState.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="TestingEntity.cpp" />
+    <ClCompile Include="WallTurret.cpp" />
+    <ClCompile Include="WallTurretLeft120State.cpp" />
+    <ClCompile Include="WallTurretLeft150State.cpp" />
+    <ClCompile Include="WallTurretLeft90State.cpp" />
+    <ClCompile Include="WallTurretLeft60State.cpp" />
+    <ClCompile Include="WallTurretLeft30State.cpp" />
+    <ClCompile Include="WallTurretRight120State.cpp" />
+    <ClCompile Include="WallTurretRight150State.cpp" />
+    <ClCompile Include="WallTurretRight30State.cpp" />
+    <ClCompile Include="WallTurretRight60State.cpp" />
+    <ClCompile Include="WallTurretState.cpp" />
+    <ClCompile Include="WallTurretRight90State.cpp" />
+    <ClCompile Include="WallTurretUpState.cpp" />
+    <ClCompile Include="WallTurretDownState.cpp" />
+    <ClCompile Include="WallTurretCommon.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
