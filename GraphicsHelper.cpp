@@ -85,6 +85,10 @@ void GraphicsHelper::DrawSprite(SPRITE sprite, D3DXVECTOR3 position, DIRECTION m
 		rect, &center, &position, D3DCOLOR_XRGB(255, 255, 255)
 	);
 	spriteHandler->SetTransform(NULL);
+	spriteHandler->End();
+
+	//device->EndScene();
+	//device->Present(NULL, NULL, NULL, NULL);
 }
 
 void GraphicsHelper::InsertTexure(TEXTURE_ID textureId, LPCWSTR textureFilePath)
