@@ -16,10 +16,10 @@ WallTurret::WallTurret() : Entity(), HasAnimations()
 {
 	self = this;
 
-	this->vx = 1;
-	this->vy = 1;
-	this->ax = 0.1;
-	this->ay = 0.1;
+	this->vx = 1.0f;
+	this->vy = 1.0f;
+	this->ax = 0.1f;
+	this->ay = 0.1f;
 	this->position.x = SCREEN_WIDTH / 3;
 	this->position.y = SCREEN_HEIGHT / 2 - 100;
 	this->billAngle = -90;
