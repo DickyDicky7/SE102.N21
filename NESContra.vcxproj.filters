@@ -158,20 +158,11 @@
     <ClCompile Include="GraphicsDatabase.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BillState.cpp">
       <Filter>Source Files\Objects\Bill</Filter>
-    </ClCompile>
-    <ClCompile Include="HasAnimations.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BillRunState.cpp">
       <Filter>Source Files\Objects\Bill\BillState</Filter>
@@ -358,6 +349,15 @@
     </ClCompile>
     <ClCompile Include="ScubaSoldierState.cpp">
       <Filter>Source Files\Objects\Enemies\ScubaSoldier</Filter>
+    </ClCompile>
+    <ClCompile Include="Entity.cpp">
+      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="State.cpp">
+      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="HasAnimations.cpp">
+      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
