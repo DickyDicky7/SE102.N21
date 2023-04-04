@@ -4,7 +4,7 @@ enum class WALL_TURRET_TEXTURE_ID {
 	WALL_TURRET
 };
 
-enum class WALL_TURRET_SPRITES_ID {
+enum class WALL_TURRET_SPRITE_ID {
 	LEFT_90_01,
 	LEFT_90_02,
 	LEFT_90_03,
@@ -61,7 +61,7 @@ enum class WALL_TURRET_SPRITES_ID {
 	APPEAR_06,
 };
 
-enum class WALL_TURRET_ANIMATIONS_ID {
+enum class WALL_TURRET_ANIMATION_ID {
 	DOWN,
 
 	UP,
