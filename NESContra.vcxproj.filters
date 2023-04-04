@@ -170,7 +170,7 @@
     <ClCompile Include="BillJumpState.cpp">
       <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="BillSwimState.cpp">
+    <ClCompile Include="BillSwimNormalState.cpp">
       <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillNormalState.cpp">
@@ -358,6 +358,39 @@
     </ClCompile>
     <ClCompile Include="HasAnimations.cpp">
       <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="BillSwimShotState.cpp">
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="BillBeginSwimState.cpp">
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="BillRunShotState.cpp">
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="BillNormalShotState.cpp">
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="BillShotStraightUpState.cpp">
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="BillStraightUpState.cpp">
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="BillSwimShotAngleUpState.cpp">
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="BillSwimShotStraightUpState.cpp">
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="BillBeginState.cpp">
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="BillFallState.cpp">
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="BillSwimRunState.cpp">
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

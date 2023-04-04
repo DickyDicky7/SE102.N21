@@ -1,6 +1,6 @@
 #include "Bill.h"
 
-BillState::BillState()
+BillState::BillState() : State()
 {
 	this->time = 0.0f;
 }

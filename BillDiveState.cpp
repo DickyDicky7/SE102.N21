@@ -42,5 +42,5 @@ BillState* BillDiveState::HandleInput(Bill& bill, Input& input)
 		return NULL;
 	}
 
-	return new BillSwimState();
+	return new BillSwimNormalState();
 }

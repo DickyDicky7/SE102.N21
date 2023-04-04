@@ -11,15 +11,18 @@
 
 class BillState;
 class BillRunState;
+class BillFallState;
 class BillJumpState;
 class BillDiveState;
-class BillSwimState;
 class BillDeadState;
+class BillBeginState;
 class BillNormalState;
 class BillLayDownState;
 class BillRunShotState;
+class BillSwimRunState;
 class BillSwimShotState;
 class BillBeginSwimState;
+class BillSwimNormalState;
 class BillNormalShotState;
 class BillStraightUpState;
 class BillShotStraightUpState;
@@ -45,7 +48,7 @@ public:
 	void LoadAnimations() override;
 
 	BOOL IsHitWall();
-	
+
 protected:
 
 	BillState* state;
@@ -84,6 +87,24 @@ public:
 
 	BillRunState();
 	virtual ~BillRunState();
+
+	virtual void Exit(Bill&) override;
+	virtual void Enter(Bill&) override;
+	virtual void Render(Bill&) override;
+
+	virtual BillState* Update(Bill&) override;
+	virtual BillState* HandleInput(Bill&, Input&) override;
+
+};
+
+
+class BillFallState : public BillState
+{
+
+public:
+
+	BillFallState();
+	virtual ~BillFallState();
 
 	virtual void Exit(Bill&) override;
 	virtual void Enter(Bill&) override;
@@ -136,13 +157,13 @@ public:
 };
 
 
-class BillSwimState : public BillState
+class BillDeadState : public BillState
 {
 
 public:
 
-	BillSwimState();
-	virtual ~BillSwimState();
+	BillDeadState();
+	virtual ~BillDeadState();
 
 	virtual void Exit(Bill&) override;
 	virtual void Enter(Bill&) override;
@@ -154,13 +175,13 @@ public:
 };
 
 
-class BillDeadState : public BillState
+class BillBeginState : public BillState
 {
 
 public:
 
-	BillDeadState();
-	virtual ~BillDeadState();
+	BillBeginState();
+	virtual ~BillBeginState();
 
 	virtual void Exit(Bill&) override;
 	virtual void Enter(Bill&) override;
@@ -226,6 +247,24 @@ public:
 };
 
 
+class BillSwimRunState : public BillState
+{
+
+public:
+
+	BillSwimRunState();
+	virtual ~BillSwimRunState();
+
+	virtual void Exit(Bill&) override;
+	virtual void Enter(Bill&) override;
+	virtual void Render(Bill&) override;
+
+	virtual BillState* Update(Bill&) override;
+	virtual BillState* HandleInput(Bill&, Input&) override;
+
+};
+
+
 class BillSwimShotState : public BillState
 {
 
@@ -251,6 +290,28 @@ public:
 
 	BillBeginSwimState();
 	virtual ~BillBeginSwimState();
+
+	virtual void Exit(Bill&) override;
+	virtual void Enter(Bill&) override;
+	virtual void Render(Bill&) override;
+
+	virtual BillState* Update(Bill&) override;
+	virtual BillState* HandleInput(Bill&, Input&) override;
+
+protected:
+
+	TIME delayTime;
+
+};
+
+
+class BillSwimNormalState : public BillState
+{
+
+public:
+
+	BillSwimNormalState();
+	virtual ~BillSwimNormalState();
 
 	virtual void Exit(Bill&) override;
 	virtual void Enter(Bill&) override;

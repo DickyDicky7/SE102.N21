@@ -47,9 +47,9 @@ BillState* BillNormalState::HandleInput(Bill& bill, Input& input)
 		return new BillLayDownState();
 	}
 
-	if (input.Is(DIK_B))
+	if (input.Is(DIK_F))
 	{
-		return new BillSwimState();
+		return new BillFallState();
 	}
 
 	return NULL;
