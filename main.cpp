@@ -109,7 +109,6 @@ int WINAPI WinMain(
 
 		GraphicsHelper::device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 		GraphicsHelper::device->BeginScene();
-		GraphicsHelper::spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
 
 		//draw
 		bill.Render();
