@@ -33,7 +33,7 @@ void BillJumpState::Enter(Bill& bill)
 
 void BillJumpState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::JUMP, bill.GetPosition(), bill.GetMovingDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::JUMP, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
 }
 
 BillState* BillJumpState::Update(Bill& bill)

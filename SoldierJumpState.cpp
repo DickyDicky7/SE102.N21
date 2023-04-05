@@ -33,7 +33,7 @@ void SoldierJumpState::Enter(Soldier& soldier)
 
 void SoldierJumpState::Render(Soldier& soldier)
 {
-	soldier.SetAnimation(SOLDIER_ANIMATION_ID::JUMP, soldier.GetPosition(), soldier.GetMovingDirection());
+	soldier.SetAnimation(SOLDIER_ANIMATION_ID::JUMP, soldier.GetPosition(), soldier.GetMovingDirection(), soldier.GetAngle());
 }
 
 SoldierState* SoldierJumpState::Update(Soldier& soldier)

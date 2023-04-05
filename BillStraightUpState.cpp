@@ -18,7 +18,7 @@ void BillStraightUpState::Enter(Bill& bill)
 
 void BillStraightUpState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::STRAIGHT_UP, bill.GetPosition(), bill.GetMovingDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::STRAIGHT_UP, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
 }
 
 BillState* BillStraightUpState::Update(Bill& bill)

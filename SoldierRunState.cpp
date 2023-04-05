@@ -25,7 +25,7 @@ void SoldierRunState::Enter(Soldier& soldier) {
 }
 
 void SoldierRunState::Render(Soldier& soldier) {
-	soldier.SetAnimation(SOLDIER_ANIMATION_ID::RUN, soldier.GetPosition(), soldier.GetMovingDirection());
+	soldier.SetAnimation(SOLDIER_ANIMATION_ID::RUN, soldier.GetPosition(), soldier.GetMovingDirection(), soldier.GetAngle());
 }
 
 SoldierState* SoldierRunState::Update(Soldier& soldier) {
