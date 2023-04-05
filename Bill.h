@@ -9,6 +9,7 @@
 #include "HasAnimations.h"
 
 
+class Bill;
 class BillState;
 class BillRunState;
 class BillFallState;

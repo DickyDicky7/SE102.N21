@@ -88,6 +88,12 @@
     <Filter Include="Source Files\Objects\Enemies\WallTurret\WallTurretState">
       <UniqueIdentifier>{3887bf97-f37e-4fed-b077-c468432bd6de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Bullet">
+      <UniqueIdentifier>{d01352c1-14c2-4eff-abac-a29e3dd0a853}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Bullet">
+      <UniqueIdentifier>{fdfb6548-a9c8-4b1d-96e2-c85b7e60b794}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -146,6 +152,12 @@
     </ClInclude>
     <ClInclude Include="WallTurret.h">
       <Filter>Header Files\Objects\Enemies\WallTurret</Filter>
+    </ClInclude>
+    <ClInclude Include="Bullet.h">
+      <Filter>Header Files\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="BulletCommon.h">
+      <Filter>Header Files\Objects\Bullet</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -391,6 +403,12 @@
     </ClCompile>
     <ClCompile Include="BillSwimRunState.cpp">
       <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="Bullet.cpp">
+      <Filter>Source Files\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletState.cpp">
+      <Filter>Source Files\Objects\Bullet</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

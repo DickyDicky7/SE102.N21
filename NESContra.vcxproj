@@ -22,6 +22,8 @@
     <ClInclude Include="BaseEnemy.h" />
     <ClInclude Include="Bill.h" />
     <ClInclude Include="BillCommon.h" />
+    <ClInclude Include="Bullet.h" />
+    <ClInclude Include="BulletCommon.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GraphicsDatabase.h" />
@@ -63,6 +65,8 @@
     <ClCompile Include="BillSwimShotState.cpp" />
     <ClCompile Include="BillSwimShotStraightUpState.cpp" />
     <ClCompile Include="BillSwimNormalState.cpp" />
+    <ClCompile Include="Bullet.cpp" />
+    <ClCompile Include="BulletState.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GraphicsDatabase.cpp" />
     <ClCompile Include="GraphicsHelper.cpp" />
