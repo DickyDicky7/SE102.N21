@@ -158,7 +158,7 @@ void Bill::LoadTextures()
 	if (HasTextures<Bill>::hasBeenLoaded.value) return;
 	HasTextures<Bill>::hasBeenLoaded.value = true;
 
-	GraphicsHelper::InsertTexure(BILL_TEXTURE_ID::BILL_01, L"Resources\\Textures\\MainCharacter2.bmp");
+	GraphicsHelper::InsertTexure(BILL_TEXTURE_ID::BILL_01, L"Resources\\Textures\\BillAndLance.bmp");
 
 	OutputDebugString(L"Bill Textures Loaded Successfully\n");
 }

@@ -85,7 +85,7 @@ void ScubaSoldier::LoadTextures()
 	if (HasTextures<ScubaSoldier>::hasBeenLoaded.value) return;
 	HasTextures<ScubaSoldier>::hasBeenLoaded.value = true;
 
-	GraphicsHelper::InsertTexure(SCUBA_SOLDIER_TEXTURE_ID::SCUBA_SOLDIER_01, L"Resources\\Textures\\ScubaSoldier.png");
+	GraphicsHelper::InsertTexure(SCUBA_SOLDIER_TEXTURE_ID::SCUBA_SOLDIER_01, L"Resources\\Textures\\ScubaSoldier.bmp");
 
 	OutputDebugString(L"ScubaSoldier Textures Loaded Successfully\n");
 }

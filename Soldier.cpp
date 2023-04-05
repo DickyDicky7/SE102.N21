@@ -109,7 +109,7 @@ void Soldier::LoadTextures()
 	if (HasTextures<Soldier>::hasBeenLoaded.value) return;
 	HasTextures<Soldier>::hasBeenLoaded.value = true;
 
-	GraphicsHelper::InsertTexure(SOLDIER_TEXTURE_ID::SOLDIER_01, L"Resources\\Textures\\Soldier.png");
+	GraphicsHelper::InsertTexure(SOLDIER_TEXTURE_ID::SOLDIER_01, L"Resources\\Textures\\Soldier.bmp");
 
 	OutputDebugString(L"Soldier Textures Loaded Successfully\n");
 }
