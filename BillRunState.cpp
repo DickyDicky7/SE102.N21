@@ -28,7 +28,7 @@ void BillRunState::Enter(Bill& bill)
 
 void BillRunState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::RUN, bill.GetPosition(), bill.GetMovingDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::RUN, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
 }
 
 BillState* BillRunState::Update(Bill& bill)
@@ -53,7 +53,7 @@ BillState* BillRunState::Update(Bill& bill)
 			bill.GetX() + bill.GetVX() * time + bill.GetAX() * pow(time, 2) / 2
 		);
 	}
-	
+
 	// Restrict Ox velocity and time. Make this part "v0*t + a*(t^2)/2" become a constant => uniform motion
 	// If not, entity will move too fast. The code here is temporary
 	if (abs(bill.GetVX()) < +3.00f)

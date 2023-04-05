@@ -22,7 +22,7 @@ void BillBeginState::Enter(Bill& bill)
 
 void BillBeginState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::BEGIN, bill.GetPosition(), bill.GetMovingDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::BEGIN, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
 }
 
 BillState* BillBeginState::Update(Bill& bill)

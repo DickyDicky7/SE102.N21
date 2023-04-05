@@ -13,7 +13,7 @@ public:
 	HasAnimations();
 	virtual ~HasAnimations();
 	virtual void LoadAnimations() = 0;
-	virtual void SetAnimation(ANIMATION_ID, D3DXVECTOR3, DIRECTION);
+	virtual void SetAnimation(ANIMATION_ID, D3DXVECTOR3, DIRECTION, FLOAT);
 
 protected:
 
@@ -36,7 +36,7 @@ inline HasAnimations<T>::~HasAnimations()
 }
 
 template <class T>
-inline void HasAnimations<T>::SetAnimation(ANIMATION_ID animationId, D3DXVECTOR3 position, DIRECTION movingDirection)
+inline void HasAnimations<T>::SetAnimation(ANIMATION_ID animationId, D3DXVECTOR3 position, DIRECTION movingDirection, FLOAT angle)
 {
 	ULONGLONG now = GetTickCount64();
 	std::vector<std::tuple<SPRITE_ID, TIME>>& frames = std::get<
@@ -57,7 +57,7 @@ inline void HasAnimations<T>::SetAnimation(ANIMATION_ID animationId, D3DXVECTOR3
 		}
 	}
 
-	GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[std::get<SPRITE_ID>(frames[currentFrame])], position, movingDirection);
+	GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[std::get<SPRITE_ID>(frames[currentFrame])], position, movingDirection, angle);
 }
 
 template <class T>

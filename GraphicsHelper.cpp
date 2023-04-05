@@ -52,37 +52,51 @@ ANIMATION GraphicsHelper::CreateAnimation(DEFAULT_TIME defaultTime, std::vector<
 	return ANIMATION({ defaultTime, frames });
 }
 
-void GraphicsHelper::DrawSprite(SPRITE sprite, D3DXVECTOR3 position, DIRECTION movingDirection)
+void GraphicsHelper::DrawSprite(SPRITE sprite, D3DXVECTOR3 position, DIRECTION movingDirection, FLOAT angle)
 {
 	RECT*      rect            = std::get<RECT*>(sprite);
 	DIRECTION  spriteDirection = std::get<DIRECTION>(sprite);
 	TEXTURE_ID textureId       = std::get<TEXTURE_ID>(sprite);
 
-	D3DXMATRIX flippingMatrix;
+	D3DXMATRIX  transformMatrix;
 	D3DXVECTOR2 flippingCenter(0, 0);
-	D3DXVECTOR3 center((FLOAT)(rect->right - rect->left) / 2.0f, (FLOAT)(rect->bottom - rect->top), 0.0f);
+	D3DXVECTOR2 rotatingCenter(0, 0);
+
+	FLOAT drawingCenterX = (FLOAT)(rect->right  - rect->left) / 2.0f;
+	FLOAT drawingCenterY = (FLOAT)(rect->bottom - rect->top ) / 1.0f;
+	//FLOAT drawingCenterX0 = drawingCenterX;
+	//FLOAT drawingCenterY0 = drawingCenterY;
+	//drawingCenterX = drawingCenterX0 * std::cos(-D3DXToRadian(angle)) - drawingCenterY0 * std::sin(-D3DXToRadian(angle));
+	//drawingCenterY = drawingCenterX0 * std::sin(-D3DXToRadian(angle)) + drawingCenterY0 * std::cos(-D3DXToRadian(angle));
+	D3DXVECTOR3 drawingCenter(drawingCenterX, drawingCenterY, 0.0f);
+
+	FLOAT x0 = position.x;
+	FLOAT y0 = position.y;
+	position.x = x0 * std::cos(-D3DXToRadian(angle)) - y0 * std::sin(-D3DXToRadian(angle));
+	position.y = x0 * std::sin(-D3DXToRadian(angle)) + y0 * std::cos(-D3DXToRadian(angle));
 
 	if (movingDirection != spriteDirection)
 	{
 		position.x = -position.x;
-		D3DXVECTOR2 flippingRatio(-2.0f, 2.0f);
-		D3DXMatrixTransformation2D(&flippingMatrix, &flippingCenter, 0.0f, &flippingRatio, NULL, 0.0f, NULL);
+		D3DXVECTOR2 flippingRatio(-2.0f, +2.0f);
+		D3DXMatrixTransformation2D(&transformMatrix, &flippingCenter, 0.0f, &flippingRatio, &rotatingCenter, D3DXToRadian(angle), NULL);
 	}
 	if (movingDirection == spriteDirection)
 	{
-		D3DXVECTOR2 flippingRatio(+2.0f, 2.0f);
-		D3DXMatrixTransformation2D(&flippingMatrix, &flippingCenter, 0.0f, &flippingRatio, NULL, 0.0f, NULL);
+		position.x = +position.x;
+		D3DXVECTOR2 flippingRatio(+2.0f, +2.0f);
+		D3DXMatrixTransformation2D(&transformMatrix, &flippingCenter, 0.0f, &flippingRatio, &rotatingCenter, D3DXToRadian(angle), NULL);
 	}
 
 	//device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 	//device->BeginScene();
 
 	spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-	spriteHandler->SetTransform(&flippingMatrix);
+	spriteHandler->SetTransform(&transformMatrix);
 	spriteHandler->Draw
 	(
 		GraphicsDatabase::textures[textureId],
-		rect, &center, &position, D3DCOLOR_XRGB(255, 255, 255)
+		rect, &drawingCenter, &position, D3DCOLOR_XRGB(255, 255, 255)
 	);
 	spriteHandler->SetTransform(NULL);
 	spriteHandler->End();

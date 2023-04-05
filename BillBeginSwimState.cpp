@@ -19,7 +19,7 @@ void BillBeginSwimState::Enter(Bill& bill)
 
 void BillBeginSwimState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::BEGIN_SWIM, bill.GetPosition(), bill.GetMovingDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::BEGIN_SWIM, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
 }
 
 BillState* BillBeginSwimState::Update(Bill& bill)

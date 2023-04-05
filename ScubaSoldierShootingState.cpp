@@ -19,7 +19,7 @@ void ScubaSoldierShootingState::Enter(ScubaSoldier& scubaSoldier)
 
 void ScubaSoldierShootingState::Render(ScubaSoldier& scubaSoldier)
 {
-	scubaSoldier.SetAnimation(SCUBA_SOLDIER_ANIMATION_ID::SHOOTING, scubaSoldier.GetPosition(), scubaSoldier.GetMovingDirection());
+	scubaSoldier.SetAnimation(SCUBA_SOLDIER_ANIMATION_ID::SHOOTING, scubaSoldier.GetPosition(), scubaSoldier.GetMovingDirection(), scubaSoldier.GetAngle());
 }
 
 ScubaSoldierState* ScubaSoldierShootingState::Update(ScubaSoldier& scubaSoldier)

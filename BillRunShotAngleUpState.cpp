@@ -18,7 +18,7 @@ void BillRunShotAngleUpState::Enter(Bill& bill)
 
 void BillRunShotAngleUpState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::RUN_SHOT_ANGLE_UP, bill.GetPosition(), bill.GetMovingDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::RUN_SHOT_ANGLE_UP, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
 }
 
 BillState* BillRunShotAngleUpState::Update(Bill& bill)
@@ -35,10 +35,10 @@ BillState* BillRunShotAngleUpState::Update(Bill& bill)
 	}
 
 	if (bill.IsHitWall())
-	bill.SetX
-	(
-		bill.GetX() + bill.GetVX()
-	);
+		bill.SetX
+		(
+			bill.GetX() + bill.GetVX()
+		);
 
 	return NULL;
 }

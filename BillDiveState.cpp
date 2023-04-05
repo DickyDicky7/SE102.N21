@@ -18,7 +18,7 @@ void BillDiveState::Enter(Bill& bill)
 
 void BillDiveState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::DIVE, bill.GetPosition(), bill.GetMovingDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::DIVE, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
 }
 
 BillState* BillDiveState::Update(Bill& bill)

@@ -18,7 +18,7 @@ void BillRunShotState::Enter(Bill& bill)
 
 void BillRunShotState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::RUN_SHOT, bill.GetPosition(), bill.GetMovingDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::RUN_SHOT, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
 }
 
 BillState* BillRunShotState::Update(Bill& bill)
