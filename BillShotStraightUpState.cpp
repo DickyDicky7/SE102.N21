@@ -28,5 +28,9 @@ BillState* BillShotStraightUpState::Update(Bill& bill)
 
 BillState* BillShotStraightUpState::HandleInput(Bill& bill, Input& input)
 {
-	return NULL;
+	if (input.Is(DIK_X))
+	{
+		return NULL;
+	}
+	return new BillStraightUpState();
 }

@@ -42,6 +42,14 @@ BillState* BillNormalState::HandleInput(Bill& bill, Input& input)
 	{
 		return new BillJumpState();
 	}
+	if (input.Is(DIK_X))
+	{
+		return new BillNormalShotState();
+	}
+	if (input.Is(DIK_UP))
+	{
+		return new BillStraightUpState();
+	}
 	if (input.Is(DIK_DOWN))
 	{
 		return new BillLayDownState();
