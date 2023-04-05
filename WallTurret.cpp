@@ -121,7 +121,7 @@ void WallTurret::LoadTextures() {
 	}
 	HasTextures<WallTurret>::hasBeenLoaded.value = true;
 
-	GraphicsDatabase::textures.insert({ WALL_TURRET_TEXTURE_ID::WALL_TURRET, GraphicsHelper::CreateTexture(L"Resources\\Textures\\wall_turret_all.bmp") });
+	GraphicsDatabase::textures.insert({ WALL_TURRET_TEXTURE_ID::WALL_TURRET, GraphicsHelper::CreateTexture(L"Resources\\Textures\\WallTurretAll.bmp") });
 
 	return;
 }
