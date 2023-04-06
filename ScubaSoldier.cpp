@@ -56,7 +56,7 @@ void ScubaSoldier::HandleInput(Input& input)
 	handleInputState = state->HandleInput(*this, input);
 }
 
-void insertSpriteScuba(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
+void InsertSpriteScuba(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
 {
 	// i write this function to shorten the fuction: GraphicsHelper
 	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, DIRECTION::RIGHT, SCUBA_SOLDIER_TEXTURE_ID::SCUBA_SOLDIER_01);
@@ -71,9 +71,9 @@ void ScubaSoldier::LoadSprites()
 
 	// SPRITES
 
-	insertSpriteScuba(SCUBA_SOLDIER_SPRITE_ID::HIDDEN_01, 2, 0, 17, 30);
+	InsertSpriteScuba(SCUBA_SOLDIER_SPRITE_ID::HIDDEN_01, 2, 0, 17, 30);
 
-	insertSpriteScuba(SCUBA_SOLDIER_SPRITE_ID::SHOOTING_01, 20, 0, 35, 30);
+	InsertSpriteScuba(SCUBA_SOLDIER_SPRITE_ID::SHOOTING_01, 20, 0, 35, 30);
 
 #pragma endregion Load Sprites
 
