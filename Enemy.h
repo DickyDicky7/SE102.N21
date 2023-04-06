@@ -12,17 +12,17 @@ public:
 	virtual ~Enemy();
 
 	virtual T* SetHP(INT = 0);
-	virtual T* SetTarget(O* = NULL);
+	virtual T* SetTarget(const O* = NULL);
 
 	virtual INT GetHP() const;
-	virtual O*  GetTarget() const;
+	virtual const O* GetTarget() const;
 
 protected:
 
 	T* self = NULL;
 
 	INT hp;
-	O* target;
+	const O* target;
 
 };
 
@@ -40,10 +40,10 @@ template <class T, class O>
 inline T* Enemy<T, O>::SetHP(INT hp) { this->hp = hp; return self; }
 
 template <class T, class O>
-inline T* Enemy<T, O>::SetTarget(O* target) { this->target = target; return self; }
+inline T* Enemy<T, O>::SetTarget(const O* target) { this->target = target; return self; }
 
 template <class T, class O>
 inline INT Enemy<T, O>::GetHP() const { return hp; }
 
 template <class T, class O>
-inline O* Enemy<T, O>::GetTarget() const { return target; }
+inline const O* Enemy<T, O>::GetTarget() const { return target; }

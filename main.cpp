@@ -152,7 +152,7 @@ void initSprite()
 	soldier.LoadSprites();
 	soldier.LoadAnimations();
 	soldier.SetTarget(&bill);
-
+	
 	// scubaSoldier
 	scubaSoldier.LoadTextures();
 	scubaSoldier.LoadSprites();
