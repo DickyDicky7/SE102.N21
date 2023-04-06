@@ -92,7 +92,7 @@ void BossStage3::LoadTextures()
 	if (HasTextures<BossStage3>::hasBeenLoaded.value) return;
 	HasTextures<BossStage3>::hasBeenLoaded.value = true;
 
-	GraphicsHelper::InsertTexure(BOSS_STAGE_3_TEXTURE_ID::BOSS_STAGE_3, L"Resources\\Textures\\boss_stage3.png");
+	GraphicsHelper::InsertTexure(BOSS_STAGE_3_TEXTURE_ID::BOSS_STAGE_3, L"Resources\\Textures\\BossStage3.bmp");
 
 	OutputDebugString(L"BossStage3 Textures Loaded Successfully\n");
 }
