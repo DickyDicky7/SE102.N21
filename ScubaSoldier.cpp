@@ -4,7 +4,8 @@
 
 ScubaSoldier::ScubaSoldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
-	self = this;
+	Enemy::self = this;
+	Entity::self = this;
 
 	this->vx = 1;
 	this->vy = 1;

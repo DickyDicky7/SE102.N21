@@ -104,7 +104,7 @@ int WINAPI WinMain(
 		soldier.Update();
 		scubaSoldier.Update();
 		bossStage3.Update();
-		
+
 		wallTurret.CalculateBillAngle(&bill);
 		wallTurret.Update();
 
@@ -151,16 +151,19 @@ void initSprite()
 	soldier.LoadTextures();
 	soldier.LoadSprites();
 	soldier.LoadAnimations();
+	soldier.SetTarget(&bill);
 
 	// scubaSoldier
 	scubaSoldier.LoadTextures();
 	scubaSoldier.LoadSprites();
 	scubaSoldier.LoadAnimations();
+	scubaSoldier.SetTarget(&bill);
 
 	// BossStage3
 	bossStage3.LoadTextures();
 	bossStage3.LoadSprites();
 	bossStage3.LoadAnimations();
+	bossStage3.SetTarget(&bill);
 
 	TestingEntity testingEntity;
 	testingEntity.LoadTextures();
@@ -169,7 +172,7 @@ void initSprite()
 	wallTurret.LoadTextures();
 	wallTurret.LoadSprites();
 	wallTurret.LoadAnimations();
-
+	wallTurret.SetTarget(&bill);
 }
 
 // this is the main message handler for the program
