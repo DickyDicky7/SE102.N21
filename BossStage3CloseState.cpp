@@ -31,7 +31,7 @@ BossStage3State* BossStage3CloseState::HandleInput(BossStage3& bossStage3, Input
 {
 	if (input.Is(DIK_O))
 	{
-		return new BossStage3OpenState();
+		return new BossStage3MiddleState(BOSS_STAGE_3_ANIMATION_ID::OPEN);
 	}
 
 	return NULL;

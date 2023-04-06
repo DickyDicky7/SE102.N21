@@ -9,16 +9,17 @@ enum class BOSS_STAGE_3_SPRITE_ID {
 	CLOSE_2,
 	CLOSE_3,
 
+	MIDDLE_01,
+	MIDDLE_02,
+
 	OPEN_1,
 	OPEN_2,
 	OPEN_3,
-	OPEN_4,
-	OPEN_5,
 };
 
 enum class BOSS_STAGE_3_ANIMATION_ID {
 	
 	CLOSE,
-	
+	MIDDLE,
 	OPEN,
 };

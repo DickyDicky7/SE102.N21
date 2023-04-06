@@ -11,6 +11,7 @@ class BossStage3;
 class BossStage3State;
 class BossStage3OpenState;
 class BossStage3CloseState;
+class BossStage3MiddleState;
 
 
 class BossStage3 : public Entity<BossStage3>, public HasTextures<BossStage3>, public HasSprites<BossStage3>, public HasAnimations<BossStage3>
@@ -82,4 +83,23 @@ public:
 
 	virtual BossStage3State* Update(BossStage3&) override;
 	virtual BossStage3State* HandleInput(BossStage3&, Input&) override;
+};
+
+class BossStage3MiddleState : public BossStage3State
+{
+
+public:
+
+	BossStage3MiddleState(BOSS_STAGE_3_ANIMATION_ID nextState);
+	virtual ~BossStage3MiddleState();
+
+	virtual void Exit(BossStage3&) override;
+	virtual void Enter(BossStage3&) override;
+	virtual void Render(BossStage3&) override;
+
+	virtual BossStage3State* Update(BossStage3&) override;
+	virtual BossStage3State* HandleInput(BossStage3&, Input&) override;
+protected:
+	TIME delayTime;
+	BOSS_STAGE_3_ANIMATION_ID nextState;
 };

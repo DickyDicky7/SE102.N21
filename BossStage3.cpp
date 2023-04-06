@@ -71,11 +71,12 @@ void BossStage3::LoadSprites()
 
 	// SPRITES
 
-	InsertSpriteBoss3(BOSS_STAGE_3_SPRITE_ID::OPEN_1, 6, 5, 96 + 6, 72 + 5);
-	InsertSpriteBoss3(BOSS_STAGE_3_SPRITE_ID::OPEN_2, 112, 5, 96 + 112, 72 + 5);
-	InsertSpriteBoss3(BOSS_STAGE_3_SPRITE_ID::OPEN_3, 218, 5, 96 + 218, 81 + 5);
-	InsertSpriteBoss3(BOSS_STAGE_3_SPRITE_ID::OPEN_4, 324, 5, 96 + 324, 81 + 5);
-	InsertSpriteBoss3(BOSS_STAGE_3_SPRITE_ID::OPEN_5, 430, 5, 96 + 430, 81 + 5);
+	InsertSpriteBoss3(BOSS_STAGE_3_SPRITE_ID::MIDDLE_01, 6, 5, 96 + 6, 72 + 5);
+	InsertSpriteBoss3(BOSS_STAGE_3_SPRITE_ID::MIDDLE_02, 112, 5, 96 + 112, 72 + 5);
+
+	InsertSpriteBoss3(BOSS_STAGE_3_SPRITE_ID::OPEN_1, 218, 5, 96 + 218, 81 + 5);
+	InsertSpriteBoss3(BOSS_STAGE_3_SPRITE_ID::OPEN_2, 324, 5, 96 + 324, 81 + 5);
+	InsertSpriteBoss3(BOSS_STAGE_3_SPRITE_ID::OPEN_3, 430, 5, 96 + 430, 81 + 5);
 
 	InsertSpriteBoss3(BOSS_STAGE_3_SPRITE_ID::CLOSE_1, 6, 96, 96 + 6, 62 + 96);
 	InsertSpriteBoss3(BOSS_STAGE_3_SPRITE_ID::CLOSE_2, 112, 96, 96 + 112, 62 + 96);
@@ -103,13 +104,17 @@ void BossStage3::LoadAnimations()
 
 #pragma region Load Animations
 
+	GraphicsHelper::InsertAnimation(BOSS_STAGE_3_ANIMATION_ID::MIDDLE, 150,
+		{
+			{BOSS_STAGE_3_SPRITE_ID::MIDDLE_01,0},
+			{BOSS_STAGE_3_SPRITE_ID::MIDDLE_02,0},
+		});
+
 	GraphicsHelper::InsertAnimation(BOSS_STAGE_3_ANIMATION_ID::OPEN, 150,
 		{
 			{BOSS_STAGE_3_SPRITE_ID::OPEN_1,0},
 			{BOSS_STAGE_3_SPRITE_ID::OPEN_2,0},
 			{BOSS_STAGE_3_SPRITE_ID::OPEN_3,0},
-			{BOSS_STAGE_3_SPRITE_ID::OPEN_4,0},
-			{BOSS_STAGE_3_SPRITE_ID::OPEN_5,0},
 		});
 	GraphicsHelper::InsertAnimation(BOSS_STAGE_3_ANIMATION_ID::CLOSE, 150,
 		{

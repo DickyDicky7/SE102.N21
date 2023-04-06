@@ -67,6 +67,7 @@
     <ClCompile Include="BossStage3.cpp" />
     <ClCompile Include="BossStage3CloseState.cpp" />
     <ClCompile Include="BossStage3Common.h" />
+    <ClCompile Include="BossStage3MiddleState.cpp" />
     <ClCompile Include="BossStage3OpenState.cpp" />
     <ClCompile Include="BossStage3State.cpp" />
     <ClCompile Include="Entity.cpp" />

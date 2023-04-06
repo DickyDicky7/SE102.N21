@@ -419,5 +419,8 @@
     <ClCompile Include="BossStage3CloseState.cpp">
       <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3State</Filter>
     </ClCompile>
+    <ClCompile Include="BossStage3MiddleState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3State</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
