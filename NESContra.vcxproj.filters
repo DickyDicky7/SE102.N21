@@ -88,6 +88,15 @@
     <Filter Include="Source Files\Objects\Enemies\WallTurret\WallTurretState">
       <UniqueIdentifier>{3887bf97-f37e-4fed-b077-c468432bd6de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Enemies\BossStage3">
+      <UniqueIdentifier>{8f9e1b94-f64d-48fb-9966-32293c07c812}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\BossStage3">
+      <UniqueIdentifier>{be0dc8c7-0e71-47f6-80a8-600ab84024ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3State">
+      <UniqueIdentifier>{283e9967-ec2f-4af5-8faf-0b53a8a83ec9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -146,6 +155,9 @@
     </ClInclude>
     <ClInclude Include="WallTurret.h">
       <Filter>Header Files\Objects\Enemies\WallTurret</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStage3.h">
+      <Filter>Header Files\Objects\Enemies\BossStage3</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -391,6 +403,21 @@
     </ClCompile>
     <ClCompile Include="BillSwimRunState.cpp">
       <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3Common.h">
+      <Filter>Header Files\Objects\Enemies\BossStage3</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3State.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3OpenState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3State</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3CloseState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

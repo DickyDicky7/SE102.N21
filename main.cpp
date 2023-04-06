@@ -5,7 +5,7 @@
 #include "Soldier.h"
 #include "WallTurret.h"
 #include "ScubaSoldier.h"
-
+#include "BossStage3.h"
 Input* input;
 
 // global declarations
@@ -23,8 +23,8 @@ void initSprite();
 Bill bill;
 Soldier soldier;
 WallTurret wallTurret;
-
 ScubaSoldier scubaSoldier;
+BossStage3 bossStage3;
 
 // the WindowProc function prototype
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -93,19 +93,20 @@ int WINAPI WinMain(
 			break;
 
 		input->Capture();
-		// bill 
+		// handleInput
 		bill.HandleInput(*input);
 		soldier.HandleInput(*input);
 		scubaSoldier.HandleInput(*input);
+		bossStage3.HandleInput(*input);
 
-
+		// update
 		bill.Update();
 		soldier.Update();
 		scubaSoldier.Update();
+		bossStage3.Update();
 		
 		wallTurret.CalculateBillAngle(&bill);
 		wallTurret.Update();
-		// scubaSoldier
 
 		GraphicsHelper::device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 		GraphicsHelper::device->BeginScene();
@@ -115,6 +116,7 @@ int WINAPI WinMain(
 		wallTurret.Render();
 		soldier.Render();
 		scubaSoldier.Render();
+		bossStage3.Render();
 
 		GraphicsHelper::spriteHandler->End();
 		GraphicsHelper::device->EndScene();
@@ -154,6 +156,11 @@ void initSprite()
 	scubaSoldier.LoadTextures();
 	scubaSoldier.LoadSprites();
 	scubaSoldier.LoadAnimations();
+
+	// BossStage3
+	bossStage3.LoadTextures();
+	bossStage3.LoadSprites();
+	bossStage3.LoadAnimations();
 
 	TestingEntity testingEntity;
 	testingEntity.LoadTextures();

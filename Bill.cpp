@@ -3,7 +3,7 @@
 Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 	self = this;
-	this->angle = 45;
+	this->angle = 0;
 	this->vx = 1.0f;
 	this->vy = 1.0f;
 	this->ax = 0.1f;
