@@ -3,11 +3,12 @@
 Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 	self = this;
-	
+
 	this->vx = 1.0f;
 	this->vy = 1.0f;
 	this->ax = 0.1f;
 	this->ay = 0.1f;
+	this->angle = 0;
 	this->position.x = SCREEN_WIDTH  / 4     ;
 	this->position.y = SCREEN_HEIGHT / 2 - 50;
 
