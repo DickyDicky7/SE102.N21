@@ -64,6 +64,12 @@ inline T* Entity<T>::SetX(FLOAT x) { position.x = x; return self; }
 template <class T>
 inline T* Entity<T>::SetY(FLOAT y) { position.y = y; return self; }
 
+template<class T>
+inline T* Entity<T>::SetAX(FLOAT ax) { this->ax = ax; return self; }
+
+template<class T>
+inline T* Entity<T>::SetAY(FLOAT ay) { this->ay = ay; return self; }
+
 template <class T>
 inline T* Entity<T>::SetAX(FLOAT ax) { this->ax = ax; return self; }
 
@@ -76,7 +82,7 @@ inline T* Entity<T>::SetVX(FLOAT vx) { this->vx = vx; return self; }
 template <class T>
 inline T* Entity<T>::SetVY(FLOAT vy) { this->vy = vy; return self; }
 
-template<class T>
+template <class T>
 inline T* Entity<T>::SetAngle(FLOAT angle) { this->angle = angle; return self; }
 
 template <class T>
@@ -87,6 +93,12 @@ inline FLOAT Entity<T>::GetX() const { return position.x; }
 
 template <class T>
 inline FLOAT Entity<T>::GetY() const { return position.y; }
+
+template<class T>
+inline FLOAT Entity<T>::GetAX() const { return ax; }
+
+template<class T>
+inline FLOAT Entity<T>::GetAY() const { return ay; }
 
 template <class T>
 inline FLOAT Entity<T>::GetAX() const { return ax; }
@@ -100,7 +112,7 @@ inline FLOAT Entity<T>::GetVX() const { return vx; }
 template <class T>
 inline FLOAT Entity<T>::GetVY() const { return vy; }
 
-template<class T>
+template <class T>
 inline FLOAT Entity<T>::GetAngle() const { return angle; }
 
 template <class T>

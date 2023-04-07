@@ -19,11 +19,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseEnemy.h" />
     <ClInclude Include="Bill.h" />
     <ClInclude Include="BillCommon.h" />
     <ClInclude Include="BossStage3.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GraphicsDatabase.h" />
     <ClInclude Include="GraphicsHelper.h" />
@@ -43,7 +43,6 @@
     <ClInclude Include="TestingEntityCommon.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseEnemy.cpp" />
     <ClCompile Include="Bill.cpp" />
     <ClCompile Include="BillBeginState.cpp" />
     <ClCompile Include="BillBeginSwimState.cpp" />
@@ -72,6 +71,7 @@
     <ClCompile Include="BossStage3MiddleState.cpp" />
     <ClCompile Include="BossStage3OpenState.cpp" />
     <ClCompile Include="BossStage3State.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GraphicsDatabase.cpp" />
     <ClCompile Include="GraphicsHelper.cpp" />
