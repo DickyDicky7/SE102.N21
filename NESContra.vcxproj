@@ -31,6 +31,8 @@
     <ClInclude Include="HasSprites.h" />
     <ClInclude Include="HasTextures.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="RifleMan.h" />
+    <ClInclude Include="RifleManCommon.h" />
     <ClInclude Include="ScubaSoldier.h" />
     <ClInclude Include="ScubaSoldierCommon.h" />
     <ClInclude Include="Soldier.h" />
@@ -78,6 +80,8 @@
     <ClCompile Include="HasTextures.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RifleMan.cpp" />
+    <ClCompile Include="RifleManState.cpp" />
     <ClCompile Include="ScubaSoldier.cpp" />
     <ClCompile Include="ScubaSoldierHiddenState.cpp" />
     <ClCompile Include="ScubaSoldierShootingState.cpp" />
