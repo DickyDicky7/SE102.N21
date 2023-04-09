@@ -97,6 +97,24 @@
     <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3State">
       <UniqueIdentifier>{283e9967-ec2f-4af5-8faf-0b53a8a83ec9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Enemies\RifleMan">
+      <UniqueIdentifier>{79d2c866-2293-4630-9842-287f1a71d622}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\RifleMan">
+      <UniqueIdentifier>{6932a0fa-1526-4ae9-9a3a-3415efd401be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\RifleMan\HideOnBush">
+      <UniqueIdentifier>{14bbbc09-f6ba-4497-a508-993c9af08a10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\RifleMan\Standing">
+      <UniqueIdentifier>{f56f47ec-84da-4430-be29-41a0de0b2045}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\RifleMan\HideOnBush">
+      <UniqueIdentifier>{b6bdcd03-29f5-4a55-81d9-e64e154d1647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\RifleMan\Standing">
+      <UniqueIdentifier>{6039a4df-e9ea-4617-af4e-6cbc3c56ac77}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -158,6 +176,12 @@
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="RifleMan.h">
+      <Filter>Header Files\Objects\Enemies\RifleMan</Filter>
+    </ClInclude>
+    <ClInclude Include="RifleManCommon.h">
+      <Filter>Header Files\Objects\Enemies\RifleMan</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -265,9 +289,6 @@
     </ClCompile>
     <ClCompile Include="ScubaSoldier.cpp">
       <Filter>Source Files\Objects\Enemies\ScubaSoldier</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseEnemy.cpp">
-      <Filter>Source Files\Abstractions</Filter>
     </ClCompile>
     <ClCompile Include="TestingEntity.cpp">
       <Filter>Source Files\Objects\TestingEntity</Filter>
@@ -421,6 +442,9 @@
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleMan.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

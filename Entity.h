@@ -70,11 +70,6 @@ inline T* Entity<T>::SetAX(FLOAT ax) { this->ax = ax; return self; }
 template<class T>
 inline T* Entity<T>::SetAY(FLOAT ay) { this->ay = ay; return self; }
 
-template <class T>
-inline T* Entity<T>::SetAX(FLOAT ax) { this->ax = ax; return self; }
-
-template <class T>
-inline T* Entity<T>::SetAY(FLOAT ay) { this->ay = ay; return self; }
 
 template <class T>
 inline T* Entity<T>::SetVX(FLOAT vx) { this->vx = vx; return self; }
@@ -98,12 +93,6 @@ template<class T>
 inline FLOAT Entity<T>::GetAX() const { return ax; }
 
 template<class T>
-inline FLOAT Entity<T>::GetAY() const { return ay; }
-
-template <class T>
-inline FLOAT Entity<T>::GetAX() const { return ax; }
-
-template <class T>
 inline FLOAT Entity<T>::GetAY() const { return ay; }
 
 template <class T>

@@ -1,7 +1,14 @@
 #pragma once
-#include "State.h"
-#include "Common.h"
-#include "Entity.h"
-#include "HasSprites.h"
 #include "HasTextures.h"
-#include "HasAnimations.h"
+
+class RifleMan;
+
+
+class RifleMan : public HasTextures<RifleMan>
+{
+public:
+	RifleMan();
+	virtual ~RifleMan();
+
+	static void LoadTextures();
+};

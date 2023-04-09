@@ -6,6 +6,8 @@
 #include "WallTurret.h"
 #include "ScubaSoldier.h"
 #include "BossStage3.h"
+#include "RifleManHideOnBush.h"
+
 Input* input;
 
 // global declarations
@@ -25,6 +27,8 @@ Soldier soldier;
 WallTurret wallTurret;
 ScubaSoldier scubaSoldier;
 BossStage3 bossStage3;
+RifleManHideOnBush rifleManHideOnBush;
+RifleManHideOnBush rifleManHideOnBush2;
 
 // the WindowProc function prototype
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -104,9 +108,9 @@ int WINAPI WinMain(
 		soldier.Update();
 		scubaSoldier.Update();
 		bossStage3.Update();
-
-		wallTurret.CalculateBillAngle(&bill);
 		wallTurret.Update();
+		rifleManHideOnBush.Update();
+		rifleManHideOnBush.Update();
 
 		GraphicsHelper::device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 		GraphicsHelper::device->BeginScene();
@@ -117,6 +121,8 @@ int WINAPI WinMain(
 		soldier.Render();
 		scubaSoldier.Render();
 		bossStage3.Render();
+		rifleManHideOnBush.Render();
+		rifleManHideOnBush.Render();
 
 		GraphicsHelper::spriteHandler->End();
 		GraphicsHelper::device->EndScene();
@@ -165,14 +171,15 @@ void initSprite()
 	bossStage3.LoadAnimations();
 	bossStage3.SetTarget(&bill);
 
-	TestingEntity testingEntity;
-	testingEntity.LoadTextures();
-	testingEntity.LoadSprites();
-	testingEntity.LoadAnimations();
 	wallTurret.LoadTextures();
 	wallTurret.LoadSprites();
 	wallTurret.LoadAnimations();
 	wallTurret.SetTarget(&bill);
+
+	rifleManHideOnBush.LoadTextures();
+	rifleManHideOnBush.LoadSprites();
+	rifleManHideOnBush.LoadAnimations();
+	rifleManHideOnBush.SetTarget(&bill);
 }
 
 // this is the main message handler for the program

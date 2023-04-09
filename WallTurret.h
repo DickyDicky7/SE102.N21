@@ -44,13 +44,13 @@ public:
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
-	void CalculateBillAngle(Bill*);
+	void CalculateBillAngle();
 
 protected:
 	WallTurretState* state;
 	WallTurretState* updateState;
 
-	int billAngle;
+	float billAngle;
 };
 
 class WallTurretState : public State<WallTurretState, WallTurret>

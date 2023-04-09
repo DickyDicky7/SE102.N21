@@ -81,7 +81,6 @@
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="RifleMan.cpp" />
-    <ClCompile Include="RifleManState.cpp" />
     <ClCompile Include="ScubaSoldier.cpp" />
     <ClCompile Include="ScubaSoldierHiddenState.cpp" />
     <ClCompile Include="ScubaSoldierShootingState.cpp" />

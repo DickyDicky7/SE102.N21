@@ -1,1 +1,30 @@
 #pragma once
+enum class RIFLE_MAN_TEXTURE_ID
+{
+	RIFLE_MAN
+};
+
+enum class RIFLE_MAN_SPRITE_ID
+{
+	SHOOT_NORMAL,
+
+	SHOOT_UP,
+
+	SHOOT_DOWN,
+
+	HIDE,
+
+	APPEAR_01,
+	APPEAR_02,
+};
+
+enum class RIFLE_MAN_ANIMATION_ID
+{
+	SHOOT_NORMAL,
+	SHOOT_UP,
+	SHOOT_DOWN,
+	APPEAR,
+	HIDE,
+	HIDDING,
+	STANDING
+};
