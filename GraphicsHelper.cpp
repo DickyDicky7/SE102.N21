@@ -78,20 +78,22 @@ void GraphicsHelper::DrawSprite(SPRITE sprite, D3DXVECTOR3 position, DIRECTION m
 	if (movingDirection != spriteDirection)
 	{
 		position.x = -position.x;
-		D3DXVECTOR2 flippingRatio(-2.0f, +2.0f);
+		position.y = -position.y;
+		D3DXVECTOR2 flippingRatio(-1.0f, -1.0f);
 		D3DXMatrixTransformation2D(&transformMatrix, &flippingCenter, 0.0f, &flippingRatio, &rotatingCenter, D3DXToRadian(angle), NULL);
 	}
 	if (movingDirection == spriteDirection)
 	{
 		position.x = +position.x;
-		D3DXVECTOR2 flippingRatio(+2.0f, +2.0f);
+		position.y = -position.y;
+		D3DXVECTOR2 flippingRatio(+1.0f, -1.0f);
 		D3DXMatrixTransformation2D(&transformMatrix, &flippingCenter, 0.0f, &flippingRatio, &rotatingCenter, D3DXToRadian(angle), NULL);
 	}
 
 	//device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 	//device->BeginScene();
 
-	spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
+	spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_OBJECTSPACE);
 	spriteHandler->SetTransform(&transformMatrix);
 	spriteHandler->Draw
 	(
