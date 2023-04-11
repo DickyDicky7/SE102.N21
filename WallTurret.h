@@ -40,8 +40,8 @@ public:
 	void Render() override;
 	void HandleInput(Input&) override;
 
-	void LoadSprites() override;
 	void LoadTextures() override;
+	void LoadSprites() override;
 	void LoadAnimations() override;
 
 	void CalculateBillAngle();

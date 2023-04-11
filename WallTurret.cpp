@@ -1,4 +1,3 @@
-#include <string>
 #include "WallTurret.h"
 
 #define PI D3DX_PI

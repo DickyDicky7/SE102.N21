@@ -33,6 +33,8 @@
     <ClInclude Include="Input.h" />
     <ClInclude Include="RifleMan.h" />
     <ClInclude Include="RifleManCommon.h" />
+    <ClInclude Include="RifleManHideOnBush.h" />
+    <ClInclude Include="RifleManStanding.h" />
     <ClInclude Include="ScubaSoldier.h" />
     <ClInclude Include="ScubaSoldierCommon.h" />
     <ClInclude Include="Soldier.h" />
@@ -43,6 +45,11 @@
     <ClInclude Include="TestingEntityCommon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="RifleManHideOnBushState.cpp" />
+    <ClCompile Include="RifleManStanding.cpp" />
+    <ClCompile Include="RifleManStandingAimDownState.cpp" />
+    <ClCompile Include="RifleManStandingAimUpState.cpp" />
+    <ClCompile Include="RifleManHideOnBushAppearState.cpp" />
     <ClCompile Include="Bill.cpp" />
     <ClCompile Include="BillBeginState.cpp" />
     <ClCompile Include="BillBeginSwimState.cpp" />
@@ -78,9 +85,14 @@
     <ClCompile Include="HasAnimations.cpp" />
     <ClCompile Include="HasSprites.cpp" />
     <ClCompile Include="HasTextures.cpp" />
+    <ClCompile Include="RifleManHideOnBushHideState.cpp" />
+    <ClCompile Include="RifleManHideOnBushHidingState.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RifleManStandingNormalState.cpp" />
     <ClCompile Include="RifleMan.cpp" />
+    <ClCompile Include="RifleManHideOnBush.cpp" />
+    <ClCompile Include="RifleManStandingState.cpp" />
     <ClCompile Include="ScubaSoldier.cpp" />
     <ClCompile Include="ScubaSoldierHiddenState.cpp" />
     <ClCompile Include="ScubaSoldierShootingState.cpp" />
@@ -92,6 +104,7 @@
     <ClCompile Include="SoldierRunState.cpp" />
     <ClCompile Include="SoldierShootState.cpp" />
     <ClCompile Include="SoldierState.cpp" />
+    <ClCompile Include="RifleManHideOnBushStandingState.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="TestingEntity.cpp" />
     <ClCompile Include="WallTurret.cpp" />

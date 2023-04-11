@@ -14,6 +14,7 @@ public:
 	virtual ~HasAnimations();
 	virtual void LoadAnimations() = 0;
 	virtual void SetAnimation(ANIMATION_ID, D3DXVECTOR3, DIRECTION, FLOAT);
+	virtual INT GetCurrentFrame();
 
 protected:
 
@@ -65,3 +66,9 @@ Bool<T> HasAnimations<T>::hasBeenLoaded
 {
 	false
 };
+
+template <class T>
+inline int HasAnimations<T>::GetCurrentFrame()
+{
+	return currentFrame;
+}
