@@ -44,16 +44,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	ShowWindow(hWnd, nCmdShow);
 
 	LoadD3D(hWnd);
+	LoadAssets();
 
 	input = new Input
 	(
 		hInstance, hWnd
 	);
-	camera = new Camera();
-	camera->SetSpeedX(3.0f);
-	camera->SetLastX(bill.GetX());
-
-	LoadAssets();
+	camera = new Camera
+	(
+		new CameraMovingForwardState()
+	);
 
 	MSG msg;
 	while (TRUE)
@@ -81,7 +81,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		wallTurret.CalculateBillAngle(&bill);
 		wallTurret.Update();
 
-		camera->CaptureX(bill.GetX());
+		//if (bill.GetY() <= 0)
+		//{
+		//	camera->Capture
+		//	(
+		//		bill.GetX(), bill.GetY(),
+		//		bill.GetVX(), bill.GetVY()
+		//	);
+		//}
+		camera->Capture(bill.GetX(), bill.GetY());
 
 		d3ddev->SetTransform(D3DTS_VIEW, &camera->GetViewMatrix());
 		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
@@ -184,14 +192,12 @@ void LoadD3D(HWND hWnd)
 
 	D3DXMATRIX worldMatrix;
 	D3DXMATRIX projectionMatrix;
-
-	D3DXVECTOR2 scalingCenter(0.0f, 0.0f);
-	D3DXVECTOR2 scalingRatio(SCALING_RATIO_X, -SCALING_RATIO_Y);
-	D3DXVECTOR2 translationAmount(-SCREEN_WIDTH / 2.0f, +SCREEN_HEIGHT / 2.0f);
+	D3DXVECTOR2 flippingRatio(+1.0f, -1.0f);
+	D3DXVECTOR2 flippingCenter(+0.0f, +0.0f);
 
 	D3DXMatrixIdentity(&worldMatrix);
 	D3DXMatrixOrthoLH(&projectionMatrix, SCREEN_WIDTH, -SCREEN_HEIGHT, 0.0f, 1.0f);
-	D3DXMatrixTransformation2D(&worldMatrix, &scalingCenter, 0.0f, &scalingRatio, NULL, 0.0f, &translationAmount);
+	D3DXMatrixTransformation2D(&worldMatrix, &flippingCenter, 0.0f, &flippingRatio, NULL, 0.0f, NULL);
 
 	d3ddev->SetTransform(D3DTS_WORLD, &worldMatrix);
 	d3ddev->SetTransform(D3DTS_PROJECTION, &projectionMatrix);

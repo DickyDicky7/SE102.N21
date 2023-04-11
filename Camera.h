@@ -1,38 +1,140 @@
 #pragma once
 
+
+#include "State.h"
+#include "Entity.h"
 #include "Common.h"
 
-class Camera
+
+class Camera;
+class CameraState;
+class CameraMovingUpwardState;
+class CameraMovingForwardState;
+class CameraMovingDownwardState;
+class CameraMovingBackwardState;
+
+
+class Camera : public Entity<Camera>
 {
 
 public:
 
-	Camera();
-	virtual ~Camera();
-	virtual void CaptureX(FLOAT);
-	virtual void CaptureY(FLOAT);
+	Camera
+	(
+		CameraState* = NULL,
+		FLOAT = +SCREEN_WIDTH / (2.0f * SCALING_RATIO_X), FLOAT = +SCREEN_HEIGHT / (2.0f * SCALING_RATIO_Y)
+	);
+	~Camera();
 
-	virtual Camera* SetLastX(FLOAT);
-	virtual Camera* SetLastY(FLOAT);
-	virtual Camera* SetSpeedX(FLOAT);
-	virtual Camera* SetSpeedY(FLOAT);
+	void Update() override;
+	void Render() override;
+	void HandleInput(Input&) override;
 
-	virtual FLOAT GetLastX() const;
-	virtual FLOAT GetLastY() const;
-	virtual FLOAT GetSpeedX() const;
-	virtual FLOAT GetSpeedY() const;
-	virtual const D3DMATRIX& GetViewMatrix() const;
+	void Capture(FLOAT, FLOAT);
+	const D3DMATRIX& GetViewMatrix() const;
 
 protected:
 
 	D3DXMATRIX viewMatrix;
+	CameraState* state;
 	D3DXVECTOR3 eye;
 	D3DXVECTOR3 at;
 	D3DXVECTOR3 up;
-	FLOAT speedX;
-	FLOAT speedY;
-	FLOAT lastX;
-	FLOAT lastY;
+
+};
+
+
+class CameraState : public State<CameraState, Camera>
+{
+
+public:
+
+	CameraState();
+	virtual ~CameraState();
+
+	virtual void Exit(Camera&) override = 0;
+	virtual void Enter(Camera&) override = 0;
+	virtual void Render(Camera&) override = 0;
+
+	virtual CameraState* Update(Camera&) override = 0;
+	virtual CameraState* Capture(FLOAT, FLOAT, Camera&) = 0;
+	virtual CameraState* HandleInput(Camera&, Input&) override = 0;
+
+};
+
+
+class CameraMovingUpwardState : public CameraState
+{
+
+public:
+
+	CameraMovingUpwardState();
+	virtual ~CameraMovingUpwardState();
+
+	virtual void Exit(Camera&) override;
+	virtual void Enter(Camera&) override;
+	virtual void Render(Camera&) override;
+
+	virtual CameraState* Update(Camera&) override;
+	virtual CameraState* HandleInput(Camera&, Input&) override;
+	virtual CameraState* Capture(FLOAT, FLOAT, Camera&) override;
+
+};
+
+
+class CameraMovingForwardState : public CameraState
+{
+
+public:
+
+	CameraMovingForwardState();
+	virtual ~CameraMovingForwardState();
+
+	virtual void Exit(Camera&) override;
+	virtual void Enter(Camera&) override;
+	virtual void Render(Camera&) override;
+
+	virtual CameraState* Update(Camera&) override;
+	virtual CameraState* HandleInput(Camera&, Input&) override;
+	virtual CameraState* Capture(FLOAT, FLOAT, Camera&) override;
+
+};
+
+
+class CameraMovingDownwardState : public CameraState
+{
+
+public:
+
+	CameraMovingDownwardState();
+	virtual ~CameraMovingDownwardState();
+
+	virtual void Exit(Camera&) override;
+	virtual void Enter(Camera&) override;
+	virtual void Render(Camera&) override;
+
+	virtual CameraState* Update(Camera&) override;
+	virtual CameraState* HandleInput(Camera&, Input&) override;
+	virtual CameraState* Capture(FLOAT, FLOAT, Camera&) override;
+
+};
+
+
+class CameraMovingBackwardState : public CameraState
+{
+
+public:
+
+	CameraMovingBackwardState();
+	virtual ~CameraMovingBackwardState();
+
+	virtual void Exit(Camera&) override;
+	virtual void Enter(Camera&) override;
+	virtual void Render(Camera&) override;
+
+	virtual CameraState* Update(Camera&) override;
+	virtual CameraState* HandleInput(Camera&, Input&) override;
+	virtual CameraState* Capture(FLOAT, FLOAT, Camera&) override;
 
 };
 

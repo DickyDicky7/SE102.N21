@@ -1,62 +1,62 @@
 #include "Camera.h"
 
-Camera::Camera() : eye(0.0f, 0.0f, -1.0f), at(0.0f, 0.0f, 0.0f), up(0.0f, 1.0f, 0.0f), speedX(1.0f), speedY(1.0f), lastX(0.0f), lastY(0.0f)
+Camera::Camera(CameraState* state, FLOAT x, FLOAT y) : Entity()
 {
-	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &up);
+	self = this;
+	this->state = state;
+	this->position.x = x;
+	this->position.y = y;
 }
 
 Camera::~Camera()
 {
 }
 
-void Camera::CaptureX(FLOAT x)
+void Camera::Update()
 {
-	if (x > lastX)
-	{
-		at.x += speedX;
-		eye.x += speedX;
-	}
-	if (x < lastX)
-	{
-		at.x -= speedX;
-		eye.x -= speedX;
-	}
-
-	lastX = x;
-	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &up);
+	if (state)
+		state = state->Update(*this);
 }
 
-void Camera::CaptureY(FLOAT y)
+void Camera::Render()
 {
-	if (y > lastY)
-	{
-		at.y -= speedY;
-		eye.y -= speedY;
-	}
-	if (y < lastY)
-	{
-		at.y += speedY;
-		eye.y += speedY;
-	}
-
-	lastY = y;
-	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &up);
+	if (state)
+		state->Render(*this);
 }
 
-Camera* Camera::SetLastX(FLOAT lastX) { this->lastX = lastX; return this; }
+void Camera::HandleInput(Input& input)
+{
+	if (state)
+		state = state->HandleInput(*this, input);
+}
 
-Camera* Camera::SetLastY(FLOAT lastY) { this->lastY = lastY; return this; }
+void Camera::Capture(FLOAT x, FLOAT y)
+{
+	if (state)
+		state = state->Capture(x, y, *this);
 
-Camera* Camera::SetSpeedX(FLOAT speedX) { this->speedX = speedX; return this; }
+	eye = D3DXVECTOR3
+	(
+		+position.x, -position.y, -1.0f
+	);
+	at = D3DXVECTOR3
+	(
+		+position.x, -position.y, +0.0f
+	);
+	up = D3DXVECTOR3
+	(
+		+0.0f, +1.0f, +0.0f
+	);
 
-Camera* Camera::SetSpeedY(FLOAT speedY) { this->speedY = speedY; return this; }
+	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &up);
 
-FLOAT Camera::GetLastX() const { return lastX; }
+	D3DXMATRIX scalingMatrix;
+	D3DXMatrixScaling(&scalingMatrix, SCALING_RATIO_X, SCALING_RATIO_Y, 1.0f);
 
-FLOAT Camera::GetLastY() const { return lastY; }
+	viewMatrix *= scalingMatrix;
+}
 
-FLOAT Camera::GetSpeedX() const { return speedX; }
-
-FLOAT Camera::GetSpeedY() const { return speedY; }
-
-const D3DMATRIX& Camera::GetViewMatrix() const { return viewMatrix; }
+const D3DMATRIX& Camera::GetViewMatrix() const
+{
+	return viewMatrix;
+}
