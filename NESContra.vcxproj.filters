@@ -169,7 +169,10 @@
       <Filter>Header Files\Abstractions\Object Abstractions</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\Objects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraCommon.h">
+      <Filter>Header Files\Objects\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
