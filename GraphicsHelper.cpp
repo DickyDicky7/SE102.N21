@@ -59,8 +59,8 @@ void GraphicsHelper::DrawSprite(SPRITE sprite, D3DXVECTOR3 position, DIRECTION m
 	TEXTURE_ID textureId       = std::get<TEXTURE_ID>(sprite);
 
 	D3DXMATRIX  transformMatrix;
-	D3DXVECTOR2 flippingCenter(0, 0);
-	D3DXVECTOR2 rotatingCenter(0, 0);
+	D3DXVECTOR2 flippingCenter(0.0f, 0.0f);
+	D3DXVECTOR2 rotatingCenter(0.0f, 0.0f);
 
 	FLOAT drawingCenterX = (FLOAT)(rect->right  - rect->left) / 2.0f;
 	FLOAT drawingCenterY = (FLOAT)(rect->bottom - rect->top ) / 1.0f;

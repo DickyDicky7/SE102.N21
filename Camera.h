@@ -8,6 +8,7 @@
 
 class Camera;
 class CameraState;
+class CameraStaticState;
 class CameraMovingUpwardState;
 class CameraMovingForwardState;
 class CameraMovingDownwardState;
@@ -59,6 +60,25 @@ public:
 	virtual CameraState* Update(Camera&) override = 0;
 	virtual CameraState* Capture(FLOAT, FLOAT, Camera&) = 0;
 	virtual CameraState* HandleInput(Camera&, Input&) override = 0;
+
+};
+
+
+class CameraStaticState : public CameraState
+{
+
+public:
+
+	CameraStaticState();
+	virtual ~CameraStaticState();
+
+	virtual void Exit(Camera&) override;
+	virtual void Enter(Camera&) override;
+	virtual void Render(Camera&) override;
+
+	virtual CameraState* Update(Camera&) override;
+	virtual CameraState* HandleInput(Camera&, Input&) override;
+	virtual CameraState* Capture(FLOAT, FLOAT, Camera&) override;
 
 };
 

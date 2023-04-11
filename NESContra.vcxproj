@@ -77,6 +77,7 @@
     <ClCompile Include="CameraMovingForwardState.cpp" />
     <ClCompile Include="CameraMovingUpwardState.cpp" />
     <ClCompile Include="CameraState.cpp" />
+    <ClCompile Include="CameraStaticState.cpp" />
     <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Entity.cpp" />
     <ClCompile Include="GraphicsDatabase.cpp" />

@@ -452,5 +452,8 @@
     <ClCompile Include="CameraMovingBackwardState.cpp">
       <Filter>Source Files\Objects\Camera\CameraState</Filter>
     </ClCompile>
+    <ClCompile Include="CameraStaticState.cpp">
+      <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
