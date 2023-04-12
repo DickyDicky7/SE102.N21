@@ -1,8 +1,14 @@
 #include "RifleManHideOnBush.h"
 
-RifleManHideOnBushStandingState::RifleManHideOnBushStandingState()
+RifleManHideOnBushStandingState::RifleManHideOnBushStandingState(RifleManHideOnBush& rifleManHideOnBush)
 {
+	float dx = (rifleManHideOnBush.GetPosition().x) - (rifleManHideOnBush.GetEnemyTarget()->GetPosition().x);
 
+	rifleManHideOnBush.SetMovingDirection(DIRECTION::RIGHT);
+	if (dx > 0)
+	{
+		rifleManHideOnBush.SetMovingDirection(DIRECTION::LEFT);
+	}
 }
 
 RifleManHideOnBushStandingState::~RifleManHideOnBushStandingState()
@@ -27,12 +33,13 @@ void RifleManHideOnBushStandingState::Render(RifleManHideOnBush& rifleManHideOnB
 
 RifleManHideOnBushState* RifleManHideOnBushStandingState::Update(RifleManHideOnBush& rifleManHideOnBush)
 {
-	if (GetTickCount64() - this->time == 3200.0f)
+
+	if (GetTickCount64() - this->time == 1500.0f)
 	{
 		OutputDebugString(L"\nShoot\n");
 	}
 
-	if (GetTickCount64() - this->time > 7800.0f)
+	if (GetTickCount64() - this->time > 3000.0f)
 	{
 		return new RifleManHideOnBushHideState();
 	}

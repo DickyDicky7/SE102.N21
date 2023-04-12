@@ -86,7 +86,7 @@ public:
 class RifleManHideOnBushStandingState : public RifleManHideOnBushState
 {
 public:
-	RifleManHideOnBushStandingState();
+	RifleManHideOnBushStandingState(RifleManHideOnBush&);
 	~RifleManHideOnBushStandingState();
 
 	virtual void Exit(RifleManHideOnBush&);
