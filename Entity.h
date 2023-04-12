@@ -64,12 +64,11 @@ inline T* Entity<T>::SetX(FLOAT x) { position.x = x; return self; }
 template <class T>
 inline T* Entity<T>::SetY(FLOAT y) { position.y = y; return self; }
 
-template<class T>
+template <class T>
 inline T* Entity<T>::SetAX(FLOAT ax) { this->ax = ax; return self; }
 
-template<class T>
+template <class T>
 inline T* Entity<T>::SetAY(FLOAT ay) { this->ay = ay; return self; }
-
 
 template <class T>
 inline T* Entity<T>::SetVX(FLOAT vx) { this->vx = vx; return self; }
@@ -89,10 +88,10 @@ inline FLOAT Entity<T>::GetX() const { return position.x; }
 template <class T>
 inline FLOAT Entity<T>::GetY() const { return position.y; }
 
-template<class T>
+template <class T>
 inline FLOAT Entity<T>::GetAX() const { return ax; }
 
-template<class T>
+template <class T>
 inline FLOAT Entity<T>::GetAY() const { return ay; }
 
 template <class T>
