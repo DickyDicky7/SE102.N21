@@ -15,6 +15,7 @@
 #include <concepts>
 #include <dinput.h>
 #include <Windows.h>
+//#include <functional>
 #include <type_traits>
 #include <unordered_map>
 
@@ -68,3 +69,5 @@ using TEXTURE   = LPDIRECT3DTEXTURE9;
 using SPRITE    = std::tuple<RECT*, DIRECTION, TEXTURE_ID>;
 using ANIMATION = std::tuple<DEFAULT_TIME, std::vector<std::tuple<SPRITE_ID, TIME>>>;
 
+//using KEYBOARD_EVENT_HANDLER = std::function<void(LPDIRECTINPUTDEVICE8, char(&)[256])>;
+//using    MOUSE_EVENT_HANDLER = std::function<void(LPDIRECTINPUTDEVICE8, DIMOUSESTATE&)>;

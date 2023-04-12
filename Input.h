@@ -11,20 +11,26 @@ public:
 	virtual ~Input();
 
 	virtual void Capture();
+
 	virtual INT IsKey(INT);
 	virtual INT IsButton(INT);
-	virtual void SetMouseEventListener(void (*mouseEventListener)(Input&));
-	virtual void SetKeyboardEventListener(void (*keyboardEventListener)(Input&));
+
+	virtual BOOL IsWheelUp();
+	virtual BOOL IsWheelDown();
+	virtual BOOL IsWheel(LONG);
+
+	//virtual void SetMouseEventListener(MOUSE_EVENT_HANDLER);
+	//virtual void SetKeyboardEventListener(KEYBOARD_EVENT_HANDLER);
 
 protected:
 
 	char keys[256];
-	DIMOUSESTATE buttons;
+	DIMOUSESTATE mouseST;
 	LPDIRECTINPUT8 input;
 	LPDIRECTINPUTDEVICE8 mouse;
 	LPDIRECTINPUTDEVICE8 keyboard;
-	std::vector<void (*)(Input&)> mouseEventListeners;
-	std::vector<void (*)(Input&)> keyboardEventListeners;
+	//std::vector<MOUSE_EVENT_HANDLER> mouseEventListeners;
+	//std::vector<KEYBOARD_EVENT_HANDLER> keyboardEventListeners;
 
 };
 

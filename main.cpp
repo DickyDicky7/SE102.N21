@@ -52,6 +52,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	);
 	camera = new Camera
 	(
+		/* input, */
 		new CameraMovingForwardState()
 	);
 
@@ -89,6 +90,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//		bill.GetVX(), bill.GetVY()
 		//	);
 		//}
+		camera->HandleInput(*input);
 		camera->Capture(bill.GetX(), bill.GetY());
 
 		d3ddev->SetTransform(D3DTS_VIEW, &camera->GetViewMatrix());

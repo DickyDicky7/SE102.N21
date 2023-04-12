@@ -22,8 +22,8 @@ public:
 
 	Camera
 	(
-		CameraState* = NULL,
-		FLOAT = +SCREEN_WIDTH / (2.0f * SCALING_RATIO_X), FLOAT = +SCREEN_HEIGHT / (2.0f * SCALING_RATIO_Y)
+		/* Input* = NULL, */  CameraState* = NULL,
+		FLOAT = +SCREEN_WIDTH / (2.0f * scalingRatioX), FLOAT = +SCREEN_HEIGHT / (2.0f * scalingRatioY)
 	);
 	~Camera();
 
@@ -31,11 +31,15 @@ public:
 	void Render() override;
 	void HandleInput(Input&) override;
 
+	void ZoomIn(FLOAT = 0.1f);
+	void ZoomOut(FLOAT = 0.1f);
 	void Capture(FLOAT, FLOAT);
 	const D3DMATRIX& GetViewMatrix() const;
 
 protected:
 
+	static FLOAT scalingRatioX;
+	static FLOAT scalingRatioY;
 	D3DXMATRIX viewMatrix;
 	CameraState* state;
 	D3DXVECTOR3 eye;

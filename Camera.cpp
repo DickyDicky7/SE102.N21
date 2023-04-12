@@ -1,8 +1,26 @@
 #include "Camera.h"
 
-Camera::Camera(CameraState* state, FLOAT x, FLOAT y) : Entity()
+FLOAT Camera::scalingRatioX = SCALING_RATIO_X;
+FLOAT Camera::scalingRatioY = SCALING_RATIO_Y;
+
+Camera::Camera(/* Input* input, */ CameraState* state, FLOAT x, FLOAT y) : Entity()
 {
 	self = this;
+
+	//if (input)
+	//{
+	//	input->SetMouseEventListener
+	//	(
+	//		MOUSE_EVENT_HANDLER
+	//		(
+	//			[](LPDIRECTINPUTDEVICE8 mouse, DIMOUSESTATE& buttons) -> void
+	//			{
+	//				OutputDebugString(L"aaa\n");
+	//			}
+	//		)
+	//	);
+	//}
+
 	this->state = state;
 	this->position.x = x;
 	this->position.y = y;
@@ -28,6 +46,21 @@ void Camera::HandleInput(Input& input)
 {
 	if (state)
 		state = state->HandleInput(*this, input);
+
+	if (input.IsWheelUp()) ZoomIn();
+	if (input.IsWheelDown()) ZoomOut();
+}
+
+void Camera::ZoomIn(FLOAT percentage)
+{
+	scalingRatioX += percentage;
+	scalingRatioY += percentage;
+}
+
+void Camera::ZoomOut(FLOAT percentage)
+{
+	if (scalingRatioX - percentage > 0) scalingRatioX -= percentage;
+	if (scalingRatioY - percentage > 0) scalingRatioY -= percentage;
 }
 
 void Camera::Capture(FLOAT x, FLOAT y)
@@ -51,7 +84,7 @@ void Camera::Capture(FLOAT x, FLOAT y)
 	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &up);
 
 	D3DXMATRIX scalingMatrix;
-	D3DXMatrixScaling(&scalingMatrix, SCALING_RATIO_X, SCALING_RATIO_Y, 1.0f);
+	D3DXMatrixScaling(&scalingMatrix, scalingRatioX, scalingRatioY, 1.0f);
 
 	viewMatrix *= scalingMatrix;
 }

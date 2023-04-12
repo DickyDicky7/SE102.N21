@@ -49,12 +49,21 @@ void Input::Capture()
 
 	mouse->GetDeviceState
 	(
-		sizeof(buttons), (LPVOID)&buttons
+		sizeof(mouseST), (LPVOID)&mouseST
 	);
 	keyboard->GetDeviceState
 	(
 		sizeof(keys), (LPVOID)&keys
 	);
+
+	//for (auto& mouseEventListener : mouseEventListeners)
+	//{
+	//	mouseEventListener(mouse, buttons);
+	//}
+	//for (auto& keyboardEventListener : keyboardEventListeners)
+	//{
+	//	keyboardEventListener(keyboard, keys);
+	//}
 
 	//_RPT1(0, "X: %d ; Y: %d ; Z: %d\n", buttons.lX, buttons.lY, buttons.lZ);
 
@@ -67,12 +76,27 @@ INT Input::IsKey(INT keyCode)
 
 INT Input::IsButton(INT buttonCode)
 {
-	return buttons.rgbButtons[buttonCode] & 0x80;
+	return mouseST.rgbButtons[buttonCode] & 0x80;
 }
 
-void Input::SetMouseEventListener(void (*mouseEventListener)(Input&)) { mouseEventListeners.push_back(mouseEventListener); }
+BOOL Input::IsWheelUp()
+{
+	return mouseST.lZ > 0;
+}
 
-void Input::SetKeyboardEventListener(void (*keyboardEventListener)(Input&)) { keyboardEventListeners.push_back(keyboardEventListener); }
+BOOL Input::IsWheelDown()
+{
+	return mouseST.lZ < 0;
+}
+
+BOOL Input::IsWheel(LONG lZ)
+{
+	return mouseST.lZ == lZ;
+}
+
+//void Input::SetMouseEventListener(MOUSE_EVENT_HANDLER mouseEventListener) { mouseEventListeners.push_back(mouseEventListener); }
+//
+//void Input::SetKeyboardEventListener(KEYBOARD_EVENT_HANDLER keyboardEventListener) { keyboardEventListeners.push_back(keyboardEventListener); }
 
 
 
