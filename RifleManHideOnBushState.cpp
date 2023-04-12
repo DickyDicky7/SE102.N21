@@ -2,7 +2,7 @@
 
 RifleManHideOnBushState::RifleManHideOnBushState()
 {
-	this->time = 0.0f;
+	this->time = GetTickCount64();
 }
 
 RifleManHideOnBushState::~RifleManHideOnBushState()

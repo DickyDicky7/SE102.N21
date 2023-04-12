@@ -28,10 +28,11 @@ void RifleManHideOnBushHideState::Render(RifleManHideOnBush& rifleManHideOnBush)
 RifleManHideOnBushState* RifleManHideOnBushHideState::Update(RifleManHideOnBush& rifleManHideOnBush)
 {
 	std::vector<std::tuple<SPRITE_ID, TIME>>& frames = std::get<
-		std::vector<std::tuple<SPRITE_ID, TIME>>>(GraphicsDatabase::animations[RIFLE_MAN_ANIMATION_ID::APPEAR]);
+		std::vector<std::tuple<SPRITE_ID, TIME>>>(GraphicsDatabase::animations[RIFLE_MAN_ANIMATION_ID::HIDE]);
 
 	if (std::cmp_greater_equal(rifleManHideOnBush.GetCurrentFrame() + 1, frames.size()))
 	{
+		this->time = GetTickCount64();
 		return new RifleManHideOnBushHidingState();
 	}
 	return NULL;

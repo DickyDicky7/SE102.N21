@@ -11,7 +11,7 @@ RifleManHideOnBush::RifleManHideOnBush() : Entity(), HasAnimations()
 	this->ax = 0.1f;
 	this->ay = 0.1f;
 	this->position.x = SCREEN_WIDTH / 3;
-	this->position.y = SCREEN_HEIGHT / 2 - 100;
+	this->position.y = SCREEN_HEIGHT / 2 - 200;
 
 	this->movingDirection = DIRECTION::LEFT;
 

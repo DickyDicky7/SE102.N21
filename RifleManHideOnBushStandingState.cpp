@@ -27,5 +27,15 @@ void RifleManHideOnBushStandingState::Render(RifleManHideOnBush& rifleManHideOnB
 
 RifleManHideOnBushState* RifleManHideOnBushStandingState::Update(RifleManHideOnBush& rifleManHideOnBush)
 {
-	return new RifleManHideOnBushHideState();
+	if (GetTickCount64() - this->time == 3200.0f)
+	{
+		OutputDebugString(L"\nShoot\n");
+	}
+
+	if (GetTickCount64() - this->time > 7800.0f)
+	{
+		return new RifleManHideOnBushHideState();
+	}
+
+	return NULL;
 }

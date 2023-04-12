@@ -7,6 +7,7 @@
 #include "ScubaSoldier.h"
 #include "BossStage3.h"
 #include "RifleManHideOnBush.h"
+#include "RifleManStanding.h"
 
 Input* input;
 
@@ -28,7 +29,7 @@ WallTurret wallTurret;
 ScubaSoldier scubaSoldier;
 BossStage3 bossStage3;
 RifleManHideOnBush rifleManHideOnBush;
-RifleManHideOnBush rifleManHideOnBush2;
+RifleManStanding rifleManStanding;
 
 // the WindowProc function prototype
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
@@ -110,7 +111,7 @@ int WINAPI WinMain(
 		bossStage3.Update();
 		wallTurret.Update();
 		rifleManHideOnBush.Update();
-		rifleManHideOnBush.Update();
+		rifleManStanding.Update();
 
 		GraphicsHelper::device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 		GraphicsHelper::device->BeginScene();
@@ -122,7 +123,7 @@ int WINAPI WinMain(
 		scubaSoldier.Render();
 		bossStage3.Render();
 		rifleManHideOnBush.Render();
-		rifleManHideOnBush.Render();
+		rifleManStanding.Render();
 
 		GraphicsHelper::spriteHandler->End();
 		GraphicsHelper::device->EndScene();
@@ -180,6 +181,11 @@ void initSprite()
 	rifleManHideOnBush.LoadSprites();
 	rifleManHideOnBush.LoadAnimations();
 	rifleManHideOnBush.SetTarget(&bill);
+
+	rifleManStanding.LoadTextures();
+	rifleManStanding.LoadSprites();
+	rifleManStanding.LoadAnimations();
+	rifleManStanding.SetTarget(&bill);
 }
 
 // this is the main message handler for the program

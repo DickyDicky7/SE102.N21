@@ -37,6 +37,7 @@ public:
 protected:
 	RifleManHideOnBushState* state;
 	RifleManHideOnBushState* updateState;
+
 };
 
 class RifleManHideOnBushState : public State<RifleManHideOnBushState, RifleManHideOnBush>
