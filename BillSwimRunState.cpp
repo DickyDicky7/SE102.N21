@@ -72,7 +72,7 @@ BillState* BillSwimRunState::Update(Bill& bill)
 
 BillState* BillSwimRunState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_LEFT) || input.Is(DIK_RIGHT))
+	if (input.IsKey(DIK_LEFT) || input.IsKey(DIK_RIGHT))
 	{
 		//if (input.Is(DIK_Z))
 		//{

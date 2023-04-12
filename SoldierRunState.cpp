@@ -75,11 +75,11 @@ SoldierState* SoldierRunState::Update(Soldier& soldier) {
 }
 SoldierState* SoldierRunState::HandleInput(Soldier& soldier, Input& input) {
 
-	if (input.Is(DIK_SPACE))
+	if (input.IsKey(DIK_SPACE))
 	{
 		return new SoldierJumpState();
 	}
-	if (input.Is(DIK_DOWN))
+	if (input.IsKey(DIK_DOWN))
 	{
 		return new SoldierLayDownState();
 	}

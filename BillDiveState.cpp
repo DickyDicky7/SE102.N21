@@ -28,13 +28,13 @@ BillState* BillDiveState::Update(Bill& bill)
 
 BillState* BillDiveState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_DOWN))
+	if (input.IsKey(DIK_DOWN))
 	{
-		if (input.Is(DIK_LEFT))
+		if (input.IsKey(DIK_LEFT))
 		{
 			bill.SetMovingDirection(DIRECTION::LEFT);
 		}
-		if (input.Is(DIK_RIGHT))
+		if (input.IsKey(DIK_RIGHT))
 		{
 			bill.SetMovingDirection(DIRECTION::RIGHT);
 		}

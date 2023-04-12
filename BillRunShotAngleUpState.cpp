@@ -44,9 +44,9 @@ BillState* BillRunShotAngleUpState::Update(Bill& bill)
 
 BillState* BillRunShotAngleUpState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_LEFT) || input.Is(DIK_RIGHT))
+	if (input.IsKey(DIK_LEFT) || input.IsKey(DIK_RIGHT))
 	{
-		if (input.Is(DIK_UP))
+		if (input.IsKey(DIK_UP))
 		{
 			return NULL;
 		}

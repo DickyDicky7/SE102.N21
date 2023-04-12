@@ -28,22 +28,22 @@ BillState* BillSwimNormalState::Update(Bill& bill)
 
 BillState* BillSwimNormalState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_LEFT))
+	if (input.IsKey(DIK_LEFT))
 	{
 		bill.SetMovingDirection(DIRECTION::LEFT);
 		return new BillSwimRunState();
 	}
-	if (input.Is(DIK_RIGHT))
+	if (input.IsKey(DIK_RIGHT))
 	{
 		bill.SetMovingDirection(DIRECTION::RIGHT);
 		return new BillSwimRunState();
 	}
-	if (input.Is(DIK_DOWN))
+	if (input.IsKey(DIK_DOWN))
 	{
 		return new BillDiveState();
 	}
 
-	if (input.Is(DIK_N))
+	if (input.IsKey(DIK_N))
 	{
 		return new BillNormalState();
 	}

@@ -28,7 +28,7 @@ SoldierState* SoldierLayDownState::Update(Soldier& soldier)
 
 SoldierState* SoldierLayDownState::HandleInput(Soldier& soldier, Input& input)
 {
-	if (input.Is(DIK_DOWN))
+	if (input.IsKey(DIK_DOWN))
 	{
 		return NULL;
 	}

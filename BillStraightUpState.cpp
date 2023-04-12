@@ -28,9 +28,9 @@ BillState* BillStraightUpState::Update(Bill& bill)
 
 BillState* BillStraightUpState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_UP))
+	if (input.IsKey(DIK_UP))
 	{
-		if (input.Is(DIK_X))
+		if (input.IsKey(DIK_X))
 		{
 			return new BillShotStraightUpState();
 		}

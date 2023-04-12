@@ -79,12 +79,12 @@ BillState* BillJumpState::Update(Bill& bill)
 
 BillState* BillJumpState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_LEFT))
+	if (input.IsKey(DIK_LEFT))
 	{
 		hasMovedLeft = 1;
 		bill.SetMovingDirection(DIRECTION::LEFT);
 	}
-	if (input.Is(DIK_RIGHT))
+	if (input.IsKey(DIK_RIGHT))
 	{
 		hasMovedRight = 1;
 		bill.SetMovingDirection(DIRECTION::RIGHT);
