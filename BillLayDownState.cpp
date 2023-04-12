@@ -28,7 +28,7 @@ BillState* BillLayDownState::Update(Bill& bill)
 
 BillState* BillLayDownState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_DOWN))
+	if (input.IsKey(DIK_DOWN))
 	{
 		return NULL;
 	}

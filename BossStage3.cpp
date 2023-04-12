@@ -11,8 +11,8 @@ BossStage3::BossStage3() : Entity(), HasTextures(), HasSprites(), HasAnimations(
 	this->vy = 1;
 	this->ax = 0.1f;
 	this->ay = 0.1f;
-	this->position.x = SCREEN_WIDTH / 4 - 100;
-	this->position.y = SCREEN_HEIGHT / 2 - 200;
+	this->position.x = 200;
+	this->position.y = 200;
 
 	this->updateState = NULL;
 	this->handleInputState = NULL;

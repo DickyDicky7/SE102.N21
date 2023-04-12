@@ -11,8 +11,8 @@ ScubaSoldier::ScubaSoldier() : Entity(), HasTextures(), HasSprites(), HasAnimati
 	this->vy = 1;
 	this->ax = 0.1f;
 	this->ay = 0.1f;
-	this->position.x = SCREEN_WIDTH / 4;
-	this->position.y = SCREEN_HEIGHT / 2 - 200;
+	this->position.x = 300;
+	this->position.y = 0;
 
 	this->updateState = NULL;
 	this->handleInputState = NULL;

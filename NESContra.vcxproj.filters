@@ -97,6 +97,15 @@
     <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3State">
       <UniqueIdentifier>{283e9967-ec2f-4af5-8faf-0b53a8a83ec9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Camera">
+      <UniqueIdentifier>{04bbb2ba-9815-44fb-a868-19898b1adf75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Camera">
+      <UniqueIdentifier>{14356edb-079e-4955-a6e4-ee6d2de4b7b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Camera\CameraState">
+      <UniqueIdentifier>{0c6a8194-4179-402d-be4c-bbe4d567c698}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -158,6 +167,12 @@
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Objects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraCommon.h">
+      <Filter>Header Files\Objects\Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -265,9 +280,6 @@
     </ClCompile>
     <ClCompile Include="ScubaSoldier.cpp">
       <Filter>Source Files\Objects\Enemies\ScubaSoldier</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseEnemy.cpp">
-      <Filter>Source Files\Abstractions</Filter>
     </ClCompile>
     <ClCompile Include="TestingEntity.cpp">
       <Filter>Source Files\Objects\TestingEntity</Filter>
@@ -421,6 +433,27 @@
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Objects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraState.cpp">
+      <Filter>Source Files\Objects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraMovingForwardState.cpp">
+      <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraMovingUpwardState.cpp">
+      <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraMovingDownwardState.cpp">
+      <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraMovingBackwardState.cpp">
+      <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraStaticState.cpp">
+      <Filter>Source Files\Objects\Camera\CameraState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

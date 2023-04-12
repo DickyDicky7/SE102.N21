@@ -2,6 +2,8 @@
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 600
+#define SCALING_RATIO_X 2.0f
+#define SCALING_RATIO_Y 2.0f
 #define DIRECTINPUT_VERSION 0x0800
 
 #include <tuple>
@@ -13,6 +15,7 @@
 #include <concepts>
 #include <dinput.h>
 #include <Windows.h>
+//#include <functional>
 #include <type_traits>
 #include <unordered_map>
 
@@ -66,3 +69,5 @@ using TEXTURE   = LPDIRECT3DTEXTURE9;
 using SPRITE    = std::tuple<RECT*, DIRECTION, TEXTURE_ID>;
 using ANIMATION = std::tuple<DEFAULT_TIME, std::vector<std::tuple<SPRITE_ID, TIME>>>;
 
+//using KEYBOARD_EVENT_HANDLER = std::function<void(LPDIRECTINPUTDEVICE8, char(&)[256])>;
+//using    MOUSE_EVENT_HANDLER = std::function<void(LPDIRECTINPUTDEVICE8, DIMOUSESTATE&)>;

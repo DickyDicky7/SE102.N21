@@ -29,7 +29,7 @@ ScubaSoldierState* ScubaSoldierHiddenState::Update(ScubaSoldier& scubaSoldier)
 
 ScubaSoldierState* ScubaSoldierHiddenState::HandleInput(ScubaSoldier& scubaSoldier, Input& input)
 {
-	if (input.Is(DIK_H))
+	if (input.IsKey(DIK_S))
 	{
 		return new ScubaSoldierShootingState();
 	}

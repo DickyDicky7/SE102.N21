@@ -9,8 +9,8 @@ Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 	this->ax = 0.1f;
 	this->ay = 0.1f;
 	this->angle = 0;
-	this->position.x = SCREEN_WIDTH  / 4     ;
-	this->position.y = SCREEN_HEIGHT / 2 - 50;
+	this->position.x = 50;
+	this->position.y = 00;
 
 	this->state = NULL;
 	this->updateState = NULL;
@@ -25,22 +25,6 @@ Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 
 Bill::~Bill()
 {
-}
-
-/// <summary>
-/// this fuction is check is the Bill hit the wall left and right ?
-/// </summary>
-/// <returns></returns>
-BOOL Bill::IsHitWall()
-{
-	BOOL isHited = 0;
-	// check is hit the wall left
-	bool isHitLeftWall = (GetX() <= 0) && (GetMovingDirection() == DIRECTION::LEFT);
-	bool isHitRightWall = (GetX() >= SCREEN_WIDTH - 520) && (GetMovingDirection() == DIRECTION::RIGHT);
-
-	if (!isHitLeftWall && !isHitRightWall) isHited = 1;
-
-	return isHited;
 }
 
 void Bill::Update()
