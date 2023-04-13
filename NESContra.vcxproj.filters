@@ -106,6 +106,15 @@
     <Filter Include="Source Files\Objects\Camera\CameraState">
       <UniqueIdentifier>{0c6a8194-4179-402d-be4c-bbe4d567c698}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\AirCraft">
+      <UniqueIdentifier>{76d37f9c-99b5-4c53-9ce8-6860bd3a1cb4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\AirCraft">
+      <UniqueIdentifier>{7bccb338-c1c1-4f90-b4ca-50e7e8d023f6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\AirCraft\AirCraftState">
+      <UniqueIdentifier>{31afcbf6-96d0-42fb-9060-d274b295ab87}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -173,6 +182,12 @@
     </ClInclude>
     <ClInclude Include="CameraCommon.h">
       <Filter>Header Files\Objects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="AirCraftCommon.h">
+      <Filter>Header Files\Objects\AirCraft</Filter>
+    </ClInclude>
+    <ClInclude Include="AirCraft.h">
+      <Filter>Header Files\Objects\AirCraft</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -454,6 +469,36 @@
     </ClCompile>
     <ClCompile Include="CameraStaticState.cpp">
       <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraft.cpp">
+      <Filter>Source Files\Objects\AirCraft</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftState.cpp">
+      <Filter>Source Files\Objects\AirCraft</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftNormalState.cpp">
+      <Filter>Source Files\Objects\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftBAmmoState.cpp">
+      <Filter>Source Files\Objects\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftFAmmoState.cpp">
+      <Filter>Source Files\Objects\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftLAmmoState.cpp">
+      <Filter>Source Files\Objects\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftMAmmoState.cpp">
+      <Filter>Source Files\Objects\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftRAmmoState.cpp">
+      <Filter>Source Files\Objects\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftSAmmoState.cpp">
+      <Filter>Source Files\Objects\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftInvulState.cpp">
+      <Filter>Source Files\Objects\AirCraft\AirCraftState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

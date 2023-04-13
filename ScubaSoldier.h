@@ -1,5 +1,4 @@
 #pragma once
-#include "Bill.h"
 #include "Enemy.h"
 #include "State.h"
 #include "Common.h"

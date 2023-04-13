@@ -24,6 +24,7 @@
 #include "WallTurretCommon.h"
 #include "BossStage3Common.h"
 #include "ScubaSoldierCommon.h"
+#include "AirCraftCommon.h"
 
 enum class DIRECTION
 {
@@ -43,7 +44,8 @@ using SPRITE_ID = std::variant
 	SOLDIER_SPRITE_ID,
 	WALL_TURRET_SPRITE_ID,
 	BOSS_STAGE_3_SPRITE_ID,
-	SCUBA_SOLDIER_SPRITE_ID
+	SCUBA_SOLDIER_SPRITE_ID,
+	AIRCRAFT_SPRITE_ID
 >;
 using TEXTURE_ID = std::variant
 <
@@ -51,7 +53,8 @@ using TEXTURE_ID = std::variant
 	SOLDIER_TEXTURE_ID,
 	WALL_TURRET_TEXTURE_ID,
 	BOSS_STAGE_3_TEXTURE_ID,
-	SCUBA_SOLDIER_TEXTURE_ID
+	SCUBA_SOLDIER_TEXTURE_ID,
+	AIRCRAFT_TEXTURE_ID
 >;
 using ANIMATION_ID = std::variant
 <
@@ -59,7 +62,8 @@ using ANIMATION_ID = std::variant
 	SOLDIER_ANIMATION_ID,
 	WALL_TURRET_ANIMATION_ID,
 	BOSS_STAGE_3_ANIMATION_ID,
-	SCUBA_SOLDIER_ANIMATION_ID
+	SCUBA_SOLDIER_ANIMATION_ID,
+	AIRCRAFT_ANIMATION_ID
 >;
 
 using         TIME = DWORD;
