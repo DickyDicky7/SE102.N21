@@ -28,7 +28,7 @@ BillState* BillNormalShotState::Update(Bill& bill)
 
 BillState* BillNormalShotState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_X))
+	if (input.IsKey(DIK_X))
 	{
 		return NULL;
 	}

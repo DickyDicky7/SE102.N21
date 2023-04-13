@@ -27,8 +27,8 @@ void SoldierJumpState::Enter(Soldier& soldier)
 		soldier.SetAX(-0.0f);
 	}
 
-	soldier.SetVY(-4.00f);
-	soldier.SetAY(+0.10f);
+	soldier.SetVY(+4.00f);
+	soldier.SetAY(-0.10f);
 }
 
 void SoldierJumpState::Render(Soldier& soldier)
@@ -66,9 +66,9 @@ SoldierState* SoldierJumpState::Update(Soldier& soldier)
 
 	time += 0.05f;
 
-	if (soldier.GetVY() >= 0 && soldier.GetY() >= SCREEN_HEIGHT / 2 - 50)
+	if (soldier.GetVY() <= 0 && soldier.GetY() <= 0)
 	{
-		soldier.SetY(SCREEN_HEIGHT / 2 - 50);
+		soldier.SetY(0);
 		return new SoldierRunState();
 	}
 

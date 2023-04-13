@@ -27,8 +27,8 @@ void BillJumpState::Enter(Bill& bill)
 		bill.SetAX(-0.0f);
 	}
 
-	bill.SetVY(-4.00f);
-	bill.SetAY(+0.10f);
+	bill.SetVY(+4.00f);
+	bill.SetAY(-0.10f);
 }
 
 void BillJumpState::Render(Bill& bill)
@@ -51,11 +51,10 @@ BillState* BillJumpState::Update(Bill& bill)
 
 	if (hasMovedLeft || hasMovedRight)
 	{
-		if (bill.IsHitWall())
-			bill.SetX
-			(
-				bill.GetX() + bill.GetVX()
-			);
+		bill.SetX
+		(
+			bill.GetX() + bill.GetVX()
+		);
 	}
 
 	bill.SetY
@@ -69,9 +68,9 @@ BillState* BillJumpState::Update(Bill& bill)
 
 	time += 0.05f;
 
-	if (bill.GetVY() >= 0 && bill.GetY() >= SCREEN_HEIGHT / 2 - 50)
+	if (bill.GetVY() <= 0 && bill.GetY() <= 0)
 	{
-		bill.SetY(SCREEN_HEIGHT / 2 - 50);
+		bill.SetY(0);
 		return new BillNormalState();
 	}
 
@@ -80,12 +79,12 @@ BillState* BillJumpState::Update(Bill& bill)
 
 BillState* BillJumpState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_LEFT))
+	if (input.IsKey(DIK_LEFT))
 	{
 		hasMovedLeft = 1;
 		bill.SetMovingDirection(DIRECTION::LEFT);
 	}
-	if (input.Is(DIK_RIGHT))
+	if (input.IsKey(DIK_RIGHT))
 	{
 		hasMovedRight = 1;
 		bill.SetMovingDirection(DIRECTION::RIGHT);

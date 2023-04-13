@@ -34,7 +34,7 @@ void RifleManStanding::Update()
 	const float _shootingAngle = this->CalculateShootingAngle();
 
 	float dx = (this->GetPosition().x) - (Enemy::target->GetPosition().x);
-	float dy = (this->GetPosition().y) - (Enemy::target->GetPosition().y);
+	float dy = -((this->GetPosition().y) - (Enemy::target->GetPosition().y));
 
 	this->SetMovingDirection(DIRECTION::RIGHT);
 	if (dx > 0)
@@ -82,7 +82,7 @@ FLOAT RifleManStanding::CalculateShootingAngle()
 	const Bill* bill = Enemy::target;
 
 	float dx = (this->GetPosition().x) - (bill->GetPosition().x);
-	float dy = (this->GetPosition().y) - (bill->GetPosition().y);
+	float dy = -((this->GetPosition().y) - (bill->GetPosition().y));
 
 	if (dy == 0)
 	{

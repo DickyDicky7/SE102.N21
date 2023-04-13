@@ -20,8 +20,8 @@ WallTurret::WallTurret() : Entity(), HasAnimations()
 	this->vy = 1.0f;
 	this->ax = 0.1f;
 	this->ay = 0.1f;
-	this->position.x = SCREEN_WIDTH / 3;
-	this->position.y = SCREEN_HEIGHT / 2 - 100;
+	this->position.x = 50;
+	this->position.y = 50;
 	this->billAngle = -90;
 
 	this->movingDirection = DIRECTION::LEFT;
@@ -103,8 +103,8 @@ void WallTurret::HandleInput(Input& input) {}
 
 void WallTurret::CalculateBillAngle()
 {
-	float dx = this->GetPosition().x - Enemy::target->GetPosition().x;
-	float dy = this->GetPosition().y - Enemy::target->GetPosition().y;
+	float dx = +(this->GetPosition().x - Enemy::target->GetPosition().x);
+	float dy = -(this->GetPosition().y - Enemy::target->GetPosition().y);
 
 	if (dx > 0 && dy < 0)
 		billAngle = -atan(dx / (abs(dy))) * 180 / PI;

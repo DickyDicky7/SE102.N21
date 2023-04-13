@@ -14,10 +14,9 @@ void BillFallState::Exit(Bill& bill)
 
 void BillFallState::Enter(Bill& bill)
 {
-	bill.SetVY(+2.50f);
-	bill.SetAY(+0.10f);
-
-	bill.SetY(SCREEN_HEIGHT / 2 - 50 - 200);
+	bill.SetY(300);
+	bill.SetVY(-2.50f);
+	bill.SetAY(-0.10f);
 }
 
 void BillFallState::Render(Bill& bill)
@@ -38,9 +37,9 @@ BillState* BillFallState::Update(Bill& bill)
 
 	time += 0.05f;
 
-	if (bill.GetVY() >= 0 && bill.GetY() >= SCREEN_HEIGHT / 2 - 50)
+	if (bill.GetVY() <= 0 && bill.GetY() <= 0)
 	{
-		bill.SetY(SCREEN_HEIGHT / 2 - 50);
+		bill.SetY(0);
 		return new BillBeginSwimState();
 	}
 
