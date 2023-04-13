@@ -40,17 +40,17 @@ public:
 	void Render() override;
 	void HandleInput(Input&) override;
 
-	void LoadSprites() override;
 	void LoadTextures() override;
+	void LoadSprites() override;
 	void LoadAnimations() override;
 
-	void CalculateBillAngle(Bill*);
+	void CalculateBillAngle();
 
 protected:
 	WallTurretState* state;
 	WallTurretState* updateState;
 
-	int billAngle;
+	float billAngle;
 };
 
 class WallTurretState : public State<WallTurretState, WallTurret>

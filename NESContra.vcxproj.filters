@@ -97,6 +97,30 @@
     <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3State">
       <UniqueIdentifier>{283e9967-ec2f-4af5-8faf-0b53a8a83ec9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Enemies\RifleMan">
+      <UniqueIdentifier>{79d2c866-2293-4630-9842-287f1a71d622}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\RifleMan">
+      <UniqueIdentifier>{6932a0fa-1526-4ae9-9a3a-3415efd401be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\RifleMan\HideOnBush">
+      <UniqueIdentifier>{14bbbc09-f6ba-4497-a508-993c9af08a10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\RifleMan\Standing">
+      <UniqueIdentifier>{f56f47ec-84da-4430-be29-41a0de0b2045}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\RifleMan\HideOnBush">
+      <UniqueIdentifier>{b6bdcd03-29f5-4a55-81d9-e64e154d1647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\RifleMan\Standing">
+      <UniqueIdentifier>{6039a4df-e9ea-4617-af4e-6cbc3c56ac77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\RifleMan\HideOnBush\State">
+      <UniqueIdentifier>{48380a2e-9d02-425f-8d9c-904c17547a6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\RifleMan\Standing\State">
+      <UniqueIdentifier>{ca618d7a-b8ae-4be6-ab0c-7a6c247f2d3b}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Objects\Camera">
       <UniqueIdentifier>{04bbb2ba-9815-44fb-a868-19898b1adf75}</UniqueIdentifier>
     </Filter>
@@ -167,6 +191,18 @@
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="RifleMan.h">
+      <Filter>Header Files\Objects\Enemies\RifleMan</Filter>
+    </ClInclude>
+    <ClInclude Include="RifleManCommon.h">
+      <Filter>Header Files\Objects\Enemies\RifleMan</Filter>
+    </ClInclude>
+    <ClInclude Include="RifleManHideOnBush.h">
+      <Filter>Header Files\Objects\Enemies\RifleMan\HideOnBush</Filter>
+    </ClInclude>
+    <ClInclude Include="RifleManStanding.h">
+      <Filter>Header Files\Objects\Enemies\RifleMan\Standing</Filter>
     </ClInclude>
     <ClInclude Include="Camera.h">
       <Filter>Header Files\Objects\Camera</Filter>
@@ -454,6 +490,42 @@
     </ClCompile>
     <ClCompile Include="CameraStaticState.cpp">
       <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleMan.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManHideOnBush.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManHideOnBushHideState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush\State</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManHideOnBushAppearState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush\State</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManHideOnBushHidingState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush\State</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManHideOnBushStandingState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush\State</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManStandingNormalState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\Standing\State</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManStandingAimUpState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\Standing\State</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManStandingAimDownState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\Standing\State</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManHideOnBushState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManStandingState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\Standing</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManStanding.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\Standing</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

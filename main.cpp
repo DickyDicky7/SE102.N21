@@ -6,6 +6,9 @@
 #include "Soldier.h"
 #include "WallTurret.h"
 #include "BossStage3.h"
+#include "RifleManHideOnBush.h"
+#include "RifleManStanding.h"
+
 #include "ScubaSoldier.h"
 #include "TestingEntity.h"
 
@@ -20,6 +23,8 @@ Soldier soldier;
 WallTurret wallTurret;
 BossStage3 bossStage3;
 ScubaSoldier scubaSoldier;
+RifleManHideOnBush rifleManHideOnBush;
+RifleManStanding rifleManStanding;
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 void LoadD3D(HWND hWnd);
@@ -78,9 +83,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		soldier.Update();
 		bossStage3.Update();
 		scubaSoldier.Update();
-
-		wallTurret.CalculateBillAngle(&bill);
 		wallTurret.Update();
+		rifleManHideOnBush.Update();
+		rifleManStanding.Update();
 
 		//if (bill.GetY() <= 0)
 		//{
@@ -102,6 +107,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		bossStage3.Render();
 		wallTurret.Render();
 		scubaSoldier.Render();
+		bossStage3.Render();
+		rifleManHideOnBush.Render();
+		rifleManStanding.Render();
 
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
@@ -124,7 +132,14 @@ void LoadAssets()
 	soldier.LoadSprites();
 	soldier.LoadAnimations();
 	soldier.SetTarget(&bill);
+	
+	// scubaSoldier
+	scubaSoldier.LoadTextures();
+	scubaSoldier.LoadSprites();
+	scubaSoldier.LoadAnimations();
+	scubaSoldier.SetTarget(&bill);
 
+	// BossStage3
 	bossStage3.LoadTextures();
 	bossStage3.LoadSprites();
 	bossStage3.LoadAnimations();
@@ -135,15 +150,15 @@ void LoadAssets()
 	wallTurret.LoadAnimations();
 	wallTurret.SetTarget(&bill);
 
-	scubaSoldier.LoadTextures();
-	scubaSoldier.LoadSprites();
-	scubaSoldier.LoadAnimations();
-	scubaSoldier.SetTarget(&bill);
+	rifleManHideOnBush.LoadTextures();
+	rifleManHideOnBush.LoadSprites();
+	rifleManHideOnBush.LoadAnimations();
+	rifleManHideOnBush.SetTarget(&bill);
 
-	TestingEntity testingEntity;
-	testingEntity.LoadTextures();
-	testingEntity.LoadSprites();
-	testingEntity.LoadAnimations();
+	rifleManStanding.LoadTextures();
+	rifleManStanding.LoadSprites();
+	rifleManStanding.LoadAnimations();
+	rifleManStanding.SetTarget(&bill);
 }
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
