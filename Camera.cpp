@@ -89,6 +89,16 @@ void Camera::Capture(FLOAT x, FLOAT y)
 	viewMatrix *= scalingMatrix;
 }
 
+FLOAT Camera::CalculateHW()
+{
+	return +SCREEN_WIDTH  / (2.0f * scalingRatioX);
+}
+
+FLOAT Camera::CalculateHH()
+{
+	return +SCREEN_HEIGHT / (2.0f * scalingRatioY);
+}
+
 const D3DMATRIX& Camera::GetViewMatrix() const
 {
 	return viewMatrix;

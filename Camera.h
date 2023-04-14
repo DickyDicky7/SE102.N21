@@ -34,6 +34,8 @@ public:
 	void ZoomIn(FLOAT = 0.1f);
 	void ZoomOut(FLOAT = 0.1f);
 	void Capture(FLOAT, FLOAT);
+	static FLOAT CalculateHW();
+	static FLOAT CalculateHH();
 	const D3DMATRIX& GetViewMatrix() const;
 
 protected:
