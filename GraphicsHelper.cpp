@@ -18,7 +18,7 @@ TEXTURE GraphicsHelper::CreateTexture(LPCWSTR textureFilePath)
 
 	result = D3DXCreateTextureFromFileEx
 	(
-		device, textureFilePath, info.Width, info.Height, 1,
+		device, textureFilePath, info.Width, info.Height, D3DX_DEFAULT,
 		D3DPOOL_DEFAULT, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT,
 		D3DX_DEFAULT, D3DX_DEFAULT,
 		NULL, &info, NULL, &texture

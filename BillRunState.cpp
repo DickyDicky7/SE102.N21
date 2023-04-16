@@ -44,28 +44,11 @@ BillState* BillRunState::Update(Bill& bill)
 		bill.SetAX(+abs(bill.GetAX()));
 	}
 
-	bill.SetX
-	(
-		// x = x0 + v0*t + a*(t^2)/2 -- uniform accelerated motion
-		bill.GetX() + bill.GetVX() * time + bill.GetAX() * pow(time, 2) / 2
-	);
+	auto result = Motion::CalculateUniformlyAcceleratedMotion({ bill.GetX(), bill.GetVX(), bill.GetAX(), time, 0.05f });
 
-	// Restrict Ox velocity and time. Make this part "v0*t + a*(t^2)/2" become a constant => uniform motion
-	// If not, entity will move too fast. The code here is temporary
-	if (abs(bill.GetVX()) < +3.00f)
-	{
-		bill.SetVX
-		(
-			bill.GetVX() + bill.GetAX() * time
-		);
-	}
-
-	// Restrict Ox velocity and time. Make this part "v0*t + a*(t^2)/2" become a constant => uniform motion
-	// If not, entity will move too fast. The code here is temporary
-	if (time < +2.00f)
-	{
-		time += 0.05f;
-	}
+	bill.SetX(result.c);
+	if (time < +2.00f) time = result.t;
+	if (abs(bill.GetVX()) < +3.00f) bill.SetVX(result.v);
 
 	return NULL;
 }

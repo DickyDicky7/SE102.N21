@@ -2,6 +2,7 @@
 
 
 #include "State.h"
+#include "Motion.h"
 #include "Common.h"
 #include "Entity.h"
 #include "HasSprites.h"
