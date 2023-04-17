@@ -33,10 +33,10 @@ protected:
 template <class T>
 inline HasAnimations<T>::HasAnimations()
 {
-	currentFrame  = -1;
-	currentFrameW = +0;
-	currentFrameH = +0;
-	lastFrameTime = -1;
+	currentFrame  = -1	 ;
+	currentFrameW = +0.0f;
+	currentFrameH = +0.0f;
+	lastFrameTime = -1	 ;
 }
 
 template <class T>
@@ -88,8 +88,8 @@ inline void HasAnimations<T>::SetAnimation(ANIMATION_ID animationId, D3DXVECTOR3
 	RECT* rect = std::get<RECT*>(currentSprite);
 	if (rect)
 	{
-		currentFrameW = rect->right - rect->left  ;
-		currentFrameH = rect->top	- rect->bottom;
+		currentFrameW = (FLOAT)(rect->right - rect->left  );
+		currentFrameH = (FLOAT)(rect->top	- rect->bottom);
 	}
 
 	GraphicsHelper::DrawSprite(currentSprite, position, movingDirection, angle);
