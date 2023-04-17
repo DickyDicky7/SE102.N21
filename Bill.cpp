@@ -35,6 +35,9 @@ void Bill::Update()
 void Bill::Render()
 {
 	state->Render(*this);
+	this->w = this->GetCurrentFrameW();
+	this->h = this->GetCurrentFrameH();
+
 	if (updateState)
 	{
 		state->Exit(*this);
