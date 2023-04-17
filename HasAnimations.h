@@ -88,8 +88,8 @@ inline void HasAnimations<T>::SetAnimation(ANIMATION_ID animationId, D3DXVECTOR3
 	RECT* rect = std::get<RECT*>(currentSprite);
 	if (rect)
 	{
-		currentFrameW = (FLOAT)(rect->right - rect->left  );
-		currentFrameH = (FLOAT)(rect->top	- rect->bottom);
+		currentFrameW = (FLOAT)(rect->right  - rect->left);
+		currentFrameH = (FLOAT)(rect->bottom - rect->top );
 	}
 
 	GraphicsHelper::DrawSprite(currentSprite, position, movingDirection, angle);
