@@ -184,6 +184,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
+
+		_RPT1(0, "W: %f ; H: %f\n", bill.GetW(), bill.GetH());
 	}
 
 	CleanD3D();
