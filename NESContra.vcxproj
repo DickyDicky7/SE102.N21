@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -30,6 +30,7 @@
     <ClInclude Include="GraphicsDatabase.h" />
     <ClInclude Include="GraphicsHelper.h" />
     <ClInclude Include="HasAnimations.h" />
+    <ClInclude Include="Motion.h" />
     <ClInclude Include="HasSprites.h" />
     <ClInclude Include="HasTextures.h" />
     <ClInclude Include="Input.h" />
@@ -47,6 +48,7 @@
     <ClInclude Include="TestingEntityCommon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Motion.cpp" />
     <ClCompile Include="RifleManHideOnBushState.cpp" />
     <ClCompile Include="RifleManStanding.cpp" />
     <ClCompile Include="RifleManStandingAimDownState.cpp" />

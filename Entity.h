@@ -15,6 +15,8 @@ public:
 	virtual void Render() = 0;
 	virtual void HandleInput(Input&) = 0;
 
+	virtual T* SetW(FLOAT = 0.0f);
+	virtual T* SetH(FLOAT = 0.0f);
 	virtual T* SetX(FLOAT = 0.0f);
 	virtual T* SetY(FLOAT = 0.0f);
 	virtual T* SetAX(FLOAT = 0.0f);
@@ -24,6 +26,8 @@ public:
 	virtual T* SetAngle(FLOAT = 0.0f);
 	virtual T* SetMovingDirection(DIRECTION);
 
+	virtual FLOAT GetW() const;
+	virtual FLOAT GetH() const;
 	virtual FLOAT GetX() const;
 	virtual FLOAT GetY() const;
 	virtual FLOAT GetAX() const;
@@ -38,6 +42,8 @@ protected:
 
 	T* self = NULL;
 
+	FLOAT w;
+	FLOAT h;
 	FLOAT ax;
 	FLOAT ay;
 	FLOAT vx;
@@ -49,7 +55,7 @@ protected:
 };
 
 template <class T>
-inline Entity<T>::Entity() : ax(0.0f), ay(0.0f), vx(0.0f), vy(0.0f), position(0.0f, 0.0f, 0.0f), angle(0.0f), movingDirection(DIRECTION::LEFT)
+inline Entity<T>::Entity() : w(0.0f), h(0.0f), ax(0.0f), ay(0.0f), vx(0.0f), vy(0.0f), position(0.0f, 0.0f, 0.0f), angle(0.0f), movingDirection(DIRECTION::LEFT)
 {
 }
 
@@ -57,6 +63,12 @@ template <class T>
 inline Entity<T>::~Entity()
 {
 }
+
+template <class T>
+inline T* Entity<T>::SetW(FLOAT w) { this->w = w; return self; }
+
+template <class T>
+inline T* Entity<T>::SetH(FLOAT h) { this->h = h; return self; }
 
 template <class T>
 inline T* Entity<T>::SetX(FLOAT x) { position.x = x; return self; }
@@ -81,6 +93,12 @@ inline T* Entity<T>::SetAngle(FLOAT angle) { this->angle = angle; return self; }
 
 template <class T>
 inline T* Entity<T>::SetMovingDirection(DIRECTION movingDirection) { this->movingDirection = movingDirection; return self; }
+
+template <class T>
+inline FLOAT Entity<T>::GetW() const { return w; }
+
+template <class T>
+inline FLOAT Entity<T>::GetH() const { return h; }
 
 template <class T>
 inline FLOAT Entity<T>::GetX() const { return position.x; }

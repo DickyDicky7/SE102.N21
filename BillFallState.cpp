@@ -26,16 +26,10 @@ void BillFallState::Render(Bill& bill)
 
 BillState* BillFallState::Update(Bill& bill)
 {
-	bill.SetY
-	(
-		bill.GetY() + bill.GetVY() * time + bill.GetAY() * pow(time, 2) / 2
-	);
-	bill.SetVY
-	(
-		bill.GetVY() + bill.GetAY() * time
-	);
+	auto result = Motion::CalculateUniformlyAcceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), time, 0.05f });
 
-	time += 0.05f;
+	time = result.t;
+	bill.SetY(result.c)->SetVY(result.v);
 
 	if (bill.GetVY() <= 0 && bill.GetY() <= 0)
 	{

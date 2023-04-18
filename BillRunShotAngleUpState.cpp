@@ -34,10 +34,8 @@ BillState* BillRunShotAngleUpState::Update(Bill& bill)
 		bill.SetAX(+abs(bill.GetAX()));
 	}
 
-	bill.SetX
-	(
-		bill.GetX() + bill.GetVX()
-	);
+	auto result = Motion::CalculateUniformMotion({ bill.GetX(), bill.GetVX() });
+	bill.SetX(result.c);
 
 	return NULL;
 }
