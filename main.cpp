@@ -185,7 +185,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
 
-		_RPT1(0, "W: %f ; H: %f\n", bill.GetW(), bill.GetH());
+		//Should disable if you do not want to debug, this line of code causes lag
+		//_RPT1(0, "W: %f ; H: %f\n", bill.GetW(), bill.GetH());
 	}
 
 	CleanD3D();
@@ -262,6 +263,18 @@ void LoadD3D(HWND hWnd)
 	d3dpp.Windowed = TRUE;
 	d3dpp.hDeviceWindow = hWnd;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+
+
+
+
+
+	// Set up anti-aliasing
+	d3dpp.MultiSampleQuality = 0;
+	d3dpp.MultiSampleType = D3DMULTISAMPLE_8_SAMPLES;
+
+
+
+
 
 	d3d->CreateDevice
 	(

@@ -1,5 +1,33 @@
 #include "GraphicsHelper.h"
 
+
+
+
+
+#define DRAW_BOX TRUE
+struct VERTEX
+{
+	FLOAT x;
+	FLOAT y;
+	FLOAT z;
+	D3DCOLOR color;
+};
+VOID* pVoid = NULL;
+VERTEX verticesH[4];
+VERTEX verticesV[4];
+LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
+void RotateVertex(VERTEX& vertex, FLOAT angle)
+{
+	FLOAT x0 = vertex.x;
+	FLOAT y0 = vertex.y;
+	vertex.x = x0 * std::cos(D3DXToRadian(angle)) - y0 * std::sin(D3DXToRadian(angle));
+	vertex.y = x0 * std::sin(D3DXToRadian(angle)) + y0 * std::cos(D3DXToRadian(angle));
+}
+
+
+
+
+
 LPDIRECT3DDEVICE9 GraphicsHelper::device;
 LPD3DXSPRITE GraphicsHelper::spriteHandler;
 
@@ -75,6 +103,37 @@ void GraphicsHelper::DrawSprite(SPRITE sprite, D3DXVECTOR3 position, DIRECTION m
 	position.x = x0 * std::cos(-D3DXToRadian(angle)) - y0 * std::sin(-D3DXToRadian(angle));
 	position.y = x0 * std::sin(-D3DXToRadian(angle)) + y0 * std::cos(-D3DXToRadian(angle));
 
+
+
+
+
+	if (DRAW_BOX)
+	{
+		verticesH[0] = { position.x - (rect->right - rect->left) / 2.0f, position.y + (rect->bottom - rect->top), 0.0f, 0xffff007f }; // TL vertex
+		verticesH[1] = { position.x + (rect->right - rect->left) / 2.0f, position.y + (rect->bottom - rect->top), 0.0f, 0xffff007f }; // TR vertex
+		verticesH[2] = { position.x + (rect->right - rect->left) / 2.0f, position.y, 0.0f, 0xffff007f }; // BR vertex
+		verticesH[3] = { position.x - (rect->right - rect->left) / 2.0f, position.y, 0.0f, 0xffff007f }; // BL vertex
+
+		for (auto& vertex : verticesH)
+		{
+			RotateVertex(vertex, angle);
+		}
+
+		verticesV[0] = { position.x - (rect->right - rect->left) / 2.0f, position.y, 0.0f, 0xffff007f }; // BL vertex
+		verticesV[1] = { position.x - (rect->right - rect->left) / 2.0f, position.y + (rect->bottom - rect->top), 0.0f, 0xffff007f }; // TL vertex
+		verticesV[2] = { position.x + (rect->right - rect->left) / 2.0f, position.y + (rect->bottom - rect->top), 0.0f, 0xffff007f }; // TR vertex
+		verticesV[3] = { position.x + (rect->right - rect->left) / 2.0f, position.y, 0.0f, 0xffff007f }; // BR vertex
+
+		for (auto& vertex : verticesV)
+		{
+			RotateVertex(vertex, angle);
+		}
+	}
+
+
+
+
+
 	if (movingDirection != spriteDirection)
 	{
 		position.x = -position.x;
@@ -92,6 +151,43 @@ void GraphicsHelper::DrawSprite(SPRITE sprite, D3DXVECTOR3 position, DIRECTION m
 
 	//device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 	//device->BeginScene();
+
+	
+
+
+
+	if (DRAW_BOX)
+	{
+		if (!vertexBuffer)
+		{
+			device->CreateVertexBuffer(10 * sizeof(VERTEX), 0, D3DFVF_XYZ | D3DFVF_DIFFUSE, D3DPOOL_MANAGED, &vertexBuffer, NULL);
+			device->SetRenderState(D3DRS_LIGHTING, FALSE);
+			device->SetRenderState(D3DRS_COLORVERTEX, TRUE);
+
+			device->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, TRUE);
+			device->SetRenderState(D3DRS_ANTIALIASEDLINEENABLE, TRUE);
+		}
+
+		vertexBuffer->Lock(0, 0, (void**)&pVoid, 0);
+		memcpy(pVoid, verticesH, sizeof(verticesH));
+		vertexBuffer->Unlock();
+		device->SetStreamSource(0, vertexBuffer, 0, sizeof(VERTEX));
+		device->DrawPrimitive(D3DPT_LINELIST, 0, 4);
+		
+		vertexBuffer->Lock(0, 0, (void**)&pVoid, 0);
+		memcpy(pVoid, verticesV, sizeof(verticesV));
+		vertexBuffer->Unlock();
+		device->SetStreamSource(0, vertexBuffer, 0, sizeof(VERTEX));
+		device->DrawPrimitive(D3DPT_LINELIST, 0, 4);
+
+		//vertexBuffer->Release();
+		//vertexBuffer = NULL;
+		//pVoid = NULL;
+	}
+
+
+
+
 
 	spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_OBJECTSPACE);
 	spriteHandler->SetTransform(&transformMatrix);

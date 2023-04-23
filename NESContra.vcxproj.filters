@@ -213,6 +213,9 @@
     <ClInclude Include="Motion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IsCollidable.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -531,6 +534,9 @@
       <Filter>Source Files\Objects\Enemies\RifleMan\Standing</Filter>
     </ClCompile>
     <ClCompile Include="Motion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="IsCollidable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
