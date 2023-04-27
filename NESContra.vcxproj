@@ -30,7 +30,7 @@
     <ClInclude Include="GraphicsDatabase.h" />
     <ClInclude Include="GraphicsHelper.h" />
     <ClInclude Include="HasAnimations.h" />
-    <ClInclude Include="IsCollidable.h" />
+    <ClInclude Include="Collidable.h" />
     <ClInclude Include="Motion.h" />
     <ClInclude Include="HasSprites.h" />
     <ClInclude Include="HasTextures.h" />
@@ -49,7 +49,7 @@
     <ClInclude Include="TestingEntityCommon.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="IsCollidable.cpp" />
+    <ClCompile Include="Collidable.cpp" />
     <ClCompile Include="Motion.cpp" />
     <ClCompile Include="RifleManHideOnBushState.cpp" />
     <ClCompile Include="RifleManStanding.cpp" />

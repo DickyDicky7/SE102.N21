@@ -6,8 +6,8 @@ RifleManHideOnBush::RifleManHideOnBush() : Entity(), HasAnimations()
 	Enemy::self = this;
 	Entity::self = this;
 
-	this->vx = 1.0f;
-	this->vy = 1.0f;
+	this->vx = 0.0f;
+	this->vy = 0.0f;
 	this->ax = 0.1f;
 	this->ay = 0.1f;
 	this->position.x = SCREEN_WIDTH / 3;
@@ -37,6 +37,9 @@ void RifleManHideOnBush::Update()
 void RifleManHideOnBush::Render()
 {
 	state->Render(*this);
+	this->w = this->currentFrameW;
+	this->h = this->currentFrameH;
+
 	if (updateState)
 	{
 		state->Exit(*this);

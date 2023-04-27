@@ -107,6 +107,32 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		if (msg.message == WM_QUIT)
 			break;
 
+
+
+		//if (bill.IsCollidedWith(&scubaSoldier))
+		//	OutputDebugString(L"Yes\n");
+
+		auto r = bill.AABBSweep(&bossStage3);
+		bill.ResolveCollision(r);
+		//auto ry = bill.AABBSweepY(&scubaSoldier);
+		//if (ry.isCollided)
+		//{
+		//	if (ry.normalY != 0)
+		//		bill.SetY(bill.GetY() + ry.enTime * bill.GetVY());
+		//}
+		//auto rx = bill.AABBSweepX(&scubaSoldier);
+		//if (rx.isCollided)
+		//{
+		//	if (rx.normalX != 0)
+		//		bill.SetX(bill.GetX() + rx.enTime * bill.GetVX());
+		//}
+		//if (r.enTime > 0 && r.enTime < 1) bill.SetX(0);
+		//_RPT1(0, "entryTime: %f, exitTime: %f, normalX: %f, normalY: %f\ncollided: %d\n\n", ry.enTime, ry.exTime, ry.normalX, ry.normalY, ry.isCollided);
+		//if (r.enTime <= 1.0f && r.enTime >= 0) OutputDebugString(L"Yes\n");
+		//_RPT1(0, "X collided: %d, Y collided: %d, etX: %f, etY: %f\n", rx.isCollided, ry.isCollided, rx.enTime, ry.enTime);
+		//_RPT1(0, "cpX: %f, cpY: %f\n", rx.contactX, rx.contactY);
+		// 152 272
+
 		input->Capture();
 		bill.HandleInput(*input);
 		soldier.HandleInput(*input);

@@ -1,8 +1,9 @@
 #include "Bill.h"
 
-Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations()
+Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), Collidable()
 {
-	self = this;
+		Entity::self =					  this;
+	Collidable::self = (Entity<std::any>*)this;
 
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -289,4 +290,35 @@ void Bill::LoadAnimations()
 #pragma endregion Load Animations
 
 	OutputDebugString(L"Bill Animations Loaded Successfully\n");
+}
+
+void Bill::ResolveCollision()
+{
+}
+
+void Bill::ResolveCollision(AABBSweepResult result)
+{
+	if (result.isCollided)
+	{
+		if (result.normalY == 1)
+		{
+			position.y = position.y + result.enTime * vy;
+			state->Exit(*this);
+			delete state;
+			state = NULL;
+			state = new BillNormalState();
+			state->Enter(*this);
+			_RPT1
+			(
+				0, "entryTime: %f, exitTime: %f, normalX: %f, normalY: %f\ncontactX: %f, contactY: %f, collided: %d\n\n",
+				result.enTime,
+				result.exTime,
+				result.normalX,
+				result.normalY,
+				result.contactX,
+				result.contactY,
+				result.isCollided
+			);
+		}
+	}
 }

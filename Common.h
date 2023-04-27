@@ -6,6 +6,7 @@
 #define SCALING_RATIO_Y 2.0f
 #define DIRECTINPUT_VERSION 0x0800
 
+#include <any>
 #include <tuple>
 #include <vector>
 #include <d3d9.h>
@@ -14,9 +15,9 @@
 #include <utility>
 #include <concepts>
 #include <dinput.h>
-//#include <optional>
+#include <optional>
 #include <Windows.h>
-//#include <functional>
+#include <functional>
 #include <type_traits>
 #include <unordered_map>
 

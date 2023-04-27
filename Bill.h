@@ -5,6 +5,7 @@
 #include "Motion.h"
 #include "Common.h"
 #include "Entity.h"
+#include "Collidable.h"
 #include "HasSprites.h"
 #include "HasTextures.h"
 #include "HasAnimations.h"
@@ -33,7 +34,7 @@ class BillRunShotAngleDownState;
 class BillSwimShotStraightUpState;
 
 
-class Bill : public Entity<Bill>, public HasTextures<Bill>, public HasSprites<Bill>, public HasAnimations<Bill>
+class Bill : public Entity<Bill>, public HasTextures<Bill>, public HasSprites<Bill>, public HasAnimations<Bill>, public Collidable
 {
 
 public:
@@ -47,6 +48,9 @@ public:
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
+
+	void ResolveCollision(               ) override;
+	void ResolveCollision(AABBSweepResult) override;
 
 protected:
 

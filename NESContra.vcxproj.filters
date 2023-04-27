@@ -213,7 +213,7 @@
     <ClInclude Include="Motion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="IsCollidable.h">
+    <ClInclude Include="Collidable.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -536,7 +536,7 @@
     <ClCompile Include="Motion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="IsCollidable.cpp">
+    <ClCompile Include="Collidable.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
