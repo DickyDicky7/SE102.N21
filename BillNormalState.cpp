@@ -14,10 +14,10 @@ void BillNormalState::Exit(Bill& bill)
 
 void BillNormalState::Enter(Bill& bill)
 {
-	bill.SetVX(0.0f);
-	bill.SetVY(0.0f);
-	bill.SetAX(0.0f);
-	bill.SetAY(0.0f);
+	//bill.SetVX(0.0f);
+	//bill.SetVY(0.0f);
+	//bill.SetAX(0.0f);
+	//bill.SetAY(0.0f);
 }
 
 void BillNormalState::Render(Bill& bill)
@@ -82,12 +82,12 @@ BillState* BillNormalState::HandleInput(Bill& bill, Input& input)
 	}
 	if (input.IsKey(DIK_G))
 	{
-		bill.SetVX(-1);
+		bill.SetVX(-15);
 		bill.SetX(bill.GetX() + bill.GetVX());
 	}
 	if (input.IsKey(DIK_H))
 	{
-		bill.SetVX(1);
+		bill.SetVX(15);
 		bill.SetX(bill.GetX() + bill.GetVX());
 	}
 	if (input.IsKey(DIK_1))

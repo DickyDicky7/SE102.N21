@@ -292,33 +292,57 @@ void Bill::LoadAnimations()
 	OutputDebugString(L"Bill Animations Loaded Successfully\n");
 }
 
-void Bill::ResolveCollision()
+void Bill::ResolveNoCollision(                      )
 {
-}
-
-void Bill::ResolveCollision(AABBSweepResult result)
-{
-	if (result.isCollided)
+	if (isOnSurface)
 	{
-		if (result.normalY == 1)
+		if (surfaceEntity)
+		if (position.x > surfaceEntity->GetX() + surfaceEntity->GetW() / 2.0f + h / 2.0f)
 		{
-			position.y = position.y + result.enTime * vy;
+			FLOAT currentY = position.y;
 			state->Exit(*this);
 			delete state;
 			state = NULL;
-			state = new BillNormalState();
+			state = new BillFallState();
 			state->Enter(*this);
-			_RPT1
-			(
-				0, "entryTime: %f, exitTime: %f, normalX: %f, normalY: %f\ncontactX: %f, contactY: %f, collided: %d\n\n",
-				result.enTime,
-				result.exTime,
-				result.normalX,
-				result.normalY,
-				result.contactX,
-				result.contactY,
-				result.isCollided
-			);
+			position.y = currentY;
+			isOnSurface = 0;
+			surfaceEntity = NULL;
 		}
 	}
+}
+
+void Bill::ResolveOnCollision(AABBSweepResult aabbSweepResult)
+{
+	if (aabbSweepResult.normalY == 1.0f)
+	{
+		position.y += (aabbSweepResult.enTime - 0.1f) * vy; // Resolve position
+		vy = 0.0f;
+		state->Exit(*this);
+		delete state;
+		state = NULL;
+		state = new BillNormalState();
+		state->Enter(*this);
+		isOnSurface = 1;
+	}
+	if (aabbSweepResult.normalX != 0.0f)
+	{
+		position.x += aabbSweepResult.enTime * vx; // Resolve position
+		// Vertical sliding effect
+		auto motionResult = Motion::CalculateUniformMotion({ position.y, vy });
+		position.y = motionResult.c;
+		isNextToSurface = 1;
+	}
+
+	_RPT1
+	(
+		0, "entryTime: %f, exitTime: %f, normalX: %f, normalY: %f\ncontactX: %f, contactY: %f, collided: %d\n\n",
+		aabbSweepResult.enTime,
+		aabbSweepResult.exTime,
+		aabbSweepResult.normalX,
+		aabbSweepResult.normalY,
+		aabbSweepResult.contactX,
+		aabbSweepResult.contactY,
+		aabbSweepResult.isCollided
+	);
 }

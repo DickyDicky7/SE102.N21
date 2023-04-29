@@ -2,13 +2,11 @@
 
 Collidable::Collidable()
 {
+	isOnSurface = 0;
+	isUnderSurface = 0;
+	isNextToSurface = 0;
 }
 
 Collidable::~Collidable()
 {
-}
-
-BOOL Collidable::IsCollidedWith(BoundingBox movingBoundingBox, BoundingBox staticBoundingBox)
-{
-	return movingBoundingBox.left <= staticBoundingBox.right && movingBoundingBox.right >= staticBoundingBox.left && movingBoundingBox.top <= staticBoundingBox.bottom && movingBoundingBox.bottom >= staticBoundingBox.top;
 }
