@@ -109,7 +109,8 @@ class BillFallState : public BillState
 public:
 
 	BillFallState();
-	virtual ~BillFallState();
+	BillFallState(BillState*);
+	virtual ~BillFallState( );
 
 	virtual void Exit(Bill&) override;
 	virtual void Enter(Bill&) override;
@@ -117,6 +118,10 @@ public:
 
 	virtual BillState* Update(Bill&) override;
 	virtual BillState* HandleInput(Bill&, Input&) override;
+
+protected:
+
+	BillState* returnState;
 
 };
 

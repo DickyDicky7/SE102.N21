@@ -61,7 +61,7 @@ BillState* BillNormalState::HandleInput(Bill& bill, Input& input)
 
 	if (input.IsKey(DIK_F))
 	{
-		return new BillFallState();
+		return new BillFallState(new BillBeginSwimState());
 	}
 
 	// FOR DEBUG PURPOSE
