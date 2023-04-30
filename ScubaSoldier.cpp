@@ -7,8 +7,8 @@ ScubaSoldier::ScubaSoldier() : Entity(), HasTextures(), HasSprites(), HasAnimati
 	Enemy::self = this;
 	Entity::self = this;
 
-	this->vx = 0.0f;
-	this->vy = 0.0f;
+	this->vx = 1.0f;
+	this->vy = 1.0f;
 	this->ax = 0.1f;
 	this->ay = 0.1f;
 	this->position.x = 300;
