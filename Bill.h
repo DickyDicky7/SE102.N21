@@ -49,8 +49,10 @@ public:
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
-	void ResolveNoCollision(               ) override;
-	void ResolveOnCollision(AABBSweepResult) override;
+	void  StaticResolveNoCollision(               ) override;
+	void  StaticResolveOnCollision(AABBSweepResult) override;
+	void DynamicResolveNoCollision(               ) override;
+	void DynamicResolveOnCollision(AABBSweepResult) override;
 
 protected:
 

@@ -22,8 +22,10 @@ public:
 
 	CollidableEntity();
 	virtual ~CollidableEntity();
-	virtual void ResolveNoCollision(               ) = 0;
-	virtual void ResolveOnCollision(AABBSweepResult) = 0;
+	virtual void  StaticResolveNoCollision(               ) = 0;
+	virtual void  StaticResolveOnCollision(AABBSweepResult) = 0;
+	virtual void DynamicResolveNoCollision(               ) = 0;
+	virtual void DynamicResolveOnCollision(AABBSweepResult) = 0;
 
 	template <class T> requires std::derived_from<T, Entity<T>>
 	BOOL AABBCheck(T*);
@@ -83,15 +85,15 @@ inline void CollidableEntity::CollideWith(T* targetEntity)
 		surfaceEntity = NULL;
 		surfaceEntity = (Entity<std::any>*)targetEntity;
 
-		ResolveOnCollision(aabbSweepResult);
+		DynamicResolveOnCollision(aabbSweepResult);
 		auto collidingEntity = dynamic_cast<CollidableEntity*>(targetEntity);
-		if (collidingEntity) collidingEntity->ResolveOnCollision(aabbSweepResult);
+		if (collidingEntity) collidingEntity->StaticResolveOnCollision(aabbSweepResult);
 	}
 	else
 	{
-		ResolveNoCollision(               );
+		DynamicResolveNoCollision(               );
 		auto collidingEntity = dynamic_cast<CollidableEntity*>(targetEntity);
-		if (collidingEntity) collidingEntity->ResolveNoCollision(               );
+		if (collidingEntity) collidingEntity->StaticResolveNoCollision(               );
 	}
 }
 

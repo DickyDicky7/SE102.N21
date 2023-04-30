@@ -14,8 +14,10 @@ public:
 
 	CollidableState();
 	virtual ~CollidableState();
-	virtual T* ResolveNoCollision(E&) = 0;
-	virtual T* ResolveOnCollision(E&, const AABBSweepResult&) = 0;
+	virtual T*  StaticResolveNoCollision(E&) = 0;
+	virtual T*  StaticResolveOnCollision(E&, const AABBSweepResult&) = 0;
+	virtual T* DynamicResolveNoCollision(E&) = 0;
+	virtual T* DynamicResolveOnCollision(E&, const AABBSweepResult&) = 0;
 
 };
 

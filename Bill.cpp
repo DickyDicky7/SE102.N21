@@ -294,7 +294,15 @@ void Bill::LoadAnimations()
 	OutputDebugString(L"Bill Animations Loaded Successfully\n");
 }
 
-void Bill::ResolveNoCollision(                      )
+void Bill::StaticResolveNoCollision(                               )
+{
+}
+
+void Bill::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
+{
+}
+
+void Bill::DynamicResolveNoCollision(                               )
 {
 	if (isOnSurface)
 	{
@@ -315,18 +323,24 @@ void Bill::ResolveNoCollision(                      )
 	}
 }
 
-void Bill::ResolveOnCollision(AABBSweepResult aabbSweepResult)
+void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
-	if (aabbSweepResult.normalY == 1.0f)
+	if (aabbSweepResult.normalY == -1.0f)
 	{
-		position.y += (aabbSweepResult.enTime - 0.1f) * vy; // Resolve position
+		auto motionResult = Motion::CalculateUniformMotion({ position.y, vy });
+		position.y = motionResult.c;
+		vx = 0.0f;
+	}
+	if (aabbSweepResult.normalY == +1.0f)
+	{
+		position.y += (aabbSweepResult.enTime - 0.1f) * vy; // Resolve position if accept there is a collision
 		vy = 0.0f;
 		isOnSurface = 1;
 		ChangeState(state, new BillNormalState(), this);
 	}
 	if (aabbSweepResult.normalX != 0.0f)
 	{
-		position.x += aabbSweepResult.enTime * vx; // Resolve position
+		position.x += aabbSweepResult.enTime * vx; // Resolve position if accept there is a collision
 		// Vertical sliding effect
 		auto motionResult = Motion::CalculateUniformMotion({ position.y, vy });
 		position.y = motionResult.c;
