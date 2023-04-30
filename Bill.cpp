@@ -1,9 +1,9 @@
 #include "Bill.h"
 
-Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), Collidable()
+Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity()
 {
-		Entity::self =					  this;
-	Collidable::self = (Entity<std::any>*)this;
+			  Entity::self =					this;
+	CollidableEntity::self = (Entity<std::any>*)this;
 
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -41,18 +41,20 @@ void Bill::Render()
 
 	if (updateState)
 	{
-		state->Exit(*this);
-		delete state;
-		state = updateState;
-		state->Enter(*this);
+		//state->Exit(*this);
+		//delete state;
+		//state = updateState;
+		//state->Enter(*this);
+		ChangeState(state, updateState, this);
 		updateState = NULL;
 	}
 	if (handleInputState)
 	{
-		state->Exit(*this);
-		delete state;
-		state = handleInputState;
-		state->Enter(*this);
+		//state->Exit(*this);
+		//delete state;
+		//state = handleInputState;
+		//state->Enter(*this);
+		ChangeState(state, handleInputState, this);
 		handleInputState = NULL;
 	}
 }
@@ -297,17 +299,18 @@ void Bill::ResolveNoCollision(                      )
 	if (isOnSurface)
 	{
 		if (surfaceEntity)
-		if (position.x > surfaceEntity->GetX() + surfaceEntity->GetW() / 2.0f + h / 2.0f)
 		{
-			FLOAT currentY = position.y;
-			state->Exit(*this);
-			delete state;
-			state = NULL;
-			state = new BillFallState();
-			state->Enter(*this);
-			position.y = currentY;
-			isOnSurface = 0;
-			surfaceEntity = NULL;
+			if (position.x > surfaceEntity->GetX() + surfaceEntity->GetW() / 2.0f + h / 2.0f)
+			{
+				isOnSurface = 0;
+				surfaceEntity = NULL;
+				if (!dynamic_cast<BillJumpState*>(state))
+				{
+					FLOAT currentY = position.y;
+					ChangeState(state, new BillFallState(), this);
+					position.y = currentY;
+				}
+			}
 		}
 	}
 }
@@ -318,12 +321,8 @@ void Bill::ResolveOnCollision(AABBSweepResult aabbSweepResult)
 	{
 		position.y += (aabbSweepResult.enTime - 0.1f) * vy; // Resolve position
 		vy = 0.0f;
-		state->Exit(*this);
-		delete state;
-		state = NULL;
-		state = new BillNormalState();
-		state->Enter(*this);
 		isOnSurface = 1;
+		ChangeState(state, new BillNormalState(), this);
 	}
 	if (aabbSweepResult.normalX != 0.0f)
 	{

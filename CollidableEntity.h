@@ -15,13 +15,13 @@ struct AABBSweepResult
 	FLOAT contactY = +std::numeric_limits<FLOAT>::infinity();
 };
 
-class Collidable
+class CollidableEntity
 {
 
 public:
 
-	Collidable();
-	virtual ~Collidable();
+	CollidableEntity();
+	virtual ~CollidableEntity();
 	virtual void ResolveNoCollision(               ) = 0;
 	virtual void ResolveOnCollision(AABBSweepResult) = 0;
 
@@ -52,7 +52,7 @@ protected:
 };
 
 template <class T> requires std::derived_from<T, Entity<T>>
-inline BOOL Collidable::AABBCheck(T* targetEntity)
+inline BOOL CollidableEntity::AABBCheck(T* targetEntity)
 {
 	auto other = (Entity<std::any>*)targetEntity;
 
@@ -75,27 +75,28 @@ inline BOOL Collidable::AABBCheck(T* targetEntity)
 }
 
 template <class T> requires std::derived_from<T, Entity<T>>
-inline void Collidable::CollideWith(T* targetEntity)
+inline void CollidableEntity::CollideWith(T* targetEntity)
 {
 	AABBSweepResult aabbSweepResult = AABBSweep(targetEntity);
 	if (aabbSweepResult.isCollided)
 	{
+		surfaceEntity = NULL;
 		surfaceEntity = (Entity<std::any>*)targetEntity;
+
 		ResolveOnCollision(aabbSweepResult);
-		auto collidingEntity = dynamic_cast<Collidable*>(targetEntity);
+		auto collidingEntity = dynamic_cast<CollidableEntity*>(targetEntity);
 		if (collidingEntity) collidingEntity->ResolveOnCollision(aabbSweepResult);
 	}
 	else
 	{
-		//surfaceEntity = NULL;
 		ResolveNoCollision(               );
-		auto collidingEntity = dynamic_cast<Collidable*>(targetEntity);
+		auto collidingEntity = dynamic_cast<CollidableEntity*>(targetEntity);
 		if (collidingEntity) collidingEntity->ResolveNoCollision(               );
 	}
 }
 
 template <class T> requires std::derived_from<T, Entity<T>>
-inline AABBSweepResult Collidable::AABBSweep(T* targetEntity)
+inline AABBSweepResult CollidableEntity::AABBSweep(T* targetEntity)
 {
 	AABBSweepResult aabbSweepResultX = AABBSweepX(targetEntity);
 	AABBSweepResult aabbSweepResultY = AABBSweepY(targetEntity);
@@ -126,7 +127,7 @@ inline AABBSweepResult Collidable::AABBSweep(T* targetEntity)
 }
 
 template <class T> requires std::derived_from<T, Entity<T>>
-inline AABBSweepResult Collidable::AABBSweepX(T* targetEntity)
+inline AABBSweepResult CollidableEntity::AABBSweepX(T* targetEntity)
 {
 	AABBSweepResult aabbSweepResult{};
 
@@ -173,7 +174,7 @@ inline AABBSweepResult Collidable::AABBSweepX(T* targetEntity)
 }
 
 template <class T> requires std::derived_from<T, Entity<T>>
-inline AABBSweepResult Collidable::AABBSweepY(T* targetEntity)
+inline AABBSweepResult CollidableEntity::AABBSweepY(T* targetEntity)
 {
 	AABBSweepResult aabbSweepResult{};
 

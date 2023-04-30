@@ -213,8 +213,11 @@
     <ClInclude Include="Motion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Collidable.h">
-      <Filter>Header Files</Filter>
+    <ClInclude Include="CollidableEntity.h">
+      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="CollidableState.h">
+      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -536,8 +539,11 @@
     <ClCompile Include="Motion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Collidable.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="CollidableEntity.cpp">
+      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="CollidableState.cpp">
+      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

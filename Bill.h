@@ -5,10 +5,10 @@
 #include "Motion.h"
 #include "Common.h"
 #include "Entity.h"
-#include "Collidable.h"
 #include "HasSprites.h"
 #include "HasTextures.h"
 #include "HasAnimations.h"
+#include "CollidableEntity.h"
 
 
 class BillState;
@@ -34,7 +34,7 @@ class BillRunShotAngleDownState;
 class BillSwimShotStraightUpState;
 
 
-class Bill : public Entity<Bill>, public HasTextures<Bill>, public HasSprites<Bill>, public HasAnimations<Bill>, public Collidable
+class Bill : public Entity<Bill>, public HasTextures<Bill>, public HasSprites<Bill>, public HasAnimations<Bill>, public CollidableEntity
 {
 
 public:
