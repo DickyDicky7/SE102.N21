@@ -18,7 +18,7 @@ void BillShotStraightUpState::Enter(Bill& bill)
 
 void BillShotStraightUpState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::SHOT_STRAIGHT_UP, bill.GetPosition(), bill.GetMovingDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::SHOT_STRAIGHT_UP, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
 }
 
 BillState* BillShotStraightUpState::Update(Bill& bill)
@@ -28,7 +28,7 @@ BillState* BillShotStraightUpState::Update(Bill& bill)
 
 BillState* BillShotStraightUpState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_X))
+	if (input.IsKey(DIK_X))
 	{
 		return NULL;
 	}

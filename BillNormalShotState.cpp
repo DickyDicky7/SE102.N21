@@ -18,7 +18,7 @@ void BillNormalShotState::Enter(Bill& bill)
 
 void BillNormalShotState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::NORMAL_SHOT, bill.GetPosition(), bill.GetMovingDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::NORMAL_SHOT, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
 }
 
 BillState* BillNormalShotState::Update(Bill& bill)
@@ -28,7 +28,7 @@ BillState* BillNormalShotState::Update(Bill& bill)
 
 BillState* BillNormalShotState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_X))
+	if (input.IsKey(DIK_X))
 	{
 		return NULL;
 	}

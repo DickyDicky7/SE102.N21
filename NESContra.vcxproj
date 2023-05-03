@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,19 +19,29 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="BaseEnemy.h" />
     <ClInclude Include="Bill.h" />
     <ClInclude Include="BillCommon.h" />
+    <ClInclude Include="BossStage3.h" />
+    <ClInclude Include="Camera.h" />
+    <ClInclude Include="CameraCommon.h" />
+    <ClInclude Include="CollidableState.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletCommon.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GraphicsDatabase.h" />
     <ClInclude Include="GraphicsHelper.h" />
     <ClInclude Include="HasAnimations.h" />
+    <ClInclude Include="CollidableEntity.h" />
+    <ClInclude Include="Motion.h" />
     <ClInclude Include="HasSprites.h" />
     <ClInclude Include="HasTextures.h" />
     <ClInclude Include="Input.h" />
+    <ClInclude Include="RifleMan.h" />
+    <ClInclude Include="RifleManCommon.h" />
+    <ClInclude Include="RifleManHideOnBush.h" />
+    <ClInclude Include="RifleManStanding.h" />
     <ClInclude Include="ScubaSoldier.h" />
     <ClInclude Include="ScubaSoldierCommon.h" />
     <ClInclude Include="Soldier.h" />
@@ -42,7 +52,14 @@
     <ClInclude Include="TestingEntityCommon.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="BaseEnemy.cpp" />
+    <ClCompile Include="CollidableEntity.cpp" />
+    <ClCompile Include="CollidableState.cpp" />
+    <ClCompile Include="Motion.cpp" />
+    <ClCompile Include="RifleManHideOnBushState.cpp" />
+    <ClCompile Include="RifleManStanding.cpp" />
+    <ClCompile Include="RifleManStandingAimDownState.cpp" />
+    <ClCompile Include="RifleManStandingAimUpState.cpp" />
+    <ClCompile Include="RifleManHideOnBushAppearState.cpp" />
     <ClCompile Include="Bill.cpp" />
     <ClCompile Include="BillBeginState.cpp" />
     <ClCompile Include="BillBeginSwimState.cpp" />
@@ -65,6 +82,20 @@
     <ClCompile Include="BillSwimShotState.cpp" />
     <ClCompile Include="BillSwimShotStraightUpState.cpp" />
     <ClCompile Include="BillSwimNormalState.cpp" />
+    <ClCompile Include="BossStage3.cpp" />
+    <ClCompile Include="BossStage3CloseState.cpp" />
+    <ClCompile Include="BossStage3Common.h" />
+    <ClCompile Include="BossStage3MiddleState.cpp" />
+    <ClCompile Include="BossStage3OpenState.cpp" />
+    <ClCompile Include="BossStage3State.cpp" />
+    <ClCompile Include="Camera.cpp" />
+    <ClCompile Include="CameraMovingBackwardState.cpp" />
+    <ClCompile Include="CameraMovingDownwardState.cpp" />
+    <ClCompile Include="CameraMovingForwardState.cpp" />
+    <ClCompile Include="CameraMovingUpwardState.cpp" />
+    <ClCompile Include="CameraState.cpp" />
+    <ClCompile Include="CameraStaticState.cpp" />
+    <ClCompile Include="Enemy.cpp" />
     <ClCompile Include="Bullet.cpp" />
     <ClCompile Include="BulletState.cpp" />
     <ClCompile Include="Entity.cpp" />
@@ -73,8 +104,14 @@
     <ClCompile Include="HasAnimations.cpp" />
     <ClCompile Include="HasSprites.cpp" />
     <ClCompile Include="HasTextures.cpp" />
+    <ClCompile Include="RifleManHideOnBushHideState.cpp" />
+    <ClCompile Include="RifleManHideOnBushHidingState.cpp" />
     <ClCompile Include="Input.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RifleManStandingNormalState.cpp" />
+    <ClCompile Include="RifleMan.cpp" />
+    <ClCompile Include="RifleManHideOnBush.cpp" />
+    <ClCompile Include="RifleManStandingState.cpp" />
     <ClCompile Include="ScubaSoldier.cpp" />
     <ClCompile Include="ScubaSoldierHiddenState.cpp" />
     <ClCompile Include="ScubaSoldierShootingState.cpp" />
@@ -86,6 +123,7 @@
     <ClCompile Include="SoldierRunState.cpp" />
     <ClCompile Include="SoldierShootState.cpp" />
     <ClCompile Include="SoldierState.cpp" />
+    <ClCompile Include="RifleManHideOnBushStandingState.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="TestingEntity.cpp" />
     <ClCompile Include="WallTurret.cpp" />

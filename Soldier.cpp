@@ -2,14 +2,15 @@
 
 Soldier::Soldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
-	self = this;
+	Enemy::self = this;
+	Entity::self = this;
 
-	this->vx = 1;
-	this->vy = 1;
+	this->vx = 1.0f;
+	this->vy = 1.0f;
 	this->ax = 0.1f;
 	this->ay = 0.1f;
-	this->position.x = SCREEN_WIDTH / 4;
-	this->position.y = SCREEN_HEIGHT / 2 - 50;
+	this->position.x = 100;
+	this->position.y = 0;
 
 	this->updateState = NULL;
 	this->handleInputState = NULL;
@@ -46,6 +47,9 @@ void Soldier::Update()
 void Soldier::Render()
 {
 	state->Render(*this);
+	this->w = this->currentFrameW;
+	this->h = this->currentFrameH;
+
 	if (updateState)
 	{
 		state->Exit(*this);
@@ -69,7 +73,7 @@ void Soldier::HandleInput(Input& input)
 	handleInputState = state->HandleInput(*this, input);
 }
 
-void insertSpriteSoldier(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
+void InsertSpriteSoldier(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
 {
 	// i write this function to shorten the fuction: GraphicsHelper
 	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, DIRECTION::LEFT, SOLDIER_TEXTURE_ID::SOLDIER_01);
@@ -83,21 +87,21 @@ void Soldier::LoadSprites()
 #pragma region Load Sprites
 
 	// SPRITES
-	insertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_01, 90, 0, 106, 32);
-	insertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_02, 72, 0, 88, 32);
-	insertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_03, 54, 0, 70, 32);
-	insertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_04, 36, 0, 52, 32);
-	insertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_05, 18, 0, 34, 32);
-	insertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_06, 0, 0, 16, 32);
+	InsertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_01, 90, 0, 106, 32);
+	InsertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_02, 72, 0, 88, 32);
+	InsertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_03, 54, 0, 70, 32);
+	InsertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_04, 36, 0, 52, 32);
+	InsertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_05, 18, 0, 34, 32);
+	InsertSpriteSoldier(SOLDIER_SPRITE_ID::RUN_06, 0, 0, 16, 32);
 
-	insertSpriteSoldier(SOLDIER_SPRITE_ID::JUMP_01, 108, 0, 124, 32);
+	InsertSpriteSoldier(SOLDIER_SPRITE_ID::JUMP_01, 108, 0, 124, 32);
 
-	insertSpriteSoldier(SOLDIER_SPRITE_ID::SHOOT_01, 126, 0, 150, 32);
-	insertSpriteSoldier(SOLDIER_SPRITE_ID::SHOOT_02, 152, 0, 176, 32);
+	InsertSpriteSoldier(SOLDIER_SPRITE_ID::SHOOT_01, 126, 0, 150, 32);
+	InsertSpriteSoldier(SOLDIER_SPRITE_ID::SHOOT_02, 152, 0, 176, 32);
 
-	insertSpriteSoldier(SOLDIER_SPRITE_ID::LAY_DOWN_01, 178, 0, 210, 32);
+	InsertSpriteSoldier(SOLDIER_SPRITE_ID::LAY_DOWN_01, 178, 0, 210, 32);
 
-	insertSpriteSoldier(SOLDIER_SPRITE_ID::DIE_01, 212, 0, 227, 32);
+	InsertSpriteSoldier(SOLDIER_SPRITE_ID::DIE_01, 212, 0, 227, 32);
 
 #pragma endregion Load Sprites
 

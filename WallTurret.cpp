@@ -1,7 +1,6 @@
-#include <string>
 #include "WallTurret.h"
 
-#define PI 3.14159265
+#define PI D3DX_PI
 #define	TURRET_HEIGHT 32
 #define TURRET_WIDTH 32
 
@@ -14,14 +13,15 @@ void AutoInscreaseSpriteIdLoadAnimations(std::vector<WALL_TURRET_SPRITE_ID>, ANI
 
 WallTurret::WallTurret() : Entity(), HasAnimations()
 {
-	self = this;
+	Enemy::self = this;
+	Entity::self = this;
 
 	this->vx = 1.0f;
 	this->vy = 1.0f;
 	this->ax = 0.1f;
 	this->ay = 0.1f;
-	this->position.x = SCREEN_WIDTH / 3;
-	this->position.y = SCREEN_HEIGHT / 2 - 100;
+	this->position.x = 50;
+	this->position.y = 50;
 	this->billAngle = -90;
 
 	this->movingDirection = DIRECTION::LEFT;
@@ -33,6 +33,8 @@ WallTurret::WallTurret() : Entity(), HasAnimations()
 WallTurret::~WallTurret() {}
 
 void WallTurret::Update() {
+
+	CalculateBillAngle();
 
 	if (billAngle >= -105 && billAngle < -75)
 	{
@@ -87,6 +89,9 @@ void WallTurret::Update() {
 
 void WallTurret::Render() {
 	state->Render(*this);
+	this->w = this->currentFrameW;
+	this->h = this->currentFrameH;
+
 	if (updateState)
 	{
 		state->Exit(*this);
@@ -99,10 +104,10 @@ void WallTurret::Render() {
 
 void WallTurret::HandleInput(Input& input) {}
 
-void WallTurret::CalculateBillAngle(Bill* bill)
+void WallTurret::CalculateBillAngle()
 {
-	float dx = this->GetPosition().x - bill->GetPosition().x;
-	float dy = this->GetPosition().y - bill->GetPosition().y;
+	float dx = +(this->GetPosition().x - Enemy::target->GetPosition().x);
+	float dy = -(this->GetPosition().y - Enemy::target->GetPosition().y);
 
 	if (dx > 0 && dy < 0)
 		billAngle = -atan(dx / (abs(dy))) * 180 / PI;

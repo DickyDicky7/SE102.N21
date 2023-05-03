@@ -7,7 +7,7 @@ WallTurretUpState::~WallTurretUpState() {}
 void WallTurretUpState::Exit(WallTurret& wallTurret) {}
 
 void WallTurretUpState::Render(WallTurret& wallTurret) {
-	wallTurret.SetAnimation(WALL_TURRET_ANIMATION_ID::UP, wallTurret.GetPosition(), wallTurret.GetMovingDirection());
+	wallTurret.SetAnimation(WALL_TURRET_ANIMATION_ID::UP, wallTurret.GetPosition(), wallTurret.GetMovingDirection(), wallTurret.GetAngle());
 }
 
 void WallTurretUpState::Enter(WallTurret& wallTurret) {}

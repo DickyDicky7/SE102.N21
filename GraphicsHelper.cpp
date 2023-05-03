@@ -1,5 +1,33 @@
 #include "GraphicsHelper.h"
 
+
+
+
+
+#define DRAW_BOX TRUE
+struct VERTEX
+{
+	FLOAT x;
+	FLOAT y;
+	FLOAT z;
+	D3DCOLOR color;
+};
+VOID* pVoid = NULL;
+VERTEX verticesH[4];
+VERTEX verticesV[4];
+LPDIRECT3DVERTEXBUFFER9 vertexBuffer;
+void RotateVertex(VERTEX& vertex, FLOAT angle)
+{
+	FLOAT x0 = vertex.x;
+	FLOAT y0 = vertex.y;
+	vertex.x = x0 * std::cos(D3DXToRadian(angle)) - y0 * std::sin(D3DXToRadian(angle));
+	vertex.y = x0 * std::sin(D3DXToRadian(angle)) + y0 * std::cos(D3DXToRadian(angle));
+}
+
+
+
+
+
 LPDIRECT3DDEVICE9 GraphicsHelper::device;
 LPD3DXSPRITE GraphicsHelper::spriteHandler;
 
@@ -18,7 +46,7 @@ TEXTURE GraphicsHelper::CreateTexture(LPCWSTR textureFilePath)
 
 	result = D3DXCreateTextureFromFileEx
 	(
-		device, textureFilePath, info.Width, info.Height, 1,
+		device, textureFilePath, info.Width, info.Height, D3DX_DEFAULT,
 		D3DPOOL_DEFAULT, D3DFMT_UNKNOWN, D3DPOOL_DEFAULT,
 		D3DX_DEFAULT, D3DX_DEFAULT,
 		NULL, &info, NULL, &texture
@@ -52,37 +80,121 @@ ANIMATION GraphicsHelper::CreateAnimation(DEFAULT_TIME defaultTime, std::vector<
 	return ANIMATION({ defaultTime, frames });
 }
 
-void GraphicsHelper::DrawSprite(SPRITE sprite, D3DXVECTOR3 position, DIRECTION movingDirection)
+void GraphicsHelper::DrawSprite(SPRITE sprite, D3DXVECTOR3 position, DIRECTION movingDirection, FLOAT angle)
 {
 	RECT*      rect            = std::get<RECT*>(sprite);
 	DIRECTION  spriteDirection = std::get<DIRECTION>(sprite);
 	TEXTURE_ID textureId       = std::get<TEXTURE_ID>(sprite);
 
-	D3DXMATRIX flippingMatrix;
-	D3DXVECTOR2 flippingCenter(0, 0);
-	D3DXVECTOR3 center((FLOAT)(rect->right - rect->left) / 2.0f, (FLOAT)(rect->bottom - rect->top), 0.0f);
+	D3DXMATRIX  transformMatrix;
+	D3DXVECTOR2 flippingCenter(0.0f, 0.0f);
+	D3DXVECTOR2 rotatingCenter(0.0f, 0.0f);
+
+	FLOAT drawingCenterX = (FLOAT)(rect->right  - rect->left) / 2.0f;
+	FLOAT drawingCenterY = (FLOAT)(rect->bottom - rect->top ) / 1.0f;
+	//FLOAT drawingCenterX0 = drawingCenterX;
+	//FLOAT drawingCenterY0 = drawingCenterY;
+	//drawingCenterX = drawingCenterX0 * std::cos(-D3DXToRadian(angle)) - drawingCenterY0 * std::sin(-D3DXToRadian(angle));
+	//drawingCenterY = drawingCenterX0 * std::sin(-D3DXToRadian(angle)) + drawingCenterY0 * std::cos(-D3DXToRadian(angle));
+	D3DXVECTOR3 drawingCenter(drawingCenterX, drawingCenterY, 0.0f);
+
+	FLOAT x0 = position.x;
+	FLOAT y0 = position.y;
+	position.x = x0 * std::cos(-D3DXToRadian(angle)) - y0 * std::sin(-D3DXToRadian(angle));
+	position.y = x0 * std::sin(-D3DXToRadian(angle)) + y0 * std::cos(-D3DXToRadian(angle));
+
+
+
+
+
+	if (DRAW_BOX)
+	{
+		verticesH[0] = { position.x - (rect->right - rect->left) / 2.0f, position.y + (rect->bottom - rect->top), 0.0f, 0xffff007f }; // TL vertex
+		verticesH[1] = { position.x + (rect->right - rect->left) / 2.0f, position.y + (rect->bottom - rect->top), 0.0f, 0xffff007f }; // TR vertex
+		verticesH[2] = { position.x + (rect->right - rect->left) / 2.0f, position.y, 0.0f, 0xffff007f }; // BR vertex
+		verticesH[3] = { position.x - (rect->right - rect->left) / 2.0f, position.y, 0.0f, 0xffff007f }; // BL vertex
+
+		for (auto& vertex : verticesH)
+		{
+			RotateVertex(vertex, angle);
+		}
+
+		verticesV[0] = { position.x - (rect->right - rect->left) / 2.0f, position.y, 0.0f, 0xffff007f }; // BL vertex
+		verticesV[1] = { position.x - (rect->right - rect->left) / 2.0f, position.y + (rect->bottom - rect->top), 0.0f, 0xffff007f }; // TL vertex
+		verticesV[2] = { position.x + (rect->right - rect->left) / 2.0f, position.y + (rect->bottom - rect->top), 0.0f, 0xffff007f }; // TR vertex
+		verticesV[3] = { position.x + (rect->right - rect->left) / 2.0f, position.y, 0.0f, 0xffff007f }; // BR vertex
+
+		for (auto& vertex : verticesV)
+		{
+			RotateVertex(vertex, angle);
+		}
+	}
+
+
+
+
 
 	if (movingDirection != spriteDirection)
 	{
 		position.x = -position.x;
-		D3DXVECTOR2 flippingRatio(-2.0f, 2.0f);
-		D3DXMatrixTransformation2D(&flippingMatrix, &flippingCenter, 0.0f, &flippingRatio, NULL, 0.0f, NULL);
+		position.y = -position.y;
+		D3DXVECTOR2 flippingRatio(-1.0f, -1.0f);
+		D3DXMatrixTransformation2D(&transformMatrix, &flippingCenter, 0.0f, &flippingRatio, &rotatingCenter, D3DXToRadian(angle), NULL);
 	}
 	if (movingDirection == spriteDirection)
 	{
-		D3DXVECTOR2 flippingRatio(+2.0f, 2.0f);
-		D3DXMatrixTransformation2D(&flippingMatrix, &flippingCenter, 0.0f, &flippingRatio, NULL, 0.0f, NULL);
+		position.x = +position.x;
+		position.y = -position.y;
+		D3DXVECTOR2 flippingRatio(+1.0f, -1.0f);
+		D3DXMatrixTransformation2D(&transformMatrix, &flippingCenter, 0.0f, &flippingRatio, &rotatingCenter, D3DXToRadian(angle), NULL);
 	}
 
 	//device->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 	//device->BeginScene();
 
-	spriteHandler->Begin(D3DXSPRITE_ALPHABLEND);
-	spriteHandler->SetTransform(&flippingMatrix);
+	
+
+
+
+	if (DRAW_BOX)
+	{
+		if (!vertexBuffer)
+		{
+			device->CreateVertexBuffer(10 * sizeof(VERTEX), 0, D3DFVF_XYZ | D3DFVF_DIFFUSE, D3DPOOL_MANAGED, &vertexBuffer, NULL);
+			device->SetRenderState(D3DRS_LIGHTING, FALSE);
+			device->SetRenderState(D3DRS_COLORVERTEX, TRUE);
+
+			device->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, TRUE);
+			device->SetRenderState(D3DRS_ANTIALIASEDLINEENABLE, TRUE);
+		}
+
+		vertexBuffer->Lock(0, 0, (void**)&pVoid, 0);
+		memcpy(pVoid, verticesH, sizeof(verticesH));
+		vertexBuffer->Unlock();
+		device->SetStreamSource(0, vertexBuffer, 0, sizeof(VERTEX));
+		device->DrawPrimitive(D3DPT_LINELIST, 0, 4);
+		
+		vertexBuffer->Lock(0, 0, (void**)&pVoid, 0);
+		memcpy(pVoid, verticesV, sizeof(verticesV));
+		vertexBuffer->Unlock();
+		device->SetStreamSource(0, vertexBuffer, 0, sizeof(VERTEX));
+		device->DrawPrimitive(D3DPT_LINELIST, 0, 4);
+
+		//vertexBuffer->Release();
+		//vertexBuffer = NULL;
+		//pVoid = NULL;
+	}
+
+
+
+
+
+	spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_OBJECTSPACE);
+	spriteHandler->SetTransform(&transformMatrix);
 	spriteHandler->Draw
 	(
 		GraphicsDatabase::textures[textureId],
-		rect, &center, &position, D3DCOLOR_XRGB(255, 255, 255)
+		rect, &drawingCenter, &position, D3DCOLOR_XRGB(255, 255, 255)
 	);
 	spriteHandler->SetTransform(NULL);
 	spriteHandler->End();

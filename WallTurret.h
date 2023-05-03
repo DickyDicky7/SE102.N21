@@ -6,6 +6,7 @@
 #include "HasSprites.h"
 #include "HasTextures.h"
 #include "Bill.h"
+#include "Enemy.h"
 
 class WallTurret;
 class WallTurretState;
@@ -29,7 +30,8 @@ class WallTurretLeft120State;
 class WallTurretLeft150State;
 
 
-class WallTurret : public Entity<WallTurret>, public HasTextures<WallTurret>, public HasSprites<WallTurret>, public HasAnimations<WallTurret>
+class WallTurret : public Entity<WallTurret>, public Enemy<WallTurret, Bill>
+				 , public HasTextures<WallTurret>, public HasSprites<WallTurret>, public HasAnimations<WallTurret>
 {
 public:
 	WallTurret();
@@ -38,17 +40,17 @@ public:
 	void Render() override;
 	void HandleInput(Input&) override;
 
-	void LoadSprites() override;
 	void LoadTextures() override;
+	void LoadSprites() override;
 	void LoadAnimations() override;
 
-	void CalculateBillAngle(Bill*);
+	void CalculateBillAngle();
 
 protected:
 	WallTurretState* state;
 	WallTurretState* updateState;
 
-	int billAngle;
+	float billAngle;
 };
 
 class WallTurretState : public State<WallTurretState, WallTurret>

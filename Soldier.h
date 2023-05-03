@@ -1,4 +1,6 @@
 #pragma once
+#include "Bill.h"
+#include "Enemy.h"
 #include "State.h"
 #include "Common.h"
 #include "Entity.h"
@@ -13,7 +15,8 @@ class SoldierShootState;
 class SoldierLayDownState;
 class SoldierDieState;
 
-class Soldier : public Entity<Soldier>, public HasTextures<Soldier>, public HasSprites<Soldier>, public HasAnimations<Soldier>
+class Soldier : public Entity<Soldier>, public Enemy<Soldier, Bill>
+		      , public HasTextures<Soldier>, public HasSprites<Soldier>, public HasAnimations<Soldier>
 {
 public:
 

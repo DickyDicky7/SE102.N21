@@ -4,14 +4,15 @@
 
 ScubaSoldier::ScubaSoldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
-	self = this;
+	Enemy::self = this;
+	Entity::self = this;
 
-	this->vx = 1;
-	this->vy = 1;
+	this->vx = 1.0f;
+	this->vy = 1.0f;
 	this->ax = 0.1f;
 	this->ay = 0.1f;
-	this->position.x = SCREEN_WIDTH / 4;
-	this->position.y = SCREEN_HEIGHT / 2 - 200;
+	this->position.x = 300;
+	this->position.y = 0;
 
 	this->updateState = NULL;
 	this->handleInputState = NULL;
@@ -33,6 +34,9 @@ void ScubaSoldier::Update()
 void ScubaSoldier::Render()
 {
 	state->Render(*this);
+	this->w = this->currentFrameW;
+	this->h = this->currentFrameH;
+
 	if (updateState)
 	{
 		state->Exit(*this);
@@ -56,7 +60,7 @@ void ScubaSoldier::HandleInput(Input& input)
 	handleInputState = state->HandleInput(*this, input);
 }
 
-void insertSpriteScuba(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
+void InsertSpriteScuba(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
 {
 	// i write this function to shorten the fuction: GraphicsHelper
 	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, DIRECTION::RIGHT, SCUBA_SOLDIER_TEXTURE_ID::SCUBA_SOLDIER_01);
@@ -71,9 +75,9 @@ void ScubaSoldier::LoadSprites()
 
 	// SPRITES
 
-	insertSpriteScuba(SCUBA_SOLDIER_SPRITE_ID::HIDDEN_01, 2, 0, 17, 30);
+	InsertSpriteScuba(SCUBA_SOLDIER_SPRITE_ID::HIDDEN_01, 2, 0, 17, 30);
 
-	insertSpriteScuba(SCUBA_SOLDIER_SPRITE_ID::SHOOTING_01, 20, 0, 35, 30);
+	InsertSpriteScuba(SCUBA_SOLDIER_SPRITE_ID::SHOOTING_01, 20, 0, 35, 30);
 
 #pragma endregion Load Sprites
 

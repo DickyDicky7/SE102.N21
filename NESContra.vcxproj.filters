@@ -88,6 +88,48 @@
     <Filter Include="Source Files\Objects\Enemies\WallTurret\WallTurretState">
       <UniqueIdentifier>{3887bf97-f37e-4fed-b077-c468432bd6de}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Enemies\BossStage3">
+      <UniqueIdentifier>{8f9e1b94-f64d-48fb-9966-32293c07c812}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\BossStage3">
+      <UniqueIdentifier>{be0dc8c7-0e71-47f6-80a8-600ab84024ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3State">
+      <UniqueIdentifier>{283e9967-ec2f-4af5-8faf-0b53a8a83ec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\RifleMan">
+      <UniqueIdentifier>{79d2c866-2293-4630-9842-287f1a71d622}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\RifleMan">
+      <UniqueIdentifier>{6932a0fa-1526-4ae9-9a3a-3415efd401be}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\RifleMan\HideOnBush">
+      <UniqueIdentifier>{14bbbc09-f6ba-4497-a508-993c9af08a10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\RifleMan\Standing">
+      <UniqueIdentifier>{f56f47ec-84da-4430-be29-41a0de0b2045}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\RifleMan\HideOnBush">
+      <UniqueIdentifier>{b6bdcd03-29f5-4a55-81d9-e64e154d1647}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\RifleMan\Standing">
+      <UniqueIdentifier>{6039a4df-e9ea-4617-af4e-6cbc3c56ac77}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\RifleMan\HideOnBush\State">
+      <UniqueIdentifier>{48380a2e-9d02-425f-8d9c-904c17547a6a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\RifleMan\Standing\State">
+      <UniqueIdentifier>{ca618d7a-b8ae-4be6-ab0c-7a6c247f2d3b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Camera">
+      <UniqueIdentifier>{04bbb2ba-9815-44fb-a868-19898b1adf75}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Camera">
+      <UniqueIdentifier>{14356edb-079e-4955-a6e4-ee6d2de4b7b1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Camera\CameraState">
+      <UniqueIdentifier>{0c6a8194-4179-402d-be4c-bbe4d567c698}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Objects\Bullet">
       <UniqueIdentifier>{d01352c1-14c2-4eff-abac-a29e3dd0a853}</UniqueIdentifier>
     </Filter>
@@ -126,9 +168,6 @@
     <ClInclude Include="State.h">
       <Filter>Header Files\Abstractions\Object Abstractions</Filter>
     </ClInclude>
-    <ClInclude Include="BaseEnemy.h">
-      <Filter>Header Files\Abstractions</Filter>
-    </ClInclude>
     <ClInclude Include="ScubaSoldier.h">
       <Filter>Header Files\Objects\Enemies\ScubaSoldier</Filter>
     </ClInclude>
@@ -152,6 +191,39 @@
     </ClInclude>
     <ClInclude Include="WallTurret.h">
       <Filter>Header Files\Objects\Enemies\WallTurret</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStage3.h">
+      <Filter>Header Files\Objects\Enemies\BossStage3</Filter>
+    </ClInclude>
+    <ClInclude Include="Enemy.h">
+      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="RifleMan.h">
+      <Filter>Header Files\Objects\Enemies\RifleMan</Filter>
+    </ClInclude>
+    <ClInclude Include="RifleManCommon.h">
+      <Filter>Header Files\Objects\Enemies\RifleMan</Filter>
+    </ClInclude>
+    <ClInclude Include="RifleManHideOnBush.h">
+      <Filter>Header Files\Objects\Enemies\RifleMan\HideOnBush</Filter>
+    </ClInclude>
+    <ClInclude Include="RifleManStanding.h">
+      <Filter>Header Files\Objects\Enemies\RifleMan\Standing</Filter>
+    </ClInclude>
+    <ClInclude Include="Camera.h">
+      <Filter>Header Files\Objects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="CameraCommon.h">
+      <Filter>Header Files\Objects\Camera</Filter>
+    </ClInclude>
+    <ClInclude Include="Motion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CollidableEntity.h">
+      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="CollidableState.h">
+      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
     </ClInclude>
     <ClInclude Include="Bullet.h">
       <Filter>Header Files\Objects\Bullet</Filter>
@@ -224,9 +296,6 @@
     <ClCompile Include="Entity.cpp">
       <Filter>Source Files\Abstractions\Object Abstractions</Filter>
     </ClCompile>
-    <ClCompile Include="BaseEnemy.cpp">
-      <Filter>Source Files\Abstractions</Filter>
-    </ClCompile>
     <ClCompile Include="TestingEntity.cpp">
       <Filter>Source Files\Objects\TestingEntity</Filter>
     </ClCompile>
@@ -268,9 +337,6 @@
     </ClCompile>
     <ClCompile Include="ScubaSoldier.cpp">
       <Filter>Source Files\Objects\Enemies\ScubaSoldier</Filter>
-    </ClCompile>
-    <ClCompile Include="BaseEnemy.cpp">
-      <Filter>Source Files\Abstractions</Filter>
     </ClCompile>
     <ClCompile Include="TestingEntity.cpp">
       <Filter>Source Files\Objects\TestingEntity</Filter>
@@ -403,6 +469,93 @@
     </ClCompile>
     <ClCompile Include="BillSwimRunState.cpp">
       <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3Common.h">
+      <Filter>Header Files\Objects\Enemies\BossStage3</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3State.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3OpenState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3State</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3CloseState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3State</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3MiddleState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3State</Filter>
+    </ClCompile>
+    <ClCompile Include="Enemy.cpp">
+      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="Camera.cpp">
+      <Filter>Source Files\Objects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraState.cpp">
+      <Filter>Source Files\Objects\Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraMovingForwardState.cpp">
+      <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraMovingUpwardState.cpp">
+      <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraMovingDownwardState.cpp">
+      <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraMovingBackwardState.cpp">
+      <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    </ClCompile>
+    <ClCompile Include="CameraStaticState.cpp">
+      <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleMan.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManHideOnBush.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManHideOnBushHideState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush\State</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManHideOnBushAppearState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush\State</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManHideOnBushHidingState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush\State</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManHideOnBushStandingState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush\State</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManStandingNormalState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\Standing\State</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManStandingAimUpState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\Standing\State</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManStandingAimDownState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\Standing\State</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManHideOnBushState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManStandingState.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\Standing</Filter>
+    </ClCompile>
+    <ClCompile Include="RifleManStanding.cpp">
+      <Filter>Source Files\Objects\Enemies\RifleMan\Standing</Filter>
+    </ClCompile>
+    <ClCompile Include="Motion.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CollidableEntity.cpp">
+      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="CollidableState.cpp">
+      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
     </ClCompile>
     <ClCompile Include="Bullet.cpp">
       <Filter>Source Files\Objects\Bullet</Filter>

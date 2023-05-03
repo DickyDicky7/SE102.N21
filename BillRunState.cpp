@@ -28,7 +28,7 @@ void BillRunState::Enter(Bill& bill)
 
 void BillRunState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::RUN, bill.GetPosition(), bill.GetMovingDirection());
+	bill.SetAnimation(BILL_ANIMATION_ID::RUN, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
 }
 
 BillState* BillRunState::Update(Bill& bill)
@@ -44,49 +44,28 @@ BillState* BillRunState::Update(Bill& bill)
 		bill.SetAX(+abs(bill.GetAX()));
 	}
 
-	// check is in screen
-	if (bill.IsHitWall())
-	{
-		bill.SetX
-		(
-			// x = x0 + v0*t + a*(t^2)/2 -- uniform accelerated motion
-			bill.GetX() + bill.GetVX() * time + bill.GetAX() * pow(time, 2) / 2
-		);
-	}
-	
-	// Restrict Ox velocity and time. Make this part "v0*t + a*(t^2)/2" become a constant => uniform motion
-	// If not, entity will move too fast. The code here is temporary
-	if (abs(bill.GetVX()) < +3.00f)
-	{
-		bill.SetVX
-		(
-			bill.GetVX() + bill.GetAX() * time
-		);
-	}
+	auto result = Motion::CalculateUniformlyAcceleratedMotion({ bill.GetX(), bill.GetVX(), bill.GetAX(), time, 0.05f });
 
-	// Restrict Ox velocity and time. Make this part "v0*t + a*(t^2)/2" become a constant => uniform motion
-	// If not, entity will move too fast. The code here is temporary
-	if (time < +2.00f)
-	{
-		time += 0.05f;
-	}
+	bill.SetX(result.c);
+	if (time < +2.00f) time = result.t;
+	if (abs(bill.GetVX()) < +3.00f) bill.SetVX(result.v);
 
 	return NULL;
 }
 
 BillState* BillRunState::HandleInput(Bill& bill, Input& input)
 {
-	if (input.Is(DIK_LEFT) || input.Is(DIK_RIGHT))
+	if (input.IsKey(DIK_LEFT) || input.IsKey(DIK_RIGHT))
 	{
-		if (input.Is(DIK_Z))
+		if (input.IsKey(DIK_Z))
 		{
 			return new BillJumpState();
 		}
-		if (input.Is(DIK_UP))
+		if (input.IsKey(DIK_UP))
 		{
 			return new BillRunShotAngleUpState();
 		}
-		if (input.Is(DIK_DOWN))
+		if (input.IsKey(DIK_DOWN))
 		{
 			return new BillRunShotAngleDownState();
 		}
