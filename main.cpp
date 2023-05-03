@@ -121,6 +121,31 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		rifleManStanding.Update();
 		rifleManHideOnBush.Update();
 
+
+
+
+		//auto ry = bill.AABBSweepY(&scubaSoldier);
+		//if (ry.isCollided)
+		//{
+		//	if (ry.normalY != 0)
+		//		bill.SetY(bill.GetY() + ry.enTime * bill.GetVY());
+		//}
+		//auto rx = bill.AABBSweepX(&scubaSoldier);
+		//if (rx.isCollided)
+		//{
+		//	if (rx.normalX != 0)
+		//		bill.SetX(bill.GetX() + rx.enTime * bill.GetVX());
+		//}
+		bill.CollideWith(&soldier);
+		bill.CollideWith(&bossStage3);
+		bill.CollideWith(&wallTurret);
+		//_RPT1(0, "entryTime: %f, exitTime: %f, normalX: %f, normalY: %f\ncollided: %d\n\n", ry.enTime, ry.exTime, ry.normalX, ry.normalY, ry.isCollided);
+		//_RPT1(0, "X collided: %d, Y collided: %d, etX: %f, etY: %f\n", rx.isCollided, ry.isCollided, rx.enTime, ry.enTime);
+		//_RPT1(0, "cpX: %f, cpY: %f\n", rx.contactX, rx.contactY);
+
+
+
+
 		//if (bill.GetY() <= 0)
 		//{
 		//	camera->Capture

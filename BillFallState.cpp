@@ -2,6 +2,12 @@
 
 BillFallState::BillFallState() : BillState()
 {
+	this->returnState = NULL;
+}
+
+BillFallState::BillFallState(BillState* returnState) : BillState()
+{
+	this->returnState = returnState;
 }
 
 BillFallState::~BillFallState()
@@ -34,7 +40,7 @@ BillState* BillFallState::Update(Bill& bill)
 	if (bill.GetVY() <= 0 && bill.GetY() <= 0)
 	{
 		bill.SetY(0);
-		return new BillBeginSwimState();
+		return returnState;
 	}
 
 	return NULL;
