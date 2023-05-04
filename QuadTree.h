@@ -1,7 +1,7 @@
 #pragma once
 #include "QuadTreeCommon.h"
 
-class QuadTree 
+class QuadTree
 {
 protected:
 	QuadTreeRect::QTRect region;
@@ -61,40 +61,32 @@ public:
 
 		for (int i = 0; i < 4; i++)
 		{
-
+			if (childs[i])
+			{
+				childs[i]->GetEntityList(resultList);
+			}
 		}
 		return;
 	}
 
-	void GetCurrentNodeEntityCollision(typename QuadTreeList* pList, typename QuadTreeList::iterator _it, typename QuadTreeList& resultList)
+	void GetCurrentNodeEntityCollision(Entity* _target, QuadTreeRect::QTRect _rect, typename QuadTreeList& resultList)
 	{
-		if (&entityList == pList)
+		for (int i = 0; i < 4; i++)
 		{
-			for (auto it = entityList.begin(); it != entityList.end(); it++)
+			if (rChilds[i].contains(_rect))
 			{
-				if(it != _it)
-					resultList.push_back(*it);
-			}
-
-			for (int i = 0; i < 4; i++)
-			{
+				//_target->LogName();
+				//_RPT1(0, "W: %f ;\n H: %f ;\n X: %f ;\n Y: %f ;\n", rChilds[i].size.w, rChilds[i].size.h, rChilds[i].pos.x, rChilds[i].pos.y);
+				//_RPT1(0, "W: %f ;\n H: %f ;\n X: %f ;\n Y: %f ;\n", _rect.size.w, _rect.size.h, _rect.pos.x, _rect.pos.y);
 				if (childs[i])
 				{
 					childs[i]->GetEntityList(resultList);
+					return;
 				}
 			}
-
-			return;
 		}
 
-		for (int i = 0; i < 4; i++)
-		{
-			if (childs[i])
-			{
-				childs[i]->GetCurrentNodeEntityCollision(pList, _it, resultList);
-			}
-		}
-
+		//GetEntityList(resultList);
 		return;
 	};
 
@@ -116,7 +108,7 @@ public:
 		}
 
 		entityList.push_back(_target);
-			
+
 		return { &entityList, std::prev(entityList.end()) };
 	}
 };

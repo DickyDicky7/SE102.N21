@@ -216,6 +216,12 @@
     <ClInclude Include="Motion.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="CollidableEntity.h">
+      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="CollidableState.h">
+      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    </ClInclude>
     <ClInclude Include="QuadTree.h">
       <Filter>Header Files\Abstractions\Space Abstractions</Filter>
     </ClInclude>
@@ -292,6 +298,9 @@
     </ClCompile>
     <ClCompile Include="TestingEntity.cpp">
       <Filter>Source Files\Objects\TestingEntity</Filter>
+    </ClCompile>
+    <ClCompile Include="Soldier.cpp">
+      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
     </ClCompile>
     <ClCompile Include="ScubaSoldier.cpp">
       <Filter>Source Files\Objects\Enemies\ScubaSoldier</Filter>
@@ -542,8 +551,11 @@
     <ClCompile Include="Motion.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Soldier.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    <ClCompile Include="CollidableEntity.cpp">
+      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="CollidableState.cpp">
+      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

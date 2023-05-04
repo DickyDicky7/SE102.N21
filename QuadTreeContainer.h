@@ -51,9 +51,9 @@ public:
 
 		itemList.push_back(item);
 
-		QuadTreeRect::QTRect _target_size = QuadTreeRect::ConvertEntityRectToQTRect(_target);
+		QuadTreeRect::QTRect _targetSize = QuadTreeRect::ConvertEntityRectToQTRect(_target);
 
-		itemList.back().pItem = tree.Insert(_target, _target_size);
+		itemList.back().pItem = tree.Insert(_target, _targetSize);
 	};
 
 	void Remove(typename QuadTreeContainerList::iterator& it)
@@ -66,23 +66,18 @@ public:
 	{
 		it->pItem.container->erase(it->pItem.iterator);
 
-		QuadTreeRect::QTRect _target_size = QuadTreeRect::ConvertEntityRectToQTRect(it->item);
+		QuadTreeRect::QTRect _targetSize = QuadTreeRect::ConvertEntityRectToQTRect(it->item);
 
-		it->pItem = tree.Insert(it->item, _target_size);
+		it->pItem = tree.Insert(it->item, _targetSize);
 	};
 
 	std::list<Entity*> GetCollisionWithTarget(Entity* _target)
 	{
-		QuadTreeContainerList::iterator targetIt;
-
-		for (auto it = itemList.begin(); it != itemList.end(); it++)
-		{
-			targetIt = it;
-		}
+		QuadTreeRect::QTRect _targetSize = QuadTreeRect::ConvertEntityRectToQTRect(_target);
 
 		typename QuadTreeList resultList;
 
-		tree.GetCurrentNodeEntityCollision(targetIt->pItem.container, targetIt->pItem.iterator, resultList);
+		tree.GetCurrentNodeEntityCollision(_target, _targetSize, resultList);
 
 		return resultList;
 	}

@@ -50,13 +50,13 @@ inline INT HasAnimations<T>::GetCurrentFrame() const
 	return currentFrame;
 }
 
-template<class T>
+template <class T>
 inline FLOAT HasAnimations<T>::GetCurrentFrameW() const
 {
 	return currentFrameW;
 }
 
-template<class T>
+template <class T>
 inline FLOAT HasAnimations<T>::GetCurrentFrameH() const
 {
 	return currentFrameH;

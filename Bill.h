@@ -8,6 +8,7 @@
 #include "HasSprites.h"
 #include "HasTextures.h"
 #include "HasAnimations.h"
+#include "CollidableEntity.h"
 
 
 class BillState;
@@ -33,7 +34,7 @@ class BillRunShotAngleDownState;
 class BillSwimShotStraightUpState;
 
 
-class Bill : public Entity, public HasTextures<Bill>, public HasSprites<Bill>, public HasAnimations<Bill>
+class Bill : public Entity, public HasTextures<Bill>, public HasSprites<Bill>, public HasAnimations<Bill>, public CollidableEntity
 {
 
 public:
@@ -47,6 +48,11 @@ public:
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
+
+	void  StaticResolveNoCollision(               ) override;
+	void  StaticResolveOnCollision(AABBSweepResult) override;
+	void DynamicResolveNoCollision(               ) override;
+	void DynamicResolveOnCollision(AABBSweepResult) override;
 
 protected:
 
@@ -103,7 +109,8 @@ class BillFallState : public BillState
 public:
 
 	BillFallState();
-	virtual ~BillFallState();
+	BillFallState(BillState*);
+	virtual ~BillFallState( );
 
 	virtual void Exit(Bill&) override;
 	virtual void Enter(Bill&) override;
@@ -111,6 +118,10 @@ public:
 
 	virtual BillState* Update(Bill&) override;
 	virtual BillState* HandleInput(Bill&, Input&) override;
+
+protected:
+
+	BillState* returnState;
 
 };
 

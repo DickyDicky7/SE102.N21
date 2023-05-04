@@ -43,12 +43,12 @@ namespace QuadTreeRect
 
 	QTRect ConvertEntityRectToQTRect(Entity* _target)
 	{
-		QTRect _target_size = {
+		QTRect _targetSize = {
 			{_target->GetX() - _target->GetW() / 2.0f, _target->GetY()},
 			{_target->GetW(), _target->GetH()}
 		};
 
-		return _target_size;
+		return _targetSize;
 	}
 };
 

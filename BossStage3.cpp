@@ -6,8 +6,8 @@ BossStage3::BossStage3() : Entity(), HasTextures(), HasSprites(), HasAnimations(
 {
 	Enemy::self = this;
 
-	this->vx = 1;
-	this->vy = 1;
+	this->vx = 1.0f;
+	this->vy = 1.0f;
 	this->ax = 0.1f;
 	this->ay = 0.1f;
 	this->position.x = 200;
@@ -36,6 +36,7 @@ void BossStage3::Render()
 	state->Render(*this);
 	this->w = this->currentFrameW;
 	this->h = this->currentFrameH;
+
 	if (updateState)
 	{
 		state->Exit(*this);

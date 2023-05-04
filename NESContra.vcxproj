@@ -24,12 +24,14 @@
     <ClInclude Include="BossStage3.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraCommon.h" />
+    <ClInclude Include="CollidableState.h" />
     <ClInclude Include="Common.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="GraphicsDatabase.h" />
     <ClInclude Include="GraphicsHelper.h" />
     <ClInclude Include="HasAnimations.h" />
+    <ClInclude Include="CollidableEntity.h" />
     <ClInclude Include="Motion.h" />
     <ClInclude Include="HasSprites.h" />
     <ClInclude Include="HasTextures.h" />
@@ -51,6 +53,8 @@
     <ClInclude Include="TestingEntityCommon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CollidableEntity.cpp" />
+    <ClCompile Include="CollidableState.cpp" />
     <ClCompile Include="Motion.cpp" />
     <ClCompile Include="RifleManHideOnBushState.cpp" />
     <ClCompile Include="RifleManStanding.cpp" />

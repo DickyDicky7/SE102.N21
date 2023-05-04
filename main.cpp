@@ -98,16 +98,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	QuadTreeContainer quadTreeContainer = QuadTreeContainer(QuadTreeRect::QTRect({
 		{0, 0},
-		{SCREEN_WIDTH, SCREEN_HEIGHT}
+		{SCREEN_WIDTH, SCREEN_HEIGHT / SCALING_RATIO_Y}
 		}));
 
 	quadTreeContainer.Insert(&bill);
-	quadTreeContainer.Insert(&soldier);
+	//quadTreeContainer.Insert(&soldier);
 	quadTreeContainer.Insert(&wallTurret);
 	quadTreeContainer.Insert(&bossStage3);
-	quadTreeContainer.Insert(&scubaSoldier);
-	quadTreeContainer.Insert(&rifleManStanding);
-	quadTreeContainer.Insert(&rifleManHideOnBush);
+	//quadTreeContainer.Insert(&scubaSoldier);
+	//quadTreeContainer.Insert(&rifleManStanding);
+	//quadTreeContainer.Insert(&rifleManHideOnBush);
 
 	MSG msg;
 	while (TRUE)
@@ -123,12 +123,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		input->Capture();
 		bill.HandleInput(*input);
-		soldier.HandleInput(*input);
+		//soldier.HandleInput(*input);
 		bossStage3.HandleInput(*input);
 		scubaSoldier.HandleInput(*input);
 
 		bill.Update();
-		soldier.Update();
+		//soldier.Update();
 		wallTurret.Update();
 		bossStage3.Update();
 		scubaSoldier.Update();
@@ -136,6 +136,38 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		rifleManHideOnBush.Update();
 
 
+
+
+		//auto ry = bill.AABBSweepY(&scubaSoldier);
+		//if (ry.isCollided)
+		//{
+		//	if (ry.normalY != 0)
+		//		bill.SetY(bill.GetY() + ry.enTime * bill.GetVY());
+		//}
+		//auto rx = bill.AABBSweepX(&scubaSoldier);
+		//if (rx.isCollided)
+		//{
+		//	if (rx.normalX != 0)
+		//		bill.SetX(bill.GetX() + rx.enTime * bill.GetVX());
+		//}
+		bill.CollideWith(&soldier);
+		bill.CollideWith(&bossStage3);
+		bill.CollideWith(&wallTurret);
+		//_RPT1(0, "entryTime: %f, exitTime: %f, normalX: %f, normalY: %f\ncollided: %d\n\n", ry.enTime, ry.exTime, ry.normalX, ry.normalY, ry.isCollided);
+		//_RPT1(0, "X collided: %d, Y collided: %d, etX: %f, etY: %f\n", rx.isCollided, ry.isCollided, rx.enTime, ry.enTime);
+		//_RPT1(0, "cpX: %f, cpY: %f\n", rx.contactX, rx.contactY);
+
+
+
+
+		//if (bill.GetY() <= 0)
+		//{
+		//	camera->Capture
+		//	(
+		//		bill.GetX(), bill.GetY(),
+		//		bill.GetVX(), bill.GetVY()
+		//	);
+		//}
 		camera->HandleInput(*input);
 		camera->Capture(bill.GetX(), bill.GetY());
 
@@ -144,7 +176,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		d3ddev->BeginScene();
 
 		bill.Render();
-		soldier.Render();
+		//soldier.Render();
 		wallTurret.Render();
 		bossStage3.Render();
 		scubaSoldier.Render();
@@ -154,7 +186,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		for (auto it = quadTreeContainer.begin(); it != quadTreeContainer.end(); it++)
 		{
-				quadTreeContainer.Relocate(it);
+			quadTreeContainer.Relocate(it);
 		}
 
 		std::list<Entity*> result = quadTreeContainer.GetCollisionWithTarget(&bill);
@@ -166,6 +198,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
 
+		//Should disable if you do not want to debug, this line of code causes lag
+		//_RPT1(0, "W: %f ; H: %f\n", bill.GetW(), bill.GetH());
 	}
 
 	CleanD3D();
@@ -242,6 +276,18 @@ void LoadD3D(HWND hWnd)
 	d3dpp.Windowed = TRUE;
 	d3dpp.hDeviceWindow = hWnd;
 	d3dpp.SwapEffect = D3DSWAPEFFECT_DISCARD;
+
+
+
+
+
+	// Set up anti-aliasing
+	d3dpp.MultiSampleQuality = 0;
+	d3dpp.MultiSampleType = D3DMULTISAMPLE_8_SAMPLES;
+
+
+
+
 
 	d3d->CreateDevice
 	(

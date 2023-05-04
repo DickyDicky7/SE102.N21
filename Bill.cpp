@@ -1,7 +1,9 @@
 #include "Bill.h"
 
-Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations()
+Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity()
 {
+	CollidableEntity::self = (Entity*)this;
+
 	this->vx = 1.0f;
 	this->vy = 1.0f;
 	this->ax = 0.1f;
@@ -40,18 +42,20 @@ void Bill::Render()
 
 	if (updateState)
 	{
-		state->Exit(*this);
-		delete state;
-		state = updateState;
-		state->Enter(*this);
+		//state->Exit(*this);
+		//delete state;
+		//state = updateState;
+		//state->Enter(*this);
+		ChangeState(state, updateState, this);
 		updateState = NULL;
 	}
 	if (handleInputState)
 	{
-		state->Exit(*this);
-		delete state;
-		state = handleInputState;
-		state->Enter(*this);
+		//state->Exit(*this);
+		//delete state;
+		//state = handleInputState;
+		//state->Enter(*this);
+		ChangeState(state, handleInputState, this);
 		handleInputState = NULL;
 	}
 }
@@ -289,4 +293,66 @@ void Bill::LoadAnimations()
 #pragma endregion Load Animations
 
 	OutputDebugString(L"Bill Animations Loaded Successfully\n");
+}
+
+void Bill::StaticResolveNoCollision(                               )
+{
+}
+
+void Bill::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
+{
+}
+
+void Bill::DynamicResolveNoCollision(                               )
+{
+	if (isOnSurface)
+	{
+		if (surfaceEntity)
+		{
+			if (position.x > surfaceEntity->GetX() + surfaceEntity->GetW() / 2.0f + h / 4.0f
+			||  position.x < surfaceEntity->GetX() - surfaceEntity->GetW() / 2.0f - h / 4.0f)
+			{
+				isOnSurface = 0;
+				surfaceEntity = NULL;
+				if (!dynamic_cast<BillJumpState*>(state))
+				{
+					FLOAT currentY = position.y;
+					ChangeState(state, new BillFallState(new BillNormalState()), this);
+					position.y = currentY;
+				}
+			}
+		}
+	}
+}
+
+void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
+{
+	if (aabbSweepResult.normalY == -1.0f)
+	{
+		auto motionResult = Motion::CalculateUniformMotion({ position.y, vy });
+		position.y = motionResult.c;
+		vx = 0.0f;
+	}
+	if (aabbSweepResult.normalY == +1.0f)
+	{
+		if (position.x <= surfaceEntity->GetX() + surfaceEntity->GetW() / 2.0f
+		&&  position.x >= surfaceEntity->GetX() - surfaceEntity->GetW() / 2.0f)
+		{
+			position.y += (aabbSweepResult.enTime - 0.1f) * vy; // Resolve position if accept there is a collision
+			vy = 0.0f;
+			isOnSurface = 1;
+			ChangeState(state, new BillNormalState(), this);
+		}
+	}
+	if (aabbSweepResult.normalX != 0.0f)
+	{
+		position.x += aabbSweepResult.enTime * vx; // Resolve position if accept there is a collision
+		// Vertical sliding effect
+		//if (!isOnSurface)
+		//{
+		//	auto motionResult = Motion::CalculateUniformMotion({ position.y, vy });
+		//	position.y = motionResult.c;
+		//}
+		isNextToSurface = 1;
+	}
 }
