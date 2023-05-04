@@ -5,8 +5,6 @@ FLOAT Camera::scalingRatioY = SCALING_RATIO_Y;
 
 Camera::Camera(/* Input* input, */ CameraState* state, FLOAT x, FLOAT y) : Entity()
 {
-	self = this;
-
 	//if (input)
 	//{
 	//	input->SetMouseEventListener

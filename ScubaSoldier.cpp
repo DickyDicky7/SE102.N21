@@ -5,7 +5,6 @@
 ScubaSoldier::ScubaSoldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 	Enemy::self = this;
-	Entity::self = this;
 
 	this->vx = 1;
 	this->vy = 1;
@@ -13,6 +12,7 @@ ScubaSoldier::ScubaSoldier() : Entity(), HasTextures(), HasSprites(), HasAnimati
 	this->ay = 0.1f;
 	this->position.x = 300;
 	this->position.y = 0;
+	this->name = L"ScubaSoldier\n";
 
 	this->updateState = NULL;
 	this->handleInputState = NULL;
@@ -34,6 +34,8 @@ void ScubaSoldier::Update()
 void ScubaSoldier::Render()
 {
 	state->Render(*this);
+	this->w = this->currentFrameW;
+	this->h = this->currentFrameH;
 	if (updateState)
 	{
 		state->Exit(*this);

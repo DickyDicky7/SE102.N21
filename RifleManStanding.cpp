@@ -4,7 +4,6 @@
 RifleManStanding::RifleManStanding() : Entity(), HasAnimations()
 {
 	Enemy::self = this;
-	Entity::self = this;
 
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -14,6 +13,7 @@ RifleManStanding::RifleManStanding() : Entity(), HasAnimations()
 	this->position.y = 200;
 
 	this->movingDirection = DIRECTION::LEFT;
+	this->name = L"RifleManStanding\n";
 
 	this->updateState = NULL;
 	this->state = new RifleManStandingNormalState();
@@ -65,6 +65,8 @@ void RifleManStanding::Update()
 void RifleManStanding::Render()
 {
 	state->Render(*this);
+	this->w = this->currentFrameW;
+	this->h = this->currentFrameH;
 	if (updateState)
 	{
 		state->Exit(*this);

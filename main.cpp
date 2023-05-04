@@ -1,6 +1,9 @@
-#include "Input.h"
+﻿#include "Input.h"
+#include "Motion.h"
 #include "Camera.h"
 #include "Common.h"
+
+#include "QuadTreeContainer.h"
 
 #include "Bill.h"
 #include "Soldier.h"
@@ -60,6 +63,52 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		new CameraMovingForwardState()
 	);
 
+
+	//
+	FLOAT x = 050.0f;
+	FLOAT y = 100.0f;
+	FLOAT vx = 5.0f;
+	FLOAT vy = 5.0f;
+
+
+	FLOAT y0 = y;
+	FLOAT t = 0.0f;
+	FLOAT dt = 0.05f;
+	FLOAT T = 2.5f;
+	FLOAT A = 50.0f;
+	FLOAT φ = 0.0f;
+	Motion::OscillatoryMotionInputParameters pio{ y0, t, dt, T, A, φ };
+
+
+	FLOAT v0 = 10.0f;
+	FLOAT θ = 80.0f;
+	dt = 0.05f;
+	Motion::ProjectileMotionInputParameters pip{ x, y, v0, θ, t, dt };
+
+
+	FLOAT r = 50.0f;
+	FLOAT ω = 0.0f;
+	FLOAT dω = 5.0f;
+	FLOAT xO = 100.0f;
+	FLOAT yO = 100.0f;
+	FLOAT angle = 0.0f;
+	FLOAT dAngle = 10.0f;
+	Motion::UniformCircularMotionInputParameters pic{ r, ω, dω, xO, yO };
+	//
+
+	QuadTreeContainer quadTreeContainer = QuadTreeContainer(QuadTreeRect::QTRect({
+		{0, 0},
+		{SCREEN_WIDTH, SCREEN_HEIGHT}
+		}));
+
+	quadTreeContainer.Insert(&bill);
+	quadTreeContainer.Insert(&soldier);
+	quadTreeContainer.Insert(&wallTurret);
+	quadTreeContainer.Insert(&bossStage3);
+	quadTreeContainer.Insert(&scubaSoldier);
+	quadTreeContainer.Insert(&rifleManStanding);
+	quadTreeContainer.Insert(&rifleManHideOnBush);
+
 	MSG msg;
 	while (TRUE)
 	{
@@ -86,14 +135,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		rifleManStanding.Update();
 		rifleManHideOnBush.Update();
 
-		//if (bill.GetY() <= 0)
-		//{
-		//	camera->Capture
-		//	(
-		//		bill.GetX(), bill.GetY(),
-		//		bill.GetVX(), bill.GetVY()
-		//	);
-		//}
+
 		camera->HandleInput(*input);
 		camera->Capture(bill.GetX(), bill.GetY());
 
@@ -109,8 +151,21 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		rifleManStanding.Render();
 		rifleManHideOnBush.Render();
 
+
+		for (auto it = quadTreeContainer.begin(); it != quadTreeContainer.end(); it++)
+		{
+				quadTreeContainer.Relocate(it);
+		}
+
+		std::list<Entity*> result = quadTreeContainer.GetCollisionWithTarget(&bill);
+		for (auto it = result.begin(); it != result.end(); it++)
+		{
+			(*it)->LogName();
+		}
+
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
+
 	}
 
 	CleanD3D();

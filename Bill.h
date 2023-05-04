@@ -2,6 +2,7 @@
 
 
 #include "State.h"
+#include "Motion.h"
 #include "Common.h"
 #include "Entity.h"
 #include "HasSprites.h"
@@ -32,7 +33,7 @@ class BillRunShotAngleDownState;
 class BillSwimShotStraightUpState;
 
 
-class Bill : public Entity<Bill>, public HasTextures<Bill>, public HasSprites<Bill>, public HasAnimations<Bill>
+class Bill : public Entity, public HasTextures<Bill>, public HasSprites<Bill>, public HasAnimations<Bill>
 {
 
 public:

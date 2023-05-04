@@ -2,8 +2,6 @@
 
 Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
-	self = this;
-
 	this->vx = 1.0f;
 	this->vy = 1.0f;
 	this->ax = 0.1f;
@@ -15,6 +13,8 @@ Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 	this->state = NULL;
 	this->updateState = NULL;
 	this->handleInputState = NULL;
+
+	this->name = L"Bill\n";
 
 	if (!state)
 	{
@@ -35,6 +35,9 @@ void Bill::Update()
 void Bill::Render()
 {
 	state->Render(*this);
+	this->w = this->currentFrameW;
+	this->h = this->currentFrameH;
+
 	if (updateState)
 	{
 		state->Exit(*this);
