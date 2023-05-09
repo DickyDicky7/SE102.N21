@@ -355,4 +355,16 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		//}
 		isNextToSurface = 1;
 	}
+
+	_RPT1
+	(
+		0, "entryTime: %f, exitTime: %f, normalX: %f, normalY: %f\ncontactX: %f, contactY: %f, collided: %d\n\n",
+		aabbSweepResult.enTime,
+		aabbSweepResult.exTime,
+		aabbSweepResult.normalX,
+		aabbSweepResult.normalY,
+		aabbSweepResult.contactX,
+		aabbSweepResult.contactY,
+		aabbSweepResult.isCollided
+	);
 }
