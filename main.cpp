@@ -221,6 +221,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
+
+		//Should disable if you do not want to debug, this line of code causes lag
+		//_RPT1(0, "W: %f ; H: %f\n", bill.GetW(), bill.GetH());
 		result.clear();
 	}
 
