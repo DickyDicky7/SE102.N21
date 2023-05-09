@@ -100,7 +100,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		QuadTreeRect::QTRect({
 			{0, 0},
 			{SCREEN_WIDTH / SCALING_RATIO_X, SCREEN_HEIGHT / SCALING_RATIO_Y}
-		})
+			})
 	);
 
 	quadTreeContainer.Insert(&bill);
@@ -164,14 +164,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		}
 
 		std::list<Entity*> result = quadTreeContainer.GetCollisionWithTarget(&bill);
+
 		for (auto it = result.begin(); it != result.end(); it++)
 		{
-			(*it)->LogName();
+			if (*it != &bill)
+			{
+				(*it)->LogName();
+			}
 		}
 
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
-
+		result.clear();
 	}
 
 	CleanD3D();

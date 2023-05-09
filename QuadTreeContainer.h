@@ -59,13 +59,19 @@ public:
 	void Remove(typename QuadTreeContainerList::iterator& it)
 	{
 		itemList.erase(it);
-		it->pItem.container->erase(it->pItem.iterator);
+		if (it->pItem.container)
+		{
+			it->pItem.container->erase(it->pItem.iterator);
+		}
 	};
 
 	void Relocate(typename QuadTreeContainerList::iterator& it)
 	{
-		it->pItem.container->erase(it->pItem.iterator);
-
+		if (it->pItem.container)
+		{
+			it->pItem.container->erase(it->pItem.iterator);
+		}
+		
 		QuadTreeRect::QTRect _targetSize = QuadTreeRect::ConvertEntityRectToQTRect(it->item);
 
 		it->pItem = tree->Insert(it->item, _targetSize);

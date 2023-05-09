@@ -80,7 +80,6 @@ public:
 		{
 			if (rChilds[i].contains(_rect))
 			{
-
 				if (childs[i])
 				{
 					childs[i]->GetEntityList(resultList);
@@ -89,7 +88,14 @@ public:
 			}
 		}
 
-		GetEntityList(resultList);
+		for (auto it = entityList.begin(); it != entityList.end(); it++)
+		{
+			if (*it == _target)
+			{
+				GetEntityList(resultList);
+				return;
+			}
+		}
 		return;
 	};
 
