@@ -149,6 +149,44 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 		d3ddev->BeginScene();
 
+		
+		
+		//
+		auto poo = Motion::CalculateOscillatoryMotion(pio);
+		pio.t = poo.t;
+		GraphicsHelper::DrawSprite
+		(GraphicsDatabase::sprites[BILL_SPRITE_ID::NORMAL_01], D3DXVECTOR3(x, poo.c, 0.0f), DIRECTION::RIGHT, 45.0f);
+		x += vx;
+		if (x >= 500.0f || x <= 0.0f) vx = -vx;
+
+
+		if (pip.y < 0.0f)
+		{
+			pip.y = 0.0f;
+			pip.t = 0.0f;
+			if (pip.x >= 500.0f) pip.θ += 20.0f;
+			if (pip.x <= 0.0f) pip.θ -= 20.0f;
+		}
+		else
+		{
+			auto pop = Motion::CalculateProjectileMotion(pip);
+			pip.x = pop.x;
+			pip.y = pop.y;
+			pip.t = pop.t;
+		}
+		GraphicsHelper::DrawSprite
+		(GraphicsDatabase::sprites[BILL_SPRITE_ID::NORMAL_01], D3DXVECTOR3(pip.x, pip.y, 0.0f), DIRECTION::RIGHT, -45.0f);
+
+
+		auto poc = Motion::CalculateUniformCircularMotion(pic);
+		pic.ω = poc.ω;
+		GraphicsHelper::DrawSprite
+		(GraphicsDatabase::sprites[BILL_SPRITE_ID::NORMAL_01], D3DXVECTOR3(poc.x, poc.y, 0.0f), DIRECTION::RIGHT, angle);
+		angle += dAngle;
+		//
+		
+		
+		
 		bill.Render();
 		soldier.Render();
 		wallTurret.Render();
