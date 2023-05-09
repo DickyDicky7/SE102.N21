@@ -32,6 +32,9 @@ namespace QuadTreeRect
 
 		constexpr bool contains(QTRect& r) const //contain whole or a part
 		{
+			if ((r.size.h * r.size.w) <= 0 && (r.size.h * r.size.w) >= 0)
+				return false;
+
 			return !(
 				r.pos.x + r.size.w < pos.x ||
 				r.pos.x > pos.x + size.w ||

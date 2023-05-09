@@ -5,7 +5,7 @@
 class QuadTreeContainer
 {
 protected:
-	QuadTree tree;
+	QuadTree* tree = NULL;
 	QuadTreeContainerList itemList;
 
 public:
@@ -15,7 +15,7 @@ public:
 
 	QuadTreeContainer(QuadTreeRect::QTRect _region)
 	{
-		tree = QuadTree(_region, 0);
+		tree = new QuadTree(_region, 0);
 	};
 
 	~QuadTreeContainer()
@@ -52,8 +52,8 @@ public:
 		itemList.push_back(item);
 
 		QuadTreeRect::QTRect _targetSize = QuadTreeRect::ConvertEntityRectToQTRect(_target);
-
-		itemList.back().pItem = tree.Insert(_target, _targetSize);
+		
+		itemList.back().pItem = tree->Insert(_target, _targetSize);
 	};
 
 	void Remove(typename QuadTreeContainerList::iterator& it)
@@ -68,7 +68,7 @@ public:
 
 		QuadTreeRect::QTRect _targetSize = QuadTreeRect::ConvertEntityRectToQTRect(it->item);
 
-		it->pItem = tree.Insert(it->item, _targetSize);
+		it->pItem = tree->Insert(it->item, _targetSize);
 	};
 
 	std::list<Entity*> GetCollisionWithTarget(Entity* _target)
@@ -77,7 +77,7 @@ public:
 
 		typename QuadTreeList resultList;
 
-		tree.GetCurrentNodeEntityCollision(_target, _targetSize, resultList);
+		tree->GetCurrentNodeEntityCollision(_target, _targetSize, resultList);
 
 		return resultList;
 	}

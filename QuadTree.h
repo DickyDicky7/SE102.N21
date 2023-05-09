@@ -1,29 +1,34 @@
 #pragma once
 #include "QuadTreeCommon.h"
 
+void print(float value)
+{
+	char buffer[64]; // Increase buffer size to accommodate the additional newline character
+	_snprintf_s(buffer, sizeof(buffer), _TRUNCATE, "%f\n", value); // Add "\n" to the format string
+	OutputDebugStringA(buffer);
+}
+
 class QuadTree
 {
 protected:
 	QuadTreeRect::QTRect region;
 	int level;
 	QuadTreeList entityList = {};
-	std::array<QuadTree*, 4> childs{};
+	std::array<QuadTree*, 4> childs{ NULL, NULL ,NULL ,NULL };
 	std::array<QuadTreeRect::QTRect, 4> rChilds{};
 
 public:
 	QuadTree()
 	{
-		level = 0;
+		level = 5;
 		childs = {};
 	};
-	QuadTree(QuadTreeRect::QTRect _region, int level)
+	QuadTree(QuadTreeRect::QTRect _region, int _level)
 	{
 		region = _region;
-
-
-		level = level;
+		level = _level;
 		entityList = {};
-		childs = {};
+		childs = { NULL, NULL ,NULL ,NULL };
 
 		QuadTreeRect::QuadTreeSize childSize = {
 			_region.size.w / 2.0f,
@@ -75,9 +80,7 @@ public:
 		{
 			if (rChilds[i].contains(_rect))
 			{
-				//_target->LogName();
-				//_RPT1(0, "W: %f ;\n H: %f ;\n X: %f ;\n Y: %f ;\n", rChilds[i].size.w, rChilds[i].size.h, rChilds[i].pos.x, rChilds[i].pos.y);
-				//_RPT1(0, "W: %f ;\n H: %f ;\n X: %f ;\n Y: %f ;\n", _rect.size.w, _rect.size.h, _rect.pos.x, _rect.pos.y);
+
 				if (childs[i])
 				{
 					childs[i]->GetEntityList(resultList);
@@ -86,7 +89,7 @@ public:
 			}
 		}
 
-		//GetEntityList(resultList);
+		GetEntityList(resultList);
 		return;
 	};
 
@@ -100,7 +103,7 @@ public:
 				{
 					if (!childs[i])
 					{
-						childs[i] = new QuadTree(rChilds[i], level + 1);;
+						childs[i] = new QuadTree(rChilds[i], level + 1);
 					}
 					return childs[i]->Insert(_target, _rect);
 				}
