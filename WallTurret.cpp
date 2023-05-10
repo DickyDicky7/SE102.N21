@@ -14,7 +14,7 @@ void AutoInscreaseSpriteIdLoadAnimations(std::vector<WALL_TURRET_SPRITE_ID>, ANI
 WallTurret::WallTurret() : Entity(), HasAnimations()
 {
 	Enemy::self = this;
-	Entity::self = this;
+	this->name = L"WallTurret\n";
 
 	this->vx = 1.0f;
 	this->vy = 1.0f;

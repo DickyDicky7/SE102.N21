@@ -3,7 +3,6 @@
 #include "Input.h"
 #include "Common.h"
 
-template <class T>
 class Entity
 {
 
@@ -14,17 +13,20 @@ public:
 	virtual void Update() = 0;
 	virtual void Render() = 0;
 	virtual void HandleInput(Input&) = 0;
+	virtual void LogName() {
+		OutputDebugString(name);
+	};
 
-	virtual T* SetW(FLOAT = 0.0f);
-	virtual T* SetH(FLOAT = 0.0f);
-	virtual T* SetX(FLOAT = 0.0f);
-	virtual T* SetY(FLOAT = 0.0f);
-	virtual T* SetAX(FLOAT = 0.0f);
-	virtual T* SetAY(FLOAT = 0.0f);
-	virtual T* SetVX(FLOAT = 0.0f);
-	virtual T* SetVY(FLOAT = 0.0f);
-	virtual T* SetAngle(FLOAT = 0.0f);
-	virtual T* SetMovingDirection(DIRECTION);
+	virtual void SetW(FLOAT = 0.0f);
+	virtual void SetH(FLOAT = 0.0f);
+	virtual void SetX(FLOAT = 0.0f);
+	virtual void SetY(FLOAT = 0.0f);
+	virtual void SetAX(FLOAT = 0.0f);
+	virtual void SetAY(FLOAT = 0.0f);
+	virtual void SetVX(FLOAT = 0.0f);
+	virtual void SetVY(FLOAT = 0.0f);
+	virtual void SetAngle(FLOAT = 0.0f);
+	virtual void SetMovingDirection(DIRECTION);
 
 	virtual FLOAT GetW() const;
 	virtual FLOAT GetH() const;
@@ -38,9 +40,9 @@ public:
 	virtual D3DXVECTOR3 GetPosition() const;
 	virtual DIRECTION GetMovingDirection() const;
 
-protected:
+	LPCWSTR name = L"";
 
-	T* self = NULL;
+protected:
 
 	FLOAT w;
 	FLOAT h;
@@ -52,77 +54,55 @@ protected:
 	D3DXVECTOR3 position;
 	DIRECTION movingDirection;
 
+
 };
 
-template <class T>
-inline Entity<T>::Entity() : w(0.0f), h(0.0f), ax(0.0f), ay(0.0f), vx(0.0f), vy(0.0f), position(0.0f, 0.0f, 0.0f), angle(0.0f), movingDirection(DIRECTION::LEFT)
+inline Entity::Entity() : w(0.0f), h(0.0f), ax(0.0f), ay(0.0f), vx(0.0f), vy(0.0f), position(0.0f, 0.0f, 0.0f), angle(0.0f), movingDirection(DIRECTION::LEFT)
 {
 }
 
-template <class T>
-inline Entity<T>::~Entity()
+inline Entity::~Entity()
 {
 }
 
-template <class T>
-inline T* Entity<T>::SetW(FLOAT w) { this->w = w; return self; }
+inline void Entity::SetW(FLOAT w) { this->w = w; }
 
-template <class T>
-inline T* Entity<T>::SetH(FLOAT h) { this->h = h; return self; }
+inline void Entity::SetH(FLOAT h) { this->h = h;  }
 
-template <class T>
-inline T* Entity<T>::SetX(FLOAT x) { position.x = x; return self; }
+inline void Entity::SetX(FLOAT x) { position.x = x;  }
 
-template <class T>
-inline T* Entity<T>::SetY(FLOAT y) { position.y = y; return self; }
+inline void Entity::SetY(FLOAT y) { position.y = y;  }
 
-template <class T>
-inline T* Entity<T>::SetAX(FLOAT ax) { this->ax = ax; return self; }
+inline void Entity::SetAX(FLOAT ax) { this->ax = ax;  }
 
-template <class T>
-inline T* Entity<T>::SetAY(FLOAT ay) { this->ay = ay; return self; }
+inline void Entity::SetAY(FLOAT ay) { this->ay = ay;  }
 
-template <class T>
-inline T* Entity<T>::SetVX(FLOAT vx) { this->vx = vx; return self; }
+inline void Entity::SetVX(FLOAT vx) { this->vx = vx;  }
 
-template <class T>
-inline T* Entity<T>::SetVY(FLOAT vy) { this->vy = vy; return self; }
+inline void Entity::SetVY(FLOAT vy) { this->vy = vy;  }
 
-template <class T>
-inline T* Entity<T>::SetAngle(FLOAT angle) { this->angle = angle; return self; }
+inline void Entity::SetAngle(FLOAT angle) { this->angle = angle;  }
 
-template <class T>
-inline T* Entity<T>::SetMovingDirection(DIRECTION movingDirection) { this->movingDirection = movingDirection; return self; }
+inline void Entity::SetMovingDirection(DIRECTION movingDirection) { this->movingDirection = movingDirection;  }
 
-template <class T>
-inline FLOAT Entity<T>::GetW() const { return w; }
+inline FLOAT Entity::GetW() const { return w; }
 
-template <class T>
-inline FLOAT Entity<T>::GetH() const { return h; }
+inline FLOAT Entity::GetH() const { return h; }
 
-template <class T>
-inline FLOAT Entity<T>::GetX() const { return position.x; }
+inline FLOAT Entity::GetX() const { return position.x; }
 
-template <class T>
-inline FLOAT Entity<T>::GetY() const { return position.y; }
+inline FLOAT Entity::GetY() const { return position.y; }
 
-template <class T>
-inline FLOAT Entity<T>::GetAX() const { return ax; }
+inline FLOAT Entity::GetAX() const { return ax; }
 
-template <class T>
-inline FLOAT Entity<T>::GetAY() const { return ay; }
+inline FLOAT Entity::GetAY() const { return ay; }
 
-template <class T>
-inline FLOAT Entity<T>::GetVX() const { return vx; }
+inline FLOAT Entity::GetVX() const { return vx; }
 
-template <class T>
-inline FLOAT Entity<T>::GetVY() const { return vy; }
+inline FLOAT Entity::GetVY() const { return vy; }
 
-template <class T>
-inline FLOAT Entity<T>::GetAngle() const { return angle; }
+inline FLOAT Entity::GetAngle() const { return angle; }
 
-template <class T>
-inline D3DXVECTOR3 Entity<T>::GetPosition() const { return position; }
+inline D3DXVECTOR3 Entity::GetPosition() const { return position; }
 
-template <class T>
-inline DIRECTION Entity<T>::GetMovingDirection() const { return movingDirection; }
+inline DIRECTION Entity::GetMovingDirection() const { return movingDirection; }

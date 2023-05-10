@@ -3,7 +3,6 @@
 Soldier::Soldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 	Enemy::self = this;
-	Entity::self = this;
 
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -11,6 +10,7 @@ Soldier::Soldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 	this->ay = 0.1f;
 	this->position.x = 100;
 	this->position.y = 0;
+	this->name = L"Soldier\n";
 
 	this->updateState = NULL;
 	this->handleInputState = NULL;

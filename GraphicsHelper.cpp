@@ -4,7 +4,7 @@
 
 
 
-#define DRAW_BOX TRUE
+#define DRAW_BOX FALSE
 struct VERTEX
 {
 	FLOAT x;

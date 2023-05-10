@@ -15,7 +15,7 @@ class CameraMovingDownwardState;
 class CameraMovingBackwardState;
 
 
-class Camera : public Entity<Camera>
+class Camera : public Entity
 {
 
 public:
@@ -37,6 +37,10 @@ public:
 	static FLOAT CalculateHW();
 	static FLOAT CalculateHH();
 	const D3DMATRIX& GetViewMatrix() const;
+
+	void LogName() override {
+		OutputDebugString(L"Camera");
+	}
 
 protected:
 

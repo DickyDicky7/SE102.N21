@@ -130,6 +130,9 @@
     <Filter Include="Source Files\Objects\Camera\CameraState">
       <UniqueIdentifier>{0c6a8194-4179-402d-be4c-bbe4d567c698}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Abstractions\Space Abstractions">
+      <UniqueIdentifier>{e5736747-d2df-4372-9565-e4aa6201acd4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -218,6 +221,15 @@
     </ClInclude>
     <ClInclude Include="CollidableState.h">
       <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTree.h">
+      <Filter>Header Files\Abstractions\Space Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTreeCommon.h">
+      <Filter>Header Files\Abstractions\Space Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTreeContainer.h">
+      <Filter>Header Files\Abstractions\Space Abstractions</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

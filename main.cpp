@@ -3,6 +3,8 @@
 #include "Camera.h"
 #include "Common.h"
 
+#include "QuadTreeContainer.h"
+
 #include "Bill.h"
 #include "Soldier.h"
 #include "WallTurret.h"
@@ -94,6 +96,20 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Motion::UniformCircularMotionInputParameters pic{ r, ω, dω, xO, yO };
 	//
 
+	QuadTreeContainer quadTreeContainer = QuadTreeContainer(
+		QuadTreeRect::QTRect({
+			{0, 0},
+			{SCREEN_WIDTH / SCALING_RATIO_X, SCREEN_HEIGHT / SCALING_RATIO_Y}
+			})
+	);
+
+	quadTreeContainer.Insert(&bill);
+	quadTreeContainer.Insert(&soldier);
+	quadTreeContainer.Insert(&wallTurret);
+	quadTreeContainer.Insert(&bossStage3);
+	quadTreeContainer.Insert(&scubaSoldier);
+	quadTreeContainer.Insert(&rifleManStanding);
+	quadTreeContainer.Insert(&rifleManHideOnBush);
 
 	MSG msg;
 	while (TRUE)
@@ -207,11 +223,28 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		rifleManStanding.Render();
 		rifleManHideOnBush.Render();
 
+
+		for (auto it = quadTreeContainer.begin(); it != quadTreeContainer.end(); it++)
+		{
+			quadTreeContainer.Relocate(it);
+		}
+
+		std::list<Entity*> result = quadTreeContainer.GetCollisionWithTarget(&bill);
+
+		for (auto it = result.begin(); it != result.end(); it++)
+		{
+			if (*it != &bill)
+			{
+				(*it)->LogName();
+			}
+		}
+
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
 
 		//Should disable if you do not want to debug, this line of code causes lag
 		//_RPT1(0, "W: %f ; H: %f\n", bill.GetW(), bill.GetH());
+		result.clear();
 	}
 
 	CleanD3D();

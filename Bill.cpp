@@ -2,8 +2,7 @@
 
 Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity()
 {
-			  Entity::self =					this;
-	CollidableEntity::self = (Entity<std::any>*)this;
+	CollidableEntity::self = (Entity*)this;
 
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -16,6 +15,8 @@ Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), Collidabl
 	this->state = NULL;
 	this->updateState = NULL;
 	this->handleInputState = NULL;
+
+	this->name = L"Bill\n";
 
 	if (!state)
 	{

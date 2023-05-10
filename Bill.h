@@ -34,7 +34,7 @@ class BillRunShotAngleDownState;
 class BillSwimShotStraightUpState;
 
 
-class Bill : public Entity<Bill>, public HasTextures<Bill>, public HasSprites<Bill>, public HasAnimations<Bill>, public CollidableEntity
+class Bill : public Entity, public HasTextures<Bill>, public HasSprites<Bill>, public HasAnimations<Bill>, public CollidableEntity
 {
 
 public:
