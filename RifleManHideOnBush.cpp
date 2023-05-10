@@ -4,7 +4,6 @@
 RifleManHideOnBush::RifleManHideOnBush() : Entity(), HasAnimations()
 {
 	Enemy::self = this;
-	Entity::self = this;
 
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -14,6 +13,7 @@ RifleManHideOnBush::RifleManHideOnBush() : Entity(), HasAnimations()
 	this->position.y = SCREEN_HEIGHT / 2 - 200;
 
 	this->movingDirection = DIRECTION::LEFT;
+	this->name = L"RifleManHideOnBush\n";
 
 	this->updateState = NULL;
 	this->state = new RifleManHideOnBushHidingState();

@@ -29,7 +29,8 @@ BillState* BillBeginState::Update(Bill& bill)
 	auto result = Motion::CalculateUniformlyAcceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), time, 0.05f });
 
 	time = result.t;
-	bill.SetY(result.c)->SetVY(result.v);
+	bill.SetY(result.c);
+	bill.SetVY(result.v);
 
 	if (bill.GetVY() <= 0.0f && bill.GetY() <= 0.0f)
 	{

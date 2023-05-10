@@ -17,7 +17,7 @@ class RifleManHideOnBushAppearState;
 class RifleManHideOnBushStandingState;
 class RifleManHideOnBushHideState;
 
-class RifleManHideOnBush : public Entity<RifleManHideOnBush>, public Enemy<RifleManHideOnBush, Bill>
+class RifleManHideOnBush : public Entity, public Enemy<RifleManHideOnBush, Bill>
 	, public HasTextures<RifleManHideOnBush>, public HasSprites<RifleManHideOnBush>, public HasAnimations<RifleManHideOnBush>, public RifleMan
 {
 public:

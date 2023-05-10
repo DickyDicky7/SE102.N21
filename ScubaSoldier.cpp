@@ -5,7 +5,6 @@
 ScubaSoldier::ScubaSoldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 	Enemy::self = this;
-	Entity::self = this;
 
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -13,6 +12,7 @@ ScubaSoldier::ScubaSoldier() : Entity(), HasTextures(), HasSprites(), HasAnimati
 	this->ay = 0.1f;
 	this->position.x = 300;
 	this->position.y = 0;
+	this->name = L"ScubaSoldier\n";
 
 	this->updateState = NULL;
 	this->handleInputState = NULL;

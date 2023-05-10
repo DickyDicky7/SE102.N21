@@ -27,25 +27,20 @@ public:
 	virtual void DynamicResolveNoCollision(               ) = 0;
 	virtual void DynamicResolveOnCollision(AABBSweepResult) = 0;
 
-	template <class T> requires std::derived_from<T, Entity<T>>
-	BOOL AABBCheck(T*);
+	BOOL AABBCheck(Entity*);
 
-	template <class T> requires std::derived_from<T, Entity<T>>
-	void CollideWith(T*);
+	void CollideWith(Entity*);
 
-	template <class T> requires std::derived_from<T, Entity<T>>
-	AABBSweepResult AABBSweep(T*);
+	AABBSweepResult AABBSweep(Entity*);
 
-	template <class T> requires std::derived_from<T, Entity<T>>
-	AABBSweepResult AABBSweepX(T*);
+	AABBSweepResult AABBSweepX(Entity*);
 
-	template <class T> requires std::derived_from<T, Entity<T>>
-	AABBSweepResult AABBSweepY(T*);
+	AABBSweepResult AABBSweepY(Entity*);
 
 protected:
 
-	Entity<std::any>* self;
-	Entity<std::any>* surfaceEntity;
+	Entity* self;
+	Entity* surfaceEntity;
 
 	BOOL isAbSurface;
 	BOOL isBeSurface;
@@ -54,10 +49,9 @@ protected:
 
 };
 
-template <class T> requires std::derived_from<T, Entity<T>>
-inline BOOL CollidableEntity::AABBCheck(T* targetEntity)
+inline BOOL CollidableEntity::AABBCheck(Entity* targetEntity)
 {
-	auto other = (Entity<std::any>*)targetEntity;
+	auto other = (Entity*)targetEntity;
 
 	FLOAT selfB = self->GetY();
 	FLOAT selfT = self->GetY() + self->GetH();
@@ -77,14 +71,13 @@ inline BOOL CollidableEntity::AABBCheck(T* targetEntity)
 		;
 }
 
-template <class T> requires std::derived_from<T, Entity<T>>
-inline void CollidableEntity::CollideWith(T* targetEntity)
+inline void CollidableEntity::CollideWith(Entity* targetEntity)
 {
 	AABBSweepResult aabbSweepResult = AABBSweep(targetEntity);
 	if (aabbSweepResult.isCollided)
 	{
 		surfaceEntity = NULL;
-		surfaceEntity = (Entity<std::any>*)targetEntity;
+		surfaceEntity = targetEntity;
 
 		DynamicResolveOnCollision(aabbSweepResult);
 		auto collidingEntity = dynamic_cast<CollidableEntity*>(targetEntity);
@@ -98,8 +91,7 @@ inline void CollidableEntity::CollideWith(T* targetEntity)
 	}
 }
 
-template <class T> requires std::derived_from<T, Entity<T>>
-inline AABBSweepResult CollidableEntity::AABBSweep(T* targetEntity)
+inline AABBSweepResult CollidableEntity::AABBSweep(Entity* targetEntity)
 {
 	AABBSweepResult aabbSweepResultX = AABBSweepX(targetEntity);
 	AABBSweepResult aabbSweepResultY = AABBSweepY(targetEntity);
@@ -129,8 +121,7 @@ inline AABBSweepResult CollidableEntity::AABBSweep(T* targetEntity)
 	return AABBSweepResult();
 }
 
-template <class T> requires std::derived_from<T, Entity<T>>
-inline AABBSweepResult CollidableEntity::AABBSweepX(T* targetEntity)
+inline AABBSweepResult CollidableEntity::AABBSweepX(Entity* targetEntity)
 {
 	AABBSweepResult aabbSweepResult{};
 
@@ -139,14 +130,14 @@ inline AABBSweepResult CollidableEntity::AABBSweepX(T* targetEntity)
 		return aabbSweepResult;
 	}
 
-	auto  other = (Entity<std::any>*)targetEntity;
+	auto  other = targetEntity;
 	FLOAT selfL = self->GetX() - self->GetW() / 2.0f;
 	FLOAT selfR = self->GetX() + self->GetW() / 2.0f;
 	FLOAT otherL = other->GetX() - other->GetW() / 2.0f;
 	FLOAT otherR = other->GetX() + other->GetW() / 2.0f;
 
-	FLOAT enTimeX;
-	FLOAT exTimeX;
+	FLOAT enTimeX = 0.0f;
+	FLOAT exTimeX = 0.0f;
 	if (self->GetVX() > 0.0f)
 	{
 		enTimeX = (otherL - selfR) / self->GetVX();
@@ -181,8 +172,7 @@ inline AABBSweepResult CollidableEntity::AABBSweepX(T* targetEntity)
 	return aabbSweepResult;
 }
 
-template <class T> requires std::derived_from<T, Entity<T>>
-inline AABBSweepResult CollidableEntity::AABBSweepY(T* targetEntity)
+inline AABBSweepResult CollidableEntity::AABBSweepY(Entity* targetEntity)
 {
 	AABBSweepResult aabbSweepResult{};
 
@@ -191,14 +181,14 @@ inline AABBSweepResult CollidableEntity::AABBSweepY(T* targetEntity)
 		return aabbSweepResult;
 	}
 
-	auto  other = (Entity<std::any>*)targetEntity;
+	auto  other = targetEntity;
 	FLOAT selfB = self->GetY();
 	FLOAT selfT = self->GetY() + self->GetH();
 	FLOAT otherB = other->GetY();
 	FLOAT otherT = other->GetY() + other->GetH();
 
-	FLOAT enTimeY;
-	FLOAT exTimeY;
+	FLOAT enTimeY = 0.0f;
+	FLOAT exTimeY = 0.0f;
 	if (self->GetVY() < 0.0f)
 	{
 		enTimeY = (otherT - selfB) / self->GetVY();
