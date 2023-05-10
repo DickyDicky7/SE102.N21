@@ -20,7 +20,7 @@ class BulletLState;
 class BulletFState;
 
 
-class Bullet : public Entity<Bullet>, public HasTextures<Bullet>, public HasSprites<Bullet>, public HasAnimations<Bullet>, public CollidableEntity
+class Bullet : public Entity, public HasTextures<Bullet>, public HasSprites<Bullet>, public HasAnimations<Bullet>, public CollidableEntity
 {
 
 public:

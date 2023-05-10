@@ -141,7 +141,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				//bill.GetBullets().erase(it);
 			}
 		}
-		bill.GetBullets().remove_if([](Bullet* bullet) {return bullet == NULL;});
+		bill.GetBullets().remove_if([](Bullet* bullet) { return bullet == NULL; });
 
 		soldier.Update();
 		wallTurret.Update();

@@ -25,8 +25,8 @@ void HasWeapons::Fire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT a
 	ULONGLONG now = GetTickCount64(); if (firingTime == 0) firingTime = now; if (now - firingTime > firingRate)
 	{
 		BulletState* copyBulletState = new BulletRState(); *copyBulletState = *this->bulletState; Bullet* bullet = new Bullet(copyBulletState);
-		bullet->SetX(x)->SetY(y)->SetVX(vx)->SetVY(vy)->SetAX(ax)->SetAY(ay)->SetAngle(angle)->SetMovingDirection(movingDirection);
-		bullets.push_back(bullet);
+		bullet->SetX(x); bullet->SetY(y); bullet->SetVX(vx); bullet->SetVY(vy); bullet->SetAX(ax); bullet->SetAY(ay);
+		bullet->SetAngle(angle); bullet->SetMovingDirection(movingDirection); bullets.push_back(bullet);
 		firingTime = now;
 	}
 }

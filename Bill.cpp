@@ -16,7 +16,9 @@ Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), Collidabl
 	this->updateState = NULL;
 	this->handleInputState = NULL;
 
+	//
 	this->name = L"Bill\n";
+	//
 
 	if (!state)
 	{

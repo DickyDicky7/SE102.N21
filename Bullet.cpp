@@ -2,8 +2,6 @@
 
 Bullet::Bullet(                  ) : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
-	Entity::self = this;
-
 	this->state = NULL;
 	this->updateState = NULL;
 	this->handleInputState = NULL;
