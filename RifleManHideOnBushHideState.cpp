@@ -32,7 +32,7 @@ RifleManHideOnBushState* RifleManHideOnBushHideState::Update(RifleManHideOnBush&
 
 	if (std::cmp_greater_equal(rifleManHideOnBush.GetCurrentFrame() + 1, frames.size()))
 	{
-		this->time = GetTickCount64();
+		this->time = (FLOAT)GetTickCount64();
 		return new RifleManHideOnBushHidingState();
 	}
 	return NULL;

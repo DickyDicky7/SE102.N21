@@ -405,7 +405,7 @@ void AutoIncreasePositionSpriteLoader(
 	TEXTURE_ID textureId
 )
 {
-	for (int i = 0; i < topRightConnerOfSpritePositions.size(); i++)
+	for (int i = 0; std::cmp_less(i, topRightConnerOfSpritePositions.size()); i++)
 	{
 		GraphicsHelper::InsertSprite(
 			spriteIdList[i],
@@ -423,7 +423,7 @@ void AutoInscreaseSpriteIdLoadAnimations(std::vector<WALL_TURRET_SPRITE_ID> spri
 {
 	std::vector<std::tuple<SPRITE_ID, DWORD>> listOfSpriteWithRefreshRate;
 
-	for (int i = 0; i < spriteIdList.size(); i++)
+	for (int i = 0; std::cmp_less(i, spriteIdList.size()); i++)
 	{
 		listOfSpriteWithRefreshRate.push_back(std::make_tuple(spriteIdList[i], 0));
 	}

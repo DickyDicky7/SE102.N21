@@ -57,7 +57,7 @@ SoldierState* SoldierJumpState::Update(Soldier& soldier)
 
 	soldier.SetY
 	(
-		soldier.GetY() + soldier.GetVY() * time + soldier.GetAY() * pow(time, 2) / 2
+		soldier.GetY() + soldier.GetVY() * time + soldier.GetAY() * pow(time, 2.0f) / 2.0f
 	);
 	soldier.SetVY
 	(
