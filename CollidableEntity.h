@@ -47,9 +47,10 @@ protected:
 	Entity<std::any>* self;
 	Entity<std::any>* surfaceEntity;
 
-	BOOL isOnSurface;
-	BOOL isUnderSurface;
-	BOOL isNextToSurface;
+	BOOL isAbSurface;
+	BOOL isBeSurface;
+	BOOL isNeToSurfaceLe;
+	BOOL isNeToSurfaceRi;
 
 };
 
@@ -166,11 +167,16 @@ inline AABBSweepResult CollidableEntity::AABBSweepX(T* targetEntity)
 		return aabbSweepResult;
 	}
 
-	aabbSweepResult.normalX    =  self->GetVX() > 0.0f ? -1.0f : 1.0f;
-	aabbSweepResult.normalY    =  0.0f;
-	aabbSweepResult.contactX   = (self->GetVX() > 0.0f ? selfR : selfL) + aabbSweepResult.normalX * self->GetVX() * aabbSweepResult.enTime;
-	aabbSweepResult.contactY   =  self->GetY() + self->GetH() / 2.0f;
-	aabbSweepResult.isCollided =  1;
+	aabbSweepResult.normalX
+	=  self->GetVX() > 0.0f ? -1.0f : 1.0f;
+	aabbSweepResult.normalY
+	=  0.0f;
+	aabbSweepResult.contactX
+	= (self->GetVX() > 0.0f ? selfR : selfL) + aabbSweepResult.normalX * self->GetVX() * aabbSweepResult.enTime;
+	aabbSweepResult.contactY
+	=  self->GetY () + self->GetH() / 2.0f;
+	aabbSweepResult.isCollided
+	=  1;
 
 	return aabbSweepResult;
 }
@@ -213,11 +219,16 @@ inline AABBSweepResult CollidableEntity::AABBSweepY(T* targetEntity)
 		return aabbSweepResult;
 	}
 
-	aabbSweepResult.normalX    =  0.0f;
-	aabbSweepResult.normalY    =  self->GetVY() > 0.0f ? -1.0f : 1.0f;
-	aabbSweepResult.contactX   =  self->GetX ();
-	aabbSweepResult.contactY   = (self->GetVY() > 0.0f ? selfT : selfB) + aabbSweepResult.normalY * self->GetVY() * aabbSweepResult.enTime;
-	aabbSweepResult.isCollided =  1;
+	aabbSweepResult.normalX
+	=  0.0f;
+	aabbSweepResult.normalY
+	=  self->GetVY() > 0.0f ? -1.0f : 1.0f;
+	aabbSweepResult.contactX
+	=  self->GetX ();
+	aabbSweepResult.contactY
+	= (self->GetVY() > 0.0f ? selfT : selfB) + aabbSweepResult.normalY * self->GetVY() * aabbSweepResult.enTime;
+	aabbSweepResult.isCollided
+	=  1;
 
 	return aabbSweepResult;
 }

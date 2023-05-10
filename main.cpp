@@ -4,6 +4,7 @@
 #include "Common.h"
 
 #include "Bill.h"
+#include "Bullet.h"
 #include "Soldier.h"
 #include "WallTurret.h"
 #include "BossStage3.h"
@@ -114,6 +115,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		scubaSoldier.HandleInput(*input);
 
 		bill.Update();
+
+		for (auto it = bill.GetBullets().begin(); it != bill.GetBullets().end(); it++)
+		{
+			(*it)->Update();
+			if ((*it)->GetX() > 200.0f)
+			{
+				Destroy((*it));
+				//bill.GetBullets().erase(it);
+			}
+		}
+		bill.GetBullets().remove_if([](Bullet* bullet) {return bullet == NULL;});
+
 		soldier.Update();
 		wallTurret.Update();
 		bossStage3.Update();
@@ -200,6 +213,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 
 		bill.Render();
+
+		for (auto& bullet : bill.GetBullets())
+			bullet->Render();
+
 		soldier.Render();
 		wallTurret.Render();
 		bossStage3.Render();
@@ -226,6 +243,12 @@ void LoadAssets()
 	bill.LoadTextures();
 	bill.LoadSprites();
 	bill.LoadAnimations();
+
+	Bullet* bullet = new Bullet();
+	bullet->LoadTextures();
+	bullet->LoadSprites();
+	bullet->LoadAnimations();
+	Destroy(bullet);
 
 	soldier.LoadTextures();
 	soldier.LoadSprites();

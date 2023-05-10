@@ -19,7 +19,7 @@ void RifleMan::LoadTextures()
 	}
 	HasTextures<RifleMan>::hasBeenLoaded.value = true;
 
-	GraphicsHelper::InsertTexure(RIFLE_MAN_TEXTURE_ID::RIFLE_MAN, L"Resources\\Textures\\rifleman.bmp");
+	GraphicsHelper::InsertTexure(RIFLE_MAN_TEXTURE_ID::RIFLE_MAN, L"Resources\\Textures\\RifleMan.bmp");
 
 	return;
 }

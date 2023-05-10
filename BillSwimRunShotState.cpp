@@ -1,18 +1,18 @@
 #include "Bill.h"
 
-BillRunShotState::BillRunShotState() : BillState()
+BillSwimRunShotState::BillSwimRunShotState() : BillState()
 {
 }
 
-BillRunShotState::~BillRunShotState()
+BillSwimRunShotState::~BillSwimRunShotState()
 {
 }
 
-void BillRunShotState::Exit(Bill& bill)
+void BillSwimRunShotState::Exit(Bill& bill)
 {
 }
 
-void BillRunShotState::Enter(Bill& bill)
+void BillSwimRunShotState::Enter(Bill& bill)
 {
 	if (bill.GetMovingDirection() == DIRECTION::LEFT)
 	{
@@ -26,12 +26,12 @@ void BillRunShotState::Enter(Bill& bill)
 	}
 }
 
-void BillRunShotState::Render(Bill& bill)
+void BillSwimRunShotState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::RUN_SHOT, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
+	bill.SetAnimation(BILL_ANIMATION_ID::SWIM_SHOT, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
 }
 
-BillState* BillRunShotState::Update(Bill& bill)
+BillState* BillSwimRunShotState::Update(Bill& bill)
 {
 	auto result = Motion::CalculateUniformMotion({ bill.GetX(), bill.GetVX() });
 	bill.SetX(result.c);
@@ -39,12 +39,12 @@ BillState* BillRunShotState::Update(Bill& bill)
 	return NULL;
 }
 
-BillState* BillRunShotState::HandleInput(Bill& bill, Input& input)
+BillState* BillSwimRunShotState::HandleInput(Bill& bill, Input& input)
 {
 	if ((input.IsKey(DIK_LEFT) || input.IsKey(DIK_RIGHT)) && input.IsKey(DIK_X))
 	{
 		bill.Fire();
 		return NULL;
 	}
-	return new BillRunState();
+	return new BillSwimRunState();
 }

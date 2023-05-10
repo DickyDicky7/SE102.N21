@@ -14,13 +14,13 @@ void SoldierRunState::Exit(Soldier&)
 void SoldierRunState::Enter(Soldier& soldier) {
 	if (soldier.GetMovingDirection() == DIRECTION::LEFT)
 	{
-		soldier.SetVX(+1.00f);
-		soldier.SetAX(+0.01f);
+		soldier.SetVX(-1.00f);
+		soldier.SetAX(-0.01f);
 	}
 	if (soldier.GetMovingDirection() == DIRECTION::RIGHT)
 	{
-		soldier.SetVX(-1.00f);
-		soldier.SetAX(-0.01f);
+		soldier.SetVX(+1.00f);
+		soldier.SetAX(+0.01f);
 	}
 }
 

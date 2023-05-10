@@ -18,13 +18,13 @@ void SoldierJumpState::Enter(Soldier& soldier)
 {
 	if (soldier.GetMovingDirection() == DIRECTION::LEFT)
 	{
-		soldier.SetVX(+2.0f);
-		soldier.SetAX(+0.0f);
+		soldier.SetVX(-2.0f);
+		soldier.SetAX(-0.0f);
 	}
 	if (soldier.GetMovingDirection() == DIRECTION::RIGHT)
 	{
-		soldier.SetVX(-2.0f);
-		soldier.SetAX(-0.0f);
+		soldier.SetVX(+2.0f);
+		soldier.SetAX(+0.0f);
 	}
 
 	soldier.SetVY(+4.00f);

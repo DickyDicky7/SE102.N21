@@ -136,6 +136,9 @@
     <Filter Include="Source Files\Objects\Bullet">
       <UniqueIdentifier>{fdfb6548-a9c8-4b1d-96e2-c85b7e60b794}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Objects\Bullet\BulletState">
+      <UniqueIdentifier>{f806374c-df9b-43ab-a4fb-c422977c9d32}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -230,6 +233,9 @@
     </ClInclude>
     <ClInclude Include="BulletCommon.h">
       <Filter>Header Files\Objects\Bullet</Filter>
+    </ClInclude>
+    <ClInclude Include="HasWeapons.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -437,7 +443,7 @@
     <ClCompile Include="HasAnimations.cpp">
       <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
     </ClCompile>
-    <ClCompile Include="BillSwimShotState.cpp">
+    <ClCompile Include="BillSwimNormalShotState.cpp">
       <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
     <ClCompile Include="BillBeginSwimState.cpp">
@@ -562,6 +568,27 @@
     </ClCompile>
     <ClCompile Include="BulletState.cpp">
       <Filter>Source Files\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletFState.cpp">
+      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletLState.cpp">
+      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletSState.cpp">
+      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletMState.cpp">
+      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletRState.cpp">
+      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    </ClCompile>
+    <ClCompile Include="HasWeapons.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="BillSwimRunShotState.cpp">
+      <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

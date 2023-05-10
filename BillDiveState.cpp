@@ -30,17 +30,9 @@ BillState* BillDiveState::HandleInput(Bill& bill, Input& input)
 {
 	if (input.IsKey(DIK_DOWN))
 	{
-		if (input.IsKey(DIK_LEFT))
-		{
-			bill.SetMovingDirection(DIRECTION::LEFT);
-		}
-		if (input.IsKey(DIK_RIGHT))
-		{
-			bill.SetMovingDirection(DIRECTION::RIGHT);
-		}
-
+		if (input.IsKey(DIK_LEFT )) bill.SetMovingDirection(DIRECTION::LEFT );
+		if (input.IsKey(DIK_RIGHT)) bill.SetMovingDirection(DIRECTION::RIGHT);
 		return NULL;
 	}
-
 	return new BillSwimNormalState();
 }
