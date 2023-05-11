@@ -64,10 +64,21 @@ void Bill::Render()
 		handleInputState = NULL;
 	}
 }
-
+int i = 1;
 void Bill::HandleInput(Input& input)
 {
 	handleInputState = state->HandleInput(*this, input);
+
+	if (input.IsKey(DIK_RSHIFT))
+	{
+		if (i == 1) SetBulletState(new BulletRState);
+		if (i == 2) SetBulletState(new BulletFState);
+		if (i == 3) SetBulletState(new BulletLState);
+		if (i == 4) SetBulletState(new BulletMState);
+		if (i == 5) SetBulletState(new BulletSState);
+		i++;
+		if (i == 6) i = 1;
+	}
 }
 
 void Bill::LoadSprites()

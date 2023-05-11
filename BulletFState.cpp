@@ -20,6 +20,25 @@ void BulletFState::Exit(Bullet& bullet)
 
 void BulletFState::Enter(Bullet& bullet)
 {
+	if (bullet.GetVX() != 0.0f && bullet.GetVY() != 0.0f)
+	{
+		ω = bullet.GetVX() < 0.0f ? +135.0f : +45.0f;
+		ω = bullet.GetVY() < 0.0f ? -ω	    : +ω    ;
+		bullet.SetY(bullet.GetY() - 10.0f);
+		bullet.SetX(bullet.GetX() + (bullet.GetVX() < 0.0f ? +5.0f : -5.0f));
+	}
+	if (bullet.GetVX() == 0.0f && bullet.GetVY() != 0.0f)
+	{
+		ω = 90.0f;
+		bullet.SetY(bullet.GetY() - 10.0f);
+	}
+	if (bullet.GetVX() != 0.0f && bullet.GetVY() == 0.0f)
+	{
+		ω = bullet.GetVX() < 0.0f ? +180.0f : +00.0f;
+		bullet.SetX(bullet.GetX() + (bullet.GetVX() < 0.0f ? +5.0f : -5.0f));
+	}
+	xO = bullet.GetX();
+	yO = bullet.GetY();
 }
 
 void BulletFState::Render(Bullet& bullet)

@@ -18,9 +18,8 @@ void BulletLState::Enter(Bullet& bullet)
 	if (bullet.GetVX() != 0.0f && bullet.GetVY() != 0.0f)
 	{
 		bullet.SetY(bullet.GetY() + 3.0f);
-		bullet.SetAngle(bullet.GetMovingDirection() == DIRECTION::LEFT ? 135.0f : 45.0f);
-		if (bullet.GetVY() < 0.0f)
-			bullet.SetAngle(-bullet.GetAngle());
+		bullet.SetAngle(bullet.GetVX() < 0.0f ? +135.0f			   : +45.0f            );
+		bullet.SetAngle(bullet.GetVY() < 0.0f ? -bullet.GetAngle() : +bullet.GetAngle());
 	}
 	if (bullet.GetVX() == 0.0f && bullet.GetVY() != 0.0f)
 	{
