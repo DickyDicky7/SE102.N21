@@ -32,6 +32,7 @@ public:
 	void Render() override;
 	void HandleInput(Input&) override;
 
+	void SetState(BulletState*);
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
@@ -120,6 +121,7 @@ public:
 	virtual void Enter(Bullet&) override;
 	virtual void Render(Bullet&) override;
 
+	static const std::vector<FLOAT> spreadDegrees;
 	virtual BulletState* Update(Bullet&) override;
 	virtual BulletState* HandleInput(Bullet&, Input&) override;
 
@@ -151,7 +153,9 @@ public:
 
 	BulletFState
 	(
-		FLOAT = 0.0f, FLOAT = 0.0f
+		FLOAT = 0.0f,
+		FLOAT = 0.0f,
+		FLOAT = 0.0f
 	);
 	virtual ~BulletFState();
 

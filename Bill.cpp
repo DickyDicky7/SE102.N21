@@ -1,6 +1,6 @@
 #include "Bill.h"
 
-Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletRState())
+Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletSState())
 {
 	CollidableEntity::self = (Entity*)this;
 
@@ -302,47 +302,54 @@ void Bill::LoadAnimations()
 
 void Bill::Fire                    (                               )
 {
+	if (dynamic_cast<BillJumpState*>(state))
+	{
+		if (movingDirection == DIRECTION::RIGHT)
+			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.5f, 0.0f, +3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+		else
+			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.5f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+	}
 	if (dynamic_cast<BillLayDownState*>(state))
 	{
 		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.4f, 0.0f, +4.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.4f, 0.0f, +3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
 		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.4f, 0.0f, -4.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.4f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
 	}
 	if (dynamic_cast<BillRunShotAngleDownState*>(state))
 	{
 		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.4f, 0.0f, +4.0f, -3.0f, 0.0f, 0.0f, movingDirection);
+			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.4f, 0.0f, +3.0f, -2.0f, 0.0f, 0.0f, movingDirection);
 		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.4f, 0.0f, -4.0f, -3.0f, 0.0f, 0.0f, movingDirection);
+			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.4f, 0.0f, -3.0f, -2.0f, 0.0f, 0.0f, movingDirection);
 	}
 	if (dynamic_cast<BillNormalShotState*>(state) || dynamic_cast<BillRunShotState*>(state))
 	{
 		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.6f, 0.0f, +4.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.6f, 0.0f, +3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
 		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.6f, 0.0f, -4.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.6f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
 	}
 	if (dynamic_cast<BillShotStraightUpState*>(state) || dynamic_cast<BillSwimShotStraightUpState*>(state))
 	{
 		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f * 0.6f, position.y + h, 0.0f, 0.0f, +4.0f, 0.0f, 0.0f, movingDirection);
+			HasWeapons::Fire(position.x + w / 2.0f * 0.6f, position.y + h, 0.0f, 0.0f, +3.0f, 0.0f, 0.0f, movingDirection);
 		else
-			HasWeapons::Fire(position.x - w / 2.0f * 0.6f, position.y + h, 0.0f, 0.0f, +4.0f, 0.0f, 0.0f, movingDirection);
+			HasWeapons::Fire(position.x - w / 2.0f * 0.6f, position.y + h, 0.0f, 0.0f, +3.0f, 0.0f, 0.0f, movingDirection);
 	}
 	if (dynamic_cast<BillRunShotAngleUpState*>(state) || dynamic_cast<BillSwimShotAngleUpState*>(state))
 	{
 		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.9f, 0.0f, +4.0f, +3.0f, 0.0f, 0.0f, movingDirection);
+			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.9f, 0.0f, +3.0f, +2.0f, 0.0f, 0.0f, movingDirection);
 		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.9f, 0.0f, -4.0f, +3.0f, 0.0f, 0.0f, movingDirection);
+			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.9f, 0.0f, -3.0f, +2.0f, 0.0f, 0.0f, movingDirection);
 	}
 	if (dynamic_cast<BillSwimNormalShotState*>(state) || dynamic_cast<BillSwimRunShotState*>(state))
 	{
 		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.2f, 0.0f, +4.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.2f, 0.0f, +3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
 		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.2f, 0.0f, -4.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.2f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
 	}
 }
 

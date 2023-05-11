@@ -1,12 +1,13 @@
 ﻿#include "Bullet.h"
 
-BulletFState::BulletFState(FLOAT xO, FLOAT yO) : BulletState()
+BulletFState::BulletFState(FLOAT xO, FLOAT yO, FLOAT ω) : BulletState()
 {
-	this->r  = 10.0f;
-	this->ω  = 0.0f;
-	this->dω = 5.0f;
+	this->ω  = ω;
 	this->xO = xO;
 	this->yO = yO;
+
+	this->r  = 20.0f;
+	this->dω = 20.0f;
 }
 
 BulletFState::~BulletFState()
@@ -28,10 +29,22 @@ void BulletFState::Render(Bullet& bullet)
 
 BulletState* BulletFState::Update(Bullet& bullet)
 {
-	auto resultX = Motion::CalculateUniformMotion({ bullet.GetX(), bullet.GetVX() });
-	bullet.SetX(resultX.c);
-	auto resultY = Motion::CalculateUniformMotion({ bullet.GetY(), bullet.GetVY() });
-	bullet.SetY(resultY.c);
+	auto resultXY = Motion::CalculateUniformCircularMotion({ r, ω, dω, xO, yO });
+	bullet.SetX(resultXY.x);
+	bullet.SetY(resultXY.y);
+	ω = resultXY.ω;
+
+	if (bullet.GetVX() != 0.0f)
+	{
+		auto resultXO = Motion::CalculateUniformMotion({ xO, bullet.GetVX() /*/ abs(bullet.GetVX()) * 1.0f*/ });
+		xO = resultXO.c;
+	}
+	if (bullet.GetVY() != 0.0f)
+	{
+		auto resultYO = Motion::CalculateUniformMotion({ yO, bullet.GetVY() /*/ abs(bullet.GetVY()) * 1.0f*/ });
+		yO = resultYO.c;
+	}
+
 	return NULL;
 }
 

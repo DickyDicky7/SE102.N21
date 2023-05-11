@@ -47,6 +47,12 @@ void Bullet::HandleInput(Input& input)
 	handleInputState = state->HandleInput(*this, input);
 }
 
+void Bullet::SetState(BulletState* newState)
+{
+	ChangeState(state, newState, this);
+	newState = NULL;
+}
+
 void Bullet::LoadSprites()
 {
 	if (HasSprites<Bullet>::hasBeenLoaded.value) return;
@@ -89,7 +95,7 @@ void Bullet::LoadAnimations()
 			{BULLET_SPRITE_ID::M_01, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::S, 500,
+	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::S, 900,
 		{
 			{BULLET_SPRITE_ID::S_01, 0},
 			{BULLET_SPRITE_ID::S_02, 0},
