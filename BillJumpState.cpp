@@ -2,8 +2,7 @@
 
 BillJumpState::BillJumpState() : BillState()
 {
-	hasMovedLeft = 0;
-	hasMovedRight = 0;
+	hasMovedLeft = 0; hasMovedRight = 0;
 }
 
 BillJumpState::~BillJumpState()
@@ -18,13 +17,13 @@ void BillJumpState::Enter(Bill& bill)
 {
 	if (bill.GetMovingDirection() == DIRECTION::LEFT)
 	{
-		bill.SetVX(+2.0f);
-		bill.SetAX(+0.0f);
+		bill.SetVX(-2.0f);
+		bill.SetAX(-0.0f);
 	}
 	if (bill.GetMovingDirection() == DIRECTION::RIGHT)
 	{
-		bill.SetVX(-2.0f);
-		bill.SetAX(-0.0f);
+		bill.SetVX(+2.0f);
+		bill.SetAX(+0.0f);
 	}
 
 	bill.SetVY(+4.00f);
@@ -55,24 +54,20 @@ BillState* BillJumpState::Update(Bill& bill)
 		bill.SetX(result.c);
 	}
 
-	if (bill.GetVY() >= 0)
+	if (bill.GetVY() >= 0.0f)
 	{
-		auto result = Motion::CalculateUniformlyDeceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), time, 0.05f });
-		time = result.t;
-		bill.SetY(result.c);
-		bill.SetVY(result.v);
+		auto   result = Motion::CalculateUniformlyDeceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), time, 0.05f });
+		time = result.t; bill.SetY(result.c); bill.SetVY(result.v);
 	}
-	if (bill.GetVY() <= 0)
+	if (bill.GetVY() <= 0.0f)
 	{
-		auto result = Motion::CalculateUniformlyAcceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), time, 0.05f });
-		time = result.t;
-		bill.SetY(result.c);
-		bill.SetVY(result.v);
+		auto   result = Motion::CalculateUniformlyAcceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), time, 0.05f });
+		time = result.t; bill.SetY(result.c); bill.SetVY(result.v);
 	}
 
-	if (bill.GetVY() <= 0 && bill.GetY() <= 0)
+	if (bill.GetVY() <= 0.0f && bill.GetY() <= 0.0f)
 	{
-		bill.SetY(0);
+		bill.SetY(0.0f);
 		return new BillNormalState();
 	}
 
@@ -81,15 +76,17 @@ BillState* BillJumpState::Update(Bill& bill)
 
 BillState* BillJumpState::HandleInput(Bill& bill, Input& input)
 {
+	if (input.IsKey(DIK_X))
+	{
+		bill.Fire();
+	}
 	if (input.IsKey(DIK_LEFT))
 	{
-		hasMovedLeft = 1;
-		bill.SetMovingDirection(DIRECTION::LEFT);
+		hasMovedLeft = 1; bill.SetMovingDirection(DIRECTION::LEFT);
 	}
 	if (input.IsKey(DIK_RIGHT))
 	{
-		hasMovedRight = 1;
-		bill.SetMovingDirection(DIRECTION::RIGHT);
+		hasMovedRight = 1; bill.SetMovingDirection(DIRECTION::RIGHT);
 	}
 
 	return NULL;

@@ -14,7 +14,7 @@ void BillBeginState::Exit(Bill& bill)
 
 void BillBeginState::Enter(Bill& bill)
 {
-	bill.SetY(300);
+	bill.SetY(300.0f);
 	bill.SetVY(-2.50f);
 	bill.SetAY(-0.10f);
 }
@@ -29,12 +29,11 @@ BillState* BillBeginState::Update(Bill& bill)
 	auto result = Motion::CalculateUniformlyAcceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), time, 0.05f });
 
 	time = result.t;
-	bill.SetY(result.c);
-	bill.SetVY(result.v);
+	bill.SetY(result.c); bill.SetVY(result.v);
 
-	if (bill.GetVY() <= 0 && bill.GetY() <= 0)
+	if (bill.GetVY() <= 0.0f && bill.GetY() <= 0.0f)
 	{
-		bill.SetY(0);
+		bill.SetY(0.0f);
 		return new BillNormalState();
 	}
 

@@ -2,10 +2,11 @@
 #include "Motion.h"
 #include "Camera.h"
 #include "Common.h"
-
+#include "tileson.hpp"
 #include "QuadTreeContainer.h"
 
 #include "Bill.h"
+#include "Bullet.h"
 #include "Soldier.h"
 #include "WallTurret.h"
 #include "BossStage3.h"
@@ -63,6 +64,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		new CameraMovingForwardState()
 	);
 
+	tson::Tileson tile;
+	std::unique_ptr<tson::Map> map = tile.parse(fs::path("Resources/Maps/stage1.json"));
+	tson::Layer* tileLayer = map.get()->getLayer("BackGroundLayer");
+	if (tileLayer->getType() == tson::LayerType::TileLayer)
+	{
+		for (auto& [pos,obj] : tileLayer->getTileObjects())
+		{
+			_RPT1(0,"%f, %f\n", obj.getPosition().x, obj.getPosition().y);
+		}
+	}
 
 	//
 	FLOAT x = 050.0f;
@@ -130,6 +141,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		scubaSoldier.HandleInput(*input);
 
 		bill.Update();
+
+		for (auto it = bill.GetBullets().begin(); it != bill.GetBullets().end(); it++)
+		{
+			(*it)->Update();
+			if ((*it)->GetX() > 200.0f)
+			{
+				Destroy((*it));
+				//bill.GetBullets().erase(it);
+			}
+		}
+		bill.GetBullets().remove_if([](Bullet* bullet) { return bullet == NULL; });
+
 		soldier.Update();
 		wallTurret.Update();
 		bossStage3.Update();
@@ -216,6 +239,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 
 		bill.Render();
+
+		for (auto& bullet : bill.GetBullets())
+			bullet->Render();
+
 		soldier.Render();
 		wallTurret.Render();
 		bossStage3.Render();
@@ -259,6 +286,12 @@ void LoadAssets()
 	bill.LoadTextures();
 	bill.LoadSprites();
 	bill.LoadAnimations();
+
+	Bullet* bullet = new Bullet();
+	bullet->LoadTextures();
+	bullet->LoadSprites();
+	bullet->LoadAnimations();
+	Destroy(bullet);
 
 	soldier.LoadTextures();
 	soldier.LoadSprites();

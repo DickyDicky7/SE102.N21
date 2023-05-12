@@ -46,4 +46,12 @@ void ChangeState(BS*& currentState, DS* newState, E* contextEntity)
 			currentState->Enter(*contextEntity);
 		}
 	}
+	else
+	{
+		currentState = newState;
+		if (currentState)
+		{
+			currentState->Enter(*contextEntity);
+		}
+	}
 }
