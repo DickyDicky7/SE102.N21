@@ -65,7 +65,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	);
 
 	tson::Tileson tile;
-	std::unique_ptr<tson::Map> map = tile.parse(fs::path("./path/to/map.json"));
+	std::unique_ptr<tson::Map> map = tile.parse(fs::path("Resources/Maps/stage1.json"));
+	tson::Layer* tileLayer = map.get()->getLayer("BackGroundLayer");
+	if (tileLayer->getType() == tson::LayerType::TileLayer)
+	{
+		for (auto& [pos,obj] : tileLayer->getTileObjects())
+		{
+			_RPT1(0,"%f, %f\n", obj.getPosition().x, obj.getPosition().y);
+		}
+	}
 
 	//
 	FLOAT x = 050.0f;
