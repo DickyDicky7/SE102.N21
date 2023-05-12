@@ -2,7 +2,7 @@
 #include "Motion.h"
 #include "Camera.h"
 #include "Common.h"
-
+#include "tileson.hpp"
 #include "QuadTreeContainer.h"
 
 #include "Bill.h"
@@ -64,6 +64,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		new CameraMovingForwardState()
 	);
 
+	tson::Tileson tile;
+	std::unique_ptr<tson::Map> map = tile.parse(fs::path("./path/to/map.json"));
 
 	//
 	FLOAT x = 050.0f;
