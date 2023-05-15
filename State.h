@@ -33,7 +33,7 @@ inline State<T, E>::~State()
 }
 
 template <class BS, class DS, class E> requires std::derived_from<DS, BS> && std::derived_from<BS, State<BS, E>> && std::derived_from<E, Entity>
-void ChangeState(BS*& currentState, DS* newState, E* contextEntity)
+inline void ChangeState(BS*& currentState, DS* newState, E* contextEntity)
 {
 	if (currentState)
 	{
