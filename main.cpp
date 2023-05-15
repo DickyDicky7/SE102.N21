@@ -4,6 +4,7 @@
 #include "Common.h"
 #include "tileson.hpp"
 #include "QuadTreeContainer.h"
+#include "Stage1.h"
 
 #include "Bill.h"
 #include "Bullet.h"
@@ -11,6 +12,7 @@
 #include "WallTurret.h"
 #include "BossStage3.h"
 #include "ScubaSoldier.h"
+#include "TerrainStage1.h"
 #include "TestingEntity.h"
 #include "RifleManStanding.h"
 #include "RifleManHideOnBush.h"
@@ -63,17 +65,63 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		/* input, */
 		new CameraMovingForwardState()
 	);
-
+	
 	tson::Tileson tile;
 	std::unique_ptr<tson::Map> map = tile.parse(fs::path("Resources/Maps/stage1.json"));
-	tson::Layer* tileLayer = map.get()->getLayer("BackGroundLayer");
-	if (tileLayer->getType() == tson::LayerType::TileLayer)
-	{
-		for (auto& [pos,obj] : tileLayer->getTileObjects())
-		{
-			_RPT1(0,"%f, %f\n", obj.getPosition().x, obj.getPosition().y);
-		}
-	}
+	tson::Layer* tileLayer1 = map.get()->getLayer("BackgroundLayer");
+	tson::Layer* tileLayer2 = map.get()->getLayer("CollidableLayer");
+	tson::Tileset& tileset = map.get()->getTilesets()[0];
+	TerrainStage1::SetTileset(&tileset);
+	TerrainStage1* ts1 = new TerrainStage1();
+	ts1->LoadTextures();
+	ts1->LoadSprites();
+	ts1->LoadAnimations();
+	delete ts1;
+
+	Stage1 s1;s1.Load();s1._cam = camera;
+	//auto o = tileLayer1->getTileObject(0,1);
+	//_RPT1(0, "id: %d\n", o->getTile()->getId());
+	//std::vector<TerrainStage1*> terrainstage1s;
+	//for (auto& [pos, obj] : tileLayer1->getTileObjects())
+	//{
+	//	TerrainStage1* a = new TerrainStage1();
+	//	auto p = obj.getPosition();
+	//	auto t = obj.getTile();
+	//	auto s = t->getTileSize();
+	//	auto id = std::to_string(t->getId());
+	//	//id = "Stage 1 Animation " + FormatId(id);
+	//	a->SetAnimationId(id);
+	//	a->SetX(p.x + s.x / 2);a->SetY(p.y);
+	//	terrainstage1s.push_back(a);
+	//}
+	//for (int i = 0; i < terrainstage1s.size() / 2; i++)
+	//{
+	//	auto y1 = terrainstage1s[i]->GetY();
+	//	auto y2 = terrainstage1s[terrainstage1s.size() - 1 - i]->GetY();
+	//	std::swap(y1, y2);
+	//	terrainstage1s[i]->SetY(y1);
+	//	terrainstage1s[terrainstage1s.size() - 1 - i]->SetY(y2);
+	//}
+	//std::sort(terrainstage1s.begin(), terrainstage1s.end(), [](TerrainStage1* t1, TerrainStage1* t2) -> bool {return t1->GetX() < t2->GetX();});
+
+	//for (auto& tile : tileset.getTiles())
+	//{
+	//	tson::Animation& ani = tile.getAnimation();
+	//	if (ani.getFrames().size() != 0)
+	//		_RPT1(0, "%d\n", ani.getFrames().size());
+	//}
+	//if (tileLayer->getType() == tson::LayerType::TileLayer)
+	//{
+	//for (auto& obj : tileLayer2->getObjects())
+	//{
+	//	int x = obj.getPosition().x;
+	//	_RPT1(0, "%d\n", x);
+	//}
+		//for (auto& [pos,obj] : tileLayer1->getTileObjects())
+		//{
+		//	_RPT1(0,"%f, %f\n", obj.getPosition().x, obj.getPosition().y);
+		//}
+	//}
 
 	//
 	FLOAT x = 050.0f;
@@ -199,9 +247,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		d3ddev->SetTransform(D3DTS_VIEW, &camera->GetViewMatrix());
 		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
 		d3ddev->BeginScene();
+		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_OBJECTSPACE);
 
 
-
+		s1.Render();
+		//for (auto& x : terrainstage1s) if (x->GetX() <= 300) x->Render();
 		//
 		auto poo = Motion::CalculateOscillatoryMotion(pio);
 		pio.t = poo.t;
@@ -258,14 +308,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		std::list<Entity*> result = quadTreeContainer.GetCollisionWithTarget(&bill);
 
-		for (auto it = result.begin(); it != result.end(); it++)
-		{
-			if (*it != &bill)
-			{
-				(*it)->LogName();
-			}
-		}
+		//for (auto it = result.begin(); it != result.end(); it++)
+		//{
+		//	if (*it != &bill)
+		//	{
+		//		(*it)->LogName();
+		//	}
+		//}
 
+		spriteHandler->End();
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
 
