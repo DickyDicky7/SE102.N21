@@ -2,7 +2,7 @@
 
 #include "Common.h"
 
-class Bill; class Input; class Entity;
+class Bill; class Input; class Entity; class Camera;
 
 class Stage
 {
@@ -16,9 +16,16 @@ public:
 	virtual void Render() = 0;
 	virtual void HandleInput(Input&) = 0;
 
+	virtual void  SetBill(Bill*);
+	virtual Bill* GetBill(     );
+
+	virtual void    SetCamera(Camera*);
+	virtual Camera* GetCamera(       );
+
 protected:
 
 	Bill* bill;
+	Camera* camera;
 	std::list<Entity*> entities;		   // SOLDIER, WALL TURRET, ETC.
 	std::list<Entity*> backgroundTerrains; // TERRAIN STAGE 1 OR 2 OR 3
 	std::list<Entity*> collidableTerrains; // TERRAIN BLOCK
@@ -34,4 +41,3 @@ protected:
 	virtual void RenderCollidableTerrains() = 0;
 
 };
-

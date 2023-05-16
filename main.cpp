@@ -72,13 +72,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	tson::Layer* tileLayer2 = map.get()->getLayer("CollidableLayer");
 	tson::Tileset& tileset = map.get()->getTilesets()[0];
 	TerrainStage1::SetTileset(&tileset);
-	TerrainStage1* ts1 = new TerrainStage1();
-	ts1->LoadTextures();
-	ts1->LoadSprites();
-	ts1->LoadAnimations();
-	delete ts1;
+	//TerrainStage1* ts1 = new TerrainStage1();
+	//ts1->LoadTextures();
+	//ts1->LoadSprites();
+	//ts1->LoadAnimations();
+	//delete ts1;
 
-	Stage1 s1;s1.Load();s1._cam = camera;
+	Stage1 s1;s1.Load();s1.SetCamera(camera);s1.SetBill(&bill);
+
+	//for (auto& obj : tileLayer2->getObjects())
+	//{
+	//	_RPT1(0, "%d\n", obj.getId());
+	//}
 	//auto o = tileLayer1->getTileObject(0,1);
 	//_RPT1(0, "id: %d\n", o->getTile()->getId());
 	//std::vector<TerrainStage1*> terrainstage1s;
@@ -225,7 +230,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//}
 		bill.CollideWith(&soldier);
 		bill.CollideWith(&bossStage3);
-		bill.CollideWith(&wallTurret);
+		bill.CollideWith(&wallTurret);s1.Update();
 		//_RPT1(0, "entryTime: %f, exitTime: %f, normalX: %f, normalY: %f\ncollided: %d\n\n", ry.enTime, ry.exTime, ry.normalX, ry.normalY, ry.isCollided);
 		//_RPT1(0, "X collided: %d, Y collided: %d, etX: %f, etY: %f\n", rx.isCollided, ry.isCollided, rx.enTime, ry.enTime);
 		//_RPT1(0, "cpX: %f, cpY: %f\n", rx.contactX, rx.contactY);
@@ -245,7 +250,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		camera->Capture(bill.GetX(), bill.GetY());
 
 		d3ddev->SetTransform(D3DTS_VIEW, &camera->GetViewMatrix());
-		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
+		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(220, 208, 255), 1.0f, 0);
 		d3ddev->BeginScene();
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_OBJECTSPACE);
 

@@ -24,7 +24,7 @@ void TerrainBlock::StaticResolveNoCollision()
 {
 }
 
-void TerrainBlock::StaticResolveOnCollision(AABBSweepResult)
+void TerrainBlock::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
 }
 
@@ -32,6 +32,6 @@ void TerrainBlock::DynamicResolveNoCollision()
 {
 }
 
-void TerrainBlock::DynamicResolveOnCollision(AABBSweepResult)
+void TerrainBlock::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
 }

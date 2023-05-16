@@ -1,8 +1,10 @@
-#include "Bill.h"
-#include "Stage1.h"
-#include "tileson.hpp"
+#include		  "Bill.h"
+#include		"Stage1.h"
+#include		"Camera.h"
+#include	 "tileson.hpp"
+#include  "TerrainBlock.h"
 #include "TerrainStage1.h"
-#include "Camera.h"
+
 Stage1::Stage1() : Stage()
 {
 }
@@ -18,13 +20,19 @@ void Stage1::Load()
 
 void Stage1::Update()
 {
+	//for (auto& a : collidableTerrains)
+	//{
+	//	if (a->GetX() - a->GetW() / 2 <= camera->GetX() + (SCREEN_WIDTH / SCALING_RATIO_X / 2.0f) + 16
+	//		|| a->GetX() + a->GetW() >= camera->GetX() - (SCREEN_WIDTH / SCALING_RATIO_X / 2.0f) - 16)
+	//		bill->CollideWith(a);
+	//}
 }
 
 void Stage1::Render()
 {
-	for (auto& backgroundTerrain : backgroundTerrains) 
-		if (backgroundTerrain->GetX() <= _cam->GetX() + (SCREEN_WIDTH / SCALING_RATIO_X / 2.0f) + 16
-			&& backgroundTerrain->GetX() >= _cam->GetX() - (SCREEN_WIDTH / SCALING_RATIO_X / 2.0f) - 16) backgroundTerrain->Render();
+	RenderBackgroundTerrains();
+	RenderCollidableTerrains();
+	RenderEntities();
 }
 
 void Stage1::HandleInput(Input&)
@@ -45,6 +53,10 @@ void Stage1::LoadMap()
 void Stage1::LoadEntities(void* entitiesLayer)
 {
 	auto _entitiesLayer = (tson::Layer*)entitiesLayer;
+	for (auto& object : _entitiesLayer->getObjects())
+	{
+		_RPT1(0, "%s\n", object.getName().c_str());
+	}
 }
 
 void Stage1::LoadBackgroundTerrains(void* backgroundTerrainsLayer)
@@ -71,11 +83,27 @@ void Stage1::LoadBackgroundTerrains(void* backgroundTerrainsLayer)
 		backgroundTerrains.assign(temp.begin(), temp.end());
 	}
 	backgroundTerrains.sort([](Entity* e1, Entity* e2) -> bool { return e1->GetX() < e2->GetX(); });
+	auto representativeBackgroundTerrain = dynamic_cast<TerrainStage1*>(backgroundTerrains.front());
+		 representativeBackgroundTerrain->LoadTextures  ();
+		 representativeBackgroundTerrain->LoadSprites   ();
+		 representativeBackgroundTerrain->LoadAnimations();
 }
 
 void Stage1::LoadCollidableTerrains(void* collidableTerrainsLayer)
 {
 	auto _collidableTerrainsLayer = (tson::Layer*)collidableTerrainsLayer;
+	auto mapH = _collidableTerrainsLayer->getMap()->getSize().y * _collidableTerrainsLayer->getMap()->getTileSize().y;
+	for (auto& object : _collidableTerrainsLayer->getObjects())
+	{
+		TerrainBlock* collidableTerrain = new TerrainBlock();
+		auto& position = object.getPosition();
+		auto& size = object.getSize();
+		collidableTerrain->SetX(	   position.x + size.x * 0.5f);
+		collidableTerrain->SetY(mapH - position.y - size.y * 1.0f);
+		collidableTerrain->SetW(size.x);
+		collidableTerrain->SetH(size.y);
+		collidableTerrains.push_back(collidableTerrain);
+	}
 }
 
 void Stage1::RenderMap()
@@ -88,6 +116,10 @@ void Stage1::RenderEntities()
 
 void Stage1::RenderBackgroundTerrains()
 {
+	for (auto& backgroundTerrain : backgroundTerrains) 
+		   if (backgroundTerrain->GetX() <= camera->GetX() + (SCREEN_WIDTH / SCALING_RATIO_X / 2.0f) + 16
+		   &&  backgroundTerrain->GetX() >= camera->GetX() - (SCREEN_WIDTH / SCALING_RATIO_X / 2.0f) - 16)
+			   backgroundTerrain->Render();
 }
 
 void Stage1::RenderCollidableTerrains()

@@ -1,11 +1,11 @@
 #pragma once
 
 #include "Stage.h"
-class Camera;
+
 class Stage1 : public Stage
 {
 
-public: Camera* _cam;
+public:
 
 	Stage1();
 	virtual ~Stage1();
@@ -15,7 +15,7 @@ public: Camera* _cam;
 	virtual void HandleInput(Input&) override;
 
 protected:
-	
+
 	virtual void LoadMap() override;
 	virtual void LoadEntities(void*) override;
 	virtual void LoadBackgroundTerrains(void*) override;
@@ -27,4 +27,3 @@ protected:
 	virtual void RenderCollidableTerrains() override;
 
 };
-

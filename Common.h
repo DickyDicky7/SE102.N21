@@ -2,8 +2,8 @@
 
 #define SCREEN_WIDTH 1000
 #define SCREEN_HEIGHT 600
-#define SCALING_RATIO_X 2.0f
-#define SCALING_RATIO_Y 2.0f
+#define SCALING_RATIO_X 2.5f
+#define SCALING_RATIO_Y 2.5f
 #define DIRECTINPUT_VERSION 0x0800
 
 #include <any>
