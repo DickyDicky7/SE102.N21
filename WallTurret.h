@@ -30,7 +30,7 @@ class WallTurretLeft120State;
 class WallTurretLeft150State;
 
 
-class WallTurret : public Entity, public Enemy<WallTurret, Bill>
+class WallTurret : public Entity, public Enemy<Bill>
 				 , public HasTextures<WallTurret>, public HasSprites<WallTurret>, public HasAnimations<WallTurret>
 {
 public:

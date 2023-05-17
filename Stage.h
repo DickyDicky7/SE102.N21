@@ -2,7 +2,7 @@
 
 #include "Common.h"
 
-class Bill; class Input; class Entity; class Camera;
+class Bill; class Input; class Entity; class Camera; class QuadTreeContainer;
 
 class Stage
 {
@@ -12,9 +12,10 @@ public:
 	Stage();
 	virtual ~Stage();
 	virtual void Load() = 0;
-	virtual void Update() = 0;
-	virtual void Render() = 0;
-	virtual void HandleInput(Input&) = 0;
+	virtual void Update();
+	virtual void Render();
+	virtual void HandleInput(Input&);
+	virtual void CheckResolveClearCollision();
 
 	virtual void  SetBill(Bill*);
 	virtual Bill* GetBill(     );
@@ -25,19 +26,19 @@ public:
 protected:
 
 	Bill* bill;
+	FLOAT tileW;
+	FLOAT tileH;
 	Camera* camera;
-	std::list<Entity*> entities;		   // SOLDIER, WALL TURRET, ETC.
-	std::list<Entity*> backgroundTerrains; // TERRAIN STAGE 1 OR 2 OR 3
-	std::list<Entity*> collidableTerrains; // TERRAIN BLOCK
+	std::list<Entity*> entities;
+	std::list<Entity*> backgroundTerrains;
+	std::list<Entity*> foregroundTerrains;
+	QuadTreeContainer* _quadTreeContainer;
 
-	virtual void LoadMap() = 0;
 	virtual void LoadEntities(void*) = 0;
 	virtual void LoadBackgroundTerrains(void*) = 0;
-	virtual void LoadCollidableTerrains(void*) = 0;
+	virtual void LoadForegroundTerrains(void*) = 0;
 
-	virtual void RenderMap() = 0;
-	virtual void RenderEntities() = 0;
-	virtual void RenderBackgroundTerrains() = 0;
-	virtual void RenderCollidableTerrains() = 0;
+	virtual BOOL IsLORPointOnTheScreenByX(Entity*);
+	virtual BOOL IsTOBPointOnTheScreenByY(Entity*);
 
 };

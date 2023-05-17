@@ -1,35 +1,14 @@
-﻿#include "Input.h"
+﻿#include "Bill.h"
+#include "Input.h"
 #include "Motion.h"
 #include "Camera.h"
 #include "Common.h"
-#include "tileson.hpp"
-#include "QuadTreeContainer.h"
 #include "Stage1.h"
-
-#include "Bill.h"
-#include "Bullet.h"
-#include "Soldier.h"
-#include "WallTurret.h"
-#include "BossStage3.h"
-#include "ScubaSoldier.h"
+#include "tileson.hpp"
 #include "TerrainStage1.h"
-#include "TestingEntity.h"
-#include "RifleManStanding.h"
-#include "RifleManHideOnBush.h"
 
-Input* input;
-Camera* camera;
-LPDIRECT3D9 d3d;
-LPDIRECT3DDEVICE9 d3ddev;
-LPD3DXSPRITE spriteHandler;
-
-Bill bill;
-Soldier soldier;
-WallTurret wallTurret;
-BossStage3 bossStage3;
-ScubaSoldier scubaSoldier;
-RifleManStanding rifleManStanding;
-RifleManHideOnBush rifleManHideOnBush;
+Bill* bill; Input* input; Camera* camera;
+LPDIRECT3D9 d3d; LPDIRECT3DDEVICE9 d3ddev; LPD3DXSPRITE spriteHandler;
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 void LoadD3D(HWND hWnd);
@@ -60,73 +39,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	(
 		hInstance, hWnd
 	);
-	camera = new Camera
-	(
-		/* input, */
-		new CameraMovingForwardState()
-	);
 	
-	tson::Tileson tile;
-	std::unique_ptr<tson::Map> map = tile.parse(fs::path("Resources/Maps/stage1.json"));
-	tson::Layer* tileLayer1 = map.get()->getLayer("BackgroundLayer");
-	tson::Layer* tileLayer2 = map.get()->getLayer("CollidableLayer");
-	tson::Tileset& tileset = map.get()->getTilesets()[0];
-	TerrainStage1::SetTileset(&tileset);
-	//TerrainStage1* ts1 = new TerrainStage1();
-	//ts1->LoadTextures();
-	//ts1->LoadSprites();
-	//ts1->LoadAnimations();
-	//delete ts1;
-
-	Stage1 s1;s1.Load();s1.SetCamera(camera);s1.SetBill(&bill);
-
-	//for (auto& obj : tileLayer2->getObjects())
-	//{
-	//	_RPT1(0, "%d\n", obj.getId());
-	//}
-	//auto o = tileLayer1->getTileObject(0,1);
-	//_RPT1(0, "id: %d\n", o->getTile()->getId());
-	//std::vector<TerrainStage1*> terrainstage1s;
-	//for (auto& [pos, obj] : tileLayer1->getTileObjects())
-	//{
-	//	TerrainStage1* a = new TerrainStage1();
-	//	auto p = obj.getPosition();
-	//	auto t = obj.getTile();
-	//	auto s = t->getTileSize();
-	//	auto id = std::to_string(t->getId());
-	//	//id = "Stage 1 Animation " + FormatId(id);
-	//	a->SetAnimationId(id);
-	//	a->SetX(p.x + s.x / 2);a->SetY(p.y);
-	//	terrainstage1s.push_back(a);
-	//}
-	//for (int i = 0; i < terrainstage1s.size() / 2; i++)
-	//{
-	//	auto y1 = terrainstage1s[i]->GetY();
-	//	auto y2 = terrainstage1s[terrainstage1s.size() - 1 - i]->GetY();
-	//	std::swap(y1, y2);
-	//	terrainstage1s[i]->SetY(y1);
-	//	terrainstage1s[terrainstage1s.size() - 1 - i]->SetY(y2);
-	//}
-	//std::sort(terrainstage1s.begin(), terrainstage1s.end(), [](TerrainStage1* t1, TerrainStage1* t2) -> bool {return t1->GetX() < t2->GetX();});
-
-	//for (auto& tile : tileset.getTiles())
-	//{
-	//	tson::Animation& ani = tile.getAnimation();
-	//	if (ani.getFrames().size() != 0)
-	//		_RPT1(0, "%d\n", ani.getFrames().size());
-	//}
-	//if (tileLayer->getType() == tson::LayerType::TileLayer)
-	//{
-	//for (auto& obj : tileLayer2->getObjects())
-	//{
-	//	int x = obj.getPosition().x;
-	//	_RPT1(0, "%d\n", x);
-	//}
-		//for (auto& [pos,obj] : tileLayer1->getTileObjects())
-		//{
-		//	_RPT1(0,"%f, %f\n", obj.getPosition().x, obj.getPosition().y);
-		//}
-	//}
+	tson::Tileson  tile; std::unique_ptr<tson::Map> map = tile.parse(fs::path("Resources/Maps/stage1.json"));
+	tson::Tileset& tileset = map.get()->getTilesets()[0]; TerrainStage1::SetTileset(&tileset);
+	Stage1 stage1; stage1.Load(); bill = stage1.GetBill(); camera = stage1.GetCamera();
 
 	//
 	FLOAT x = 050.0f;
@@ -160,21 +76,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Motion::UniformCircularMotionInputParameters pic{ r, ω, dω, xO, yO };
 	//
 
-	QuadTreeContainer quadTreeContainer = QuadTreeContainer(
-		QuadTreeRect::QTRect({
-			{0, 0},
-			{SCREEN_WIDTH / SCALING_RATIO_X, SCREEN_HEIGHT / SCALING_RATIO_Y}
-			})
-	);
-
-	quadTreeContainer.Insert(&bill);
-	quadTreeContainer.Insert(&soldier);
-	quadTreeContainer.Insert(&wallTurret);
-	quadTreeContainer.Insert(&bossStage3);
-	quadTreeContainer.Insert(&scubaSoldier);
-	quadTreeContainer.Insert(&rifleManStanding);
-	quadTreeContainer.Insert(&rifleManHideOnBush);
-
 	MSG msg;
 	while (TRUE)
 	{
@@ -188,52 +89,26 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			break;
 
 		input->Capture();
-		bill.HandleInput(*input);
-		soldier.HandleInput(*input);
-		bossStage3.HandleInput(*input);
-		scubaSoldier.HandleInput(*input);
+		stage1.HandleInput(*input);
 
-		bill.Update();
-
-		for (auto it = bill.GetBullets().begin(); it != bill.GetBullets().end(); it++)
-		{
-			(*it)->Update();
-			if ((*it)->GetX() > 200.0f)
-			{
-				Destroy((*it));
-				//bill.GetBullets().erase(it);
-			}
-		}
-		bill.GetBullets().remove_if([](Bullet* bullet) { return bullet == NULL; });
-
-		soldier.Update();
-		wallTurret.Update();
-		bossStage3.Update();
-		scubaSoldier.Update();
-		rifleManStanding.Update();
-		rifleManHideOnBush.Update();
-
-
-
-
-		//auto ry = bill.AABBSweepY(&scubaSoldier);
-		//if (ry.isCollided)
+		//for (auto it = bill.GetBullets().begin(); it != bill.GetBullets().end(); it++)
 		//{
-		//	if (ry.normalY != 0)
-		//		bill.SetY(bill.GetY() + ry.enTime * bill.GetVY());
+		//	(*it)->Update();
+		//	if ((*it)->GetX() > 200.0f)
+		//	{
+		//		Destroy((*it));
+		//		//bill.GetBullets().erase(it);
+		//	}
 		//}
-		//auto rx = bill.AABBSweepX(&scubaSoldier);
-		//if (rx.isCollided)
-		//{
-		//	if (rx.normalX != 0)
-		//		bill.SetX(bill.GetX() + rx.enTime * bill.GetVX());
-		//}
-		bill.CollideWith(&soldier);
-		bill.CollideWith(&bossStage3);
-		bill.CollideWith(&wallTurret);s1.Update();
-		//_RPT1(0, "entryTime: %f, exitTime: %f, normalX: %f, normalY: %f\ncollided: %d\n\n", ry.enTime, ry.exTime, ry.normalX, ry.normalY, ry.isCollided);
-		//_RPT1(0, "X collided: %d, Y collided: %d, etX: %f, etY: %f\n", rx.isCollided, ry.isCollided, rx.enTime, ry.enTime);
-		//_RPT1(0, "cpX: %f, cpY: %f\n", rx.contactX, rx.contactY);
+		//bill.GetBullets().remove_if([](Bullet* bullet) { return bullet == NULL; });
+
+		stage1.Update();
+
+
+
+		//bill.CollideWith(&soldier);
+		//bill.CollideWith(&bossStage3);
+		//bill.CollideWith(&wallTurret);s1.Update();
 
 
 
@@ -247,7 +122,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//	);
 		//}
 		camera->HandleInput(*input);
-		camera->Capture(bill.GetX(), bill.GetY());
+		camera->Capture(bill->GetX(), bill->GetY());
 
 		d3ddev->SetTransform(D3DTS_VIEW, &camera->GetViewMatrix());
 		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(220, 208, 255), 1.0f, 0);
@@ -255,8 +130,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_OBJECTSPACE);
 
 
-		s1.Render();
-		//for (auto& x : terrainstage1s) if (x->GetX() <= 300) x->Render();
+		stage1.Render();
 		//
 		auto poo = Motion::CalculateOscillatoryMotion(pio);
 		pio.t = poo.t;
@@ -292,26 +166,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//
 
 
+		//for (auto& bullet : bill.GetBullets())
+		//	bullet->Render();
 
-		bill.Render();
+		//for (auto it = quadTreeContainer.begin(); it != quadTreeContainer.end(); it++)
+		//{
+		//	quadTreeContainer.Relocate(it);
+		//}
 
-		for (auto& bullet : bill.GetBullets())
-			bullet->Render();
-
-		soldier.Render();
-		wallTurret.Render();
-		bossStage3.Render();
-		scubaSoldier.Render();
-		rifleManStanding.Render();
-		rifleManHideOnBush.Render();
-
-
-		for (auto it = quadTreeContainer.begin(); it != quadTreeContainer.end(); it++)
-		{
-			quadTreeContainer.Relocate(it);
-		}
-
-		std::list<Entity*> result = quadTreeContainer.GetCollisionWithTarget(&bill);
+		//std::list<Entity*> result = quadTreeContainer.GetCollisionWithTarget(&bill);
 
 		//for (auto it = result.begin(); it != result.end(); it++)
 		//{
@@ -325,9 +188,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
 
-		//Should disable if you do not want to debug, this line of code causes lag
-		//_RPT1(0, "W: %f ; H: %f\n", bill.GetW(), bill.GetH());
-		result.clear();
+		//result.clear();
 	}
 
 	CleanD3D();
@@ -339,45 +200,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 void LoadAssets()
 {
-	bill.LoadTextures();
-	bill.LoadSprites();
-	bill.LoadAnimations();
-
-	Bullet* bullet = new Bullet();
-	bullet->LoadTextures();
-	bullet->LoadSprites();
-	bullet->LoadAnimations();
-	Destroy(bullet);
-
-	soldier.LoadTextures();
-	soldier.LoadSprites();
-	soldier.LoadAnimations();
-	soldier.SetTarget(&bill);
-
-	wallTurret.LoadTextures();
-	wallTurret.LoadSprites();
-	wallTurret.LoadAnimations();
-	wallTurret.SetTarget(&bill);
-
-	bossStage3.LoadTextures();
-	bossStage3.LoadSprites();
-	bossStage3.LoadAnimations();
-	bossStage3.SetTarget(&bill);
-
-	scubaSoldier.LoadTextures();
-	scubaSoldier.LoadSprites();
-	scubaSoldier.LoadAnimations();
-	scubaSoldier.SetTarget(&bill);
-
-	rifleManStanding.LoadTextures();
-	rifleManStanding.LoadSprites();
-	rifleManStanding.LoadAnimations();
-	rifleManStanding.SetTarget(&bill);
-
-	rifleManHideOnBush.LoadTextures();
-	rifleManHideOnBush.LoadSprites();
-	rifleManHideOnBush.LoadAnimations();
-	rifleManHideOnBush.SetTarget(&bill);
 }
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)
