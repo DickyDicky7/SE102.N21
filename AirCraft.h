@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 #include "Bill.h"
 #include "Enemy.h"
 #include "State.h"
@@ -18,7 +18,7 @@ class AirCraftRAmmoState;
 class AirCraftSAmmoState;
 class AirCraftInvulState;
 
-class AirCraft : public Entity<AirCraft>, public Enemy<AirCraft, Bill>
+class AirCraft : public Entity, public Enemy<AirCraft, Bill>
 	, public HasTextures<AirCraft>, public HasSprites<AirCraft>, public HasAnimations<AirCraft>
 {
 public:
@@ -58,6 +58,11 @@ public:
 protected:
 
 	FLOAT time;
+	FLOAT y0;
+	FLOAT dt;
+	FLOAT T;
+	FLOAT A;
+	FLOAT φ;
 
 };
 class AirCraftNormalState : public AirCraftState

@@ -142,6 +142,15 @@
     <Filter Include="Source Files\Objects\Bullet\BulletState">
       <UniqueIdentifier>{f806374c-df9b-43ab-a4fb-c422977c9d32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Objects\Enemies\AirCraft">
+      <UniqueIdentifier>{01d5c4bb-5c0c-476b-84c0-cbf112009c3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\AirCraft\AirCraftState">
+      <UniqueIdentifier>{13f14c65-7fd2-47cf-b7cc-a52e6a43d418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\AirCraft">
+      <UniqueIdentifier>{af28f063-4f8c-4349-aee5-b06d0f0315ac}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -248,6 +257,12 @@
     </ClInclude>
     <ClInclude Include="HasWeapons.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="AirCraft.h">
+      <Filter>Header Files\Objects\Enemies\AirCraft</Filter>
+    </ClInclude>
+    <ClInclude Include="AirCraftCommon.h">
+      <Filter>Header Files\Objects\Enemies\AirCraft</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -601,6 +616,36 @@
     </ClCompile>
     <ClCompile Include="BillSwimRunShotState.cpp">
       <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraft.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftBAmmoState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftFAmmoState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftInvulState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftLAmmoState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftMAmmoState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftNormalState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftRAmmoState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftSAmmoState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

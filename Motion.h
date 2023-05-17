@@ -48,6 +48,12 @@ namespace Motion
 		FLOAT T;
 		FLOAT A;
 		FLOAT φ;
+		// c0: vị trí lúc đầu
+		// t: thời gian
+		// dt: delta time
+		// T: khoảng thời gian để quay hết 1 vòng (tính bằng giây)
+		// A: Bán kính
+		// φ: pha ban đầu của dao động (-π<φ<π)
 	};
 
 	struct OscillatoryMotionOutputParameters

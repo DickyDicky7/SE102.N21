@@ -6,6 +6,7 @@
 #include "HasSprites.h"
 #include "HasTextures.h"
 #include "HasAnimations.h"
+#include "Bill.h"
 
 class ScubaSoldierState;
 class ScubaSoldierHiddenState;

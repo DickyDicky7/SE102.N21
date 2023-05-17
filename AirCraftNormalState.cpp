@@ -1,4 +1,4 @@
-#include "AirCraft.h"
+﻿#include "AirCraft.h"
 
 AirCraftNormalState::AirCraftNormalState() : AirCraftState()
 {
@@ -24,10 +24,30 @@ void AirCraftNormalState::Render(AirCraft& aircraft)
 
 AirCraftState* AirCraftNormalState::Update(AirCraft& aircraft)
 {
+	FLOAT x = aircraft.GetX();
+	FLOAT y = aircraft.GetY();
+	FLOAT vx = aircraft.GetVX();
+	FLOAT vy = aircraft.GetVY();
+
+	Motion::OscillatoryMotionInputParameters pio{ y0, time, dt, T, A, φ };
+	auto poo = Motion::CalculateOscillatoryMotion(pio);
+	time = poo.t;
+
+	x += vx;
+	if (x >= 500.0f || x <= 0.0f) vx = -vx;
+	aircraft.SetX(x);
+	aircraft.SetVX(vx);
+
+	aircraft.SetY(poo.c);
+
 	return NULL;
 }
 
 AirCraftState* AirCraftNormalState::HandleInput(AirCraft& aircraft, Input& input)
 {
+	if (input.IsKey(DIK_SPACE))
+	{
+		return new AirCraftFAmmoState();
+	}
 	return NULL;
 }

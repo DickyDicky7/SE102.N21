@@ -13,6 +13,7 @@
 #include "ScubaSoldier.h"
 #include "TestingEntity.h"
 #include "RifleManStanding.h"
+#include "AirCraft.h"
 #include "RifleManHideOnBush.h"
 
 Input* input;
@@ -26,6 +27,7 @@ Soldier soldier;
 WallTurret wallTurret;
 BossStage3 bossStage3;
 ScubaSoldier scubaSoldier;
+AirCraft airCraft;
 RifleManStanding rifleManStanding;
 RifleManHideOnBush rifleManHideOnBush;
 
@@ -118,6 +120,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	quadTreeContainer.Insert(&soldier);
 	quadTreeContainer.Insert(&wallTurret);
 	quadTreeContainer.Insert(&bossStage3);
+	quadTreeContainer.Insert(&airCraft);
 	quadTreeContainer.Insert(&scubaSoldier);
 	quadTreeContainer.Insert(&rifleManStanding);
 	quadTreeContainer.Insert(&rifleManHideOnBush);
@@ -137,6 +140,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		input->Capture();
 		bill.HandleInput(*input);
 		soldier.HandleInput(*input);
+		airCraft.HandleInput(*input);
 		bossStage3.HandleInput(*input);
 		scubaSoldier.HandleInput(*input);
 
@@ -156,6 +160,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		soldier.Update();
 		wallTurret.Update();
 		bossStage3.Update();
+		airCraft.Update();
 		scubaSoldier.Update();
 		rifleManStanding.Update();
 		rifleManHideOnBush.Update();
@@ -202,11 +207,11 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 
 
-		//
+		// vẽ chuyển động ====================================================
 		auto poo = Motion::CalculateOscillatoryMotion(pio);
 		pio.t = poo.t;
 		GraphicsHelper::DrawSprite
-		(GraphicsDatabase::sprites[BILL_SPRITE_ID::NORMAL_01], D3DXVECTOR3(x, poo.c, 0.0f), DIRECTION::RIGHT, 45.0f);
+		(GraphicsDatabase::sprites[SOLDIER_SPRITE_ID::RUN_01], D3DXVECTOR3(x, poo.c, 0.0f), DIRECTION::RIGHT, 45.0f);
 		x += vx;
 		if (x >= 500.0f || x <= 0.0f) vx = -vx;
 
@@ -226,13 +231,13 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			pip.t = pop.t;
 		}
 		GraphicsHelper::DrawSprite
-		(GraphicsDatabase::sprites[BILL_SPRITE_ID::NORMAL_01], D3DXVECTOR3(pip.x, pip.y, 0.0f), DIRECTION::RIGHT, -45.0f);
+		(GraphicsDatabase::sprites[BILL_SPRITE_ID::RUN_01], D3DXVECTOR3(pip.x, pip.y, 0.0f), DIRECTION::RIGHT, -45.0f);
 
 
 		auto poc = Motion::CalculateUniformCircularMotion(pic);
 		pic.ω = poc.ω;
 		GraphicsHelper::DrawSprite
-		(GraphicsDatabase::sprites[BILL_SPRITE_ID::NORMAL_01], D3DXVECTOR3(poc.x, poc.y, 0.0f), DIRECTION::RIGHT, angle);
+		(GraphicsDatabase::sprites[BILL_SPRITE_ID::RUN_02], D3DXVECTOR3(poc.x, poc.y, 0.0f), DIRECTION::RIGHT, angle);
 		angle += dAngle;
 		//
 
@@ -247,6 +252,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		wallTurret.Render();
 		bossStage3.Render();
 		scubaSoldier.Render();
+		airCraft.Render();
 		rifleManStanding.Render();
 		rifleManHideOnBush.Render();
 
@@ -312,6 +318,11 @@ void LoadAssets()
 	scubaSoldier.LoadSprites();
 	scubaSoldier.LoadAnimations();
 	scubaSoldier.SetTarget(&bill);
+	
+	airCraft.LoadTextures();
+	airCraft.LoadSprites();
+	airCraft.LoadAnimations();
+	airCraft.SetTarget(&bill);
 
 	rifleManStanding.LoadTextures();
 	rifleManStanding.LoadSprites();

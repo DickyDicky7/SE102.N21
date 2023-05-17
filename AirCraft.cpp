@@ -3,14 +3,14 @@
 AirCraft::AirCraft() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 	Enemy::self = this;
-	Entity::self = this;
 
-	this->vx = 1;
-	this->vy = 1;
+	this->vx = 1.0f;
+	this->vy = 1.0f;
 	this->ax = 0.1f;
 	this->ay = 0.1f;
-	this->position.x = 300;
-	this->position.y = 0;
+	this->position.x = 100;
+	this->position.y = 200;
+	this->name = L"AirCraft\n";
 
 	this->updateState = NULL;
 	this->handleInputState = NULL;
@@ -32,6 +32,9 @@ void AirCraft::Update()
 void AirCraft::Render()
 {
 	state->Render(*this);
+	this->w = this->currentFrameW;
+	this->h = this->currentFrameH;
+
 	if (updateState)
 	{
 		state->Exit(*this);
@@ -93,7 +96,7 @@ void AirCraft::LoadTextures()
 	if (HasTextures<AirCraft>::hasBeenLoaded.value) return;
 	HasTextures<AirCraft>::hasBeenLoaded.value = true;
 
-	GraphicsHelper::InsertTexure(SCUBA_SOLDIER_TEXTURE_ID::SCUBA_SOLDIER_01, L"Resources\\Textures\\Aircraft.bmp");
+	GraphicsHelper::InsertTexure(AIRCRAFT_TEXTURE_ID::AIRCRAFT_01, L"Resources\\Textures\\Aircraft.bmp");
 
 	OutputDebugString(L"AirCraft Textures Loaded Successfully\n");
 }
