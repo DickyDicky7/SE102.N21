@@ -57,19 +57,24 @@ AirCraftState* AirCraftNormalState::HandleInput(AirCraft& aircraft, Input& input
 	}
 	else if (input.IsKey(DIK_3))
 	{
-		return new AirCraftLAmmoState();
+		return new AirCraftFAmmoState();
 	}
 	else if (input.IsKey(DIK_4))
 	{
-		return new AirCraftMAmmoState();
+		return new AirCraftLAmmoState();
 	}
 	else if (input.IsKey(DIK_5))
 	{
-		return new AirCraftRAmmoState();
+		return new AirCraftMAmmoState();
 	}
 	else if (input.IsKey(DIK_6))
 	{
+		return new AirCraftRAmmoState();
+	}
+	else if (input.IsKey(DIK_7))
+	{
 		return new AirCraftSAmmoState();
 	}
+	
 	return NULL;
 }
