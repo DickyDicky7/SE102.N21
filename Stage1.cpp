@@ -200,7 +200,6 @@ void Stage1::LoadBackgroundTerrains(void* backgroundTerrainsLayer)
 	}
 	backgroundTerrains.assign(temp.begin(), temp.end());
 	backgroundTerrains.sort([](Entity* e1, Entity* e2) -> bool { return e1->GetX() < e2->GetX(); });
-	for (auto& backgroundTerrain : backgroundTerrains) _quadTreeContainer->Insert(backgroundTerrain);
 	auto representativeBackgroundTerrain = dynamic_cast<TerrainStage1*>(backgroundTerrains.front());
 		 representativeBackgroundTerrain->LoadTextures  ();
 		 representativeBackgroundTerrain->LoadSprites   ();
