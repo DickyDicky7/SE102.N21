@@ -2,13 +2,17 @@
 
 
 #include "State.h"
+#include "Motion.h"
 #include "Common.h"
 #include "Entity.h"
+#include "HasWeapons.h"
 #include "HasSprites.h"
 #include "HasTextures.h"
 #include "HasAnimations.h"
+#include "CollidableEntity.h"
 
 
+class Bill;
 class BillState;
 class BillRunState;
 class BillFallState;
@@ -20,11 +24,12 @@ class BillNormalState;
 class BillLayDownState;
 class BillRunShotState;
 class BillSwimRunState;
-class BillSwimShotState;
 class BillBeginSwimState;
 class BillSwimNormalState;
 class BillNormalShotState;
 class BillStraightUpState;
+class BillSwimRunShotState;
+class BillSwimNormalShotState;
 class BillShotStraightUpState;
 class BillRunShotAngleUpState;
 class BillSwimShotAngleUpState;
@@ -32,7 +37,7 @@ class BillRunShotAngleDownState;
 class BillSwimShotStraightUpState;
 
 
-class Bill : public Entity<Bill>, public HasTextures<Bill>, public HasSprites<Bill>, public HasAnimations<Bill>
+class Bill : public Entity, public HasTextures<Bill>, public HasSprites<Bill>, public HasAnimations<Bill>, public CollidableEntity, public HasWeapons
 {
 
 public:
@@ -46,6 +51,12 @@ public:
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
+
+	void  Fire                    (               ) override;
+	void  StaticResolveNoCollision(               ) override;
+	void  StaticResolveOnCollision(AABBSweepResult) override;
+	void DynamicResolveNoCollision(               ) override;
+	void DynamicResolveOnCollision(AABBSweepResult) override;
 
 protected:
 
@@ -102,7 +113,8 @@ class BillFallState : public BillState
 public:
 
 	BillFallState();
-	virtual ~BillFallState();
+	BillFallState(BillState*);
+	virtual ~BillFallState( );
 
 	virtual void Exit(Bill&) override;
 	virtual void Enter(Bill&) override;
@@ -110,6 +122,10 @@ public:
 
 	virtual BillState* Update(Bill&) override;
 	virtual BillState* HandleInput(Bill&, Input&) override;
+
+protected:
+
+	BillState* returnState;
 
 };
 
@@ -263,24 +279,6 @@ public:
 };
 
 
-class BillSwimShotState : public BillState
-{
-
-public:
-
-	BillSwimShotState();
-	virtual ~BillSwimShotState();
-
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
-
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
-
-};
-
-
 class BillBeginSwimState : public BillState
 {
 
@@ -346,6 +344,42 @@ public:
 
 	BillStraightUpState();
 	virtual ~BillStraightUpState();
+
+	virtual void Exit(Bill&) override;
+	virtual void Enter(Bill&) override;
+	virtual void Render(Bill&) override;
+
+	virtual BillState* Update(Bill&) override;
+	virtual BillState* HandleInput(Bill&, Input&) override;
+
+};
+
+
+class BillSwimRunShotState : public BillState
+{
+
+public:
+
+	BillSwimRunShotState();
+	virtual ~BillSwimRunShotState();
+
+	virtual void Exit(Bill&) override;
+	virtual void Enter(Bill&) override;
+	virtual void Render(Bill&) override;
+
+	virtual BillState* Update(Bill&) override;
+	virtual BillState* HandleInput(Bill&, Input&) override;
+
+};
+
+
+class BillSwimNormalShotState : public BillState
+{
+
+public:
+
+	BillSwimNormalShotState();
+	virtual ~BillSwimNormalShotState();
 
 	virtual void Exit(Bill&) override;
 	virtual void Enter(Bill&) override;

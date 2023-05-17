@@ -15,7 +15,7 @@ class CameraMovingDownwardState;
 class CameraMovingBackwardState;
 
 
-class Camera : public Entity<Camera>
+class Camera : public Entity
 {
 
 public:
@@ -34,7 +34,13 @@ public:
 	void ZoomIn(FLOAT = 0.1f);
 	void ZoomOut(FLOAT = 0.1f);
 	void Capture(FLOAT, FLOAT);
+	static FLOAT CalculateHW();
+	static FLOAT CalculateHH();
 	const D3DMATRIX& GetViewMatrix() const;
+
+	void LogName() override {
+		OutputDebugString(L"Camera");
+	}
 
 protected:
 

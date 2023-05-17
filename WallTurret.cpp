@@ -1,7 +1,6 @@
-#include <string>
 #include "WallTurret.h"
 
-#define PI 3.14159265
+#define PI D3DX_PI
 #define	TURRET_HEIGHT 32
 #define TURRET_WIDTH 32
 
@@ -15,7 +14,7 @@ void AutoInscreaseSpriteIdLoadAnimations(std::vector<WALL_TURRET_SPRITE_ID>, ANI
 WallTurret::WallTurret() : Entity(), HasAnimations()
 {
 	Enemy::self = this;
-	Entity::self = this;
+	this->name = L"WallTurret\n";
 
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -34,6 +33,8 @@ WallTurret::WallTurret() : Entity(), HasAnimations()
 WallTurret::~WallTurret() {}
 
 void WallTurret::Update() {
+
+	CalculateBillAngle();
 
 	if (billAngle >= -105 && billAngle < -75)
 	{
@@ -88,6 +89,9 @@ void WallTurret::Update() {
 
 void WallTurret::Render() {
 	state->Render(*this);
+	this->w = this->currentFrameW;
+	this->h = this->currentFrameH;
+
 	if (updateState)
 	{
 		state->Exit(*this);
@@ -100,10 +104,10 @@ void WallTurret::Render() {
 
 void WallTurret::HandleInput(Input& input) {}
 
-void WallTurret::CalculateBillAngle(Bill* bill)
+void WallTurret::CalculateBillAngle()
 {
-	float dx = +(this->GetPosition().x - bill->GetPosition().x);
-	float dy = -(this->GetPosition().y - bill->GetPosition().y);
+	float dx = +(this->GetPosition().x - Enemy::target->GetPosition().x);
+	float dy = -(this->GetPosition().y - Enemy::target->GetPosition().y);
 
 	if (dx > 0 && dy < 0)
 		billAngle = -atan(dx / (abs(dy))) * 180 / PI;
@@ -401,7 +405,7 @@ void AutoIncreasePositionSpriteLoader(
 	TEXTURE_ID textureId
 )
 {
-	for (int i = 0; i < topRightConnerOfSpritePositions.size(); i++)
+	for (int i = 0; std::cmp_less(i, topRightConnerOfSpritePositions.size()); i++)
 	{
 		GraphicsHelper::InsertSprite(
 			spriteIdList[i],
@@ -419,7 +423,7 @@ void AutoInscreaseSpriteIdLoadAnimations(std::vector<WALL_TURRET_SPRITE_ID> spri
 {
 	std::vector<std::tuple<SPRITE_ID, DWORD>> listOfSpriteWithRefreshRate;
 
-	for (int i = 0; i < spriteIdList.size(); i++)
+	for (int i = 0; std::cmp_less(i, spriteIdList.size()); i++)
 	{
 		listOfSpriteWithRefreshRate.push_back(std::make_tuple(spriteIdList[i], 0));
 	}

@@ -11,7 +11,7 @@ class ScubaSoldierState;
 class ScubaSoldierHiddenState;
 class ScubaSoldierShootingState;
 
-class ScubaSoldier : public Entity<ScubaSoldier>, public Enemy<ScubaSoldier, Bill>
+class ScubaSoldier : public Entity, public Enemy<ScubaSoldier, Bill>
 				   , public HasTextures<ScubaSoldier>, public HasSprites<ScubaSoldier>, public HasAnimations<ScubaSoldier>
 {
 public:

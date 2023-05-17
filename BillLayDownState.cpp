@@ -30,7 +30,7 @@ BillState* BillLayDownState::HandleInput(Bill& bill, Input& input)
 {
 	if (input.IsKey(DIK_DOWN))
 	{
-		return NULL;
+		if (input.IsKey(DIK_X)) bill.Fire(); return NULL;
 	}
 	return new BillNormalState();
 }

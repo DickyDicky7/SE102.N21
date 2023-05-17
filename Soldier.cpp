@@ -3,14 +3,14 @@
 Soldier::Soldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 	Enemy::self = this;
-	Entity::self = this;
 
-	this->vx = 1;
-	this->vy = 1;
+	this->vx = 1.0f;
+	this->vy = 1.0f;
 	this->ax = 0.1f;
 	this->ay = 0.1f;
 	this->position.x = 100;
 	this->position.y = 0;
+	this->name = L"Soldier\n";
 
 	this->updateState = NULL;
 	this->handleInputState = NULL;
@@ -47,6 +47,9 @@ void Soldier::Update()
 void Soldier::Render()
 {
 	state->Render(*this);
+	this->w = this->currentFrameW;
+	this->h = this->currentFrameH;
+
 	if (updateState)
 	{
 		state->Exit(*this);

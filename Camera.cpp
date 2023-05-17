@@ -5,8 +5,6 @@ FLOAT Camera::scalingRatioY = SCALING_RATIO_Y;
 
 Camera::Camera(/* Input* input, */ CameraState* state, FLOAT x, FLOAT y) : Entity()
 {
-	self = this;
-
 	//if (input)
 	//{
 	//	input->SetMouseEventListener
@@ -87,6 +85,16 @@ void Camera::Capture(FLOAT x, FLOAT y)
 	D3DXMatrixScaling(&scalingMatrix, scalingRatioX, scalingRatioY, 1.0f);
 
 	viewMatrix *= scalingMatrix;
+}
+
+FLOAT Camera::CalculateHW()
+{
+	return +SCREEN_WIDTH  / (2.0f * scalingRatioX);
+}
+
+FLOAT Camera::CalculateHH()
+{
+	return +SCREEN_HEIGHT / (2.0f * scalingRatioY);
 }
 
 const D3DMATRIX& Camera::GetViewMatrix() const

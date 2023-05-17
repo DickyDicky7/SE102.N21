@@ -30,6 +30,7 @@ BillState* BillNormalShotState::HandleInput(Bill& bill, Input& input)
 {
 	if (input.IsKey(DIK_X))
 	{
+		bill.Fire();
 		return NULL;
 	}
 	return new BillNormalState();
