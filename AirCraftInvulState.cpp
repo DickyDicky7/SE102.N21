@@ -1,4 +1,4 @@
-#include "AirCraft.h"
+﻿#include "AirCraft.h"
 
 AirCraftInvulState::AirCraftInvulState() : AirCraftState()
 {
@@ -24,6 +24,18 @@ void AirCraftInvulState::Render(AirCraft& aircraft)
 
 AirCraftState* AirCraftInvulState::Update(AirCraft& aircraft)
 {
+	// chuyen dong nem xien
+	FLOAT x = aircraft.GetX();
+	FLOAT y = aircraft.GetY();
+
+	Motion::ProjectileMotionInputParameters pip{ x, y, v0, θ, time, dt };
+
+	if (y >= aircraft.GetH() / 2) {
+		auto pop = Motion::CalculateProjectileMotion(pip);
+		aircraft.SetX(pop.x);
+		aircraft.SetY(pop.y);
+		time = pop.t;
+	}
 	return NULL;
 }
 

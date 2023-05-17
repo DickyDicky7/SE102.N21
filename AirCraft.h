@@ -56,7 +56,6 @@ public:
 	virtual AirCraftState* HandleInput(AirCraft&, Input&) override = 0;
 
 protected:
-
 	FLOAT time;
 	FLOAT y0;
 	FLOAT dt;
@@ -64,6 +63,17 @@ protected:
 	FLOAT A;
 	FLOAT φ;
 
+	// y0: vị trí lúc đầu
+	// time: thời gian
+	// dt: delta time ( t = t + dt )
+	// T: khoảng thời gian để quay hết 1 vòng (tính bằng giây)
+	// A: Bán kính
+	// φ: pha ban đầu của dao động (-π<φ<π)
+
+	FLOAT v0 = 7.0f;
+	FLOAT θ = 80.0f;
+	// v0: vận tốc ném viên đạn
+	// θ: góc ném
 };
 class AirCraftNormalState : public AirCraftState
 {

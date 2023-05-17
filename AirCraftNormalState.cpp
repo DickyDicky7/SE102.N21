@@ -24,6 +24,7 @@ void AirCraftNormalState::Render(AirCraft& aircraft)
 
 AirCraftState* AirCraftNormalState::Update(AirCraft& aircraft)
 {
+	// Chuyen dong hinh sin
 	FLOAT x = aircraft.GetX();
 	FLOAT y = aircraft.GetY();
 	FLOAT vx = aircraft.GetVX();
@@ -35,9 +36,9 @@ AirCraftState* AirCraftNormalState::Update(AirCraft& aircraft)
 
 	x += vx;
 	if (x >= 500.0f || x <= 0.0f) vx = -vx;
+	
 	aircraft.SetX(x);
 	aircraft.SetVX(vx);
-
 	aircraft.SetY(poo.c);
 
 	return NULL;
@@ -45,9 +46,30 @@ AirCraftState* AirCraftNormalState::Update(AirCraft& aircraft)
 
 AirCraftState* AirCraftNormalState::HandleInput(AirCraft& aircraft, Input& input)
 {
-	if (input.IsKey(DIK_SPACE))
+	//invul, b, f, l, m, r, s
+	if (input.IsKey(DIK_1))
 	{
-		return new AirCraftFAmmoState();
+		return new AirCraftInvulState();
+	} 
+	else if (input.IsKey(DIK_2))
+	{
+		return new AirCraftBAmmoState();
+	}
+	else if (input.IsKey(DIK_3))
+	{
+		return new AirCraftLAmmoState();
+	}
+	else if (input.IsKey(DIK_4))
+	{
+		return new AirCraftMAmmoState();
+	}
+	else if (input.IsKey(DIK_5))
+	{
+		return new AirCraftRAmmoState();
+	}
+	else if (input.IsKey(DIK_6))
+	{
+		return new AirCraftSAmmoState();
 	}
 	return NULL;
 }
