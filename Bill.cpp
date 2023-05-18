@@ -371,7 +371,7 @@ void Bill::StaticResolveNoCollision(                               )
 void Bill::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
 }
-
+#include "TerrainBlock.h"
 void Bill::DynamicResolveNoCollision(                               )
 {
 	if (isAbSurface)
@@ -397,7 +397,7 @@ void Bill::DynamicResolveNoCollision(                               )
 void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
 	if (aabbSweepResult.normalY == -1.0f)
-	{
+	{	
 		auto motionResult = Motion::CalculateUniformMotion({ position.y, vy });
 		position.y = motionResult.c;
 		vx = 0.0f;
@@ -410,7 +410,10 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			position.y += (aabbSweepResult.enTime - 0.1f) * vy; // Resolve position if accept there is a collision
 			vy = 0.0f;
 			isAbSurface = 1;
-			ChangeState(state, new BillNormalState(), this);
+			auto terrainBlockStage1 = dynamic_cast<TerrainBlock*>(surfaceEntity);
+			if  (terrainBlockStage1 != NULL && terrainBlockStage1->type == TERRAIN_BLOCK_TYPE::WATER)
+				 ChangeState(state, new BillSwimNormalState(), this), OutputDebugString(L"water\n"); else
+				 ChangeState(state, new BillNormalState   (), this);
 		}
 	}
 	if (aabbSweepResult.normalX != 0.0f)

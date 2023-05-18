@@ -2,7 +2,7 @@
 
 #include "Common.h"
 
-class Bill; class Input; class Entity; class Camera; class QuadTreeContainer;
+class Bill; class Input; class Entity; class Camera; /*class QuadTreeContainer;*/ class QuadTreeNode;
 
 class Stage
 {
@@ -32,7 +32,9 @@ protected:
 	std::list<Entity*> entities;
 	std::list<Entity*> backgroundTerrains;
 	std::list<Entity*> foregroundTerrains;
-	QuadTreeContainer* _quadTreeContainer;
+	//QuadTreeContainer* _quadTreeContainer;
+	QuadTreeNode* _quadTreeNodeE;
+	QuadTreeNode* _quadTreeNodeB;
 
 	virtual void LoadEntities(void*) = 0;
 	virtual void LoadBackgroundTerrains(void*) = 0;

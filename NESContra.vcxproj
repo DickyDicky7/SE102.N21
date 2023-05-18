@@ -42,6 +42,7 @@
     <ClInclude Include="QuadTree.h" />
     <ClInclude Include="QuadTreeCommon.h" />
     <ClInclude Include="QuadTreeContainer.h" />
+    <ClInclude Include="QuadTreeNode.h" />
     <ClInclude Include="RifleMan.h" />
     <ClInclude Include="RifleManCommon.h" />
     <ClInclude Include="RifleManHideOnBush.h" />
@@ -72,6 +73,7 @@
     <ClCompile Include="CollidableState.cpp" />
     <ClCompile Include="HasWeapons.cpp" />
     <ClCompile Include="Motion.cpp" />
+    <ClCompile Include="QuadTreeNode.cpp" />
     <ClCompile Include="RifleManHideOnBushState.cpp" />
     <ClCompile Include="RifleManStanding.cpp" />
     <ClCompile Include="RifleManStandingAimDownState.cpp" />

@@ -285,6 +285,9 @@
     <ClInclude Include="TerrainBlock.h">
       <Filter>Header Files\Objects\Terrains\TerrainBlock</Filter>
     </ClInclude>
+    <ClInclude Include="QuadTreeNode.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -652,6 +655,9 @@
     </ClCompile>
     <ClCompile Include="TerrainBlock.cpp">
       <Filter>Source Files\Objects\Terrains\TerrainBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTreeNode.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

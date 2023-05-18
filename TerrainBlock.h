@@ -6,6 +6,9 @@
 #include "CollidableEntity.h"
 
 
+enum class TERRAIN_BLOCK_TYPE { _, WATER, THROUGHABLE, };
+
+
 class TerrainBlock : public Entity, public CollidableEntity
 {
 
@@ -13,7 +16,8 @@ public:
 
 	TerrainBlock();
 	virtual ~TerrainBlock();
-	
+	TERRAIN_BLOCK_TYPE type;
+
 	void Update() override;
 	void Render() override;
 	void HandleInput(Input&) override;

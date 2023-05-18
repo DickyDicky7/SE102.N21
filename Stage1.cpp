@@ -7,7 +7,7 @@
 #include "TerrainBlock.h"
 #include "TerrainStage1.h"
 #include "RifleManStanding.h"
-#include "QuadTreeContainer.h"
+//#include "QuadTreeContainer.h"
 #include "RifleManHideOnBush.h"
 
 Stage1::Stage1() : Stage()
@@ -17,7 +17,7 @@ Stage1::Stage1() : Stage()
 Stage1::~Stage1()
 {
 }
-
+#include "QuadTreeNode.h"
 void Stage1::Load()
 {
 	tson::Tileson tileson; std::unique_ptr<tson::Map> map = tileson.parse(fs::path("Resources/Maps/stage1.json"));
@@ -28,12 +28,15 @@ void Stage1::Load()
 	tileW = tileSize.x;
 	tileH = tileSize.y;
 	auto& mapSize = map.get()->getSize();
-	_quadTreeContainer  = new QuadTreeContainer(QuadTreeRect::QTRect({ { 0.0f, 0.0f }, { (FLOAT)mapSize.x, (FLOAT)mapSize.y } }));
+	//_quadTreeContainer  = new QuadTreeContainer(QuadTreeRect::QTRect({ { 0.0f, 0.0f }, { FLOAT(mapSize.x * tileSize.x) , FLOAT(mapSize.y * tileSize.y) } }));
+	_quadTreeNodeE = QuadTreeNode::New(0.0f, 0.0f, mapSize.x * tileSize.x, mapSize.y * tileSize.y);
+	_quadTreeNodeB = QuadTreeNode::New(0.0f, 0.0f, mapSize.x * tileSize.x, mapSize.y * tileSize.y);
 	if (!  bill)   bill = new Bill();
 	if (!camera) camera = new Camera(new CameraMovingForwardState());
 	LoadBackgroundTerrains(backgroundTerrainsLayer);
 	LoadForegroundTerrains(foregroundTerrainsLayer);
 	LoadEntities(entitiesLayer);
+	//_quadTreeContainer->Insert(bill);
 }
 
 void Stage1::LoadEntities(void* entitiesLayer)
@@ -137,7 +140,8 @@ void Stage1::LoadEntities(void* entitiesLayer)
 		entity->SetW(size.x);
 		entity->SetH(size.y);
 		entities.push_back(entity);
-		_quadTreeContainer->Insert(entity);
+		//_quadTreeContainer->Insert(entity);
+		_quadTreeNodeE->Insert(entity);
 	}
 
 	auto representativeBill = new Bill();
@@ -181,8 +185,10 @@ void Stage1::LoadBackgroundTerrains(void* backgroundTerrainsLayer)
 	auto _backgroundTerrainsLayer = (tson::Layer*)backgroundTerrainsLayer;
 	for (auto& [tileObjectPosition, tileObject] : _backgroundTerrainsLayer->getTileObjects()) // tileObjectPosition = (row number, column number)
 	{
-		TerrainStage1* backgroundTerrain = new TerrainStage1(); auto& position = tileObject.getPosition();
-		auto& size = tileObject.getTile()->getTileSize(); auto animationId = std::to_string(tileObject.getTile()->getId());
+		TerrainStage1* backgroundTerrain = new TerrainStage1(); auto animationId = std::to_string(tileObject.getTile()->getId());
+		auto& position = tileObject.getPosition(); auto& size = tileObject.getTile()->getTileSize();
+		backgroundTerrain->SetW(size.x);
+		backgroundTerrain->SetH(size.y);
 		backgroundTerrain->SetAnimationId(animationId);
 		backgroundTerrain->SetX(position.x + size.x * 0.5f);
 		backgroundTerrain->SetY(position.y + size.y * 0.0f);
@@ -204,6 +210,7 @@ void Stage1::LoadBackgroundTerrains(void* backgroundTerrainsLayer)
 		 representativeBackgroundTerrain->LoadTextures  ();
 		 representativeBackgroundTerrain->LoadSprites   ();
 		 representativeBackgroundTerrain->LoadAnimations();
+		 for (auto& bg : backgroundTerrains) _quadTreeNodeB->Insert(bg);
 }
 
 void Stage1::LoadForegroundTerrains(void* foregroundTerrainsLayer)
@@ -219,7 +226,13 @@ void Stage1::LoadForegroundTerrains(void* foregroundTerrainsLayer)
 		foregroundTerrain->SetY(mapH - position.y - size.y * 1.0f);
 		foregroundTerrain->SetW(size.x);
 		foregroundTerrain->SetH(size.y);
+		if (object.getClassType() == "throughable")
+		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::THROUGHABLE;
+		if (object.getClassType() == "water")
+		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::WATER;
+		if (object.getClassType() == "")
+		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::_;
 		foregroundTerrains.push_back(foregroundTerrain);
-		_quadTreeContainer->Insert(foregroundTerrain);
+		//_quadTreeContainer->Insert(foregroundTerrain);
 	}
 }
