@@ -18,10 +18,12 @@
 #include <concepts>
 #include <dinput.h>
 #include <optional>
+#include <iterator>
 #include <Windows.h>
 #include <functional>
 #include <type_traits>
 #include <unordered_map>
+#include <unordered_set>
 
 #include "BillCommon.h"
 #include "BulletCommon.h"

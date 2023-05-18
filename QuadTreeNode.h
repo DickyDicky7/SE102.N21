@@ -3,8 +3,6 @@
 #include "Common.h"
 #include "Entity.h"
 #include "Camera.h"
-#include <iterator>
-#include <unordered_set>
 
 static constexpr FLOAT I_DIVISOR = 1.0f; static constexpr FLOAT S_DIVISOR = 30.0f; static constexpr FLOAT NODE_SMALLEST_W = SCREEN_WIDTH / SCALING_RATIO_X / S_DIVISOR; static constexpr FLOAT NODE_SMALLEST_H = SCREEN_HEIGHT / SCALING_RATIO_Y / S_DIVISOR;
 
