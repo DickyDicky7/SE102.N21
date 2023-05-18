@@ -7,6 +7,7 @@
 
 #include "Bill.h"
 #include "Bullet.h"
+#include "Falcon.h"
 #include "Soldier.h"
 #include "WallTurret.h"
 #include "BossStage3.h"
@@ -25,6 +26,7 @@ LPD3DXSPRITE spriteHandler;
 Bill bill;
 Soldier soldier;
 WallTurret wallTurret;
+Falcon falcon;
 BossStage3 bossStage3;
 ScubaSoldier scubaSoldier;
 AirCraft airCraft;
@@ -118,6 +120,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	quadTreeContainer.Insert(&bill);
 	quadTreeContainer.Insert(&soldier);
+	quadTreeContainer.Insert(&falcon);
 	quadTreeContainer.Insert(&wallTurret);
 	quadTreeContainer.Insert(&bossStage3);
 	quadTreeContainer.Insert(&airCraft);
@@ -140,6 +143,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		input->Capture();
 		bill.HandleInput(*input);
 		soldier.HandleInput(*input);
+		falcon.HandleInput(*input);
 		airCraft.HandleInput(*input);
 		bossStage3.HandleInput(*input);
 		scubaSoldier.HandleInput(*input);
@@ -158,6 +162,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		bill.GetBullets().remove_if([](Bullet* bullet) { return bullet == NULL; });
 
 		soldier.Update();
+		falcon.Update();
 		wallTurret.Update();
 		bossStage3.Update();
 		airCraft.Update();
@@ -249,6 +254,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			bullet->Render();
 
 		soldier.Render();
+		falcon.Render();
 		wallTurret.Render();
 		bossStage3.Render();
 		scubaSoldier.Render();
@@ -303,6 +309,11 @@ void LoadAssets()
 	soldier.LoadSprites();
 	soldier.LoadAnimations();
 	soldier.SetTarget(&bill);
+
+	falcon.LoadTextures();
+	falcon.LoadSprites();
+	falcon.LoadAnimations();
+	falcon.SetTarget(&bill);
 
 	wallTurret.LoadTextures();
 	wallTurret.LoadSprites();
