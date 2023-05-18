@@ -9,10 +9,10 @@ Stage::Stage() : bill(NULL), tileW(0.0f), tileH(0.0f), camera(NULL), entities(NU
 
 Stage::~Stage()
 {
-	//Destroy(bill); Destroy(camera); /*Destroy(_quadTreeContainer);*/ Destroy(_quadTreeNodeE); Destroy(_quadTreeNodeB);
-	//for (auto& entity : entities) Destroy(entity); entities.clear();
-	//for (auto& backgroundTerrain : backgroundTerrains) Destroy(backgroundTerrain); backgroundTerrains.clear();
-	//for (auto& foregroundTerrain : foregroundTerrains) Destroy(foregroundTerrain); foregroundTerrains.clear();
+	entities->Clean();
+	backgroundTerrains->Clean();
+	foregroundTerrains->Clean();
+	Destroy(bill), Destroy(camera); Destroy(entities); Destroy(backgroundTerrains), Destroy(foregroundTerrains);
 }
 
 void Stage::Update()

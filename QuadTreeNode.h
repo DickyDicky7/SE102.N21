@@ -19,6 +19,7 @@ struct QuadTreeNode
 	std::list<Entity*> entities;
 
 	void Clear();
+	void Clean();
 	void Insert(Entity*);
 	void Remove(Entity*);
 	BOOL Contain(Entity*);

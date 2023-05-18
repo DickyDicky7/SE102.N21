@@ -2,7 +2,14 @@
 
 void QuadTreeNode::Clear()
 {
-	for (int i = 0; i <= 3; i++) if (this->nodes[i]) this->nodes[i]->Clear(), this->nodes[i]->entities.clear(), Destroy(this->nodes[i]);
+	for (int i = 0; i <= 3; i++) if (this->nodes[i]) this->nodes[i]->Clear(), Destroy(this->nodes[i]);
+	this->entities.clear();
+}
+
+void QuadTreeNode::Clean()
+{
+	for (int i = 0; i <= 3; i++) if (this->nodes[i]) this->nodes[i]->Clear(), Destroy(this->nodes[i]);
+	for (auto& entity : entities) Destroy(entity);
 	this->entities.clear();
 }
 
