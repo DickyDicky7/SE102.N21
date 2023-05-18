@@ -1,18 +1,18 @@
 #include "Bill.h" 
 #include "Stage.h"
 #include "Camera.h"
-//#include "QuadTreeContainer.h"
+#include "QuadTreeNode.h"
 
-Stage::Stage() : bill(NULL), tileW(0.0f), tileH(0.0f), camera(NULL),/* _quadTreeContainer(NULL)*/ _quadTreeNodeE(NULL), _quadTreeNodeB(NULL)
+Stage::Stage() : bill(NULL), tileW(0.0f), tileH(0.0f), camera(NULL), entities(NULL), backgroundTerrains(NULL), foregroundTerrains(NULL)
 {
 }
 
 Stage::~Stage()
 {
-	Destroy(bill); Destroy(camera); /*Destroy(_quadTreeContainer);*/ Destroy(_quadTreeNodeE); Destroy(_quadTreeNodeB);
-	for (auto& entity : entities) Destroy(entity); entities.clear();
-	for (auto& backgroundTerrain : backgroundTerrains) Destroy(backgroundTerrain); backgroundTerrains.clear();
-	for (auto& foregroundTerrain : foregroundTerrains) Destroy(foregroundTerrain); foregroundTerrains.clear();
+	//Destroy(bill); Destroy(camera); /*Destroy(_quadTreeContainer);*/ Destroy(_quadTreeNodeE); Destroy(_quadTreeNodeB);
+	//for (auto& entity : entities) Destroy(entity); entities.clear();
+	//for (auto& backgroundTerrain : backgroundTerrains) Destroy(backgroundTerrain); backgroundTerrains.clear();
+	//for (auto& foregroundTerrain : foregroundTerrains) Destroy(foregroundTerrain); foregroundTerrains.clear();
 }
 
 void Stage::Update()
@@ -21,28 +21,28 @@ void Stage::Update()
 	//for (auto& entity : entities)
 	//if  (IsLORPointOnTheScreenByX(entity) 
 	//&&   IsTOBPointOnTheScreenByY(entity)) entity->Update();
+	std::unordered_set<Entity*> _entities;
+	entities->Retrieve(camera, _entities);
+	for (auto& _entity : _entities) _entity->Update();
 }
-#include "QuadTreeNode.h"
+
 void Stage::Render()
 {
 	//for (auto& backgroundTerrain : backgroundTerrains)
 	//if  (IsLORPointOnTheScreenByX(backgroundTerrain)
 	//&&   IsTOBPointOnTheScreenByY(backgroundTerrain)) backgroundTerrain->Render();
 
-	std::unordered_set<Entity*> ss;
-	_quadTreeNodeB->Retrieve(camera, ss);
-	for (auto& bg : ss)
-		bg->Render();
+	std::unordered_set<Entity*> _backgroundTerrains;
+	backgroundTerrains->Retrieve(camera, _backgroundTerrains);
+	for (auto& _backgroundTerrain : _backgroundTerrains) _backgroundTerrain->Render();
 
 	//for (auto& entity : entities)
 	//if  (IsLORPointOnTheScreenByX(entity)
 	//&&   IsTOBPointOnTheScreenByY(entity)) entity->Render();
 
-	std::unordered_set<Entity*> s;
-	_quadTreeNodeE->Retrieve(camera, s);
-	//_RPT1(0, "%d\n", s.size());
-	for (auto& e : s)
-		e->Render();
+	std::unordered_set<Entity*> _entities;
+	entities->Retrieve(camera, _entities);
+	for (auto& _entity : _entities) _entity->Render();
 
 	bill->Render();
 }

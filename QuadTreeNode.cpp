@@ -1,5 +1,11 @@
 #include "QuadTreeNode.h"
 
+void QuadTreeNode::Clear()
+{
+	for (int i = 0; i <= 3; i++) if (this->nodes[i]) this->nodes[i]->Clear(), this->nodes[i]->entities.clear(), Destroy(this->nodes[i]);
+	this->entities.clear();
+}
+
 void QuadTreeNode::Insert(Entity* entity)
 {
 	if (!this->Contain(entity)) return;
@@ -9,10 +15,19 @@ void QuadTreeNode::Insert(Entity* entity)
 		this->entities.push_back(entity);
 		return;
 	}
-	this->nodes[0]->Insert(entity);
-	this->nodes[1]->Insert(entity);
-	this->nodes[2]->Insert(entity);
-	this->nodes[3]->Insert(entity);
+	for (int i = 0; i <= 3; i++) if (this->nodes[i]) this->nodes[i]->Insert(entity);
+}
+
+void QuadTreeNode::Remove(Entity* entity)
+{
+	if (!this->Contain(entity)) return;
+	if ( this->w == NODE_SMALLEST_W
+	&&   this->h == NODE_SMALLEST_H)
+	{
+		this->entities.remove(entity);
+		return;
+	}
+	for (int i = 0; i <= 3; i++) if (this->nodes[i]) this->nodes[i]->Remove(entity);
 }
 
 BOOL QuadTreeNode::Contain(Entity* entity)
@@ -61,13 +76,10 @@ void QuadTreeNode::Retrieve(Entity* entity, std::unordered_set<Entity*>& resultS
 	if ( this->w == NODE_SMALLEST_W
 	&&   this->h == NODE_SMALLEST_H)
 	{
-		for (auto& e : entities) resultSet.insert(e);
+		for (auto& e : entities) if (e != entity) resultSet.insert(e);
 		return;
 	}
-	this->nodes[0]->Retrieve(entity, resultSet);
-	this->nodes[1]->Retrieve(entity, resultSet);
-	this->nodes[2]->Retrieve(entity, resultSet);
-	this->nodes[3]->Retrieve(entity, resultSet);
+	for (int i = 0; i <= 3; i++) if (this->nodes[i]) this->nodes[i]->Retrieve(entity, resultSet);
 }
 
 void QuadTreeNode::Retrieve(Camera* camera, std::unordered_set<Entity*>& resultSet)
@@ -79,10 +91,7 @@ void QuadTreeNode::Retrieve(Camera* camera, std::unordered_set<Entity*>& resultS
 		for (auto& e : entities) resultSet.insert(e);
 		return;
 	}
-	this->nodes[0]->Retrieve(camera, resultSet);
-	this->nodes[1]->Retrieve(camera, resultSet);
-	this->nodes[2]->Retrieve(camera, resultSet);
-	this->nodes[3]->Retrieve(camera, resultSet);
+	for (int i = 0; i <= 3; i++) if (this->nodes[i]) this->nodes[i]->Retrieve(camera, resultSet);
 }
 
 void QuadTreeNode::DrillDown(QuadTreeNode* node)
@@ -94,10 +103,7 @@ void QuadTreeNode::DrillDown(QuadTreeNode* node)
 	node->nodes[1] = new QuadTreeNode{ node->x + node->w / (I_DIVISOR + 1), node->y						       , node->w / (I_DIVISOR + 1) * I_DIVISOR, node->h / (I_DIVISOR + 1) * I_DIVISOR };
 	node->nodes[2] = new QuadTreeNode{ node->x + node->w / (I_DIVISOR + 1), node->y + node->h / (I_DIVISOR + 1), node->w / (I_DIVISOR + 1) * I_DIVISOR, node->h / (I_DIVISOR + 1) * I_DIVISOR };
 	node->nodes[3] = new QuadTreeNode{ node->x						      , node->y + node->h / (I_DIVISOR + 1), node->w / (I_DIVISOR + 1) * I_DIVISOR, node->h / (I_DIVISOR + 1) * I_DIVISOR };
-	DrillDown(node->nodes[0]);
-	DrillDown(node->nodes[1]);
-	DrillDown(node->nodes[2]);
-	DrillDown(node->nodes[3]);
+	for (int i = 0; i <= 3; i++) if (node->nodes[i]) DrillDown(node->nodes[i]);
 }
 
 QuadTreeNode* QuadTreeNode::New(FLOAT x, FLOAT y, FLOAT w, FLOAT h, QuadTreeNode* bottomLeftNode)
@@ -128,9 +134,7 @@ QuadTreeNode* QuadTreeNode::New(FLOAT x, FLOAT y, FLOAT w, FLOAT h, QuadTreeNode
 		newNode->y = bottomLeftNode->y;
 		newNode->w = bottomLeftNode->w / I_DIVISOR * (I_DIVISOR + 1);
 		newNode->h = bottomLeftNode->h / I_DIVISOR * (I_DIVISOR + 1);
-		DrillDown(newNode->nodes[1]);
-		DrillDown(newNode->nodes[2]);
-		DrillDown(newNode->nodes[3]);
+		for (int i = 1; i <= 3; i++) if (newNode->nodes[i]) DrillDown(newNode->nodes[i]);
 	}
 	return New(x, y, w, h, newNode);
 }

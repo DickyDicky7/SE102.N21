@@ -4,10 +4,10 @@
 #include "Soldier.h"
 #include "tileson.hpp"
 #include "WallTurret.h"
+#include "QuadTreeNode.h"
 #include "TerrainBlock.h"
 #include "TerrainStage1.h"
 #include "RifleManStanding.h"
-//#include "QuadTreeContainer.h"
 #include "RifleManHideOnBush.h"
 
 Stage1::Stage1() : Stage()
@@ -17,7 +17,7 @@ Stage1::Stage1() : Stage()
 Stage1::~Stage1()
 {
 }
-#include "QuadTreeNode.h"
+
 void Stage1::Load()
 {
 	tson::Tileson tileson; std::unique_ptr<tson::Map> map = tileson.parse(fs::path("Resources/Maps/stage1.json"));
@@ -28,15 +28,15 @@ void Stage1::Load()
 	tileW = tileSize.x;
 	tileH = tileSize.y;
 	auto& mapSize = map.get()->getSize();
-	//_quadTreeContainer  = new QuadTreeContainer(QuadTreeRect::QTRect({ { 0.0f, 0.0f }, { FLOAT(mapSize.x * tileSize.x) , FLOAT(mapSize.y * tileSize.y) } }));
-	_quadTreeNodeE = QuadTreeNode::New(0.0f, 0.0f, mapSize.x * tileSize.x, mapSize.y * tileSize.y);
-	_quadTreeNodeB = QuadTreeNode::New(0.0f, 0.0f, mapSize.x * tileSize.x, mapSize.y * tileSize.y);
+	entities            = QuadTreeNode::New(0.0f, 0.0f, mapSize.x * tileSize.x, mapSize.y * tileSize.y);
+	backgroundTerrains  = QuadTreeNode::New(0.0f, 0.0f, mapSize.x * tileSize.x, mapSize.y * tileSize.y);
+	foregroundTerrains  = QuadTreeNode::New(0.0f, 0.0f, mapSize.x * tileSize.x, mapSize.y * tileSize.y);
 	if (!  bill)   bill = new Bill();
 	if (!camera) camera = new Camera(new CameraMovingForwardState());
 	LoadBackgroundTerrains(backgroundTerrainsLayer);
 	LoadForegroundTerrains(foregroundTerrainsLayer);
 	LoadEntities(entitiesLayer);
-	//_quadTreeContainer->Insert(bill);
+	entities->Insert(bill);
 }
 
 void Stage1::LoadEntities(void* entitiesLayer)
@@ -139,9 +139,7 @@ void Stage1::LoadEntities(void* entitiesLayer)
 		entity->SetY(mapH - position.y - size.y * 1.0f);
 		entity->SetW(size.x);
 		entity->SetH(size.y);
-		entities.push_back(entity);
-		//_quadTreeContainer->Insert(entity);
-		_quadTreeNodeE->Insert(entity);
+		entities->Insert(entity);
 	}
 
 	auto representativeBill = new Bill();
@@ -182,20 +180,20 @@ void Stage1::LoadEntities(void* entitiesLayer)
 
 void Stage1::LoadBackgroundTerrains(void* backgroundTerrainsLayer)
 {
-	auto _backgroundTerrainsLayer = (tson::Layer*)backgroundTerrainsLayer;
+	auto _backgroundTerrainsLayer = (tson::Layer*)backgroundTerrainsLayer; std::list<Entity*> _backgroundTerrains;
 	for (auto& [tileObjectPosition, tileObject] : _backgroundTerrainsLayer->getTileObjects()) // tileObjectPosition = (row number, column number)
 	{
-		TerrainStage1* backgroundTerrain = new TerrainStage1(); auto animationId = std::to_string(tileObject.getTile()->getId());
+		TerrainStage1* _backgroundTerrain = new TerrainStage1(); auto animationId = std::to_string(tileObject.getTile()->getId());
 		auto& position = tileObject.getPosition(); auto& size = tileObject.getTile()->getTileSize();
-		backgroundTerrain->SetW(size.x);
-		backgroundTerrain->SetH(size.y);
-		backgroundTerrain->SetAnimationId(animationId);
-		backgroundTerrain->SetX(position.x + size.x * 0.5f);
-		backgroundTerrain->SetY(position.y + size.y * 0.0f);
-		backgroundTerrains.push_back(backgroundTerrain);
+		_backgroundTerrain->SetW(size.x);
+		_backgroundTerrain->SetH(size.y);
+		_backgroundTerrain->SetAnimationId(animationId);
+		_backgroundTerrain->SetX(position.x + size.x * 0.5f);
+		_backgroundTerrain->SetY(position.y + size.y * 0.0f);
+		_backgroundTerrains.push_back(_backgroundTerrain);
 	}
-	std::vector<Entity*> temp{ std::make_move_iterator(std::begin(backgroundTerrains)), std::make_move_iterator(std::end(backgroundTerrains)) };
-	backgroundTerrains.clear();
+	std::vector<Entity*> temp{ std::make_move_iterator(std::begin(_backgroundTerrains)), std::make_move_iterator(std::end(_backgroundTerrains)) };
+	_backgroundTerrains.clear();
 	for (int i = 0; i < temp.size() / 2; i++)
 	{
 		auto y1 = temp[                  i]->GetY();
@@ -204,13 +202,15 @@ void Stage1::LoadBackgroundTerrains(void* backgroundTerrainsLayer)
 		temp[                  i]->SetY(y1);
 		temp[temp.size() - 1 - i]->SetY(y2);
 	}
-	backgroundTerrains.assign(temp.begin(), temp.end());
-	backgroundTerrains.sort([](Entity* e1, Entity* e2) -> bool { return e1->GetX() < e2->GetX(); });
-	auto representativeBackgroundTerrain = dynamic_cast<TerrainStage1*>(backgroundTerrains.front());
+	_backgroundTerrains.assign(temp.begin(), temp.end());
+	_backgroundTerrains.sort([](Entity* e1, Entity* e2) -> bool { return e1->GetX() < e2->GetX(); });
+	auto representativeBackgroundTerrain = dynamic_cast<TerrainStage1*>(_backgroundTerrains.front());
 		 representativeBackgroundTerrain->LoadTextures  ();
 		 representativeBackgroundTerrain->LoadSprites   ();
 		 representativeBackgroundTerrain->LoadAnimations();
-		 for (auto& bg : backgroundTerrains) _quadTreeNodeB->Insert(bg);
+	for (auto& _backgroundTerrain : _backgroundTerrains)
+	 backgroundTerrains->Insert(_backgroundTerrain);
+	_backgroundTerrains.clear();
 }
 
 void Stage1::LoadForegroundTerrains(void* foregroundTerrainsLayer)
@@ -232,7 +232,6 @@ void Stage1::LoadForegroundTerrains(void* foregroundTerrainsLayer)
 		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::WATER;
 		if (object.getClassType() == "")
 		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::_;
-		foregroundTerrains.push_back(foregroundTerrain);
-		//_quadTreeContainer->Insert(foregroundTerrain);
+		foregroundTerrains->Insert(foregroundTerrain);
 	}
 }

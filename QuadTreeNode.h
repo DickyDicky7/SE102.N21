@@ -18,7 +18,9 @@ struct QuadTreeNode
 	QuadTreeNode* nodes[4];
 	std::list<Entity*> entities;
 
+	void Clear();
 	void Insert(Entity*);
+	void Remove(Entity*);
 	BOOL Contain(Entity*);
 	BOOL Contain(Camera*);
 	void Retrieve(Entity*, std::unordered_set<Entity*>&);
