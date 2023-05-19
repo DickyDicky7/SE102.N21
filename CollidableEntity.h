@@ -61,6 +61,7 @@ inline BOOL CollidableEntity::AABBCheck(Entity* targetEntity)
 inline void CollidableEntity::CollideWith(Entity* targetEntity)
 {
 	AABBSweepResult aabbSweepResult = AABBSweep(targetEntity);
+	aabbSweepResult.enTime -= 0.1f;
 	if (aabbSweepResult.isCollided)
 	{
 		surfaceEntities.push_back(targetEntity);
