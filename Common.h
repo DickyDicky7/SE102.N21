@@ -1,6 +1,6 @@
 #pragma once
 
-#define SCREEN_WIDTH 1000
+#define SCREEN_WIDTH  800
 #define SCREEN_HEIGHT 600
 #define SCALING_RATIO_X 2.5f
 #define SCALING_RATIO_Y 2.5f

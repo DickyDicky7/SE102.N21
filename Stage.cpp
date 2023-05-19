@@ -18,32 +18,42 @@ Stage::~Stage()
 void Stage::Update()
 {
 	bill->Update();
+	_entities.clear();
+	entities->Retrieve(camera, _entities);
+	for (auto& _entity : _entities) _entity->Update();
+
+	//for (auto& _entity : _entities)
+	//{
+	//	auto _hasWeaponsEntity = dynamic_cast<HasWeapons*>(_entity);
+	//	if (_hasWeaponsEntity)
+	//	{
+	//		for (auto& bullet : _hasWeaponsEntity->GetBullets())
+	//			bullet->Update();
+	//	}
+	//}
+
+	//<OlD CODE>
 	//for (auto& entity : entities)
 	//if  (IsLORPointOnTheScreenByX(entity) 
 	//&&   IsTOBPointOnTheScreenByY(entity)) entity->Update();
-	std::unordered_set<Entity*> _entities;
-	entities->Retrieve(camera, _entities);
-	for (auto& _entity : _entities) _entity->Update();
 }
 
 void Stage::Render()
 {
+	//<OlD CODE>
 	//for (auto& backgroundTerrain : backgroundTerrains)
 	//if  (IsLORPointOnTheScreenByX(backgroundTerrain)
 	//&&   IsTOBPointOnTheScreenByY(backgroundTerrain)) backgroundTerrain->Render();
 
-	std::unordered_set<Entity*> _backgroundTerrains;
-	backgroundTerrains->Retrieve(camera, _backgroundTerrains);
-	for (auto& _backgroundTerrain : _backgroundTerrains) _backgroundTerrain->Render();
-
+	//<OlD CODE>
 	//for (auto& entity : entities)
 	//if  (IsLORPointOnTheScreenByX(entity)
 	//&&   IsTOBPointOnTheScreenByY(entity)) entity->Render();
 
-	std::unordered_set<Entity*> _entities;
-	entities->Retrieve(camera, _entities);
+	_backgroundTerrains.clear();
+	backgroundTerrains->Retrieve(camera, _backgroundTerrains);
+	for (auto& _backgroundTerrain : _backgroundTerrains) _backgroundTerrain->Render();
 	for (auto& _entity : _entities) _entity->Render();
-
 	bill->Render();
 }
 
@@ -53,15 +63,10 @@ void Stage::HandleInput(Input& input)
 }
 
 void Stage::CheckResolveClearCollision()
-{	
-	//for (auto it = _quadTreeContainer->begin(); it != _quadTreeContainer->end(); it++)
-	//			   _quadTreeContainer->Relocate(it);
-
-	//std::list<Entity*> couldBeCollidedWithEntities = _quadTreeContainer->GetCollisionWithTarget(bill);
-	//for (auto& couldBeCollidedWithEntity : couldBeCollidedWithEntities)
-	//	   if (couldBeCollidedWithEntity != bill) bill->CollideWith(couldBeCollidedWithEntity);
-
-	//_RPT1(0, "%d\n", result.size());
+{
+	_foregroundTerrains.clear();
+	foregroundTerrains->Retrieve(camera, _foregroundTerrains);
+	for (auto& _foregroundTerrain : _foregroundTerrains) bill->CollideWith(_foregroundTerrain);
 }
 
 BOOL Stage::IsLORPointOnTheScreenByX(Entity* entity)

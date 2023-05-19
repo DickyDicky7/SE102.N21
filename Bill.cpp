@@ -1,4 +1,5 @@
 #include "Bill.h"
+#include "TerrainBlock.h"
 
 Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletSState())
 {
@@ -371,23 +372,23 @@ void Bill::StaticResolveNoCollision(                               )
 void Bill::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
 }
-#include "TerrainBlock.h"
+
 void Bill::DynamicResolveNoCollision(                               )
 {
 	if (isAbSurface)
 	{
-		if (surfaceEntity)
+		if (!surfaceEntities.empty())
 		{
-			if (position.x > surfaceEntity->GetX() + surfaceEntity->GetW() / 2.0f + h / 4.0f
-			||  position.x < surfaceEntity->GetX() - surfaceEntity->GetW() / 2.0f - h / 4.0f)
+			auto& surfaceEntity = surfaceEntities.back();
+			if (this->GetL() > surfaceEntity->GetR()
+			||  this->GetR() < surfaceEntity->GetL())
 			{
-				isAbSurface = 0;
-				surfaceEntity = NULL;
 				if (!dynamic_cast<BillJumpState*>(state))
 				{
+					isAbSurface = 0;
+					surfaceEntities.pop_back();
 					FLOAT currentY = position.y;
-					ChangeState(state, new BillFallState(new BillNormalState()), this);
-					position.y = currentY;
+					ChangeState(state, new BillFallState(new BillNormalState()), this); position.y = currentY;
 				}
 			}
 		}
@@ -396,48 +397,75 @@ void Bill::DynamicResolveNoCollision(                               )
 
 void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
-	if (aabbSweepResult.normalY == -1.0f)
-	{	
-		auto motionResult = Motion::CalculateUniformMotion({ position.y, vy });
-		position.y = motionResult.c;
-		vx = 0.0f;
-	}
-	if (aabbSweepResult.normalY == +1.0f)
+	auto&   surfaceEntity = surfaceEntities.back();
+	auto    terrainBlock  = dynamic_cast<TerrainBlock*>(surfaceEntity);
+	if     (terrainBlock)
+	switch (terrainBlock->type)
 	{
-		if (position.x <= surfaceEntity->GetX() + surfaceEntity->GetW() / 2.0f
-		&&  position.x >= surfaceEntity->GetX() - surfaceEntity->GetW() / 2.0f)
+
+	case TERRAIN_BLOCK_TYPE::THROUGHABLE:
+	{
+		if (aabbSweepResult.normalY == +1.0f && vy < 0.0f)
 		{
-			position.y += (aabbSweepResult.enTime - 0.1f) * vy; // Resolve position if accept there is a collision
-			vy = 0.0f;
+			//if (surfaceEntities.size() == 0) return;
+			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
-			auto terrainBlockStage1 = dynamic_cast<TerrainBlock*>(surfaceEntity);
-			if  (terrainBlockStage1 != NULL && terrainBlockStage1->type == TERRAIN_BLOCK_TYPE::WATER)
-				 ChangeState(state, new BillSwimNormalState(), this), OutputDebugString(L"water\n"); else
-				 ChangeState(state, new BillNormalState   (), this);
+			ChangeState(state, new BillNormalState(), this);
+		}
+		else
+		{
+			if (aabbSweepResult.normalY == -1.0f) position.y -= 1;
+			surfaceEntities.pop_back();
 		}
 	}
-	if (aabbSweepResult.normalX != 0.0f)
+	break;
+
+	case TERRAIN_BLOCK_TYPE::WATER:
 	{
-		position.x += aabbSweepResult.enTime * vx; // Resolve position if accept there is a collision
-		if (aabbSweepResult.normalX == -1.0f) isNeToSurfaceLe = 1;
-		if (aabbSweepResult.normalX == +1.0f) isNeToSurfaceRi = 1;
-		// Vertical sliding effect
-		//if (!isAbSurface)
-		//{
-		//	auto motionResult = Motion::CalculateUniformMotion({ position.y, vy });
-		//	position.y = motionResult.c;
-		//}
+		if (aabbSweepResult.normalY == +1.0f)
+		{
+			position.y += aabbSweepResult.enTime * vy;
+			isAbSurface = 1;
+			ChangeState(state, new BillBeginSwimState(), this);
+		}
+		else
+		{
+		}
+	}
+	break;
+
+	case TERRAIN_BLOCK_TYPE::_:
+	{
+		if (aabbSweepResult.normalY == +1.0f)
+		{
+			position.y += aabbSweepResult.enTime * vy;
+			isAbSurface = 1;
+			ChangeState(state, new BillNormalState(), this);
+		}
+		else
+		if (aabbSweepResult.normalX != +0.0f)
+		{
+			position.y = terrainBlock->GetT();
+			ChangeState(state, new BillNormalState(), this);
+			vy = -1.0f;
+		}
+		else
+		{
+		}
+	}
+	break;
+	
 	}
 
-	_RPT1
-	(
-		0, "collided: %d, contactX: %f, contactY: %f\nnormalX: %f, normalY: %f, entryTime: %f, exitTime: %f\n\n",
-		aabbSweepResult.isCollided,
-		aabbSweepResult.contactX,
-		aabbSweepResult.contactY,
-		aabbSweepResult.normalX,
-		aabbSweepResult.normalY,
-		aabbSweepResult.enTime,
-		aabbSweepResult.exTime
-	);
+	//_RPT1
+	//(
+	//	0, "collided: %d, contactX: %f, contactY: %f\nnormalX: %f, normalY: %f, entryTime: %f, exitTime: %f\n\n",
+	//	aabbSweepResult.isCollided,
+	//	aabbSweepResult.contactX,
+	//	aabbSweepResult.contactY,
+	//	aabbSweepResult.normalX,
+	//	aabbSweepResult.normalY,
+	//	aabbSweepResult.enTime,
+	//	aabbSweepResult.exTime
+	//);
 }
