@@ -15,7 +15,7 @@ class RifleManStandingNormalState;
 class RifleManStandingAimUpState;
 class RifleManStandingAimDownState;
 
-class RifleManStanding : public Entity, public Enemy<RifleManStanding, Bill>
+class RifleManStanding : public Entity, public Enemy<Bill>
 	, public HasTextures<RifleManStanding>, public HasSprites<RifleManStanding>, public HasAnimations<RifleManStanding>, public RifleMan
 {
 public:

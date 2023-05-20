@@ -1,7 +1,7 @@
 #pragma once
 #include "QuadTreeCommon.h"
 
-void print(float value)
+inline void print(float value)
 {
 	char buffer[64]; // Increase buffer size to accommodate the additional newline character
 	_snprintf_s(buffer, sizeof(buffer), _TRUNCATE, "%f\n", value); // Add "\n" to the format string

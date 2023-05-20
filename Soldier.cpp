@@ -2,8 +2,6 @@
 
 Soldier::Soldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
-	Enemy::self = this;
-
 	this->vx = 1.0f;
 	this->vy = 1.0f;
 	this->ax = 0.1f;

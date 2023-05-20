@@ -46,6 +46,7 @@
     <ClInclude Include="QuadTree.h" />
     <ClInclude Include="QuadTreeCommon.h" />
     <ClInclude Include="QuadTreeContainer.h" />
+    <ClInclude Include="QuadTreeNode.h" />
     <ClInclude Include="RifleMan.h" />
     <ClInclude Include="RifleManCommon.h" />
     <ClInclude Include="RifleManHideOnBush.h" />
@@ -54,7 +55,13 @@
     <ClInclude Include="ScubaSoldierCommon.h" />
     <ClInclude Include="Soldier.h" />
     <ClInclude Include="SoldierCommon.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="Stage1.h" />
     <ClInclude Include="State.h" />
+    <ClInclude Include="Terrain.h" />
+    <ClInclude Include="TerrainBlock.h" />
+    <ClInclude Include="TerrainStage1.h" />
+    <ClInclude Include="TerrainStage1Common.h" />
     <ClInclude Include="TestingEntity.h" />
     <ClInclude Include="WallTurret.h" />
     <ClInclude Include="TestingEntityCommon.h" />
@@ -85,6 +92,7 @@
     <ClCompile Include="FalconState.cpp" />
     <ClCompile Include="HasWeapons.cpp" />
     <ClCompile Include="Motion.cpp" />
+    <ClCompile Include="QuadTreeNode.cpp" />
     <ClCompile Include="RifleManHideOnBushState.cpp" />
     <ClCompile Include="RifleManStanding.cpp" />
     <ClCompile Include="RifleManStandingAimDownState.cpp" />
@@ -154,7 +162,12 @@
     <ClCompile Include="SoldierShootState.cpp" />
     <ClCompile Include="SoldierState.cpp" />
     <ClCompile Include="RifleManHideOnBushStandingState.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="Stage1.cpp" />
     <ClCompile Include="State.cpp" />
+    <ClCompile Include="Terrain.cpp" />
+    <ClCompile Include="TerrainBlock.cpp" />
+    <ClCompile Include="TerrainStage1.cpp" />
     <ClCompile Include="TestingEntity.cpp" />
     <ClCompile Include="WallTurret.cpp" />
     <ClCompile Include="WallTurretLeft120State.cpp" />

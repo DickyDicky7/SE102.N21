@@ -142,6 +142,24 @@
     <Filter Include="Source Files\Objects\Bullet\BulletState">
       <UniqueIdentifier>{f806374c-df9b-43ab-a4fb-c422977c9d32}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Terrains">
+      <UniqueIdentifier>{389e08b1-559c-4cc8-92b6-3571b44afeaf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Terrains">
+      <UniqueIdentifier>{1ed65607-bc21-423b-9672-47c7696926ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Terrains\TerrainStage1">
+      <UniqueIdentifier>{f75b83ce-3b35-490c-af31-e6aa11f17e10}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Terrains\TerrainStage1">
+      <UniqueIdentifier>{725dc5a4-e0f7-49a6-97fe-28b075db5403}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Terrains\TerrainBlock">
+      <UniqueIdentifier>{4561b63d-f3dc-4d82-99f7-e2c316052469}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Terrains\TerrainBlock">
+      <UniqueIdentifier>{5d9a2e4e-4850-4821-8582-0610e1f9150a}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Source Files\Objects\Enemies\AirCraft">
       <UniqueIdentifier>{01d5c4bb-5c0c-476b-84c0-cbf112009c3d}</UniqueIdentifier>
     </Filter>
@@ -265,6 +283,27 @@
       <Filter>Header Files\Objects\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="HasWeapons.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainStage1.h">
+      <Filter>Header Files\Objects\Terrains\TerrainStage1</Filter>
+    </ClInclude>
+    <ClInclude Include="Terrain.h">
+      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainStage1Common.h">
+      <Filter>Header Files\Objects\Terrains\TerrainStage1</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainBlock.h">
+      <Filter>Header Files\Objects\Terrains\TerrainBlock</Filter>
+    </ClInclude>
+    <ClInclude Include="QuadTreeNode.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="AirCraft.h">
@@ -631,6 +670,24 @@
     </ClCompile>
     <ClCompile Include="BillSwimRunShotState.cpp">
       <Filter>Source Files\Objects\Bill\BillState</Filter>
+    </ClCompile>
+    <ClCompile Include="Terrain.cpp">
+      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainStage1.cpp">
+      <Filter>Source Files\Objects\Terrains\TerrainStage1</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainBlock.cpp">
+      <Filter>Source Files\Objects\Terrains\TerrainBlock</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTreeNode.cpp">
+      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="AirCraft.cpp">
       <Filter>Source Files\Objects\Enemies\AirCraft</Filter>

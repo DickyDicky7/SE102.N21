@@ -15,7 +15,7 @@ class BossStage3CloseState;
 class BossStage3MiddleState;
 
 
-class BossStage3 : public Entity, public Enemy<BossStage3, Bill>
+class BossStage3 : public Entity, public Enemy<Bill>
 				 , public HasTextures<BossStage3>, public HasSprites<BossStage3>, public HasAnimations<BossStage3>
 {
 public:

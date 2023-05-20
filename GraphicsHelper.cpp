@@ -161,10 +161,10 @@ void GraphicsHelper::DrawSprite(SPRITE sprite, D3DXVECTOR3 position, DIRECTION m
 		if (!vertexBuffer)
 		{
 			device->CreateVertexBuffer(10 * sizeof(VERTEX), 0, D3DFVF_XYZ | D3DFVF_DIFFUSE, D3DPOOL_MANAGED, &vertexBuffer, NULL);
-			device->SetRenderState(D3DRS_LIGHTING, FALSE);
-			device->SetRenderState(D3DRS_COLORVERTEX, TRUE);
+			device->SetRenderState(D3DRS_LIGHTING   , FALSE);
+			device->SetRenderState(D3DRS_COLORVERTEX, TRUE );
 
-			device->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS, TRUE);
+			device->SetRenderState(D3DRS_MULTISAMPLEANTIALIAS , TRUE);
 			device->SetRenderState(D3DRS_ANTIALIASEDLINEENABLE, TRUE);
 		}
 
@@ -189,7 +189,7 @@ void GraphicsHelper::DrawSprite(SPRITE sprite, D3DXVECTOR3 position, DIRECTION m
 
 
 
-	spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_OBJECTSPACE);
+	//spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_OBJECTSPACE);
 	spriteHandler->SetTransform(&transformMatrix);
 	spriteHandler->Draw
 	(
@@ -197,7 +197,7 @@ void GraphicsHelper::DrawSprite(SPRITE sprite, D3DXVECTOR3 position, DIRECTION m
 		rect, &drawingCenter, &position, D3DCOLOR_XRGB(255, 255, 255)
 	);
 	spriteHandler->SetTransform(NULL);
-	spriteHandler->End();
+	//spriteHandler->End();
 
 	//device->EndScene();
 	//device->Present(NULL, NULL, NULL, NULL);
