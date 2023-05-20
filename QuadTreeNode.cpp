@@ -24,21 +24,35 @@ void QuadTreeNode::Insert(Entity* entity)
 			return;
 		}
 
-		if (!this->nodes[0]) this->nodes[0] = new QuadTreeNode{ this->x                 , this->y                 , this->w * 0.5f, this->h * 0.5f };
-		if (!this->nodes[1]) this->nodes[1] = new QuadTreeNode{ this->x + this->w * 0.5f, this->y                 , this->w * 0.5f, this->h * 0.5f };
-		if (!this->nodes[2]) this->nodes[2] = new QuadTreeNode{ this->x + this->w * 0.5f, this->y + this->h * 0.5f, this->w * 0.5f, this->h * 0.5f };
-		if (!this->nodes[3]) this->nodes[3] = new QuadTreeNode{ this->x                 , this->y + this->h * 0.5f, this->w * 0.5f, this->h * 0.5f };
+		this->entities.push_back(entity);
 
-		for (int i = 0; i <= 3; i++)
+		if (this->entities.size() > MAX)
 		{
-			if (this->nodes[i]->Contain(entity))
+			if (!this->nodes[0]) this->nodes[0] = new QuadTreeNode{ this->x                 , this->y                 , this->w * 0.5f, this->h * 0.5f };
+			if (!this->nodes[1]) this->nodes[1] = new QuadTreeNode{ this->x + this->w * 0.5f, this->y                 , this->w * 0.5f, this->h * 0.5f };
+			if (!this->nodes[2]) this->nodes[2] = new QuadTreeNode{ this->x + this->w * 0.5f, this->y + this->h * 0.5f, this->w * 0.5f, this->h * 0.5f };
+			if (!this->nodes[3]) this->nodes[3] = new QuadTreeNode{ this->x                 , this->y + this->h * 0.5f, this->w * 0.5f, this->h * 0.5f };
+
+			std::list<Entity*> movedEntities;
+
+			for (auto& _entity : entities)
 			{
-				this->nodes[i]->Insert(entity);
-				return;
+				for (int i = 0; i <= 3; i++)
+				{
+					if (this->nodes[i]->Contain(_entity))
+					{
+						movedEntities.push_back(_entity);
+						this->nodes[i]->Insert (_entity);
+						break;
+					}
+				}
+			}
+
+			for (auto& movedEntity : movedEntities)
+			{
+				this->entities.remove(movedEntity);
 			}
 		}
-
-		this->entities.push_back(entity);
 	}
 }
 
@@ -145,7 +159,6 @@ void QuadTreeNode::Retrieve(BoundingBox boundingBox, std::unordered_map<Entity*,
 				return;
 			}
 		}
-
 
 		for (int i = 0; i <= 3; i++)
 		{

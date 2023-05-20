@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "Camera.h"
 
+static constexpr INT   MAX    = 20;
 static constexpr FLOAT TILE_C = 08.0f;
 static constexpr FLOAT TILE_R = 08.0f;
 static constexpr FLOAT TILE_W = 16.0f;
