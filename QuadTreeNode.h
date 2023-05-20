@@ -47,9 +47,9 @@ struct QuadTreeNode
 	BOOL Intersect(Camera*);
 	BOOL Intersect(BoundingBox);
 
-	void Retrieve(Entity*, FLOAT, FLOAT, std::list<Entity*>&);
-	void Retrieve(Camera*              , std::list<Entity*>&);
-	void Retrieve(BoundingBox          , std::list<Entity*>&);
+	void Retrieve(Entity*, FLOAT, FLOAT, std::unordered_map<Entity*, QuadTreeNode*>&);
+	void Retrieve(Camera*              , std::unordered_map<Entity*, QuadTreeNode*>&);
+	void Retrieve(BoundingBox          , std::unordered_map<Entity*, QuadTreeNode*>&);
 
 	FLOAT GetB() const;
 	FLOAT GetT() const;

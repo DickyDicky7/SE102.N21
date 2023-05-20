@@ -1,8 +1,10 @@
 #pragma once
 
 #include "Common.h"
+#include "Entity.h"
+#include "QuadTreeNode.h"
 
-class Bill; class Input; class Entity; class Camera; class QuadTreeNode;
+class Bill; class Input; class Camera;
 
 class Stage
 {
@@ -32,9 +34,9 @@ protected:
 	QuadTreeNode* entities;
 	QuadTreeNode* backgroundTerrains;
 	QuadTreeNode* foregroundTerrains;
-	std::list<Entity*> _entities;
-	std::list<Entity*> _backgroundTerrains;
-	std::list<Entity*> _foregroundTerrains;
+	std::unordered_map<Entity*, QuadTreeNode*> _entities;
+	std::unordered_map<Entity*, QuadTreeNode*> _backgroundTerrains;
+	std::unordered_map<Entity*, QuadTreeNode*> _foregroundTerrains;
 
 	virtual void LoadEntities(void*) = 0;
 	virtual void LoadBackgroundTerrains(void*) = 0;

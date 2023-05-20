@@ -1,7 +1,6 @@
 #include "Bill.h" 
 #include "Stage.h"
 #include "Camera.h"
-#include "QuadTreeNode.h"
 
 Stage::Stage() : bill(NULL), tileW(0.0f), tileH(0.0f), camera(NULL), entities(NULL), backgroundTerrains(NULL), foregroundTerrains(NULL)
 {
@@ -20,15 +19,15 @@ void Stage::Update()
 	bill->Update();
 	_entities.clear(); 
 	entities->Retrieve(camera, _entities);
-	for (auto& _entity : _entities) _entity->Update();
+	for (auto& [_entity, _node] : _entities) _entity->Update();
 }
 
 void Stage::Render()
 {
 	_backgroundTerrains.clear();
 	backgroundTerrains->Retrieve(camera, _backgroundTerrains);
-	for (auto& _backgroundTerrain : _backgroundTerrains) _backgroundTerrain->Render();
-	for (auto& _entity : _entities) _entity->Render();
+	for (auto& [_backgroundTerrain, _node] : _backgroundTerrains) _backgroundTerrain->Render();
+	for (auto& [_entity, _node] : _entities) _entity->Render();
 	bill->Render();
 }
 
@@ -42,7 +41,7 @@ void Stage::CheckResolveClearCollision()
 	_foregroundTerrains.clear();
 	foregroundTerrains->Retrieve(bill, tileW * 2, tileH * 2, _foregroundTerrains);
 	_RPT1(0, "%d\n", _foregroundTerrains.size());
-	for (auto& _foregroundTerrain : _foregroundTerrains) bill->CollideWith(_foregroundTerrain);
+	for (auto& [_foregroundTerrain, _node] : _foregroundTerrains) bill->CollideWith(_foregroundTerrain);
 }
 
 void  Stage::SetBill(Bill* bill) {		  this->bill = bill; bill = NULL; }
