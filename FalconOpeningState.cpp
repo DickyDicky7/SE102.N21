@@ -2,7 +2,7 @@
 
 FalconOpeningState::FalconOpeningState(FALCON_ANIMATION_ID nextState) : FalconState()
 {
-	delayTime = 50;
+	delayTime = 30;
 	this->nextState = nextState;
 }
 

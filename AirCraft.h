@@ -18,12 +18,12 @@ class AirCraftRAmmoState;
 class AirCraftSAmmoState;
 class AirCraftInvulState;
 
-class AirCraft : public Entity, public Enemy<AirCraft, Bill>
+class AirCraft : public Entity, public Enemy<Bill>
 	, public HasTextures<AirCraft>, public HasSprites<AirCraft>, public HasAnimations<AirCraft>
 {
 public:
 
-	AirCraft();
+	AirCraft(AMMO_TYPE);
 	virtual ~AirCraft();
 	void Update() override;
 	void Render() override;
@@ -32,11 +32,15 @@ public:
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
+
+	AMMO_TYPE getAmmoType();
+	void setAmmoType(AMMO_TYPE);
 protected:
 
 	AirCraftState* state;
 	AirCraftState* updateState;
 	AirCraftState* handleInputState;
+	AMMO_TYPE _ammoType;
 };
 
 // build state of aircraft

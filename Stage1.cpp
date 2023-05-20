@@ -2,6 +2,8 @@
 #include "Stage1.h"
 #include "Camera.h"
 #include "Soldier.h"
+#include "AirCraft.h"
+#include "Falcon.h"
 #include "tileson.hpp"
 #include "WallTurret.h"
 #include "QuadTreeNode.h"
@@ -97,27 +99,37 @@ void Stage1::LoadEntities(void* entitiesLayer)
 		else
 		if (object.getName() == "staticweaponm")
 		{
-
+			entity = new Falcon(AMMO_TYPE::M);
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
 		if (object.getName() == "staticweaponf")
 		{
-
+			entity = new Falcon(AMMO_TYPE::F);
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
 		if (object.getName() == "staticweapons")
 		{
-
+			entity = new Falcon(AMMO_TYPE::S);
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
 		if (object.getName() == "capsuleweaponr")
 		{
-
+			entity = new AirCraft(AMMO_TYPE::R);
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
 		if (object.getName() == "capsuleweaponl")
 		{
-
+			entity = new AirCraft(AMMO_TYPE::L);
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		if (object.getName() == "capsuleweapons")
+		{
+			entity = new AirCraft(AMMO_TYPE::S);
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
 		if (object.getName() == "respawnposition")
@@ -145,6 +157,8 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	auto representativeBill = new Bill();
 	auto representativeBullet = new Bullet();
 	auto representativeSoldier = new Soldier();
+	auto representativeAircraft = new AirCraft(AMMO_TYPE::I);
+	auto representativeFalcon = new Falcon(AMMO_TYPE::I);
 	auto representativeWallTurret = new WallTurret();
 	auto representativeRifleManStanding = new RifleManStanding();
 	auto representativeRifleManHideOnBush = new RifleManHideOnBush();
@@ -152,6 +166,8 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	representativeBill->LoadTextures();
 	representativeBullet->LoadTextures();
 	representativeSoldier->LoadTextures();
+	representativeAircraft->LoadTextures();
+	representativeFalcon->LoadTextures();
 	representativeWallTurret->LoadTextures();
 	representativeRifleManStanding->LoadTextures();
 	representativeRifleManHideOnBush->LoadTextures();
@@ -159,6 +175,8 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	representativeBill->LoadSprites();
 	representativeBullet->LoadSprites();
 	representativeSoldier->LoadSprites();
+	representativeAircraft->LoadSprites();
+	representativeFalcon->LoadSprites();
 	representativeWallTurret->LoadSprites();
 	representativeRifleManStanding->LoadSprites();
 	representativeRifleManHideOnBush->LoadSprites();
@@ -166,6 +184,8 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	representativeBill->LoadAnimations();
 	representativeBullet->LoadAnimations();
 	representativeSoldier->LoadAnimations();
+	representativeAircraft->LoadAnimations();
+	representativeFalcon->LoadAnimations();
 	representativeWallTurret->LoadAnimations();
 	representativeRifleManStanding->LoadAnimations();
 	representativeRifleManHideOnBush->LoadAnimations();
@@ -173,6 +193,8 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	Destroy(representativeBill);
 	Destroy(representativeBullet);
 	Destroy(representativeSoldier);
+	Destroy(representativeAircraft);
+	Destroy(representativeFalcon);
 	Destroy(representativeWallTurret);
 	Destroy(representativeRifleManStanding);
 	Destroy(representativeRifleManHideOnBush);

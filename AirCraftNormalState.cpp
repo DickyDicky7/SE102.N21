@@ -35,10 +35,8 @@ AirCraftState* AirCraftNormalState::Update(AirCraft& aircraft)
 	time = poo.t;
 
 	x += vx;
-	if (x >= 500.0f || x <= 0.0f) vx = -vx;
 	
 	aircraft.SetX(x);
-	aircraft.SetVX(vx);
 	aircraft.SetY(poo.c);
 
 	return NULL;
@@ -47,34 +45,37 @@ AirCraftState* AirCraftNormalState::Update(AirCraft& aircraft)
 AirCraftState* AirCraftNormalState::HandleInput(AirCraft& aircraft, Input& input)
 {
 	//invul, b, f, l, m, r, s
-	if (input.IsKey(DIK_1))
-	{
-		return new AirCraftInvulState();
-	} 
-	else if (input.IsKey(DIK_2))
-	{
-		return new AirCraftBAmmoState();
+	if (input.IsKey(DIK_1)) {
+		if (aircraft.getAmmoType() == AMMO_TYPE::I)
+		{
+			return new AirCraftInvulState();
+		}
+		else if (aircraft.getAmmoType() == AMMO_TYPE::B)
+		{
+			return new AirCraftBAmmoState();
+		}
+		else if (aircraft.getAmmoType() == AMMO_TYPE::F)
+		{
+			return new AirCraftFAmmoState();
+		}
+		else if (aircraft.getAmmoType() == AMMO_TYPE::L)
+		{
+			return new AirCraftLAmmoState();
+		}
+		else if (aircraft.getAmmoType() == AMMO_TYPE::M)
+		{
+			return new AirCraftMAmmoState();
+		}
+		else if (aircraft.getAmmoType() == AMMO_TYPE::R)
+		{
+			return new AirCraftRAmmoState();
+		}
+		else if (aircraft.getAmmoType() == AMMO_TYPE::S)
+		{
+			return new AirCraftSAmmoState();
+		}
 	}
-	else if (input.IsKey(DIK_3))
-	{
-		return new AirCraftFAmmoState();
-	}
-	else if (input.IsKey(DIK_4))
-	{
-		return new AirCraftLAmmoState();
-	}
-	else if (input.IsKey(DIK_5))
-	{
-		return new AirCraftMAmmoState();
-	}
-	else if (input.IsKey(DIK_6))
-	{
-		return new AirCraftRAmmoState();
-	}
-	else if (input.IsKey(DIK_7))
-	{
-		return new AirCraftSAmmoState();
-	}
+	
 	
 	return NULL;
 }

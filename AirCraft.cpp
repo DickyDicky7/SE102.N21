@@ -1,8 +1,7 @@
 #include "AirCraft.h"
 
-AirCraft::AirCraft() : Entity(), HasTextures(), HasSprites(), HasAnimations()
+AirCraft::AirCraft(AMMO_TYPE type) : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
-	Enemy::self = this;
 
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -18,10 +17,22 @@ AirCraft::AirCraft() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 	this->movingDirection = DIRECTION::RIGHT;
 	// set state begin is run
 	this->state = new AirCraftNormalState();
+
+	this->_ammoType = type;
 }
 
 AirCraft::~AirCraft()
 {
+}
+
+void AirCraft::setAmmoType(AMMO_TYPE type) 
+{
+	this->_ammoType = type;
+}
+
+AMMO_TYPE AirCraft::getAmmoType() 
+{
+	return this->_ammoType;
 }
 
 void AirCraft::Update()

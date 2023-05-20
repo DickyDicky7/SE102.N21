@@ -16,11 +16,11 @@ class FalconOpeningState;
 class FalconOpenState;
 
 
-class Falcon : public Entity, public Enemy<Falcon, Bill>
+class Falcon : public Entity, public Enemy<Bill>
 	, public HasTextures<Falcon>, public HasSprites<Falcon>, public HasAnimations<Falcon>
 {
 public:
-	Falcon();
+	Falcon(AMMO_TYPE);
 	virtual ~Falcon();
 	void Update() override;
 	void Render() override;
@@ -42,11 +42,14 @@ public:
 		return currentState;
 	}
 
+	AMMO_TYPE getAmmoType();
+	void setAmmoType(AMMO_TYPE);
 protected:
 	FalconState* state;
 	FalconState* updateState;
 	FalconState* handleInputState;
 
+	AMMO_TYPE _ammoType;
 	FLOAT billDistance;
 	FALCON_ANIMATION_ID currentState;
 };
