@@ -1,7 +1,7 @@
 #include "Falcon.h"
 // O: open
 // P: close
-#define	DISTANCE_DETECT 100.0f
+#define	DISTANCE_DETECT 150.0f
 Falcon::Falcon() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 	Enemy::self = this;

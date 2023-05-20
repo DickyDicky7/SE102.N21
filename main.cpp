@@ -186,6 +186,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//		bill.SetX(bill.GetX() + rx.enTime * bill.GetVX());
 		//}
 		bill.CollideWith(&soldier);
+		bill.CollideWith(&falcon);
 		bill.CollideWith(&bossStage3);
 		bill.CollideWith(&wallTurret);
 		//_RPT1(0, "entryTime: %f, exitTime: %f, normalX: %f, normalY: %f\ncollided: %d\n\n", ry.enTime, ry.exTime, ry.normalX, ry.normalY, ry.isCollided);
