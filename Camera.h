@@ -42,6 +42,11 @@ public:
 		OutputDebugString(L"Camera");
 	}
 
+	FLOAT GetB() const override;
+	FLOAT GetT() const override;
+	FLOAT GetL() const override;
+	FLOAT GetR() const override;
+
 protected:
 
 	static FLOAT scalingRatioX;

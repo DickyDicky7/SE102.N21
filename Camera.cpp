@@ -101,3 +101,23 @@ const D3DMATRIX& Camera::GetViewMatrix() const
 {
 	return viewMatrix;
 }
+
+FLOAT Camera::GetB() const
+{
+	return position.y - SCREEN_HEIGHT / SCALING_RATIO_Y * 0.5f;
+}
+
+FLOAT Camera::GetT() const
+{
+	return position.y + SCREEN_HEIGHT / SCALING_RATIO_Y * 0.5f;
+}
+
+FLOAT Camera::GetL() const
+{
+	return position.x - SCREEN_WIDTH / SCALING_RATIO_X * 0.5f;
+}
+
+FLOAT Camera::GetR() const
+{
+	return position.x + SCREEN_WIDTH / SCALING_RATIO_X * 0.5f;
+}

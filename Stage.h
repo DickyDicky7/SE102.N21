@@ -32,15 +32,12 @@ protected:
 	QuadTreeNode* entities;
 	QuadTreeNode* backgroundTerrains;
 	QuadTreeNode* foregroundTerrains;
-	std::unordered_set<Entity*> _entities;
-	std::unordered_set<Entity*> _backgroundTerrains;
-	std::unordered_set<Entity*> _foregroundTerrains;
+	std::list<Entity*> _entities;
+	std::list<Entity*> _backgroundTerrains;
+	std::list<Entity*> _foregroundTerrains;
 
 	virtual void LoadEntities(void*) = 0;
 	virtual void LoadBackgroundTerrains(void*) = 0;
 	virtual void LoadForegroundTerrains(void*) = 0;
-
-	virtual BOOL IsLORPointOnTheScreenByX(Entity*);
-	virtual BOOL IsTOBPointOnTheScreenByY(Entity*);
 
 };
