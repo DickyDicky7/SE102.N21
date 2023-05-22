@@ -53,11 +53,14 @@
     <ClInclude Include="SoldierCommon.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Stage1.h" />
+    <ClInclude Include="Stage2.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TerrainBlock.h" />
     <ClInclude Include="TerrainStage1.h" />
     <ClInclude Include="TerrainStage1Common.h" />
+    <ClInclude Include="TerrainStage2.h" />
+    <ClInclude Include="TerrainStage2Common.h" />
     <ClInclude Include="TestingEntity.h" />
     <ClInclude Include="WallTurret.h" />
     <ClInclude Include="TestingEntityCommon.h" />
@@ -145,10 +148,12 @@
     <ClCompile Include="RifleManHideOnBushStandingState.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Stage1.cpp" />
+    <ClCompile Include="Stage2.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="TerrainBlock.cpp" />
     <ClCompile Include="TerrainStage1.cpp" />
+    <ClCompile Include="TerrainStage2.cpp" />
     <ClCompile Include="TestingEntity.cpp" />
     <ClCompile Include="WallTurret.cpp" />
     <ClCompile Include="WallTurretLeft120State.cpp" />

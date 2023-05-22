@@ -6,7 +6,7 @@
 #include "CollidableEntity.h"
 
 
-enum class TERRAIN_BLOCK_TYPE { _, WATER, THROUGHABLE, };
+enum class TERRAIN_BLOCK_TYPE { WATER, THROUGHABLE, NON_THROUGHABLE, };
 
 
 class TerrainBlock : public Entity, public CollidableEntity

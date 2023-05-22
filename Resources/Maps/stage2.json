@@ -143,7 +143,7 @@
             100, 101, 100, 101, 100, 101, 100, 101, 100, 101, 100, 101, 100, 101, 100, 101],
          "height":138,
          "id":1,
-         "name":"BackGroundLayer",
+         "name":"BackgroundLayer",
          "opacity":1,
          "type":"tilelayer",
          "visible":true,
@@ -639,8 +639,8 @@
                  "type":"\"\"",
                  "visible":true,
                  "width":15,
-                 "x":129.167,
-                 "y":2143.33
+                 "x":65.5003333333334,
+                 "y":2096.99666666667
                 }, 
                 {
                  "height":39,
@@ -673,14 +673,14 @@
         {
          "draworder":"topdown",
          "id":3,
-         "name":"CollisionRect",
+         "name":"ForegroundLayer",
          "objects":[
                 {
                  "height":8.66667,
                  "id":89,
                  "name":"",
                  "rotation":0,
-                 "type":"nonthroughable",
+                 "type":"non_throughable",
                  "visible":true,
                  "width":254.667,
                  "x":0.150723,

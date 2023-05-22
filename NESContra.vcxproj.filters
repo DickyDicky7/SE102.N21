@@ -160,6 +160,12 @@
     <Filter Include="Source Files\Objects\Terrains\TerrainBlock">
       <UniqueIdentifier>{5d9a2e4e-4850-4821-8582-0610e1f9150a}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Objects\Terrains\TerrainStage2">
+      <UniqueIdentifier>{c762061f-3e6e-431d-93c4-14133af6b1d3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Terrains\TerrainStage2">
+      <UniqueIdentifier>{bb97508d-7b36-46d7-b11a-1c5c30a099a0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -287,6 +293,15 @@
     </ClInclude>
     <ClInclude Include="QuadTreeNode.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainStage2.h">
+      <Filter>Header Files\Objects\Terrains\TerrainStage2</Filter>
+    </ClInclude>
+    <ClInclude Include="TerrainStage2Common.h">
+      <Filter>Header Files\Objects\Terrains\TerrainStage2</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -658,6 +673,12 @@
     </ClCompile>
     <ClCompile Include="QuadTreeNode.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="TerrainStage2.cpp">
+      <Filter>Source Files\Objects\Terrains\TerrainStage2</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
