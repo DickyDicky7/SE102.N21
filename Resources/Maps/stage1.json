@@ -518,15 +518,15 @@
          "name":"ObjectLayer",
          "objects":[
                 {
-                 "height":30.083,
+                 "height":2,
                  "id":37,
                  "name":"bridge",
                  "rotation":0,
                  "type":"object",
                  "visible":true,
-                 "width":130,
-                 "x":767.67,
-                 "y":115.92
+                 "width":128,
+                 "x":768,
+                 "y":120
                 }, 
                 {
                  "height":32,
@@ -540,15 +540,15 @@
                  "y":88.0909090909091
                 }, 
                 {
-                 "height":28.5833,
+                 "height":2,
                  "id":42,
                  "name":"bridge",
                  "rotation":0,
                  "type":"object",
                  "visible":true,
-                 "width":130,
-                 "x":1057,
-                 "y":115.71
+                 "width":128,
+                 "x":1056,
+                 "y":120
                 }, 
                 {
                  "height":32,
@@ -580,8 +580,8 @@
                  "type":"enemy",
                  "visible":true,
                  "width":16.333,
-                 "x":828.67,
-                 "y":83.67
+                 "x":828.488181818182,
+                 "y":87.1245454545455
                 }, 
                 {
                  "height":33,
@@ -888,8 +888,8 @@
                  "type":"enemy",
                  "visible":true,
                  "width":23.5,
-                 "x":851.5,
-                 "y":81.5
+                 "x":852.045454545455,
+                 "y":86.9545454545455
                 }, 
                 {
                  "height":33,
@@ -899,8 +899,8 @@
                  "type":"enemy",
                  "visible":true,
                  "width":16.333,
-                 "x":805.33,
-                 "y":83
+                 "x":804.420909090909,
+                 "y":87
                 }, 
                 {
                  "height":33,
@@ -1009,8 +1009,8 @@
                  "type":"\"\"",
                  "visible":true,
                  "width":18,
-                 "x":49,
-                 "y":69
+                 "x":41,
+                 "y":15.6666666666667
                 }, 
                 {
                  "height":39,
