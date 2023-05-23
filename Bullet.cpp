@@ -1,10 +1,11 @@
 #include "Bullet.h"
 
-Bullet::Bullet(                  ) : Entity(), HasTextures(), HasSprites(), HasAnimations()
+Bullet::Bullet(                  ) : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity()
 {
 	this->state = NULL;
 	this->updateState = NULL;
 	this->handleInputState = NULL;
+	CollidableEntity::self = (Entity*)this;
 }
 
 Bullet::Bullet(BulletState* state) : Bullet()

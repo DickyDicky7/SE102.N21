@@ -102,6 +102,15 @@ const D3DMATRIX& Camera::GetViewMatrix() const
 	return viewMatrix;
 }
 
+BOOL Camera::CouldSee(Entity* entity)
+{
+	return !(entity->GetB() >= this->GetT()
+		||   entity->GetT() <= this->GetB()
+		||   entity->GetL() >= this->GetR()
+		||   entity->GetR() <= this->GetL())
+		;
+}
+
 FLOAT Camera::GetB() const
 {
 	return position.y - SCREEN_HEIGHT / SCALING_RATIO_Y * 0.5f;

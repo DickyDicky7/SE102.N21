@@ -55,9 +55,15 @@ void HasWeapons::Fire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT a
 
 			for (auto& spreadDegree : BulletSState::spreadDegrees)
 			{
-				Bullet* spreadBullet = new Bullet(*bullet);
+				Bullet* spreadBullet = new Bullet();
+				spreadBullet->SetMovingDirection(movingDirection);
+				spreadBullet->SetAngle(angle);
+				spreadBullet->SetX(x);
+				spreadBullet->SetY(y);
 				spreadBullet->SetVX(vx * std::cos(D3DXToRadian(spreadDegree)) - vy * std::sin(D3DXToRadian(spreadDegree)));
 				spreadBullet->SetVY(vx * std::sin(D3DXToRadian(spreadDegree)) + vy * std::cos(D3DXToRadian(spreadDegree)));
+				spreadBullet->SetAX(ax);
+				spreadBullet->SetAY(ay);
 				spreadBullet->SetState(new BulletSState()); bullets.push_back(spreadBullet);
 			}
 		}
@@ -96,3 +102,5 @@ std::list<Bullet*>& HasWeapons::GetBullets()
 {
 	return bullets;
 }
+
+std::list<Bullet*> HasWeapons::bullets;
