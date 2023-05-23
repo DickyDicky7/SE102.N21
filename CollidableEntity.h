@@ -13,6 +13,8 @@ struct AABBSweepResult
 	FLOAT normalY  = +std::numeric_limits<FLOAT>::infinity();
 	FLOAT contactX = +std::numeric_limits<FLOAT>::infinity();
 	FLOAT contactY = +std::numeric_limits<FLOAT>::infinity();
+
+	Entity* surfaceEntity = NULL;
 };
 
 class CollidableEntity
@@ -40,7 +42,7 @@ public:
 protected:
 
 	Entity* self;
-	std::list<Entity*> surfaceEntities;
+	Entity* surfaceEntity;
 
 	BOOL isAbSurface;
 	BOOL isBeSurface;
@@ -64,7 +66,6 @@ inline void CollidableEntity::CollideWith(Entity* targetEntity)
 	aabbSweepResult.enTime -= 0.1f;
 	if (aabbSweepResult.isCollided)
 	{
-		surfaceEntities.push_back(targetEntity);
 		DynamicResolveOnCollision(aabbSweepResult);
 		auto collidingEntity = dynamic_cast<CollidableEntity*>(targetEntity);
 		if  (collidingEntity) collidingEntity->StaticResolveOnCollision(aabbSweepResult);
@@ -148,6 +149,8 @@ inline AABBSweepResult CollidableEntity::AABBSweepX(Entity* targetEntity)
 	=  self->GetT () / 2.0f;
 	aabbSweepResult.isCollided
 	=  1;
+	aabbSweepResult.surfaceEntity
+	=  targetEntity;
 
 	return aabbSweepResult;
 }
@@ -193,6 +196,8 @@ inline AABBSweepResult CollidableEntity::AABBSweepY(Entity* targetEntity)
 	= (self->GetVY() > 0.0f ? self->GetT() : self->GetB()) + aabbSweepResult.normalY * self->GetVY() * aabbSweepResult.enTime;
 	aabbSweepResult.isCollided
 	=  1;
+	aabbSweepResult.surfaceEntity
+	=  targetEntity;
 
 	return aabbSweepResult;
 }

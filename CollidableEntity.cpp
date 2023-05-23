@@ -1,6 +1,6 @@
 #include "CollidableEntity.h"
 
-CollidableEntity::CollidableEntity() : self(NULL)
+CollidableEntity:: CollidableEntity() : self(NULL), surfaceEntity(NULL)
 {
 	isAbSurface = 0;
 	isBeSurface = 0;
