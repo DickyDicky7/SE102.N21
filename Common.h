@@ -1,6 +1,6 @@
 #pragma once
 
-#define SCREEN_WIDTH 800
+#define SCREEN_WIDTH 640
 #define SCREEN_HEIGHT 600
 #define SCALING_RATIO_X 2.5f
 #define SCALING_RATIO_Y 2.5f
@@ -10,6 +10,7 @@
 #include <tuple>
 #include <queue>
 #include <vector>
+#include <string>
 #include <string>
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -32,6 +33,8 @@
 #include "WallTurretCommon.h"
 #include "BossStage3Common.h"
 #include "ScubaSoldierCommon.h"
+#include "TerrainStage1Common.h"
+#include "TerrainStage2Common.h"
 #include "TerrainStage1Common.h"
 #include "AirCraftCommon.h"
 #include "FalconCommon.h"
@@ -61,7 +64,8 @@ using SPRITE_ID = std::variant<
 	SCUBA_SOLDIER_SPRITE_ID,
 	AIRCRAFT_SPRITE_ID,
 	FALCON_SPRITE_ID,
-	TERRAIN_STAGE_1_SPRITE_ID>;
+	TERRAIN_STAGE_1_SPRITE_ID,
+	TERRAIN_STAGE_2_SPRITE_ID>;
 
 using TEXTURE_ID = std::variant<
 	BILL_TEXTURE_ID,
@@ -73,7 +77,8 @@ using TEXTURE_ID = std::variant<
 	SCUBA_SOLDIER_TEXTURE_ID,
 	AIRCRAFT_TEXTURE_ID,
 	FALCON_TEXTURE_ID,
-	TERRAIN_STAGE_1_TEXTURE_ID>;
+	TERRAIN_STAGE_1_TEXTURE_ID,
+	TERRAIN_STAGE_2_TEXTURE_ID>;
 
 using ANIMATION_ID = std::variant<
 	BILL_ANIMATION_ID,
@@ -85,7 +90,8 @@ using ANIMATION_ID = std::variant<
 	SCUBA_SOLDIER_ANIMATION_ID,
 	AIRCRAFT_ANIMATION_ID,
 	FALCON_ANIMATION_ID,
-	TERRAIN_STAGE_1_ANIMATION_ID>;
+	TERRAIN_STAGE_1_ANIMATION_ID,
+	TERRAIN_STAGE_2_ANIMATION_ID>;
 
 using TIME = DWORD;
 using DEFAULT_TIME = DWORD;

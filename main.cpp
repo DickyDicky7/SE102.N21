@@ -1,13 +1,16 @@
-﻿#include "Bill.h"
+#include <chrono>
+#include "Bill.h"
 #include "Input.h"
 #include "Motion.h"
 #include "Camera.h"
 #include "Common.h"
 #include "Stage1.h"
-#include "tileson.hpp"
+#include "Stage2.h"
 #include "TerrainStage1.h"
+#include "TerrainStage2.h"
 
 Bill *bill;
+Stage *stage;
 Input *input;
 Camera *camera;
 LPDIRECT3D9 d3d;
@@ -47,12 +50,14 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	tson::Tileson tile;
 	std::unique_ptr<tson::Map> map = tile.parse(fs::path("Resources/Maps/stage1.json"));
-	tson::Tileset &tileset = map.get()->getTilesets()[0];
-	TerrainStage1::SetTileset(&tileset);
-	Stage1 stage1;
-	stage1.Load();
-	bill = stage1.GetBill();
-	camera = stage1.GetCamera();
+	tson::Layer *tileLayer = map.get()->getLayer("BackGroundLayer");
+	if (tileLayer->getType() == tson::LayerType::TileLayer)
+	{
+		for (auto &[pos, obj] : tileLayer->getTileObjects())
+		{
+			_RPT1(0, "%f, %f\n", obj.getPosition().x, obj.getPosition().y);
+		}
+	}
 
 	//
 	FLOAT x = 050.0f;
@@ -86,6 +91,9 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	MSG msg;
 	while (TRUE)
 	{
+		// auto start = std::chrono::high_resolution_clock().now();
+		// std::ios_base::sync_with_stdio(false);
+
 		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -96,34 +104,31 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			break;
 
 		input->Capture();
-		stage1.HandleInput(*input);
 
-		// for (auto it = bill.GetBullets().begin(); it != bill.GetBullets().end(); it++)
-		//{
-		//	(*it)->Update();
-		//	if ((*it)->GetX() > 200.0f)
-		//	{
-		//		Destroy((*it));
-		//		//bill.GetBullets().erase(it);
-		//	}
-		// }
-		// bill.GetBullets().remove_if([](Bullet* bullet) { return bullet == NULL; });
+		if (input->IsKey(DIK_ESCAPE))
+		{
+			if (dynamic_cast<Stage1 *>(stage))
+			{
+				Destroy(stage);
+				stage = new Stage2();
+				stage->Load<TerrainStage2, CameraMovingUpwardState>();
+				bill = stage->GetBill();
+				camera = stage->GetCamera();
+			}
+			else
+			{
+				Destroy(stage);
+				stage = new Stage1();
+				stage->Load<TerrainStage1, CameraMovingForwardState>();
+				bill = stage->GetBill();
+				camera = stage->GetCamera();
+			}
+		}
 
-		stage1.Update();
-		stage1.CheckResolveClearCollision();
+		stage->HandleInput(*input);
+		stage->Update();
+		stage->CheckResolveClearCollision();
 
-		// bill.CollideWith(&soldier);
-		// bill.CollideWith(&bossStage3);
-		// bill.CollideWith(&wallTurret);s1.Update();
-
-		// if (bill.GetY() <= 0)
-		//{
-		//	camera->Capture
-		//	(
-		//		bill.GetX(), bill.GetY(),
-		//		bill.GetVX(), bill.GetVY()
-		//	);
-		// }
 		camera->HandleInput(*input);
 		camera->Capture(bill->GetX(), bill->GetY());
 
@@ -131,6 +136,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(220, 208, 255), 1.0f, 0);
 		d3ddev->BeginScene();
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_OBJECTSPACE);
+
+		stage->Render();
 
 		stage1.Render();
 		//
@@ -175,21 +182,16 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//	quadTreeContainer.Relocate(it);
 		// }
 
-		// std::list<Entity*> result = quadTreeContainer.GetCollisionWithTarget(&bill);
-
-		// for (auto it = result.begin(); it != result.end(); it++)
-		//{
-		//	if (*it != &bill)
-		//	{
-		//		(*it)->LogName();
-		//	}
-		// }
-
 		spriteHandler->End();
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
 
-		// result.clear();
+		// auto end = std::chrono::high_resolution_clock().now();
+		// double time_taken = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+		// time_taken *= 1e-9;
+		// wchar_t mes[100];
+		// swprintf(mes, 100, L"%f sec\n", time_taken);
+		// OutputDebugString(mes);
 	}
 
 	CleanD3D();

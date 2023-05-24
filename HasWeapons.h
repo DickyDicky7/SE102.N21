@@ -19,14 +19,15 @@ public:
 	virtual void SetFiringRate(ULONGLONG);
 	virtual ULONGLONG GetFiringTime() const;
 	virtual ULONGLONG GetFiringRate() const;
-	virtual std::list<Bullet*>& GetBullets();
+	static std::list<Bullet*>& GetBullets();
 	virtual BulletState*& GetBulletState(); template <class T> requires std::derived_from<T, BulletState> void SetBulletState(T*);
 
 protected:
 
 	ULONGLONG firingTime;
 	ULONGLONG firingRate;
-	BulletState* bulletState; std::list<Bullet*> bullets;
+	BulletState* bulletState;
+	static std::list<Bullet*> bullets;
 
 };
 
