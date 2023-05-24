@@ -56,9 +56,20 @@ void QuadTreeNode::Insert(Entity* entity)
 	}
 }
 
-
-void QuadTreeNode::Remove(Entity* entity)
+void QuadTreeNode::Remove(Entity* entity) // THIS METHOD IS STILL UNDER EXPERIMENTS
 {
+	if (this->Contain(entity))
+	{
+		if (this->entities.remove(entity) > 0) return;
+		for (int i = 0; i <= 3; i++)
+		{
+			if (this->nodes[i] && this->nodes[i]->Contain(entity))
+			{
+				this->nodes[i]->Remove(entity);
+				return;
+			}
+		}
+	}
 }
 
 
@@ -238,10 +249,25 @@ QuadTreeNode* QuadTreeNode::New(FLOAT x, FLOAT y, FLOAT w, FLOAT h)
 	while (newNode->w < w 
 	||     newNode->h < h) 
 	{
-		   newNode->w *= 2;
-		   newNode->h *= 2;
+		   newNode->w *= 2.0f;
+		   newNode->h *= 2.0f;
 	}
 	return newNode;
+}
+
+BOOL QuadTreeNode::Update(QuadTreeNode* root, const std::unordered_map<Entity*, QuadTreeNode*>& result)
+{
+	BOOL hasChanged = 0;
+	for (auto& [entity, node] : result)
+	{
+		if (!node->Contain(entity))
+		{
+			 node->entities.remove(entity);
+			 root->Insert(entity);
+			 hasChanged = 1;
+		}
+	}
+	return hasChanged;
 }
 
 

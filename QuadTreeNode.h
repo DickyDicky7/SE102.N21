@@ -58,6 +58,7 @@ struct QuadTreeNode
 	FLOAT GetR() const;
 	BOOL IsSmallestNode() const;
 	static QuadTreeNode* New(FLOAT, FLOAT, FLOAT, FLOAT);
+	static BOOL Update(QuadTreeNode*, const std::unordered_map<Entity*, QuadTreeNode*>&);
 
 };
 
