@@ -55,6 +55,8 @@
     <ClInclude Include="RifleManStanding.h" />
     <ClInclude Include="RockFall.h" />
     <ClInclude Include="RockFallCommon.h" />
+    <ClInclude Include="RockFly.h" />
+    <ClInclude Include="RockFlyCommon.h" />
     <ClInclude Include="ScubaSoldier.h" />
     <ClInclude Include="ScubaSoldierCommon.h" />
     <ClInclude Include="Soldier.h" />
@@ -162,6 +164,7 @@
     <ClCompile Include="RockFallFallState.cpp" />
     <ClCompile Include="RockFallNormalState.cpp" />
     <ClCompile Include="RockFallState.cpp" />
+    <ClCompile Include="RockFly.cpp" />
     <ClCompile Include="ScubaSoldier.cpp" />
     <ClCompile Include="ScubaSoldierHiddenState.cpp" />
     <ClCompile Include="ScubaSoldierShootingState.cpp" />

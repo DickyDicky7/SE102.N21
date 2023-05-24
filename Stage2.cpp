@@ -11,6 +11,7 @@
 #include "Falcon.h"
 #include "ScubaSoldier.h"
 #include "RockFall.h"
+#include "RockFly.h"
 
 Stage2:: Stage2() : Stage()
 {
@@ -88,16 +89,24 @@ void Stage2::LoadEntities(void* entitiesLayer)
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
-		if (object.getName() == "gunboss1")
+		if (object.getName() == "dynamicbridge1")
 		{
-
+			entity = new RockFly(80, 176);
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else 
-		if (object.getName() == "finalboss1")
+		else
+		if (object.getName() == "dynamicbridge2")
 		{
-
+			entity = new RockFly(64, 144);
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else 
+		else
+		if (object.getName() == "dynamicbridge3")
+		{
+			entity = new RockFly(80, 224);
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else
 		if (object.getName() == "gunrotating3")
 		{
 			entity = new WallTurret();
@@ -191,6 +200,13 @@ void Stage2::LoadEntities(void* entitiesLayer)
 	representativeRockFall->LoadSprites();
 	representativeRockFall->LoadAnimations();
 	Destroy(representativeRockFall);
+
+	// rockflay
+	auto representativeRockFLy = new RockFly(0,0);
+	representativeRockFLy->LoadTextures();
+	representativeRockFLy->LoadSprites();
+	representativeRockFLy->LoadAnimations();
+	Destroy(representativeRockFLy);
 
 	auto representativeBill = new Bill();
 	auto representativeBullet = new Bullet();

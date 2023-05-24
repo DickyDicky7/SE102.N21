@@ -192,7 +192,7 @@
                 {
                  "height":12,
                  "id":48,
-                 "name":"dynamicbridge",
+                 "name":"dynamicbridge2",
                  "rotation":0,
                  "type":"object",
                  "visible":true,
@@ -203,7 +203,7 @@
                 {
                  "height":12,
                  "id":49,
-                 "name":"dynamicbridge",
+                 "name":"dynamicbridge1",
                  "rotation":0,
                  "type":"object",
                  "visible":true,
@@ -214,7 +214,7 @@
                 {
                  "height":12,
                  "id":50,
-                 "name":"dynamicbridge",
+                 "name":"dynamicbridge3",
                  "rotation":0,
                  "type":"object",
                  "visible":true,
