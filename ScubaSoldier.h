@@ -26,11 +26,16 @@ public:
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
+
+	void CalculateBillAngle();
+
 protected:
 
 	ScubaSoldierState* state;
 	ScubaSoldierState* updateState;
 	ScubaSoldierState* handleInputState;
+
+	float billAngle;
 };
 
 // build state of soldier

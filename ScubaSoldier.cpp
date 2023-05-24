@@ -1,7 +1,6 @@
 #include "ScubaSoldier.h"
 
-// Pess H button to show or hidden scuba soldier
-
+#define PI D3DX_PI
 ScubaSoldier::ScubaSoldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 	this->vx = 1.0f;
@@ -18,6 +17,8 @@ ScubaSoldier::ScubaSoldier() : Entity(), HasTextures(), HasSprites(), HasAnimati
 	this->movingDirection = DIRECTION::RIGHT;
 	// set state begin is run
 	this->state = new ScubaSoldierHiddenState();
+
+	this->billAngle = -90;
 }
 
 ScubaSoldier::~ScubaSoldier()
@@ -26,7 +27,28 @@ ScubaSoldier::~ScubaSoldier()
 
 void ScubaSoldier::Update()
 {
+	CalculateBillAngle();
+	if (billAngle >= 110 || billAngle < -110)
+	{
+		this->state = new ScubaSoldierShootingState();
+	}
+
 	updateState = state->Update(*this);
+}
+
+void ScubaSoldier::CalculateBillAngle()
+{
+	float dx = +(this->GetPosition().x - Enemy::target->GetPosition().x);
+	float dy = -(this->GetPosition().y - Enemy::target->GetPosition().y);
+
+	if (dx > 0 && dy < 0)
+		billAngle = -atan(dx / (abs(dy))) * 180 / PI;
+	else if (dx < 0 && dy < 0)
+		billAngle = atan(abs(dx) / abs(dy)) * 180 / PI;
+	else if (dx > 0 && dy > 0)
+		billAngle = atan(dx / dy) * 180 / PI - 180;
+	else if (dx < 0 && dy > 0)
+		billAngle = -atan(abs(dx) / dy) * 180 / PI + 180;
 }
 
 void ScubaSoldier::Render()
