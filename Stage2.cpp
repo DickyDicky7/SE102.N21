@@ -79,19 +79,19 @@ void Stage2::LoadEntities(void* entitiesLayer)
 		else
 		if (object.getName() == "soldiershotr")
 		{
-			entity = new Soldier();
+			entity = new Soldier(AMMO_TYPE::R);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
 		if (object.getName() == "soldiershotl")
 		{
-			entity = new Soldier();
+			entity = new Soldier(AMMO_TYPE::L);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
 		if (object.getName() == "soldiershotr")
 		{
-			entity = new Soldier();
+			entity = new Soldier(AMMO_TYPE::R);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
@@ -268,7 +268,7 @@ void Stage2::LoadEntities(void* entitiesLayer)
 	Destroy(representativeBullet);
 
 	// Soldier
-	auto representativeSoldier = new Soldier();
+	auto representativeSoldier = new Soldier(AMMO_TYPE::I);
 	representativeSoldier->LoadTextures();
 	representativeSoldier->LoadSprites();
 	representativeSoldier->LoadAnimations();

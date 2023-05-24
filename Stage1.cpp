@@ -64,7 +64,7 @@ void Stage1::LoadEntities(void* entitiesLayer)
 		else
 		if (object.getName() == "soldierl")
 		{
-			entity = new Soldier();
+			entity = new Soldier(AMMO_TYPE::L);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
@@ -140,7 +140,7 @@ void Stage1::LoadEntities(void* entitiesLayer)
 
 	auto representativeBill = new Bill();
 	auto representativeBullet = new Bullet();
-	auto representativeSoldier = new Soldier();
+	auto representativeSoldier = new Soldier(AMMO_TYPE::I);
 	auto representativeWallTurret = new WallTurret();
 	auto representativeRifleManStanding = new RifleManStanding();
 	auto representativeRifleManHideOnBush = new RifleManHideOnBush();

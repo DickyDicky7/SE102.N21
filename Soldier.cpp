@@ -1,6 +1,6 @@
 #include "Soldier.h"
 
-Soldier::Soldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
+Soldier::Soldier(AMMO_TYPE type) : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -16,6 +16,19 @@ Soldier::Soldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 	this->movingDirection = DIRECTION::RIGHT;
 	// set state begin is run
 	this->state = new SoldierRunState();
+
+	this->_ammoType = type;
+}
+
+
+void Soldier::setAmmoType(AMMO_TYPE type)
+{
+	this->_ammoType = type;
+}
+
+AMMO_TYPE Soldier::getAmmoType()
+{
+	return this->_ammoType;
 }
 
 /// <summary>
