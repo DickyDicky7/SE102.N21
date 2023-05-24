@@ -52,10 +52,10 @@ public:
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
-	void  Fire                    (               ) override;
-	void  StaticResolveNoCollision(               ) override;
+	void  Fire() override;
+	void  StaticResolveNoCollision() override;
 	void  StaticResolveOnCollision(AABBSweepResult) override;
-	void DynamicResolveNoCollision(               ) override;
+	void DynamicResolveNoCollision() override;
 	void DynamicResolveOnCollision(AABBSweepResult) override;
 
 protected:
@@ -114,7 +114,7 @@ public:
 
 	BillFallState();
 	BillFallState(BillState*);
-	virtual ~BillFallState( );
+	virtual ~BillFallState();
 
 	virtual void Exit(Bill&) override;
 	virtual void Enter(Bill&) override;
@@ -479,53 +479,3 @@ public:
 	virtual BillState* HandleInput(Bill&, Input&) override;
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

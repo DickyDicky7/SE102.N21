@@ -1,7 +1,7 @@
 #include "Falcon.h"
 // O: open
 // P: close
-#define	DISTANCE_DETECT 150.0f
+#define	DISTANCE_DETECT 130.0f
 Falcon::Falcon(AMMO_TYPE type) : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 	this->vx = 1.0f;

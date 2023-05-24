@@ -55,6 +55,9 @@
     <ClInclude Include="ScubaSoldierCommon.h" />
     <ClInclude Include="Soldier.h" />
     <ClInclude Include="SoldierCommon.h" />
+    <ClInclude Include="Stage.h" />
+    <ClInclude Include="Stage1.h" />
+    <ClInclude Include="Stage2.h" />
     <ClInclude Include="State.h" />
     <ClInclude Include="Terrain.h" />
     <ClInclude Include="TerrainBlock.h" />
@@ -162,6 +165,9 @@
     <ClCompile Include="SoldierShootState.cpp" />
     <ClCompile Include="SoldierState.cpp" />
     <ClCompile Include="RifleManHideOnBushStandingState.cpp" />
+    <ClCompile Include="Stage.cpp" />
+    <ClCompile Include="Stage1.cpp" />
+    <ClCompile Include="Stage2.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Terrain.cpp" />
     <ClCompile Include="TerrainBlock.cpp" />

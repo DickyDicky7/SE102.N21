@@ -30,6 +30,11 @@ AirCraftState* AirCraftNormalState::Update(AirCraft& aircraft)
 	FLOAT vx = aircraft.GetVX();
 	FLOAT vy = aircraft.GetVY();
 
+	// gan vị trí lúc đầu
+	if (y0 == NULL) {
+		y0 = y;
+	}
+
 	Motion::OscillatoryMotionInputParameters pio{ y0, time, dt, T, A, φ };
 	auto poo = Motion::CalculateOscillatoryMotion(pio);
 	time = poo.t;

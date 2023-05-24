@@ -1,10 +1,9 @@
 #include "Bill.h"
 #include "TerrainBlock.h"
-#include "TerrainBlock.h"
 
 Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletSState())
 {
-	CollidableEntity::self = (Entity *)this;
+	CollidableEntity::self = (Entity*)this;
 
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -49,50 +48,43 @@ void Bill::Render()
 
 	if (updateState)
 	{
-		// state->Exit(*this);
-		// delete state;
-		// state = updateState;
-		// state->Enter(*this);
+		//state->Exit(*this);
+		//delete state;
+		//state = updateState;
+		//state->Enter(*this);
 		ChangeState(state, updateState, this);
 		updateState = NULL;
 	}
 	if (handleInputState)
 	{
-		// state->Exit(*this);
-		// delete state;
-		// state = handleInputState;
-		// state->Enter(*this);
+		//state->Exit(*this);
+		//delete state;
+		//state = handleInputState;
+		//state->Enter(*this);
 		ChangeState(state, handleInputState, this);
 		handleInputState = NULL;
 	}
 }
 int i = 1;
-void Bill::HandleInput(Input &input)
+void Bill::HandleInput(Input& input)
 {
 	handleInputState = state->HandleInput(*this, input);
 
 	if (input.IsKey(DIK_RSHIFT))
 	{
-		if (i == 1)
-			SetBulletState(new BulletRState);
-		if (i == 2)
-			SetBulletState(new BulletFState);
-		if (i == 3)
-			SetBulletState(new BulletLState);
-		if (i == 4)
-			SetBulletState(new BulletMState);
-		if (i == 5)
-			SetBulletState(new BulletSState);
+		if (i == 1) SetBulletState(new BulletRState);
+		if (i == 2) SetBulletState(new BulletFState);
+		if (i == 3) SetBulletState(new BulletLState);
+		if (i == 4) SetBulletState(new BulletMState);
+		if (i == 5) SetBulletState(new BulletSState);
 		i++;
-		if (i == 6)
-			i = 1;
+		if (i == 6) i = 1;
 	}
 }
 
 void Bill::LoadSprites()
 {
-	if (HasSprites<Bill>::hasBeenLoaded.value)
-		return;
+	if (HasSprites<Bill>::hasBeenLoaded.value) return;
 	HasSprites<Bill>::hasBeenLoaded.value = true;
 
 #pragma region Load Sprites
@@ -172,8 +164,7 @@ void Bill::LoadSprites()
 
 void Bill::LoadTextures()
 {
-	if (HasTextures<Bill>::hasBeenLoaded.value)
-		return;
+	if (HasTextures<Bill>::hasBeenLoaded.value) return;
 	HasTextures<Bill>::hasBeenLoaded.value = true;
 
 	GraphicsHelper::InsertTexure(BILL_TEXTURE_ID::BILL_01, L"Resources\\Textures\\BillAndLance.bmp");
@@ -183,139 +174,138 @@ void Bill::LoadTextures()
 
 void Bill::LoadAnimations()
 {
-	if (HasAnimations<Bill>::hasBeenLoaded.value)
-		return;
+	if (HasAnimations<Bill>::hasBeenLoaded.value) return;
 	HasAnimations<Bill>::hasBeenLoaded.value = true;
 
 #pragma region Load Animations
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::RUN, 100,
-									{
-										{BILL_SPRITE_ID::RUN_01, 0},
-										{BILL_SPRITE_ID::RUN_02, 0},
-										{BILL_SPRITE_ID::RUN_03, 0},
-										{BILL_SPRITE_ID::RUN_04, 0},
-										{BILL_SPRITE_ID::RUN_05, 0},
-										{BILL_SPRITE_ID::RUN_06, 0},
-									});
+		{
+			{BILL_SPRITE_ID::RUN_01,0},
+			{BILL_SPRITE_ID::RUN_02,0},
+			{BILL_SPRITE_ID::RUN_03,0},
+			{BILL_SPRITE_ID::RUN_04,0},
+			{BILL_SPRITE_ID::RUN_05,0},
+			{BILL_SPRITE_ID::RUN_06,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::JUMP, 60,
-									{
-										{BILL_SPRITE_ID::JUMP_01, 0},
-										{BILL_SPRITE_ID::JUMP_02, 0},
-										{BILL_SPRITE_ID::JUMP_03, 0},
-										{BILL_SPRITE_ID::JUMP_04, 0},
-									});
+		{
+			{BILL_SPRITE_ID::JUMP_01,0},
+			{BILL_SPRITE_ID::JUMP_02,0},
+			{BILL_SPRITE_ID::JUMP_03,0},
+			{BILL_SPRITE_ID::JUMP_04,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::DEAD, 100,
-									{
-										{BILL_SPRITE_ID::DEAD_01, 0},
-										{BILL_SPRITE_ID::DEAD_02, 0},
-										{BILL_SPRITE_ID::DEAD_03, 0},
-										{BILL_SPRITE_ID::DEAD_04, 0},
-									});
+		{
+			{BILL_SPRITE_ID::DEAD_01,0},
+			{BILL_SPRITE_ID::DEAD_02,0},
+			{BILL_SPRITE_ID::DEAD_03,0},
+			{BILL_SPRITE_ID::DEAD_04,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::DIVE, 100,
-									{
-										{BILL_SPRITE_ID::DIVE_01, 0},
-										{BILL_SPRITE_ID::DIVE_02, 0},
-									});
+		{
+			{BILL_SPRITE_ID::DIVE_01,0},
+			{BILL_SPRITE_ID::DIVE_02,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::FALL, 100,
-									{
-										{BILL_SPRITE_ID::FALL_01, 0},
-									});
+		{
+			{BILL_SPRITE_ID::FALL_01,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::BEGIN, 100,
-									{
-										{BILL_SPRITE_ID::BEGIN_01, 0},
-										{BILL_SPRITE_ID::BEGIN_02, 0},
-										{BILL_SPRITE_ID::BEGIN_03, 0},
-										{BILL_SPRITE_ID::BEGIN_04, 0},
-									});
+		{
+			{BILL_SPRITE_ID::BEGIN_01,0},
+			{BILL_SPRITE_ID::BEGIN_02,0},
+			{BILL_SPRITE_ID::BEGIN_03,0},
+			{BILL_SPRITE_ID::BEGIN_04,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::NORMAL, 100,
-									{
-										{BILL_SPRITE_ID::NORMAL_01, 0},
-									});
+		{
+			{BILL_SPRITE_ID::NORMAL_01,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::LAYDOWN, 100,
-									{
-										{BILL_SPRITE_ID::LAYDOWN_01, 0},
-									});
+		{
+			{BILL_SPRITE_ID::LAYDOWN_01,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SWIM_RUN, 100,
-									{
-										{BILL_SPRITE_ID::SWIM_RUN_01, 0},
-										{BILL_SPRITE_ID::SWIM_RUN_02, 0},
-									});
+		{
+			{BILL_SPRITE_ID::SWIM_RUN_01,0},
+			{BILL_SPRITE_ID::SWIM_RUN_02,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::RUN_SHOT, 100,
-									{
-										{BILL_SPRITE_ID::RUN_SHOT_01, 0},
-										{BILL_SPRITE_ID::RUN_SHOT_02, 0},
-										{BILL_SPRITE_ID::RUN_SHOT_03, 0},
-									});
+		{
+			{BILL_SPRITE_ID::RUN_SHOT_01,0},
+			{BILL_SPRITE_ID::RUN_SHOT_02,0},
+			{BILL_SPRITE_ID::RUN_SHOT_03,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SWIM_SHOT, 100,
-									{
-										{BILL_SPRITE_ID::SWIM_SHOT_01, 0},
-										{BILL_SPRITE_ID::SWIM_SHOT_02, 0},
-									});
+		{
+			{BILL_SPRITE_ID::SWIM_SHOT_01,0},
+			{BILL_SPRITE_ID::SWIM_SHOT_02,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::BEGIN_SWIM, 100,
-									{
-										{BILL_SPRITE_ID::BEGIN_SWIM_01, 0},
-									});
+		{
+			{BILL_SPRITE_ID::BEGIN_SWIM_01,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SWIM_NORMAL, 100,
-									{
-										{BILL_SPRITE_ID::SWIM_NORMAL_01, 0},
-										{BILL_SPRITE_ID::SWIM_NORMAL_02, 0},
-									});
+		{
+			{BILL_SPRITE_ID::SWIM_NORMAL_01,0},
+			{BILL_SPRITE_ID::SWIM_NORMAL_02,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::NORMAL_SHOT, 100,
-									{
-										{BILL_SPRITE_ID::NORMAL_SHOT_01, 0},
-										{BILL_SPRITE_ID::NORMAL_SHOT_02, 0},
-									});
+		{
+			{BILL_SPRITE_ID::NORMAL_SHOT_01,0},
+			{BILL_SPRITE_ID::NORMAL_SHOT_02,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::STRAIGHT_UP, 100,
-									{
-										{BILL_SPRITE_ID::STRAIGHT_UP_01, 0},
-									});
+		{
+			{BILL_SPRITE_ID::STRAIGHT_UP_01,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SHOT_STRAIGHT_UP, 100,
-									{
-										{BILL_SPRITE_ID::SHOT_STRAIGHT_UP_01, 0},
-										{BILL_SPRITE_ID::SHOT_STRAIGHT_UP_02, 0},
-									});
+		{
+			{BILL_SPRITE_ID::SHOT_STRAIGHT_UP_01,0},
+			{BILL_SPRITE_ID::SHOT_STRAIGHT_UP_02,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::RUN_SHOT_ANGLE_UP, 100,
-									{
-										{BILL_SPRITE_ID::RUN_SHOT_ANGLE_UP_01, 0},
-										{BILL_SPRITE_ID::RUN_SHOT_ANGLE_UP_02, 0},
-										{BILL_SPRITE_ID::RUN_SHOT_ANGLE_UP_03, 0},
-									});
+		{
+			{BILL_SPRITE_ID::RUN_SHOT_ANGLE_UP_01,0},
+			{BILL_SPRITE_ID::RUN_SHOT_ANGLE_UP_02,0},
+			{BILL_SPRITE_ID::RUN_SHOT_ANGLE_UP_03,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SWIM_SHOT_ANGLE_UP, 100,
-									{
-										{BILL_SPRITE_ID::SWIM_SHOT_ANGLE_UP_01, 0},
-										{BILL_SPRITE_ID::SWIM_SHOT_ANGLE_UP_02, 0},
-									});
+		{
+			{BILL_SPRITE_ID::SWIM_SHOT_ANGLE_UP_01,0},
+			{BILL_SPRITE_ID::SWIM_SHOT_ANGLE_UP_02,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::RUN_SHOT_ANGLE_DOWN, 100,
-									{
-										{BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_01, 0},
-										{BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_02, 0},
-										{BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_03, 0},
-									});
+		{
+			{BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_01,0},
+			{BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_02,0},
+			{BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_03,0},
+		});
 
 	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SWIM_SHOT_STRAIGHT_UP, 100,
-									{
-										{BILL_SPRITE_ID::SWIM_SHOT_STRAIGHT_UP_01, 0},
-										{BILL_SPRITE_ID::SWIM_SHOT_STRAIGHT_UP_02, 0},
-									});
+		{
+			{BILL_SPRITE_ID::SWIM_SHOT_STRAIGHT_UP_01,0},
+			{BILL_SPRITE_ID::SWIM_SHOT_STRAIGHT_UP_02,0},
+		});
 
 #pragma endregion Load Animations
 
@@ -324,55 +314,61 @@ void Bill::LoadAnimations()
 
 void Bill::Fire()
 {
-	if (dynamic_cast<BillJumpState *>(state))
+	if (dynamic_cast<BillJumpState*>(state))
 	{
 		if (movingDirection == DIRECTION::RIGHT)
 			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.5f, 0.0f, +3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
 		else
 			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.5f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
 	}
-	if (dynamic_cast<BillLayDownState *>(state))
-	{
-		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.4f, 0.0f, +3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+	else
+		if (dynamic_cast<BillLayDownState*>(state))
+		{
+			if (movingDirection == DIRECTION::RIGHT)
+				HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.4f, 0.0f, +3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+			else
+				HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.4f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+		}
 		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.4f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
-	}
-	if (dynamic_cast<BillRunShotAngleDownState *>(state))
-	{
-		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.4f, 0.0f, +3.0f, -2.0f, 0.0f, 0.0f, movingDirection);
-		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.4f, 0.0f, -3.0f, -2.0f, 0.0f, 0.0f, movingDirection);
-	}
-	if (dynamic_cast<BillNormalShotState *>(state) || dynamic_cast<BillRunShotState *>(state))
-	{
-		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.6f, 0.0f, +3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
-		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.6f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
-	}
-	if (dynamic_cast<BillShotStraightUpState *>(state) || dynamic_cast<BillSwimShotStraightUpState *>(state))
-	{
-		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f * 0.6f, position.y + h, 0.0f, 0.0f, +3.0f, 0.0f, 0.0f, movingDirection);
-		else
-			HasWeapons::Fire(position.x - w / 2.0f * 0.6f, position.y + h, 0.0f, 0.0f, +3.0f, 0.0f, 0.0f, movingDirection);
-	}
-	if (dynamic_cast<BillRunShotAngleUpState *>(state) || dynamic_cast<BillSwimShotAngleUpState *>(state))
-	{
-		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.9f, 0.0f, +3.0f, +2.0f, 0.0f, 0.0f, movingDirection);
-		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.9f, 0.0f, -3.0f, +2.0f, 0.0f, 0.0f, movingDirection);
-	}
-	if (dynamic_cast<BillSwimNormalShotState *>(state) || dynamic_cast<BillSwimRunShotState *>(state))
-	{
-		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.2f, 0.0f, +3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
-		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.2f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
-	}
+			if (dynamic_cast<BillRunShotAngleDownState*>(state))
+			{
+				if (movingDirection == DIRECTION::RIGHT)
+					HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.4f, 0.0f, +3.0f, -2.0f, 0.0f, 0.0f, movingDirection);
+				else
+					HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.4f, 0.0f, -3.0f, -2.0f, 0.0f, 0.0f, movingDirection);
+			}
+			else
+				if (dynamic_cast<BillNormalShotState*>(state) || dynamic_cast<BillRunShotState*>(state))
+				{
+					if (movingDirection == DIRECTION::RIGHT)
+						HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.6f, 0.0f, +3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+					else
+						HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.6f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+				}
+				else
+					if (dynamic_cast<BillShotStraightUpState*>(state) || dynamic_cast<BillSwimShotStraightUpState*>(state))
+					{
+						if (movingDirection == DIRECTION::RIGHT)
+							HasWeapons::Fire(position.x + w / 2.0f * 0.6f, position.y + h, 0.0f, 0.0f, +3.0f, 0.0f, 0.0f, movingDirection);
+						else
+							HasWeapons::Fire(position.x - w / 2.0f * 0.6f, position.y + h, 0.0f, 0.0f, +3.0f, 0.0f, 0.0f, movingDirection);
+					}
+					else
+						if (dynamic_cast<BillRunShotAngleUpState*>(state) || dynamic_cast<BillSwimShotAngleUpState*>(state))
+						{
+							if (movingDirection == DIRECTION::RIGHT)
+								HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.9f, 0.0f, +3.0f, +2.0f, 0.0f, 0.0f, movingDirection);
+							else
+								HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.9f, 0.0f, -3.0f, +2.0f, 0.0f, 0.0f, movingDirection);
+						}
+						else
+							if (dynamic_cast<BillSwimNormalShotState*>(state) || dynamic_cast<BillSwimRunShotState*>(state))
+							{
+								if (movingDirection == DIRECTION::RIGHT)
+									HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.2f, 0.0f, +3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+								else
+									HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.2f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+							}
 }
 
 void Bill::StaticResolveNoCollision()
@@ -387,15 +383,15 @@ void Bill::DynamicResolveNoCollision()
 {
 	if (isAbSurface)
 	{
-		if (!surfaceEntities.empty())
+		if (surfaceEntity)
 		{
-			if (position.x > surfaceEntity->GetX() + surfaceEntity->GetW() / 2.0f + h / 4.0f || position.x < surfaceEntity->GetX() - surfaceEntity->GetW() / 2.0f - h / 4.0f)
+			if (this->GetL() > surfaceEntity->GetR()
+				|| this->GetR() < surfaceEntity->GetL())
 			{
-				if (!dynamic_cast<BillJumpState *>(state))
+				if (!dynamic_cast<BillJumpState*>(state))
 				{
-					FLOAT currentY = position.y;
-					ChangeState(state, new BillFallState(new BillNormalState()), this);
-					position.y = currentY;
+					isAbSurface = 0; surfaceEntity = NULL;
+					auto currentY = position.y; ChangeState(state, new BillFallState(new BillNormalState()), this); position.y = currentY;
 				}
 			}
 		}
@@ -404,16 +400,23 @@ void Bill::DynamicResolveNoCollision()
 
 void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
-	auto terrainBlock = dynamic_cast<TerrainBlock *>(aabbSweepResult.surfaceEntity);
+	auto    terrainBlock = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
 	if (terrainBlock)
 		switch (terrainBlock->type)
 		{
 
 		case TERRAIN_BLOCK_TYPE::WATER:
 		{
-			auto motionResult = Motion::CalculateUniformMotion({position.y, vy});
-			position.y = motionResult.c;
-			vx = 0.0f;
+			if (aabbSweepResult.normalY == +1.0f)
+			{
+				position.y += aabbSweepResult.enTime * vy;
+				isAbSurface = 1;
+				surfaceEntity = terrainBlock;
+				ChangeState(state, new BillBeginSwimState(), this);
+			}
+			else
+			{
+			}
 		}
 		break;
 
@@ -421,7 +424,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		{
 			if (aabbSweepResult.normalY == +1.0f)
 			{
-				if (dynamic_cast<BillFallState *>(state))
+				if (dynamic_cast<BillFallState*>(state))
 				{
 					if (terrainBlock->GetY() > position.y)
 						return;
@@ -436,6 +439,9 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 				surfaceEntity = terrainBlock;
 				ChangeState(state, new BillNormalState(), this);
 			}
+			else
+			{
+			}
 		}
 		break;
 
@@ -448,17 +454,19 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 				surfaceEntity = terrainBlock;
 				ChangeState(state, new BillNormalState(), this);
 			}
-			else if (aabbSweepResult.normalX != +0.0f)
-			{
-				ChangeState(state, new BillNormalState(), this);
-				position.y = terrainBlock->GetT();
-				vy = -1.0f;
-			}
 			else
-			{
-			}
+				if (aabbSweepResult.normalX != +0.0f)
+				{
+					ChangeState(state, new BillNormalState(), this);
+					position.y = terrainBlock->GetT();
+					vy = -1.0f;
+				}
+				else
+				{
+				}
 		}
 		break;
+
 		}
 
 	//_RPT1
