@@ -1,0 +1,27 @@
+/*
+== List nhan vat stage 3 ==
+	failingstone 	done
+	soldiershotr 	done
+	soldiershotl 	done
+	soldiershotr 	done
+	staticweaponf 	done
+	staticweaponl 	done
+	staticweapons 	done
+	sniper		done
+	scubarsolider1 	done
+	scubarsolider2 	done 
+	scubarsolider3 	done 
+	capsuleweapon3r 	done
+	capsuleweapon3b 	done
+	gunrotating3 	done
+	blazerR 		done
+	blazerL 		done
+	dynamicbridge1	done
+	dynamicbridge2	done
+	dynamicbridge3 	done
+	cannon3 		not
+
+	boss2finalhead		not
+	boss2finalarmleft		not
+	boss2finalarmright	not
+*/

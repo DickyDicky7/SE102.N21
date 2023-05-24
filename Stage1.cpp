@@ -16,7 +16,13 @@ Stage1::Stage1() : Stage()
 Stage1::~Stage1()
 {
 }
-
+/*
+== List nhan vat stage 1 chua lam ==
+	bridge				not
+	cannon1 			not
+	finalboss1			not
+	gunboss1			not
+*/
 void Stage1::LoadEntities(void* entitiesLayer)
 {
 	auto _entitiesLayer = (tson::Layer*)entitiesLayer;

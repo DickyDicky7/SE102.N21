@@ -12,7 +12,7 @@
 #include "ScubaSoldier.h"
 #include "RockFall.h"
 #include "RockFly.h"
-
+#include "ScubaSoldier.h"
 Stage2:: Stage2() : Stage()
 {
 	mapFilePath = "Resources/Maps/stage2.json";
@@ -21,7 +21,33 @@ Stage2:: Stage2() : Stage()
 Stage2::~Stage2()
 {
 }
+/*
+== List nhan vat stage 3 ==
+	failingstone 		done
+	soldiershotr 		done
+	soldiershotl 		done
+	soldiershotr 		done
+	staticweaponf 		done
+	staticweaponl 		done
+	staticweapons 		done
+	sniper				done
+	scubarsolider1 		done
+	scubarsolider2 		done
+	scubarsolider3 		done
+	capsuleweapon3r 	done
+	capsuleweapon3b 	done
+	gunrotating3 		done
+	blazerR 			done
+	blazerL 			done
+	dynamicbridge1		done
+	dynamicbridge2		done
+	dynamicbridge3 		done
+	cannon3 			not
 
+	boss2finalhead		not
+	boss2finalarmleft	not
+	boss2finalarmright	not
+*/
 void Stage2::LoadEntities(void* entitiesLayer)
 {
 	auto _entitiesLayer = (tson::Layer*)entitiesLayer;
@@ -34,6 +60,101 @@ void Stage2::LoadEntities(void* entitiesLayer)
 		auto& size     = object.getSize();
 		Entity* entity = NULL;
 		
+		if (object.getName() == "respawnposition")
+		{
+			bill->SetX(position.x + size.x * 0.5f);
+			bill->SetY(mapH - position.y - size.y * 1.0f);
+		}
+		else
+		if (object.getName() == "cameratranslateposition")
+		{
+
+		}
+		else
+		if (object.getName() == "failingstone")
+		{
+			entity = new RockFall();
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else
+		if (object.getName() == "soldiershotr")
+		{
+			entity = new Soldier();
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else
+		if (object.getName() == "soldiershotl")
+		{
+			entity = new Soldier();
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else
+		if (object.getName() == "soldiershotr")
+		{
+			entity = new Soldier();
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else
+		if (object.getName() == "staticweaponf")
+		{
+			entity = new Falcon(AMMO_TYPE::F);
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else
+		if (object.getName() == "staticweaponl")
+		{
+			entity = new Falcon(AMMO_TYPE::L);
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else
+		if (object.getName() == "staticweapons")
+		{
+			entity = new Falcon(AMMO_TYPE::S);
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else
+		if (object.getName() == "sniper")
+		{
+			entity = new RifleManStanding();
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else
+		if (object.getName() == "scubarsolider1")
+		{
+			entity = new ScubaSoldier();
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else
+		if (object.getName() == "scubarsolider2")
+		{
+			entity = new ScubaSoldier();
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else
+		if (object.getName() == "scubarsolider3")
+		{
+			entity = new ScubaSoldier();
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else
+		if (object.getName() == "capsuleweapon3b")
+		{
+			entity = new AirCraft(AMMO_TYPE::B, AIRCRAFT_DIRECTION::VERTICAL);
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else
+		if (object.getName() == "capsuleweapon3r")
+		{
+			entity = new AirCraft(AMMO_TYPE::R, AIRCRAFT_DIRECTION::VERTICAL);
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else 
+		if (object.getName() == "gunrotating3")
+		{
+			entity = new WallTurret();
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else
 		if (object.getName() == "blazerL")
 		{
 			entity = new Fire();
@@ -44,51 +165,7 @@ void Stage2::LoadEntities(void* entitiesLayer)
 			entity = new Fire();
 			entity->SetMovingDirection(DIRECTION::RIGHT);
 		}
-		else if (object.getName() == "soldiershotr")
-		{
-			entity = new Soldier();
-			entity->SetMovingDirection(DIRECTION::LEFT);
-		}
-		else if (object.getName() == "soldiershotf")
-		{
-			entity = new Soldier();
-			entity->SetMovingDirection(DIRECTION::LEFT);
-		}
-		else if (object.getName() == "soldiershotl")
-		{
-			entity = new Soldier();
-			entity->SetMovingDirection(DIRECTION::LEFT);
-		}
-		else if (object.getName() == "soldiershotr")
-		{
-			entity = new Soldier();
-			entity->SetMovingDirection(DIRECTION::LEFT);
-		}
-		else 
-		if (object.getName() == "sniper")
-		{
-			entity = new RifleManStanding();
-			entity->SetMovingDirection(DIRECTION::LEFT);
-		}
-		else 
-		if (object.getName() == "sniperh")
-		{
-			//entity = new RifleManHideOnBush();
-			//entity->SetMovingDirection(DIRECTION::LEFT);
-		}
-		else 
-		if (object.getName() == "snipere")
-		{
-			//entity = new RifleManStanding();
-			//entity->SetMovingDirection(DIRECTION::LEFT);
-		}
-		else 
-		if (object.getName() == "failingstone")
-		{
-			entity = new RockFall();
-			entity->SetMovingDirection(DIRECTION::LEFT);
-		}
-		else 
+		else
 		if (object.getName() == "dynamicbridge1")
 		{
 			entity = new RockFly(80, 176);
@@ -107,57 +184,25 @@ void Stage2::LoadEntities(void* entitiesLayer)
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
-		if (object.getName() == "gunrotating3")
+		if (object.getName() == "cannon3")
 		{
-			entity = new WallTurret();
+			entity = new RockFly(80, 224);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
-		if (object.getName() == "staticweaponm")
+		if (object.getName() == "boss2finalhead")
 		{
-			entity = new Falcon(AMMO_TYPE::M);
-			entity->SetMovingDirection(DIRECTION::LEFT);
-		}
-		else 
-		if (object.getName() == "staticweaponf")
-		{
-			entity = new Falcon(AMMO_TYPE::F);
-			entity->SetMovingDirection(DIRECTION::LEFT);
-		}
-		else 
-		if (object.getName() == "staticweaponl")
-		{
-			entity = new Falcon(AMMO_TYPE::L);
-			entity->SetMovingDirection(DIRECTION::LEFT);
+			
 		}
 		else
-		if (object.getName() == "staticweapons")
+		if (object.getName() == "boss2finalarmleft")
 		{
-			entity = new Falcon(AMMO_TYPE::S);
-			entity->SetMovingDirection(DIRECTION::LEFT);
+			
 		}
-		else 
-		if (object.getName() == "capsuleweapon3b")
+		else
+		if (object.getName() == "boss2finalarmright")
 		{
-			entity = new AirCraft(AMMO_TYPE::B, AIRCRAFT_DIRECTION::VERTICAL);
-			entity->SetMovingDirection(DIRECTION::LEFT);
-		}
-		else 
-		if (object.getName() == "capsuleweapon3r")
-		{
-			entity = new AirCraft(AMMO_TYPE::R, AIRCRAFT_DIRECTION::VERTICAL);
-			entity->SetMovingDirection(DIRECTION::LEFT);
-		}
-		else 
-		if (object.getName() == "respawnposition")
-		{
-			bill->SetX(       position.x + size.x * 0.5f);
-			bill->SetY(mapH - position.y - size.y * 1.0f);
-		}
-		else 
-		if (object.getName() == "cameratranslateposition")
-		{
-
+			
 		}
 
 		if (!entity) continue;
@@ -173,6 +218,13 @@ void Stage2::LoadEntities(void* entitiesLayer)
 		entities->Insert(entity);
 	}
 
+	// bill
+	auto representativeBill = new Bill();
+	representativeBill->LoadTextures();
+	representativeBill->LoadSprites();
+	representativeBill->LoadAnimations();
+	Destroy(representativeBill);
+
 	// fire
 	auto representativeFire = new Fire();
 	representativeFire->LoadTextures();
@@ -180,7 +232,7 @@ void Stage2::LoadEntities(void* entitiesLayer)
 	representativeFire->LoadAnimations();
 	Destroy(representativeFire);
 
-	// static weaponm
+	// static weapon
 	auto representativeFalcon = new Falcon(AMMO_TYPE::I);
 	representativeFalcon->LoadTextures();
 	representativeFalcon->LoadSprites();
@@ -208,39 +260,39 @@ void Stage2::LoadEntities(void* entitiesLayer)
 	representativeRockFLy->LoadAnimations();
 	Destroy(representativeRockFLy);
 
-	auto representativeBill = new Bill();
+	// bullet
 	auto representativeBullet = new Bullet();
-	auto representativeSoldier = new Soldier();
-	auto representativeWallTurret = new WallTurret();
-	auto representativeRifleManStanding = new RifleManStanding();
-	//auto representativeRifleManHideOnBush = new RifleManHideOnBush();
-
-	representativeBill->LoadTextures();
 	representativeBullet->LoadTextures();
-	representativeSoldier->LoadTextures();
-	representativeWallTurret->LoadTextures();
-	representativeRifleManStanding->LoadTextures();
-	//representativeRifleManHideOnBush->LoadTextures();
-
-	representativeBill->LoadSprites();
 	representativeBullet->LoadSprites();
-	representativeSoldier->LoadSprites();
-	representativeWallTurret->LoadSprites();
-	representativeRifleManStanding->LoadSprites();
-	//representativeRifleManHideOnBush->LoadSprites();
-
-	representativeBill->LoadAnimations();
 	representativeBullet->LoadAnimations();
-	representativeSoldier->LoadAnimations();
-	representativeWallTurret->LoadAnimations();
-	representativeRifleManStanding->LoadAnimations();
-	//representativeRifleManHideOnBush->LoadAnimations();
-
-	Destroy(representativeBill);
 	Destroy(representativeBullet);
+
+	// Soldier
+	auto representativeSoldier = new Soldier();
+	representativeSoldier->LoadTextures();
+	representativeSoldier->LoadSprites();
+	representativeSoldier->LoadAnimations();
 	Destroy(representativeSoldier);
+
+	// wallTurret
+	auto representativeWallTurret = new WallTurret();
+	representativeWallTurret->LoadTextures();
+	representativeWallTurret->LoadSprites();
+	representativeWallTurret->LoadAnimations();
 	Destroy(representativeWallTurret);
+
+	// rifeMan
+	auto representativeRifleManStanding = new RifleManStanding();
+	representativeRifleManStanding->LoadTextures();
+	representativeRifleManStanding->LoadSprites();
+	representativeRifleManStanding->LoadAnimations();
 	Destroy(representativeRifleManStanding);
-	//Destroy(representativeRifleManHideOnBush);
+
+	// scuba soldier
+	auto representativeScubaSoldier = new ScubaSoldier();
+	representativeScubaSoldier->LoadTextures();
+	representativeScubaSoldier->LoadSprites();
+	representativeScubaSoldier->LoadAnimations();
+	Destroy(representativeScubaSoldier);
 }
 
