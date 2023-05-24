@@ -1,21 +1,18 @@
 #include "Bill.h"
-#include "Stage1.h"
-#include "Soldier.h"
+#include "Enemy.h"
+#include "Stage2.h"
 #include "tileson.hpp"
-#include "WallTurret.h"
-#include "RifleManStanding.h"
-#include "RifleManHideOnBush.h"
 
-Stage1:: Stage1() : Stage()
+Stage2:: Stage2() : Stage()
 {
-	mapFilePath = "Resources/Maps/stage1.json";
+	mapFilePath = "Resources/Maps/stage2.json";
 }
 
-Stage1::~Stage1()
+Stage2::~Stage2()
 {
 }
 
-void Stage1::LoadEntities(void* entitiesLayer)
+void Stage2::LoadEntities(void* entitiesLayer)
 {
 	auto _entitiesLayer = (tson::Layer*)entitiesLayer;
 	auto  mapH = _entitiesLayer->getMap()->getSize    ().y 
@@ -34,20 +31,20 @@ void Stage1::LoadEntities(void* entitiesLayer)
 		else 
 		if (object.getName() == "sniper")
 		{
-			entity = new RifleManStanding();
-			entity->SetMovingDirection(DIRECTION::LEFT);
+			//entity = new RifleManStanding();
+			//entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
 		if (object.getName() == "sniperh")
 		{
-			entity = new RifleManHideOnBush();
-			entity->SetMovingDirection(DIRECTION::LEFT);
+			//entity = new RifleManHideOnBush();
+			//entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
 		if (object.getName() == "snipere")
 		{
-			entity = new RifleManStanding();
-			entity->SetMovingDirection(DIRECTION::LEFT);
+			//entity = new RifleManStanding();
+			//entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
 		if (object.getName() == "cannon1")
@@ -57,8 +54,8 @@ void Stage1::LoadEntities(void* entitiesLayer)
 		else
 		if (object.getName() == "soldierl")
 		{
-			entity = new Soldier();
-			entity->SetMovingDirection(DIRECTION::LEFT);
+			//entity = new Soldier();
+			//entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
 		if (object.getName() == "gunboss1")
@@ -73,8 +70,8 @@ void Stage1::LoadEntities(void* entitiesLayer)
 		else 
 		if (object.getName() == "gunrotating1")
 		{
-			entity = new WallTurret();
-			entity->SetMovingDirection(DIRECTION::LEFT);
+			//entity = new WallTurret();
+			//entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
 		if (object.getName() == "staticweaponm")
@@ -128,37 +125,37 @@ void Stage1::LoadEntities(void* entitiesLayer)
 
 	auto representativeBill = new Bill();
 	auto representativeBullet = new Bullet();
-	auto representativeSoldier = new Soldier();
-	auto representativeWallTurret = new WallTurret();
-	auto representativeRifleManStanding = new RifleManStanding();
-	auto representativeRifleManHideOnBush = new RifleManHideOnBush();
+	//auto representativeSoldier = new Soldier();
+	//auto representativeWallTurret = new WallTurret();
+	//auto representativeRifleManStanding = new RifleManStanding();
+	//auto representativeRifleManHideOnBush = new RifleManHideOnBush();
 
 	representativeBill->LoadTextures();
 	representativeBullet->LoadTextures();
-	representativeSoldier->LoadTextures();
-	representativeWallTurret->LoadTextures();
-	representativeRifleManStanding->LoadTextures();
-	representativeRifleManHideOnBush->LoadTextures();
+	//representativeSoldier->LoadTextures();
+	//representativeWallTurret->LoadTextures();
+	//representativeRifleManStanding->LoadTextures();
+	//representativeRifleManHideOnBush->LoadTextures();
 
 	representativeBill->LoadSprites();
 	representativeBullet->LoadSprites();
-	representativeSoldier->LoadSprites();
-	representativeWallTurret->LoadSprites();
-	representativeRifleManStanding->LoadSprites();
-	representativeRifleManHideOnBush->LoadSprites();
+	//representativeSoldier->LoadSprites();
+	//representativeWallTurret->LoadSprites();
+	//representativeRifleManStanding->LoadSprites();
+	//representativeRifleManHideOnBush->LoadSprites();
 
 	representativeBill->LoadAnimations();
 	representativeBullet->LoadAnimations();
-	representativeSoldier->LoadAnimations();
-	representativeWallTurret->LoadAnimations();
-	representativeRifleManStanding->LoadAnimations();
-	representativeRifleManHideOnBush->LoadAnimations();
+	//representativeSoldier->LoadAnimations();
+	//representativeWallTurret->LoadAnimations();
+	//representativeRifleManStanding->LoadAnimations();
+	//representativeRifleManHideOnBush->LoadAnimations();
 
 	Destroy(representativeBill);
 	Destroy(representativeBullet);
-	Destroy(representativeSoldier);
-	Destroy(representativeWallTurret);
-	Destroy(representativeRifleManStanding);
-	Destroy(representativeRifleManHideOnBush);
+	//Destroy(representativeSoldier);
+	//Destroy(representativeWallTurret);
+	//Destroy(representativeRifleManStanding);
+	//Destroy(representativeRifleManHideOnBush);
 }
 

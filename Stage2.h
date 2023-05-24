@@ -2,13 +2,13 @@
 
 #include "Stage.h"
 
-class Stage1 : public Stage
+class Stage2 : public Stage
 {
 
 public:
 
-	Stage1();
-	virtual ~Stage1();
+	Stage2();
+	virtual ~Stage2();
 
 protected:
 

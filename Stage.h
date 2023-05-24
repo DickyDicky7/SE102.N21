@@ -13,10 +13,10 @@ public:
 
 	Stage();
 	virtual ~Stage();
-	virtual void Load() = 0;
 	virtual void Update();
 	virtual void Render();
 	virtual void HandleInput(Input&);
+	template <class T, class S> void Load();
 	virtual void CheckResolveClearCollision();
 
 	virtual void  SetBill(Bill*);
@@ -27,6 +27,7 @@ public:
 
 protected:
 
+	std::string mapFilePath;
 	Bill* bill;
 	FLOAT tileW;
 	FLOAT tileH;
@@ -34,12 +35,13 @@ protected:
 	QuadTreeNode* entities;
 	QuadTreeNode* backgroundTerrains;
 	QuadTreeNode* foregroundTerrains;
-	std::unordered_map<Entity*, QuadTreeNode*> _entities;
-	std::unordered_map<Entity*, QuadTreeNode*> _backgroundTerrains;
-	std::unordered_map<Entity*, QuadTreeNode*> _foregroundTerrains;
+	std::unordered_map<Entity*, QuadTreeNode*> entitiesResult;
+	std::unordered_map<Entity*, QuadTreeNode*> backgroundTerrainsResult;
+	std::unordered_map<Entity*, QuadTreeNode*> foregroundTerrainsResult;
 
 	virtual void LoadEntities(void*) = 0;
-	virtual void LoadBackgroundTerrains(void*) = 0;
-	virtual void LoadForegroundTerrains(void*) = 0;
+	template <class T> void LoadBackgroundTerrains(void*);
+				       void LoadForegroundTerrains(void*);
 
 };
+

@@ -166,6 +166,12 @@
     <Filter Include="Header Files\Objects\Terrains\TerrainStage2">
       <UniqueIdentifier>{bb97508d-7b36-46d7-b11a-1c5c30a099a0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Stages">
+      <UniqueIdentifier>{f81ff6f4-ae2a-40a8-91f5-c76cb5021107}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Stages">
+      <UniqueIdentifier>{ac828fcc-65be-4ca8-8a8b-a29690f4c0c3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -282,19 +288,10 @@
     <ClInclude Include="TerrainStage1Common.h">
       <Filter>Header Files\Objects\Terrains\TerrainStage1</Filter>
     </ClInclude>
-    <ClInclude Include="Stage.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage1.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TerrainBlock.h">
       <Filter>Header Files\Objects\Terrains\TerrainBlock</Filter>
     </ClInclude>
     <ClInclude Include="QuadTreeNode.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Stage2.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TerrainStage2.h">
@@ -302,6 +299,15 @@
     </ClInclude>
     <ClInclude Include="TerrainStage2Common.h">
       <Filter>Header Files\Objects\Terrains\TerrainStage2</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage1.h">
+      <Filter>Header Files\Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage2.h">
+      <Filter>Header Files\Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="Stage.h">
+      <Filter>Header Files\Stages</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -659,12 +665,6 @@
     <ClCompile Include="Terrain.cpp">
       <Filter>Source Files\Abstractions\Object Abstractions</Filter>
     </ClCompile>
-    <ClCompile Include="Stage.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage1.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TerrainStage1.cpp">
       <Filter>Source Files\Objects\Terrains\TerrainStage1</Filter>
     </ClCompile>
@@ -674,11 +674,17 @@
     <ClCompile Include="QuadTreeNode.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Stage2.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="TerrainStage2.cpp">
       <Filter>Source Files\Objects\Terrains\TerrainStage2</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage.cpp">
+      <Filter>Source Files\Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1.cpp">
+      <Filter>Source Files\Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2.cpp">
+      <Filter>Source Files\Stages</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

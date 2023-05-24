@@ -377,18 +377,15 @@ void Bill::DynamicResolveNoCollision(                               )
 {
 	if (isAbSurface)
 	{
-		if (!surfaceEntities.empty())
+		if (surfaceEntity)
 		{
-			auto& surfaceEntity = surfaceEntities.back();
 			if (this->GetL() > surfaceEntity->GetR()
 			||  this->GetR() < surfaceEntity->GetL())
 			{
 				if (!dynamic_cast<BillJumpState*>(state))
 				{
-					isAbSurface = 0;
-					surfaceEntities.pop_back();
-					FLOAT currentY = position.y;
-					ChangeState(state, new BillFallState(new BillNormalState()), this); position.y = currentY;
+					isAbSurface = 0; surfaceEntity = NULL;
+					auto currentY = position.y; ChangeState(state, new BillFallState(new BillNormalState()), this); position.y = currentY;
 				}
 			}
 		}
@@ -397,28 +394,10 @@ void Bill::DynamicResolveNoCollision(                               )
 
 void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
-	auto&   surfaceEntity = surfaceEntities.back();
-	auto    terrainBlock  = dynamic_cast<TerrainBlock*>(surfaceEntity);
+	auto    terrainBlock  = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
 	if     (terrainBlock)
 	switch (terrainBlock->type)
 	{
-
-	case TERRAIN_BLOCK_TYPE::THROUGHABLE:
-	{
-		if (aabbSweepResult.normalY == +1.0f && vy < 0.0f)
-		{
-			//if (surfaceEntities.size() == 0) return;
-			position.y += aabbSweepResult.enTime * vy;
-			isAbSurface = 1;
-			ChangeState(state, new BillNormalState(), this);
-		}
-		else
-		{
-			if (aabbSweepResult.normalY == -1.0f) position.y -= 1;
-			surfaceEntities.pop_back();
-		}
-	}
-	break;
 
 	case TERRAIN_BLOCK_TYPE::WATER:
 	{
@@ -426,6 +405,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		{
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
+			surfaceEntity = terrainBlock;
 			ChangeState(state, new BillBeginSwimState(), this);
 		}
 		else
@@ -434,19 +414,45 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	}
 	break;
 
-	case TERRAIN_BLOCK_TYPE::_:
+	case TERRAIN_BLOCK_TYPE::THROUGHABLE:
+	{
+		if (aabbSweepResult.normalY == +1.0f)
+		{
+			if (dynamic_cast<BillFallState*>(state))
+			{
+				if (terrainBlock->GetY() > position.y)
+					return;
+			}
+			if (surfaceEntity)
+			{
+				if (abs(terrainBlock->GetY() - surfaceEntity->GetY() > 48.0f))
+					return;
+			}
+			position.y += aabbSweepResult.enTime * vy;
+			isAbSurface = 1;
+			surfaceEntity = terrainBlock;
+			ChangeState(state, new BillNormalState(), this);
+		}
+		else
+		{
+		}
+	}
+	break;
+
+	case TERRAIN_BLOCK_TYPE::NON_THROUGHABLE:
 	{
 		if (aabbSweepResult.normalY == +1.0f)
 		{
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
+			surfaceEntity = terrainBlock;
 			ChangeState(state, new BillNormalState(), this);
 		}
 		else
 		if (aabbSweepResult.normalX != +0.0f)
 		{
-			position.y = terrainBlock->GetT();
 			ChangeState(state, new BillNormalState(), this);
+			position.y = terrainBlock->GetT();
 			vy = -1.0f;
 		}
 		else
@@ -454,7 +460,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		}
 	}
 	break;
-	
+
 	}
 
 	//_RPT1
