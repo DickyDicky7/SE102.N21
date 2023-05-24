@@ -10,6 +10,7 @@
 #include "AirCraft.h"
 #include "Falcon.h"
 #include "ScubaSoldier.h"
+#include "RockFall.h"
 
 Stage2:: Stage2() : Stage()
 {
@@ -81,15 +82,10 @@ void Stage2::LoadEntities(void* entitiesLayer)
 			//entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
-		if (object.getName() == "cannon1")
+		if (object.getName() == "failingstone")
 		{
-
-		}
-		else
-		if (object.getName() == "soldierl")
-		{
-			//entity = new Soldier();
-			//entity->SetMovingDirection(DIRECTION::LEFT);
+			entity = new RockFall();
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
 		if (object.getName() == "gunboss1")
@@ -188,6 +184,13 @@ void Stage2::LoadEntities(void* entitiesLayer)
 	representativeAirCraft->LoadSprites();
 	representativeAirCraft->LoadAnimations();
 	Destroy(representativeAirCraft);
+
+	// rockfall
+	auto representativeRockFall = new RockFall();
+	representativeRockFall->LoadTextures();
+	representativeRockFall->LoadSprites();
+	representativeRockFall->LoadAnimations();
+	Destroy(representativeRockFall);
 
 	auto representativeBill = new Bill();
 	auto representativeBullet = new Bullet();
