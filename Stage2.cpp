@@ -132,14 +132,16 @@ void Stage2::LoadEntities(void* entitiesLayer)
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
-		if (object.getName() == "capsuleweaponr")
+		if (object.getName() == "capsuleweapon3b")
 		{
-
+			entity = new AirCraft(AMMO_TYPE::B, AIRCRAFT_DIRECTION::VERTICAL);
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
-		if (object.getName() == "capsuleweaponl")
+		if (object.getName() == "capsuleweapon3r")
 		{
-
+			entity = new AirCraft(AMMO_TYPE::R, AIRCRAFT_DIRECTION::VERTICAL);
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
 		if (object.getName() == "respawnposition")
@@ -179,6 +181,13 @@ void Stage2::LoadEntities(void* entitiesLayer)
 	representativeFalcon->LoadSprites();
 	representativeFalcon->LoadAnimations();
 	Destroy(representativeFalcon);
+
+	// aircraft
+	auto representativeAirCraft = new AirCraft(AMMO_TYPE::I, AIRCRAFT_DIRECTION::VERTICAL);
+	representativeAirCraft->LoadTextures();
+	representativeAirCraft->LoadSprites();
+	representativeAirCraft->LoadAnimations();
+	Destroy(representativeAirCraft);
 
 	auto representativeBill = new Bill();
 	auto representativeBullet = new Bullet();

@@ -98,13 +98,13 @@ void Stage1::LoadEntities(void* entitiesLayer)
 		else
 		if (object.getName() == "capsuleweaponr")
 		{
-			entity = new AirCraft(AMMO_TYPE::R);
+			entity = new AirCraft(AMMO_TYPE::R, AIRCRAFT_DIRECTION::HORIZONTAL);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
 		if (object.getName() == "capsuleweaponl")
 		{
-			entity = new AirCraft(AMMO_TYPE::L);
+			entity = new AirCraft(AMMO_TYPE::L, AIRCRAFT_DIRECTION::HORIZONTAL);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
@@ -138,7 +138,7 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	auto representativeWallTurret = new WallTurret();
 	auto representativeRifleManStanding = new RifleManStanding();
 	auto representativeRifleManHideOnBush = new RifleManHideOnBush();
-	auto representativeAirCraft = new AirCraft(AMMO_TYPE::I);
+	auto representativeAirCraft = new AirCraft(AMMO_TYPE::I, AIRCRAFT_DIRECTION::HORIZONTAL);
 	auto representativeFalcon = new Falcon(AMMO_TYPE::I);
 
 	representativeBill->LoadTextures();

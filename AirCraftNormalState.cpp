@@ -30,19 +30,35 @@ AirCraftState* AirCraftNormalState::Update(AirCraft& aircraft)
 	FLOAT vx = aircraft.GetVX();
 	FLOAT vy = aircraft.GetVY();
 
-	// gan vị trí lúc đầu
-	if (y0 == NULL) {
-		y0 = y;
+	// gán vị trí lúc đầu
+	if (x0 == NULL) x0 = x;
+	if (y0 == NULL) y0 = y;
+	
+	if (aircraft.getAircarftDirection() == AIRCRAFT_DIRECTION::HORIZONTAL) {
+		// di chuyen theo chieu ngang
+		Motion::OscillatoryMotionInputParameters pio{ y0, time, dt, T, A, φ };
+		auto poo = Motion::CalculateOscillatoryMotion(pio);
+		time = poo.t;
+
+		x += vx;
+
+		aircraft.SetX(x);
+		aircraft.SetY(poo.c);
+	}
+	else
+	{
+		// di chuyen theo chieu doc
+		Motion::OscillatoryMotionInputParameters pio{ x0, time, dt, T, A, φ };
+		auto poo = Motion::CalculateOscillatoryMotion(pio);
+		time = poo.t;
+
+		y += vy;
+
+		aircraft.SetY(y);
+		aircraft.SetX(poo.c);
 	}
 
-	Motion::OscillatoryMotionInputParameters pio{ y0, time, dt, T, A, φ };
-	auto poo = Motion::CalculateOscillatoryMotion(pio);
-	time = poo.t;
-
-	x += vx;
 	
-	aircraft.SetX(x);
-	aircraft.SetY(poo.c);
 
 	return NULL;
 }

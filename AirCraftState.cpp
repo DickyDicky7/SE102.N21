@@ -11,8 +11,9 @@ AirCraftState::AirCraftState()
 	// v0: vận tốc ném viên đạn
 	// θ: góc ném
 
-	time = 0.0f;
+	x0 = NULL;
 	y0 = NULL;
+	time = 0.0f;
 	dt = 0.03f;
 	T = 2.5f;
 	A = 35.0f;

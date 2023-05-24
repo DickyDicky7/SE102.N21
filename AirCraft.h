@@ -23,7 +23,7 @@ class AirCraft : public Entity, public Enemy<Bill>
 {
 public:
 
-	AirCraft(AMMO_TYPE);
+	AirCraft(AMMO_TYPE, AIRCRAFT_DIRECTION);
 	virtual ~AirCraft();
 	void Update() override;
 	void Render() override;
@@ -35,12 +35,21 @@ public:
 
 	AMMO_TYPE getAmmoType();
 	void setAmmoType(AMMO_TYPE);
+
+	AIRCRAFT_DIRECTION getAircarftDirection() 
+	{
+		return _aircarftDirection;
+	}
+	void setAircarftDirection(AIRCRAFT_DIRECTION direction) {
+		_aircarftDirection = direction;
+	}
 protected:
 
 	AirCraftState* state;
 	AirCraftState* updateState;
 	AirCraftState* handleInputState;
 	AMMO_TYPE _ammoType;
+	AIRCRAFT_DIRECTION _aircarftDirection; // huong ngang hoac doc
 };
 
 // build state of aircraft
@@ -62,12 +71,13 @@ public:
 protected:
 	FLOAT time;
 	FLOAT y0;
+	FLOAT x0;
 	FLOAT dt;
 	FLOAT T;
 	FLOAT A;
 	FLOAT φ;
 
-	// y0: vị trí lúc đầu
+	// x0, y0: vị trí lúc đầu
 	// time: thời gian
 	// dt: delta time ( t = t + dt )
 	// T: khoảng thời gian để quay hết 1 vòng (tính bằng giây)

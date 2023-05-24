@@ -46,3 +46,10 @@ enum class AMMO_TYPE
 	S,
 	I,
 };
+
+enum class AIRCRAFT_DIRECTION {
+
+	HORIZONTAL,
+	VERTICAL
+
+};

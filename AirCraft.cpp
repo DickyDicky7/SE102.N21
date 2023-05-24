@@ -1,10 +1,10 @@
 #include "AirCraft.h"
 
-AirCraft::AirCraft(AMMO_TYPE type) : Entity(), HasTextures(), HasSprites(), HasAnimations()
+AirCraft::AirCraft(AMMO_TYPE type, AIRCRAFT_DIRECTION direction) : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 
 	this->vx = 1.0f;
-	this->vy = 1.0f;
+	this->vy = 0.5f;
 	this->ax = 0.1f;
 	this->ay = 0.1f;
 	this->position.x = 100;
@@ -19,6 +19,7 @@ AirCraft::AirCraft(AMMO_TYPE type) : Entity(), HasTextures(), HasSprites(), HasA
 	this->state = new AirCraftNormalState();
 
 	this->_ammoType = type;
+	this->_aircarftDirection = direction;
 }
 
 AirCraft::~AirCraft()
