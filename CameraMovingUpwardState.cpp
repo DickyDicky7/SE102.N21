@@ -32,6 +32,14 @@ CameraState* CameraMovingUpwardState::HandleInput(Camera& camera, Input& input)
 
 CameraState* CameraMovingUpwardState::Capture(FLOAT x, FLOAT y, Camera& camera)
 {
-	if (y >= camera.GetY()) camera.SetY(y);
+	if (y >= camera.GetY())
+	{
+		camera.SetY(y);
+	}
+	if (y <= camera.GetY() - Camera::CalculateHH())
+	{
+		camera.SetY(camera.GetY() - 2.0f * Camera::CalculateHH());
+		return new CameraMovingDownwardState();
+	}
 	return this;
 }

@@ -15,7 +15,7 @@ class SoldierShootState;
 class SoldierLayDownState;
 class SoldierDieState;
 
-class Soldier : public Entity, public Enemy<Soldier, Bill>
+class Soldier : public Entity, public Enemy<Bill>
 		      , public HasTextures<Soldier>, public HasSprites<Soldier>, public HasAnimations<Soldier>
 {
 public:

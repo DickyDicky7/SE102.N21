@@ -1,4 +1,5 @@
 #include "Bill.h"
+#include "TerrainBlock.h"
 
 Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletSState())
 {
@@ -378,16 +379,13 @@ void Bill::DynamicResolveNoCollision(                               )
 	{
 		if (surfaceEntity)
 		{
-			if (position.x > surfaceEntity->GetX() + surfaceEntity->GetW() / 2.0f + h / 4.0f
-			||  position.x < surfaceEntity->GetX() - surfaceEntity->GetW() / 2.0f - h / 4.0f)
+			if (this->GetL() > surfaceEntity->GetR()
+			||  this->GetR() < surfaceEntity->GetL())
 			{
-				isAbSurface = 0;
-				surfaceEntity = NULL;
 				if (!dynamic_cast<BillJumpState*>(state))
 				{
-					FLOAT currentY = position.y;
-					ChangeState(state, new BillFallState(new BillNormalState()), this);
-					position.y = currentY;
+					isAbSurface = 0; surfaceEntity = NULL;
+					auto currentY = position.y; ChangeState(state, new BillFallState(new BillNormalState()), this); position.y = currentY;
 				}
 			}
 		}
@@ -396,45 +394,84 @@ void Bill::DynamicResolveNoCollision(                               )
 
 void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
-	if (aabbSweepResult.normalY == -1.0f)
+	auto    terrainBlock  = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
+	if     (terrainBlock)
+	switch (terrainBlock->type)
 	{
-		auto motionResult = Motion::CalculateUniformMotion({ position.y, vy });
-		position.y = motionResult.c;
-		vx = 0.0f;
-	}
-	if (aabbSweepResult.normalY == +1.0f)
+
+	case TERRAIN_BLOCK_TYPE::WATER:
 	{
-		if (position.x <= surfaceEntity->GetX() + surfaceEntity->GetW() / 2.0f
-		&&  position.x >= surfaceEntity->GetX() - surfaceEntity->GetW() / 2.0f)
+		if (aabbSweepResult.normalY == +1.0f)
 		{
-			position.y += (aabbSweepResult.enTime - 0.1f) * vy; // Resolve position if accept there is a collision
-			vy = 0.0f;
+			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
-			ChangeState(state, new BillNormalState(), this);
+			surfaceEntity = terrainBlock;
+			ChangeState(state, new BillBeginSwimState(), this);
+		}
+		else
+		{
 		}
 	}
-	if (aabbSweepResult.normalX != 0.0f)
+	break;
+
+	case TERRAIN_BLOCK_TYPE::THROUGHABLE:
 	{
-		position.x += aabbSweepResult.enTime * vx; // Resolve position if accept there is a collision
-		if (aabbSweepResult.normalX == -1.0f) isNeToSurfaceLe = 1;
-		if (aabbSweepResult.normalX == +1.0f) isNeToSurfaceRi = 1;
-		// Vertical sliding effect
-		//if (!isAbSurface)
-		//{
-		//	auto motionResult = Motion::CalculateUniformMotion({ position.y, vy });
-		//	position.y = motionResult.c;
-		//}
+		if (aabbSweepResult.normalY == +1.0f)
+		{
+			if (dynamic_cast<BillFallState*>(state))
+			{
+				if (terrainBlock->GetY() > position.y)
+					return;
+			}
+			if (surfaceEntity)
+			{
+				if (abs(terrainBlock->GetY() - surfaceEntity->GetY() > 48.0f))
+					return;
+			}
+			position.y += aabbSweepResult.enTime * vy;
+			isAbSurface = 1;
+			surfaceEntity = terrainBlock;
+			ChangeState(state, new BillNormalState(), this);
+		}
+		else
+		{
+		}
+	}
+	break;
+
+	case TERRAIN_BLOCK_TYPE::NON_THROUGHABLE:
+	{
+		if (aabbSweepResult.normalY == +1.0f)
+		{
+			position.y += aabbSweepResult.enTime * vy;
+			isAbSurface = 1;
+			surfaceEntity = terrainBlock;
+			ChangeState(state, new BillNormalState(), this);
+		}
+		else
+		if (aabbSweepResult.normalX != +0.0f)
+		{
+			ChangeState(state, new BillNormalState(), this);
+			position.y = terrainBlock->GetT();
+			vy = -1.0f;
+		}
+		else
+		{
+		}
+	}
+	break;
+
 	}
 
-	_RPT1
-	(
-		0, "collided: %d, contactX: %f, contactY: %f\nnormalX: %f, normalY: %f, entryTime: %f, exitTime: %f\n\n",
-		aabbSweepResult.isCollided,
-		aabbSweepResult.contactX,
-		aabbSweepResult.contactY,
-		aabbSweepResult.normalX,
-		aabbSweepResult.normalY,
-		aabbSweepResult.enTime,
-		aabbSweepResult.exTime
-	);
+	//_RPT1
+	//(
+	//	0, "collided: %d, contactX: %f, contactY: %f\nnormalX: %f, normalY: %f, entryTime: %f, exitTime: %f\n\n",
+	//	aabbSweepResult.isCollided,
+	//	aabbSweepResult.contactX,
+	//	aabbSweepResult.contactY,
+	//	aabbSweepResult.normalX,
+	//	aabbSweepResult.normalY,
+	//	aabbSweepResult.enTime,
+	//	aabbSweepResult.exTime
+	//);
 }

@@ -42,6 +42,12 @@ public:
 		OutputDebugString(L"Camera");
 	}
 
+	BOOL CouldSee(Entity*);
+	FLOAT GetB() const override;
+	FLOAT GetT() const override;
+	FLOAT GetL() const override;
+	FLOAT GetR() const override;
+
 protected:
 
 	static FLOAT scalingRatioX;

@@ -2,7 +2,7 @@
 
 #include "Common.h"
 
-template <class T, class O>
+template <class T>
 class Enemy
 {
 
@@ -11,39 +11,37 @@ public:
 	Enemy();
 	virtual ~Enemy();
 
-	virtual T* SetHP(INT = 0);
-	virtual T* SetTarget(const O* = NULL);
+	virtual void SetHP(INT = 0);
+	virtual void SetTarget(const T* = NULL);
 
 	virtual INT GetHP() const;
-	virtual const O* GetTarget() const;
+	virtual const T* GetTarget() const;
 
 protected:
 
-	T* self = NULL;
-
 	INT hp;
-	const O* target;
+	const T* target;
 
 };
 
-template <class T, class O>
-inline Enemy<T, O>::Enemy() : hp(0), target(NULL)
+template <class T>
+inline Enemy<T>::Enemy() : hp(0), target(NULL)
 {
 }
 
-template <class T, class O>
-inline Enemy<T, O>::~Enemy()
+template <class T>
+inline Enemy<T>::~Enemy()
 {
 }
 
-template <class T, class O>
-inline T* Enemy<T, O>::SetHP(INT hp) { this->hp = hp; return self; }
+template <class T>
+inline void Enemy<T>::SetHP(INT hp) { this->hp = hp; }
 
-template <class T, class O>
-inline T* Enemy<T, O>::SetTarget(const O* target) { this->target = target; return self; }
+template <class T>
+inline void Enemy<T>::SetTarget(const T* target) { this->target = target; }
 
-template <class T, class O>
-inline INT Enemy<T, O>::GetHP() const { return hp; }
+template <class T>
+inline INT Enemy<T>::GetHP() const { return hp; }
 
-template <class T, class O>
-inline const O* Enemy<T, O>::GetTarget() const { return target; }
+template <class T>
+inline const T* Enemy<T>::GetTarget() const { return target; }

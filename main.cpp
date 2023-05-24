@@ -1,33 +1,16 @@
-﻿#include "Input.h"
+﻿#include <chrono>
+#include "Bill.h"
+#include "Input.h"
 #include "Motion.h"
 #include "Camera.h"
 #include "Common.h"
-#include "tileson.hpp"
-#include "QuadTreeContainer.h"
+#include "Stage1.h"
+#include "Stage2.h"
+#include "TerrainStage1.h"
+#include "TerrainStage2.h"
 
-#include "Bill.h"
-#include "Bullet.h"
-#include "Soldier.h"
-#include "WallTurret.h"
-#include "BossStage3.h"
-#include "ScubaSoldier.h"
-#include "TestingEntity.h"
-#include "RifleManStanding.h"
-#include "RifleManHideOnBush.h"
-
-Input* input;
-Camera* camera;
-LPDIRECT3D9 d3d;
-LPDIRECT3DDEVICE9 d3ddev;
-LPD3DXSPRITE spriteHandler;
-
-Bill bill;
-Soldier soldier;
-WallTurret wallTurret;
-BossStage3 bossStage3;
-ScubaSoldier scubaSoldier;
-RifleManStanding rifleManStanding;
-RifleManHideOnBush rifleManHideOnBush;
+Bill* bill; Stage* stage; Input* input; Camera* camera;
+LPDIRECT3D9 d3d; LPDIRECT3DDEVICE9 d3ddev; LPD3DXSPRITE spriteHandler;
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 void LoadD3D(HWND hWnd);
@@ -58,22 +41,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	(
 		hInstance, hWnd
 	);
-	camera = new Camera
-	(
-		/* input, */
-		new CameraMovingForwardState()
-	);
 
-	tson::Tileson tile;
-	std::unique_ptr<tson::Map> map = tile.parse(fs::path("Resources/Maps/stage1.json"));
-	tson::Layer* tileLayer = map.get()->getLayer("BackGroundLayer");
-	if (tileLayer->getType() == tson::LayerType::TileLayer)
+	if (!stage)
 	{
-		for (auto& [pos,obj] : tileLayer->getTileObjects())
-		{
-			_RPT1(0,"%f, %f\n", obj.getPosition().x, obj.getPosition().y);
-		}
+		stage = new Stage1();
+		stage->Load<TerrainStage1, CameraMovingForwardState>();
+		bill   = stage->GetBill();
+		camera = stage->GetCamera();
 	}
+
+
+
 
 	//
 	FLOAT x = 050.0f;
@@ -107,24 +85,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	Motion::UniformCircularMotionInputParameters pic{ r, ω, dω, xO, yO };
 	//
 
-	QuadTreeContainer quadTreeContainer = QuadTreeContainer(
-		QuadTreeRect::QTRect({
-			{0, 0},
-			{SCREEN_WIDTH / SCALING_RATIO_X, SCREEN_HEIGHT / SCALING_RATIO_Y}
-			})
-	);
 
-	quadTreeContainer.Insert(&bill);
-	quadTreeContainer.Insert(&soldier);
-	quadTreeContainer.Insert(&wallTurret);
-	quadTreeContainer.Insert(&bossStage3);
-	quadTreeContainer.Insert(&scubaSoldier);
-	quadTreeContainer.Insert(&rifleManStanding);
-	quadTreeContainer.Insert(&rifleManHideOnBush);
+
 
 	MSG msg;
 	while (TRUE)
 	{
+		//auto start = std::chrono::high_resolution_clock().now();
+		//std::ios_base::sync_with_stdio(false);
+
 		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -135,70 +104,41 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 			break;
 
 		input->Capture();
-		bill.HandleInput(*input);
-		soldier.HandleInput(*input);
-		bossStage3.HandleInput(*input);
-		scubaSoldier.HandleInput(*input);
 
-		bill.Update();
-
-		for (auto it = bill.GetBullets().begin(); it != bill.GetBullets().end(); it++)
+		if (input->IsKey(DIK_ESCAPE))
 		{
-			(*it)->Update();
-			if ((*it)->GetX() > 200.0f)
+			if (dynamic_cast<Stage1*>(stage))
 			{
-				Destroy((*it));
-				//bill.GetBullets().erase(it);
+				Destroy(stage);
+				stage = new Stage2();
+				stage->Load<TerrainStage2, CameraMovingUpwardState>();
+				bill   = stage->GetBill();
+				camera = stage->GetCamera();
+			}
+			else
+			{
+				Destroy(stage);
+				stage = new Stage1();
+				stage->Load<TerrainStage1, CameraMovingForwardState>();
+				bill   = stage->GetBill();
+				camera = stage->GetCamera();
 			}
 		}
-		bill.GetBullets().remove_if([](Bullet* bullet) { return bullet == NULL; });
 
-		soldier.Update();
-		wallTurret.Update();
-		bossStage3.Update();
-		scubaSoldier.Update();
-		rifleManStanding.Update();
-		rifleManHideOnBush.Update();
+		stage->HandleInput(*input);
+		stage->Update();
+		stage->CheckResolveClearCollision();
 
-
-
-
-		//auto ry = bill.AABBSweepY(&scubaSoldier);
-		//if (ry.isCollided)
-		//{
-		//	if (ry.normalY != 0)
-		//		bill.SetY(bill.GetY() + ry.enTime * bill.GetVY());
-		//}
-		//auto rx = bill.AABBSweepX(&scubaSoldier);
-		//if (rx.isCollided)
-		//{
-		//	if (rx.normalX != 0)
-		//		bill.SetX(bill.GetX() + rx.enTime * bill.GetVX());
-		//}
-		bill.CollideWith(&soldier);
-		bill.CollideWith(&bossStage3);
-		bill.CollideWith(&wallTurret);
-		//_RPT1(0, "entryTime: %f, exitTime: %f, normalX: %f, normalY: %f\ncollided: %d\n\n", ry.enTime, ry.exTime, ry.normalX, ry.normalY, ry.isCollided);
-		//_RPT1(0, "X collided: %d, Y collided: %d, etX: %f, etY: %f\n", rx.isCollided, ry.isCollided, rx.enTime, ry.enTime);
-		//_RPT1(0, "cpX: %f, cpY: %f\n", rx.contactX, rx.contactY);
-
-
-
-
-		//if (bill.GetY() <= 0)
-		//{
-		//	camera->Capture
-		//	(
-		//		bill.GetX(), bill.GetY(),
-		//		bill.GetVX(), bill.GetVY()
-		//	);
-		//}
 		camera->HandleInput(*input);
-		camera->Capture(bill.GetX(), bill.GetY());
+		camera->Capture(bill->GetX(), bill->GetY());
 
 		d3ddev->SetTransform(D3DTS_VIEW, &camera->GetViewMatrix());
-		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(255, 255, 255), 1.0f, 0);
+		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(220, 208, 255), 1.0f, 0);
 		d3ddev->BeginScene();
+		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_OBJECTSPACE);
+
+		stage->Render();
+
 
 
 
@@ -238,40 +178,17 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 
 
-		bill.Render();
 
-		for (auto& bullet : bill.GetBullets())
-			bullet->Render();
-
-		soldier.Render();
-		wallTurret.Render();
-		bossStage3.Render();
-		scubaSoldier.Render();
-		rifleManStanding.Render();
-		rifleManHideOnBush.Render();
-
-
-		for (auto it = quadTreeContainer.begin(); it != quadTreeContainer.end(); it++)
-		{
-			quadTreeContainer.Relocate(it);
-		}
-
-		std::list<Entity*> result = quadTreeContainer.GetCollisionWithTarget(&bill);
-
-		for (auto it = result.begin(); it != result.end(); it++)
-		{
-			if (*it != &bill)
-			{
-				(*it)->LogName();
-			}
-		}
-
+		spriteHandler->End();
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
 
-		//Should disable if you do not want to debug, this line of code causes lag
-		//_RPT1(0, "W: %f ; H: %f\n", bill.GetW(), bill.GetH());
-		result.clear();
+		//auto end = std::chrono::high_resolution_clock().now();
+		//double time_taken = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+		//time_taken *= 1e-9;
+		//wchar_t mes[100];
+		//swprintf(mes, 100, L"%f sec\n", time_taken);
+		//OutputDebugString(mes);
 	}
 
 	CleanD3D();
@@ -283,45 +200,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 void LoadAssets()
 {
-	bill.LoadTextures();
-	bill.LoadSprites();
-	bill.LoadAnimations();
-
-	Bullet* bullet = new Bullet();
-	bullet->LoadTextures();
-	bullet->LoadSprites();
-	bullet->LoadAnimations();
-	Destroy(bullet);
-
-	soldier.LoadTextures();
-	soldier.LoadSprites();
-	soldier.LoadAnimations();
-	soldier.SetTarget(&bill);
-
-	wallTurret.LoadTextures();
-	wallTurret.LoadSprites();
-	wallTurret.LoadAnimations();
-	wallTurret.SetTarget(&bill);
-
-	bossStage3.LoadTextures();
-	bossStage3.LoadSprites();
-	bossStage3.LoadAnimations();
-	bossStage3.SetTarget(&bill);
-
-	scubaSoldier.LoadTextures();
-	scubaSoldier.LoadSprites();
-	scubaSoldier.LoadAnimations();
-	scubaSoldier.SetTarget(&bill);
-
-	rifleManStanding.LoadTextures();
-	rifleManStanding.LoadSprites();
-	rifleManStanding.LoadAnimations();
-	rifleManStanding.SetTarget(&bill);
-
-	rifleManHideOnBush.LoadTextures();
-	rifleManHideOnBush.LoadSprites();
-	rifleManHideOnBush.LoadAnimations();
-	rifleManHideOnBush.SetTarget(&bill);
 }
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

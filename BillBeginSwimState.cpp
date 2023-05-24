@@ -15,6 +15,24 @@ void BillBeginSwimState::Exit(Bill& bill)
 
 void BillBeginSwimState::Enter(Bill& bill)
 {
+	//bill.SetVX(0.0f);
+	//bill.SetVY(0.0f);
+	//bill.SetAX(0.0f);
+	//bill.SetAY(0.0f);
+
+	if (bill.GetMovingDirection() == DIRECTION::LEFT)
+	{
+		bill.SetVX(-2.0f);
+		bill.SetAX(-0.0f);
+	}
+	if (bill.GetMovingDirection() == DIRECTION::RIGHT)
+	{
+		bill.SetVX(+2.0f);
+		bill.SetAX(+0.0f);
+	}
+
+	bill.SetVY(0.0f);
+	bill.SetAY(0.0f);
 }
 
 void BillBeginSwimState::Render(Bill& bill)

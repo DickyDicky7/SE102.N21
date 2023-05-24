@@ -44,7 +44,7 @@ namespace QuadTreeRect
 		}
 	};
 
-	QTRect ConvertEntityRectToQTRect(Entity* _target)
+	inline QTRect ConvertEntityRectToQTRect(Entity* _target)
 	{
 		QTRect _targetSize = {
 			{_target->GetX() - _target->GetW() / 2.0f, _target->GetY()},
