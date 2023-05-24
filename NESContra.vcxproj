@@ -34,6 +34,8 @@
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Falcon.h" />
     <ClInclude Include="FalconCommon.h" />
+    <ClInclude Include="Fire.h" />
+    <ClInclude Include="FireCommon.h" />
     <ClInclude Include="GraphicsDatabase.h" />
     <ClInclude Include="GraphicsHelper.h" />
     <ClInclude Include="HasAnimations.h" />
@@ -93,6 +95,7 @@
     <ClCompile Include="FalconOpeningState.cpp" />
     <ClCompile Include="FalconOpenState.cpp" />
     <ClCompile Include="FalconState.cpp" />
+    <ClCompile Include="Fire.cpp" />
     <ClCompile Include="HasWeapons.cpp" />
     <ClCompile Include="Motion.cpp" />
     <ClCompile Include="QuadTreeNode.cpp" />

@@ -170,7 +170,7 @@
                 {
                  "height":14,
                  "id":46,
-                 "name":"blazer",
+                 "name":"blazerR",
                  "rotation":0,
                  "type":"enemy",
                  "visible":true,
@@ -181,7 +181,7 @@
                 {
                  "height":14,
                  "id":47,
-                 "name":"blazer",
+                 "name":"blazerL",
                  "rotation":0,
                  "type":"enemy",
                  "visible":true,

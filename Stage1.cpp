@@ -31,7 +31,6 @@ void Stage1::LoadEntities(void* entitiesLayer)
 
 		if (object.getName() == "bridge")
 		{
-
 		}
 		else
 		if (object.getName() == "sniper")
@@ -150,6 +149,8 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	representativeRifleManHideOnBush->LoadTextures();
 	representativeAirCraft->LoadTextures();
 	representativeFalcon->LoadTextures();
+
+	
 
 	representativeBill->LoadSprites();
 	representativeBullet->LoadSprites();
