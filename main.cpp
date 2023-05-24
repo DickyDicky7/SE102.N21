@@ -105,6 +105,26 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		input->Capture();
 
+		if (input->IsKey(DIK_ESCAPE))
+		{
+			if (dynamic_cast<Stage1*>(stage))
+			{
+				Destroy(stage);
+				stage = new Stage2();
+				stage->Load<TerrainStage2, CameraMovingUpwardState>();
+				bill   = stage->GetBill();
+				camera = stage->GetCamera();
+			}
+			else
+			{
+				Destroy(stage);
+				stage = new Stage1();
+				stage->Load<TerrainStage1, CameraMovingForwardState>();
+				bill   = stage->GetBill();
+				camera = stage->GetCamera();
+			}
+		}
+
 		stage->HandleInput(*input);
 		stage->Update();
 		stage->CheckResolveClearCollision();
