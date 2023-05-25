@@ -26,6 +26,11 @@ Falcon::Falcon(ITEM_TYPE type) : Entity(), HasTextures(), HasSprites(), HasAnima
 
 Falcon::~Falcon()
 {
+	Destroy(state);
+	Destroy(updateState);
+	Destroy(handleInputState);
+
+	billDistance = NULL;
 }
 
 void Falcon::setAmmoType(ITEM_TYPE type)
@@ -79,18 +84,12 @@ void Falcon::Render()
 
 	if (updateState)
 	{
-		state->Exit(*this);
-		delete state;
-		state = updateState;
-		state->Enter(*this);
+		ChangeState(state, updateState, this);
 		updateState = NULL;
 	}
 	if (handleInputState)
 	{
-		state->Exit(*this);
-		delete state;
-		state = handleInputState;
-		state->Enter(*this);
+		ChangeState(state, handleInputState, this);
 		handleInputState = NULL;
 	}
 }

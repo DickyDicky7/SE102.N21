@@ -8,6 +8,7 @@ FalconOpeningState::FalconOpeningState(FALCON_ANIMATION_ID nextState) : FalconSt
 
 FalconOpeningState::~FalconOpeningState()
 {
+	delayTime = NULL;
 }
 
 

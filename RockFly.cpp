@@ -17,6 +17,8 @@ RockFly::RockFly(FLOAT begin, FLOAT end) : Entity(), HasTextures(), HasSprites()
 
 RockFly::~RockFly()
 {
+	xBegin = NULL;
+	xEnd = NULL;
 }
 
 void RockFly::Update()

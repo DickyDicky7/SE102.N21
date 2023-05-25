@@ -7,4 +7,5 @@ ScubaSoldierState::ScubaSoldierState()
 
 ScubaSoldierState::~ScubaSoldierState()
 {
+	time = NULL;
 }

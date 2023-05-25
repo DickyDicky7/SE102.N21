@@ -7,4 +7,5 @@ SoldierState::SoldierState()
 
 SoldierState::~SoldierState()
 {
+	time = NULL;
 }

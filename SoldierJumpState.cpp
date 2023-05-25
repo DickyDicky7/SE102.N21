@@ -8,6 +8,8 @@ SoldierJumpState::SoldierJumpState() : SoldierState()
 
 SoldierJumpState::~SoldierJumpState()
 {
+	hasMovedLeft = NULL;
+	hasMovedRight = NULL;
 }
 
 void SoldierJumpState::Exit(Soldier& soldier)

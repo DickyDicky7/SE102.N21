@@ -17,6 +17,8 @@ Fire::Fire() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 
 Fire::~Fire()
 {
+	distanceMove = NULL;
+	x0 = NULL;
 }
 
 void Fire::Update()

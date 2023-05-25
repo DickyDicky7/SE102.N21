@@ -22,6 +22,9 @@ BossStage3::BossStage3() : Entity(), HasTextures(), HasSprites(), HasAnimations(
 
 BossStage3::~BossStage3()
 {
+	Destroy(state);
+	Destroy(updateState);
+	Destroy(handleInputState);
 }
 
 void BossStage3::Update()
@@ -37,18 +40,12 @@ void BossStage3::Render()
 
 	if (updateState)
 	{
-		state->Exit(*this);
-		delete state;
-		state = updateState;
-		state->Enter(*this);
+		ChangeState(state, updateState, this);
 		updateState = NULL;
 	}
 	if (handleInputState)
 	{
-		state->Exit(*this);
-		delete state;
-		state = handleInputState;
-		state->Enter(*this);
+		ChangeState(state, handleInputState, this);
 		handleInputState = NULL;
 	}
 }

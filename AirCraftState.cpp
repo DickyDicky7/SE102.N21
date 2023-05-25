@@ -25,4 +25,14 @@ AirCraftState::AirCraftState()
 
 AirCraftState::~AirCraftState()
 {
+	x0 = NULL;
+	y0 = NULL;
+	time = NULL;
+	dt = NULL;
+	T = NULL;
+	A = NULL;
+	φ = NULL;
+
+	v0 = NULL;
+	θ = NULL;
 }

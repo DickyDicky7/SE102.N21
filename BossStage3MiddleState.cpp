@@ -8,6 +8,7 @@ BossStage3MiddleState::BossStage3MiddleState(BOSS_STAGE_3_ANIMATION_ID nextState
 
 BossStage3MiddleState::~BossStage3MiddleState()
 {
+	delayTime = NULL;
 }
 
 

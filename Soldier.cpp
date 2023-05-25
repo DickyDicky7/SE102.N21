@@ -35,6 +35,9 @@ BOOL Soldier::IsHitWall() {
 
 Soldier::~Soldier()
 {
+	Destroy(state);
+	Destroy(updateState);
+	Destroy(handleInputState);
 }
 
 void Soldier::Update()
@@ -50,18 +53,12 @@ void Soldier::Render()
 
 	if (updateState)
 	{
-		state->Exit(*this);
-		delete state;
-		state = updateState;
-		state->Enter(*this);
+		ChangeState(state, updateState, this);
 		updateState = NULL;
 	}
 	if (handleInputState)
 	{
-		state->Exit(*this);
-		delete state;
-		state = handleInputState;
-		state->Enter(*this);
+		ChangeState(state, handleInputState, this);
 		handleInputState = NULL;
 	}
 }
