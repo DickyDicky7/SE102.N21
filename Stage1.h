@@ -13,4 +13,6 @@ public:
 protected:
 
 	virtual void LoadEntities(void *) override;
+	
 };
+
