@@ -11,3 +11,4 @@ CollidableEntity::CollidableEntity() : self(NULL), surfaceEntity(NULL)
 CollidableEntity::~CollidableEntity()
 {
 }
+
