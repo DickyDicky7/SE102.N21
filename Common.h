@@ -110,3 +110,4 @@ inline std::string FormatId(std::string id)
 {
 	return id.size() == 1 ? "00" + id : id.size() == 2 ? "0" + id : id;
 }
+
