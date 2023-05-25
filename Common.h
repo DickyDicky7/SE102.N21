@@ -1,6 +1,6 @@
 #pragma once
 
-#define SCREEN_WIDTH 640
+#define SCREEN_WIDTH  640
 #define SCREEN_HEIGHT 600
 #define SCALING_RATIO_X 2.5f
 #define SCALING_RATIO_Y 2.5f
@@ -10,7 +10,6 @@
 #include <tuple>
 #include <queue>
 #include <vector>
-#include <string>
 #include <string>
 #include <d3d9.h>
 #include <d3dx9.h>
@@ -26,9 +25,14 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "FireCommon.h"
 #include "BillCommon.h"
 #include "BulletCommon.h"
+#include "FalconCommon.h"
+#include "RockFlyCommon.h"
 #include "SoldierCommon.h"
+#include "AirCraftCommon.h"
+#include "RockFallCommon.h"
 #include "RifleManCommon.h"
 #include "WallTurretCommon.h"
 #include "BossStage3Common.h"
@@ -36,11 +40,6 @@
 #include "TerrainStage1Common.h"
 #include "TerrainStage2Common.h"
 #include "TerrainStage1Common.h"
-#include "AirCraftCommon.h"
-#include "FalconCommon.h"
-#include "FireCommon.h"
-#include "RockFallCommon.h"
-#include "RockFlyCommon.h"
 
 enum class DIRECTION
 {
@@ -51,13 +50,11 @@ enum class DIRECTION
 };
 
 template <class T>
-struct Bool
-{
-	BOOL value;
-};
+struct Bool { BOOL value; };
 
 // If u add an object, u must add id of object here
-using SPRITE_ID = std::variant<
+using SPRITE_ID = std::variant
+<
 	BILL_SPRITE_ID,
 	BULLET_SPRITE_ID,
 	SOLDIER_SPRITE_ID,
@@ -74,7 +71,8 @@ using SPRITE_ID = std::variant<
 	TERRAIN_STAGE_2_SPRITE_ID
 >;
 
-using TEXTURE_ID = std::variant<
+using TEXTURE_ID = std::variant
+<
 	BILL_TEXTURE_ID,
 	BULLET_TEXTURE_ID,
 	SOLDIER_TEXTURE_ID,
@@ -88,9 +86,11 @@ using TEXTURE_ID = std::variant<
 	ROCK_FALL_TEXTURE_ID,
 	ROCK_FLY_TEXTURE_ID,
 	TERRAIN_STAGE_1_TEXTURE_ID,
-	TERRAIN_STAGE_2_TEXTURE_ID>;
+	TERRAIN_STAGE_2_TEXTURE_ID
+>;
 
-using ANIMATION_ID = std::variant<
+using ANIMATION_ID = std::variant
+<
 	BILL_ANIMATION_ID,
 	BULLET_ANIMATION_ID,
 	SOLDIER_ANIMATION_ID,
@@ -104,20 +104,21 @@ using ANIMATION_ID = std::variant<
 	ROCK_FALL_ANIMATION_ID,
 	ROCK_FLY_ANIMATION_ID,
 	TERRAIN_STAGE_1_ANIMATION_ID,
-	TERRAIN_STAGE_2_ANIMATION_ID>;
+	TERRAIN_STAGE_2_ANIMATION_ID
+>;
 
-using TIME = DWORD;
+using         TIME = DWORD;
 using DEFAULT_TIME = DWORD;
 
-using TEXTURE = LPDIRECT3DTEXTURE9;
-using SPRITE = std::tuple<RECT *, DIRECTION, TEXTURE_ID>;
+using TEXTURE   = LPDIRECT3DTEXTURE9;
+using SPRITE    = std::tuple<RECT*, DIRECTION, TEXTURE_ID>;
 using ANIMATION = std::tuple<DEFAULT_TIME, std::vector<std::tuple<SPRITE_ID, TIME>>>;
 
-// using KEYBOARD_EVENT_HANDLER = std::function<void(LPDIRECTINPUTDEVICE8, char(&)[256])>;
-// using    MOUSE_EVENT_HANDLER = std::function<void(LPDIRECTINPUTDEVICE8, DIMOUSESTATE&)>;
+//using KEYBOARD_EVENT_HANDLER = std::function<void(LPDIRECTINPUTDEVICE8, char(&)[256])>;
+//using    MOUSE_EVENT_HANDLER = std::function<void(LPDIRECTINPUTDEVICE8, DIMOUSESTATE&)>;
 
 template <class T>
-inline void Destroy(T *&pointer)
+inline void Destroy(T*& pointer)
 {
 	if (pointer)
 	{
@@ -126,16 +127,10 @@ inline void Destroy(T *&pointer)
 	}
 }
 
-template <int prefix>
-class ID : public std::string
-{
-public:
-	ID(std::string value) : std::string(std::to_string(prefix) + " " + value) {}
-};
+template <int prefix> class ID : public std::string { public: ID(std::string value) : std::string(std::to_string(prefix) + " " + value) {} };
 
 inline std::string FormatId(std::string id)
 {
-	return id.size() == 1 ? "00" + id : id.size() == 2 ? "0" + id
-													   : id;
+	return id.size() == 1 ? "00" + id : id.size() == 2 ? "0" + id : id;
 }
 
