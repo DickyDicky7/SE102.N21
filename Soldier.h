@@ -20,7 +20,7 @@ class Soldier : public Entity, public Enemy<Bill>
 {
 public:
 
-	Soldier(AMMO_TYPE);
+	Soldier();
 	virtual ~Soldier();
 	void Update() override;
 	void Render() override;
@@ -31,16 +31,11 @@ public:
 	void LoadAnimations() override;
   
 	BOOL IsHitWall();
-	AMMO_TYPE getAmmoType();
-	void setAmmoType(AMMO_TYPE);
 protected:
 
 	SoldierState* state;
 	SoldierState* updateState;
 	SoldierState* handleInputState;
-
-	// type ammo soldier had
-	AMMO_TYPE _ammoType;
 };
 
 // build state of soldier
