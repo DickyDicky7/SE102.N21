@@ -1,10 +1,13 @@
 #pragma once
 
+
 #include "Common.h"
 #include "Entity.h"
 #include "CollidableEntity.h"
 
+
 enum class TERRAIN_BLOCK_TYPE { WATER, THROUGHABLE, NON_THROUGHABLE, };
+
 
 class TerrainBlock : public Entity, public CollidableEntity
 {
@@ -25,3 +28,4 @@ public:
 	void DynamicResolveOnCollision(AABBSweepResult) override;
 
 };
+
