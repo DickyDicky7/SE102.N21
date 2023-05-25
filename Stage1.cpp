@@ -8,7 +8,7 @@
 #include "AirCraft.h"
 #include "Falcon.h"
 
-Stage1::Stage1() : Stage()
+Stage1:: Stage1() : Stage()
 {
 	mapFilePath = "Resources/Maps/stage1.json";
 }
@@ -16,6 +16,7 @@ Stage1::Stage1() : Stage()
 Stage1::~Stage1()
 {
 }
+
 /*
 == List nhan vat stage 1 chua lam ==
 	bridge				not
@@ -26,8 +27,8 @@ Stage1::~Stage1()
 void Stage1::LoadEntities(void* entitiesLayer)
 {
 	auto _entitiesLayer = (tson::Layer*)entitiesLayer;
-	auto  mapH = _entitiesLayer->getMap()->getSize().y
-		* _entitiesLayer->getMap()->getTileSize().y;
+	auto mapH = _entitiesLayer->getMap()->getSize    ().y
+		      * _entitiesLayer->getMap()->getTileSize().y;
 
 	for (auto& object : _entitiesLayer->getObjects())
 	{
@@ -116,7 +117,7 @@ void Stage1::LoadEntities(void* entitiesLayer)
 		else
 		if (object.getName() == "respawnposition")
 		{
-			bill->SetX(position.x + size.x * 0.5f);
+			bill->SetX(       position.x + size.x * 0.5f);
 			bill->SetY(mapH - position.y - size.y * 1.0f);
 		}
 		else
@@ -130,7 +131,7 @@ void Stage1::LoadEntities(void* entitiesLayer)
 		auto enemy = dynamic_cast<Enemy<Bill>*>(entity);
 		if (enemy) enemy->SetTarget(bill);
 
-		entity->SetX(position.x + size.x * 0.5f);
+		entity->SetX(       position.x + size.x * 0.5f);
 		entity->SetY(mapH - position.y - size.y * 1.0f);
 		entity->SetW(FLOAT(size.x));
 		entity->SetH(FLOAT(size.y));
@@ -140,48 +141,46 @@ void Stage1::LoadEntities(void* entitiesLayer)
 
 	auto representativeBill = new Bill();
 	auto representativeBullet = new Bullet();
+	auto representativeFalcon = new Falcon(AMMO_TYPE::I);
 	auto representativeSoldier = new Soldier(AMMO_TYPE::I);
+	auto representativeAirCraft = new AirCraft(AMMO_TYPE::I, AIRCRAFT_DIRECTION::HORIZONTAL);
 	auto representativeWallTurret = new WallTurret();
 	auto representativeRifleManStanding = new RifleManStanding();
 	auto representativeRifleManHideOnBush = new RifleManHideOnBush();
-	auto representativeAirCraft = new AirCraft(AMMO_TYPE::I, AIRCRAFT_DIRECTION::HORIZONTAL);
-	auto representativeFalcon = new Falcon(AMMO_TYPE::I);
 
 	representativeBill->LoadTextures();
+	representativeFalcon->LoadTextures();
 	representativeBullet->LoadTextures();
 	representativeSoldier->LoadTextures();
+	representativeAirCraft->LoadTextures();
 	representativeWallTurret->LoadTextures();
 	representativeRifleManStanding->LoadTextures();
 	representativeRifleManHideOnBush->LoadTextures();
-	representativeAirCraft->LoadTextures();
-	representativeFalcon->LoadTextures();
-
-	
 
 	representativeBill->LoadSprites();
+	representativeFalcon->LoadSprites();
 	representativeBullet->LoadSprites();
 	representativeSoldier->LoadSprites();
+	representativeAirCraft->LoadSprites();
 	representativeWallTurret->LoadSprites();
 	representativeRifleManStanding->LoadSprites();
 	representativeRifleManHideOnBush->LoadSprites();
-	representativeAirCraft->LoadSprites();
-	representativeFalcon->LoadSprites();
 
 	representativeBill->LoadAnimations();
+	representativeFalcon->LoadAnimations();
 	representativeBullet->LoadAnimations();
 	representativeSoldier->LoadAnimations();
+	representativeAirCraft->LoadAnimations();
 	representativeWallTurret->LoadAnimations();
 	representativeRifleManStanding->LoadAnimations();
 	representativeRifleManHideOnBush->LoadAnimations();
-	representativeAirCraft->LoadAnimations();
-	representativeFalcon->LoadAnimations();
 
 	Destroy(representativeBill);
+	Destroy(representativeFalcon);
 	Destroy(representativeBullet);
 	Destroy(representativeSoldier);
+	Destroy(representativeAirCraft);
 	Destroy(representativeWallTurret);
 	Destroy(representativeRifleManStanding);
 	Destroy(representativeRifleManHideOnBush);
-	Destroy(representativeAirCraft);
-	Destroy(representativeFalcon);
 }
