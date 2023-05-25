@@ -290,17 +290,6 @@
                 }, 
                 {
                  "height":32,
-                 "id":57,
-                 "name":"gunrotating3",
-                 "rotation":0,
-                 "type":"enemy",
-                 "visible":true,
-                 "width":32,
-                 "x":0.66667,
-                 "y":1139.16333333333
-                }, 
-                {
-                 "height":32,
                  "id":58,
                  "name":"gunrotating3",
                  "rotation":0,
@@ -318,8 +307,8 @@
                  "type":"enemy",
                  "visible":true,
                  "width":32,
-                 "x":222.667,
-                 "y":818.827
+                 "x":222.333666666667,
+                 "y":832.493666666667
                 }, 
                 {
                  "height":32,
@@ -329,10 +318,9 @@
                  "type":"enemy",
                  "visible":true,
                  "width":32,
-                 "x":-1.33333,
-                 "y":755.827
-                },
-            
+                 "x":1.33333666666667,
+                 "y":768.160333333333
+                }, 
                 {
                  "height":32,
                  "id":61,
@@ -341,9 +329,10 @@
                  "type":"enemy",
                  "visible":true,
                  "width":32,
-                 "x":32.6667,
-                 "y":677.827
-                }, 
+                 "x":33.6667,
+                 "y":686.160333333333
+                },
+            
                 {
                  "height":18,
                  "id":62,
@@ -352,8 +341,8 @@
                  "type":"enemy",
                  "visible":true,
                  "width":20,
-                 "x":148.667,
-                 "y":1605.83
+                 "x":151.000333333333,
+                 "y":1614.16333333333
                 }, 
                 {
                  "height":18,
@@ -508,8 +497,7 @@
                  "width":17,
                  "x":157.167,
                  "y":851.327
-                },
-            
+                }, 
                 {
                  "height":31,
                  "id":77,
@@ -520,7 +508,8 @@
                  "width":17,
                  "x":62.1667,
                  "y":820.327
-                }, 
+                },
+            
                 {
                  "height":31,
                  "id":78,
@@ -663,6 +652,28 @@
                  "width":15,
                  "x":54.5,
                  "y":2090.16666666667
+                }, 
+                {
+                 "height":27,
+                 "id":162,
+                 "name":"staticweapons",
+                 "rotation":0,
+                 "type":"object",
+                 "visible":true,
+                 "width":27,
+                 "x":2.16666666666666,
+                 "y":717.833333333333
+                }, 
+                {
+                 "height":32,
+                 "id":163,
+                 "name":"gunrotating3",
+                 "rotation":0,
+                 "type":"enemy",
+                 "visible":true,
+                 "width":32,
+                 "x":1.66666666666666,
+                 "y":1247.33333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -905,7 +916,7 @@
                  "visible":true,
                  "width":256,
                  "x":0,
-                 "y":1686.66
+                 "y":1687.66
                 }, 
                 {
                  "height":2,
@@ -1104,7 +1115,7 @@
                  "visible":true,
                  "width":94,
                  "x":160,
-                 "y":1176.66
+                 "y":1177.66
                 }, 
                 {
                  "height":2,
@@ -1115,7 +1126,7 @@
                  "visible":true,
                  "width":96,
                  "x":32,
-                 "y":1176.66
+                 "y":1177.66
                 }, 
                 {
                  "height":2,
@@ -1412,7 +1423,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":162,
+ "nextobjectid":164,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.1",
