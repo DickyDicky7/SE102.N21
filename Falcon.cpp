@@ -2,7 +2,7 @@
 // O: open
 // P: close
 #define	DISTANCE_DETECT 130.0f
-Falcon::Falcon(AMMO_TYPE type) : Entity(), HasTextures(), HasSprites(), HasAnimations()
+Falcon::Falcon(ITEM_TYPE type) : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -28,12 +28,12 @@ Falcon::~Falcon()
 {
 }
 
-void Falcon::setAmmoType(AMMO_TYPE type)
+void Falcon::setAmmoType(ITEM_TYPE type)
 {
 	this->_ammoType = type;
 }
 
-AMMO_TYPE Falcon::getAmmoType()
+ITEM_TYPE Falcon::getAmmoType()
 {
 	return this->_ammoType;
 }

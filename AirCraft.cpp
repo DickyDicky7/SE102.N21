@@ -1,6 +1,6 @@
 #include "AirCraft.h"
 
-AirCraft::AirCraft(AMMO_TYPE type, AIRCRAFT_DIRECTION direction) : Entity(), HasTextures(), HasSprites(), HasAnimations()
+AirCraft::AirCraft(ITEM_TYPE type, AIRCRAFT_DIRECTION direction) : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 
 	this->vx = 1.0f;
@@ -26,12 +26,12 @@ AirCraft::~AirCraft()
 {
 }
 
-void AirCraft::setAmmoType(AMMO_TYPE type) 
+void AirCraft::setAmmoType(ITEM_TYPE type) 
 {
 	this->_ammoType = type;
 }
 
-AMMO_TYPE AirCraft::getAmmoType() 
+ITEM_TYPE AirCraft::getAmmoType() 
 {
 	return this->_ammoType;
 }

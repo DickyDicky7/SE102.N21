@@ -105,13 +105,13 @@ void Stage2::LoadEntities(void* entitiesLayer)
 		else
 		if (object.getName() == "staticweaponl")
 		{
-			entity = new Falcon(AMMO_TYPE::L);
+			entity = new Falcon(ITEM_TYPE::L);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
 		if (object.getName() == "staticweapons")
 		{
-			entity = new Falcon(AMMO_TYPE::S);
+			entity = new Falcon(ITEM_TYPE::S);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
@@ -141,13 +141,13 @@ void Stage2::LoadEntities(void* entitiesLayer)
 		else
 		if (object.getName() == "capsuleweapon3b")
 		{
-			entity = new AirCraft(AMMO_TYPE::B, AIRCRAFT_DIRECTION::VERTICAL);
+			entity = new AirCraft(ITEM_TYPE::B, AIRCRAFT_DIRECTION::VERTICAL);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
 		if (object.getName() == "capsuleweapon3r")
 		{
-			entity = new AirCraft(AMMO_TYPE::R, AIRCRAFT_DIRECTION::VERTICAL);
+			entity = new AirCraft(ITEM_TYPE::R, AIRCRAFT_DIRECTION::VERTICAL);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else 
@@ -235,14 +235,14 @@ void Stage2::LoadEntities(void* entitiesLayer)
 	Destroy(representativeFire);
 
 	// static weapon
-	auto representativeFalcon = new Falcon(AMMO_TYPE::I);
+	auto representativeFalcon = new Falcon(ITEM_TYPE::I);
 	representativeFalcon->LoadTextures();
 	representativeFalcon->LoadSprites();
 	representativeFalcon->LoadAnimations();
 	Destroy(representativeFalcon);
 
 	// aircraft
-	auto representativeAirCraft = new AirCraft(AMMO_TYPE::I, AIRCRAFT_DIRECTION::VERTICAL);
+	auto representativeAirCraft = new AirCraft(ITEM_TYPE::I, AIRCRAFT_DIRECTION::VERTICAL);
 	representativeAirCraft->LoadTextures();
 	representativeAirCraft->LoadSprites();
 	representativeAirCraft->LoadAnimations();

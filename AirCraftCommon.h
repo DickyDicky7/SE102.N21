@@ -36,7 +36,7 @@ enum class AIRCRAFT_ANIMATION_ID
 };
 
 
-enum class AMMO_TYPE
+enum class ITEM_TYPE
 {
 	B,
 	F,

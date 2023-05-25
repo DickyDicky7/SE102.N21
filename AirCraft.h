@@ -23,7 +23,7 @@ class AirCraft : public Entity, public Enemy<Bill>
 {
 public:
 
-	AirCraft(AMMO_TYPE, AIRCRAFT_DIRECTION);
+	AirCraft(ITEM_TYPE, AIRCRAFT_DIRECTION);
 	virtual ~AirCraft();
 	void Update() override;
 	void Render() override;
@@ -33,8 +33,8 @@ public:
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
-	AMMO_TYPE getAmmoType();
-	void setAmmoType(AMMO_TYPE);
+	ITEM_TYPE getAmmoType();
+	void setAmmoType(ITEM_TYPE);
 
 	AIRCRAFT_DIRECTION getAircarftDirection() 
 	{
@@ -48,7 +48,7 @@ protected:
 	AirCraftState* state;
 	AirCraftState* updateState;
 	AirCraftState* handleInputState;
-	AMMO_TYPE _ammoType;
+	ITEM_TYPE _ammoType;
 	AIRCRAFT_DIRECTION _aircarftDirection; // huong ngang hoac doc
 };
 

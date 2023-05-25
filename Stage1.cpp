@@ -86,31 +86,31 @@ void Stage1::LoadEntities(void* entitiesLayer)
 		else
 		if (object.getName() == "staticweaponm")
 		{
-			entity = new Falcon(AMMO_TYPE::M);
+			entity = new Falcon(ITEM_TYPE::M);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
 		if (object.getName() == "staticweaponf")
 		{
-			entity = new Falcon(AMMO_TYPE::F);
+			entity = new Falcon(ITEM_TYPE::F);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
 		if (object.getName() == "staticweapons")
 		{
-			entity = new Falcon(AMMO_TYPE::S);
+			entity = new Falcon(ITEM_TYPE::S);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
 		if (object.getName() == "capsuleweaponr")
 		{
-			entity = new AirCraft(AMMO_TYPE::R, AIRCRAFT_DIRECTION::HORIZONTAL);
+			entity = new AirCraft(ITEM_TYPE::R, AIRCRAFT_DIRECTION::HORIZONTAL);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
 		if (object.getName() == "capsuleweaponl")
 		{
-			entity = new AirCraft(AMMO_TYPE::L, AIRCRAFT_DIRECTION::HORIZONTAL);
+			entity = new AirCraft(ITEM_TYPE::L, AIRCRAFT_DIRECTION::HORIZONTAL);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
@@ -140,9 +140,9 @@ void Stage1::LoadEntities(void* entitiesLayer)
 
 	auto representativeBill = new Bill();
 	auto representativeBullet = new Bullet();
-	auto representativeFalcon = new Falcon(AMMO_TYPE::I);
+	auto representativeFalcon = new Falcon(ITEM_TYPE::I);
 	auto representativeSoldier = new Soldier();
-	auto representativeAirCraft = new AirCraft(AMMO_TYPE::I, AIRCRAFT_DIRECTION::HORIZONTAL);
+	auto representativeAirCraft = new AirCraft(ITEM_TYPE::I, AIRCRAFT_DIRECTION::HORIZONTAL);
 	auto representativeWallTurret = new WallTurret();
 	auto representativeRifleManStanding = new RifleManStanding();
 	auto representativeRifleManHideOnBush = new RifleManHideOnBush();
