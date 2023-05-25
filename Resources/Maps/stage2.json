@@ -1140,15 +1140,15 @@
                  "y":964.999
                 }, 
                 {
-                 "height":8,
+                 "height":2,
                  "id":131,
                  "name":"",
                  "rotation":0,
                  "type":"throughable",
                  "visible":true,
                  "width":32.1509,
-                 "x":159.333,
-                 "y":1075.66
+                 "x":159.833,
+                 "y":1079.16
                 }, 
                 {
                  "height":8,
@@ -1202,8 +1202,8 @@
                  "type":"throughable",
                  "visible":true,
                  "width":161.093,
-                 "x":63.4841,
-                 "y":883.665
+                 "x":63.9841,
+                 "y":888.665
                 },
             
                 {
@@ -1214,8 +1214,8 @@
                  "type":"throughable",
                  "visible":true,
                  "width":95.2132,
-                 "x":31.6042,
-                 "y":852.332
+                 "x":32.6042,
+                 "y":858.332
                 }, 
                 {
                  "height":8,
@@ -1225,8 +1225,8 @@
                  "type":"throughable",
                  "visible":true,
                  "width":95.2132,
-                 "x":61.8775,
-                 "y":803.665
+                 "x":64.3775,
+                 "y":810.665
                 }, 
                 {
                  "height":8,

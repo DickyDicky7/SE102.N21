@@ -72,6 +72,7 @@ void Stage::Render()
 	backgroundTerrains->Retrieve(camera,   backgroundTerrainsResult);
 	for (auto& [backgroundTerrain, node] : backgroundTerrainsResult) backgroundTerrain->Render();
 	for (auto& [entity           , node] : entitiesResult)                      entity->Render();
+	bill->Render();
 }
 
 
@@ -93,6 +94,11 @@ void Stage::CheckResolveClearCollision()
 			for (auto& [foregroundTerrain, node] : foregroundTerrainsResult)
 			 collidableEntity->CollideWith(foregroundTerrain);
 		}
+	}
+	for (auto& [entity, node] : entitiesResult)
+	{
+		if (bill != entity)
+		    bill->CollideWith(entity);
 	}
 }
 

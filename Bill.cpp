@@ -1,4 +1,5 @@
 #include "Bill.h"
+#include "RockFly.h"
 #include "TerrainBlock.h"
 
 Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletSState())
@@ -385,6 +386,12 @@ void Bill::DynamicResolveNoCollision(                               )
 	{
 		if (surfaceEntity)
 		{
+			if (dynamic_cast<RockFly*>(surfaceEntity)
+			&&  dynamic_cast<BillNormalState*>(state))
+			{
+				position.x = surfaceEntity->GetX();
+			}
+			else
 			if (this->GetL() > surfaceEntity->GetR()
 			||  this->GetR() < surfaceEntity->GetL())
 			{
@@ -467,6 +474,20 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	}
 	break;
 
+	}
+	else
+	{
+		auto rockFly = dynamic_cast<RockFly*>(aabbSweepResult.surfaceEntity);
+		if  (rockFly)
+		{
+			if (aabbSweepResult.normalY == +1.0f)
+			{
+				position.y += aabbSweepResult.enTime * vy;
+				isAbSurface = 1;
+				surfaceEntity = rockFly;
+				ChangeState(state, new BillNormalState(), this);
+			}
+		}
 	}
 
 	//_RPT1
