@@ -13,6 +13,8 @@
 #include "RockFall.h"
 #include "RockFly.h"
 #include "ScubaSoldier.h"
+#include "BossStage3.h"
+
 Stage2:: Stage2() : Stage()
 {
 	mapFilePath = "Resources/Maps/stage2.json";
@@ -44,7 +46,7 @@ Stage2::~Stage2()
 	dynamicbridge3 		done
 	cannon3 			not
 
-	boss2finalhead		not
+	boss2finalhead		done
 	boss2finalarmleft	not
 	boss2finalarmright	not
 */
@@ -294,5 +296,12 @@ void Stage2::LoadEntities(void* entitiesLayer)
 	representativeScubaSoldier->LoadSprites();
 	representativeScubaSoldier->LoadAnimations();
 	Destroy(representativeScubaSoldier);
+
+	// boss stage3 head
+	auto representativeBossStage3Head = new BossStage3();
+	representativeBossStage3Head->LoadTextures();
+	representativeBossStage3Head->LoadSprites();
+	representativeBossStage3Head->LoadAnimations();
+	Destroy(representativeBossStage3Head);
 }
 
