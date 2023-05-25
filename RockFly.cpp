@@ -33,6 +33,7 @@ void RockFly::Render()
 {
 	this->w = this->currentFrameW;
 	this->h = this->currentFrameH;
+	this->h -= 7.0f;
 	SetAnimation(ROCK_FLY_ANIMATION_ID::NORMAL, GetPosition(), GetMovingDirection(), GetAngle());
 }
 

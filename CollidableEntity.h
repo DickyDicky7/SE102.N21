@@ -7,10 +7,10 @@ struct AABBSweepResult
 {
 	BOOL isCollided = 0;
 
-	FLOAT enTime = -std::numeric_limits<FLOAT>::infinity();
-	FLOAT exTime = +std::numeric_limits<FLOAT>::infinity();
-	FLOAT normalX = +std::numeric_limits<FLOAT>::infinity();
-	FLOAT normalY = +std::numeric_limits<FLOAT>::infinity();
+	FLOAT enTime   = -std::numeric_limits<FLOAT>::infinity();
+	FLOAT exTime   = +std::numeric_limits<FLOAT>::infinity();
+	FLOAT normalX  = +std::numeric_limits<FLOAT>::infinity();
+	FLOAT normalY  = +std::numeric_limits<FLOAT>::infinity();
 	FLOAT contactX = +std::numeric_limits<FLOAT>::infinity();
 	FLOAT contactY = +std::numeric_limits<FLOAT>::infinity();
 
@@ -24,9 +24,9 @@ public:
 
 	CollidableEntity();
 	virtual ~CollidableEntity();
-	virtual void  StaticResolveNoCollision() = 0;
+	virtual void  StaticResolveNoCollision(               ) = 0;
 	virtual void  StaticResolveOnCollision(AABBSweepResult) = 0;
-	virtual void DynamicResolveNoCollision() = 0;
+	virtual void DynamicResolveNoCollision(               ) = 0;
 	virtual void DynamicResolveOnCollision(AABBSweepResult) = 0;
 
 	BOOL AABBCheck(Entity*);
@@ -68,13 +68,13 @@ inline void CollidableEntity::CollideWith(Entity* targetEntity)
 	{
 		DynamicResolveOnCollision(aabbSweepResult);
 		auto collidingEntity = dynamic_cast<CollidableEntity*>(targetEntity);
-		if (collidingEntity) collidingEntity->StaticResolveOnCollision(aabbSweepResult);
+		if  (collidingEntity) collidingEntity->StaticResolveOnCollision(aabbSweepResult);
 	}
 	else
 	{
-		DynamicResolveNoCollision();
+		DynamicResolveNoCollision(               );
 		auto collidingEntity = dynamic_cast<CollidableEntity*>(targetEntity);
-		if (collidingEntity) collidingEntity->StaticResolveNoCollision();
+		if  (collidingEntity) collidingEntity->StaticResolveNoCollision(               );
 	}
 }
 
@@ -133,24 +133,24 @@ inline AABBSweepResult CollidableEntity::AABBSweepX(Entity* targetEntity)
 	aabbSweepResult.exTime = exTimeX;
 
 	if (aabbSweepResult.enTime > aabbSweepResult.exTime
-		|| aabbSweepResult.enTime > 1.0f
-		|| aabbSweepResult.exTime < 0.0f)
+	||  aabbSweepResult.enTime > 1.0f
+	||  aabbSweepResult.exTime < 0.0f)
 	{
 		return aabbSweepResult;
 	}
 
 	aabbSweepResult.normalX
-		= self->GetVX() > 0.0f ? -1.0f : 1.0f;
+	=  self->GetVX() > 0.0f ? -1.0f : 1.0f;
 	aabbSweepResult.normalY
-		= 0.0f;
+	=  0.0f;
 	aabbSweepResult.contactX
-		= (self->GetVX() > 0.0f ? self->GetR() : self->GetL()) + aabbSweepResult.normalX * self->GetVX() * aabbSweepResult.enTime;
+	= (self->GetVX() > 0.0f ? self->GetR() : self->GetL()) + aabbSweepResult.normalX * self->GetVX() * aabbSweepResult.enTime;
 	aabbSweepResult.contactY
-		= self->GetT() / 2.0f;
+	=  self->GetT () / 2.0f;
 	aabbSweepResult.isCollided
-		= 1;
+	=  1;
 	aabbSweepResult.surfaceEntity
-		= targetEntity;
+	=  targetEntity;
 
 	return aabbSweepResult;
 }
@@ -180,24 +180,26 @@ inline AABBSweepResult CollidableEntity::AABBSweepY(Entity* targetEntity)
 	aabbSweepResult.exTime = exTimeY;
 
 	if (aabbSweepResult.enTime > aabbSweepResult.exTime
-		|| aabbSweepResult.enTime > 1.0f
-		|| aabbSweepResult.exTime < 0.0f)
+	||  aabbSweepResult.enTime > 1.0f
+	||  aabbSweepResult.exTime < 0.0f)
 	{
 		return aabbSweepResult;
 	}
 
 	aabbSweepResult.normalX
-		= 0.0f;
+	=  0.0f;
 	aabbSweepResult.normalY
-		= self->GetVY() > 0.0f ? -1.0f : 1.0f;
+	=  self->GetVY() > 0.0f ? -1.0f : 1.0f;
 	aabbSweepResult.contactX
-		= self->GetX();
+	=  self->GetX ();
 	aabbSweepResult.contactY
-		= (self->GetVY() > 0.0f ? self->GetT() : self->GetB()) + aabbSweepResult.normalY * self->GetVY() * aabbSweepResult.enTime;
+	= (self->GetVY() > 0.0f ? self->GetT() : self->GetB()) + aabbSweepResult.normalY * self->GetVY() * aabbSweepResult.enTime;
 	aabbSweepResult.isCollided
-		= 1;
+	=  1;
 	aabbSweepResult.surfaceEntity
-		= targetEntity;
+	=  targetEntity;
 
 	return aabbSweepResult;
 }
+
+
