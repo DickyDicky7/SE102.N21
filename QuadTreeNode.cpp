@@ -285,3 +285,4 @@ BoundingBox BoundingBox::CalcIntersection(QuadTreeNode* node)
 	return BoundingBox{ max(this->B, node->GetB()), min(this->T, node->GetT()), max(this->L,node->GetL()), min(this->R, node->GetR()) };
 }
 
+

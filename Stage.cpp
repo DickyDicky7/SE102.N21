@@ -211,3 +211,4 @@ void Stage::LoadForegroundTerrains(void* foregroundTerrainsLayer)
 	}
 }
 
+
