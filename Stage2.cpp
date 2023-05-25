@@ -188,13 +188,13 @@ void Stage2::LoadEntities(void* entitiesLayer)
 		else
 		if (object.getName() == "cannon3")
 		{
-			entity = new RockFly(80, 224);
-			entity->SetMovingDirection(DIRECTION::LEFT);
+			
 		}
 		else
 		if (object.getName() == "boss2finalhead")
 		{
-			
+			entity = new BossStage3();
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
 		if (object.getName() == "boss2finalarmleft")
