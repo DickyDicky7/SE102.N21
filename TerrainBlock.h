@@ -4,27 +4,24 @@
 #include "Entity.h"
 #include "CollidableEntity.h"
 
-enum class TERRAIN_BLOCK_TYPE
-{
-	WATER,
-	THROUGHABLE,
-	NON_THROUGHABLE,
-};
+enum class TERRAIN_BLOCK_TYPE { WATER, THROUGHABLE, NON_THROUGHABLE, };
 
 class TerrainBlock : public Entity, public CollidableEntity
 {
 
 public:
+
 	TerrainBlock();
 	virtual ~TerrainBlock();
 	TERRAIN_BLOCK_TYPE type;
 
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input &) override;
+	void HandleInput(Input&) override;
 
-	void StaticResolveNoCollision() override;
-	void StaticResolveOnCollision(AABBSweepResult) override;
-	void DynamicResolveNoCollision() override;
+	void  StaticResolveNoCollision(               ) override;
+	void  StaticResolveOnCollision(AABBSweepResult) override;
+	void DynamicResolveNoCollision(               ) override;
 	void DynamicResolveOnCollision(AABBSweepResult) override;
+
 };
