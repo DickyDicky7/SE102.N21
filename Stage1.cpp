@@ -28,12 +28,11 @@ void Stage1::LoadEntities(void* entitiesLayer)
 {
 	auto _entitiesLayer = (tson::Layer*)entitiesLayer;
 	auto mapH = _entitiesLayer->getMap()->getSize    ().y
-		      * _entitiesLayer->getMap()->getTileSize().y;
+              * _entitiesLayer->getMap()->getTileSize().y;
 
 	for (auto& object : _entitiesLayer->getObjects())
 	{
-		auto& position = object.getPosition();
-		auto& size = object.getSize();
+		auto& position = object.getPosition(); auto& size = object.getSize();
 		Entity* entity = NULL;
 
 		if (object.getName() == "bridge")
