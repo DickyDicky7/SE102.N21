@@ -12,7 +12,7 @@ public:
 
 protected:
 
-	virtual void LoadEntities(void *) override;
+	virtual void LoadEntities(void*) override;
 
 };
 
