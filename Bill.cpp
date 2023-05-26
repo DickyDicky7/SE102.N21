@@ -474,6 +474,11 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		{
 			if (aabbSweepResult.normalY == +1.0f)
 			{
+				if (surfaceEntity)
+				{
+					if (abs(rockFly->GetY() - surfaceEntity->GetY() > 48.0f))
+						return;
+				}
 				position.y += aabbSweepResult.enTime * vy;
 				isAbSurface = 1;
 				surfaceEntity = rockFly;
