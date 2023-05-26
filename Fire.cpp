@@ -78,7 +78,7 @@ void Fire::LoadTextures()
 	if (HasTextures<Fire>::hasBeenLoaded.value) return;
 	HasTextures<Fire>::hasBeenLoaded.value = true;
 
-	GraphicsHelper::InsertTexure(FIRE_TEXTURE_ID::FIRE, L"Resources\\Textures\\fire.png");
+	GraphicsHelper::InsertTexure(FIRE_TEXTURE_ID::FIRE, L"Resources\\Textures\\Fire.bmp");
 
 	OutputDebugString(L"Fire Textures Loaded Successfully\n");
 }

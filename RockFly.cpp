@@ -71,7 +71,7 @@ void RockFly::LoadTextures()
 	if (HasTextures<RockFly>::hasBeenLoaded.value) return;
 	HasTextures<RockFly>::hasBeenLoaded.value = true;
 
-	GraphicsHelper::InsertTexure(ROCK_FLY_TEXTURE_ID::ROCK_FLY, L"Resources\\Textures\\stage3_elements.png");
+	GraphicsHelper::InsertTexure(ROCK_FLY_TEXTURE_ID::ROCK_FLY, L"Resources\\Textures\\Stage3Elements.bmp");
 
 	OutputDebugString(L"RockFly Textures Loaded Successfully\n");
 }

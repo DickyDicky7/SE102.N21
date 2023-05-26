@@ -88,7 +88,7 @@ void RockFall::LoadTextures()
 	if (HasTextures<RockFall>::hasBeenLoaded.value) return;
 	HasTextures<RockFall>::hasBeenLoaded.value = true;
 
-	GraphicsHelper::InsertTexure(ROCK_FALL_TEXTURE_ID::ROCK_FALL, L"Resources\\Textures\\rockfall.png");
+	GraphicsHelper::InsertTexure(ROCK_FALL_TEXTURE_ID::ROCK_FALL, L"Resources\\Textures\\RockFall.bmp");
 
 	OutputDebugString(L"RockFall Textures Loaded Successfully\n");
 }
