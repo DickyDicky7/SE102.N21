@@ -430,7 +430,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			}
 			if (surfaceEntity)
 			{
-				if (abs(terrainBlock->GetY() - surfaceEntity->GetY() > 48.0f))
+				if (abs(terrainBlock->GetY() - surfaceEntity->GetY() > 48.0f)) // size of 1 tile is 16 x 16 -> 48.0f = 3 tiles
 					return;
 			}
 			position.y += aabbSweepResult.enTime * vy;
@@ -476,7 +476,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			{
 				if (surfaceEntity)
 				{
-					if (abs(rockFly->GetY() - surfaceEntity->GetY() > 48.0f))
+					if (abs(rockFly->GetY() - surfaceEntity->GetY() > 48.0f)) // size of 1 tile is 16 x 16 -> 48.0f = 3 tiles
 						return;
 				}
 				position.y += aabbSweepResult.enTime * vy;
