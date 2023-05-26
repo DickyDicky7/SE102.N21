@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="AirCraft.h" />
+    <ClInclude Include="AirCraftCommon.h" />
     <ClInclude Include="Bill.h" />
     <ClInclude Include="BillCommon.h" />
     <ClInclude Include="BossStage3.h" />
@@ -30,6 +32,10 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Falcon.h" />
+    <ClInclude Include="FalconCommon.h" />
+    <ClInclude Include="Fire.h" />
+    <ClInclude Include="FireCommon.h" />
     <ClInclude Include="GraphicsDatabase.h" />
     <ClInclude Include="GraphicsHelper.h" />
     <ClInclude Include="HasAnimations.h" />
@@ -47,6 +53,10 @@
     <ClInclude Include="RifleManCommon.h" />
     <ClInclude Include="RifleManHideOnBush.h" />
     <ClInclude Include="RifleManStanding.h" />
+    <ClInclude Include="RockFall.h" />
+    <ClInclude Include="RockFallCommon.h" />
+    <ClInclude Include="RockFly.h" />
+    <ClInclude Include="RockFlyCommon.h" />
     <ClInclude Include="ScubaSoldier.h" />
     <ClInclude Include="ScubaSoldierCommon.h" />
     <ClInclude Include="Soldier.h" />
@@ -66,6 +76,16 @@
     <ClInclude Include="TestingEntityCommon.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="AirCraft.cpp" />
+    <ClCompile Include="AirCraftState.cpp" />
+    <ClCompile Include="AirCraftBAmmoState.cpp" />
+    <ClCompile Include="AirCraftFAmmoState.cpp" />
+    <ClCompile Include="AirCraftInvulState.cpp" />
+    <ClCompile Include="AirCraftLAmmoState.cpp" />
+    <ClCompile Include="AirCraftMAmmoState.cpp" />
+    <ClCompile Include="AirCraftNormalState.cpp" />
+    <ClCompile Include="AirCraftRAmmoState.cpp" />
+    <ClCompile Include="AirCraftSAmmoState.cpp" />
     <ClCompile Include="BillSwimRunShotState.cpp" />
     <ClCompile Include="BulletFState.cpp" />
     <ClCompile Include="BulletLState.cpp" />
@@ -74,6 +94,12 @@
     <ClCompile Include="BulletSState.cpp" />
     <ClCompile Include="CollidableEntity.cpp" />
     <ClCompile Include="CollidableState.cpp" />
+    <ClCompile Include="Falcon.cpp" />
+    <ClCompile Include="FalconCloseState.cpp" />
+    <ClCompile Include="FalconOpeningState.cpp" />
+    <ClCompile Include="FalconOpenState.cpp" />
+    <ClCompile Include="FalconState.cpp" />
+    <ClCompile Include="Fire.cpp" />
     <ClCompile Include="HasWeapons.cpp" />
     <ClCompile Include="Motion.cpp" />
     <ClCompile Include="QuadTreeNode.cpp" />
@@ -134,6 +160,11 @@
     <ClCompile Include="RifleMan.cpp" />
     <ClCompile Include="RifleManHideOnBush.cpp" />
     <ClCompile Include="RifleManStandingState.cpp" />
+    <ClCompile Include="RockFall.cpp" />
+    <ClCompile Include="RockFallFallState.cpp" />
+    <ClCompile Include="RockFallNormalState.cpp" />
+    <ClCompile Include="RockFallState.cpp" />
+    <ClCompile Include="RockFly.cpp" />
     <ClCompile Include="ScubaSoldier.cpp" />
     <ClCompile Include="ScubaSoldierHiddenState.cpp" />
     <ClCompile Include="ScubaSoldierShootingState.cpp" />

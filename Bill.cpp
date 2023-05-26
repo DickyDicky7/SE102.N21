@@ -1,4 +1,5 @@
 #include "Bill.h"
+#include "RockFly.h"
 #include "TerrainBlock.h"
 
 Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletSState())
@@ -48,19 +49,11 @@ void Bill::Render()
 
 	if (updateState)
 	{
-		//state->Exit(*this);
-		//delete state;
-		//state = updateState;
-		//state->Enter(*this);
 		ChangeState(state, updateState, this);
 		updateState = NULL;
 	}
 	if (handleInputState)
 	{
-		//state->Exit(*this);
-		//delete state;
-		//state = handleInputState;
-		//state->Enter(*this);
 		ChangeState(state, handleInputState, this);
 		handleInputState = NULL;
 	}
@@ -385,6 +378,12 @@ void Bill::DynamicResolveNoCollision(                               )
 	{
 		if (surfaceEntity)
 		{
+			if (dynamic_cast<RockFly*>(surfaceEntity)
+			&&  dynamic_cast<BillNormalState*>(state))
+			{
+				position.x = surfaceEntity->GetX();
+			}
+			else
 			if (this->GetL() > surfaceEntity->GetR()
 			||  this->GetR() < surfaceEntity->GetL())
 			{
@@ -431,7 +430,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			}
 			if (surfaceEntity)
 			{
-				if (abs(terrainBlock->GetY() - surfaceEntity->GetY() > 48.0f))
+				if (abs(terrainBlock->GetY() - surfaceEntity->GetY() > 48.0f)) // size of 1 tile is 16 x 16 -> 48.0f = 3 tiles
 					return;
 			}
 			position.y += aabbSweepResult.enTime * vy;
@@ -467,6 +466,25 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	}
 	break;
 
+	}
+	else
+	{
+		auto rockFly = dynamic_cast<RockFly*>(aabbSweepResult.surfaceEntity);
+		if  (rockFly)
+		{
+			if (aabbSweepResult.normalY == +1.0f)
+			{
+				if (surfaceEntity)
+				{
+					if (abs(rockFly->GetY() - surfaceEntity->GetY() > 48.0f)) // size of 1 tile is 16 x 16 -> 48.0f = 3 tiles
+						return;
+				}
+				position.y += aabbSweepResult.enTime * vy;
+				isAbSurface = 1;
+				surfaceEntity = rockFly;
+				ChangeState(state, new BillNormalState(), this);
+			}
+		}
 	}
 
 	//_RPT1

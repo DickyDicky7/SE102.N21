@@ -1,4 +1,4 @@
-﻿#include <chrono>
+#include <chrono>
 #include "Bill.h"
 #include "Input.h"
 #include "Motion.h"
@@ -46,43 +46,43 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	{
 		stage = new Stage1();
 		stage->Load<TerrainStage1, CameraMovingForwardState>();
-		bill   = stage->GetBill();
+		bill = stage->GetBill();
 		camera = stage->GetCamera();
 	}
 
 
 
 
-	//
-	FLOAT x = 050.0f;
-	FLOAT y = 100.0f;
-	FLOAT vx = 5.0f;
-	FLOAT vy = 5.0f;
+	////
+	//FLOAT x = 050.0f;
+	//FLOAT y = 100.0f;
+	//FLOAT vx = 5.0f;
+	//FLOAT vy = 5.0f;
 
 
-	FLOAT y0 = y;
-	FLOAT t = 0.0f;
-	FLOAT dt = 0.05f;
-	FLOAT T = 2.5f;
-	FLOAT A = 50.0f;
-	FLOAT φ = 0.0f;
-	Motion::OscillatoryMotionInputParameters pio{ y0, t, dt, T, A, φ };
+	//FLOAT y0 = y;
+	//FLOAT t = 0.0f;
+	//FLOAT dt = 0.05f;
+	//FLOAT T = 2.5f;
+	//FLOAT A = 50.0f;
+	//FLOAT φ = 0.0f;
+	//Motion::OscillatoryMotionInputParameters pio{ y0, t, dt, T, A, φ };
 
 
-	FLOAT v0 = 10.0f;
-	FLOAT θ = 80.0f;
-	dt = 0.05f;
-	Motion::ProjectileMotionInputParameters pip{ x, y, v0, θ, t, dt };
+	//FLOAT v0 = 10.0f;
+	//FLOAT θ = 80.0f;
+	//dt = 0.05f;
+	//Motion::ProjectileMotionInputParameters pip{ x, y, v0, θ, t, dt };
 
 
-	FLOAT r = 50.0f;
-	FLOAT ω = 0.0f;
-	FLOAT dω = 5.0f;
-	FLOAT xO = 100.0f;
-	FLOAT yO = 100.0f;
-	FLOAT angle = 0.0f;
-	FLOAT dAngle = 10.0f;
-	Motion::UniformCircularMotionInputParameters pic{ r, ω, dω, xO, yO };
+	//FLOAT r = 50.0f;
+	//FLOAT ω = 0.0f;
+	//FLOAT dω = 5.0f;
+	//FLOAT xO = 100.0f;
+	//FLOAT yO = 100.0f;
+	//FLOAT angle = 0.0f;
+	//FLOAT dAngle = 10.0f;
+	//Motion::UniformCircularMotionInputParameters pic{ r, ω, dω, xO, yO };
 	//
 
 
@@ -91,8 +91,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	MSG msg;
 	while (TRUE)
 	{
-		//auto start = std::chrono::high_resolution_clock().now();
-		//std::ios_base::sync_with_stdio(false);
+		auto start = std::chrono::high_resolution_clock().now();
+		std::ios_base::sync_with_stdio(false);
 
 		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
@@ -112,7 +112,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				Destroy(stage);
 				stage = new Stage2();
 				stage->Load<TerrainStage2, CameraMovingUpwardState>();
-				bill   = stage->GetBill();
+				bill = stage->GetBill();
 				camera = stage->GetCamera();
 			}
 			else
@@ -120,7 +120,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 				Destroy(stage);
 				stage = new Stage1();
 				stage->Load<TerrainStage1, CameraMovingForwardState>();
-				bill   = stage->GetBill();
+				bill = stage->GetBill();
 				camera = stage->GetCamera();
 			}
 		}
@@ -143,37 +143,37 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 
 		//
-		auto poo = Motion::CalculateOscillatoryMotion(pio);
-		pio.t = poo.t;
-		GraphicsHelper::DrawSprite
-		(GraphicsDatabase::sprites[BILL_SPRITE_ID::NORMAL_01], D3DXVECTOR3(x, poo.c, 0.0f), DIRECTION::RIGHT, 45.0f);
-		x += vx;
-		if (x >= 500.0f || x <= 0.0f) vx = -vx;
+		//auto poo = Motion::CalculateOscillatoryMotion(pio);
+		//pio.t = poo.t;
+		//GraphicsHelper::DrawSprite
+		//(GraphicsDatabase::sprites[BILL_SPRITE_ID::NORMAL_01], D3DXVECTOR3(x, poo.c, 0.0f), DIRECTION::RIGHT, 45.0f);
+		//x += vx;
+		//if (x >= 500.0f || x <= 0.0f) vx = -vx;
 
 
-		if (pip.y < 0.0f)
-		{
-			pip.y = 0.0f;
-			pip.t = 0.0f;
-			if (pip.x >= 500.0f) pip.θ += 20.0f;
-			if (pip.x <= 0.0f) pip.θ -= 20.0f;
-		}
-		else
-		{
-			auto pop = Motion::CalculateProjectileMotion(pip);
-			pip.x = pop.x;
-			pip.y = pop.y;
-			pip.t = pop.t;
-		}
-		GraphicsHelper::DrawSprite
-		(GraphicsDatabase::sprites[BILL_SPRITE_ID::NORMAL_01], D3DXVECTOR3(pip.x, pip.y, 0.0f), DIRECTION::RIGHT, -45.0f);
+		//if (pip.y < 0.0f)
+		//{
+		//	pip.y = 0.0f;
+		//	pip.t = 0.0f;
+		//	if (pip.x >= 500.0f) pip.θ += 20.0f;
+		//	if (pip.x <= 0.0f) pip.θ -= 20.0f;
+		//}
+		//else
+		//{
+		//	auto pop = Motion::CalculateProjectileMotion(pip);
+		//	pip.x = pop.x;
+		//	pip.y = pop.y;
+		//	pip.t = pop.t;
+		//}
+		//GraphicsHelper::DrawSprite
+		//(GraphicsDatabase::sprites[BILL_SPRITE_ID::NORMAL_01], D3DXVECTOR3(pip.x, pip.y, 0.0f), DIRECTION::RIGHT, -45.0f);
 
 
-		auto poc = Motion::CalculateUniformCircularMotion(pic);
-		pic.ω = poc.ω;
-		GraphicsHelper::DrawSprite
-		(GraphicsDatabase::sprites[BILL_SPRITE_ID::NORMAL_01], D3DXVECTOR3(poc.x, poc.y, 0.0f), DIRECTION::RIGHT, angle);
-		angle += dAngle;
+		//auto poc = Motion::CalculateUniformCircularMotion(pic);
+		//pic.ω = poc.ω;
+		//GraphicsHelper::DrawSprite
+		//(GraphicsDatabase::sprites[BILL_SPRITE_ID::NORMAL_01], D3DXVECTOR3(poc.x, poc.y, 0.0f), DIRECTION::RIGHT, angle);
+		//angle += dAngle;
 		//
 
 
@@ -183,12 +183,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
 
-		//auto end = std::chrono::high_resolution_clock().now();
-		//double time_taken = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
-		//time_taken *= 1e-9;
-		//wchar_t mes[100];
-		//swprintf(mes, 100, L"%f sec\n", time_taken);
-		//OutputDebugString(mes);
+		auto end = std::chrono::high_resolution_clock().now();
+		double time_taken = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
+		time_taken *= 1e-9;
+		wchar_t mes[100];
+		swprintf(mes, 100, L"%f sec\n", time_taken);
+		OutputDebugString(mes);
 	}
 
 	CleanD3D();

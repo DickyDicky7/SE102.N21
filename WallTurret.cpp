@@ -93,10 +93,7 @@ void WallTurret::Render() {
 
 	if (updateState)
 	{
-		state->Exit(*this);
-		delete state;
-		state = updateState;
-		state->Enter(*this);
+		ChangeState(state, updateState, this);
 		updateState = NULL;
 	}
 }

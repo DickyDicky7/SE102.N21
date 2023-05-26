@@ -25,15 +25,21 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include "FireCommon.h"
 #include "BillCommon.h"
 #include "BulletCommon.h"
+#include "FalconCommon.h"
+#include "RockFlyCommon.h"
 #include "SoldierCommon.h"
+#include "AirCraftCommon.h"
+#include "RockFallCommon.h"
 #include "RifleManCommon.h"
 #include "WallTurretCommon.h"
 #include "BossStage3Common.h"
 #include "ScubaSoldierCommon.h"
 #include "TerrainStage1Common.h"
 #include "TerrainStage2Common.h"
+#include "TerrainStage1Common.h"
 
 enum class DIRECTION
 {
@@ -50,8 +56,13 @@ struct Bool { BOOL value; };
 using SPRITE_ID = std::variant
 <
 	BILL_SPRITE_ID,
+	FIRE_SPRITE_ID,
+	FALCON_SPRITE_ID,
 	BULLET_SPRITE_ID,
 	SOLDIER_SPRITE_ID,
+	AIRCRAFT_SPRITE_ID,
+	ROCK_FLY_SPRITE_ID,
+	ROCK_FALL_SPRITE_ID,
 	RIFLE_MAN_SPRITE_ID,
 	WALL_TURRET_SPRITE_ID,
 	BOSS_STAGE_3_SPRITE_ID,
@@ -59,11 +70,17 @@ using SPRITE_ID = std::variant
 	TERRAIN_STAGE_1_SPRITE_ID,
 	TERRAIN_STAGE_2_SPRITE_ID
 >;
+
 using TEXTURE_ID = std::variant
 <
 	BILL_TEXTURE_ID,
+	FIRE_TEXTURE_ID,
+	FALCON_TEXTURE_ID,
 	BULLET_TEXTURE_ID,
 	SOLDIER_TEXTURE_ID,
+	AIRCRAFT_TEXTURE_ID,
+	ROCK_FLY_TEXTURE_ID,
+	ROCK_FALL_TEXTURE_ID,
 	RIFLE_MAN_TEXTURE_ID,
 	WALL_TURRET_TEXTURE_ID,
 	BOSS_STAGE_3_TEXTURE_ID,
@@ -71,11 +88,17 @@ using TEXTURE_ID = std::variant
 	TERRAIN_STAGE_1_TEXTURE_ID,
 	TERRAIN_STAGE_2_TEXTURE_ID
 >;
+
 using ANIMATION_ID = std::variant
 <
 	BILL_ANIMATION_ID,
+	FIRE_ANIMATION_ID,
+	FALCON_ANIMATION_ID,
 	BULLET_ANIMATION_ID,
 	SOLDIER_ANIMATION_ID,
+	AIRCRAFT_ANIMATION_ID,
+	ROCK_FLY_ANIMATION_ID,
+	ROCK_FALL_ANIMATION_ID,
 	RIFLE_MAN_ANIMATION_ID,
 	WALL_TURRET_ANIMATION_ID,
 	BOSS_STAGE_3_ANIMATION_ID,

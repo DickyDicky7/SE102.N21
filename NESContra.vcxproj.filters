@@ -172,6 +172,45 @@
     <Filter Include="Source Files\Stages">
       <UniqueIdentifier>{ac828fcc-65be-4ca8-8a8b-a29690f4c0c3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Objects\Enemies\AirCraft">
+      <UniqueIdentifier>{01d5c4bb-5c0c-476b-84c0-cbf112009c3d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\AirCraft\AirCraftState">
+      <UniqueIdentifier>{13f14c65-7fd2-47cf-b7cc-a52e6a43d418}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\AirCraft">
+      <UniqueIdentifier>{af28f063-4f8c-4349-aee5-b06d0f0315ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\Falcon">
+      <UniqueIdentifier>{f036c879-e274-4495-b011-e306db2edf7f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\Falcon">
+      <UniqueIdentifier>{05bbee7b-969b-40d0-86a9-d99768c81f1e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\Falcon\FalconState">
+      <UniqueIdentifier>{43bbc217-0974-4996-b420-24276b2d9dc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\RockFly">
+      <UniqueIdentifier>{89913019-d9db-4442-a868-90cfc4a82cbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\RockFly">
+      <UniqueIdentifier>{fad04213-c289-43ff-bdaa-d2ee185f1356}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\Fire">
+      <UniqueIdentifier>{b6c84411-b0e6-451f-8341-3d5e7930a5d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\RockFall">
+      <UniqueIdentifier>{daa96ac8-c315-4bd7-aefd-e4d9eaffde6e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\Fire">
+      <UniqueIdentifier>{19f3ccfd-5f92-4825-8edd-fb4f310b6464}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\RockFall">
+      <UniqueIdentifier>{4e8163d0-19b8-4d00-ac46-240d4897d811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\RockFall\RockFallState">
+      <UniqueIdentifier>{3029f3eb-79b4-46e0-ada4-d4a166100ed9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -308,6 +347,36 @@
     </ClInclude>
     <ClInclude Include="Stage.h">
       <Filter>Header Files\Stages</Filter>
+    </ClInclude>
+    <ClInclude Include="AirCraft.h">
+      <Filter>Header Files\Objects\Enemies\AirCraft</Filter>
+    </ClInclude>
+    <ClInclude Include="AirCraftCommon.h">
+      <Filter>Header Files\Objects\Enemies\AirCraft</Filter>
+    </ClInclude>
+    <ClInclude Include="Falcon.h">
+      <Filter>Header Files\Objects\Enemies\Falcon</Filter>
+    </ClInclude>
+    <ClInclude Include="FalconCommon.h">
+      <Filter>Header Files\Objects\Enemies\Falcon</Filter>
+    </ClInclude>
+    <ClInclude Include="Fire.h">
+      <Filter>Header Files\Objects\Enemies\Fire</Filter>
+    </ClInclude>
+    <ClInclude Include="FireCommon.h">
+      <Filter>Header Files\Objects\Enemies\Fire</Filter>
+    </ClInclude>
+    <ClInclude Include="RockFall.h">
+      <Filter>Header Files\Objects\Enemies\RockFall</Filter>
+    </ClInclude>
+    <ClInclude Include="RockFallCommon.h">
+      <Filter>Header Files\Objects\Enemies\RockFall</Filter>
+    </ClInclude>
+    <ClInclude Include="RockFlyCommon.h">
+      <Filter>Header Files\Objects\RockFly</Filter>
+    </ClInclude>
+    <ClInclude Include="RockFly.h">
+      <Filter>Header Files\Objects\RockFly</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -685,6 +754,69 @@
     </ClCompile>
     <ClCompile Include="Stage2.cpp">
       <Filter>Source Files\Stages</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraft.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftBAmmoState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftFAmmoState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftInvulState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftLAmmoState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftMAmmoState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftNormalState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftRAmmoState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftSAmmoState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
+    </ClCompile>
+    <ClCompile Include="AirCraftState.cpp">
+      <Filter>Source Files\Objects\Enemies\AirCraft</Filter>
+    </ClCompile>
+    <ClCompile Include="Falcon.cpp">
+      <Filter>Source Files\Objects\Enemies\Falcon</Filter>
+    </ClCompile>
+    <ClCompile Include="FalconState.cpp">
+      <Filter>Source Files\Objects\Enemies\Falcon</Filter>
+    </ClCompile>
+    <ClCompile Include="FalconCloseState.cpp">
+      <Filter>Source Files\Objects\Enemies\Falcon\FalconState</Filter>
+    </ClCompile>
+    <ClCompile Include="FalconOpeningState.cpp">
+      <Filter>Source Files\Objects\Enemies\Falcon\FalconState</Filter>
+    </ClCompile>
+    <ClCompile Include="FalconOpenState.cpp">
+      <Filter>Source Files\Objects\Enemies\Falcon\FalconState</Filter>
+    </ClCompile>
+    <ClCompile Include="Fire.cpp">
+      <Filter>Source Files\Objects\Enemies\Fire</Filter>
+    </ClCompile>
+    <ClCompile Include="RockFall.cpp">
+      <Filter>Source Files\Objects\Enemies\RockFall</Filter>
+    </ClCompile>
+    <ClCompile Include="RockFallState.cpp">
+      <Filter>Source Files\Objects\Enemies\RockFall</Filter>
+    </ClCompile>
+    <ClCompile Include="RockFallFallState.cpp">
+      <Filter>Source Files\Objects\Enemies\RockFall\RockFallState</Filter>
+    </ClCompile>
+    <ClCompile Include="RockFallNormalState.cpp">
+      <Filter>Source Files\Objects\Enemies\RockFall\RockFallState</Filter>
+    </ClCompile>
+    <ClCompile Include="RockFly.cpp">
+      <Filter>Source Files\Objects\RockFly</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

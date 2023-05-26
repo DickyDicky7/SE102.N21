@@ -1,5 +1,4 @@
 #pragma once
-#include "Bill.h"
 #include "Enemy.h"
 #include "State.h"
 #include "Common.h"
@@ -7,6 +6,7 @@
 #include "HasSprites.h"
 #include "HasTextures.h"
 #include "HasAnimations.h"
+#include "Bill.h"
 
 class ScubaSoldierState;
 class ScubaSoldierHiddenState;
@@ -26,11 +26,16 @@ public:
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
+
+	void CalculateBillAngle();
+
 protected:
 
 	ScubaSoldierState* state;
 	ScubaSoldierState* updateState;
 	ScubaSoldierState* handleInputState;
+
+	float billAngle;
 };
 
 // build state of soldier
