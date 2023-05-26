@@ -56,7 +56,7 @@ public:
 
 protected:
 
-	TIME time;
+	FLOAT time;
 
 };
 

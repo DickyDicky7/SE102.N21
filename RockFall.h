@@ -41,7 +41,7 @@ protected:
 	RockFallState* updateState;
 	RockFallState* handleInputState;
 
-	TIME _timedelayToFall;
+	FLOAT _timedelayToFall;
 };
 
 
