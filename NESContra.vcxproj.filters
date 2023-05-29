@@ -857,10 +857,7 @@
     <ClCompile Include="LoadingSceneState.cpp">
       <Filter>Source Files\Objects\Scene\SceneState</Filter>
     </ClCompile>
-    <ClCompile Include="Stage1SceneState.cpp">
-      <Filter>Source Files\Objects\Scene\SceneState</Filter>
-    </ClCompile>
-    <ClCompile Include="Stage2SceneState.cpp">
+    <ClCompile Include="PlayingSceneState.cpp">
       <Filter>Source Files\Objects\Scene\SceneState</Filter>
     </ClCompile>
     <ClCompile Include="StartSceneState.cpp">

@@ -187,9 +187,8 @@
     <ClCompile Include="RifleManHideOnBushStandingState.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Stage1.cpp" />
-    <ClCompile Include="Stage1SceneState.cpp" />
+    <ClCompile Include="PlayingSceneState.cpp" />
     <ClCompile Include="Stage2.cpp" />
-    <ClCompile Include="Stage2SceneState.cpp" />
     <ClCompile Include="StartSceneState.cpp" />
     <ClCompile Include="State.cpp" />
     <ClCompile Include="Terrain.cpp" />

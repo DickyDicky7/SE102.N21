@@ -2,21 +2,16 @@
 #include "Bill.h"
 #include "Scene.h"
 #include "Input.h"
-#include "Motion.h"
 #include "Camera.h"
+#include "Motion.h"
 #include "Common.h"
-#include "Stage1.h"
-#include "Stage2.h"
-#include "TerrainStage1.h"
-#include "TerrainStage2.h"
 
-Bill* bill; Stage* stage; Input* input; Camera* camera;
+Scene* scene; Input* input; Camera* camera;
 LPDIRECT3D9 d3d; LPDIRECT3DDEVICE9 d3ddev; LPD3DXSPRITE spriteHandler;
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 void LoadD3D(HWND hWnd);
 void CleanD3D(void);
-void LoadAssets();
 
 int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _In_ LPSTR lpCmdLine, _In_ int nCmdShow)
 {
@@ -36,23 +31,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	ShowWindow(hWnd, nCmdShow);
 
 	LoadD3D(hWnd);
-	LoadAssets();
+
+	scene = new Scene();
 
 	input = new Input
 	(
 		hInstance, hWnd
 	);
 
-	if (!stage)
-	{
-		stage = new Stage1();
-		stage->Load<TerrainStage1, CameraMovingForwardState>();
-		bill = stage->GetBill();
-		camera = stage->GetCamera();
-	}
+	camera = new Camera(new CameraStaticState());
 
 
-	Scene scene;
+
 
 	////
 	//FLOAT x = 050.0f;
@@ -74,7 +64,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	//FLOAT θ = 80.0f;
 	//dt = 0.05f;
 	//Motion::ProjectileMotionInputParameters pip{ x, y, v0, θ, t, dt };
-	
+
 
 	//FLOAT r = 50.0f;
 	//FLOAT ω = 0.0f;
@@ -106,42 +96,42 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		input->Capture();
 
-		if (input->IsKey(DIK_ESCAPE))
+		scene->HandleInput(*input);
+		scene->Update();
+		if (scene->stage)
 		{
-			if (dynamic_cast<Stage1*>(stage))
-			{
-				Destroy(stage);
-				stage = new Stage2();
-				stage->Load<TerrainStage2, CameraMovingUpwardState>();
-				bill = stage->GetBill();
-				camera = stage->GetCamera();
-			}
-			else
-			{
-				Destroy(stage);
-				stage = new Stage1();
-				stage->Load<TerrainStage1, CameraMovingForwardState>();
-				bill = stage->GetBill();
-				camera = stage->GetCamera();
-			}
+			scene->stage->CheckResolveClearCollision();
 		}
 
-		stage->HandleInput(*input);
-		stage->Update();
-		stage->CheckResolveClearCollision();
-		scene.HandleInput(*input);
-		scene.Update();
+		if (scene->stage)
+		{
+			scene->stage->GetCamera()->HandleInput(*input);
+			scene->stage->GetCamera()->Capture
+			(
+				scene->stage->GetBill()->GetX(),
+				scene->stage->GetBill()->GetY()
+			);
+			d3ddev->SetTransform(D3DTS_VIEW, &scene->stage->GetCamera()->GetViewMatrix());
+		}
+		else
+		{
+			camera->HandleInput(*input);
+			camera->Capture
+			(
+				IN_GAME_SCREEN_W / 2.0f,
+				IN_GAME_SCREEN_H / 2.0f
+			);
+			d3ddev->SetTransform(D3DTS_VIEW, &camera->GetViewMatrix());
+		}
 
-		camera->HandleInput(*input);
-		camera->Capture(bill->GetX(), bill->GetY());
-
-		d3ddev->SetTransform(D3DTS_VIEW, &camera->GetViewMatrix());
-		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
+		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(249, 199, 194), 1.0f, 0);
 		d3ddev->BeginScene();
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_OBJECTSPACE);
 
-		stage->Render();
-		scene.Render();
+		scene->Render();
+
+
+
 
 		//
 		//auto poo = Motion::CalculateOscillatoryMotion(pio);
@@ -193,14 +183,10 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	}
 
 	CleanD3D();
-	delete input;
-	input = NULL;
+	Destroy(input);
+	Destroy(scene);
 
 	return msg.wParam;
-}
-
-void LoadAssets()
-{
 }
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

@@ -6,11 +6,13 @@
 #include "Motion.h"
 #include "Common.h"
 #include "Entity.h"
-//#include "Stage1.h"
-//#include "Stage2.h"
+#include "Stage1.h"
+#include "Stage2.h"
 #include "HasSprites.h"
 #include "HasTextures.h"
 #include "HasAnimations.h"
+#include "TerrainStage1.h"
+#include "TerrainStage2.h"
 
 
 static constexpr FLOAT IN_GAME_SCREEN_W = SCREEN_WIDTH  / SCALING_RATIO_X;
@@ -21,13 +23,16 @@ inline FLOAT AtCol(FLOAT x) { return x / (IN_GAME_SCREEN_W / Letter::letterW) * 
 inline FLOAT AtRow(FLOAT y) { return y / (IN_GAME_SCREEN_H / Letter::letterH) * IN_GAME_SCREEN_H; }
 
 
-class Scene; class SceneState; class StartSceneState; class LoadingSceneState; class Stage1SceneState; class Stage2SceneState;
+class Scene; class SceneState; class StartSceneState; class LoadingSceneState; class PlayingSceneState;
 
 
 class Scene : public Entity, public HasTextures<Scene>, public HasSprites<Scene>, public HasAnimations<Scene>
 {
 
 public:
+
+	Stage* stage;
+	INT highestScore;
 
 	Scene();
 	virtual ~Scene();
@@ -112,31 +117,13 @@ protected:
 };
 
 
-class Stage1SceneState : public SceneState
+class PlayingSceneState : public SceneState
 {
 
 public:
 
-	Stage1SceneState();
-	virtual ~Stage1SceneState();
-
-	virtual void Exit(Scene&) override;
-	virtual void Enter(Scene&) override;
-	virtual void Render(Scene&) override;
-
-	virtual SceneState* Update(Scene&) override;
-	virtual SceneState* HandleInput(Scene&, Input&) override;
-
-};
-
-
-class Stage2SceneState : public SceneState
-{
-
-public:
-
-	Stage2SceneState();
-	virtual ~Stage2SceneState();
+	PlayingSceneState();
+	virtual ~PlayingSceneState();
 
 	virtual void Exit(Scene&) override;
 	virtual void Enter(Scene&) override;
