@@ -157,7 +157,15 @@ public:
 	virtual BossStage3HandState* Update(BossStage3Hand&) override;
 	virtual BossStage3HandState* HandleInput(BossStage3Hand&, Input&) override;
 
+	void moveAround(BossStage3Joint* joint, BossStage3Joint* joint0, float deltaRadius, float speed, float frame,
+		BossStage3Joint::MoveAroundDirection dir, float delay = 0);
+
+	float getAngle(D3DXVECTOR2 pos1, D3DXVECTOR2 pos2);
+
 protected:
+	int delayChangeState;
+	int frameAttack;
+	BossStage3Joint** joints;
 };
 
 class BossStage3HandDirectPlayerState : public BossStage3HandState
@@ -176,4 +184,15 @@ public:
 	virtual BossStage3HandState* HandleInput(BossStage3Hand&, Input&) override;
 
 protected:
+	//goc cua vec1 so voi vec2
+	float getAngle2Vector(D3DXVECTOR3 vec1, D3DXVECTOR3 vec2);
+	float getAngleBetweenPlayerAndjoint(BossStage3Joint* joint, BossStage3Hand& bossStage3hand);
+	D3DXVECTOR3 getNearestPlayer(BossStage3Hand& bossStage3hand);
+	void moveAroundDirect(BossStage3Hand& bossStage3hand, BossStage3Joint* joint0, BossStage3Joint* joint, float speed, float radius = 16);
+	float getAngle(D3DXVECTOR2 pos1, D3DXVECTOR2 pos2);
+	BossStage3Joint** joints;
+	float speed;
+	bool isFirstTime;
+	int frameDelayChangeState;
+	int timeAttack;
 };

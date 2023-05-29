@@ -97,7 +97,7 @@ BossStage3HandState* BossStage3HandSpinningState::Update(BossStage3Hand& bossSta
         }
         else
         {
-            //return new BossStage3HandAttackState(bossStage3hand);
+            return new BossStage3HandAttackState(bossStage3hand);
         }
     }
 
