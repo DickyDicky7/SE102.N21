@@ -20,11 +20,11 @@ void BossStage3HandStartState::Enter(BossStage3Hand& bossStage3hand)
 
     if (bossStage3hand.GetMovingDirection() == DIRECTION::LEFT)
     {
-        direction = D3DXVECTOR2(cos(D3DXToRadian(-110)), sin(D3DXToRadian(-110))); //huong di 
+        direction = D3DXVECTOR2(cos(D3DXToRadian(110)), sin(D3DXToRadian(110))); //huong di 
     }
     else
     {
-        direction = D3DXVECTOR2(cos(D3DXToRadian(-70)), sin(D3DXToRadian(-70))); //huong di 
+        direction = D3DXVECTOR2(cos(D3DXToRadian(70)), sin(D3DXToRadian(70))); //huong di 
     }
 
     distance = 4 * 16; //quang duong di chuyen
