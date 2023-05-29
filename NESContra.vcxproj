@@ -96,8 +96,12 @@
     <ClCompile Include="BossStage3GateCloseState.cpp" />
     <ClCompile Include="BossStage3GateState.cpp" />
     <ClCompile Include="BossStage3Hand.cpp" />
+    <ClCompile Include="BossStage3HandAttackState.cpp" />
+    <ClCompile Include="BossStage3HandDirectPlayerState.cpp" />
+    <ClCompile Include="BossStage3HandSpinningState.cpp" />
     <ClCompile Include="BossStage3HandStartState.cpp" />
     <ClCompile Include="BossStage3HandState.cpp" />
+    <ClCompile Include="BossStage3HandWaveState.cpp" />
     <ClCompile Include="BossStage3Joint.cpp" />
     <ClCompile Include="BossState3GateOpenState.cpp" />
     <ClCompile Include="BulletFState.cpp" />

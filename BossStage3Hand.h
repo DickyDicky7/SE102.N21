@@ -81,3 +81,88 @@ protected:
 	D3DXVECTOR2 direction;
 	FLOAT speedFrame, distance, delayFrame;
 };
+
+
+class BossStage3HandWaveState : public BossStage3HandState
+{
+
+public:
+
+	BossStage3HandWaveState(BossStage3Hand&);
+	virtual ~BossStage3HandWaveState();
+
+	virtual void Exit(BossStage3Hand&) override;
+	virtual void Enter(BossStage3Hand&) override;
+	virtual void Render(BossStage3Hand&) override;
+
+	virtual BossStage3HandState* Update(BossStage3Hand&) override;
+	virtual BossStage3HandState* HandleInput(BossStage3Hand&, Input&) override;
+
+protected:
+	float limitFrame; //degree
+	float speed; //degree / frame
+	int currFrame, changeStateFrame;
+	int moveAroundDelay;
+
+	std::vector<D3DXVECTOR2> listJoint1Angle;
+
+	void moveAround(BossStage3Joint* joint, BossStage3Joint* joint0, float deltaRadius, float speed, float frame,
+		BossStage3Joint::MoveAroundDirection dir, float delay = 0);
+
+	//lay goc giua 2 diem
+	float getAngle(D3DXVECTOR2 pos1, D3DXVECTOR2 pos2);
+};
+
+class BossStage3HandSpinningState : public BossStage3HandState
+{
+
+public:
+
+	BossStage3HandSpinningState(BossStage3Hand&);
+	virtual ~BossStage3HandSpinningState();
+
+	virtual void Exit(BossStage3Hand&) override;
+	virtual void Enter(BossStage3Hand&) override;
+	virtual void Render(BossStage3Hand&) override;
+
+	virtual BossStage3HandState* Update(BossStage3Hand&) override;
+	virtual BossStage3HandState* HandleInput(BossStage3Hand&, Input&) override;
+
+protected:
+};
+
+class BossStage3HandAttackState : public BossStage3HandState
+{
+
+public:
+
+	BossStage3HandAttackState(BossStage3Hand&);
+	virtual ~BossStage3HandAttackState();
+
+	virtual void Exit(BossStage3Hand&) override;
+	virtual void Enter(BossStage3Hand&) override;
+	virtual void Render(BossStage3Hand&) override;
+
+	virtual BossStage3HandState* Update(BossStage3Hand&) override;
+	virtual BossStage3HandState* HandleInput(BossStage3Hand&, Input&) override;
+
+protected:
+};
+
+class BossStage3HandDirectPlayerState : public BossStage3HandState
+{
+
+public:
+
+	BossStage3HandDirectPlayerState(BossStage3Hand&);
+	virtual ~BossStage3HandDirectPlayerState();
+
+	virtual void Exit(BossStage3Hand&) override;
+	virtual void Enter(BossStage3Hand&) override;
+	virtual void Render(BossStage3Hand&) override;
+
+	virtual BossStage3HandState* Update(BossStage3Hand&) override;
+	virtual BossStage3HandState* HandleInput(BossStage3Hand&, Input&) override;
+
+protected:
+};

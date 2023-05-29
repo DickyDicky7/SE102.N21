@@ -881,5 +881,17 @@
     <ClCompile Include="BossStage3HandStartState.cpp">
       <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
     </ClCompile>
+    <ClCompile Include="BossStage3HandWaveState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3HandSpinningState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3HandAttackState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3HandDirectPlayerState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
