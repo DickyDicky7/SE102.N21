@@ -1,18 +1,21 @@
-#pragma once
+﻿#pragma once
 #include "State.h"
 #include "Common.h"
 #include "Entity.h"
 #include "HasAnimations.h"
 #include "HasSprites.h"
 #include "HasTextures.h"
+#include "BossStage3Joint.h"
 #include "Bill.h"
 #include "Enemy.h"
 
 class BossStage3Hand;
 class BossStage3HandState;
-class BossStage3HandLeftState;
-class BossStage3HandRightState;
-
+class BossStage3HandStartState; // dai ra tu tu
+class BossStage3HandWaveState; // vay vay
+class BossStage3HandSpinningState; // quay
+class BossStage3HandAttackState; // ban dan ve nguoi choi
+class BossStage3HandDirectPlayerState; // xoay ve phia nguoi choi
 
 class BossStage3Hand : public Entity, public Enemy<Bill>
 	, public HasTextures<BossStage3Hand>, public HasSprites<BossStage3Hand>, public HasAnimations<BossStage3Hand>
@@ -28,10 +31,16 @@ public:
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
+	void initPositionJoints();
+
+	// 5 cuc xuong
+	BossStage3Joint* joints[5];
 protected:
 	BossStage3HandState* state;
 	BossStage3HandState* updateState;
 	BossStage3HandState* handleInputState;
+
+	BOOL isInitPositionJoints; // check init has init postion of joints
 };
 
 
@@ -53,13 +62,13 @@ public:
 };
 
 
-class BossStage3HandOpenState : public BossStage3HandState
+class BossStage3HandStartState : public BossStage3HandState
 {
 
 public:
 
-	BossStage3HandOpenState();
-	virtual ~BossStage3HandOpenState();
+	BossStage3HandStartState(BossStage3Hand&);
+	virtual ~BossStage3HandStartState();
 
 	virtual void Exit(BossStage3Hand&) override;
 	virtual void Enter(BossStage3Hand&) override;
@@ -67,40 +76,8 @@ public:
 
 	virtual BossStage3HandState* Update(BossStage3Hand&) override;
 	virtual BossStage3HandState* HandleInput(BossStage3Hand&, Input&) override;
-};
 
-
-class BossStage3HandCloseState : public BossStage3HandState
-{
-
-public:
-
-	BossStage3HandCloseState();
-	virtual ~BossStage3HandCloseState();
-
-	virtual void Exit(BossStage3Hand&) override;
-	virtual void Enter(BossStage3Hand&) override;
-	virtual void Render(BossStage3Hand&) override;
-
-	virtual BossStage3HandState* Update(BossStage3Hand&) override;
-	virtual BossStage3HandState* HandleInput(BossStage3Hand&, Input&) override;
-};
-
-class BossStage3HandMiddleState : public BossStage3HandState
-{
-
-public:
-
-	BossStage3HandMiddleState(BOSS_STAGE_3_ANIMATION_ID nextState);
-	virtual ~BossStage3HandMiddleState();
-
-	virtual void Exit(BossStage3Hand&) override;
-	virtual void Enter(BossStage3Hand&) override;
-	virtual void Render(BossStage3Hand&) override;
-
-	virtual BossStage3HandState* Update(BossStage3Hand&) override;
-	virtual BossStage3HandState* HandleInput(BossStage3Hand&, Input&) override;
 protected:
-	TIME delayTime;
-	BOSS_STAGE_3_ANIMATION_ID nextState;
+	D3DXVECTOR2 direction;
+	FLOAT speedFrame, distance, delayFrame;
 };

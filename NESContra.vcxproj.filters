@@ -232,6 +232,9 @@
     <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState">
       <UniqueIdentifier>{e0e759e9-2f44-4082-8418-6392d2664525}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState">
+      <UniqueIdentifier>{d682b6d2-0d5c-4019-8aab-5a8226655bb3}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -410,6 +413,9 @@
     </ClInclude>
     <ClInclude Include="BossStage3Gate.h">
       <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Gate</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStage3Joint.h">
+      <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -865,6 +871,15 @@
     </ClCompile>
     <ClCompile Include="BossStage3GateCloseState.cpp">
       <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3Joint.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3HandState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3HandStartState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -15,6 +15,7 @@
 #include "ScubaSoldier.h"
 #include "BossStage3.h"
 #include "BossStage3Gate.h"
+#include "BossStage3Hand.h"
 
 Stage2:: Stage2() : Stage()
 {
@@ -206,12 +207,14 @@ void Stage2::LoadEntities(void* entitiesLayer)
 		else
 		if (object.getName() == "boss2finalarmleft")
 		{
-			
+			entity = new BossStage3Hand();
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
 		if (object.getName() == "boss2finalarmright")
 		{
-			
+			entity = new BossStage3Hand();
+			entity->SetMovingDirection(DIRECTION::RIGHT);
 		}
 
 		if (!entity) continue;
@@ -317,5 +320,12 @@ void Stage2::LoadEntities(void* entitiesLayer)
 	representativeBossStage3Gate->LoadSprites();
 	representativeBossStage3Gate->LoadAnimations();
 	Destroy(representativeBossStage3Gate);
+
+	// boss stage3 hand
+	auto representativeBossStage3Hand = new BossStage3Hand();
+	representativeBossStage3Hand->LoadTextures();
+	representativeBossStage3Hand->LoadSprites();
+	representativeBossStage3Hand->LoadAnimations();
+	Destroy(representativeBossStage3Hand);
 }
 

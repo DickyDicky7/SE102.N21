@@ -28,6 +28,7 @@
     <ClInclude Include="BossStage3GateCommon.h" />
     <ClInclude Include="BossStage3Hand.h" />
     <ClInclude Include="BossStage3HandCommon.h" />
+    <ClInclude Include="BossStage3Joint.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraCommon.h" />
     <ClInclude Include="CollidableState.h" />
@@ -95,6 +96,9 @@
     <ClCompile Include="BossStage3GateCloseState.cpp" />
     <ClCompile Include="BossStage3GateState.cpp" />
     <ClCompile Include="BossStage3Hand.cpp" />
+    <ClCompile Include="BossStage3HandStartState.cpp" />
+    <ClCompile Include="BossStage3HandState.cpp" />
+    <ClCompile Include="BossStage3Joint.cpp" />
     <ClCompile Include="BossState3GateOpenState.cpp" />
     <ClCompile Include="BulletFState.cpp" />
     <ClCompile Include="BulletLState.cpp" />
