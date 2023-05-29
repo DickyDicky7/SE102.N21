@@ -3,6 +3,8 @@
 Scene::Scene() : Entity(), HasTextures(), HasSprites(), HasAnimations(), state(NULL), updateState(NULL), handleInputState(NULL)
 {
 	ChangeState(state, new StartSceneState, this);
+	this->LoadTextures(); this->LoadSprites(); this->LoadAnimations();
+	Letter representativeLetter(""); representativeLetter.LoadTextures(); representativeLetter.LoadSprites(); representativeLetter.LoadAnimations();
 }
 
 Scene::~Scene()
