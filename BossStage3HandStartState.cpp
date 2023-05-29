@@ -60,7 +60,7 @@ BossStage3HandState* BossStage3HandStartState::Update(BossStage3Hand& bossStage3
 
     if ( bossStage3hand.joints[4]->isMoveBy == false)
     {
-        //return new Boss2FinalArmWaveState();
+        return new BossStage3HandWaveState(bossStage3hand);
     }
 	return NULL;
 }
