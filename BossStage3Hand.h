@@ -129,6 +129,17 @@ public:
 	virtual BossStage3HandState* HandleInput(BossStage3Hand&, Input&) override;
 
 protected:
+	void moveAround(BossStage3Joint* joint, BossStage3Joint* joint0, float deltaRadius, float speed, float frame,
+		BossStage3Joint::MoveAroundDirection dir, float delay = 0);
+	float getAngle(D3DXVECTOR2 pos1, D3DXVECTOR2 pos2);
+
+	int FRAME_ATTACK;
+	float speedAngle;
+	float numRound; //so vong xoay de doi state
+	int totalFrame;
+	int delayChangeState;
+	int frameAttack;
+	BossStage3Joint** joints;
 };
 
 class BossStage3HandAttackState : public BossStage3HandState

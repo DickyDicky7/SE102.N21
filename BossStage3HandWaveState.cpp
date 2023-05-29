@@ -115,7 +115,7 @@ BossStage3HandState* BossStage3HandWaveState::Update(BossStage3Hand& bossStage3h
 
     if (currFrame >= 6)
     {
-        //return new BossStage3HandSpinningState(bossStage3hand);
+        return new BossStage3HandSpinningState(bossStage3hand);
     }
 
     for (size_t i = 0; i < 5; i++)
