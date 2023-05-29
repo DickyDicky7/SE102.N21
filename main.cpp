@@ -1,6 +1,8 @@
 #include <chrono>
 #include "Bill.h"
+#include "Scene.h"
 #include "Input.h"
+#include "Letter.h"
 #include "Motion.h"
 #include "Camera.h"
 #include "Common.h"
@@ -73,7 +75,15 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	//FLOAT θ = 80.0f;
 	//dt = 0.05f;
 	//Motion::ProjectileMotionInputParameters pip{ x, y, v0, θ, t, dt };
+	Scene scene;
+	scene.LoadTextures();
+	scene.LoadSprites();
+	scene.LoadAnimations();
 
+	Letter* a = new Letter("A");
+	a->LoadTextures();
+	a->LoadSprites();
+	a->LoadAnimations();
 
 	//FLOAT r = 50.0f;
 	//FLOAT ω = 0.0f;
@@ -128,19 +138,20 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		stage->HandleInput(*input);
 		stage->Update();
 		stage->CheckResolveClearCollision();
+		scene.HandleInput(*input);
+		scene.Update();
 
 		camera->HandleInput(*input);
 		camera->Capture(bill->GetX(), bill->GetY());
 
 		d3ddev->SetTransform(D3DTS_VIEW, &camera->GetViewMatrix());
-		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(220, 208, 255), 1.0f, 0);
+		d3ddev->Clear(0, NULL, D3DCLEAR_TARGET, D3DCOLOR_XRGB(0, 0, 0), 1.0f, 0);
 		d3ddev->BeginScene();
 		spriteHandler->Begin(D3DXSPRITE_ALPHABLEND | D3DXSPRITE_OBJECTSPACE);
 
 		stage->Render();
-
-
-
+		scene.Render();
+		a->Render();
 
 		//
 		//auto poo = Motion::CalculateOscillatoryMotion(pio);

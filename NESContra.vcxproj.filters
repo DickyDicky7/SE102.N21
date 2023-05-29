@@ -211,6 +211,21 @@
     <Filter Include="Source Files\Objects\Enemies\RockFall\RockFallState">
       <UniqueIdentifier>{3029f3eb-79b4-46e0-ada4-d4a166100ed9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Scene">
+      <UniqueIdentifier>{f04b61b9-6f3b-4365-904c-5498f934e1d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Scene">
+      <UniqueIdentifier>{de66538e-33d0-43d2-9548-c6c5909142e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Scene\SceneState">
+      <UniqueIdentifier>{4f215116-02d7-490e-b112-cd5385e14dc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Letter">
+      <UniqueIdentifier>{157805d0-edf2-42de-8163-e7976e395b05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Letter">
+      <UniqueIdentifier>{5f736031-bf14-4a32-866b-98b26e1c69fc}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -377,6 +392,18 @@
     </ClInclude>
     <ClInclude Include="RockFly.h">
       <Filter>Header Files\Objects\RockFly</Filter>
+    </ClInclude>
+    <ClInclude Include="Letter.h">
+      <Filter>Header Files\Objects\Letter</Filter>
+    </ClInclude>
+    <ClInclude Include="LetterCommon.h">
+      <Filter>Header Files\Objects\Letter</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Objects\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneCommon.h">
+      <Filter>Header Files\Objects\Scene</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -817,6 +844,27 @@
     </ClCompile>
     <ClCompile Include="RockFly.cpp">
       <Filter>Source Files\Objects\RockFly</Filter>
+    </ClCompile>
+    <ClCompile Include="Letter.cpp">
+      <Filter>Source Files\Objects\Letter</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Objects\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneState.cpp">
+      <Filter>Source Files\Objects\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingSceneState.cpp">
+      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage1SceneState.cpp">
+      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    </ClCompile>
+    <ClCompile Include="Stage2SceneState.cpp">
+      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    </ClCompile>
+    <ClCompile Include="StartSceneState.cpp">
+      <Filter>Source Files\Objects\Scene\SceneState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
