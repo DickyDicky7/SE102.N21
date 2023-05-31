@@ -9,6 +9,8 @@
 #include <any>
 #include <tuple>
 #include <queue>
+#include <thread>
+#include <atomic>
 #include <vector>
 #include <string>
 #include <d3d9.h>

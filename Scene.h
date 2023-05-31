@@ -33,6 +33,7 @@ public:
 
 	Stage* stage;
 	INT highestScore;
+	std::atomic<bool> safeToUseStage;
 
 	Scene();
 	virtual ~Scene();

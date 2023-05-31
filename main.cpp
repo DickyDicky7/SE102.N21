@@ -98,12 +98,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		scene->HandleInput(*input);
 		scene->Update();
-		if (scene->stage)
+		if (scene->safeToUseStage && scene->stage)
 		{
 			scene->stage->CheckResolveClearCollision();
 		}
 
-		if (scene->stage)
+		if (scene->safeToUseStage && scene->stage)
 		{
 			scene->stage->GetCamera()->HandleInput(*input);
 			scene->stage->GetCamera()->Capture

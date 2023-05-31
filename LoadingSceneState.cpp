@@ -15,25 +15,36 @@ void LoadingSceneState::Exit(Scene& scene)
 
 void LoadingSceneState::Enter(Scene& scene)
 {
-	if (!scene.stage)
-	{
-		scene.stage = new Stage1();
-		scene.stage->Load<TerrainStage1, CameraMovingForwardState>();
-	}
-	else
-	if (dynamic_cast<Stage1*>(scene.stage))
-	{
-		Destroy(scene.stage);
-		scene.stage = new Stage2();
-		scene.stage->Load<TerrainStage2, CameraMovingUpwardState >();
-	}
-	else
-	if (dynamic_cast<Stage2*>(scene.stage))
-	{
-		Destroy(scene.stage);
-		scene.stage = new Stage1();
-		scene.stage->Load<TerrainStage1, CameraMovingForwardState>();
-	}
+	std::jthread newThread
+	(
+		[](Scene& scene)
+		{
+			scene.safeToUseStage = false;
+			if (!scene.stage)
+			{
+				scene.stage = new Stage1();
+				scene.stage->Load<TerrainStage1, CameraMovingForwardState>();
+			}
+			else
+			if (dynamic_cast<Stage1*>(scene.stage))
+			{
+				Destroy(scene.stage);
+				scene.stage = new Stage2();
+				scene.stage->Load<TerrainStage2, CameraMovingUpwardState >();
+			}
+			else
+			if (dynamic_cast<Stage2*>(scene.stage))
+			{
+				Destroy(scene.stage);
+				scene.stage = new Stage1();
+				scene.stage->Load<TerrainStage1, CameraMovingForwardState>();
+			}
+			std::this_thread::sleep_for(std::chrono::seconds(5));
+			scene.safeToUseStage = true;
+		}
+		,   std::ref(scene)
+	);
+	newThread.detach();
 }
 
 void LoadingSceneState::Render(Scene& scene)
@@ -43,7 +54,7 @@ void LoadingSceneState::Render(Scene& scene)
 
 SceneState* LoadingSceneState::Update(Scene& scene)
 {
-	if (--this->time == 0.0f) return new PlayingSceneState();
+	if (scene.safeToUseStage) return new PlayingSceneState();
 	return NULL;
 }
 
