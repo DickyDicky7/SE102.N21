@@ -15,7 +15,7 @@ void LoadingSceneState::Exit(Scene& scene)
 
 void LoadingSceneState::Enter(Scene& scene)
 {
-	std::jthread newThread
+	std::thread newThread
 	(
 		[](Scene& scene)
 		{
@@ -39,7 +39,7 @@ void LoadingSceneState::Enter(Scene& scene)
 				scene.stage = new Stage1();
 				scene.stage->Load<TerrainStage1, CameraMovingForwardState>();
 			}
-			std::this_thread::sleep_for(std::chrono::seconds(5));
+			std::this_thread::sleep_for(std::chrono::seconds(10));
 			scene.safeToUseStage = true;
 		}
 		,   std::ref(scene)
