@@ -7,6 +7,11 @@ BossStage3HandDirectPlayerState::BossStage3HandDirectPlayerState(BossStage3Hand&
 
 BossStage3HandDirectPlayerState::~BossStage3HandDirectPlayerState()
 {
+    joints = NULL;
+    speed = NULL;
+    isFirstTime = NULL;
+    frameDelayChangeState = NULL;
+    timeAttack = NULL;
 }
 
 

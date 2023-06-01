@@ -27,6 +27,12 @@ BossStage3Hand::~BossStage3Hand()
 	Destroy(state);
 	Destroy(updateState);
 	Destroy(handleInputState);
+
+	for (size_t i = 0; i < 5; i++)
+	{
+		Destroy(joints[i]);
+	}
+	isInitPositionJoints = NULL;
 }
 
 void BossStage3Hand::initPositionJoints()

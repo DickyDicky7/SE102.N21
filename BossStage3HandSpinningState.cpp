@@ -6,6 +6,13 @@ BossStage3HandSpinningState::BossStage3HandSpinningState(BossStage3Hand& bossSta
 
 BossStage3HandSpinningState::~BossStage3HandSpinningState()
 {
+    FRAME_ATTACK = NULL;
+    speedAngle = NULL;
+    numRound = NULL;
+    totalFrame = NULL;
+    delayChangeState = NULL;
+    frameAttack = NULL;
+    joints = NULL;
 }
 
 

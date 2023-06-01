@@ -7,6 +7,12 @@ BossStage3HandWaveState::BossStage3HandWaveState(BossStage3Hand& bossStage3hand)
 
 BossStage3HandWaveState::~BossStage3HandWaveState()
 {
+    limitFrame = NULL;
+    speed = NULL;
+    currFrame = NULL; 
+    changeStateFrame = NULL;
+    moveAroundDelay = NULL;
+    listJoint1Angle = std::vector<D3DXVECTOR2>();
 }
 
 

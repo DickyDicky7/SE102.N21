@@ -7,6 +7,9 @@ BossStage3HandAttackState::BossStage3HandAttackState(BossStage3Hand& bossStage3h
 
 BossStage3HandAttackState::~BossStage3HandAttackState()
 {
+    delayChangeState = NULL;
+    frameAttack = NULL;
+    joints = NULL;
 }
 
 

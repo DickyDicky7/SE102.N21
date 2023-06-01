@@ -7,6 +7,10 @@ BossStage3HandStartState::BossStage3HandStartState(BossStage3Hand& bossStage3han
 
 BossStage3HandStartState::~BossStage3HandStartState()
 {
+    direction = D3DXVECTOR2(NULL,NULL);
+    speedFrame = NULL; 
+    distance = NULL; 
+    delayFrame = NULL;
 }
 
 
