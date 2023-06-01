@@ -31,6 +31,10 @@ void RifleManStanding::Update()
 {
 	const float _shootingAngle = this->CalculateShootingAngle();
 
+	char buffer[64]; // Increase buffer size to accommodate the additional newline character
+	_snprintf_s(buffer, sizeof(buffer), _TRUNCATE, "%f\n", _shootingAngle); // Add "\n" to the format string
+	OutputDebugStringA(buffer);
+
 	float dx = (this->GetPosition().x) - (Enemy::target->GetPosition().x);
 	float dy = -((this->GetPosition().y) - (Enemy::target->GetPosition().y));
 
@@ -78,8 +82,7 @@ void RifleManStanding::Render()
 
 FLOAT RifleManStanding::CalculateShootingAngle()
 {
-	// O world is top left conner
-	// rifleMan is new O', O'x go up, clockwise is negative and vice versa
+	// first and third quarter is positive, second and fourth quarter is negative, top and bottom is 0, left right is 90
 	const Bill* bill = Enemy::target;
 
 	float dx = (this->GetPosition().x) - (bill->GetPosition().x);
@@ -105,6 +108,11 @@ void RifleManStanding::LoadTextures()
 
 void RifleManStanding::LoadSprites()
 {
+	if (HasSprites<RifleManStanding>::hasBeenLoaded.value) {
+		return;
+	}
+	HasSprites<RifleManStanding>::hasBeenLoaded.value = true;
+
 	GraphicsHelper::InsertSprite(RIFLE_MAN_SPRITE_ID::SHOOT_NORMAL_01, 0, 0, 23, 38, DIRECTION::LEFT, RIFLE_MAN_TEXTURE_ID::RIFLE_MAN);
 	GraphicsHelper::InsertSprite(RIFLE_MAN_SPRITE_ID::SHOOT_NORMAL_02, 0, 26, 49, 38, DIRECTION::LEFT, RIFLE_MAN_TEXTURE_ID::RIFLE_MAN);
 	GraphicsHelper::InsertSprite(RIFLE_MAN_SPRITE_ID::SHOOT_UP_01, 0, 52, 69, 38, DIRECTION::LEFT, RIFLE_MAN_TEXTURE_ID::RIFLE_MAN);
@@ -114,6 +122,11 @@ void RifleManStanding::LoadSprites()
 
 void RifleManStanding::LoadAnimations()
 {
+	if (HasAnimations<RifleManStanding>::hasBeenLoaded.value) {
+		return;
+	}
+	HasAnimations<RifleManStanding>::hasBeenLoaded.value = true;
+
 	GraphicsHelper::InsertAnimation(RIFLE_MAN_ANIMATION_ID::SHOOT_NORMAL, 165,
 		{
 			{RIFLE_MAN_SPRITE_ID::SHOOT_NORMAL_01, 0},

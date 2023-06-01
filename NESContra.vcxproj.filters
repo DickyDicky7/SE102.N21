@@ -235,6 +235,15 @@
     <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState">
       <UniqueIdentifier>{d682b6d2-0d5c-4019-8aab-5a8226655bb3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Objects\Enemies\Cannon">
+      <UniqueIdentifier>{87bdd0b7-df90-49f3-baef-5240c53d3b26}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\Cannon">
+      <UniqueIdentifier>{9426887d-89bf-42f7-8d96-549c73030255}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\Cannon\State">
+      <UniqueIdentifier>{8b4a8624-dad7-4151-83b4-492e92dc0b07}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -416,6 +425,11 @@
     </ClInclude>
     <ClInclude Include="BossStage3Joint.h">
       <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    <ClInclude Include="Cannon.h">
+      <Filter>Header Files\Objects\Enemies\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="CannonCommon.h">
+      <Filter>Header Files\Objects\Enemies\Cannon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -892,6 +906,23 @@
     </ClCompile>
     <ClCompile Include="BossStage3HandDirectPlayerState.cpp">
       <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    <ClCompile Include="Cannon.cpp">
+      <Filter>Source Files\Objects\Enemies\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonState.cpp">
+      <Filter>Source Files\Objects\Enemies\Cannon</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonAppearState.cpp">
+      <Filter>Source Files\Objects\Enemies\Cannon\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonNormalState.cpp">
+      <Filter>Source Files\Objects\Enemies\Cannon\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonUp30State.cpp">
+      <Filter>Source Files\Objects\Enemies\Cannon\State</Filter>
+    </ClCompile>
+    <ClCompile Include="CannonUp60State.cpp">
+      <Filter>Source Files\Objects\Enemies\Cannon\State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
