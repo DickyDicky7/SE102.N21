@@ -6,20 +6,29 @@ static constexpr FLOAT START_SCENE_H = 224.0f;
 enum class SCENE_TEXTURE_ID
 {
 
-	START_SCENE,
+	BLACK        ,
+	BLANK        ,
+	START_SCENE  ,
+	YELLOW_FALCON,
 
 };
 
 enum class SCENE_SPRITE_ID
 {
 
-	START_SCENE,
+	BLACK        ,
+	BLANK        ,
+	START_SCENE  ,
+	YELLOW_FALCON,
 
 };
 
 enum class SCENE_ANIMATION_ID
 {
 
-	START_SCENE,
+	BLACK        ,
+	BLANK        ,
+	START_SCENE  ,
+	YELLOW_FALCON,
 
 };

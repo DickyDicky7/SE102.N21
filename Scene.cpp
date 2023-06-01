@@ -47,7 +47,10 @@ void Scene::LoadSprites()
 	if (HasSprites<Scene>::hasBeenLoaded.value) return;
 	HasSprites<Scene>::hasBeenLoaded.value = true;
 
-	GraphicsHelper::InsertSprite(SCENE_SPRITE_ID::START_SCENE, 0, 0, 256, 224, DIRECTION::LEFT, SCENE_TEXTURE_ID::START_SCENE);
+	GraphicsHelper::InsertSprite(SCENE_SPRITE_ID::BLACK        , 0, 0, 640, 600, DIRECTION::LEFT, SCENE_TEXTURE_ID::BLACK        );
+	GraphicsHelper::InsertSprite(SCENE_SPRITE_ID::BLANK        , 0, 0, 100,  13, DIRECTION::LEFT, SCENE_TEXTURE_ID::BLANK        );
+	GraphicsHelper::InsertSprite(SCENE_SPRITE_ID::START_SCENE  , 0, 0, 256, 224, DIRECTION::LEFT, SCENE_TEXTURE_ID::START_SCENE  );
+	GraphicsHelper::InsertSprite(SCENE_SPRITE_ID::YELLOW_FALCON, 0, 0,  18,  14, DIRECTION::LEFT, SCENE_TEXTURE_ID::YELLOW_FALCON);
 
 	OutputDebugString(L"Scene Sprites Loaded Successfully\n");
 }
@@ -57,7 +60,10 @@ void Scene::LoadTextures()
 	if (HasTextures<Scene>::hasBeenLoaded.value) return;
 	HasTextures<Scene>::hasBeenLoaded.value = true;
 
-	GraphicsHelper::InsertTexure(SCENE_TEXTURE_ID::START_SCENE, L"Resources\\Textures\\StartScene.bmp");
+	GraphicsHelper::InsertTexure(SCENE_TEXTURE_ID::BLACK        , L"Resources\\Textures\\Black.bmp"       );
+	GraphicsHelper::InsertTexure(SCENE_TEXTURE_ID::BLANK        , L"Resources\\Textures\\Blank.bmp"       );
+	GraphicsHelper::InsertTexure(SCENE_TEXTURE_ID::START_SCENE  , L"Resources\\Textures\\StartScene.bmp"  );
+	GraphicsHelper::InsertTexure(SCENE_TEXTURE_ID::YELLOW_FALCON, L"Resources\\Textures\\YellowFalcon.bmp");
 
 	OutputDebugString(L"Scene Textures Loaded Successfully\n");
 }
@@ -67,7 +73,10 @@ void Scene::LoadAnimations()
 	if (HasAnimations<Scene>::hasBeenLoaded.value) return;
 	HasAnimations<Scene>::hasBeenLoaded.value = true;
 
-	GraphicsHelper::InsertAnimation(SCENE_ANIMATION_ID::START_SCENE, 300, { { SCENE_SPRITE_ID::START_SCENE, 0 } });
+	GraphicsHelper::InsertAnimation(SCENE_ANIMATION_ID::BLACK        , 300, { { SCENE_SPRITE_ID::BLACK        , 0 } });
+	GraphicsHelper::InsertAnimation(SCENE_ANIMATION_ID::BLANK        , 300, { { SCENE_SPRITE_ID::BLANK        , 0 } });
+	GraphicsHelper::InsertAnimation(SCENE_ANIMATION_ID::START_SCENE  , 300, { { SCENE_SPRITE_ID::START_SCENE  , 0 } });
+	GraphicsHelper::InsertAnimation(SCENE_ANIMATION_ID::YELLOW_FALCON, 300, { { SCENE_SPRITE_ID::YELLOW_FALCON, 0 } });
 
 	OutputDebugString(L"Scene Animations Loaded Successfully\n");
 }
