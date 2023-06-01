@@ -58,7 +58,7 @@ void LoadingSceneState::Enter(Scene& scene)
 				scene.stage->GetBill()->livesLeft = scene.livesLeft;
 			}
 
-			std::this_thread::sleep_for(std::chrono::seconds(10));
+			std::this_thread::sleep_for(std::chrono::seconds(7));
 
 			scene.safeToUseStage = true;
 		}
@@ -66,6 +66,8 @@ void LoadingSceneState::Enter(Scene& scene)
 	);
 
 	newThread.detach();
+
+	std::this_thread::sleep_for(std::chrono::seconds(2));
 }
 
 void LoadingSceneState::Render(Scene& scene)
