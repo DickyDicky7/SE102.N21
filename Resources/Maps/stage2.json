@@ -407,8 +407,8 @@
                  "type":"enemy",
                  "visible":true,
                  "width":2.90909,
-                 "x":177.94,
-                 "y":121.008
+                 "x":179.242151268116,
+                 "y":124.449379830918
                 }, 
                 {
                  "height":2.54545,
@@ -418,8 +418,8 @@
                  "type":"enemy",
                  "visible":true,
                  "width":2.90909,
-                 "x":73.3031,
-                 "y":121.007
+                 "x":74.1461555555556,
+                 "y":124.452833333333
                 }, 
                 {
                  "height":11.5,
@@ -643,17 +643,6 @@
                  "y":1648.5
                 }, 
                 {
-                 "height":15,
-                 "id":161,
-                 "name":"respawnposition",
-                 "rotation":0,
-                 "type":"\"\"",
-                 "visible":true,
-                 "width":15,
-                 "x":54.5,
-                 "y":2090.16666666667
-                }, 
-                {
                  "height":27,
                  "id":162,
                  "name":"staticweapons",
@@ -674,6 +663,28 @@
                  "width":32,
                  "x":1.66666666666666,
                  "y":1247.33333333333
+                }, 
+                {
+                 "height":80,
+                 "id":164,
+                 "name":"boss2finalgate",
+                 "rotation":0,
+                 "type":"enemy",
+                 "visible":true,
+                 "width":64,
+                 "x":96,
+                 "y":144
+                }, 
+                {
+                 "height":15,
+                 "id":166,
+                 "name":"respawnposition",
+                 "rotation":0,
+                 "type":"\"\"",
+                 "visible":true,
+                 "width":15,
+                 "x":47.1666666666667,
+                 "y":2089.83333333333
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1423,7 +1434,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":164,
+ "nextobjectid":167,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.1",

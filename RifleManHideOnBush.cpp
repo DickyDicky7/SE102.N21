@@ -60,6 +60,11 @@ void RifleManHideOnBush::LoadTextures()
 
 void RifleManHideOnBush::LoadSprites()
 {
+	if (HasSprites<RifleManHideOnBush>::hasBeenLoaded.value) {
+		return;
+	}
+	HasSprites<RifleManHideOnBush>::hasBeenLoaded.value = true;
+
 	GraphicsHelper::InsertSprite(RIFLE_MAN_SPRITE_ID::APPEAR_01, 0, 128, 150, 38, DIRECTION::LEFT, RIFLE_MAN_TEXTURE_ID::RIFLE_MAN);
 	GraphicsHelper::InsertSprite(RIFLE_MAN_SPRITE_ID::APPEAR_02, 0, 153, 176, 38, DIRECTION::LEFT, RIFLE_MAN_TEXTURE_ID::RIFLE_MAN);
 	GraphicsHelper::InsertSprite(RIFLE_MAN_SPRITE_ID::HIDE, 0, 118, 125, 38, DIRECTION::LEFT, RIFLE_MAN_TEXTURE_ID::RIFLE_MAN);
@@ -67,6 +72,11 @@ void RifleManHideOnBush::LoadSprites()
 
 void RifleManHideOnBush::LoadAnimations()
 {
+	if (HasAnimations<RifleManHideOnBush>::hasBeenLoaded.value) {
+		return;
+	}
+	HasAnimations<RifleManHideOnBush>::hasBeenLoaded.value = true;
+
 	GraphicsHelper::InsertAnimation(RIFLE_MAN_ANIMATION_ID::APPEAR, 150,
 		{
 			{RIFLE_MAN_SPRITE_ID::HIDE, 0},
