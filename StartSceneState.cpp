@@ -29,6 +29,10 @@ void StartSceneState::Render(Scene& scene)
 			if (now - time > 600) time = now;
 		}
 	}
+	if (scene.GetX() <= START_SCENE_W * 0.5f)
+	{
+		GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[SCENE_SPRITE_ID::YELLOW_FALCON], D3DXVECTOR3(25.0f, 79.0f, 0.0f), DIRECTION::LEFT, 0.0f);
+	}
 }
 
 SceneState* StartSceneState::Update(Scene& scene)

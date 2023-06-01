@@ -47,7 +47,7 @@ void Scene::LoadSprites()
 	if (HasSprites<Scene>::hasBeenLoaded.value) return;
 	HasSprites<Scene>::hasBeenLoaded.value = true;
 
-	GraphicsHelper::InsertSprite(SCENE_SPRITE_ID::BLACK        , 0, 0, 640, 600, DIRECTION::LEFT, SCENE_TEXTURE_ID::BLACK        );
+	GraphicsHelper::InsertSprite(SCENE_SPRITE_ID::BLACK        , 0, 0, 256, 240, DIRECTION::LEFT, SCENE_TEXTURE_ID::BLACK        );
 	GraphicsHelper::InsertSprite(SCENE_SPRITE_ID::BLANK        , 0, 0, 100,  13, DIRECTION::LEFT, SCENE_TEXTURE_ID::BLANK        );
 	GraphicsHelper::InsertSprite(SCENE_SPRITE_ID::START_SCENE  , 0, 0, 256, 224, DIRECTION::LEFT, SCENE_TEXTURE_ID::START_SCENE  );
 	GraphicsHelper::InsertSprite(SCENE_SPRITE_ID::YELLOW_FALCON, 0, 0,  18,  14, DIRECTION::LEFT, SCENE_TEXTURE_ID::YELLOW_FALCON);
