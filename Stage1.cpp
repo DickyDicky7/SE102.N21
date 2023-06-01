@@ -7,6 +7,7 @@
 #include "RifleManHideOnBush.h"
 #include "AirCraft.h"
 #include "Falcon.h"
+#include "Cannon.h"
 
 Stage1:: Stage1() : Stage()
 {
@@ -59,7 +60,8 @@ void Stage1::LoadEntities(void* entitiesLayer)
 		else
 		if (object.getName() == "cannon1")
 		{
-
+			entity = new Cannon();
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
 		if (object.getName() == "soldierl")
@@ -146,6 +148,7 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	auto representativeWallTurret = new WallTurret();
 	auto representativeRifleManStanding = new RifleManStanding();
 	auto representativeRifleManHideOnBush = new RifleManHideOnBush();
+	auto representativeCannon = new Cannon();
 
 	representativeBill->LoadTextures();
 	representativeFalcon->LoadTextures();
@@ -155,6 +158,7 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	representativeWallTurret->LoadTextures();
 	representativeRifleManStanding->LoadTextures();
 	representativeRifleManHideOnBush->LoadTextures();
+	representativeCannon->LoadTextures();
 
 	representativeBill->LoadSprites();
 	representativeFalcon->LoadSprites();
@@ -164,6 +168,7 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	representativeWallTurret->LoadSprites();
 	representativeRifleManStanding->LoadSprites();
 	representativeRifleManHideOnBush->LoadSprites();
+	representativeCannon->LoadSprites();
 
 	representativeBill->LoadAnimations();
 	representativeFalcon->LoadAnimations();
@@ -173,6 +178,7 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	representativeWallTurret->LoadAnimations();
 	representativeRifleManStanding->LoadAnimations();
 	representativeRifleManHideOnBush->LoadAnimations();
+	representativeCannon->LoadAnimations();
 
 	Destroy(representativeBill);
 	Destroy(representativeFalcon);
@@ -182,4 +188,5 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	Destroy(representativeWallTurret);
 	Destroy(representativeRifleManStanding);
 	Destroy(representativeRifleManHideOnBush);
+	Destroy(representativeCannon);
 }

@@ -26,6 +26,8 @@
     <ClInclude Include="BossStage3.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraCommon.h" />
+    <ClInclude Include="Cannon.h" />
+    <ClInclude Include="CannonCommon.h" />
     <ClInclude Include="CollidableState.h" />
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletCommon.h" />
@@ -92,6 +94,12 @@
     <ClCompile Include="BulletMState.cpp" />
     <ClCompile Include="BulletRState.cpp" />
     <ClCompile Include="BulletSState.cpp" />
+    <ClCompile Include="Cannon.cpp" />
+    <ClCompile Include="CannonNormalState.cpp" />
+    <ClCompile Include="CannonState.cpp" />
+    <ClCompile Include="CannonAppearState.cpp" />
+    <ClCompile Include="CannonUp30State.cpp" />
+    <ClCompile Include="CannonUp60State.cpp" />
     <ClCompile Include="CollidableEntity.cpp" />
     <ClCompile Include="CollidableState.cpp" />
     <ClCompile Include="Falcon.cpp" />
