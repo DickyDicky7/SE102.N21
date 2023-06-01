@@ -440,6 +440,7 @@
     </ClInclude>
     <ClInclude Include="BossStage3Joint.h">
       <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    </ClInclude>
     <ClInclude Include="Cannon.h">
       <Filter>Header Files\Objects\Enemies\Cannon</Filter>
     </ClInclude>
@@ -933,6 +934,7 @@
     </ClCompile>
     <ClCompile Include="BossStage3HandDirectPlayerState.cpp">
       <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    </ClCompile>
     <ClCompile Include="Cannon.cpp">
       <Filter>Source Files\Objects\Enemies\Cannon</Filter>
     </ClCompile>
