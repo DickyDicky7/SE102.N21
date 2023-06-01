@@ -211,6 +211,15 @@
     <Filter Include="Source Files\Objects\Enemies\RockFall\RockFallState">
       <UniqueIdentifier>{3029f3eb-79b4-46e0-ada4-d4a166100ed9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Bridge">
+      <UniqueIdentifier>{ce563eca-0899-490f-b8d4-ecbede6ee183}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Bridge">
+      <UniqueIdentifier>{704d3bbc-29d8-485d-87c4-9b98c5b3d035}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Bridge\BridgeState">
+      <UniqueIdentifier>{b6c64c2f-d4ba-47c1-b942-525e6ef4447f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -377,6 +386,12 @@
     </ClInclude>
     <ClInclude Include="RockFly.h">
       <Filter>Header Files\Objects\RockFly</Filter>
+    </ClInclude>
+    <ClInclude Include="Bridge.h">
+      <Filter>Header Files\Objects\Bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="BridgeCommon.h">
+      <Filter>Header Files\Objects\Bridge</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -817,6 +832,12 @@
     </ClCompile>
     <ClCompile Include="RockFly.cpp">
       <Filter>Source Files\Objects\RockFly</Filter>
+    </ClCompile>
+    <ClCompile Include="Bridge.cpp">
+      <Filter>Source Files\Objects\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="BridgeState.cpp">
+      <Filter>Source Files\Objects\Bridge</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
