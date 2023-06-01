@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-Scene::Scene() : Entity(), HasTextures(), HasSprites(), HasAnimations(), state(NULL), updateState(NULL), handleInputState(NULL), safeToUseStage(false)
+Scene::Scene() : Entity(), HasTextures(), HasSprites(), HasAnimations(), state(NULL), updateState(NULL), handleInputState(NULL), stage(NULL), livesLeft(new INT(3)), currentStage(0), currentScore(0), highestScore(20000), safeToUseStage(false)
 {
 	ChangeState(state, new StartSceneState, this);
 	this->LoadTextures(); this->LoadSprites(); this->LoadAnimations();

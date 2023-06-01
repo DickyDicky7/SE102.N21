@@ -1,6 +1,7 @@
 #pragma once
 
 
+#include "Bill.h"
 #include "State.h"
 #include "Letter.h"
 #include "Motion.h"
@@ -31,7 +32,9 @@ class Scene : public Entity, public HasTextures<Scene>, public HasSprites<Scene>
 
 public:
 
-	Stage* stage;
+	Stage* stage; INT* livesLeft;
+	INT currentStage;
+	INT currentScore;
 	INT highestScore;
 	std::atomic<bool> safeToUseStage;
 
@@ -71,7 +74,7 @@ public:
 
 protected:
 
-	FLOAT time;
+	ULONGLONG time;
 
 };
 
@@ -111,9 +114,15 @@ public:
 
 protected:
 
+	Text* T_LIVES_LEFT;
+	Text* T_STAGE_NUMB;
+	Text* T_STAGE_NAME;
+	Text* T_CURRENT_SCORE;
+	Text* T_HIGHEST_SCORE;
+
 	Text T_1P  { "1P"  , AtRow(25.0f), AtCol(5.00f) };
-	Text T_HI  { "HI"  , AtRow(24.0f), AtCol(5.00f) };
-	Text T_REST{ "REST", AtRow(20.0f), AtCol(10.0f) };
+	Text T_HI  { "HI"  , AtRow(19.0f), AtCol(10.0f) };
+	Text T_REST{ "REST", AtRow(23.0f), AtCol(5.00f) };
 
 };
 

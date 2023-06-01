@@ -2,7 +2,7 @@
 #include "RockFly.h"
 #include "TerrainBlock.h"
 
-Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletSState())
+Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletSState()), livesLeft(NULL)
 {
 	CollidableEntity::self = (Entity*)this;
 
