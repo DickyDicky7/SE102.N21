@@ -94,9 +94,6 @@
     <Filter Include="Source Files\Objects\Enemies\BossStage3">
       <UniqueIdentifier>{be0dc8c7-0e71-47f6-80a8-600ab84024ad}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3State">
-      <UniqueIdentifier>{283e9967-ec2f-4af5-8faf-0b53a8a83ec9}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Objects\Enemies\RifleMan">
       <UniqueIdentifier>{79d2c866-2293-4630-9842-287f1a71d622}</UniqueIdentifier>
     </Filter>
@@ -190,26 +187,53 @@
     <Filter Include="Source Files\Objects\Enemies\Falcon\FalconState">
       <UniqueIdentifier>{43bbc217-0974-4996-b420-24276b2d9dc6}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Fire">
+      <UniqueIdentifier>{b6c84411-b0e6-451f-8341-3d5e7930a5d4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\RockFall">
+      <UniqueIdentifier>{daa96ac8-c315-4bd7-aefd-e4d9eaffde6e}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Objects\RockFly">
       <UniqueIdentifier>{89913019-d9db-4442-a868-90cfc4a82cbb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Fire">
+      <UniqueIdentifier>{19f3ccfd-5f92-4825-8edd-fb4f310b6464}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\RockFall">
+      <UniqueIdentifier>{4e8163d0-19b8-4d00-ac46-240d4897d811}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\RockFall\RockFallState">
+      <UniqueIdentifier>{3029f3eb-79b4-46e0-ada4-d4a166100ed9}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Objects\RockFly">
       <UniqueIdentifier>{fad04213-c289-43ff-bdaa-d2ee185f1356}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Enemies\Fire">
-      <UniqueIdentifier>{b6c84411-b0e6-451f-8341-3d5e7930a5d4}</UniqueIdentifier>
+    <Filter Include="Header Files\Objects\Enemies\BossStage3\BossStage3Hand">
+      <UniqueIdentifier>{316529ed-5183-4c7b-9771-3bca3c7dc78d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Enemies\RockFall">
-      <UniqueIdentifier>{daa96ac8-c315-4bd7-aefd-e4d9eaffde6e}</UniqueIdentifier>
+    <Filter Include="Header Files\Objects\Enemies\BossStage3\BossStage3Gate">
+      <UniqueIdentifier>{d204f13b-26dc-4362-8036-bf3e4ec08280}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\Fire">
-      <UniqueIdentifier>{19f3ccfd-5f92-4825-8edd-fb4f310b6464}</UniqueIdentifier>
+    <Filter Include="Header Files\Objects\Enemies\BossStage3\BossStage3Head">
+      <UniqueIdentifier>{2fdf92c2-0b00-4c66-97b8-7eed7dc77c65}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\RockFall">
-      <UniqueIdentifier>{4e8163d0-19b8-4d00-ac46-240d4897d811}</UniqueIdentifier>
+    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3Head">
+      <UniqueIdentifier>{1b11aeb7-bed5-4db7-903d-74419cec2080}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\RockFall\RockFallState">
-      <UniqueIdentifier>{3029f3eb-79b4-46e0-ada4-d4a166100ed9}</UniqueIdentifier>
+    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State">
+      <UniqueIdentifier>{283e9967-ec2f-4af5-8faf-0b53a8a83ec9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3Gate">
+      <UniqueIdentifier>{900d05c8-9e03-43b2-850f-95821da2784d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3Hand">
+      <UniqueIdentifier>{4ad52bbf-4421-47ec-a1bf-180478423988}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState">
+      <UniqueIdentifier>{e0e759e9-2f44-4082-8418-6392d2664525}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState">
+      <UniqueIdentifier>{d682b6d2-0d5c-4019-8aab-5a8226655bb3}</UniqueIdentifier>
     </Filter>
     <Filter Include="Source Files\Objects\Enemies\Cannon">
       <UniqueIdentifier>{87bdd0b7-df90-49f3-baef-5240c53d3b26}</UniqueIdentifier>
@@ -275,9 +299,6 @@
     </ClInclude>
     <ClInclude Include="WallTurret.h">
       <Filter>Header Files\Objects\Enemies\WallTurret</Filter>
-    </ClInclude>
-    <ClInclude Include="BossStage3.h">
-      <Filter>Header Files\Objects\Enemies\BossStage3</Filter>
     </ClInclude>
     <ClInclude Include="Enemy.h">
       <Filter>Header Files\Abstractions\Object Abstractions</Filter>
@@ -370,16 +391,16 @@
       <Filter>Header Files\Objects\Enemies\Falcon</Filter>
     </ClInclude>
     <ClInclude Include="Fire.h">
-      <Filter>Header Files\Objects\Enemies\Fire</Filter>
+      <Filter>Header Files\Objects\Fire</Filter>
     </ClInclude>
     <ClInclude Include="FireCommon.h">
-      <Filter>Header Files\Objects\Enemies\Fire</Filter>
+      <Filter>Header Files\Objects\Fire</Filter>
     </ClInclude>
     <ClInclude Include="RockFall.h">
-      <Filter>Header Files\Objects\Enemies\RockFall</Filter>
+      <Filter>Header Files\Objects\RockFall</Filter>
     </ClInclude>
     <ClInclude Include="RockFallCommon.h">
-      <Filter>Header Files\Objects\Enemies\RockFall</Filter>
+      <Filter>Header Files\Objects\RockFall</Filter>
     </ClInclude>
     <ClInclude Include="RockFlyCommon.h">
       <Filter>Header Files\Objects\RockFly</Filter>
@@ -387,6 +408,23 @@
     <ClInclude Include="RockFly.h">
       <Filter>Header Files\Objects\RockFly</Filter>
     </ClInclude>
+    <ClInclude Include="BossStage3.h">
+      <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Head</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStage3HandCommon.h">
+      <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStage3GateCommon.h">
+      <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Gate</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStage3Hand.h">
+      <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStage3Gate.h">
+      <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Gate</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStage3Joint.h">
+      <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
     <ClInclude Include="Cannon.h">
       <Filter>Header Files\Objects\Enemies\Cannon</Filter>
     </ClInclude>
@@ -632,23 +670,14 @@
     <ClCompile Include="BillSwimRunState.cpp">
       <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3Common.h">
-      <Filter>Header Files\Objects\Enemies\BossStage3</Filter>
-    </ClCompile>
-    <ClCompile Include="BossStage3.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3</Filter>
-    </ClCompile>
-    <ClCompile Include="BossStage3State.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3</Filter>
-    </ClCompile>
     <ClCompile Include="BossStage3OpenState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3State</Filter>
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State</Filter>
     </ClCompile>
     <ClCompile Include="BossStage3CloseState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3State</Filter>
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State</Filter>
     </ClCompile>
     <ClCompile Include="BossStage3MiddleState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3State</Filter>
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State</Filter>
     </ClCompile>
     <ClCompile Include="Enemy.cpp">
       <Filter>Source Files\Abstractions\Object Abstractions</Filter>
@@ -816,23 +845,67 @@
       <Filter>Source Files\Objects\Enemies\Falcon\FalconState</Filter>
     </ClCompile>
     <ClCompile Include="Fire.cpp">
-      <Filter>Source Files\Objects\Enemies\Fire</Filter>
+      <Filter>Source Files\Objects\Fire</Filter>
     </ClCompile>
     <ClCompile Include="RockFall.cpp">
-      <Filter>Source Files\Objects\Enemies\RockFall</Filter>
+      <Filter>Source Files\Objects\RockFall</Filter>
     </ClCompile>
     <ClCompile Include="RockFallState.cpp">
-      <Filter>Source Files\Objects\Enemies\RockFall</Filter>
+      <Filter>Source Files\Objects\RockFall</Filter>
     </ClCompile>
     <ClCompile Include="RockFallFallState.cpp">
-      <Filter>Source Files\Objects\Enemies\RockFall\RockFallState</Filter>
+      <Filter>Source Files\Objects\RockFall\RockFallState</Filter>
     </ClCompile>
     <ClCompile Include="RockFallNormalState.cpp">
-      <Filter>Source Files\Objects\Enemies\RockFall\RockFallState</Filter>
+      <Filter>Source Files\Objects\RockFall\RockFallState</Filter>
     </ClCompile>
     <ClCompile Include="RockFly.cpp">
       <Filter>Source Files\Objects\RockFly</Filter>
     </ClCompile>
+    <ClCompile Include="BossStage3Common.h">
+      <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Head</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Head</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3State.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Head</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3Gate.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Gate</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3Hand.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3GateState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Gate</Filter>
+    </ClCompile>
+    <ClCompile Include="BossState3GateOpenState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3GateCloseState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3Joint.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3HandState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3HandStartState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3HandWaveState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3HandSpinningState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3HandAttackState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage3HandDirectPlayerState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
     <ClCompile Include="Cannon.cpp">
       <Filter>Source Files\Objects\Enemies\Cannon</Filter>
     </ClCompile>
