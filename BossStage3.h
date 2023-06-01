@@ -51,6 +51,9 @@ public:
 
 	virtual BossStage3State* Update(BossStage3&) override = 0;
 	virtual BossStage3State* HandleInput(BossStage3&, Input&) override = 0;
+
+protected:
+	FLOAT time;
 };
 
 

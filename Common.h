@@ -35,7 +35,10 @@
 #include "RockFallCommon.h"
 #include "RifleManCommon.h"
 #include "WallTurretCommon.h"
+#include "CannonCommon.h"
 #include "BossStage3Common.h"
+#include "BossStage3GateCommon.h"
+#include "BossStage3HandCommon.h"
 #include "ScubaSoldierCommon.h"
 #include "TerrainStage1Common.h"
 #include "TerrainStage2Common.h"
@@ -66,9 +69,12 @@ using SPRITE_ID = std::variant
 	RIFLE_MAN_SPRITE_ID,
 	WALL_TURRET_SPRITE_ID,
 	BOSS_STAGE_3_SPRITE_ID,
+	BOSS_STAGE_3_HAND_SPRITE_ID,
+	BOSS_STAGE_3_GATE_SPRITE_ID,
 	SCUBA_SOLDIER_SPRITE_ID,
 	TERRAIN_STAGE_1_SPRITE_ID,
-	TERRAIN_STAGE_2_SPRITE_ID
+	TERRAIN_STAGE_2_SPRITE_ID,
+	CANNON_SPRITE_ID
 >;
 
 using TEXTURE_ID = std::variant
@@ -86,7 +92,8 @@ using TEXTURE_ID = std::variant
 	BOSS_STAGE_3_TEXTURE_ID,
 	SCUBA_SOLDIER_TEXTURE_ID,
 	TERRAIN_STAGE_1_TEXTURE_ID,
-	TERRAIN_STAGE_2_TEXTURE_ID
+	TERRAIN_STAGE_2_TEXTURE_ID,
+	CANNON_TEXTURE_ID
 >;
 
 using ANIMATION_ID = std::variant
@@ -102,9 +109,12 @@ using ANIMATION_ID = std::variant
 	RIFLE_MAN_ANIMATION_ID,
 	WALL_TURRET_ANIMATION_ID,
 	BOSS_STAGE_3_ANIMATION_ID,
+	BOSS_STAGE_3_HAND_ANIMATION_ID,
+	BOSS_STAGE_3_GATE_ANIMATION_ID,
 	SCUBA_SOLDIER_ANIMATION_ID,
 	TERRAIN_STAGE_1_ANIMATION_ID,
-	TERRAIN_STAGE_2_ANIMATION_ID
+	TERRAIN_STAGE_2_ANIMATION_ID,
+	CANNON_ANIMATION_ID
 >;
 
 using         TIME = DWORD;

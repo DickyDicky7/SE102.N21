@@ -2,7 +2,7 @@
 
 BossStage3MiddleState::BossStage3MiddleState(BOSS_STAGE_3_ANIMATION_ID nextState) : BossStage3State()
 {
-	delayTime = 50;
+	delayTime = 20;
 	this->nextState = nextState;
 }
 
