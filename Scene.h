@@ -24,7 +24,7 @@ inline FLOAT AtCol(FLOAT x) { return x / (IN_GAME_SCREEN_W / Letter::letterW) * 
 inline FLOAT AtRow(FLOAT y) { return y / (IN_GAME_SCREEN_H / Letter::letterH) * IN_GAME_SCREEN_H; }
 
 
-class Scene; class SceneState; class StartSceneState; class LoadingSceneState; class PlayingSceneState;
+class Scene; class SceneState; class StartSceneState; class LoadingSceneState; class PlayingSceneState; class GameOverSceneState; class EndingSceneState; class CreditSceneState;
 
 
 class Scene : public Entity, public HasTextures<Scene>, public HasSprites<Scene>, public HasAnimations<Scene>
@@ -124,9 +124,9 @@ protected:
 	Text* T_CURRENT_SCORE;
 	Text* T_HIGHEST_SCORE;
 
-	Text T_1P  { "1P"  , AtRow(25.0f), AtCol(5.00f) };
-	Text T_HI  { "HI"  , AtRow(19.0f), AtCol(10.0f) };
-	Text T_REST{ "REST", AtRow(23.0f), AtCol(5.00f) };
+	Text T_1P   { "1P"  , AtRow(25.0f), AtCol(5.00f) };
+	Text T_HI   { "HI"  , AtRow(19.0f), AtCol(10.0f) };
+	Text T_REST { "REST", AtRow(23.0f), AtCol(5.00f) };
 
 };
 
@@ -138,6 +138,75 @@ public:
 
 	PlayingSceneState();
 	virtual ~PlayingSceneState();
+
+	virtual void Exit(Scene&) override;
+	virtual void Enter(Scene&) override;
+	virtual void Render(Scene&) override;
+
+	virtual SceneState* Update(Scene&) override;
+	virtual SceneState* HandleInput(Scene&, Input&) override;
+
+};
+
+
+class GameOverSceneState : public SceneState
+{
+
+public:
+
+	GameOverSceneState();
+	virtual ~GameOverSceneState();
+
+	virtual void Exit(Scene&) override;
+	virtual void Enter(Scene&) override;
+	virtual void Render(Scene&) override;
+
+	virtual SceneState* Update(Scene&) override;
+	virtual SceneState* HandleInput(Scene&, Input&) override;
+
+protected:
+
+	enum class SELECTION { CONTINUE, END, };
+			   SELECTION  selection;
+			   FLOAT      atRow;
+	
+	Text* T_CURRENT_SCORE;
+	Text* T_HIGHEST_SCORE;
+
+	Text T_1P        { "1P"       , AtRow(25.0f), AtCol(5.00f) };
+	Text T_HI        { "HI"       , AtRow(19.0f), AtCol(10.0f) };
+	Text T_END       { "END"      , AtRow(09.0f), AtCol(13.0f) };
+	Text T_CONTINUE  { "CONTINUE" , AtRow(11.0f), AtCol(13.0f) };
+	Text T_GAME_OVER { "GAME OVER", AtRow(14.0f), AtCol(12.0f) };
+
+};
+
+
+class EndingSceneState : public SceneState
+{
+
+public:
+
+	EndingSceneState();
+	virtual ~EndingSceneState();
+
+	virtual void Exit(Scene&) override;
+	virtual void Enter(Scene&) override;
+	virtual void Render(Scene&) override;
+
+	virtual SceneState* Update(Scene&) override;
+	virtual SceneState* HandleInput(Scene&, Input&) override;
+
+};
+
+
+class CreditSceneState : public SceneState
+{
+
+public:
+
+	CreditSceneState();
+	virtual ~CreditSceneState();
 
 	virtual void Exit(Scene&) override;
 	virtual void Enter(Scene&) override;

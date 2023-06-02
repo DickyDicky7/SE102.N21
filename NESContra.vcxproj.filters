@@ -971,5 +971,14 @@
     <ClCompile Include="StartSceneState.cpp">
       <Filter>Source Files\Objects\Scene\SceneState</Filter>
     </ClCompile>
+    <ClCompile Include="GameOverSceneState.cpp">
+      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingSceneState.cpp">
+      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditSceneState.cpp">
+      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

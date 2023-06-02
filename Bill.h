@@ -188,6 +188,11 @@ public:
 	virtual BillState* Update(Bill&) override;
 	virtual BillState* HandleInput(Bill&, Input&) override;
 
+protected:
+
+	static constexpr ULONGLONG DEFAULT_REVIVAL_COOLDOWN = 100;
+	                 ULONGLONG revivalCooldown;
+
 };
 
 

@@ -58,6 +58,7 @@ void Bill::Render()
 		handleInputState = NULL;
 	}
 }
+
 int i = 1;
 void Bill::HandleInput(Input& input)
 {
@@ -366,14 +367,30 @@ void Bill::Fire                    (                               )
 
 void Bill::StaticResolveNoCollision(                               )
 {
+	if (dynamic_cast<BillDeadState*>(state))
+	{
+		surfaceEntity = NULL;
+		return;
+	}
 }
 
 void Bill::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
+	if (dynamic_cast<BillDeadState*>(state))
+	{
+		surfaceEntity = NULL;
+		return;
+	}
 }
 
 void Bill::DynamicResolveNoCollision(                               )
 {
+	if (dynamic_cast<BillDeadState*>(state))
+	{
+		surfaceEntity = NULL;
+		return;
+	}
+
 	if (isAbSurface)
 	{
 		if (surfaceEntity)
@@ -399,6 +416,12 @@ void Bill::DynamicResolveNoCollision(                               )
 
 void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
+	if (dynamic_cast<BillDeadState*>(state))
+	{
+		surfaceEntity = NULL;
+		return;
+	}
+
 	auto    terrainBlock  = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
 	if     (terrainBlock)
 	switch (terrainBlock->type)
@@ -416,6 +439,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		else
 		{
 		}
+		return;
 	}
 	break;
 
@@ -441,6 +465,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		else
 		{
 		}
+		return;
 	}
 	break;
 
@@ -463,6 +488,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		else
 		{
 		}
+		return;
 	}
 	break;
 
@@ -484,6 +510,13 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 				surfaceEntity = rockFly;
 				ChangeState(state, new BillNormalState(), this);
 			}
+			return;
+		}
+
+		if (dynamic_cast<Enemy<Bill>*>(aabbSweepResult.surfaceEntity))
+		{
+			ChangeState(state, new BillDeadState(), this);
+			return;
 		}
 	}
 

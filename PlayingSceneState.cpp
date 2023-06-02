@@ -30,6 +30,11 @@ void PlayingSceneState::Render(Scene& scene)
 SceneState* PlayingSceneState::Update(Scene& scene)
 {
 	scene.stage->Update();
+	if (*scene.livesLeft <= -1)
+	{
+		if (++turn == 300)
+			return new GameOverSceneState();
+	}
 	if (scene.GetX() <= BLACK_W * 1.5f)
 	{
 		auto result = Motion::CalculateUniformMotion({ scene.GetX(), scene.GetVX() });

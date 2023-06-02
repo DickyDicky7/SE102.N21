@@ -17,12 +17,19 @@ Stage::~Stage()
 	entities->Clean();
 	backgroundTerrains->Clean();
 	foregroundTerrains->Clean();
-	/*Destroy(bill), */Destroy(camera); Destroy(entities); Destroy(backgroundTerrains), Destroy(foregroundTerrains);
+	Destroy(camera); Destroy(entities); Destroy(backgroundTerrains), Destroy(foregroundTerrains);
 }
 
 
 void Stage::Update()
 {
+	if (bill->GetY() == +std::numeric_limits<FLOAT>::infinity())
+	{
+		bill->SetX(camera->GetL() + bill->GetW());
+		bill->SetY(camera->GetT() - bill->GetH());
+	}
+
+
 	auto& bullets = HasWeapons::GetBullets();
 	for (auto& bullet : bullets)
 	{
@@ -31,38 +38,52 @@ void Stage::Update()
 	}
 	bullets.clear();
 
+
 	entitiesResult.clear();
 	entities->Retrieve(camera,  entitiesResult);
 	for (auto& [entity, node] : entitiesResult) entity->Update();
-	//for (auto& [e, n] : entitiesResult) if (!camera->CouldSee(e)) OutputDebugString(L"YES\n");
 
+
+	std::list<Entity*> deadEntities;
 	std::list<Entity*> outOfBoundBullets;
 	for (auto& [entity, node] : entitiesResult)
 	{
+		if (entity && entity == bill)
+		{
+			continue;
+		}
+		if (entity && entity->isDead)
+		{
+			node->entities.remove (entity);
+			deadEntities.push_back(entity);
+			continue;
+		}
 		if (dynamic_cast<Bullet*>(entity))
 		{
 			if (!camera->CouldSee(entity))
 			{
-				node->entities.remove(entity);
+				node->entities.remove      (entity);
 				outOfBoundBullets.push_back(entity);
 			}
 		}
 	}
+	for (auto& deadEntity : deadEntities)
+	{
+		entitiesResult.erase(deadEntity);
+		Destroy             (deadEntity);
+	}
 	for (auto& outOfBoundBullet : outOfBoundBullets)
 	{
 		entitiesResult.erase(outOfBoundBullet);
-		Destroy(outOfBoundBullet);
-		//OutputDebugString(L"ERASED\n");
+		Destroy             (outOfBoundBullet);
 	}
+
 
 	if (QuadTreeNode::Update(entities, entitiesResult))
 	{
 		entitiesResult.clear();
 		entities->Retrieve(camera, entitiesResult);
-
-		//for (auto& [e, n] : entitiesResult) if (!camera->CouldSee(e)) OutputDebugString(L"YES\n");
 	}
-	//for (auto& [e, n] : entitiesResult) if (!camera->CouldSee(e)) OutputDebugString(L"YES\n");
 }
 
 
@@ -86,6 +107,8 @@ void Stage::CheckResolveClearCollision()
 {
 	foregroundTerrainsResult.clear();
 	foregroundTerrains->Retrieve(camera, foregroundTerrainsResult);
+
+
 	for (auto& [entity, node] : entitiesResult)
 	{
 		auto collidableEntity = dynamic_cast<CollidableEntity*>(entity);
@@ -95,6 +118,8 @@ void Stage::CheckResolveClearCollision()
 			 collidableEntity->CollideWith(foregroundTerrain);
 		}
 	}
+
+
 	for (auto& [entity, node] : entitiesResult)
 	{
 		if (bill != entity)

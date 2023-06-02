@@ -123,12 +123,15 @@
     <ClCompile Include="CannonUp60State.cpp" />
     <ClCompile Include="CollidableEntity.cpp" />
     <ClCompile Include="CollidableState.cpp" />
+    <ClCompile Include="CreditSceneState.cpp" />
+    <ClCompile Include="EndingSceneState.cpp" />
     <ClCompile Include="Falcon.cpp" />
     <ClCompile Include="FalconCloseState.cpp" />
     <ClCompile Include="FalconOpeningState.cpp" />
     <ClCompile Include="FalconOpenState.cpp" />
     <ClCompile Include="FalconState.cpp" />
     <ClCompile Include="Fire.cpp" />
+    <ClCompile Include="GameOverSceneState.cpp" />
     <ClCompile Include="Letter.cpp" />
     <ClCompile Include="HasWeapons.cpp" />
     <ClCompile Include="LoadingSceneState.cpp" />

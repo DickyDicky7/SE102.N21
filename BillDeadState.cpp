@@ -1,6 +1,6 @@
 #include "Bill.h"
 
-BillDeadState::BillDeadState() : BillState()
+BillDeadState::BillDeadState() : BillState(), revivalCooldown(DEFAULT_REVIVAL_COOLDOWN)
 {
 }
 
@@ -19,16 +19,37 @@ void BillDeadState::Enter(Bill& bill)
 
 void BillDeadState::Render(Bill& bill)
 {
-	bill.SetAnimation(BILL_ANIMATION_ID::DEAD, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
+	if (!bill.isDead)
+		 bill.SetAnimation(BILL_ANIMATION_ID::DEAD, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
 }
 
 BillState* BillDeadState::Update(Bill& bill)
 {
-	auto result = Motion::CalculateUniformMotion({ bill.GetX(), bill.GetVX() });
-	bill.SetX(result.c);
+	if (*bill.livesLeft <= -1)
+	{
+		return NULL;
+	}
+	if (!bill.isDead)
+	{
+		auto result = Motion::CalculateUniformMotion({ bill.GetX(), bill.GetVX() });
+		bill.SetX(result.c);
 
-	if (bill.GetCurrentFrame() == 3) return new BillNormalState();
-
+		if (bill.GetCurrentFrame() == 3)
+		{
+			bill.isDead = 1;
+		}
+	}
+	else
+	{
+		if (revivalCooldown == DEFAULT_REVIVAL_COOLDOWN) --(*bill.livesLeft);
+		  --revivalCooldown;
+		if (revivalCooldown == 0)
+		{
+			revivalCooldown  = DEFAULT_REVIVAL_COOLDOWN;
+			bill.isDead      = 0;
+			return new BillBeginState();
+		}
+	}
 	return NULL;
 }
 

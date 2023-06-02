@@ -56,7 +56,7 @@ SceneState* StartSceneState::Update(Scene& scene)
 
 SceneState* StartSceneState::HandleInput(Scene& scene, Input& input)
 {
-	if (scene.GetX() <= START_SCENE_W * 0.5f && (input.IsKey(DIK_RETURN) || input.IsKey(DIK_NUMPADENTER)))
+	if (scene.GetX() <= START_SCENE_W * 0.5f && (input.IsKey(DIK_RETURN) || input.IsKey(DIK_NUMPADENTER)) && !chosen)
 	{
 		chosen = true;
 	}
