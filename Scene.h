@@ -37,6 +37,7 @@ public:
 	INT currentScore;
 	INT highestScore;
 	std::atomic<bool> safeToUseStage;
+	std::binary_semaphore semaphore{ 1 };
 
 	Scene();
 	virtual ~Scene();

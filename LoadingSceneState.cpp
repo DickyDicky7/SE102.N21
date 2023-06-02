@@ -38,6 +38,7 @@ void LoadingSceneState::Enter(Scene& scene)
 		[](Scene& scene)
 		{
 			scene.safeToUseStage = false;
+			scene.semaphore.acquire();
 
 			if (scene.currentStage == 1)
 			{
@@ -58,8 +59,9 @@ void LoadingSceneState::Enter(Scene& scene)
 				scene.stage->GetBill()->livesLeft = scene.livesLeft;
 			}
 
-			std::this_thread::sleep_for(std::chrono::seconds(7));
+			std::this_thread::sleep_for(std::chrono::seconds(5));
 
+			scene.semaphore.release();
 			scene.safeToUseStage = true;
 		}
 		,   std::ref(scene)
@@ -67,7 +69,8 @@ void LoadingSceneState::Enter(Scene& scene)
 
 	newThread.detach();
 
-	std::this_thread::sleep_for(std::chrono::seconds(2));
+	while (scene.semaphore.try_acquire())
+		   scene.semaphore.release();
 }
 
 void LoadingSceneState::Render(Scene& scene)
