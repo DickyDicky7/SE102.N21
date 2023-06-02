@@ -14,6 +14,7 @@ void PlayingSceneState::Exit(Scene& scene)
 
 void PlayingSceneState::Enter(Scene& scene)
 {
+	scene.stageIsReady = true;
 	scene.SetX(BLACK_W * 0.5f); scene.SetY(0.0f); scene.SetVX(+3.0f);
 }
 

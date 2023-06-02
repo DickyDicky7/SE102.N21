@@ -19,6 +19,8 @@ void LoadingSceneState::Exit(Scene& scene)
 
 void LoadingSceneState::Enter(Scene& scene)
 {
+	scene.stageIsReady = false;
+
 	if (++scene.currentStage > 2) 
 		  scene.currentStage = 1;
 
@@ -33,44 +35,24 @@ void LoadingSceneState::Enter(Scene& scene)
 	T_CURRENT_SCORE = new Text(std::to_string( scene.currentScore), AtRow(25.0f), AtCol(10.0f));
 	T_HIGHEST_SCORE = new Text(std::to_string( scene.highestScore), AtRow(19.0f), AtCol(15.0f));
 
-	std::thread newThread
-	(
-		[](Scene& scene)
-		{
-			scene.safeToUseStage = false;
-			scene.semaphore.acquire();
+	if (scene.currentStage == 1)
+	{
+		Destroy(scene.stage);
+		scene.stage = new Stage1();
+		scene.stage->Load<TerrainStage1, CameraMovingForwardState>();
+	}
+	else
+	if (scene.currentStage == 2)
+	{
+		Destroy(scene.stage);
+		scene.stage = new Stage2();
+		scene.stage->Load<TerrainStage2, CameraMovingUpwardState >();
+	}
 
-			if (scene.currentStage == 1)
-			{
-				Destroy(scene.stage);
-				scene.stage = new Stage1();
-				scene.stage->Load<TerrainStage1, CameraMovingForwardState>();
-			}
-			else
-			if (scene.currentStage == 2)
-			{
-				Destroy(scene.stage);
-				scene.stage = new Stage2();
-				scene.stage->Load<TerrainStage2, CameraMovingUpwardState >();
-			}
-
-			if (scene.stage)
-			{
-				scene.stage->GetBill()->livesLeft = scene.livesLeft;
-			}
-
-			std::this_thread::sleep_for(std::chrono::seconds(5));
-
-			scene.semaphore.release();
-			scene.safeToUseStage = true;
-		}
-		,   std::ref(scene)
-	);
-
-	newThread.detach();
-
-	while (scene.semaphore.try_acquire())
-		   scene.semaphore.release();
+	if (scene.stage)
+	{
+		scene.stage->GetBill()->livesLeft = scene.livesLeft;
+	}
 }
 
 void LoadingSceneState::Render(Scene& scene)
@@ -92,7 +74,7 @@ void LoadingSceneState::Render(Scene& scene)
 
 SceneState* LoadingSceneState::Update(Scene& scene)
 {
-	if (scene.safeToUseStage) return new PlayingSceneState();
+	if (++turn == 300) return new PlayingSceneState();
 	return NULL;
 }
 

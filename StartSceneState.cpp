@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-StartSceneState::StartSceneState() : SceneState(), turn(0), chosen(false)
+StartSceneState::StartSceneState() : SceneState(), chosen(false)
 {
 }
 
@@ -14,6 +14,7 @@ void StartSceneState::Exit(Scene& scene)
 
 void StartSceneState::Enter(Scene& scene)
 {
+	scene.stageIsReady = false;
 	scene.SetX(START_SCENE_W * 1.5f); scene.SetY(0.0f); scene.SetVX(-0.5f);
 }
 

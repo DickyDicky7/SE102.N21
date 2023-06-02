@@ -90,8 +90,9 @@ BillState* BillNormalState::HandleInput(Bill& bill, Input& input)
 	}
 	if (input.IsKey(DIK_H))
 	{
-		bill.SetVX(+1.0f);
-		bill.SetX(bill.GetX() + bill.GetVX());
+		return new BillDeadState();
+		//bill.SetVX(+1.0f);
+		//bill.SetX(bill.GetX() + bill.GetVX());
 	}
 	// FOR DEBUG PURPOSE
 

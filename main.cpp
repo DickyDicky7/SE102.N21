@@ -98,12 +98,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		scene->HandleInput(*input);
 		scene->Update();
-		if (scene->safeToUseStage && scene->stage)
+		if (scene->stageIsReady)
 		{
 			scene->stage->CheckResolveClearCollision();
 		}
 
-		if (scene->safeToUseStage && scene->stage)
+		if (scene->stageIsReady)
 		{
 			scene->stage->GetCamera()->HandleInput(*input);
 			scene->stage->GetCamera()->Capture
@@ -235,8 +235,7 @@ void LoadD3D(HWND hWnd)
 	d3d->CreateDevice
 	(
 		D3DADAPTER_DEFAULT, D3DDEVTYPE_HAL, hWnd,
-		D3DCREATE_SOFTWARE_VERTEXPROCESSING |
-		D3DCREATE_MULTITHREADED, &d3dpp, &d3ddev
+		D3DCREATE_SOFTWARE_VERTEXPROCESSING, &d3dpp, &d3ddev
 	);
 
 	D3DXCreateSprite

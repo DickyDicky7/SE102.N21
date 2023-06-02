@@ -14,6 +14,7 @@ void BillDeadState::Exit(Bill& bill)
 
 void BillDeadState::Enter(Bill& bill)
 {
+	bill.SetVX(-bill.GetVX());
 }
 
 void BillDeadState::Render(Bill& bill)
@@ -23,6 +24,11 @@ void BillDeadState::Render(Bill& bill)
 
 BillState* BillDeadState::Update(Bill& bill)
 {
+	auto result = Motion::CalculateUniformMotion({ bill.GetX(), bill.GetVX() });
+	bill.SetX(result.c);
+
+	if (bill.GetCurrentFrame() == 3) return new BillNormalState();
+
 	return NULL;
 }
 

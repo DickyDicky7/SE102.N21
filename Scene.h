@@ -32,12 +32,10 @@ class Scene : public Entity, public HasTextures<Scene>, public HasSprites<Scene>
 
 public:
 
-	Stage* stage; INT* livesLeft;
+	Stage* stage; INT* livesLeft; BOOL stageIsReady;
 	INT currentStage;
 	INT currentScore;
 	INT highestScore;
-	std::atomic<bool> safeToUseStage;
-	std::binary_semaphore semaphore{ 1 };
 
 	Scene();
 	virtual ~Scene();
@@ -75,6 +73,7 @@ public:
 
 protected:
 
+	ULONGLONG turn;
 	ULONGLONG time;
 
 };
@@ -97,7 +96,6 @@ public:
 
 protected:
 
-	INT  turn;
 	BOOL chosen;
 
 };
