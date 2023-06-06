@@ -24,8 +24,6 @@
     <ClInclude Include="Bill.h" />
     <ClInclude Include="BillCommon.h" />
     <ClInclude Include="BossStage3.h" />
-    <ClInclude Include="Bridge.h" />
-    <ClInclude Include="BridgeCommon.h" />
     <ClInclude Include="BossStage3Gate.h" />
     <ClInclude Include="BossStage3GateCommon.h" />
     <ClInclude Include="BossStage3Hand.h" />
@@ -96,8 +94,6 @@
     <ClCompile Include="AirCraftRAmmoState.cpp" />
     <ClCompile Include="AirCraftSAmmoState.cpp" />
     <ClCompile Include="BillSwimRunShotState.cpp" />
-    <ClCompile Include="Bridge.cpp" />
-    <ClCompile Include="BridgeState.cpp" />
     <ClCompile Include="BossStage3Gate.cpp" />
     <ClCompile Include="BossStage3GateCloseState.cpp" />
     <ClCompile Include="BossStage3GateState.cpp" />
