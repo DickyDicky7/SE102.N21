@@ -39,6 +39,8 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Explosion.h" />
+    <ClInclude Include="ExplosionCommon.h" />
     <ClInclude Include="Falcon.h" />
     <ClInclude Include="FalconCommon.h" />
     <ClInclude Include="Fire.h" />
@@ -125,6 +127,10 @@
     <ClCompile Include="CollidableState.cpp" />
     <ClCompile Include="CreditSceneState.cpp" />
     <ClCompile Include="EndingSceneState.cpp" />
+    <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="ExplosionState.cpp" />
+    <ClCompile Include="ExplosionType1State.cpp" />
+    <ClCompile Include="ExplosionType2State.cpp" />
     <ClCompile Include="Falcon.cpp" />
     <ClCompile Include="FalconCloseState.cpp" />
     <ClCompile Include="FalconOpeningState.cpp" />

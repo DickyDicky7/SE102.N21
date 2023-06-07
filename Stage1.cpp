@@ -8,6 +8,7 @@
 #include "AirCraft.h"
 #include "Falcon.h"
 #include "Cannon.h"
+#include "Explosion.h"
 
 Stage1:: Stage1() : Stage()
 {
@@ -189,4 +190,11 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	Destroy(representativeRifleManStanding);
 	Destroy(representativeRifleManHideOnBush);
 	Destroy(representativeCannon);
+
+	// explosion
+	auto representativeExplosion = new Explosion();
+	representativeExplosion->LoadTextures();
+	representativeExplosion->LoadSprites();
+	representativeExplosion->LoadAnimations();
+	Destroy(representativeExplosion);
 }

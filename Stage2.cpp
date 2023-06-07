@@ -16,6 +16,7 @@
 #include "BossStage3.h"
 #include "BossStage3Gate.h"
 #include "BossStage3Hand.h"
+#include "Explosion.h"
 
 Stage2:: Stage2() : Stage()
 {
@@ -46,11 +47,11 @@ Stage2::~Stage2()
 	dynamicbridge1		done
 	dynamicbridge2		done
 	dynamicbridge3 		done
-	cannon3 			not
+	cannon3 			done
 
 	boss2finalhead		done
-	boss2finalarmleft	not
-	boss2finalarmright	not
+	boss2finalarmleft	done
+	boss2finalarmright	done
 */
 void Stage2::LoadEntities(void* entitiesLayer)
 {
@@ -327,5 +328,12 @@ void Stage2::LoadEntities(void* entitiesLayer)
 	representativeBossStage3Hand->LoadSprites();
 	representativeBossStage3Hand->LoadAnimations();
 	Destroy(representativeBossStage3Hand);
+
+	// explosion
+	auto representativeExplosion = new Explosion();
+	representativeExplosion->LoadTextures();
+	representativeExplosion->LoadSprites();
+	representativeExplosion->LoadAnimations();
+	Destroy(representativeExplosion);
 }
 

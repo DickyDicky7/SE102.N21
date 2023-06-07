@@ -259,6 +259,15 @@
     <Filter Include="Source Files\Objects\Letter">
       <UniqueIdentifier>{5f736031-bf14-4a32-866b-98b26e1c69fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Explosion">
+      <UniqueIdentifier>{d667820f-d301-46b9-8bee-72556b0fcfd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Explosion">
+      <UniqueIdentifier>{140d29a3-5364-44f8-b965-dc00991edb5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Explosion\ExplosionState">
+      <UniqueIdentifier>{5ef3f699-6d1f-4863-b2c2-eec045653fee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -458,6 +467,12 @@
     </ClInclude>
     <ClInclude Include="SceneCommon.h">
       <Filter>Header Files\Objects\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionCommon.h">
+      <Filter>Header Files\Objects\Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -979,6 +994,18 @@
     </ClCompile>
     <ClCompile Include="CreditSceneState.cpp">
       <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>Source Files\Objects\Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionState.cpp">
+      <Filter>Source Files\Objects\Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionType1State.cpp">
+      <Filter>Source Files\Objects\Explosion\ExplosionState</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionType2State.cpp">
+      <Filter>Source Files\Objects\Explosion\ExplosionState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

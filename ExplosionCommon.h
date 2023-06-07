@@ -1,0 +1,31 @@
+#pragma once
+
+enum class EXPLOSION_TEXTURE_ID {
+	EXPLOSION
+};
+
+enum class EXPLOSION_SPRITE_ID {
+	TYPE_1_01,
+	TYPE_1_02,
+	TYPE_1_03,
+	TYPE_1_04,
+	TYPE_1_05,
+	TYPE_1_06,
+
+	TYPE_2_01,
+	TYPE_2_02,
+	TYPE_2_03,
+	TYPE_2_04,
+	TYPE_2_05,
+	TYPE_2_06,
+};
+
+enum class EXPLOSION_ANIMATION_ID {
+
+	TYPE_1,
+
+	TYPE_2,
+
+};
+
+
