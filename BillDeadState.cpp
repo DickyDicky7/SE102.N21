@@ -14,7 +14,18 @@ void BillDeadState::Exit(Bill& bill)
 
 void BillDeadState::Enter(Bill& bill)
 {
-	bill.SetVX(-bill.GetVX());
+	if (bill.GetMovingDirection() == DIRECTION::LEFT)
+	{
+		bill.SetVX(+1.0f);
+	}
+	else
+	if (bill.GetMovingDirection() == DIRECTION::RIGHT)
+	{
+		bill.SetVX(-1.0f);
+	}
+
+	bill.SetVY(+2.5f);
+	bill.SetAY(-0.1f);
 }
 
 void BillDeadState::Render(Bill& bill)
@@ -31,8 +42,19 @@ BillState* BillDeadState::Update(Bill& bill)
 	}
 	if (!bill.isDead)
 	{
-		auto result = Motion::CalculateUniformMotion({ bill.GetX(), bill.GetVX() });
-		bill.SetX(result.c);
+		auto resultX = Motion::CalculateUniformMotion({ bill.GetX(), bill.GetVX() });
+		bill.SetX(resultX.c);
+
+		if (bill.GetVY() >= 0.0f)
+		{
+			auto   resultY = Motion::CalculateUniformlyDeceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), time, 0.05f });
+			time = resultY.t; bill.SetY(resultY.c); bill.SetVY(resultY.v);
+		}
+		if (bill.GetVY() <= 0.0f)
+		{
+			auto   resultY = Motion::CalculateUniformlyAcceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), time, 0.05f });
+			time = resultY.t; bill.SetY(resultY.c); bill.SetVY(resultY.v);
+		}
 
 		if (bill.GetCurrentFrame() == 3)
 		{

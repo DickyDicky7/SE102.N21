@@ -25,8 +25,8 @@ void Stage::Update()
 {
 	if (bill->GetY() == +std::numeric_limits<FLOAT>::infinity())
 	{
-		bill->SetX(camera->GetL() + bill->GetW());
-		bill->SetY(camera->GetT() - bill->GetH());
+		bill->SetX(camera->GetL() + bill->GetW() * 2.0f);
+		bill->SetY(camera->GetT() - bill->GetH() * 1.0f);
 	}
 
 
@@ -84,6 +84,34 @@ void Stage::Update()
 		entitiesResult.clear();
 		entities->Retrieve(camera, entitiesResult);
 	}
+
+
+	for (auto& [name, wall] : walls)
+	{
+		if (name == "L")
+		{
+			wall->SetX(camera->GetL());
+			wall->SetY(camera->GetB());
+		}
+		else
+		if (name == "R")
+		{
+			wall->SetX(camera->GetR());
+			wall->SetY(camera->GetB());
+		}
+		else
+		if (name == "B")
+		{
+			wall->SetX(camera->GetX());
+			wall->SetY(camera->GetB() - wall->GetH() * 0.5f);
+		}
+		else
+		if (name == "T")
+		{
+			wall->SetX(camera->GetX());
+			wall->SetY(camera->GetT() - wall->GetH() * 0.5f);
+		}
+	}
 }
 
 
@@ -124,6 +152,12 @@ void Stage::CheckResolveClearCollision()
 	{
 		if (bill != entity)
 		    bill->CollideWith(entity);
+	}
+
+
+	for (auto& [name, wall] : walls)
+	{
+		bill->CollideWith(wall);
 	}
 }
 
