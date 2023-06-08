@@ -8,6 +8,7 @@
 #include "AirCraft.h"
 #include "Falcon.h"
 #include "Cannon.h"
+#include "Bridge.h"
 
 Stage1:: Stage1() : Stage()
 {
@@ -38,6 +39,13 @@ void Stage1::LoadEntities(void* entitiesLayer)
 
 		if (object.getName() == "bridge")
 		{
+			// this special cause i dont want to init bridge part when update bridge
+			D3DXVECTOR3 bridgePos;
+			bridgePos.x = position.x + size.x * 0.5f;
+			bridgePos.y = mapH - position.y - size.y * 1.0f;
+
+			entity = new Bridge(bridgePos, FLOAT(size.x));
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
 		if (object.getName() == "sniper")
@@ -149,6 +157,7 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	auto representativeRifleManStanding = new RifleManStanding();
 	auto representativeRifleManHideOnBush = new RifleManHideOnBush();
 	auto representativeCannon = new Cannon();
+	auto representativeBridge = new Bridge();
 
 	representativeBill->LoadTextures();
 	representativeFalcon->LoadTextures();
@@ -159,6 +168,7 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	representativeRifleManStanding->LoadTextures();
 	representativeRifleManHideOnBush->LoadTextures();
 	representativeCannon->LoadTextures();
+	representativeBridge->LoadTextures();
 
 	representativeBill->LoadSprites();
 	representativeFalcon->LoadSprites();
@@ -169,6 +179,7 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	representativeRifleManStanding->LoadSprites();
 	representativeRifleManHideOnBush->LoadSprites();
 	representativeCannon->LoadSprites();
+	representativeBridge->LoadSprites();
 
 	representativeBill->LoadAnimations();
 	representativeFalcon->LoadAnimations();
@@ -179,6 +190,7 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	representativeRifleManStanding->LoadAnimations();
 	representativeRifleManHideOnBush->LoadAnimations();
 	representativeCannon->LoadAnimations();
+	representativeBridge->LoadAnimations();
 
 	Destroy(representativeBill);
 	Destroy(representativeFalcon);
@@ -189,4 +201,5 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	Destroy(representativeRifleManStanding);
 	Destroy(representativeRifleManHideOnBush);
 	Destroy(representativeCannon);
+	Destroy(representativeBridge);
 }

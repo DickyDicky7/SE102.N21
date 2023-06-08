@@ -244,6 +244,15 @@
     <Filter Include="Source Files\Objects\Enemies\Cannon\State">
       <UniqueIdentifier>{8b4a8624-dad7-4151-83b4-492e92dc0b07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Bridge">
+      <UniqueIdentifier>{f270ba11-7644-4444-8f8e-a08425c74c44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Bridge">
+      <UniqueIdentifier>{68c1e018-1706-4a7d-9f12-107c441c3c39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Bridge\BridgePartState">
+      <UniqueIdentifier>{4d2d96a8-55c5-4fb1-b4e7-0e4deb5ae8a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -425,11 +434,18 @@
     </ClInclude>
     <ClInclude Include="BossStage3Joint.h">
       <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    </ClInclude>
     <ClInclude Include="Cannon.h">
       <Filter>Header Files\Objects\Enemies\Cannon</Filter>
     </ClInclude>
     <ClInclude Include="CannonCommon.h">
       <Filter>Header Files\Objects\Enemies\Cannon</Filter>
+    </ClInclude>
+    <ClInclude Include="BridgeCommon.h">
+      <Filter>Header Files\Objects\Bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="Bridge.h">
+      <Filter>Header Files\Objects\Bridge</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -906,6 +922,7 @@
     </ClCompile>
     <ClCompile Include="BossStage3HandDirectPlayerState.cpp">
       <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    </ClCompile>
     <ClCompile Include="Cannon.cpp">
       <Filter>Source Files\Objects\Enemies\Cannon</Filter>
     </ClCompile>
@@ -923,6 +940,18 @@
     </ClCompile>
     <ClCompile Include="CannonUp60State.cpp">
       <Filter>Source Files\Objects\Enemies\Cannon\State</Filter>
+    </ClCompile>
+    <ClCompile Include="Bridge.cpp">
+      <Filter>Source Files\Objects\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="BridgePart.cpp">
+      <Filter>Source Files\Objects\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="BridgePartState.cpp">
+      <Filter>Source Files\Objects\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="BridgePartExplosionState.cpp">
+      <Filter>Source Files\Objects\Bridge\BridgePartState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

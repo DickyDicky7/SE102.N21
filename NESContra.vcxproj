@@ -29,6 +29,8 @@
     <ClInclude Include="BossStage3Hand.h" />
     <ClInclude Include="BossStage3HandCommon.h" />
     <ClInclude Include="BossStage3Joint.h" />
+    <ClInclude Include="Bridge.h" />
+    <ClInclude Include="BridgeCommon.h" />
     <ClInclude Include="Camera.h" />
     <ClInclude Include="CameraCommon.h" />
     <ClInclude Include="Cannon.h" />
@@ -106,6 +108,10 @@
     <ClCompile Include="BossStage3HandWaveState.cpp" />
     <ClCompile Include="BossStage3Joint.cpp" />
     <ClCompile Include="BossState3GateOpenState.cpp" />
+    <ClCompile Include="Bridge.cpp" />
+    <ClCompile Include="BridgePart.cpp" />
+    <ClCompile Include="BridgePartExplosionState.cpp" />
+    <ClCompile Include="BridgePartState.cpp" />
     <ClCompile Include="BulletFState.cpp" />
     <ClCompile Include="BulletLState.cpp" />
     <ClCompile Include="BulletMState.cpp" />

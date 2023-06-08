@@ -31,10 +31,6 @@ void RifleManStanding::Update()
 {
 	const float _shootingAngle = this->CalculateShootingAngle();
 
-	char buffer[64]; // Increase buffer size to accommodate the additional newline character
-	_snprintf_s(buffer, sizeof(buffer), _TRUNCATE, "%f\n", _shootingAngle); // Add "\n" to the format string
-	OutputDebugStringA(buffer);
-
 	float dx = (this->GetPosition().x) - (Enemy::target->GetPosition().x);
 	float dy = -((this->GetPosition().y) - (Enemy::target->GetPosition().y));
 
