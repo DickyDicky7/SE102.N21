@@ -259,6 +259,15 @@
     <Filter Include="Source Files\Objects\Letter">
       <UniqueIdentifier>{5f736031-bf14-4a32-866b-98b26e1c69fc}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Bridge">
+      <UniqueIdentifier>{f270ba11-7644-4444-8f8e-a08425c74c44}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Bridge">
+      <UniqueIdentifier>{68c1e018-1706-4a7d-9f12-107c441c3c39}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Bridge\BridgePartState">
+      <UniqueIdentifier>{4d2d96a8-55c5-4fb1-b4e7-0e4deb5ae8a2}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="GraphicsHelper.h">
@@ -458,6 +467,12 @@
     </ClInclude>
     <ClInclude Include="SceneCommon.h">
       <Filter>Header Files\Objects\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="BridgeCommon.h">
+      <Filter>Header Files\Objects\Bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="Bridge.h">
+      <Filter>Header Files\Objects\Bridge</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -979,6 +994,18 @@
     </ClCompile>
     <ClCompile Include="CreditSceneState.cpp">
       <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    </ClCompile>
+    <ClCompile Include="Bridge.cpp">
+      <Filter>Source Files\Objects\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="BridgePart.cpp">
+      <Filter>Source Files\Objects\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="BridgePartState.cpp">
+      <Filter>Source Files\Objects\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="BridgePartExplosionState.cpp">
+      <Filter>Source Files\Objects\Bridge\BridgePartState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
