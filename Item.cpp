@@ -49,21 +49,33 @@ void Item::Render()
 {
 	this->w = this->currentFrameW;
 	this->h = this->currentFrameH;
-	switch (type) {
-		case ITEM_TYPE::B:
-			SetAnimation(ITEM_ANIMATION_ID::B_AMMO, GetPosition(), GetMovingDirection(), GetAngle());
-		case ITEM_TYPE::F:
-			SetAnimation(ITEM_ANIMATION_ID::F_AMMO, GetPosition(), GetMovingDirection(), GetAngle());
-		case ITEM_TYPE::L:
-			SetAnimation(ITEM_ANIMATION_ID::L_AMMO, GetPosition(), GetMovingDirection(), GetAngle());
-		case ITEM_TYPE::M:
-			SetAnimation(ITEM_ANIMATION_ID::M_AMMO, GetPosition(), GetMovingDirection(), GetAngle());
-		case ITEM_TYPE::R:
-			SetAnimation(ITEM_ANIMATION_ID::R_AMMO, GetPosition(), GetMovingDirection(), GetAngle());
-		case ITEM_TYPE::S:
-			SetAnimation(ITEM_ANIMATION_ID::S_AMMO, GetPosition(), GetMovingDirection(), GetAngle());
-		case ITEM_TYPE::I:
-			SetAnimation(ITEM_ANIMATION_ID::INVUL, GetPosition(), GetMovingDirection(), GetAngle());
+	if (type == ITEM_TYPE::B)
+	{
+		SetAnimation(ITEM_ANIMATION_ID::B_AMMO, GetPosition(), GetMovingDirection(), GetAngle());
+	} 
+	else if (type == ITEM_TYPE::F)
+	{
+		SetAnimation(ITEM_ANIMATION_ID::F_AMMO, GetPosition(), GetMovingDirection(), GetAngle());
+	}
+	else if (type == ITEM_TYPE::L)
+	{
+		SetAnimation(ITEM_ANIMATION_ID::L_AMMO, GetPosition(), GetMovingDirection(), GetAngle());
+	}
+	else if (type == ITEM_TYPE::M)
+	{
+		SetAnimation(ITEM_ANIMATION_ID::M_AMMO, GetPosition(), GetMovingDirection(), GetAngle());
+	}
+	else if (type == ITEM_TYPE::R)
+	{
+		SetAnimation(ITEM_ANIMATION_ID::R_AMMO, GetPosition(), GetMovingDirection(), GetAngle());
+	}
+	else if (type == ITEM_TYPE::S)
+	{
+		SetAnimation(ITEM_ANIMATION_ID::S_AMMO, GetPosition(), GetMovingDirection(), GetAngle());
+	}
+	else if (type == ITEM_TYPE::I)
+	{
+		SetAnimation(ITEM_ANIMATION_ID::INVUL, GetPosition(), GetMovingDirection(), GetAngle());
 	}
 }
 

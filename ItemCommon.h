@@ -37,5 +37,5 @@ enum class ITEM_TYPE
 	M,
 	R,
 	S,
-	I,
+	I
 };
