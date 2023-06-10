@@ -26,6 +26,7 @@
 #include <unordered_set>
 
 #include "FireCommon.h"
+#include "ItemCommon.h"
 #include "BillCommon.h"
 #include "SceneCommon.h"
 #include "CannonCommon.h"
@@ -80,7 +81,8 @@ using SPRITE_ID = std::variant
 	TERRAIN_STAGE_2_SPRITE_ID,
 	BOSS_STAGE_3_HAND_SPRITE_ID,
 	BOSS_STAGE_3_GATE_SPRITE_ID,
-	EXPLOSION_SPRITE_ID
+	EXPLOSION_SPRITE_ID,
+	ITEM_SPRITE_ID
 >;
 
 using TEXTURE_ID = std::variant
@@ -126,7 +128,8 @@ using ANIMATION_ID = std::variant
 	TERRAIN_STAGE_2_ANIMATION_ID,
 	BOSS_STAGE_3_HAND_ANIMATION_ID,
 	BOSS_STAGE_3_GATE_ANIMATION_ID,
-	EXPLOSION_ANIMATION_ID
+	EXPLOSION_ANIMATION_ID,
+	ITEM_ANIMATION_ID
 >;
 
 using         TIME = DWORD;

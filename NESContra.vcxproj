@@ -45,6 +45,8 @@
     <ClInclude Include="FalconCommon.h" />
     <ClInclude Include="Fire.h" />
     <ClInclude Include="FireCommon.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemCommon.h" />
     <ClInclude Include="Letter.h" />
     <ClInclude Include="LetterCommon.h" />
     <ClInclude Include="GraphicsDatabase.h" />
@@ -138,6 +140,8 @@
     <ClCompile Include="FalconState.cpp" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="GameOverSceneState.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemState.cpp" />
     <ClCompile Include="Letter.cpp" />
     <ClCompile Include="HasWeapons.cpp" />
     <ClCompile Include="LoadingSceneState.cpp" />

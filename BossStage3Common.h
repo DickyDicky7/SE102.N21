@@ -23,3 +23,9 @@ enum class BOSS_STAGE_3_ANIMATION_ID {
 	MIDDLE,
 	OPEN,
 };
+
+
+enum class TYPE_HAND {
+	ARM,
+	HAND
+};

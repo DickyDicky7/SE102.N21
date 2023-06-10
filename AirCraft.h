@@ -7,6 +7,7 @@
 #include "HasSprites.h"
 #include "HasTextures.h"
 #include "HasAnimations.h"
+#include "ItemCommon.h"
 
 class AirCraftState;
 class AirCraftNormalState;

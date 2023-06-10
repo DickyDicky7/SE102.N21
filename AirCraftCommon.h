@@ -36,17 +36,6 @@ enum class AIRCRAFT_ANIMATION_ID
 };
 
 
-enum class ITEM_TYPE
-{
-	B,
-	F,
-	L,
-	M,
-	R,
-	S,
-	I,
-};
-
 enum class AIRCRAFT_DIRECTION {
 
 	HORIZONTAL,
