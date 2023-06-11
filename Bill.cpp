@@ -416,16 +416,28 @@ void Bill::DynamicResolveNoCollision(                               )
 
 void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
-	if (dynamic_cast<BillDeadState*>(state))
-	{
-		surfaceEntity = NULL;
-		return;
-	}
-
 	auto    terrainBlock  = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
 	if     (terrainBlock)
 	switch (terrainBlock->type)
 	{
+
+	case TERRAIN_BLOCK_TYPE::WALL:
+	{
+		if (aabbSweepResult.normalX != +0.0f)
+		{
+			position.x += aabbSweepResult.enTime * vx;
+		}
+		else
+		if (aabbSweepResult.normalY != +0.0f)
+		{
+			position.y += aabbSweepResult.enTime * vy;
+			isAbSurface = 0;
+			surfaceEntity = NULL;
+			ChangeState(state, new BillDeadState(), this);
+		}
+		return;
+	}
+	break;
 
 	case TERRAIN_BLOCK_TYPE::WATER:
 	{
@@ -434,7 +446,8 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
 			surfaceEntity = terrainBlock;
-			ChangeState(state, new BillBeginSwimState(), this);
+			if (!dynamic_cast<BillDeadState*>(state))
+				ChangeState(state, new BillBeginSwimState(), this);
 		}
 		else
 		{
@@ -460,7 +473,8 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
 			surfaceEntity = terrainBlock;
-			ChangeState(state, new BillNormalState(), this);
+			if (!dynamic_cast<BillDeadState*>(state))
+				ChangeState(state, new BillNormalState(), this);
 		}
 		else
 		{
@@ -476,7 +490,8 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
 			surfaceEntity = terrainBlock;
-			ChangeState(state, new BillNormalState(), this);
+			if (!dynamic_cast<BillDeadState*>(state))
+				ChangeState(state, new BillNormalState(), this);
 		}
 		else
 		if (aabbSweepResult.normalX != +0.0f)
@@ -495,6 +510,13 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	}
 	else
 	{
+		if (dynamic_cast<BillDeadState*>(state))
+		{
+			surfaceEntity = NULL;
+			isAbSurface = 0;
+			return;
+		}
+
 		auto rockFly = dynamic_cast<RockFly*>(aabbSweepResult.surfaceEntity);
 		if  (rockFly)
 		{

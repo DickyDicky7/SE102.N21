@@ -19,10 +19,26 @@
 #include "Explosion.h"
 #include "Item.h"
 #include "Cannon.h"
+#include "TerrainBlock.h"
 
-Stage2:: Stage2() : Stage()
+Stage2::Stage2() : Stage()
 {
 	mapFilePath = "Resources/Maps/stage2.json";
+	TerrainBlock *wallL = new TerrainBlock();
+	TerrainBlock *wallR = new TerrainBlock();
+	TerrainBlock *wallB = new TerrainBlock();
+	wallL->type = TERRAIN_BLOCK_TYPE::WALL;
+	wallR->type = TERRAIN_BLOCK_TYPE::WALL;
+	wallB->type = TERRAIN_BLOCK_TYPE::WALL;
+	wallL->SetW(10.0f);
+	wallL->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
+	wallR->SetW(10.0f);
+	wallR->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
+	wallB->SetW(SCREEN_WIDTH / SCALING_RATIO_X);
+	wallB->SetH(10.0f);
+	walls.insert({"L", wallL});
+	walls.insert({"R", wallR});
+	walls.insert({"B", wallB});
 }
 
 Stage2::~Stage2()
@@ -55,114 +71,96 @@ Stage2::~Stage2()
 	boss2finalarmleft	done
 	boss2finalarmright	done
 */
-void Stage2::LoadEntities(void* entitiesLayer)
+void Stage2::LoadEntities(void *entitiesLayer)
 {
-	auto _entitiesLayer = (tson::Layer*)entitiesLayer;
-	auto  mapH = _entitiesLayer->getMap()->getSize    ().y 
-	           * _entitiesLayer->getMap()->getTileSize().y;
+	auto _entitiesLayer = (tson::Layer *)entitiesLayer;
+	auto mapH = _entitiesLayer->getMap()->getSize().y * _entitiesLayer->getMap()->getTileSize().y;
 
-	for (auto& object : _entitiesLayer->getObjects())
+	for (auto &object : _entitiesLayer->getObjects())
 	{
-		auto& position = object.getPosition();
-		auto& size     = object.getSize();
-		Entity* entity = NULL;
-		
+		auto &position = object.getPosition();
+		auto &size = object.getSize();
+		Entity *entity = NULL;
+
 		if (object.getName() == "respawnposition")
 		{
 			bill->SetX(position.x + size.x * 0.5f);
 			bill->SetY(mapH - position.y - size.y * 1.0f);
 		}
-		else
-		if (object.getName() == "cameratranslateposition")
+		else if (object.getName() == "cameratranslateposition")
 		{
-
 		}
-		else
-		if (object.getName() == "failingstone")
+		else if (object.getName() == "failingstone")
 		{
 			entity = new RockFall();
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "soldiershotr")
+		else if (object.getName() == "soldiershotr")
 		{
 			entity = new Soldier();
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "soldiershotl")
+		else if (object.getName() == "soldiershotl")
 		{
 			entity = new Soldier();
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "soldiershotr")
+		else if (object.getName() == "soldiershotr")
 		{
 			entity = new Soldier();
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "staticweaponf")
+		else if (object.getName() == "staticweaponf")
 		{
 			entity = new Soldier();
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "staticweaponl")
+		else if (object.getName() == "staticweaponl")
 		{
 			entity = new Falcon(ITEM_TYPE::L);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "staticweapons")
+		else if (object.getName() == "staticweapons")
 		{
 			entity = new Falcon(ITEM_TYPE::S);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "sniper")
+		else if (object.getName() == "sniper")
 		{
 			entity = new RifleManStanding();
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "scubarsolider1")
+		else if (object.getName() == "scubarsolider1")
 		{
 			entity = new ScubaSoldier();
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "scubarsolider2")
+		else if (object.getName() == "scubarsolider2")
 		{
 			entity = new ScubaSoldier();
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "scubarsolider3")
+		else if (object.getName() == "scubarsolider3")
 		{
 			entity = new ScubaSoldier();
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "capsuleweapon3b")
+		else if (object.getName() == "capsuleweapon3b")
 		{
 			entity = new AirCraft(ITEM_TYPE::B, AIRCRAFT_DIRECTION::VERTICAL);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "capsuleweapon3r")
+		else if (object.getName() == "capsuleweapon3r")
 		{
 			entity = new AirCraft(ITEM_TYPE::R, AIRCRAFT_DIRECTION::VERTICAL);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else 
-		if (object.getName() == "gunrotating3")
+		else if (object.getName() == "gunrotating3")
 		{
 			entity = new WallTurret();
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "blazerL")
+		else if (object.getName() == "blazerL")
 		{
 			entity = new Fire();
 			entity->SetMovingDirection(DIRECTION::LEFT);
@@ -172,61 +170,55 @@ void Stage2::LoadEntities(void* entitiesLayer)
 			entity = new Fire();
 			entity->SetMovingDirection(DIRECTION::RIGHT);
 		}
-		else
-		if (object.getName() == "dynamicbridge1")
+		else if (object.getName() == "dynamicbridge1")
 		{
 			entity = new RockFly(80, 176);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "dynamicbridge2")
+		else if (object.getName() == "dynamicbridge2")
 		{
 			entity = new RockFly(64, 144);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "dynamicbridge3")
+		else if (object.getName() == "dynamicbridge3")
 		{
 			entity = new RockFly(80, 224);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "cannon3")
+		else if (object.getName() == "cannon3")
 		{
 			entity = new Cannon();
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "boss2finalhead")
+		else if (object.getName() == "boss2finalhead")
 		{
 			entity = new BossStage3();
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "boss2finalgate")
+		else if (object.getName() == "boss2finalgate")
 		{
 			entity = new BossStage3Gate();
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "boss2finalarmleft")
+		else if (object.getName() == "boss2finalarmleft")
 		{
 			entity = new BossStage3Hand();
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
-		else
-		if (object.getName() == "boss2finalarmright")
+		else if (object.getName() == "boss2finalarmright")
 		{
 			entity = new BossStage3Hand();
 			entity->SetMovingDirection(DIRECTION::RIGHT);
 		}
 
-		if (!entity) continue;
+		if (!entity)
+			continue;
 
-		auto enemy = dynamic_cast<Enemy<Bill>*>(entity); 
-		if  (enemy) enemy->SetTarget(bill);
+		auto enemy = dynamic_cast<Enemy<Bill> *>(entity);
+		if (enemy)
+			enemy->SetTarget(bill);
 
-		entity->SetX(		position.x + size.x * 0.5f);
+		entity->SetX(position.x + size.x * 0.5f);
 		entity->SetY(mapH - position.y - size.y * 1.0f);
 		entity->SetW(FLOAT(size.x));
 		entity->SetH(FLOAT(size.y));
@@ -270,7 +262,7 @@ void Stage2::LoadEntities(void* entitiesLayer)
 	Destroy(representativeRockFall);
 
 	// rockflay
-	auto representativeRockFLy = new RockFly(0,0);
+	auto representativeRockFLy = new RockFly(0, 0);
 	representativeRockFLy->LoadTextures();
 	representativeRockFLy->LoadSprites();
 	representativeRockFLy->LoadAnimations();
@@ -353,4 +345,3 @@ void Stage2::LoadEntities(void* entitiesLayer)
 	representativeItem->LoadAnimations();
 	Destroy(representativeItem);
 }
-

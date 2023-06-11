@@ -1,6 +1,6 @@
 #include "TerrainBlock.h"
 
-TerrainBlock::TerrainBlock() : Entity(), CollidableEntity()
+TerrainBlock::TerrainBlock() : Entity(), CollidableEntity(), type(TERRAIN_BLOCK_TYPE::NONE)
 {
 }
 
@@ -16,7 +16,7 @@ void TerrainBlock::Render()
 {
 }
 
-void TerrainBlock::HandleInput(Input&)
+void TerrainBlock::HandleInput(Input& input)
 {
 }
 
