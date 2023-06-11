@@ -47,6 +47,7 @@
 #include "TerrainStage1Common.h"
 #include "BossStage3GateCommon.h"
 #include "BossStage3HandCommon.h"
+#include "BridgeCommon.h"
 
 enum class DIRECTION
 {
@@ -82,7 +83,8 @@ using SPRITE_ID = std::variant
 	BOSS_STAGE_3_HAND_SPRITE_ID,
 	BOSS_STAGE_3_GATE_SPRITE_ID,
 	EXPLOSION_SPRITE_ID,
-	ITEM_SPRITE_ID
+	ITEM_SPRITE_ID,
+	BRIDGE_SPRITE_ID
 >;
 
 using TEXTURE_ID = std::variant
@@ -104,7 +106,8 @@ using TEXTURE_ID = std::variant
 	SCUBA_SOLDIER_TEXTURE_ID,
 	TERRAIN_STAGE_1_TEXTURE_ID,
 	TERRAIN_STAGE_2_TEXTURE_ID,
-	EXPLOSION_TEXTURE_ID
+	EXPLOSION_TEXTURE_ID,
+	BRIDGE_TEXTURE_ID
 >;
 
 using ANIMATION_ID = std::variant
@@ -129,7 +132,8 @@ using ANIMATION_ID = std::variant
 	BOSS_STAGE_3_HAND_ANIMATION_ID,
 	BOSS_STAGE_3_GATE_ANIMATION_ID,
 	EXPLOSION_ANIMATION_ID,
-	ITEM_ANIMATION_ID
+	ITEM_ANIMATION_ID,
+	BRIDGE_ANIMATION_ID
 >;
 
 using         TIME = DWORD;
