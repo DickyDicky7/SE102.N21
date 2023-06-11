@@ -17,6 +17,8 @@
 #include "BossStage3Gate.h"
 #include "BossStage3Hand.h"
 #include "Explosion.h"
+#include "Item.h"
+#include "Cannon.h"
 
 Stage2:: Stage2() : Stage()
 {
@@ -191,7 +193,8 @@ void Stage2::LoadEntities(void* entitiesLayer)
 		else
 		if (object.getName() == "cannon3")
 		{
-			
+			entity = new Cannon();
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else
 		if (object.getName() == "boss2finalhead")
@@ -329,11 +332,25 @@ void Stage2::LoadEntities(void* entitiesLayer)
 	representativeBossStage3Hand->LoadAnimations();
 	Destroy(representativeBossStage3Hand);
 
+	// canon
+	auto representativeCannon = new Cannon();
+	representativeCannon->LoadTextures();
+	representativeCannon->LoadSprites();
+	representativeCannon->LoadAnimations();
+	Destroy(representativeCannon);
+
 	// explosion
 	auto representativeExplosion = new Explosion();
 	representativeExplosion->LoadTextures();
 	representativeExplosion->LoadSprites();
 	representativeExplosion->LoadAnimations();
 	Destroy(representativeExplosion);
+
+	// item
+	auto representativeItem = new Item(ITEM_TYPE::I);
+	representativeItem->LoadTextures();
+	representativeItem->LoadSprites();
+	representativeItem->LoadAnimations();
+	Destroy(representativeItem);
 }
 

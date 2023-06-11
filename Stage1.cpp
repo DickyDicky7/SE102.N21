@@ -61,8 +61,7 @@ void Stage1::LoadEntities(void* entitiesLayer)
 		else
 		if (object.getName() == "soldierl")
 		{
-			//entity = new Soldier();
-			entity = new Item(ITEM_TYPE::M);
+			entity = new Soldier();
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else

@@ -103,13 +103,7 @@ void BossStage3Hand::LoadSprites()
 
 void BossStage3Hand::LoadTextures()
 {
-	//if (HasTextures<BossStage3Hand>::hasBeenLoaded.value) return;
-	//HasTextures<BossStage3Hand>::hasBeenLoaded.value = true;
-
-	//
-	////GraphicsHelper::InsertTexure(BOSS_STAGE_3_TEXTURE_ID::BOSS_STAGE_3, L"Resources\\Textures\\BossStage3Hand.bmp");
-
-	//OutputDebugString(L"BossStage3Hand Textures Loaded Successfully\n");
+	// is loaded
 }
 
 void BossStage3Hand::LoadAnimations()
