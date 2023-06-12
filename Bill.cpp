@@ -506,6 +506,13 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	}
 	else
 	{
+		if (dynamic_cast<BillDeadState*>(state))
+		{
+			surfaceEntity = NULL;
+			isAbSurface = 0;
+			return;
+		}
+
 		auto rockFly = dynamic_cast<RockFly*>(aabbSweepResult.surfaceEntity);
 		if  (rockFly)
 		{
