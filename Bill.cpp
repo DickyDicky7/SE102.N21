@@ -475,6 +475,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		else
 		{
 		}
+		return;
 	}
 	break;
 
@@ -498,6 +499,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		else
 		{
 		}
+		return;
 	}
 	break;
 
