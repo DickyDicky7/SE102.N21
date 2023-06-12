@@ -29,6 +29,7 @@
 #include "BillCommon.h"
 #include "SceneCommon.h"
 #include "CannonCommon.h"
+#include "BridgeCommon.h"
 #include "LetterCommon.h"
 #include "BulletCommon.h"
 #include "FalconCommon.h"
@@ -63,6 +64,7 @@ using SPRITE_ID = std::variant
 	BILL_SPRITE_ID,
 	FIRE_SPRITE_ID,
 	SCENE_SPRITE_ID,
+	BRIDGE_SPRITE_ID,
 	CANNON_SPRITE_ID,
 	LETTER_SPRITE_ID,
 	FALCON_SPRITE_ID,
@@ -86,6 +88,7 @@ using TEXTURE_ID = std::variant
 	BILL_TEXTURE_ID,
 	FIRE_TEXTURE_ID,
 	SCENE_TEXTURE_ID,
+	BRIDGE_TEXTURE_ID,
 	CANNON_TEXTURE_ID,
 	LETTER_TEXTURE_ID,
 	FALCON_TEXTURE_ID,
@@ -107,6 +110,7 @@ using ANIMATION_ID = std::variant
 	BILL_ANIMATION_ID,
 	FIRE_ANIMATION_ID,
 	SCENE_ANIMATION_ID,
+	BRIDGE_ANIMATION_ID,
 	CANNON_ANIMATION_ID,
 	LETTER_ANIMATION_ID,
 	FALCON_ANIMATION_ID,

@@ -131,13 +131,20 @@ void Bridge::Update()
 
 void Bridge::Render()
 {
+	float ow = this->w;
+	this->w = 0.0f;
+	this->h = 0.0f;
 	for (int i = 0; i < BRIDGE_PART; i++)
 	{
 		if (bridgePart[i])
 		{
 			bridgePart[i]->Render();
+			this->w += bridgePart[i]->GetW() * 1.25f;
+			this->h  = bridgePart[i]->GetH() * 0.75f;
 		}
 	}
+	float L = this->GetL() + ow - this->w;
+	this->position.x = L + this->w * 0.5f;
 }
 
 void Bridge::HandleInput(Input&)
