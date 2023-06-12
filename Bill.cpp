@@ -428,7 +428,8 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 0;
 			surfaceEntity = NULL;
-			ChangeState(state, new BillDeadState(), this);
+			if (!dynamic_cast<BillDeadState*>(state))
+				ChangeState(state, new BillDeadState(), this);
 		}
 		return;
 	}
@@ -441,11 +442,13 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
 			surfaceEntity = terrainBlock;
-			ChangeState(state, new BillBeginSwimState(), this);
+			if (!dynamic_cast<BillDeadState*>(state))
+				ChangeState(state, new BillBeginSwimState(), this);
 		}
 		else
 		{
 		}
+		return;
 	}
 	break;
 
@@ -466,7 +469,8 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
 			surfaceEntity = terrainBlock;
-			ChangeState(state, new BillNormalState(), this);
+			if (!dynamic_cast<BillDeadState*>(state))
+				ChangeState(state, new BillNormalState(), this);
 		}
 		else
 		{
@@ -481,7 +485,8 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
 			surfaceEntity = terrainBlock;
-			ChangeState(state, new BillNormalState(), this);
+			if (!dynamic_cast<BillDeadState*>(state))
+				ChangeState(state, new BillNormalState(), this);
 		}
 		else
 		if (aabbSweepResult.normalX != +0.0f)
