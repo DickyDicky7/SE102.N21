@@ -8,7 +8,7 @@
 #include "Bill.h"
 #include "Enemy.h"
 
-class Fire : public Entity, public Enemy<Bill>
+class Fire : public Entity
 	, public HasTextures<Fire>, public HasSprites<Fire>, public HasAnimations<Fire>
 {
 public:

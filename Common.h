@@ -26,23 +26,27 @@
 #include <unordered_set>
 
 #include "FireCommon.h"
+#include "ItemCommon.h"
 #include "BillCommon.h"
+#include "SceneCommon.h"
+#include "CannonCommon.h"
+#include "LetterCommon.h"
 #include "BulletCommon.h"
 #include "FalconCommon.h"
+#include "ExplosionCommon.h"
 #include "RockFlyCommon.h"
 #include "SoldierCommon.h"
 #include "AirCraftCommon.h"
 #include "RockFallCommon.h"
 #include "RifleManCommon.h"
 #include "WallTurretCommon.h"
-#include "CannonCommon.h"
 #include "BossStage3Common.h"
-#include "BossStage3GateCommon.h"
-#include "BossStage3HandCommon.h"
 #include "ScubaSoldierCommon.h"
 #include "TerrainStage1Common.h"
 #include "TerrainStage2Common.h"
 #include "TerrainStage1Common.h"
+#include "BossStage3GateCommon.h"
+#include "BossStage3HandCommon.h"
 #include "BridgeCommon.h"
 
 enum class DIRECTION
@@ -61,6 +65,9 @@ using SPRITE_ID = std::variant
 <
 	BILL_SPRITE_ID,
 	FIRE_SPRITE_ID,
+	SCENE_SPRITE_ID,
+	CANNON_SPRITE_ID,
+	LETTER_SPRITE_ID,
 	FALCON_SPRITE_ID,
 	BULLET_SPRITE_ID,
 	SOLDIER_SPRITE_ID,
@@ -70,12 +77,13 @@ using SPRITE_ID = std::variant
 	RIFLE_MAN_SPRITE_ID,
 	WALL_TURRET_SPRITE_ID,
 	BOSS_STAGE_3_SPRITE_ID,
-	BOSS_STAGE_3_HAND_SPRITE_ID,
-	BOSS_STAGE_3_GATE_SPRITE_ID,
 	SCUBA_SOLDIER_SPRITE_ID,
 	TERRAIN_STAGE_1_SPRITE_ID,
 	TERRAIN_STAGE_2_SPRITE_ID,
-	CANNON_SPRITE_ID,
+	BOSS_STAGE_3_HAND_SPRITE_ID,
+	BOSS_STAGE_3_GATE_SPRITE_ID,
+	EXPLOSION_SPRITE_ID,
+	ITEM_SPRITE_ID,
 	BRIDGE_SPRITE_ID
 >;
 
@@ -83,6 +91,9 @@ using TEXTURE_ID = std::variant
 <
 	BILL_TEXTURE_ID,
 	FIRE_TEXTURE_ID,
+	SCENE_TEXTURE_ID,
+	CANNON_TEXTURE_ID,
+	LETTER_TEXTURE_ID,
 	FALCON_TEXTURE_ID,
 	BULLET_TEXTURE_ID,
 	SOLDIER_TEXTURE_ID,
@@ -95,7 +106,7 @@ using TEXTURE_ID = std::variant
 	SCUBA_SOLDIER_TEXTURE_ID,
 	TERRAIN_STAGE_1_TEXTURE_ID,
 	TERRAIN_STAGE_2_TEXTURE_ID,
-	CANNON_TEXTURE_ID,
+	EXPLOSION_TEXTURE_ID,
 	BRIDGE_TEXTURE_ID
 >;
 
@@ -103,6 +114,9 @@ using ANIMATION_ID = std::variant
 <
 	BILL_ANIMATION_ID,
 	FIRE_ANIMATION_ID,
+	SCENE_ANIMATION_ID,
+	CANNON_ANIMATION_ID,
+	LETTER_ANIMATION_ID,
 	FALCON_ANIMATION_ID,
 	BULLET_ANIMATION_ID,
 	SOLDIER_ANIMATION_ID,
@@ -112,12 +126,13 @@ using ANIMATION_ID = std::variant
 	RIFLE_MAN_ANIMATION_ID,
 	WALL_TURRET_ANIMATION_ID,
 	BOSS_STAGE_3_ANIMATION_ID,
-	BOSS_STAGE_3_HAND_ANIMATION_ID,
-	BOSS_STAGE_3_GATE_ANIMATION_ID,
 	SCUBA_SOLDIER_ANIMATION_ID,
 	TERRAIN_STAGE_1_ANIMATION_ID,
 	TERRAIN_STAGE_2_ANIMATION_ID,
-	CANNON_ANIMATION_ID,
+	BOSS_STAGE_3_HAND_ANIMATION_ID,
+	BOSS_STAGE_3_GATE_ANIMATION_ID,
+	EXPLOSION_ANIMATION_ID,
+	ITEM_ANIMATION_ID,
 	BRIDGE_ANIMATION_ID
 >;
 

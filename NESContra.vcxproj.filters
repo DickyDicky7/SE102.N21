@@ -172,9 +172,6 @@
     <Filter Include="Source Files\Objects\Enemies\AirCraft">
       <UniqueIdentifier>{01d5c4bb-5c0c-476b-84c0-cbf112009c3d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\AirCraft\AirCraftState">
-      <UniqueIdentifier>{13f14c65-7fd2-47cf-b7cc-a52e6a43d418}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Objects\Enemies\AirCraft">
       <UniqueIdentifier>{af28f063-4f8c-4349-aee5-b06d0f0315ac}</UniqueIdentifier>
     </Filter>
@@ -244,6 +241,21 @@
     <Filter Include="Source Files\Objects\Enemies\Cannon\State">
       <UniqueIdentifier>{8b4a8624-dad7-4151-83b4-492e92dc0b07}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Scene">
+      <UniqueIdentifier>{f04b61b9-6f3b-4365-904c-5498f934e1d5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Scene">
+      <UniqueIdentifier>{de66538e-33d0-43d2-9548-c6c5909142e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Scene\SceneState">
+      <UniqueIdentifier>{4f215116-02d7-490e-b112-cd5385e14dc1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Letter">
+      <UniqueIdentifier>{157805d0-edf2-42de-8163-e7976e395b05}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Letter">
+      <UniqueIdentifier>{5f736031-bf14-4a32-866b-98b26e1c69fc}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Objects\Bridge">
       <UniqueIdentifier>{f270ba11-7644-4444-8f8e-a08425c74c44}</UniqueIdentifier>
     </Filter>
@@ -252,6 +264,21 @@
     </Filter>
     <Filter Include="Source Files\Objects\Bridge\BridgePartState">
       <UniqueIdentifier>{4d2d96a8-55c5-4fb1-b4e7-0e4deb5ae8a2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Explosion">
+      <UniqueIdentifier>{d667820f-d301-46b9-8bee-72556b0fcfd6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Explosion">
+      <UniqueIdentifier>{140d29a3-5364-44f8-b965-dc00991edb5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Explosion\ExplosionState">
+      <UniqueIdentifier>{5ef3f699-6d1f-4863-b2c2-eec045653fee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Item">
+      <UniqueIdentifier>{3e6bae66-50b4-4c56-a3b3-629c5db5af02}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Item">
+      <UniqueIdentifier>{5dfa3889-8501-4138-add6-54afcdda57e2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -441,11 +468,35 @@
     <ClInclude Include="CannonCommon.h">
       <Filter>Header Files\Objects\Enemies\Cannon</Filter>
     </ClInclude>
+    <ClInclude Include="Letter.h">
+      <Filter>Header Files\Objects\Letter</Filter>
+    </ClInclude>
+    <ClInclude Include="LetterCommon.h">
+      <Filter>Header Files\Objects\Letter</Filter>
+    </ClInclude>
+    <ClInclude Include="Scene.h">
+      <Filter>Header Files\Objects\Scene</Filter>
+    </ClInclude>
+    <ClInclude Include="SceneCommon.h">
+      <Filter>Header Files\Objects\Scene</Filter>
+    </ClInclude>
     <ClInclude Include="BridgeCommon.h">
       <Filter>Header Files\Objects\Bridge</Filter>
     </ClInclude>
     <ClInclude Include="Bridge.h">
       <Filter>Header Files\Objects\Bridge</Filter>
+    </ClInclude>
+    <ClInclude Include="ExplosionCommon.h">
+      <Filter>Header Files\Objects\Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="ItemCommon.h">
+      <Filter>Header Files\Objects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Item.h">
+      <Filter>Header Files\Objects\Item</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -818,33 +869,6 @@
     <ClCompile Include="AirCraft.cpp">
       <Filter>Source Files\Objects\Enemies\AirCraft</Filter>
     </ClCompile>
-    <ClCompile Include="AirCraftBAmmoState.cpp">
-      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
-    </ClCompile>
-    <ClCompile Include="AirCraftFAmmoState.cpp">
-      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
-    </ClCompile>
-    <ClCompile Include="AirCraftInvulState.cpp">
-      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
-    </ClCompile>
-    <ClCompile Include="AirCraftLAmmoState.cpp">
-      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
-    </ClCompile>
-    <ClCompile Include="AirCraftMAmmoState.cpp">
-      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
-    </ClCompile>
-    <ClCompile Include="AirCraftNormalState.cpp">
-      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
-    </ClCompile>
-    <ClCompile Include="AirCraftRAmmoState.cpp">
-      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
-    </ClCompile>
-    <ClCompile Include="AirCraftSAmmoState.cpp">
-      <Filter>Source Files\Objects\Enemies\AirCraft\AirCraftState</Filter>
-    </ClCompile>
-    <ClCompile Include="AirCraftState.cpp">
-      <Filter>Source Files\Objects\Enemies\AirCraft</Filter>
-    </ClCompile>
     <ClCompile Include="Falcon.cpp">
       <Filter>Source Files\Objects\Enemies\Falcon</Filter>
     </ClCompile>
@@ -941,6 +965,33 @@
     <ClCompile Include="CannonUp60State.cpp">
       <Filter>Source Files\Objects\Enemies\Cannon\State</Filter>
     </ClCompile>
+    <ClCompile Include="Letter.cpp">
+      <Filter>Source Files\Objects\Letter</Filter>
+    </ClCompile>
+    <ClCompile Include="Scene.cpp">
+      <Filter>Source Files\Objects\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="SceneState.cpp">
+      <Filter>Source Files\Objects\Scene</Filter>
+    </ClCompile>
+    <ClCompile Include="LoadingSceneState.cpp">
+      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayingSceneState.cpp">
+      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    </ClCompile>
+    <ClCompile Include="StartSceneState.cpp">
+      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    </ClCompile>
+    <ClCompile Include="GameOverSceneState.cpp">
+      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    </ClCompile>
+    <ClCompile Include="EndingSceneState.cpp">
+      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    </ClCompile>
+    <ClCompile Include="CreditSceneState.cpp">
+      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    </ClCompile>
     <ClCompile Include="Bridge.cpp">
       <Filter>Source Files\Objects\Bridge</Filter>
     </ClCompile>
@@ -952,6 +1003,24 @@
     </ClCompile>
     <ClCompile Include="BridgePartExplosionState.cpp">
       <Filter>Source Files\Objects\Bridge\BridgePartState</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>Source Files\Objects\Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionState.cpp">
+      <Filter>Source Files\Objects\Explosion</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionType1State.cpp">
+      <Filter>Source Files\Objects\Explosion\ExplosionState</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionType2State.cpp">
+      <Filter>Source Files\Objects\Explosion\ExplosionState</Filter>
+    </ClCompile>
+    <ClCompile Include="Item.cpp">
+      <Filter>Source Files\Objects\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ItemState.cpp">
+      <Filter>Source Files\Objects\Item</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

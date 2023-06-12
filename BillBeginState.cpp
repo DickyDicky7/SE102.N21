@@ -14,7 +14,7 @@ void BillBeginState::Exit(Bill& bill)
 
 void BillBeginState::Enter(Bill& bill)
 {
-	bill.SetY(300.0f);
+	bill.SetY (+std::numeric_limits<FLOAT>::infinity());
 	bill.SetVY(-2.50f);
 	bill.SetAY(-0.10f);
 }

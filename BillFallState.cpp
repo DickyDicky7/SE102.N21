@@ -20,7 +20,7 @@ void BillFallState::Exit(Bill& bill)
 
 void BillFallState::Enter(Bill& bill)
 {
-	bill.SetY(300);
+	bill.SetY (+std::numeric_limits<FLOAT>::infinity());
 	bill.SetVY(-2.50f);
 	bill.SetAY(-0.10f);
 }

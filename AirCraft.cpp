@@ -1,4 +1,4 @@
-#include "AirCraft.h"
+﻿#include "AirCraft.h"
 
 AirCraft::AirCraft(ITEM_TYPE type, AIRCRAFT_DIRECTION direction) : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
@@ -11,22 +11,38 @@ AirCraft::AirCraft(ITEM_TYPE type, AIRCRAFT_DIRECTION direction) : Entity(), Has
 	this->position.y = 200;
 	this->name = L"AirCraft\n";
 
-	this->updateState = NULL;
-	this->handleInputState = NULL;
 	// set direction default is right
 	this->movingDirection = DIRECTION::RIGHT;
-	// set state begin is run
-	this->state = new AirCraftNormalState();
 
 	this->_ammoType = type;
 	this->_aircarftDirection = direction;
+
+	// y0: vị trí lúc đầu
+	// time: thời gian
+	// dt: delta time ( t = t + dt )
+	// T: khoảng thời gian để quay hết 1 vòng (tính bằng giây)
+	// A: Bán kính
+	// φ: pha ban đầu của dao động (-π<φ<π)
+
+	x0 = NULL;
+	y0 = NULL;
+	time = 0.0f;
+	dt = 0.03f;
+	T = 2.5f;
+	A = 35.0f;
+	φ = 0.0f;
 }
 
 AirCraft::~AirCraft()
 {
-	Destroy(state);
-	Destroy(updateState);
-	Destroy(handleInputState);
+	x0 = NULL;
+	y0 = NULL;
+	time = NULL;
+	dt = NULL;
+	T = NULL;
+	A = NULL;
+	φ = NULL;
+
 }
 
 void AirCraft::setAmmoType(ITEM_TYPE type) 
@@ -41,30 +57,51 @@ ITEM_TYPE AirCraft::getAmmoType()
 
 void AirCraft::Update()
 {
-	updateState = state->Update(*this);
+	// Chuyen dong hinh sin
+	FLOAT x = GetX();
+	FLOAT y = GetY();
+	FLOAT vx = GetVX();
+	FLOAT vy = GetVY();
+
+	// gán vị trí lúc đầu
+	if (x0 == NULL) x0 = x;
+	if (y0 == NULL) y0 = y;
+
+	if (getAircarftDirection() == AIRCRAFT_DIRECTION::HORIZONTAL) {
+		// di chuyen theo chieu ngang
+		Motion::OscillatoryMotionInputParameters pio{ y0, time, dt, T, A, φ };
+		auto poo = Motion::CalculateOscillatoryMotion(pio);
+		time = poo.t;
+
+		x += vx;
+
+		SetX(x);
+		SetY(poo.c);
+	}
+	else
+	{
+		// di chuyen theo chieu doc
+		Motion::OscillatoryMotionInputParameters pio{ x0, time, dt, T, A, φ };
+		auto poo = Motion::CalculateOscillatoryMotion(pio);
+		time = poo.t;
+
+		y += vy;
+
+		SetY(y);
+		SetX(poo.c);
+	}
+
 }
 
 void AirCraft::Render()
 {
-	state->Render(*this);
 	this->w = this->currentFrameW;
 	this->h = this->currentFrameH;
-
-	if (updateState)
-	{
-		ChangeState(state, updateState, this);
-		updateState = NULL;
-	}
-	if (handleInputState)
-	{
-		ChangeState(state, handleInputState, this);
-		handleInputState = NULL;
-	}
+	SetAnimation(AIRCRAFT_ANIMATION_ID::NORMAL, GetPosition(), GetMovingDirection(), GetAngle());
 }
 
 void AirCraft::HandleInput(Input& input)
 {
-	handleInputState = state->HandleInput(*this, input);
 }
 
 void InsertSpriteAirCraft(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
@@ -83,17 +120,6 @@ void AirCraft::LoadSprites()
 	// SPRITES
 
 	InsertSpriteAirCraft(AIRCRAFT_SPRITE_ID::NORMAL_01, 2, 0, 27, 15);
-
-	InsertSpriteAirCraft(AIRCRAFT_SPRITE_ID::B_AMMO_01, 28, 0, 53, 15);
-	InsertSpriteAirCraft(AIRCRAFT_SPRITE_ID::F_AMMO_01, 54, 0, 79, 15);
-	InsertSpriteAirCraft(AIRCRAFT_SPRITE_ID::L_AMMO_01, 80, 0, 105, 15);
-	InsertSpriteAirCraft(AIRCRAFT_SPRITE_ID::M_AMMO_01, 106, 0, 131, 15);
-	InsertSpriteAirCraft(AIRCRAFT_SPRITE_ID::R_AMMO_01, 132, 0, 157, 15);
-	InsertSpriteAirCraft(AIRCRAFT_SPRITE_ID::S_AMMO_01, 158, 0, 183, 15);
-
-	InsertSpriteAirCraft(AIRCRAFT_SPRITE_ID::INVUL_01, 186, 0, 212, 15);
-	InsertSpriteAirCraft(AIRCRAFT_SPRITE_ID::INVUL_02, 217, 0, 242, 15);
-	InsertSpriteAirCraft(AIRCRAFT_SPRITE_ID::INVUL_03, 247, 0, 272, 15);
 
 #pragma endregion Load Sprites
 
@@ -120,38 +146,6 @@ void AirCraft::LoadAnimations()
 	GraphicsHelper::InsertAnimation(AIRCRAFT_ANIMATION_ID::NORMAL, 150,
 		{
 			{AIRCRAFT_SPRITE_ID::NORMAL_01,0},
-		});
-
-	GraphicsHelper::InsertAnimation(AIRCRAFT_ANIMATION_ID::B_AMMO, 150,
-		{
-			{AIRCRAFT_SPRITE_ID::B_AMMO_01,0},
-		});
-	GraphicsHelper::InsertAnimation(AIRCRAFT_ANIMATION_ID::F_AMMO, 150,
-		{
-			{AIRCRAFT_SPRITE_ID::F_AMMO_01,0},
-		});
-	GraphicsHelper::InsertAnimation(AIRCRAFT_ANIMATION_ID::L_AMMO, 150,
-		{
-			{AIRCRAFT_SPRITE_ID::L_AMMO_01,0},
-		});
-	GraphicsHelper::InsertAnimation(AIRCRAFT_ANIMATION_ID::M_AMMO, 150,
-		{
-			{AIRCRAFT_SPRITE_ID::M_AMMO_01,0},
-		});
-	GraphicsHelper::InsertAnimation(AIRCRAFT_ANIMATION_ID::R_AMMO, 150,
-		{
-			{AIRCRAFT_SPRITE_ID::R_AMMO_01,0},
-		});
-	GraphicsHelper::InsertAnimation(AIRCRAFT_ANIMATION_ID::S_AMMO, 150,
-		{
-			{AIRCRAFT_SPRITE_ID::S_AMMO_01,0},
-		});
-
-	GraphicsHelper::InsertAnimation(AIRCRAFT_ANIMATION_ID::INVUL, 150,
-		{
-			{AIRCRAFT_SPRITE_ID::INVUL_01,0},
-			{AIRCRAFT_SPRITE_ID::INVUL_02,0},
-			{AIRCRAFT_SPRITE_ID::INVUL_03,0},
 		});
 
 #pragma endregion Load Animations

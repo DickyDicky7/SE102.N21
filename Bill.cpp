@@ -2,7 +2,7 @@
 #include "RockFly.h"
 #include "TerrainBlock.h"
 
-Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletSState())
+Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletSState()), livesLeft(NULL)
 {
 	CollidableEntity::self = (Entity*)this;
 
@@ -58,6 +58,7 @@ void Bill::Render()
 		handleInputState = NULL;
 	}
 }
+
 int i = 1;
 void Bill::HandleInput(Input& input)
 {
@@ -190,7 +191,7 @@ void Bill::LoadAnimations()
 		{BILL_SPRITE_ID::JUMP_04,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::DEAD, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::DEAD, 300,
 	{
 		{BILL_SPRITE_ID::DEAD_01,0},
 		{BILL_SPRITE_ID::DEAD_02,0},
@@ -366,14 +367,30 @@ void Bill::Fire                    (                               )
 
 void Bill::StaticResolveNoCollision(                               )
 {
+	if (dynamic_cast<BillDeadState*>(state))
+	{
+		surfaceEntity = NULL;
+		return;
+	}
 }
 
 void Bill::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
+	if (dynamic_cast<BillDeadState*>(state))
+	{
+		surfaceEntity = NULL;
+		return;
+	}
 }
 
 void Bill::DynamicResolveNoCollision(                               )
 {
+	if (dynamic_cast<BillDeadState*>(state))
+	{
+		surfaceEntity = NULL;
+		return;
+	}
+
 	if (isAbSurface)
 	{
 		if (surfaceEntity)
@@ -404,6 +421,24 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	switch (terrainBlock->type)
 	{
 
+	case TERRAIN_BLOCK_TYPE::WALL:
+	{
+		if (aabbSweepResult.normalX != +0.0f)
+		{
+			position.x += aabbSweepResult.enTime * vx;
+		}
+		else
+		if (aabbSweepResult.normalY != +0.0f)
+		{
+			position.y += aabbSweepResult.enTime * vy;
+			isAbSurface = 0;
+			surfaceEntity = NULL;
+			ChangeState(state, new BillDeadState(), this);
+		}
+		return;
+	}
+	break;
+
 	case TERRAIN_BLOCK_TYPE::WATER:
 	{
 		if (aabbSweepResult.normalY == +1.0f)
@@ -411,11 +446,13 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
 			surfaceEntity = terrainBlock;
-			ChangeState(state, new BillBeginSwimState(), this);
+			if (!dynamic_cast<BillDeadState*>(state))
+				ChangeState(state, new BillBeginSwimState(), this);
 		}
 		else
 		{
 		}
+		return;
 	}
 	break;
 
@@ -436,11 +473,13 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
 			surfaceEntity = terrainBlock;
-			ChangeState(state, new BillNormalState(), this);
+			if (!dynamic_cast<BillDeadState*>(state))
+				ChangeState(state, new BillNormalState(), this);
 		}
 		else
 		{
 		}
+		return;
 	}
 	break;
 
@@ -451,7 +490,8 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
 			surfaceEntity = terrainBlock;
-			ChangeState(state, new BillNormalState(), this);
+			if (!dynamic_cast<BillDeadState*>(state))
+				ChangeState(state, new BillNormalState(), this);
 		}
 		else
 		if (aabbSweepResult.normalX != +0.0f)
@@ -463,12 +503,20 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		else
 		{
 		}
+		return;
 	}
 	break;
 
 	}
 	else
 	{
+		if (dynamic_cast<BillDeadState*>(state))
+		{
+			surfaceEntity = NULL;
+			isAbSurface = 0;
+			return;
+		}
+
 		auto rockFly = dynamic_cast<RockFly*>(aabbSweepResult.surfaceEntity);
 		if  (rockFly)
 		{
@@ -484,6 +532,13 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 				surfaceEntity = rockFly;
 				ChangeState(state, new BillNormalState(), this);
 			}
+			return;
+		}
+
+		if (dynamic_cast<Enemy<Bill>*>(aabbSweepResult.surfaceEntity))
+		{
+			ChangeState(state, new BillDeadState(), this);
+			return;
 		}
 	}
 

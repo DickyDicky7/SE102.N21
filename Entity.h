@@ -8,6 +8,8 @@ class Entity
 
 public:
 
+	BOOL isDead;
+
 	Entity();
 	virtual ~Entity();
 	LPCWSTR name = L"";
@@ -57,7 +59,7 @@ protected:
 
 };
 
-inline Entity::Entity() : w(0.0f), h(0.0f), ax(0.0f), ay(0.0f), vx(0.0f), vy(0.0f), position(0.0f, 0.0f, 0.0f), angle(0.0f), movingDirection(DIRECTION::LEFT)
+inline Entity::Entity() : w(0.0f), h(0.0f), ax(0.0f), ay(0.0f), vx(0.0f), vy(0.0f), position(0.0f, 0.0f, 0.0f), angle(0.0f), movingDirection(DIRECTION::LEFT), isDead(0)
 {
 }
 

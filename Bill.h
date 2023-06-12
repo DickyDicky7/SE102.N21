@@ -42,6 +42,8 @@ class Bill : public Entity, public HasTextures<Bill>, public HasSprites<Bill>, p
 
 public:
 
+	INT* livesLeft;
+
 	Bill();
 	virtual ~Bill();
 	void Update() override;
@@ -185,6 +187,11 @@ public:
 
 	virtual BillState* Update(Bill&) override;
 	virtual BillState* HandleInput(Bill&, Input&) override;
+
+protected:
+
+	static constexpr ULONGLONG DEFAULT_REVIVAL_COOLDOWN = 100;
+	                 ULONGLONG revivalCooldown;
 
 };
 

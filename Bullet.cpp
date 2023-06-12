@@ -96,7 +96,7 @@ void Bullet::LoadAnimations()
 			{BULLET_SPRITE_ID::M_01, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::S, 900,
+	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::S, 400,
 		{
 			{BULLET_SPRITE_ID::S_01, 0},
 			{BULLET_SPRITE_ID::S_02, 0},
