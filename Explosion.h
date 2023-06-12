@@ -13,10 +13,11 @@ class Explosion;
 class ExplosionState;
 class ExplosionType1State;
 class ExplosionType2State;
-
+class ExplosionType3State;
 // explosion co 2 type
 // type 1: danh cho cac enity dang nguoi nhu: soldier, scuba soldier, rifleMan,...
 // type 2: danh cho cac enity dang vat the con lai
+// type 3: danh cho boss 1, 2
 
 class Explosion : public Entity
 	, public HasTextures<Explosion>, public HasSprites<Explosion>, public HasAnimations<Explosion>
@@ -83,6 +84,24 @@ public:
 
 	ExplosionType2State();
 	virtual ~ExplosionType2State();
+
+	virtual void Exit(Explosion&) override;
+	virtual void Enter(Explosion&) override;
+	virtual void Render(Explosion&) override;
+
+	virtual ExplosionState* Update(Explosion&) override;
+	virtual ExplosionState* HandleInput(Explosion&, Input&) override;
+protected:
+	FLOAT delayTime;
+};
+
+class ExplosionType3State : public ExplosionState
+{
+
+public:
+
+	ExplosionType3State();
+	virtual ~ExplosionType3State();
 
 	virtual void Exit(Explosion&) override;
 	virtual void Enter(Explosion&) override;

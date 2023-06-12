@@ -17,7 +17,7 @@ Explosion::Explosion() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 	// set direction default is right
 	this->movingDirection = DIRECTION::RIGHT;
 	// set state begin is run
-	this->state = new ExplosionType2State();
+	this->state = new ExplosionType3State();
 }
 
 Explosion::~Explosion()
@@ -124,6 +124,14 @@ void Explosion::LoadAnimations()
 			{EXPLOSION_SPRITE_ID::TYPE_2_04,0},
 			{EXPLOSION_SPRITE_ID::TYPE_2_05,0},
 			{EXPLOSION_SPRITE_ID::TYPE_2_06,0},
+		});
+	GraphicsHelper::InsertAnimation(EXPLOSION_ANIMATION_ID::TYPE_3, 150,
+		{
+			{EXPLOSION_SPRITE_ID::TYPE_2_01,0},
+			{EXPLOSION_SPRITE_ID::TYPE_2_03,0},
+			{EXPLOSION_SPRITE_ID::TYPE_2_05,0},
+			{EXPLOSION_SPRITE_ID::TYPE_2_03,0},
+			{EXPLOSION_SPRITE_ID::TYPE_2_01,0},
 		});
 #pragma endregion Load Animations
 

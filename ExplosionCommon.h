@@ -26,6 +26,8 @@ enum class EXPLOSION_ANIMATION_ID {
 
 	TYPE_2,
 
+	TYPE_3
+
 };
 
 

@@ -36,7 +36,7 @@ void Item::Update()
 	Motion::ProjectileMotionInputParameters pip{ x, y, v0, θ, time, dt };
 
 	// dung lai khi va cham
-	if (y >= 120) 
+	if (y >= 120) // xu ly va cham voi mat dat
 	{
 		auto pop = Motion::CalculateProjectileMotion(pip);
 		SetX(pop.x);

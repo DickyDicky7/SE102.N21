@@ -130,6 +130,7 @@
     <ClCompile Include="ExplosionState.cpp" />
     <ClCompile Include="ExplosionType1State.cpp" />
     <ClCompile Include="ExplosionType2State.cpp" />
+    <ClCompile Include="ExplosionType3State.cpp" />
     <ClCompile Include="Falcon.cpp" />
     <ClCompile Include="FalconCloseState.cpp" />
     <ClCompile Include="FalconOpeningState.cpp" />
