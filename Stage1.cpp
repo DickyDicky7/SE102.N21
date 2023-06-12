@@ -16,16 +16,16 @@
 Stage1::Stage1() : Stage()
 {
 	mapFilePath = "Resources/Maps/stage1.json";
-	TerrainBlock *wallL = new TerrainBlock();
-	TerrainBlock *wallB = new TerrainBlock();
+	TerrainBlock* wallL = new TerrainBlock();
+	TerrainBlock* wallB = new TerrainBlock();
 	wallL->type = TERRAIN_BLOCK_TYPE::WALL;
 	wallB->type = TERRAIN_BLOCK_TYPE::WALL;
 	wallL->SetW(10.0f);
 	wallL->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
-	wallB->SetW(SCREEN_WIDTH / SCALING_RATIO_X);
+	wallB->SetW(SCREEN_WIDTH  / SCALING_RATIO_X);
 	wallB->SetH(10.0f);
-	walls.insert({"L", wallL});
-	walls.insert({"B", wallB});
+	walls.insert({ "L", wallL });
+	walls.insert({ "B", wallB });
 }
 
 Stage1::~Stage1()

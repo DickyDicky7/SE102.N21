@@ -1,4 +1,5 @@
 #include "Bill.h"
+#include "Bridge.h"
 #include "RockFly.h"
 #include "TerrainBlock.h"
 
@@ -433,7 +434,8 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 0;
 			surfaceEntity = NULL;
-			ChangeState(state, new BillDeadState(), this);
+			if (!dynamic_cast<BillDeadState*>(state))
+				ChangeState(state, new BillDeadState(), this);
 		}
 		return;
 	}
@@ -530,6 +532,24 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 				position.y += aabbSweepResult.enTime * vy;
 				isAbSurface = 1;
 				surfaceEntity = rockFly;
+				ChangeState(state, new BillNormalState(), this);
+			}
+			return;
+		}
+
+		auto bridge = dynamic_cast<Bridge*>(aabbSweepResult.surfaceEntity);
+		if  (bridge)
+		{
+			if (aabbSweepResult.normalY == +1.0f)
+			{
+				if (surfaceEntity)
+				{
+					if (abs(bridge->GetY() - surfaceEntity->GetY() > 48.0f)) // size of 1 tile is 16 x 16 -> 48.0f = 3 tiles
+						return;
+				}
+				position.y += aabbSweepResult.enTime * vy;
+				isAbSurface = 1;
+				surfaceEntity = bridge;
 				ChangeState(state, new BillNormalState(), this);
 			}
 			return;

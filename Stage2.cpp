@@ -24,9 +24,9 @@
 Stage2::Stage2() : Stage()
 {
 	mapFilePath = "Resources/Maps/stage2.json";
-	TerrainBlock *wallL = new TerrainBlock();
-	TerrainBlock *wallR = new TerrainBlock();
-	TerrainBlock *wallB = new TerrainBlock();
+	TerrainBlock* wallL = new TerrainBlock();
+	TerrainBlock* wallR = new TerrainBlock();
+	TerrainBlock* wallB = new TerrainBlock();
 	wallL->type = TERRAIN_BLOCK_TYPE::WALL;
 	wallR->type = TERRAIN_BLOCK_TYPE::WALL;
 	wallB->type = TERRAIN_BLOCK_TYPE::WALL;
@@ -34,11 +34,11 @@ Stage2::Stage2() : Stage()
 	wallL->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
 	wallR->SetW(10.0f);
 	wallR->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
-	wallB->SetW(SCREEN_WIDTH / SCALING_RATIO_X);
+	wallB->SetW(SCREEN_WIDTH  / SCALING_RATIO_X);
 	wallB->SetH(10.0f);
-	walls.insert({"L", wallL});
-	walls.insert({"R", wallR});
-	walls.insert({"B", wallB});
+	walls.insert({ "L", wallL });
+	walls.insert({ "R", wallR });
+	walls.insert({ "B", wallB });
 }
 
 Stage2::~Stage2()
