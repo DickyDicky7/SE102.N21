@@ -386,6 +386,12 @@ void Bill::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 void Bill::DynamicResolveNoCollision(                               )
 {
+	if (dynamic_cast<BillDeadState*>(state))
+	{
+		surfaceEntity = NULL;
+		return;
+	}
+
 	if (isAbSurface)
 	{
 		if (surfaceEntity)
