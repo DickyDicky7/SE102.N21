@@ -19,45 +19,12 @@ void AirCraftNormalState::Enter(AirCraft& aircraft)
 
 void AirCraftNormalState::Render(AirCraft& aircraft)
 {
-	aircraft.SetAnimation(AIRCRAFT_ANIMATION_ID::NORMAL, aircraft.GetPosition(), aircraft.GetMovingDirection(), aircraft.GetAngle());
+	aircraft.
 }
 
 AirCraftState* AirCraftNormalState::Update(AirCraft& aircraft)
 {
-	// Chuyen dong hinh sin
-	FLOAT x = aircraft.GetX();
-	FLOAT y = aircraft.GetY();
-	FLOAT vx = aircraft.GetVX();
-	FLOAT vy = aircraft.GetVY();
-
-	// gán vị trí lúc đầu
-	if (x0 == NULL) x0 = x;
-	if (y0 == NULL) y0 = y;
 	
-	if (aircraft.getAircarftDirection() == AIRCRAFT_DIRECTION::HORIZONTAL) {
-		// di chuyen theo chieu ngang
-		Motion::OscillatoryMotionInputParameters pio{ y0, time, dt, T, A, φ };
-		auto poo = Motion::CalculateOscillatoryMotion(pio);
-		time = poo.t;
-
-		x += vx;
-
-		aircraft.SetX(x);
-		aircraft.SetY(poo.c);
-	}
-	else
-	{
-		// di chuyen theo chieu doc
-		Motion::OscillatoryMotionInputParameters pio{ x0, time, dt, T, A, φ };
-		auto poo = Motion::CalculateOscillatoryMotion(pio);
-		time = poo.t;
-
-		y += vy;
-
-		aircraft.SetY(y);
-		aircraft.SetX(poo.c);
-	}
-
 	
 
 	return NULL;

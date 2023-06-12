@@ -16,8 +16,3 @@ enum class FIRE_ANIMATION_ID {
 	NORMAL
 
 };
-
-enum class TYPE_HAND {
-	ARM,
-	HAND
-};

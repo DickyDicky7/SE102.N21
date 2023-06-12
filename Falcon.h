@@ -8,6 +8,7 @@
 #include "Bill.h"
 #include "Enemy.h"
 #include "AirCraft.h"
+#include "ItemCommon.h"
 
 class Falcon;
 class FalconState;

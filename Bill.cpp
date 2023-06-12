@@ -3,7 +3,7 @@
 #include "RockFly.h"
 #include "TerrainBlock.h"
 
-Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletSState()), livesLeft(NULL)
+Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletSState())
 {
 	CollidableEntity::self = (Entity*)this;
 
@@ -59,7 +59,6 @@ void Bill::Render()
 		handleInputState = NULL;
 	}
 }
-
 int i = 1;
 void Bill::HandleInput(Input& input)
 {
@@ -192,7 +191,7 @@ void Bill::LoadAnimations()
 		{BILL_SPRITE_ID::JUMP_04,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::DEAD, 300,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::DEAD, 100,
 	{
 		{BILL_SPRITE_ID::DEAD_01,0},
 		{BILL_SPRITE_ID::DEAD_02,0},
@@ -386,12 +385,6 @@ void Bill::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 void Bill::DynamicResolveNoCollision(                               )
 {
-	if (dynamic_cast<BillDeadState*>(state))
-	{
-		surfaceEntity = NULL;
-		return;
-	}
-
 	if (isAbSurface)
 	{
 		if (surfaceEntity)
@@ -447,13 +440,11 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
 			surfaceEntity = terrainBlock;
-			if (!dynamic_cast<BillDeadState*>(state))
-				ChangeState(state, new BillBeginSwimState(), this);
+			ChangeState(state, new BillBeginSwimState(), this);
 		}
 		else
 		{
 		}
-		return;
 	}
 	break;
 
@@ -474,13 +465,11 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
 			surfaceEntity = terrainBlock;
-			if (!dynamic_cast<BillDeadState*>(state))
-				ChangeState(state, new BillNormalState(), this);
+			ChangeState(state, new BillNormalState(), this);
 		}
 		else
 		{
 		}
-		return;
 	}
 	break;
 
@@ -491,8 +480,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			position.y += aabbSweepResult.enTime * vy;
 			isAbSurface = 1;
 			surfaceEntity = terrainBlock;
-			if (!dynamic_cast<BillDeadState*>(state))
-				ChangeState(state, new BillNormalState(), this);
+			ChangeState(state, new BillNormalState(), this);
 		}
 		else
 		if (aabbSweepResult.normalX != +0.0f)
@@ -504,20 +492,12 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		else
 		{
 		}
-		return;
 	}
 	break;
 
 	}
 	else
 	{
-		if (dynamic_cast<BillDeadState*>(state))
-		{
-			surfaceEntity = NULL;
-			isAbSurface = 0;
-			return;
-		}
-
 		auto rockFly = dynamic_cast<RockFly*>(aabbSweepResult.surfaceEntity);
 		if  (rockFly)
 		{

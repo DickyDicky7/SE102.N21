@@ -41,10 +41,14 @@
     <ClInclude Include="Common.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
+    <ClInclude Include="Explosion.h" />
+    <ClInclude Include="ExplosionCommon.h" />
     <ClInclude Include="Falcon.h" />
     <ClInclude Include="FalconCommon.h" />
     <ClInclude Include="Fire.h" />
     <ClInclude Include="FireCommon.h" />
+    <ClInclude Include="Item.h" />
+    <ClInclude Include="ItemCommon.h" />
     <ClInclude Include="Letter.h" />
     <ClInclude Include="LetterCommon.h" />
     <ClInclude Include="GraphicsDatabase.h" />
@@ -90,15 +94,6 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="AirCraft.cpp" />
-    <ClCompile Include="AirCraftState.cpp" />
-    <ClCompile Include="AirCraftBAmmoState.cpp" />
-    <ClCompile Include="AirCraftFAmmoState.cpp" />
-    <ClCompile Include="AirCraftInvulState.cpp" />
-    <ClCompile Include="AirCraftLAmmoState.cpp" />
-    <ClCompile Include="AirCraftMAmmoState.cpp" />
-    <ClCompile Include="AirCraftNormalState.cpp" />
-    <ClCompile Include="AirCraftRAmmoState.cpp" />
-    <ClCompile Include="AirCraftSAmmoState.cpp" />
     <ClCompile Include="BillSwimRunShotState.cpp" />
     <ClCompile Include="BossStage3Gate.cpp" />
     <ClCompile Include="BossStage3GateCloseState.cpp" />
@@ -131,6 +126,11 @@
     <ClCompile Include="CollidableState.cpp" />
     <ClCompile Include="CreditSceneState.cpp" />
     <ClCompile Include="EndingSceneState.cpp" />
+    <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="ExplosionState.cpp" />
+    <ClCompile Include="ExplosionType1State.cpp" />
+    <ClCompile Include="ExplosionType2State.cpp" />
+    <ClCompile Include="ExplosionType3State.cpp" />
     <ClCompile Include="Falcon.cpp" />
     <ClCompile Include="FalconCloseState.cpp" />
     <ClCompile Include="FalconOpeningState.cpp" />
@@ -138,6 +138,8 @@
     <ClCompile Include="FalconState.cpp" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="GameOverSceneState.cpp" />
+    <ClCompile Include="Item.cpp" />
+    <ClCompile Include="ItemState.cpp" />
     <ClCompile Include="Letter.cpp" />
     <ClCompile Include="HasWeapons.cpp" />
     <ClCompile Include="LoadingSceneState.cpp" />
