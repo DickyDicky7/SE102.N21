@@ -35,6 +35,7 @@ protected:
 	QuadTreeNode* entities;
 	QuadTreeNode* backgroundTerrains;
 	QuadTreeNode* foregroundTerrains;
+	std::list<Entity*> effectEntities;
 	std::unordered_map<std::string, Entity*> walls;
 	std::unordered_map<Entity*, QuadTreeNode*> entitiesResult;
 	std::unordered_map<Entity*, QuadTreeNode*> backgroundTerrainsResult;

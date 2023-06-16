@@ -22,6 +22,17 @@ enum class BULLET_SPRITE_ID
 
 	F_01,
 
+	ENEMY_01,
+
+	BOSS_2_01,
+	BOSS_2_02,
+	BOSS_2_03,
+	BOSS_2_04,
+
+	BOSS_1_01,
+
+	EXPLODE_01,
+
 };
 
 enum class BULLET_ANIMATION_ID
@@ -32,5 +43,9 @@ enum class BULLET_ANIMATION_ID
 	S,
 	L,
 	F,
+	ENEMY,
+	BOSS_2,
+	BOSS_1,
+	EXPLODE,
 
 };

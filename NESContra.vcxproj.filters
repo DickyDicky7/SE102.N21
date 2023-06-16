@@ -489,14 +489,14 @@
     <ClInclude Include="ExplosionCommon.h">
       <Filter>Header Files\Objects\Explosion</Filter>
     </ClInclude>
-    <ClInclude Include="Explosion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ItemCommon.h">
       <Filter>Header Files\Objects\Item</Filter>
     </ClInclude>
     <ClInclude Include="Item.h">
       <Filter>Header Files\Objects\Item</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion.h">
+      <Filter>Header Files\Objects\Explosion</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1021,6 +1021,21 @@
     </ClCompile>
     <ClCompile Include="ItemState.cpp">
       <Filter>Source Files\Objects\Item</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionType3State.cpp">
+      <Filter>Source Files\Objects\Explosion\ExplosionState</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletBossStage2State.cpp">
+      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletBossStage1State.cpp">
+      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletEnemyState.cpp">
+      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletExplodeState.cpp">
+      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

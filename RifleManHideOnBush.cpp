@@ -15,6 +15,9 @@ RifleManHideOnBush::RifleManHideOnBush() : Entity(), HasAnimations()
 
 	this->updateState = NULL;
 	this->state = new RifleManHideOnBushHidingState();
+
+	this->hitCounts = 1;
+	this->enemyType = ENEMY_TYPE::HUMAN;
 }
 
 RifleManHideOnBush::~RifleManHideOnBush()

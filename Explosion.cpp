@@ -17,7 +17,13 @@ Explosion::Explosion() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 	// set direction default is right
 	this->movingDirection = DIRECTION::RIGHT;
 	// set state begin is run
-	this->state = new ExplosionType3State();
+	//this->state = new ExplosionType3State();
+}
+
+Explosion::Explosion(ExplosionState* explosionState) : Explosion()
+{
+	Destroy(this->state);
+	this->state = explosionState;
 }
 
 Explosion::~Explosion()

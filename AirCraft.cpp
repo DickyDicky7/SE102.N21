@@ -31,6 +31,9 @@ AirCraft::AirCraft(ITEM_TYPE type, AIRCRAFT_DIRECTION direction) : Entity(), Has
 	T = 2.5f;
 	A = 35.0f;
 	φ = 0.0f;
+
+	this->hitCounts = 1;
+	this->enemyType = ENEMY_TYPE::MACHINE;
 }
 
 AirCraft::~AirCraft()

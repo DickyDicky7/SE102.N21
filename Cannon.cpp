@@ -16,6 +16,9 @@ Cannon::Cannon()
 	//
 	this->name = L"Cannon\n";
 	//
+
+	this->hitCounts = 10;
+	this->enemyType = ENEMY_TYPE::MACHINE;
 }
 
 Cannon::~Cannon()
