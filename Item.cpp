@@ -1,4 +1,5 @@
 ﻿#include "Item.h"
+#include "TerrainBlock.h"
 
 Item::Item(ITEM_TYPE type) : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
@@ -17,6 +18,9 @@ Item::Item(ITEM_TYPE type) : Entity(), HasTextures(), HasSprites(), HasAnimation
 	dt = 0.03f;
 	v0 = 7.0f;
 	θ = 80.0f;
+
+	this->stopUpdate = 0;
+	CollidableEntity::self = this;
 }
 
 Item::~Item()
@@ -29,19 +33,24 @@ Item::~Item()
 
 void Item::Update()
 {
-	// chuyen dong nem xien
-	FLOAT x = GetX();
-	FLOAT y = GetY();
-
-	Motion::ProjectileMotionInputParameters pip{ x, y, v0, θ, time, dt };
-
-	// dung lai khi va cham
-	if (y >= 120) // xu ly va cham voi mat dat
+	if (!stopUpdate)
 	{
+		// chuyen dong nem xien
+		FLOAT x = GetX();
+		FLOAT y = GetY();
+
+		Motion::ProjectileMotionInputParameters pip{ x, y, v0, θ, time, dt };
+
+		// dung lai khi va cham
+		//if (y >= 120) // xu ly va cham voi mat dat
+		//{
 		auto pop = Motion::CalculateProjectileMotion(pip);
 		SetX(pop.x);
 		SetY(pop.y);
+		SetVX(pop.vx);
+		SetVY(pop.vy);
 		time = pop.t;
+		//}
 	}
 }
 
@@ -159,4 +168,29 @@ void Item::LoadAnimations()
 #pragma endregion Load Animations
 
 	OutputDebugString(L"Item Animations Loaded Successfully\n");
+}
+
+void Item::StaticResolveNoCollision()
+{
+}
+
+void Item::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
+{
+}
+
+void Item::DynamicResolveNoCollision()
+{
+}
+
+void Item::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
+{
+	auto    terrainBlock  = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
+	if     (terrainBlock)
+	{
+		if (terrainBlock->GetY() <= position.y)
+		{
+			position.y = terrainBlock->GetT();
+			stopUpdate = 1;
+		}
+	}
 }

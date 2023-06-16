@@ -27,6 +27,9 @@ WallTurret::WallTurret() : Entity(), HasAnimations()
 
 	this->updateState = NULL;
 	this->state = new WallTurretLeft30State();
+
+	this->hitCounts = 10;
+	this->enemyType = ENEMY_TYPE::MACHINE;
 }
 
 WallTurret::~WallTurret() {}

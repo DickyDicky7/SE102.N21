@@ -18,6 +18,9 @@ RockFall::RockFall() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 	this->movingDirection = DIRECTION::RIGHT;
 	// set state begin is run
 	this->state = new RockFallNormalState();
+
+	this->hitCounts = 10;
+	this->enemyType = ENEMY_TYPE::MACHINE;
 }
 
 RockFall::~RockFall()

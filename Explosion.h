@@ -24,6 +24,7 @@ class Explosion : public Entity
 {
 public:
 	Explosion();
+	Explosion(ExplosionState*);
 	virtual ~Explosion();
 	void Update() override;
 	void Render() override;

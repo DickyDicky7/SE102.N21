@@ -7,7 +7,7 @@
 #include "HasSprites.h"
 #include "HasTextures.h"
 #include "HasAnimations.h"
-#include "ItemCommon.h"W
+#include "ItemCommon.h"
 
 class AirCraft : public Entity, public Enemy<Bill>
 	, public HasTextures<AirCraft>, public HasSprites<AirCraft>, public HasAnimations<AirCraft>

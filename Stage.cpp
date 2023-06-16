@@ -1,6 +1,11 @@
 #include "Bill.h" 
+#include "Item.h"
 #include "Stage.h"
+#include "Enemy.h"
+#include "Falcon.h"
 #include "Camera.h"
+#include "AirCraft.h"
+#include "Explosion.h"
 #include "tileson.hpp"
 #include "TerrainBlock.h"
 #include "TerrainStage1.h"
@@ -17,6 +22,7 @@ Stage::~Stage()
 	entities->Clean();
 	backgroundTerrains->Clean();
 	foregroundTerrains->Clean();
+	for (auto& effectEntity : effectEntities) Destroy(effectEntity); effectEntities.clear();
 	Destroy(camera); Destroy(entities); Destroy(backgroundTerrains), Destroy(foregroundTerrains);
 }
 
@@ -69,6 +75,71 @@ void Stage::Update()
 	}
 	for (auto& deadEntity : deadEntities)
 	{
+		if (auto enemy = dynamic_cast<Enemy<Bill>*>(deadEntity))
+		{
+			Explosion* explosion = NULL;
+			switch (enemy->enemyType)
+			{
+			
+			case ENEMY_TYPE::NONE:
+			break;
+
+			case ENEMY_TYPE::BOSS:
+				 explosion = new Explosion(new ExplosionType3State());
+			break;
+
+			case ENEMY_TYPE::HUMAN:
+				 explosion = new Explosion(new ExplosionType1State());
+			break;
+
+			case ENEMY_TYPE::MACHINE:
+				 explosion = new Explosion(new ExplosionType2State());
+			break;
+
+			}
+			if (explosion)
+			{
+				explosion->SetX(deadEntity->GetX());
+				explosion->SetY(deadEntity->GetY());
+				effectEntities.push_back(explosion);
+			}
+		}
+		else
+		if (auto bullet = dynamic_cast<Bullet*>(deadEntity))
+		{
+			Bullet* explosion = new Bullet();
+			explosion->SetState(new BulletExplodeState());
+			if (bullet->GetVX() < 0.0f)
+				explosion->SetX(bullet->GetL() - 3.0f);
+			else
+			if (bullet->GetVX() > 0.0f)
+				explosion->SetX(bullet->GetR() + 3.0f);
+			else 
+				explosion->SetX(bullet->GetX() + 0.0f);
+			if (bullet->GetVY() < 0.0f)
+				explosion->SetY(bullet->GetB() - 3.0f);
+			else
+			if (bullet->GetVY() > 0.0f)
+				explosion->SetY(bullet->GetT() + 3.0f);
+			else
+				explosion->SetY(bullet->GetY() + 0.0f);
+			effectEntities.push_back(explosion);
+		}
+		if (auto falcon = dynamic_cast<Falcon*>(deadEntity))
+		{
+			Item* item = new Item(falcon->getAmmoType());
+			item->SetX(falcon->GetX());
+			item->SetY(falcon->GetY());
+			entities->Insert(item);
+		}
+		else 
+		if (auto aircraft = dynamic_cast<AirCraft*>(deadEntity))
+		{
+			Item* item = new Item(aircraft->getAmmoType());
+			item->SetX(aircraft->GetX());
+			item->SetY(aircraft->GetY());
+			entities->Insert(item);
+		}
 		entitiesResult.erase(deadEntity);
 		Destroy             (deadEntity);
 	}
@@ -77,6 +148,18 @@ void Stage::Update()
 		entitiesResult.erase(outOfBoundBullet);
 		Destroy             (outOfBoundBullet);
 	}
+	for (auto& effectEntity : effectEntities)
+	{
+		if (effectEntity->isDead)
+		{
+			Destroy(effectEntity);
+		}
+		else
+		{
+			effectEntity->Update();
+		}
+	}
+	effectEntities.remove_if([](Entity* effectEntity) { return effectEntity == NULL; });
 
 
 	if (QuadTreeNode::Update(entities, entitiesResult))
@@ -121,6 +204,7 @@ void Stage::Render()
 	backgroundTerrains->Retrieve(camera,   backgroundTerrainsResult);
 	for (auto& [backgroundTerrain, node] : backgroundTerrainsResult) backgroundTerrain->Render();
 	for (auto& [entity           , node] : entitiesResult)                      entity->Render();
+	for (auto&  effectEntity             : effectEntities)                effectEntity->Render();
 	bill->Render();
 }
 
@@ -148,10 +232,26 @@ void Stage::CheckResolveClearCollision()
 	}
 
 
-	for (auto& [entity, node] : entitiesResult)
+	//for (auto& [entity, node] : entitiesResult)
+	//{
+	//	if (bill != entity)
+	//	    bill->CollideWith(entity);
+	//}
+
+
+	for (auto& [entity1, node1] : entitiesResult)
 	{
-		if (bill != entity)
-		    bill->CollideWith(entity);
+		auto collidableEntity = dynamic_cast<CollidableEntity*>(entity1);
+		if  (collidableEntity)
+		{
+			for (auto& [entity2, node2] : entitiesResult)
+			{
+				if (entity1 != entity2)
+				{
+					collidableEntity->CollideWith(entity2);
+				}
+			}
+		}
 	}
 
 

@@ -179,7 +179,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		time_taken *= 1e-9;
 		wchar_t mes[100];
 		swprintf(mes, 100, L"%f sec\n", time_taken);
-		OutputDebugString(mes);
+		//OutputDebugString(mes);
 	}
 
 	CleanD3D();

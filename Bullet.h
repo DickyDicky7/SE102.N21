@@ -18,12 +18,18 @@ class BulletMState;
 class BulletSState;
 class BulletLState;
 class BulletFState;
+class BulletEnemyState;
+class BulletExplodeState;
+class BulletBossStage1State;
+class BulletBossStage2State;
 
 
 class Bullet : public Entity, public HasTextures<Bullet>, public HasSprites<Bullet>, public HasAnimations<Bullet>, public CollidableEntity
 {
 
 public:
+
+	BOOL isEnemy;
 
 	Bullet(            );
 	Bullet(BulletState*);
@@ -175,3 +181,76 @@ protected:
 	FLOAT yO;
 
 };
+
+
+class BulletEnemyState : public BulletState
+{
+
+public:
+
+	BulletEnemyState();
+	virtual ~BulletEnemyState();
+
+	virtual void Exit(Bullet&) override;
+	virtual void Enter(Bullet&) override;
+	virtual void Render(Bullet&) override;
+
+	virtual BulletState* Update(Bullet&) override;
+	virtual BulletState* HandleInput(Bullet&, Input&) override;
+
+};
+
+
+class BulletBossStage1State : public BulletState
+{
+
+public:
+
+	BulletBossStage1State();
+	virtual ~BulletBossStage1State();
+
+	virtual void Exit(Bullet&) override;
+	virtual void Enter(Bullet&) override;
+	virtual void Render(Bullet&) override;
+
+	virtual BulletState* Update(Bullet&) override;
+	virtual BulletState* HandleInput(Bullet&, Input&) override;
+
+};
+
+
+class BulletBossStage2State : public BulletState
+{
+
+public:
+
+	BulletBossStage2State();
+	virtual ~BulletBossStage2State();
+
+	virtual void Exit(Bullet&) override;
+	virtual void Enter(Bullet&) override;
+	virtual void Render(Bullet&) override;
+
+	virtual BulletState* Update(Bullet&) override;
+	virtual BulletState* HandleInput(Bullet&, Input&) override;
+
+};
+
+
+class BulletExplodeState : public BulletState
+{
+
+public:
+
+	BulletExplodeState();
+	virtual ~BulletExplodeState();
+
+	virtual void Exit(Bullet&) override;
+	virtual void Enter(Bullet&) override;
+	virtual void Render(Bullet&) override;
+
+	virtual BulletState* Update(Bullet&) override;
+	virtual BulletState* HandleInput(Bullet&, Input&) override;
+
+};
+

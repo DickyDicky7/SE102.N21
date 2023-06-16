@@ -15,6 +15,9 @@ RifleManStanding::RifleManStanding() : Entity(), HasAnimations()
 
 	this->updateState = NULL;
 	this->state = new RifleManStandingNormalState();
+
+	this->hitCounts = 1;
+	this->enemyType = ENEMY_TYPE::HUMAN;
 }
 
 RifleManStanding::~RifleManStanding()

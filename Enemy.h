@@ -2,11 +2,16 @@
 
 #include "Common.h"
 
+enum class ENEMY_TYPE { NONE, BOSS, HUMAN, MACHINE, };
+
 template <class T>
 class Enemy
 {
 
 public:
+
+	INT hitCounts;
+	ENEMY_TYPE enemyType;
 
 	Enemy();
 	virtual ~Enemy();
@@ -25,7 +30,7 @@ protected:
 };
 
 template <class T>
-inline Enemy<T>::Enemy() : hp(0), target(NULL)
+inline Enemy<T>::Enemy() : hp(0), target(NULL), hitCounts(0), enemyType(ENEMY_TYPE::NONE)
 {
 }
 

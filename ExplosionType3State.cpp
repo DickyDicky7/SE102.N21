@@ -28,7 +28,7 @@ void ExplosionType3State::Render(Explosion& explosion)
 ExplosionState* ExplosionType3State::Update(Explosion& explosion)
 {
 	if (delayTime-- < 0) {
-		// delete state
+		explosion.isDead = 1;
 	}
 	return NULL;
 }

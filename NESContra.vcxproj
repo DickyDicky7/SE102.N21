@@ -111,6 +111,10 @@
     <ClCompile Include="BridgePart.cpp" />
     <ClCompile Include="BridgePartExplosionState.cpp" />
     <ClCompile Include="BridgePartState.cpp" />
+    <ClCompile Include="BulletBossStage1State.cpp" />
+    <ClCompile Include="BulletBossStage2State.cpp" />
+    <ClCompile Include="BulletEnemyState.cpp" />
+    <ClCompile Include="BulletExplodeState.cpp" />
     <ClCompile Include="BulletFState.cpp" />
     <ClCompile Include="BulletLState.cpp" />
     <ClCompile Include="BulletMState.cpp" />

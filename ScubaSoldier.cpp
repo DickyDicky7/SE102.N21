@@ -19,6 +19,9 @@ ScubaSoldier::ScubaSoldier() : Entity(), HasTextures(), HasSprites(), HasAnimati
 	this->state = new ScubaSoldierHiddenState();
 
 	this->billAngle = -90;
+
+	this->hitCounts = 1;
+	this->enemyType = ENEMY_TYPE::HUMAN;
 }
 
 ScubaSoldier::~ScubaSoldier()

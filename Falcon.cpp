@@ -22,6 +22,9 @@ Falcon::Falcon(ITEM_TYPE type) : Entity(), HasTextures(), HasSprites(), HasAnima
 	this->currentState = FALCON_ANIMATION_ID::CLOSE;
 
 	this->_ammoType = type;
+
+	this->hitCounts = 10;
+	this->enemyType = ENEMY_TYPE::MACHINE;
 }
 
 Falcon::~Falcon()

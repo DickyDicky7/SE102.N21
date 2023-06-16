@@ -16,6 +16,9 @@ Soldier::Soldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 	this->movingDirection = DIRECTION::RIGHT;
 	// set state begin is run
 	this->state = new SoldierRunState();
+
+	this->hitCounts = 1;
+	this->enemyType = ENEMY_TYPE::HUMAN;
 }
 
 /// <summary>
