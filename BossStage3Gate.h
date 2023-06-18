@@ -14,7 +14,7 @@ class BossStage3GateOpenState;
 class BossStage3GateCloseState;
 
 
-class BossStage3Gate : public Entity, public Enemy<Bill>
+class BossStage3Gate : public Entity
 	, public HasTextures<BossStage3Gate>, public HasSprites<BossStage3Gate>, public HasAnimations<BossStage3Gate>
 {
 public:

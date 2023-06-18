@@ -2,7 +2,7 @@
 // O: open
 // P: close
 
-BossStage3::BossStage3() : Entity(), HasTextures(), HasSprites(), HasAnimations()
+BossStage3::BossStage3() : Entity(), HasTextures(), HasSprites(), HasAnimations(), HasWeapons(new BulletBossStage2State())
 {
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -124,4 +124,12 @@ void BossStage3::LoadAnimations()
 #pragma endregion Load Animations
 
 	OutputDebugString(L"BossStage3 Animations Loaded Successfully\n");
+}
+
+void BossStage3::Fire() 
+{
+	if (dynamic_cast<BossStage3OpenState*>(state))
+	{
+		HasWeapons::Fire(position.x / 2.0f, position.y * 0.5f + 20.0f, 0.0f, 0.0f, -3.0f, 0.0f, 0.0f, movingDirection);
+	}
 }

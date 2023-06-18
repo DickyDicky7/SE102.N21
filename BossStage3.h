@@ -16,7 +16,7 @@ class BossStage3MiddleState;
 
 
 class BossStage3 : public Entity, public Enemy<Bill>
-				 , public HasTextures<BossStage3>, public HasSprites<BossStage3>, public HasAnimations<BossStage3>
+				 , public HasTextures<BossStage3>, public HasSprites<BossStage3>, public HasAnimations<BossStage3>, public HasWeapons
 {
 public:
 	BossStage3();
@@ -28,6 +28,8 @@ public:
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
+
+	void  Fire() override;
 
 protected:
 	BossStage3State* state;

@@ -24,6 +24,7 @@ void BossStage3OpenState::Render(BossStage3& bossStage3)
 
 BossStage3State* BossStage3OpenState::Update(BossStage3& bossStage3)
 {
+	bossStage3.Fire();
 	if (time-- < 0) {
 		return new BossStage3MiddleState(BOSS_STAGE_3_ANIMATION_ID::CLOSE);
 	}

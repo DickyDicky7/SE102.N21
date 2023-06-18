@@ -85,7 +85,7 @@ BossStage3HandState* BossStage3HandAttackState::Update(BossStage3Hand& bossStage
         }
         else
         {
-            //return new BossStage3HandDirectPlayerState(bossStage3hand);
+            return new BossStage3HandDirectPlayerState(bossStage3hand);
         }
     }
 
