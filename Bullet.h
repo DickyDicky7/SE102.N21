@@ -21,7 +21,8 @@ class BulletFState;
 class BulletEnemyState;
 class BulletExplodeState;
 class BulletBossStage1State;
-class BulletBossStage2State;
+class BulletBossStage2StateHand;
+class BulletBossStage2StateHead;
 
 
 class Bullet : public Entity, public HasTextures<Bullet>, public HasSprites<Bullet>, public HasAnimations<Bullet>, public CollidableEntity
@@ -219,13 +220,31 @@ public:
 };
 
 
-class BulletBossStage2State : public BulletState
+class BulletBossStage2StateHand : public BulletState
 {
 
 public:
 
-	BulletBossStage2State();
-	virtual ~BulletBossStage2State();
+	BulletBossStage2StateHand();
+	virtual ~BulletBossStage2StateHand();
+
+	virtual void Exit(Bullet&) override;
+	virtual void Enter(Bullet&) override;
+	virtual void Render(Bullet&) override;
+
+	virtual BulletState* Update(Bullet&) override;
+	virtual BulletState* HandleInput(Bullet&, Input&) override;
+
+};
+
+
+class BulletBossStage2StateHead : public BulletState
+{
+
+public:
+
+	BulletBossStage2StateHead();
+	virtual ~BulletBossStage2StateHead();
 
 	virtual void Exit(Bullet&) override;
 	virtual void Enter(Bullet&) override;

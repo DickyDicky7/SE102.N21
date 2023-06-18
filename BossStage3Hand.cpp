@@ -1,6 +1,6 @@
 #include "BossStage3Hand.h"
 
-BossStage3Hand::BossStage3Hand() : Entity(), HasTextures(), HasSprites(), HasAnimations(), HasWeapons(new BulletBossStage2State())
+BossStage3Hand::BossStage3Hand() : Entity(), HasTextures(), HasSprites(), HasAnimations(), HasWeapons(new BulletBossStage2StateHand())
 {
 	this->vx = 1.0f;
 	this->vy = 1.0f;
