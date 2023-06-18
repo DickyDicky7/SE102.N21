@@ -2,6 +2,7 @@
 #include "Enemy.h"
 #include "Bullet.h"
 #include "Bridge.h"
+#include "Soldier.h"
 #include "RockFly.h"
 
 Bullet::Bullet(                  ) : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity()
@@ -182,10 +183,17 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	auto enemy = dynamic_cast<Enemy<Bill>*>(aabbSweepResult.surfaceEntity);
 	if  (enemy)
 	{
+		if (isEnemy)
+		{
+			return;
+		}
 		isDead = 1;
 		if (--enemy->hitCounts == 0)
 		{
-			aabbSweepResult.surfaceEntity->isDead = 1;
+			if (auto soldier = dynamic_cast<Soldier*>(enemy))
+				soldier->SetState(new SoldierDieState());
+			else
+				aabbSweepResult.surfaceEntity->isDead = 1;
 		}
 		return;
 	}
