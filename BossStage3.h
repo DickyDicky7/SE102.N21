@@ -31,10 +31,15 @@ public:
 
 	void  Fire() override;
 
+	BOOL GetIsFire() { return isFire; }
+	void SetIsFire(BOOL check) { isFire = check; }
+
 protected:
 	BossStage3State* state;
 	BossStage3State* updateState;
 	BossStage3State* handleInputState;
+
+	BOOL isFire;
 };
 
 

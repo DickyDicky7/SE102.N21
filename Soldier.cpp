@@ -43,6 +43,12 @@ Soldier::~Soldier()
 	Destroy(handleInputState);
 }
 
+void Soldier::SetState(SoldierState* newState)
+{
+	ChangeState(state, newState, this);
+	newState = NULL;
+}
+
 void Soldier::Update()
 {
 	updateState = state->Update(*this);
