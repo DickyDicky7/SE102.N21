@@ -30,6 +30,9 @@ BossStage3Joint::BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID type, D3DXVECTOR
 	isMoveFollowWithAccelemetor = true;
 
 	jointFollow = nullptr;
+
+    this->hitCounts = 10;
+    this->enemyType = ENEMY_TYPE::BOSS;
 }
 
 BossStage3Joint::~BossStage3Joint()

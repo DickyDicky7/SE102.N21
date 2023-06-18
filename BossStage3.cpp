@@ -18,6 +18,9 @@ BossStage3::BossStage3() : Entity(), HasTextures(), HasSprites(), HasAnimations(
 	this->movingDirection = DIRECTION::RIGHT;
 	// set state begin is run
 	this->state = new BossStage3CloseState();
+	
+	this->hitCounts = 10;
+	this->enemyType = ENEMY_TYPE::BOSS;
 }
 
 BossStage3::~BossStage3()
@@ -130,6 +133,6 @@ void BossStage3::Fire()
 {
 	if (dynamic_cast<BossStage3OpenState*>(state))
 	{
-		HasWeapons::Fire(position.x / 2.0f, position.y * 0.5f + 20.0f, 0.0f, 0.0f, -3.0f, 0.0f, 0.0f, movingDirection);
+		HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.5f, 0.0f, 0.0f, -3.0f, 0.0f, 0.0f, movingDirection);
 	}
 }

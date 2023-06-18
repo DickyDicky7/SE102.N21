@@ -20,6 +20,9 @@ BossStage3Hand::BossStage3Hand() : Entity(), HasTextures(), HasSprites(), HasAni
 	isInitPositionJoints = false;
 
 	initPositionJoints();
+
+	this->hitCounts = 10;
+	this->enemyType = ENEMY_TYPE::BOSS;
 }
 
 BossStage3Hand::~BossStage3Hand()

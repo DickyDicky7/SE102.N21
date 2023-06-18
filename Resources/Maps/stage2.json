@@ -400,26 +400,26 @@
                  "y":942.077
                 }, 
                 {
-                 "height":2.54545,
+                 "height":15.10795,
                  "id":68,
                  "name":"boss2finalarmright",
                  "rotation":0,
                  "type":"enemy",
                  "visible":true,
-                 "width":2.90909,
-                 "x":179.242151268116,
-                 "y":124.449379830918
+                 "width":14.47159,
+                 "x":174.179651268116,
+                 "y":111.886879830918
                 }, 
                 {
-                 "height":2.54545,
+                 "height":14.23295,
                  "id":69,
                  "name":"boss2finalarmleft",
                  "rotation":0,
                  "type":"enemy",
                  "visible":true,
-                 "width":2.90909,
-                 "x":74.1461555555556,
-                 "y":124.452833333333
+                 "width":15.72159,
+                 "x":67.2086555555556,
+                 "y":112.765333333333
                 }, 
                 {
                  "height":11.5,
