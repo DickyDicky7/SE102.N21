@@ -90,26 +90,34 @@ void HasWeapons::Fire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT a
 			newState = new BulletBossStage1State();
 		}
 		else
-		if (dynamic_cast<BulletBossStage2State*>(bulletState))
+		if (dynamic_cast<BulletBossStage2StateHead*>(bulletState))
 		{
 			bullet->isEnemy = 1;
-			newState = new BulletBossStage2State();
+			newState = new BulletBossStage2StateHead();
 
-			//for (int i = 0; i < 2; i++)
-			//{
-			//	Bullet* spreadBullet = new Bullet();
-			//	spreadBullet->isEnemy = 1;
-			//	spreadBullet->SetMovingDirection(movingDirection);
-			//	spreadBullet->SetAngle(angle);
-			//	spreadBullet->SetX(x);
-			//	spreadBullet->SetY(y);
-			//	spreadBullet->SetVY(vy);
-			//	spreadBullet->SetAX(ax);
-			//	spreadBullet->SetAY(ay);
-			//	if(i == 0) spreadBullet->SetVX(vx - 1.0f); // trai
-			//	else spreadBullet->SetVX(vx + 1.0f); // phai
-			//	spreadBullet->SetState(new BulletBossStage2State()); bullets.push_back(spreadBullet);
-			//}
+			for (int i = 0; i < 2; i++)
+			{
+				Bullet* spreadBullet = new Bullet();
+				spreadBullet->isEnemy = 1;
+				spreadBullet->SetMovingDirection(movingDirection);
+				spreadBullet->SetAngle(angle);
+				spreadBullet->SetX(x);
+				spreadBullet->SetY(y);
+				spreadBullet->SetVY(vy);
+				spreadBullet->SetAX(ax);
+				spreadBullet->SetAY(ay);
+				if(i == 0) 
+				spreadBullet->SetVX(vx - 1.0f);
+				else
+				spreadBullet->SetVX(vx + 1.0f);
+				spreadBullet->SetState(new BulletBossStage2StateHead()); bullets.push_back(spreadBullet);
+			}
+		}
+		else
+		if (dynamic_cast<BulletBossStage2StateHand*>(bulletState))
+		{
+			bullet->isEnemy = 1;
+			newState = new BulletBossStage2StateHand();
 		}
 
 		bullet->SetState(newState); bullets.push_back(bullet);

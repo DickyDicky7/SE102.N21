@@ -1025,7 +1025,7 @@
     <ClCompile Include="ExplosionType3State.cpp">
       <Filter>Source Files\Objects\Explosion\ExplosionState</Filter>
     </ClCompile>
-    <ClCompile Include="BulletBossStage2State.cpp">
+    <ClCompile Include="BulletBossStage2StateHand.cpp">
       <Filter>Source Files\Objects\Bullet\BulletState</Filter>
     </ClCompile>
     <ClCompile Include="BulletBossStage1State.cpp">
@@ -1035,6 +1035,9 @@
       <Filter>Source Files\Objects\Bullet\BulletState</Filter>
     </ClCompile>
     <ClCompile Include="BulletExplodeState.cpp">
+      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    </ClCompile>
+    <ClCompile Include="BulletBossStage2StateHead.cpp">
       <Filter>Source Files\Objects\Bullet\BulletState</Filter>
     </ClCompile>
   </ItemGroup>

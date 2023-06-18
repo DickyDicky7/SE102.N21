@@ -2,7 +2,7 @@
 // O: open
 // P: close
 
-BossStage3::BossStage3() : Entity(), HasTextures(), HasSprites(), HasAnimations(), HasWeapons(new BulletBossStage2State())
+BossStage3::BossStage3() : Entity(), HasTextures(), HasSprites(), HasAnimations(), HasWeapons(new BulletBossStage2StateHead())
 {
 	this->vx = 1.0f;
 	this->vy = 1.0f;
