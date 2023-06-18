@@ -7,6 +7,7 @@
 #include "HasTextures.h"
 #include "Bill.h"
 #include "Enemy.h"
+#include "BossStage3Hand.h"
 
 class BossStage3;
 class BossStage3State;
@@ -33,6 +34,12 @@ public:
 
 	BOOL GetIsFire() { return isFire; }
 	void SetIsFire(BOOL check) { isFire = check; }
+
+	BossStage3Hand* boss3Stage3HandLeft;
+	BossStage3Hand* boss3Stage3HandRight;
+
+	void SetHandLetf(BossStage3Hand* HandLeft) { boss3Stage3HandLeft = HandLeft; }
+	void SetHandRight(BossStage3Hand* HandRight) { boss3Stage3HandRight = HandRight; }
 
 protected:
 	BossStage3State* state;

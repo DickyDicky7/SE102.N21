@@ -76,6 +76,14 @@ void Stage2::LoadEntities(void *entitiesLayer)
 	auto _entitiesLayer = (tson::Layer *)entitiesLayer;
 	auto mapH = _entitiesLayer->getMap()->getSize().y * _entitiesLayer->getMap()->getTileSize().y;
 
+	BossStage3Hand* boss3Stage3HandLeft = new BossStage3Hand();
+	BossStage3Hand* boss3Stage3HandRight = new BossStage3Hand();
+	BossStage3Gate* boss3StageGate = new BossStage3Gate();	
+	BossStage3* boss3StageHead = new BossStage3();
+
+	boss3StageHead->SetHandRight(boss3Stage3HandRight);
+	boss3StageHead->SetHandLetf(boss3Stage3HandLeft);
+
 	for (auto &object : _entitiesLayer->getObjects())
 	{
 		auto &position = object.getPosition();
@@ -192,22 +200,22 @@ void Stage2::LoadEntities(void *entitiesLayer)
 		}
 		else if (object.getName() == "boss2finalhead")
 		{
-			entity = new BossStage3();
+			entity = boss3StageHead;
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else if (object.getName() == "boss2finalgate")
 		{
-			entity = new BossStage3Gate();
+			entity = boss3StageGate;
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else if (object.getName() == "boss2finalarmleft")
 		{
-			entity = new BossStage3Hand();
+			entity = boss3Stage3HandLeft;
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else if (object.getName() == "boss2finalarmright")
 		{
-			entity = new BossStage3Hand();
+			entity = boss3Stage3HandRight;
 			entity->SetMovingDirection(DIRECTION::RIGHT);
 		}
 
