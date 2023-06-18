@@ -83,6 +83,7 @@ void Stage2::LoadEntities(void *entitiesLayer)
 
 	boss3StageHead->SetHandRight(boss3Stage3HandRight);
 	boss3StageHead->SetHandLetf(boss3Stage3HandLeft);
+	boss3StageGate->SetHead(boss3StageHead);
 
 	for (auto &object : _entitiesLayer->getObjects())
 	{

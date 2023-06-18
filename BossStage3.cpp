@@ -21,6 +21,7 @@ BossStage3::BossStage3() : Entity(), HasTextures(), HasSprites(), HasAnimations(
 	this->state = new BossStage3CloseState();
 	
 	this->hitCounts = 10;
+	isCounted = false;
 	this->enemyType = ENEMY_TYPE::BOSS;
 
 	
@@ -36,6 +37,18 @@ BossStage3::~BossStage3()
 
 void BossStage3::Update()
 {
+	if (IsHandsDead()) 
+	{
+		if (!isCounted)
+		{
+			this->hitCounts = 30; // neu hand chet roi thi moi dc ban
+			isCounted = true;
+		}
+	}
+	else 
+	{
+		this->hitCounts = 10000; // neu tay chua mat thi bat tu
+	}
 	updateState = state->Update(*this);
 }
 
@@ -139,4 +152,9 @@ void BossStage3::Fire()
 	{
 		HasWeapons::Fire(position.x, position.y, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, movingDirection);
 	}
+}
+
+BOOL BossStage3::IsHandsDead()
+{
+	return boss3Stage3HandLeft->isDead && boss3Stage3HandRight->isDead;
 }

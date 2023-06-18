@@ -7,6 +7,7 @@
 #include "HasTextures.h"
 #include "Bill.h"
 #include "Enemy.h"
+#include "BossStage3.h"
 
 class BossStage3Gate;
 class BossStage3GateState;
@@ -27,6 +28,11 @@ public:
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
+
+	BossStage3* bossStage3Head;
+
+	void SetHead(BossStage3* head) { bossStage3Head = head; }
+	BOOL IsDead();
 
 protected:
 	BossStage3GateState* state;

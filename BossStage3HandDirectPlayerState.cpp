@@ -62,7 +62,7 @@ BossStage3HandState* BossStage3HandDirectPlayerState::Update(BossStage3Hand& bos
 
             float angle = getAngle(D3DXVECTOR2(a.x, a.y), D3DXVECTOR2(b.x, b.y));
 
-            bossStage3hand.Fire(bossStage3hand.joints[4]->GetX(), bossStage3hand.joints[4]->GetY(), angle, -1.0f);
+            bossStage3hand.Fire(bossStage3hand.joints[4]->GetX(), bossStage3hand.joints[4]->GetY(), angle, -0.5f);
         }
     }
 

@@ -40,12 +40,14 @@ public:
 
 	void SetHandLetf(BossStage3Hand* HandLeft) { boss3Stage3HandLeft = HandLeft; }
 	void SetHandRight(BossStage3Hand* HandRight) { boss3Stage3HandRight = HandRight; }
+	BOOL IsHandsDead();
 
 protected:
 	BossStage3State* state;
 	BossStage3State* updateState;
 	BossStage3State* handleInputState;
 
+	BOOL isCounted;
 	BOOL isFire;
 };
 

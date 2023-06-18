@@ -100,3 +100,8 @@ void BossStage3Gate::LoadAnimations()
 
 	OutputDebugString(L"BossStage3Gate Animations Loaded Successfully\n");
 }
+
+BOOL BossStage3Gate::IsDead()
+{
+	return bossStage3Head->isDead;
+}

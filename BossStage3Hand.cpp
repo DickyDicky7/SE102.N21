@@ -21,7 +21,7 @@ BossStage3Hand::BossStage3Hand() : Entity(), HasTextures(), HasSprites(), HasAni
 
 	initPositionJoints();
 
-	this->hitCounts = 10;
+	this->hitCounts = 1;
 	this->enemyType = ENEMY_TYPE::BOSS;
 
 	this->isFire = false;

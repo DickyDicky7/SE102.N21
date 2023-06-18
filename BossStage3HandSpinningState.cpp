@@ -86,7 +86,7 @@ BossStage3HandState* BossStage3HandSpinningState::Update(BossStage3Hand& bossSta
         D3DXVECTOR3 j = bossStage3hand.joints[4]->GetPosition();
         angle = getAngle(D3DXVECTOR2(xBill, yBill), D3DXVECTOR2(j.x, j.y));
 
-        bossStage3hand.Fire(bossStage3hand.joints[4]->GetX(), bossStage3hand.joints[4]->GetY(), angle, -1.0f);
+        bossStage3hand.Fire(bossStage3hand.joints[4]->GetX(), bossStage3hand.joints[4]->GetY(), angle, -0.5f);
         frameAttack = FRAME_ATTACK;
     }
 
