@@ -95,21 +95,21 @@ void HasWeapons::Fire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT a
 			bullet->isEnemy = 1;
 			newState = new BulletBossStage2State();
 
-			for (int i = 0; i < 2; i++)
-			{
-				Bullet* spreadBullet = new Bullet();
-				spreadBullet->isEnemy = 1;
-				spreadBullet->SetMovingDirection(movingDirection);
-				spreadBullet->SetAngle(angle);
-				spreadBullet->SetX(x);
-				spreadBullet->SetY(y);
-				spreadBullet->SetVY(vy);
-				spreadBullet->SetAX(ax);
-				spreadBullet->SetAY(ay);
-				if(i == 0) spreadBullet->SetVX(vx - 1.0f); // trai
-				else spreadBullet->SetVX(vx + 1.0f); // phai
-				spreadBullet->SetState(new BulletBossStage2State()); bullets.push_back(spreadBullet);
-			}
+			//for (int i = 0; i < 2; i++)
+			//{
+			//	Bullet* spreadBullet = new Bullet();
+			//	spreadBullet->isEnemy = 1;
+			//	spreadBullet->SetMovingDirection(movingDirection);
+			//	spreadBullet->SetAngle(angle);
+			//	spreadBullet->SetX(x);
+			//	spreadBullet->SetY(y);
+			//	spreadBullet->SetVY(vy);
+			//	spreadBullet->SetAX(ax);
+			//	spreadBullet->SetAY(ay);
+			//	if(i == 0) spreadBullet->SetVX(vx - 1.0f); // trai
+			//	else spreadBullet->SetVX(vx + 1.0f); // phai
+			//	spreadBullet->SetState(new BulletBossStage2State()); bullets.push_back(spreadBullet);
+			//}
 		}
 
 		bullet->SetState(newState); bullets.push_back(bullet);

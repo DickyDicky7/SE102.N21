@@ -86,8 +86,7 @@ BossStage3HandState* BossStage3HandSpinningState::Update(BossStage3Hand& bossSta
         D3DXVECTOR3 j = bossStage3hand.joints[4]->GetPosition();
         angle = getAngle(D3DXVECTOR2(xBill, yBill), D3DXVECTOR2(j.x, j.y));
 
-        // Nhet dan vao
-        //bossStage3hand.bulletsVector.push_back(new Boss2FinalBullet(joints[4]->getPosition().x, joints[4]->getPosition().y, 1.0f, angle));
+        bossStage3hand.Fire(bossStage3hand.joints[4]->GetX(), bossStage3hand.joints[4]->GetY(), angle, -1.0f);
         frameAttack = FRAME_ATTACK;
     }
 
@@ -125,7 +124,7 @@ float BossStage3HandSpinningState::getAngle(D3DXVECTOR2 pos1, D3DXVECTOR2 pos2)
     D3DXVECTOR2 vec(pos1 - pos2);
     D3DXVec2Normalize(&vec, &vec);
 
-    float angle = acos(vec.x) * (abs(vec.y) / vec.y);
-
+    //float angle = acos(vec.x) * (abs(vec.y) / vec.y);
+    float angle = -vec.x / vec.y;
     return angle;
 }

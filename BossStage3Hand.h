@@ -18,7 +18,7 @@ class BossStage3HandAttackState; // ban dan ve nguoi choi
 class BossStage3HandDirectPlayerState; // xoay ve phia nguoi choi
 
 class BossStage3Hand : public Entity, public Enemy<Bill>
-	, public HasTextures<BossStage3Hand>, public HasSprites<BossStage3Hand>, public HasAnimations<BossStage3Hand>
+	, public HasTextures<BossStage3Hand>, public HasSprites<BossStage3Hand>, public HasAnimations<BossStage3Hand>, public HasWeapons
 {
 public:
 	BossStage3Hand();
@@ -33,6 +33,12 @@ public:
 
 	void initPositionJoints();
 
+	void  Fire() override;
+	void  Fire(FLOAT, FLOAT, FLOAT, FLOAT);
+
+	BOOL GetIsFire() { return isFire; }
+	void SetIsFire(BOOL check) { isFire = check; }
+
 	// 5 cuc xuong
 	BossStage3Joint* joints[5];
 protected:
@@ -41,6 +47,7 @@ protected:
 	BossStage3HandState* handleInputState;
 
 	BOOL isInitPositionJoints; // check init has init postion of joints
+	BOOL isFire;
 };
 
 

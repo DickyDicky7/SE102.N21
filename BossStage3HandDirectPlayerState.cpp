@@ -61,7 +61,8 @@ BossStage3HandState* BossStage3HandDirectPlayerState::Update(BossStage3Hand& bos
             D3DXVECTOR3 b = bossStage3hand.joints[4]->GetPosition();
 
             float angle = getAngle(D3DXVECTOR2(a.x, a.y), D3DXVECTOR2(b.x, b.y));
-            //pData->bulletsVector.push_back(new Boss2FinalBullet(joints[4]->getPosition().x, joints[4]->getPosition().y, 1.0f, angle));
+
+            bossStage3hand.Fire(bossStage3hand.joints[4]->GetX(), bossStage3hand.joints[4]->GetY(), angle, -1.0f);
         }
     }
 
@@ -178,8 +179,8 @@ float BossStage3HandDirectPlayerState::getAngle(D3DXVECTOR2 pos1, D3DXVECTOR2 po
     D3DXVECTOR2 vec(pos1 - pos2);
     D3DXVec2Normalize(&vec, &vec);
 
-    float angle = acos(vec.x) * (abs(vec.y) / vec.y);
-
+   // float angle = acos(vec.x) * (abs(vec.y) / vec.y);
+    float angle = - vec.x / vec.y;
     return angle;
 }
 

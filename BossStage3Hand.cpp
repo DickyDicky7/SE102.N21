@@ -1,6 +1,6 @@
 #include "BossStage3Hand.h"
 
-BossStage3Hand::BossStage3Hand() : Entity(), HasTextures(), HasSprites(), HasAnimations()
+BossStage3Hand::BossStage3Hand() : Entity(), HasTextures(), HasSprites(), HasAnimations(), HasWeapons(new BulletBossStage2State())
 {
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -23,10 +23,15 @@ BossStage3Hand::BossStage3Hand() : Entity(), HasTextures(), HasSprites(), HasAni
 
 	this->hitCounts = 10;
 	this->enemyType = ENEMY_TYPE::BOSS;
+
+	this->isFire = false;
+
+	SetFiringRate(500);
 }
 
 BossStage3Hand::~BossStage3Hand()
 {
+	isFire = NULL;
 	Destroy(state);
 	Destroy(updateState);
 	Destroy(handleInputState);
@@ -127,4 +132,14 @@ void BossStage3Hand::LoadAnimations()
 #pragma endregion Load Animations
 
 	OutputDebugString(L"BossStage3Hand Animations Loaded Successfully\n");
+}
+
+void BossStage3Hand::Fire(FLOAT x, FLOAT y, FLOAT vx, FLOAT vy)
+{
+	HasWeapons::Fire(x, y, 0.0f, vx, vy, 0.0f, 0.0f, movingDirection);
+}
+
+void BossStage3Hand::Fire()
+{
+	HasWeapons::Fire(position.x, position.y, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, movingDirection);
 }
