@@ -2,6 +2,8 @@
 #include "Item.h"
 #include "Stage.h"
 #include "Enemy.h"
+#include "Stage1.h"
+#include "Stage2.h"
 #include "Falcon.h"
 #include "Camera.h"
 #include "AirCraft.h"
@@ -31,8 +33,17 @@ void Stage::Update()
 {
 	if (bill->GetY() == +std::numeric_limits<FLOAT>::infinity())
 	{
-		bill->SetX(camera->GetL() + bill->GetW() * 2.0f);
-		bill->SetY(camera->GetT() - bill->GetH() * 1.0f);
+		if (dynamic_cast<Stage1*>(this))
+		{
+			bill->SetX(camera->GetL() + bill->GetW() * 2.0f);
+			bill->SetY(camera->GetT() - bill->GetH() * 1.0f);
+		}
+		else
+		if (dynamic_cast<Stage2*>(this))
+		{
+			bill->SetX(camera->GetL() + bill->GetW() * 2.0f);
+			bill->SetY(camera->GetY() - bill->GetH() * 1.0f);
+		}
 	}
 
 

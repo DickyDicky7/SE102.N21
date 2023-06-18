@@ -30,8 +30,11 @@ void BillNormalState::Enter(Bill& bill)
 		bill.SetAX(+0.0f);
 	}
 
-	bill.SetVY(0.0f);
-	bill.SetAY(0.0f);
+	//bill.SetVY(0.0f);
+	//bill.SetAY(0.0f);
+
+	bill.SetVY(+1.0f);
+	bill.SetAY(+1.0f);
 }
 
 void BillNormalState::Render(Bill& bill)
