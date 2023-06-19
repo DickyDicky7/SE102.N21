@@ -191,13 +191,15 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		}
 
 		auto gunBossStage1 = dynamic_cast<GunBossStage1*>(aabbSweepResult.surfaceEntity);
-		if (gunBossStage1 && gunBossStage1->isDead)
+		if  (gunBossStage1 
+		&&   gunBossStage1->isDead)
 		{
 			return;
 		}
 
 		auto finalBossStage1 = dynamic_cast<FinalBossStage1*>(aabbSweepResult.surfaceEntity);
-		if (finalBossStage1 && finalBossStage1->isDead)
+		if  (finalBossStage1 
+		&&   finalBossStage1->isDead)
 		{
 			return;
 		}
