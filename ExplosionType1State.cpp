@@ -3,12 +3,10 @@
 // state cho nguoi
 ExplosionType1State::ExplosionType1State() : ExplosionState()
 {
-	delayTime = 100.0f;
 }
 
 ExplosionType1State::~ExplosionType1State()
 {
-	delayTime = NULL;
 }
 
 
@@ -27,9 +25,14 @@ void ExplosionType1State::Render(Explosion& explosion)
 
 ExplosionState* ExplosionType1State::Update(Explosion& explosion)
 {
-	if (delayTime-- < 0) {
+	std::vector<std::tuple<SPRITE_ID, TIME>>& frames = std::get<
+		std::vector<std::tuple<SPRITE_ID, TIME>>>(GraphicsDatabase::animations[EXPLOSION_ANIMATION_ID::TYPE_1]);
+
+	if (std::cmp_greater_equal(explosion.GetCurrentFrame() + 1, frames.size()))
+	{
 		explosion.isDead = 1;
 	}
+
 	return NULL;
 }
 

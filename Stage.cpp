@@ -10,7 +10,8 @@
 #include "TerrainBlock.h"
 #include "TerrainStage1.h"
 #include "TerrainStage2.h"
-
+#include "GunBossStage1.h"
+#include "FinalBossStage1.h"
 
 Stage:: Stage() : mapFilePath(""), bill(NULL), tileW(0.0f), tileH(0.0f), camera(NULL), entities(NULL), backgroundTerrains(NULL), foregroundTerrains(NULL)
 {
@@ -58,6 +59,17 @@ void Stage::Update()
 		{
 			continue;
 		}
+
+		if (dynamic_cast<GunBossStage1*>(entity))
+		{
+			continue;
+		}
+
+		if (dynamic_cast<FinalBossStage1*>(entity))
+		{
+			continue;
+		}
+
 		if (entity && entity->isDead)
 		{
 			node->entities.remove (entity);

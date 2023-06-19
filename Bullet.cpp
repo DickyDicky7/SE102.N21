@@ -3,8 +3,10 @@
 #include "Bullet.h"
 #include "Bridge.h"
 #include "RockFly.h"
+#include "GunBossStage1.h"
+#include "FinalBossStage1.h"
 
-Bullet::Bullet(                  ) : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity()
+Bullet::Bullet() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity()
 {
 	this->isEnemy = 0;
 	this->state = NULL;
@@ -153,7 +155,7 @@ void Bullet::LoadAnimations()
 	OutputDebugString(L"Bullet Animations Loaded Successfully\n");
 }
 
-void Bullet::StaticResolveNoCollision(                               )
+void Bullet::StaticResolveNoCollision()
 {
 }
 
@@ -161,26 +163,60 @@ void Bullet::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
 }
 
-void Bullet::DynamicResolveNoCollision(                               )
+void Bullet::DynamicResolveNoCollision()
 {
 }
 
 void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
 	auto rockfly = dynamic_cast<RockFly*>(aabbSweepResult.surfaceEntity);
-	if  (rockfly)
+	if (rockfly)
 	{
 		return;
 	}
 
 	auto bridge = dynamic_cast<Bridge*>(aabbSweepResult.surfaceEntity);
-	if  (bridge)
+	if (bridge)
 	{
 		return;
 	}
 
+
+	auto gunBossStage1 = dynamic_cast<GunBossStage1*>(aabbSweepResult.surfaceEntity);
+	if (gunBossStage1)
+	{
+		if (gunBossStage1->isDead)
+		{
+			return;
+		}
+
+		isDead = 1;
+		if (--gunBossStage1->hitCounts == 0)
+		{
+			aabbSweepResult.surfaceEntity->isDead = 1;
+		}
+		return;
+	}
+
+	auto finalBossStage1 = dynamic_cast<FinalBossStage1*>(aabbSweepResult.surfaceEntity);
+	if (finalBossStage1)
+	{
+		if (finalBossStage1->isDead)
+		{
+			return;
+		}
+
+		isDead = 1;
+		if (--finalBossStage1->hitCounts == 0)
+		{
+			aabbSweepResult.surfaceEntity->isDead = 1;
+		}
+		return;
+	}
+
+
 	auto enemy = dynamic_cast<Enemy<Bill>*>(aabbSweepResult.surfaceEntity);
-	if  (enemy)
+	if (enemy)
 	{
 		isDead = 1;
 		if (--enemy->hitCounts == 0)
@@ -191,8 +227,8 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	}
 
 	auto bill = dynamic_cast<Bill*>(aabbSweepResult.surfaceEntity);
-	if  (bill 
-	&&   isEnemy)
+	if (bill
+		&& isEnemy)
 	{
 		isDead = 1;
 		return;

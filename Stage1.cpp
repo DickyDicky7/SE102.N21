@@ -12,6 +12,8 @@
 #include "Item.h"
 #include "TerrainBlock.h"
 #include "Bridge.h"
+#include "GunBossStage1.h"
+#include "FinalBossStage1.h"
 
 Stage1::Stage1() : Stage()
 {
@@ -80,9 +82,18 @@ void Stage1::LoadEntities(void *entitiesLayer)
 		}
 		else if (object.getName() == "gunboss1")
 		{
+			entity = new GunBossStage1(1);
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
+		else if (object.getName() == "gunboss2")
+		{
+			entity = new GunBossStage1(2);
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else if (object.getName() == "finalboss1")
 		{
+			entity = new FinalBossStage1();
+			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else if (object.getName() == "gunrotating1")
 		{
@@ -148,6 +159,8 @@ void Stage1::LoadEntities(void *entitiesLayer)
 	auto representativeRifleManHideOnBush = new RifleManHideOnBush();
 	auto representativeCannon = new Cannon();
 	auto representativeBridge = new Bridge();
+	auto representativeGunBoss1 = new GunBossStage1();
+	auto representativeFinalBoss1 = new FinalBossStage1();
 
 	representativeBill->LoadTextures();
 	representativeFalcon->LoadTextures();
@@ -159,6 +172,8 @@ void Stage1::LoadEntities(void *entitiesLayer)
 	representativeRifleManHideOnBush->LoadTextures();
 	representativeCannon->LoadTextures();
 	representativeBridge->LoadTextures();
+	representativeGunBoss1->LoadTextures();
+	representativeFinalBoss1->LoadTextures();
 
 	representativeBill->LoadSprites();
 	representativeFalcon->LoadSprites();
@@ -170,6 +185,8 @@ void Stage1::LoadEntities(void *entitiesLayer)
 	representativeRifleManHideOnBush->LoadSprites();
 	representativeCannon->LoadSprites();
 	representativeBridge->LoadSprites();
+	representativeGunBoss1->LoadSprites();
+	representativeFinalBoss1->LoadSprites();
 
 	representativeBill->LoadAnimations();
 	representativeFalcon->LoadAnimations();
@@ -181,6 +198,8 @@ void Stage1::LoadEntities(void *entitiesLayer)
 	representativeRifleManHideOnBush->LoadAnimations();
 	representativeCannon->LoadAnimations();
 	representativeBridge->LoadAnimations();
+	representativeGunBoss1->LoadAnimations();
+	representativeFinalBoss1->LoadAnimations();
 
 	Destroy(representativeBill);
 	Destroy(representativeFalcon);
@@ -192,6 +211,8 @@ void Stage1::LoadEntities(void *entitiesLayer)
 	Destroy(representativeRifleManHideOnBush);
 	Destroy(representativeCannon);
 	Destroy(representativeBridge);
+	Destroy(representativeGunBoss1);
+	Destroy(representativeFinalBoss1);
 
 	// explosion
 	auto representativeExplosion = new Explosion();
