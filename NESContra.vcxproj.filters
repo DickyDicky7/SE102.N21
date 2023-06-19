@@ -265,6 +265,24 @@
     <Filter Include="Source Files\Objects\Bridge\BridgePartState">
       <UniqueIdentifier>{4d2d96a8-55c5-4fb1-b4e7-0e4deb5ae8a2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Objects\Enemies\BossStage1">
+      <UniqueIdentifier>{e54172ab-458b-47c6-bb92-330df18308a3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\BossStage1\GunBossStage1">
+      <UniqueIdentifier>{d822f5b6-daf6-456e-8684-38a61df9122e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Objects\Enemies\BossStage1\FinalBossStage1">
+      <UniqueIdentifier>{3f15a3f6-093e-4fef-9af2-712967720512}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\BossStage1">
+      <UniqueIdentifier>{81626882-b77d-4604-af63-5ae8550e0f43}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\BossStage1\GunBossStage1">
+      <UniqueIdentifier>{1f8f0411-a4db-4e53-860e-7f91d141a5ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State">
+      <UniqueIdentifier>{05fa0c44-80d2-49ec-b239-c0e4e70a5682}</UniqueIdentifier>
+    </Filter>
     <Filter Include="Header Files\Objects\Explosion">
       <UniqueIdentifier>{d667820f-d301-46b9-8bee-72556b0fcfd6}</UniqueIdentifier>
     </Filter>
@@ -279,6 +297,12 @@
     </Filter>
     <Filter Include="Source Files\Objects\Item">
       <UniqueIdentifier>{5dfa3889-8501-4138-add6-54afcdda57e2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\BossStage1\FinalBossStage1">
+      <UniqueIdentifier>{a035d963-1374-48fd-9722-ef3b51765056}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1State">
+      <UniqueIdentifier>{7023be27-365d-4df9-9f39-253b97e3c6d3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -486,6 +510,9 @@
     <ClInclude Include="Bridge.h">
       <Filter>Header Files\Objects\Bridge</Filter>
     </ClInclude>
+    <ClInclude Include="BossStage1Common.h">
+      <Filter>Header Files\Objects\Enemies\BossStage1</Filter>
+    </ClInclude>
     <ClInclude Include="ExplosionCommon.h">
       <Filter>Header Files\Objects\Explosion</Filter>
     </ClInclude>
@@ -497,6 +524,15 @@
     </ClInclude>
     <ClInclude Include="Explosion.h">
       <Filter>Header Files\Objects\Explosion</Filter>
+    </ClInclude>
+    <ClInclude Include="GunBossStage1.h">
+      <Filter>Header Files\Objects\Enemies\BossStage1\GunBossStage1</Filter>
+    </ClInclude>
+    <ClInclude Include="FinalBossStage1.h">
+      <Filter>Header Files\Objects\Enemies\BossStage1\FinalBossStage1</Filter>
+    </ClInclude>
+    <ClInclude Include="BossStage1.h">
+      <Filter>Header Files\Objects\Enemies\BossStage1</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -1004,6 +1040,12 @@
     <ClCompile Include="BridgePartExplosionState.cpp">
       <Filter>Source Files\Objects\Bridge\BridgePartState</Filter>
     </ClCompile>
+    <ClCompile Include="GunBossStage1.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage1\GunBossStage1</Filter>
+    </ClCompile>
+    <ClCompile Include="GunBossStage1State.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage1\GunBossStage1</Filter>
+    </ClCompile>
     <ClCompile Include="Explosion.cpp">
       <Filter>Source Files\Objects\Explosion</Filter>
     </ClCompile>
@@ -1036,6 +1078,33 @@
     </ClCompile>
     <ClCompile Include="BulletExplodeState.cpp">
       <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    </ClCompile>
+    <ClCompile Include="ExplosionType3State.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="GunBossStage1DestroyState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State</Filter>
+    </ClCompile>
+    <ClCompile Include="GunBossStage1NormalState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State</Filter>
+    </ClCompile>
+    <ClCompile Include="FinalBossStage1.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage1\FinalBossStage1</Filter>
+    </ClCompile>
+    <ClCompile Include="BossStage1.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage1</Filter>
+    </ClCompile>
+    <ClCompile Include="FinalBossStage1State.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage1\FinalBossStage1</Filter>
+    </ClCompile>
+    <ClCompile Include="FinalBossStage1NormalState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1State</Filter>
+    </ClCompile>
+    <ClCompile Include="FinalBossStage1DestroyState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1State</Filter>
+    </ClCompile>
+    <ClCompile Include="GunBossStage1PrepareShootState.cpp">
+      <Filter>Source Files\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
