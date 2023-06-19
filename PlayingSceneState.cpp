@@ -18,7 +18,7 @@ void PlayingSceneState::Enter(Scene& scene)
 	scene.stageIsReady = true;
 	scene.SetX(BLACK_W * 0.5f); scene.SetY(0.0f); scene.SetVX(+3.0f);
 	Sound::getInstance()->stop();
-	//Sound::getInstance()->play("stage" + std::to_string(scene.currentStage), true, 1);
+	Sound::getInstance()->play("stage" + std::to_string(scene.currentStage), true, 1);
 }
 
 void PlayingSceneState::Render(Scene& scene)

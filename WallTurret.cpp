@@ -34,8 +34,10 @@ WallTurret::WallTurret() : Entity(), HasAnimations()
 
 WallTurret::~WallTurret() {}
 
-void WallTurret::Update() {
+void WallTurret::Update() 
+{
 
+	if (isDead) Sound::getInstance()->play("qexplode", false, 1);
 	CalculateBillAngle();
 
 	if (billAngle >= -105 && billAngle < -75)

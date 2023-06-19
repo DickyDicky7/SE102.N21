@@ -48,6 +48,7 @@ ITEM_TYPE Falcon::getAmmoType()
 
 void Falcon::Update()
 {
+	if (isDead) Sound::getInstance()->play("qexplode", false, 1);
 	CalculateBillDistance();
 
 	if (billDistance > DISTANCE_DETECT) 

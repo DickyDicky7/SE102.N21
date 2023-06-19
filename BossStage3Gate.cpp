@@ -28,6 +28,7 @@ BossStage3Gate::~BossStage3Gate()
 void BossStage3Gate::Update()
 {
 	if (IsDead()) this->isDead = true;
+	if (isDead) Sound::getInstance()->play("boss2finaldestroy", false, 1);
 	updateState = state->Update(*this);
 }
 

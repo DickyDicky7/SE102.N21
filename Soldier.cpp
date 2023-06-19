@@ -51,6 +51,7 @@ void Soldier::SetState(SoldierState* newState)
 
 void Soldier::Update()
 {
+	if (isDead) Sound::getInstance()->play("qexplode", false, 1);
 	updateState = state->Update(*this);
 }
 

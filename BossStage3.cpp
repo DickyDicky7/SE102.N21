@@ -52,7 +52,7 @@ void BossStage3::Update()
 	}
 	else 
 	{
-		this->hitCounts = 10000; // neu tay chua mat thi bat tu
+		this->hitCounts = 10000000; // neu tay chua mat thi bat tu
 	}
 	updateState = state->Update(*this);
 }

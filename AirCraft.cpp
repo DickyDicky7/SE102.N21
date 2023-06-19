@@ -60,6 +60,7 @@ ITEM_TYPE AirCraft::getAmmoType()
 
 void AirCraft::Update()
 {
+	if (isDead) Sound::getInstance()->play("qexplode", false, 1);
 	// Chuyen dong hinh sin
 	FLOAT x = GetX();
 	FLOAT y = GetY();

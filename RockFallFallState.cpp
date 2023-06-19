@@ -2,6 +2,7 @@
 
 RockFallFallState::RockFallFallState() : RockFallState()
 {
+	Sound::getInstance()->play("stonefailing", false, 1);
 }
 
 RockFallFallState::~RockFallFallState()

@@ -188,6 +188,7 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			return;
 		}
 		isDead = 1;
+		Sound::getInstance()->play("beShooted", false, 1);
 		if (--enemy->hitCounts == 0)
 		{
 			if (auto soldier = dynamic_cast<Soldier*>(enemy))
