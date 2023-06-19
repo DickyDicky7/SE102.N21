@@ -182,40 +182,6 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		return;
 	}
 
-
-	auto gunBossStage1 = dynamic_cast<GunBossStage1*>(aabbSweepResult.surfaceEntity);
-	if (gunBossStage1)
-	{
-		if (gunBossStage1->isDead)
-		{
-			return;
-		}
-
-		isDead = 1;
-		if (--gunBossStage1->hitCounts == 0)
-		{
-			aabbSweepResult.surfaceEntity->isDead = 1;
-		}
-		return;
-	}
-
-	auto finalBossStage1 = dynamic_cast<FinalBossStage1*>(aabbSweepResult.surfaceEntity);
-	if (finalBossStage1)
-	{
-		if (finalBossStage1->isDead)
-		{
-			return;
-		}
-
-		isDead = 1;
-		if (--finalBossStage1->hitCounts == 0)
-		{
-			aabbSweepResult.surfaceEntity->isDead = 1;
-		}
-		return;
-	}
-
-
 	auto enemy = dynamic_cast<Enemy<Bill>*>(aabbSweepResult.surfaceEntity);
 	if (enemy)
 	{
@@ -223,13 +189,26 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		{
 			return;
 		}
+
+		auto gunBossStage1 = dynamic_cast<GunBossStage1*>(aabbSweepResult.surfaceEntity);
+		if (gunBossStage1 && gunBossStage1->isDead)
+		{
+			return;
+		}
+
+		auto finalBossStage1 = dynamic_cast<FinalBossStage1*>(aabbSweepResult.surfaceEntity);
+		if (finalBossStage1 && finalBossStage1->isDead)
+		{
+			return;
+		}
+
 		isDead = 1;
 		if (--enemy->hitCounts == 0)
 		{
-			if (auto soldier = dynamic_cast<Soldier*>(enemy))
-				soldier->SetState(new SoldierDieState());
-			else
-				aabbSweepResult.surfaceEntity->isDead = 1;
+			//if (auto soldier = dynamic_cast<Soldier*>(enemy))
+			//	soldier->SetState(new SoldierDieState());
+			//else
+			aabbSweepResult.surfaceEntity->isDead = 1;
 		}
 		return;
 	}
