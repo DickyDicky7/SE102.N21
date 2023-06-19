@@ -6,7 +6,7 @@
 #include "AirCraft.h"
 #include "TerrainBlock.h"
 
-Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletSState()), livesLeft(NULL)
+Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletRState()), livesLeft(NULL)
 {
 	CollidableEntity::self = (Entity*)this;
 

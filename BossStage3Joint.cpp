@@ -2,6 +2,9 @@
 
 BossStage3Joint::BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID type, D3DXVECTOR3 positionInit, DIRECTION direction) : Entity(), HasTextures(), HasSprites()
 {
+    this->w = 15;
+    this->h = 15;
+
 	this->vx = 0;
 	this->vy = 0;
 	this->ax = 0.1f;
@@ -69,8 +72,6 @@ void BossStage3Joint::Update()
 
 void BossStage3Joint::Render()
 {
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
 	SetAnimation(type, GetPosition(), GetMovingDirection(), GetAngle());
 }
 

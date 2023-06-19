@@ -2,6 +2,9 @@
 
 BossStage3Hand::BossStage3Hand() : Entity(), HasTextures(), HasSprites(), HasAnimations(), HasWeapons(new BulletBossStage2StateHand())
 {
+	this->w = 15;
+	this->h = 15;
+
 	this->vx = 1.0f;
 	this->vy = 1.0f;
 	this->ax = 0.1f;
@@ -21,7 +24,7 @@ BossStage3Hand::BossStage3Hand() : Entity(), HasTextures(), HasSprites(), HasAni
 
 	initPositionJoints();
 
-	this->hitCounts = 1;
+	this->hitCounts = 5;
 	this->enemyType = ENEMY_TYPE::BOSS;
 
 	this->isFire = false;
