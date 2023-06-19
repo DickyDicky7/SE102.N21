@@ -21,6 +21,12 @@ void PlayingSceneState::Enter(Scene& scene)
 void PlayingSceneState::Render(Scene& scene)
 {
 	scene.stage->Render();
+	for (int i = 0; i < *scene.livesLeft; i++)
+	{
+		GraphicsHelper::DrawSprite
+		( GraphicsDatabase::sprites[SCENE_SPRITE_ID::LIFE]
+		, D3DXVECTOR3(scene.stage->GetCamera()->GetL() + AtCol(i + 2), AtRow(27.0f), 0.0f), DIRECTION::LEFT, 0.0f );
+	}
 	if (scene.GetX() <= BLACK_W * 1.5f)
 	{
 		scene.SetAnimation(SCENE_ANIMATION_ID::BLACK, scene.GetPosition(), scene.GetMovingDirection(), scene.GetAngle());

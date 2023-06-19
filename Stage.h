@@ -28,6 +28,8 @@ public:
 protected:
 
 	std::string mapFilePath;
+	FLOAT translateX;
+	FLOAT translateY;
 	Bill* bill;
 	FLOAT tileW;
 	FLOAT tileH;
@@ -40,6 +42,9 @@ protected:
 	std::unordered_map<Entity*, QuadTreeNode*> entitiesResult;
 	std::unordered_map<Entity*, QuadTreeNode*> backgroundTerrainsResult;
 	std::unordered_map<Entity*, QuadTreeNode*> foregroundTerrainsResult;
+
+	virtual void TranslateWalls () = 0;
+	virtual void TranslateCamera() = 0;
 
 	virtual void LoadEntities(void*) = 0;
 	template <class T> void LoadBackgroundTerrains(void*);

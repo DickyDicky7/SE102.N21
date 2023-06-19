@@ -44,6 +44,45 @@ Stage2::Stage2() : Stage()
 Stage2::~Stage2()
 {
 }
+
+void Stage2::TranslateWalls()
+{
+	for (auto& [name, wall] : walls)
+	{
+		if (name == "L")
+		{
+			wall->SetX(camera->GetL());
+			wall->SetY(camera->GetB());
+		}
+		else
+		if (name == "R")
+		{
+			wall->SetX(camera->GetR());
+			wall->SetY(camera->GetB());
+		}
+		else
+		if (name == "B")
+		{
+			wall->SetX(camera->GetX());
+			wall->SetY(camera->GetB() - wall->GetH());
+		}
+		else
+		if (name == "T")
+		{
+			wall->SetX(camera->GetX());
+			wall->SetY(camera->GetT() - wall->GetH());
+		}
+	}
+}
+
+void Stage2::TranslateCamera()
+{
+	if (bill && camera && bill->GetY() >= translateY && camera->GetB() < translateY)
+	{
+		camera->SetY(camera->GetY() + 1.0f);
+	}
+}
+
 /*
 == List nhan vat stage 3 ==
 	failingstone 		done
@@ -89,6 +128,8 @@ void Stage2::LoadEntities(void *entitiesLayer)
 		}
 		else if (object.getName() == "cameratranslateposition")
 		{
+			translateX = position.x + size.x * 0.5f;
+			translateY = mapH - position.y - size.y * 1.0f;
 		}
 		else if (object.getName() == "failingstone")
 		{

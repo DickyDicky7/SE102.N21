@@ -34,7 +34,41 @@ Stage1::~Stage1()
 {
 }
 
-void Stage1::LoadEntities(void* entitiesLayer)
+void Stage1::TranslateWalls()
+{
+	for (auto& [name, wall] : walls)
+	{
+		if (name == "L")
+		{
+			wall->SetX(camera->GetL());
+			wall->SetY(camera->GetB());
+		}
+		else
+		if (name == "R")
+		{
+			wall->SetX(camera->GetR());
+			wall->SetY(camera->GetB());
+		}
+		else
+		if (name == "B")
+		{
+			wall->SetX(camera->GetX());
+			wall->SetY(camera->GetB() - wall->GetH() * 0.5f);
+		}
+		else
+		if (name == "T")
+		{
+			wall->SetX(camera->GetX());
+			wall->SetY(camera->GetT() - wall->GetH() * 0.5f);
+		}
+	}
+}
+
+void Stage1::TranslateCamera()
+{
+}
+
+void Stage1::LoadEntities(void *entitiesLayer)
 {
 	auto _entitiesLayer = (tson::Layer*)entitiesLayer;
 	auto mapH = _entitiesLayer->getMap()->getSize().y * _entitiesLayer->getMap()->getTileSize().y;
@@ -140,6 +174,8 @@ void Stage1::LoadEntities(void* entitiesLayer)
 		}
 		else if (object.getName() == "cameratranslateposition")
 		{
+			translateX = position.x + size.x * 0.5f;
+			translateY = mapH - position.y - size.y * 1.0f;
 		}
 
 		if (!entity)
@@ -167,8 +203,6 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	auto representativeRifleManHideOnBush = new RifleManHideOnBush();
 	auto representativeCannon = new Cannon();
 	auto representativeBridge = new Bridge();
-	auto representativeGunBoss1 = new GunBossStage1();
-	auto representativeFinalBoss1 = new FinalBossStage1();
 
 	representativeBill->LoadTextures();
 	representativeFalcon->LoadTextures();
@@ -180,8 +214,8 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	representativeRifleManHideOnBush->LoadTextures();
 	representativeCannon->LoadTextures();
 	representativeBridge->LoadTextures();
-	representativeGunBoss1->LoadTextures();
-	representativeFinalBoss1->LoadTextures();
+	bossGun1->LoadTextures();
+	finalBoss->LoadTextures();
 
 	representativeBill->LoadSprites();
 	representativeFalcon->LoadSprites();
@@ -193,8 +227,8 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	representativeRifleManHideOnBush->LoadSprites();
 	representativeCannon->LoadSprites();
 	representativeBridge->LoadSprites();
-	representativeGunBoss1->LoadSprites();
-	representativeFinalBoss1->LoadSprites();
+	bossGun1->LoadSprites();
+	finalBoss->LoadSprites();
 
 	representativeBill->LoadAnimations();
 	representativeFalcon->LoadAnimations();
@@ -206,8 +240,8 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	representativeRifleManHideOnBush->LoadAnimations();
 	representativeCannon->LoadAnimations();
 	representativeBridge->LoadAnimations();
-	representativeGunBoss1->LoadAnimations();
-	representativeFinalBoss1->LoadAnimations();
+	bossGun1->LoadAnimations();
+	finalBoss->LoadAnimations();
 
 	Destroy(representativeBill);
 	Destroy(representativeFalcon);
@@ -219,8 +253,6 @@ void Stage1::LoadEntities(void* entitiesLayer)
 	Destroy(representativeRifleManHideOnBush);
 	Destroy(representativeCannon);
 	Destroy(representativeBridge);
-	Destroy(representativeGunBoss1);
-	Destroy(representativeFinalBoss1);
 
 	// explosion
 	auto representativeExplosion = new Explosion();

@@ -15,7 +15,7 @@ class RockFallFallState;
 
 
 class RockFall : public Entity, public Enemy<Bill>
-	, public HasTextures<RockFall>, public HasSprites<RockFall>, public HasAnimations<RockFall>
+	, public HasTextures<RockFall>, public HasSprites<RockFall>, public HasAnimations<RockFall>, public CollidableEntity
 {
 public:
 	RockFall();
@@ -36,6 +36,13 @@ public:
 	{
 		return _timedelayToFall;
 	}
+
+	std::unordered_set<Entity*> alreadyCollidedWithEntities;
+	BOOL bouncedBack = 0;
+	void  StaticResolveNoCollision() override;
+	void  StaticResolveOnCollision(AABBSweepResult) override;
+	void DynamicResolveNoCollision() override;
+	void DynamicResolveOnCollision(AABBSweepResult) override;
 protected:
 	RockFallState* state;
 	RockFallState* updateState;
@@ -60,6 +67,11 @@ public:
 
 	virtual RockFallState* Update(RockFall&) override = 0;
 	virtual RockFallState* HandleInput(RockFall&, Input&) override = 0;
+
+protected:
+
+	FLOAT time;
+
 };
 
 
