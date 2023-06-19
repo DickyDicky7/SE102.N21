@@ -73,8 +73,6 @@ public:
 
 	virtual ExplosionState* Update(Explosion&) override;
 	virtual ExplosionState* HandleInput(Explosion&, Input&) override;
-protected:
-	FLOAT delayTime;
 };
 
 
@@ -92,8 +90,6 @@ public:
 
 	virtual ExplosionState* Update(Explosion&) override;
 	virtual ExplosionState* HandleInput(Explosion&, Input&) override;
-protected:
-	FLOAT delayTime;
 };
 
 class ExplosionType3State : public ExplosionState
@@ -110,6 +106,4 @@ public:
 
 	virtual ExplosionState* Update(Explosion&) override;
 	virtual ExplosionState* HandleInput(Explosion&, Input&) override;
-protected:
-	FLOAT delayTime;
 };

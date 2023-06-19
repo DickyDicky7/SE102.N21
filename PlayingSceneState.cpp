@@ -28,7 +28,8 @@ void PlayingSceneState::Render(Scene& scene)
 	{
 		GraphicsHelper::DrawSprite
 		( GraphicsDatabase::sprites[SCENE_SPRITE_ID::LIFE]
-		, D3DXVECTOR3(scene.stage->GetCamera()->GetL() + AtCol(i + 2), AtRow(27.0f), 0.0f), DIRECTION::LEFT, 0.0f );
+		, D3DXVECTOR3( scene.stage->GetCamera()->GetL() + AtCol(i + 2)
+		             , scene.stage->GetCamera()->GetB() + AtRow(27.0f), 0.0f), DIRECTION::LEFT, 0.0f );
 	}
 	if (scene.GetX() <= BLACK_W * 1.5f)
 	{

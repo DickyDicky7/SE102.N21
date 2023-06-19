@@ -4,6 +4,8 @@
 #include "Bridge.h"
 #include "Soldier.h"
 #include "RockFly.h"
+#include "GunBossStage1.h"
+#include "FinalBossStage1.h"
 
 Bullet::Bullet(                  ) : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity()
 {
@@ -187,20 +189,35 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		{
 			return;
 		}
+
+		auto gunBossStage1 = dynamic_cast<GunBossStage1*>(aabbSweepResult.surfaceEntity);
+		if  (gunBossStage1 
+		&&   gunBossStage1->isDead)
+		{
+			return;
+		}
+
+		auto finalBossStage1 = dynamic_cast<FinalBossStage1*>(aabbSweepResult.surfaceEntity);
+		if  (finalBossStage1 
+		&&   finalBossStage1->isDead)
+		{
+			return;
+		}
+
 		isDead = 1;
 		Sound::getInstance()->play("beShooted", false, 1);
 		if (--enemy->hitCounts == 0)
 		{
-			if (auto soldier = dynamic_cast<Soldier*>(enemy))
-				soldier->SetState(new SoldierDieState());
-			else
-				aabbSweepResult.surfaceEntity->isDead = 1;
+			//if (auto soldier = dynamic_cast<Soldier*>(enemy))
+			//	soldier->SetState(new SoldierDieState());
+			//else
+			aabbSweepResult.surfaceEntity->isDead = 1;
 		}
 		return;
 	}
 
 	auto bill = dynamic_cast<Bill*>(aabbSweepResult.surfaceEntity);
-	if  (bill 
+	if  (bill
 	&&   isEnemy)
 	{
 		isDead = 1;

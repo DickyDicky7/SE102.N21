@@ -78,7 +78,7 @@ void Explosion::LoadSprites()
 
 	InsertSpriteExplosion(EXPLOSION_SPRITE_ID::TYPE_1_01, 0, 0, 25, 32);
 	InsertSpriteExplosion(EXPLOSION_SPRITE_ID::TYPE_1_02, 164, 0, 189, 32);
-	InsertSpriteExplosion(EXPLOSION_SPRITE_ID::TYPE_1_03,26, 0, 55, 32);
+	InsertSpriteExplosion(EXPLOSION_SPRITE_ID::TYPE_1_03, 26, 0, 55, 32);
 	InsertSpriteExplosion(EXPLOSION_SPRITE_ID::TYPE_1_04, 190, 0, 219, 32);
 	InsertSpriteExplosion(EXPLOSION_SPRITE_ID::TYPE_1_05, 56, 0, 89, 32);
 	InsertSpriteExplosion(EXPLOSION_SPRITE_ID::TYPE_1_06, 220, 0, 253, 32);
@@ -113,7 +113,7 @@ void Explosion::LoadAnimations()
 
 #pragma region Load Animations
 
-	GraphicsHelper::InsertAnimation(EXPLOSION_ANIMATION_ID::TYPE_1, 150,
+	GraphicsHelper::InsertAnimation(EXPLOSION_ANIMATION_ID::TYPE_1, 100,
 		{
 			{EXPLOSION_SPRITE_ID::TYPE_1_01,0},
 			{EXPLOSION_SPRITE_ID::TYPE_1_02,0},
@@ -122,7 +122,7 @@ void Explosion::LoadAnimations()
 			{EXPLOSION_SPRITE_ID::TYPE_1_05,0},
 			{EXPLOSION_SPRITE_ID::TYPE_1_06,0},
 		});
-	GraphicsHelper::InsertAnimation(EXPLOSION_ANIMATION_ID::TYPE_2, 150,
+	GraphicsHelper::InsertAnimation(EXPLOSION_ANIMATION_ID::TYPE_2, 100,
 		{
 			{EXPLOSION_SPRITE_ID::TYPE_2_01,0},
 			{EXPLOSION_SPRITE_ID::TYPE_2_02,0},
@@ -131,7 +131,7 @@ void Explosion::LoadAnimations()
 			{EXPLOSION_SPRITE_ID::TYPE_2_05,0},
 			{EXPLOSION_SPRITE_ID::TYPE_2_06,0},
 		});
-	GraphicsHelper::InsertAnimation(EXPLOSION_ANIMATION_ID::TYPE_3, 150,
+	GraphicsHelper::InsertAnimation(EXPLOSION_ANIMATION_ID::TYPE_3, 100,
 		{
 			{EXPLOSION_SPRITE_ID::TYPE_2_01,0},
 			{EXPLOSION_SPRITE_ID::TYPE_2_03,0},

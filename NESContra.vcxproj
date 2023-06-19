@@ -23,6 +23,8 @@
     <ClInclude Include="AirCraftCommon.h" />
     <ClInclude Include="Bill.h" />
     <ClInclude Include="BillCommon.h" />
+    <ClInclude Include="BossStage1.h" />
+    <ClInclude Include="BossStage1Common.h" />
     <ClInclude Include="BossStage3.h" />
     <ClInclude Include="BossStage3Gate.h" />
     <ClInclude Include="BossStage3GateCommon.h" />
@@ -45,6 +47,7 @@
     <ClInclude Include="ExplosionCommon.h" />
     <ClInclude Include="Falcon.h" />
     <ClInclude Include="FalconCommon.h" />
+    <ClInclude Include="FinalBossStage1.h" />
     <ClInclude Include="Fire.h" />
     <ClInclude Include="FireCommon.h" />
     <ClInclude Include="Item.h" />
@@ -53,6 +56,7 @@
     <ClInclude Include="LetterCommon.h" />
     <ClInclude Include="GraphicsDatabase.h" />
     <ClInclude Include="GraphicsHelper.h" />
+    <ClInclude Include="GunBossStage1.h" />
     <ClInclude Include="HasAnimations.h" />
     <ClInclude Include="CollidableEntity.h" />
     <ClInclude Include="HasWeapons.h" />
@@ -96,6 +100,7 @@
   <ItemGroup>
     <ClCompile Include="AirCraft.cpp" />
     <ClCompile Include="BillSwimRunShotState.cpp" />
+    <ClCompile Include="BossStage1.cpp" />
     <ClCompile Include="BossStage3Gate.cpp" />
     <ClCompile Include="BossStage3GateCloseState.cpp" />
     <ClCompile Include="BossStage3GateState.cpp" />
@@ -142,11 +147,19 @@
     <ClCompile Include="FalconOpeningState.cpp" />
     <ClCompile Include="FalconOpenState.cpp" />
     <ClCompile Include="FalconState.cpp" />
+    <ClCompile Include="FinalBossStage1DestroyState.cpp" />
+    <ClCompile Include="FinalBossStage1NormalState.cpp" />
+    <ClCompile Include="FinalBossStage1State.cpp" />
     <ClCompile Include="Fire.cpp" />
     <ClCompile Include="GameOverSceneState.cpp" />
+    <ClCompile Include="GunBossStage1DestroyState.cpp" />
+    <ClCompile Include="GunBossStage1NormalState.cpp" />
+    <ClCompile Include="GunBossStage1PrepareShootState.cpp" />
     <ClCompile Include="Item.cpp" />
     <ClCompile Include="ItemState.cpp" />
     <ClCompile Include="Letter.cpp" />
+    <ClCompile Include="GunBossStage1.cpp" />
+    <ClCompile Include="GunBossStage1State.cpp" />
     <ClCompile Include="HasWeapons.cpp" />
     <ClCompile Include="LoadingSceneState.cpp" />
     <ClCompile Include="Motion.cpp" />
@@ -228,6 +241,7 @@
     <ClCompile Include="SoldierState.cpp" />
     <ClCompile Include="RifleManHideOnBushStandingState.cpp" />
     <ClCompile Include="Sound.cpp" />
+    <ClCompile Include="FinalBossStage1.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Stage1.cpp" />
     <ClCompile Include="PlayingSceneState.cpp" />
