@@ -157,15 +157,15 @@
          "name":"ObjectLayer",
          "objects":[
                 {
-                 "height":15,
+                 "height":2,
                  "id":45,
                  "name":"cameratranslateposition",
                  "rotation":0,
                  "type":"\"\"",
                  "visible":true,
-                 "width":257,
+                 "width":256,
                  "x":0,
-                 "y":46.1603333333333
+                 "y":248.94
                 }, 
                 {
                  "height":14,

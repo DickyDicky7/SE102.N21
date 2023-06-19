@@ -215,5 +215,17 @@ public:
 	virtual SceneState* Update(Scene&) override;
 	virtual SceneState* HandleInput(Scene&, Input&) override;
 
+protected:
+
+	Text T_CREDIT_1 { "CONGRATULATIONS!"              , AtRow(16.0f), AtCol(1.0f) };
+	Text T_CREDIT_2 { "YOU'VE DESTROYED THE VILE RED" , AtRow(14.0f), AtCol(1.0f) };
+	Text T_CREDIT_3 { "FALCON AND SAVED THE UNIVERSE.", AtRow(12.0f), AtCol(1.0f) };
+	Text T_CREDIT_4 { "CONSIDER YOURSELF A HERO."     , AtRow(10.0f), AtCol(1.0f) };
+
+	Text T_CREDIT_5{ "TEAM MEMBERS"                , AtRow(16.0f), AtCol(2.0f) };
+	Text T_CREDIT_6{ "21522345 - PHAN VAN MINH"    , AtRow(14.0f), AtCol(2.0f) };
+	Text T_CREDIT_7{ "21520147 - PHAM TUAN ANH"    , AtRow(12.0f), AtCol(2.0f) };
+	Text T_CREDIT_8{ "21521307 - NGUYEN DUC PHUONG", AtRow(10.0f), AtCol(2.0f) };
+
 };
 

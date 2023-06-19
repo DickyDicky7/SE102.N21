@@ -32,6 +32,40 @@ Stage1::~Stage1()
 {
 }
 
+void Stage1::TranslateWalls()
+{
+	for (auto& [name, wall] : walls)
+	{
+		if (name == "L")
+		{
+			wall->SetX(camera->GetL());
+			wall->SetY(camera->GetB());
+		}
+		else
+		if (name == "R")
+		{
+			wall->SetX(camera->GetR());
+			wall->SetY(camera->GetB());
+		}
+		else
+		if (name == "B")
+		{
+			wall->SetX(camera->GetX());
+			wall->SetY(camera->GetB() - wall->GetH() * 0.5f);
+		}
+		else
+		if (name == "T")
+		{
+			wall->SetX(camera->GetX());
+			wall->SetY(camera->GetT() - wall->GetH() * 0.5f);
+		}
+	}
+}
+
+void Stage1::TranslateCamera()
+{
+}
+
 void Stage1::LoadEntities(void *entitiesLayer)
 {
 	auto _entitiesLayer = (tson::Layer *)entitiesLayer;
@@ -121,6 +155,8 @@ void Stage1::LoadEntities(void *entitiesLayer)
 		}
 		else if (object.getName() == "cameratranslateposition")
 		{
+			translateX = position.x + size.x * 0.5f;
+			translateY = mapH - position.y - size.y * 1.0f;
 		}
 
 		if (!entity)

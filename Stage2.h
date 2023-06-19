@@ -12,6 +12,9 @@ public:
 
 protected:
 
+	virtual void TranslateWalls () override;
+	virtual void TranslateCamera() override;
+
 	virtual void LoadEntities(void*) override;
 
 };
