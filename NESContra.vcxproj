@@ -78,6 +78,7 @@
     <ClInclude Include="ScubaSoldierCommon.h" />
     <ClInclude Include="Soldier.h" />
     <ClInclude Include="SoldierCommon.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Stage1.h" />
     <ClInclude Include="Stage2.h" />
@@ -226,6 +227,7 @@
     <ClCompile Include="SoldierShootState.cpp" />
     <ClCompile Include="SoldierState.cpp" />
     <ClCompile Include="RifleManHideOnBushStandingState.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Stage1.cpp" />
     <ClCompile Include="PlayingSceneState.cpp" />

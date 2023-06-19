@@ -2,7 +2,7 @@
 
 BulletBossStage2StateHead::BulletBossStage2StateHead() : BulletState()
 {
-
+	Sound::getInstance()->play("boss2bulletsound.wav", false, 1);
 }
 
 BulletBossStage2StateHead::~BulletBossStage2StateHead()

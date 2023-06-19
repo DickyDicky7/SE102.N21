@@ -9,7 +9,7 @@
 #include "HasTextures.h"
 #include "HasAnimations.h"
 #include "CollidableEntity.h"
-
+#include "Sound.h"
 
 class Bullet;
 class BulletState;

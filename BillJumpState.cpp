@@ -11,6 +11,7 @@ BillJumpState::~BillJumpState()
 
 void BillJumpState::Exit(Bill& bill)
 {
+	Sound::getInstance()->play("landing", false, 1);
 }
 
 void BillJumpState::Enter(Bill& bill)
@@ -68,6 +69,7 @@ BillState* BillJumpState::Update(Bill& bill)
 	if (bill.GetVY() <= 0.0f && bill.GetY() <= 0.0f)
 	{
 		bill.SetY(0.0f);
+		Sound::getInstance()->play("landing", false, 1);
 		return new BillNormalState();
 	}
 

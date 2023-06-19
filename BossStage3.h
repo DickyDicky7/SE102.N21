@@ -8,6 +8,7 @@
 #include "Bill.h"
 #include "Enemy.h"
 #include "BossStage3Hand.h"
+#include "Sound.h"
 
 class BossStage3;
 class BossStage3State;

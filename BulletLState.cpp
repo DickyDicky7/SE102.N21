@@ -15,6 +15,8 @@ void BulletLState::Exit(Bullet& bullet)
 
 void BulletLState::Enter(Bullet& bullet)
 {
+	Sound::getInstance()->play("shootL", false, 1);
+
 	if (bullet.GetVX() != 0.0f && bullet.GetVY() != 0.0f)
 	{
 		bullet.SetY(bullet.GetY() + 3.0f);

@@ -2,6 +2,7 @@
 
 BillBeginSwimState::BillBeginSwimState() : BillState()
 {
+	Sound::getInstance()->play("landing", false, 1);
 	delayTime = 50;
 }
 

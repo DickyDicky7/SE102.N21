@@ -280,17 +280,17 @@
     <Filter Include="Source Files\Objects\Item">
       <UniqueIdentifier>{5dfa3889-8501-4138-add6-54afcdda57e2}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Abstractions\Device Abstractions">
+      <UniqueIdentifier>{94719220-cd18-4b1a-9628-f86768bd5576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Abstractions\Device Abstractions">
+      <UniqueIdentifier>{1f50034e-0340-43ab-99ff-a34293a005ac}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Abstractions\Space Abstractions">
+      <UniqueIdentifier>{6bff94f3-16db-4561-943c-6ad187c735c6}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="GraphicsHelper.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GraphicsDatabase.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Soldier.h">
       <Filter>Header Files\Objects\Enemies\Soldier</Filter>
     </ClInclude>
@@ -327,9 +327,6 @@
     <ClInclude Include="TestingEntityCommon.h">
       <Filter>Header Files\Objects\TestingEntity</Filter>
     </ClInclude>
-    <ClInclude Include="Common.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="BillCommon.h">
       <Filter>Header Files\Objects\Bill</Filter>
     </ClInclude>
@@ -357,9 +354,6 @@
     <ClInclude Include="CameraCommon.h">
       <Filter>Header Files\Objects\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Motion.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CollidableEntity.h">
       <Filter>Header Files\Abstractions\Object Abstractions</Filter>
     </ClInclude>
@@ -381,9 +375,6 @@
     <ClInclude Include="BulletCommon.h">
       <Filter>Header Files\Objects\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="HasWeapons.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="TerrainStage1.h">
       <Filter>Header Files\Objects\Terrains\TerrainStage1</Filter>
     </ClInclude>
@@ -395,9 +386,6 @@
     </ClInclude>
     <ClInclude Include="TerrainBlock.h">
       <Filter>Header Files\Objects\Terrains\TerrainBlock</Filter>
-    </ClInclude>
-    <ClInclude Include="QuadTreeNode.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TerrainStage2.h">
       <Filter>Header Files\Objects\Terrains\TerrainStage2</Filter>
@@ -498,18 +486,33 @@
     <ClInclude Include="Explosion.h">
       <Filter>Header Files\Objects\Explosion</Filter>
     </ClInclude>
+    <ClInclude Include="QuadTreeNode.h">
+      <Filter>Header Files\Abstractions\Space Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="Motion.h">
+      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="Common.h">
+      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsDatabase.h">
+      <Filter>Header Files\Abstractions\Graphics Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="HasWeapons.h">
+      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="GraphicsHelper.h">
+      <Filter>Header Files\Abstractions\Graphics Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="Input.h">
+      <Filter>Header Files\Abstractions\Device Abstractions</Filter>
+    </ClInclude>
+    <ClInclude Include="Sound.h">
+      <Filter>Header Files\Abstractions\Device Abstractions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsHelper.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsDatabase.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="BillState.cpp">
@@ -806,9 +809,6 @@
     <ClCompile Include="RifleManStanding.cpp">
       <Filter>Source Files\Objects\Enemies\RifleMan\Standing</Filter>
     </ClCompile>
-    <ClCompile Include="Motion.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CollidableEntity.cpp">
       <Filter>Source Files\Abstractions\Object Abstractions</Filter>
     </ClCompile>
@@ -836,9 +836,6 @@
     <ClCompile Include="BulletRState.cpp">
       <Filter>Source Files\Objects\Bullet\BulletState</Filter>
     </ClCompile>
-    <ClCompile Include="HasWeapons.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="BillSwimRunShotState.cpp">
       <Filter>Source Files\Objects\Bill\BillState</Filter>
     </ClCompile>
@@ -850,9 +847,6 @@
     </ClCompile>
     <ClCompile Include="TerrainBlock.cpp">
       <Filter>Source Files\Objects\Terrains\TerrainBlock</Filter>
-    </ClCompile>
-    <ClCompile Include="QuadTreeNode.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="TerrainStage2.cpp">
       <Filter>Source Files\Objects\Terrains\TerrainStage2</Filter>
@@ -1039,6 +1033,27 @@
     </ClCompile>
     <ClCompile Include="BulletBossStage2StateHead.cpp">
       <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsDatabase.cpp">
+      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="GraphicsHelper.cpp">
+      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="HasWeapons.cpp">
+      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="Input.cpp">
+      <Filter>Source Files\Abstractions\Device Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="Sound.cpp">
+      <Filter>Source Files\Abstractions\Device Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="QuadTreeNode.cpp">
+      <Filter>Source Files\Abstractions\Space Abstractions</Filter>
+    </ClCompile>
+    <ClCompile Include="Motion.cpp">
+      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

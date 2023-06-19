@@ -27,6 +27,7 @@ BossStage3Gate::~BossStage3Gate()
 
 void BossStage3Gate::Update()
 {
+	if (IsDead()) this->isDead = true;
 	updateState = state->Update(*this);
 }
 

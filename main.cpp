@@ -5,6 +5,7 @@
 #include "Camera.h"
 #include "Motion.h"
 #include "Common.h"
+#include "Sound.h"
 
 Scene* scene; Input* input; Camera* camera;
 LPDIRECT3D9 d3d; LPDIRECT3DDEVICE9 d3ddev; LPD3DXSPRITE spriteHandler;
@@ -32,6 +33,8 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	LoadD3D(hWnd);
 
+	Sound::create(hWnd);
+
 	scene = new Scene();
 
 	input = new Input
@@ -41,44 +44,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	camera = new Camera(new CameraStaticState());
 
-
-
-
-	////
-	//FLOAT x = 050.0f;
-	//FLOAT y = 100.0f;
-	//FLOAT vx = 5.0f;
-	//FLOAT vy = 5.0f;
-
-
-	//FLOAT y0 = y;
-	//FLOAT t = 0.0f;
-	//FLOAT dt = 0.05f;
-	//FLOAT T = 2.5f;
-	//FLOAT A = 50.0f;
-	//FLOAT φ = 0.0f;
-	//Motion::OscillatoryMotionInputParameters pio{ y0, t, dt, T, A, φ };
-
-
-	//FLOAT v0 = 10.0f;
-	//FLOAT θ = 80.0f;
-	//dt = 0.05f;
-	//Motion::ProjectileMotionInputParameters pip{ x, y, v0, θ, t, dt };
-
-
-	//FLOAT r = 50.0f;
-	//FLOAT ω = 0.0f;
-	//FLOAT dω = 5.0f;
-	//FLOAT xO = 100.0f;
-	//FLOAT yO = 100.0f;
-	//FLOAT angle = 0.0f;
-	//FLOAT dAngle = 10.0f;
-	//Motion::UniformCircularMotionInputParameters pic{ r, ω, dω, xO, yO };
-	//
-
-
-
-
+	
 	MSG msg;
 	while (TRUE)
 	{
@@ -130,46 +96,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 		scene->Render();
 
-
-
-
-		//
-		//auto poo = Motion::CalculateOscillatoryMotion(pio);
-		//pio.t = poo.t;
-		//GraphicsHelper::DrawSprite
-		//(GraphicsDatabase::sprites[BILL_SPRITE_ID::NORMAL_01], D3DXVECTOR3(x, poo.c, 0.0f), DIRECTION::RIGHT, 45.0f);
-		//x += vx;
-		//if (x >= 500.0f || x <= 0.0f) vx = -vx;
-
-
-		//if (pip.y < 0.0f)
-		//{
-		//	pip.y = 0.0f;
-		//	pip.t = 0.0f;
-		//	if (pip.x >= 500.0f) pip.θ += 20.0f;
-		//	if (pip.x <= 0.0f) pip.θ -= 20.0f;
-		//}
-		//else
-		//{
-		//	auto pop = Motion::CalculateProjectileMotion(pip);
-		//	pip.x = pop.x;
-		//	pip.y = pop.y;
-		//	pip.t = pop.t;
-		//}
-		//GraphicsHelper::DrawSprite
-		//(GraphicsDatabase::sprites[BILL_SPRITE_ID::NORMAL_01], D3DXVECTOR3(pip.x, pip.y, 0.0f), DIRECTION::RIGHT, -45.0f);
-
-
-		//auto poc = Motion::CalculateUniformCircularMotion(pic);
-		//pic.ω = poc.ω;
-		//GraphicsHelper::DrawSprite
-		//(GraphicsDatabase::sprites[BILL_SPRITE_ID::NORMAL_01], D3DXVECTOR3(poc.x, poc.y, 0.0f), DIRECTION::RIGHT, angle);
-		//angle += dAngle;
-		//
-
-
-
-
 		spriteHandler->End();
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
@@ -182,6 +108,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		//OutputDebugString(mes);
 	}
 
+	Sound::getInstance()->cleanUp();
 	CleanD3D();
 	Destroy(input);
 	Destroy(scene);

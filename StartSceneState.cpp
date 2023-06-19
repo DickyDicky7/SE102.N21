@@ -16,6 +16,12 @@ void StartSceneState::Enter(Scene& scene)
 {
 	scene.stageIsReady = false;
 	scene.SetX(START_SCENE_W * 1.5f); scene.SetY(0.0f); scene.SetVX(-0.5f);
+
+	Sound::getInstance()->loadSound("Resources\\Sounds\\cursor.wav", "cursor");
+	Sound::getInstance()->loadSound("Resources\\Sounds\\select.wav", "select");
+	Sound::getInstance()->loadSound("Resources\\Sounds\\exbullet.wav", "exbullet");
+	Sound::getInstance()->loadSound("Resources\\Sounds\\startingscene.wav", "startingscene");
+	Sound::getInstance()->play("startingscene", false, 1);
 }
 
 void StartSceneState::Render(Scene& scene)
@@ -58,6 +64,8 @@ SceneState* StartSceneState::HandleInput(Scene& scene, Input& input)
 {
 	if (scene.GetX() <= START_SCENE_W * 0.5f && (input.IsKey(DIK_RETURN) || input.IsKey(DIK_NUMPADENTER)) && !chosen)
 	{
+		Sound::getInstance()->stop();
+		Sound::getInstance()->play("exbullet", false, 1);
 		chosen = true;
 	}
 	return NULL;

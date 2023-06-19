@@ -2,6 +2,7 @@
 
 BillDeadState::BillDeadState() : BillState(), revivalCooldown(DEFAULT_REVIVAL_COOLDOWN)
 {
+	Sound::getInstance()->play("playerdie", false, 1);
 }
 
 BillDeadState::~BillDeadState()

@@ -546,30 +546,36 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			{
 
 			case ITEM_TYPE::B:
-
+				 Sound::getInstance()->play("weaponB", false, 1);
 			break;
 
 			case ITEM_TYPE::F:
+				 Sound::getInstance()->play("weaponF", false, 1);
 				 SetBulletState(new BulletFState);
 			break;
 
 			case ITEM_TYPE::L:
+				 Sound::getInstance()->play("weaponL", false, 1);
 				 SetBulletState(new BulletLState);
 			break;
 
 			case ITEM_TYPE::M:
+				 Sound::getInstance()->play("weaponM", false, 1);
 				 SetBulletState(new BulletMState);
 			break;
 
 			case ITEM_TYPE::R:
+				 Sound::getInstance()->play("weaponR", false, 1);
 				 SetBulletState(new BulletRState);
 			break;
 
 			case ITEM_TYPE::S:
+				 Sound::getInstance()->play("weaponS", false, 1);
 				 SetBulletState(new BulletSState);
 			break;
 
 			case ITEM_TYPE::I:
+				Sound::getInstance()->play("weaponD", false, 1);
 			break;
 
 			}

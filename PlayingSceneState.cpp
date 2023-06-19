@@ -10,12 +10,15 @@ PlayingSceneState::~PlayingSceneState()
 
 void PlayingSceneState::Exit(Scene& scene)
 {
+	Sound::getInstance()->stop();
 }
 
 void PlayingSceneState::Enter(Scene& scene)
 {
 	scene.stageIsReady = true;
 	scene.SetX(BLACK_W * 0.5f); scene.SetY(0.0f); scene.SetVX(+3.0f);
+	Sound::getInstance()->stop();
+	//Sound::getInstance()->play("stage" + std::to_string(scene.currentStage), true, 1);
 }
 
 void PlayingSceneState::Render(Scene& scene)
@@ -33,7 +36,9 @@ SceneState* PlayingSceneState::Update(Scene& scene)
 	if (*scene.livesLeft <= -1)
 	{
 		if (++turn == 300)
+		{
 			return new GameOverSceneState();
+		}
 	}
 	if (scene.GetX() <= BLACK_W * 1.5f)
 	{
@@ -45,7 +50,10 @@ SceneState* PlayingSceneState::Update(Scene& scene)
 
 SceneState* PlayingSceneState::HandleInput(Scene& scene, Input& input)
 {
-	if (input.IsKey(DIK_ESCAPE)) return new LoadingSceneState();
+	if (input.IsKey(DIK_ESCAPE))
+	{
+		return new LoadingSceneState();
+	}
 	scene.stage->HandleInput(input);
 	return NULL;
 }

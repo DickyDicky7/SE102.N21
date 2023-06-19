@@ -54,6 +54,11 @@ void BossStage3Hand::initPositionJoints()
 
 void BossStage3Hand::Update()
 {
+	if (this->isDead)
+	{
+		Sound::getInstance()->play("boss2finalhanddisappear.wav", false, 1);
+	}
+
 	if (!isInitPositionJoints) 
 	{
 		initPositionJoints();

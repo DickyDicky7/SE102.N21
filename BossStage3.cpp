@@ -37,7 +37,12 @@ BossStage3::~BossStage3()
 
 void BossStage3::Update()
 {
-	if (IsHandsDead()) 
+	if (isDead)
+	{
+		Sound::getInstance()->play("boss2finaldestroy.wav", false, 1);
+	}
+
+	if (IsHandsDead())
 	{
 		if (!isCounted)
 		{
