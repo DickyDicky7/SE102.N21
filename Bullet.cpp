@@ -7,7 +7,7 @@
 #include "GunBossStage1.h"
 #include "FinalBossStage1.h"
 
-Bullet::Bullet() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity()
+Bullet::Bullet(                  ) : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity()
 {
 	this->isEnemy = 0;
 	this->state = NULL;
@@ -156,7 +156,7 @@ void Bullet::LoadAnimations()
 	OutputDebugString(L"Bullet Animations Loaded Successfully\n");
 }
 
-void Bullet::StaticResolveNoCollision()
+void Bullet::StaticResolveNoCollision(                               )
 {
 }
 
@@ -164,26 +164,26 @@ void Bullet::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
 }
 
-void Bullet::DynamicResolveNoCollision()
+void Bullet::DynamicResolveNoCollision(                               )
 {
 }
 
 void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
 	auto rockfly = dynamic_cast<RockFly*>(aabbSweepResult.surfaceEntity);
-	if (rockfly)
+	if  (rockfly)
 	{
 		return;
 	}
 
 	auto bridge = dynamic_cast<Bridge*>(aabbSweepResult.surfaceEntity);
-	if (bridge)
+	if  (bridge)
 	{
 		return;
 	}
 
 	auto enemy = dynamic_cast<Enemy<Bill>*>(aabbSweepResult.surfaceEntity);
-	if (enemy)
+	if  (enemy)
 	{
 		if (isEnemy)
 		{
@@ -214,8 +214,8 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	}
 
 	auto bill = dynamic_cast<Bill*>(aabbSweepResult.surfaceEntity);
-	if (bill
-		&& isEnemy)
+	if  (bill
+	&&   isEnemy)
 	{
 		isDead = 1;
 		return;
