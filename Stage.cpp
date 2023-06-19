@@ -4,6 +4,7 @@
 #include "Enemy.h"
 #include "Falcon.h"
 #include "Camera.h"
+#include "Soldier.h"
 #include "AirCraft.h"
 #include "Explosion.h"
 #include "tileson.hpp"
@@ -249,6 +250,13 @@ void Stage::CheckResolveClearCollision()
 				if (entity1 != entity2)
 				{
 					collidableEntity->CollideWith(entity2);
+				}
+			}
+			if (dynamic_cast<Soldier*>(collidableEntity))
+			{
+				for (auto& [name, wall] : walls)
+				{
+					collidableEntity->CollideWith(wall);
 				}
 			}
 		}
