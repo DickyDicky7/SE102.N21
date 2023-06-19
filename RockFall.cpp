@@ -1,4 +1,5 @@
 #include "RockFall.h"
+#include "TerrainBlock.h"
 
 RockFall::RockFall() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
@@ -21,6 +22,8 @@ RockFall::RockFall() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 
 	this->hitCounts = 10;
 	this->enemyType = ENEMY_TYPE::MACHINE;
+
+	CollidableEntity::self = this;
 }
 
 RockFall::~RockFall()
@@ -116,4 +119,66 @@ void RockFall::LoadAnimations()
 #pragma endregion Load Animations
 
 	OutputDebugString(L"RockFall Animations Loaded Successfully\n");
+}
+
+void RockFall::StaticResolveNoCollision()
+{
+}
+
+void RockFall::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
+{
+}
+
+void RockFall::DynamicResolveNoCollision()
+{
+}
+
+void RockFall::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
+{
+	auto    terrainBlock  = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
+	if     (terrainBlock)
+	switch (terrainBlock->type)
+	{
+
+	case TERRAIN_BLOCK_TYPE::THROUGHABLE:
+	{
+		if (aabbSweepResult.normalY == +1.0f)
+		{
+			if (alreadyCollidedWithEntities.find(terrainBlock) == alreadyCollidedWithEntities.end())
+			{
+				position.y += aabbSweepResult.enTime * vy;
+				vy = +1.5f;
+				ay = -0.1f;
+				bouncedBack = 1;
+				alreadyCollidedWithEntities.insert(terrainBlock);
+			}
+		}
+		else
+		{
+		}
+		return;
+	}
+	break;
+
+	case TERRAIN_BLOCK_TYPE::NON_THROUGHABLE:
+	{
+		if (aabbSweepResult.normalY == +1.0f)
+		{
+			if (alreadyCollidedWithEntities.find(terrainBlock) == alreadyCollidedWithEntities.end())
+			{
+				position.y += aabbSweepResult.enTime * vy;
+				vy = +1.5f;
+				ay = -0.1f;
+				bouncedBack = 1;
+				alreadyCollidedWithEntities.insert(terrainBlock);
+			}
+		}
+		else
+		{
+		}
+		return;
+	}
+	break;
+
+	}
 }
