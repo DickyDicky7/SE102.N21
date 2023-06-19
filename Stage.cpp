@@ -13,7 +13,7 @@
 #include "TerrainStage2.h"
 
 
-Stage:: Stage() : mapFilePath(""), bill(NULL), tileW(0.0f), tileH(0.0f), camera(NULL), entities(NULL), backgroundTerrains(NULL), foregroundTerrains(NULL)
+Stage:: Stage() : mapFilePath(""), translateX(0.0f), translateY(0.0f), bill(NULL), tileW(0.0f), tileH(0.0f), camera(NULL), entities(NULL), backgroundTerrains(NULL), foregroundTerrains(NULL)
 {
 }
 
@@ -170,32 +170,8 @@ void Stage::Update()
 	}
 
 
-	for (auto& [name, wall] : walls)
-	{
-		if (name == "L")
-		{
-			wall->SetX(camera->GetL());
-			wall->SetY(camera->GetB());
-		}
-		else
-		if (name == "R")
-		{
-			wall->SetX(camera->GetR());
-			wall->SetY(camera->GetB());
-		}
-		else
-		if (name == "B")
-		{
-			wall->SetX(camera->GetX());
-			wall->SetY(camera->GetB() - wall->GetH() * 0.5f);
-		}
-		else
-		if (name == "T")
-		{
-			wall->SetX(camera->GetX());
-			wall->SetY(camera->GetT() - wall->GetH() * 0.5f);
-		}
-	}
+	TranslateCamera();
+	TranslateWalls ();
 }
 
 
