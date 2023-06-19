@@ -24,7 +24,7 @@ Stage1::Stage1() : Stage()
 	wallB->type = TERRAIN_BLOCK_TYPE::WALL;
 	wallL->SetW(10.0f);
 	wallL->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
-	wallB->SetW(SCREEN_WIDTH  / SCALING_RATIO_X);
+	wallB->SetW(SCREEN_WIDTH / SCALING_RATIO_X);
 	wallB->SetH(10.0f);
 	walls.insert({ "L", wallL });
 	walls.insert({ "B", wallB });
@@ -34,16 +34,24 @@ Stage1::~Stage1()
 {
 }
 
-void Stage1::LoadEntities(void *entitiesLayer)
+void Stage1::LoadEntities(void* entitiesLayer)
 {
-	auto _entitiesLayer = (tson::Layer *)entitiesLayer;
+	auto _entitiesLayer = (tson::Layer*)entitiesLayer;
 	auto mapH = _entitiesLayer->getMap()->getSize().y * _entitiesLayer->getMap()->getTileSize().y;
 
-	for (auto &object : _entitiesLayer->getObjects())
+	GunBossStage1* bossGun1 = new GunBossStage1(1);
+	GunBossStage1* bossGun2 = new GunBossStage1(2);
+
+	FinalBossStage1* finalBoss = new FinalBossStage1();
+
+	finalBoss->SetGun1(bossGun1);
+	finalBoss->SetGun2(bossGun2);
+
+	for (auto& object : _entitiesLayer->getObjects())
 	{
-		auto &position = object.getPosition();
-		auto &size = object.getSize();
-		Entity *entity = NULL;
+		auto& position = object.getPosition();
+		auto& size = object.getSize();
+		Entity* entity = NULL;
 
 		if (object.getName() == "bridge")
 		{
@@ -82,17 +90,17 @@ void Stage1::LoadEntities(void *entitiesLayer)
 		}
 		else if (object.getName() == "gunboss1")
 		{
-			entity = new GunBossStage1(1);
+			entity = bossGun1;
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else if (object.getName() == "gunboss2")
 		{
-			entity = new GunBossStage1(2);
+			entity = bossGun2;
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else if (object.getName() == "finalboss1")
 		{
-			entity = new FinalBossStage1();
+			entity = finalBoss;
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else if (object.getName() == "gunrotating1")

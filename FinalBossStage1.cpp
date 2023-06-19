@@ -16,7 +16,7 @@ FinalBossStage1::FinalBossStage1()
 	this->name = L"Final Boss Stage 1\n";
 
 	//
-	this->hitCounts = 24;
+	this->hitCounts = 0;
 	this->enemyType = ENEMY_TYPE::BOSS;
 }
 
@@ -27,6 +27,11 @@ FinalBossStage1::~FinalBossStage1()
 
 void FinalBossStage1::Update()
 {
+	if (gun1->isDead && gun2->isDead)
+	{
+		hitCounts = 24;
+	}
+
 	if (!state)
 	{
 		state = new FinalBossStage1NormalState();
@@ -47,6 +52,16 @@ void FinalBossStage1::Render()
 		updateState = NULL;
 	}
 };
+
+void FinalBossStage1::SetGun1(GunBossStage1* _gun1)
+{
+	gun1 = _gun1;
+}
+
+void FinalBossStage1::SetGun2(GunBossStage1* _gun2)
+{
+	gun2 = _gun2;
+}
 
 void FinalBossStage1::HandleInput(Input&)
 {

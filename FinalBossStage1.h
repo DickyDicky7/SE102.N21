@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "BossStage1.h"
 #include "ExplosionCommon.h"
+#include "GunBossStage1.h"
 
 class FinalBossStage1;
 class FinalBossStage1State;
@@ -30,9 +31,15 @@ public:
 	void LoadSprites() override;
 	void LoadAnimations() override;
 
+	void SetGun1(GunBossStage1*);
+	void SetGun2(GunBossStage1*);
+
 protected:
 	FinalBossStage1State* state;
 	FinalBossStage1State* updateState;
+
+	GunBossStage1* gun1;
+	GunBossStage1* gun2;
 };
 
 class FinalBossStage1State : public State<FinalBossStage1State, FinalBossStage1>
