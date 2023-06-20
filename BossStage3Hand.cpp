@@ -24,7 +24,7 @@ BossStage3Hand::BossStage3Hand() : Entity(), HasTextures(), HasSprites(), HasAni
 
 	initPositionJoints();
 
-	this->hitCounts = 5;
+	this->hitCounts = 30;
 	this->enemyType = ENEMY_TYPE::BOSS;
 
 	this->isFire = false;
@@ -50,9 +50,9 @@ void BossStage3Hand::initPositionJoints()
 {
 	for (size_t i = 0; i < 4; i++)
 	{
-		joints[i] = new BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID::ARM, position, movingDirection);
+		joints[i] = new BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID::ARM, position, movingDirection, this);
 	}
-	joints[4] = new BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID::HAND, position, movingDirection);
+	joints[4] = new BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID::HAND, position, movingDirection, this);
 }
 
 void BossStage3Hand::Update()

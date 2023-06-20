@@ -1,6 +1,6 @@
 #include "BossStage3Joint.h"
 
-BossStage3Joint::BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID type, D3DXVECTOR3 positionInit, DIRECTION direction) : Entity(), HasTextures(), HasSprites()
+BossStage3Joint::BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID type, D3DXVECTOR3 positionInit, DIRECTION direction, BossStage3Hand* parent) : Entity(), HasTextures(), HasSprites()
 {
     this->w = 15;
     this->h = 15;
@@ -34,7 +34,8 @@ BossStage3Joint::BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID type, D3DXVECTOR
 
 	jointFollow = nullptr;
 
-    this->hitCounts = 10;
+    this->parent = parent;
+    this->hitCounts = std::numeric_limits<INT>::infinity();
     this->enemyType = ENEMY_TYPE::BOSS;
 }
 
@@ -73,6 +74,8 @@ void BossStage3Joint::Update()
 void BossStage3Joint::Render()
 {
 	SetAnimation(type, GetPosition(), GetMovingDirection(), GetAngle());
+    this->w = this->currentFrameW;
+    this->h = this->currentFrameH;
 }
 
 void BossStage3Joint::HandleInput(Input& input)

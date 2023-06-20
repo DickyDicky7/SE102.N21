@@ -30,12 +30,12 @@ Stage2::Stage2() : Stage()
 	wallL->type = TERRAIN_BLOCK_TYPE::WALL;
 	wallR->type = TERRAIN_BLOCK_TYPE::WALL;
 	wallB->type = TERRAIN_BLOCK_TYPE::WALL;
-	wallL->SetW(10.0f);
+	wallL->SetW(20.0f);
 	wallL->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
-	wallR->SetW(10.0f);
+	wallR->SetW(20.0f);
 	wallR->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
 	wallB->SetW(SCREEN_WIDTH  / SCALING_RATIO_X);
-	wallB->SetH(10.0f);
+	wallB->SetH(20.0f);
 	walls.insert({ "L", wallL });
 	walls.insert({ "R", wallR });
 	walls.insert({ "B", wallB });

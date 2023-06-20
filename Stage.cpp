@@ -10,10 +10,12 @@
 #include "AirCraft.h"
 #include "Explosion.h"
 #include "tileson.hpp"
+#include "BossStage3.h"
 #include "TerrainBlock.h"
 #include "TerrainStage1.h"
 #include "TerrainStage2.h"
 #include "GunBossStage1.h"
+#include "BossStage3Hand.h"
 #include "FinalBossStage1.h"
 
 Stage:: Stage() : mapFilePath(""), translateX(0.0f), translateY(0.0f), bill(NULL), tileW(0.0f), tileH(0.0f), camera(NULL), entities(NULL), backgroundTerrains(NULL), foregroundTerrains(NULL)
@@ -126,6 +128,41 @@ void Stage::Update()
 				explosion->SetX(deadEntity->GetX());
 				explosion->SetY(deadEntity->GetY());
 				effectEntities.push_back(explosion);
+
+				if (auto bossStage3Head = dynamic_cast<BossStage3    *>(deadEntity))
+				{
+					FLOAT X = bossStage3Head->GetL() + bossStage3Head->GetW() * 0.25f;
+					FLOAT Y = bossStage3Head->GetT() - bossStage3Head->GetH() * 0.25f;
+					for (int i = -2; i <= 4; i++)
+					{
+						Explosion* subExplosion = new Explosion(new ExplosionType3State());
+						subExplosion->SetX(X + i * bossStage3Head->GetW() * 0.25f);
+						subExplosion->SetY(Y                                     );
+						effectEntities.push_back(subExplosion);
+						if (i >= 0 
+						&&  i <= 2)
+						{
+							for (int k = +1; k <= 10; k++)
+							{
+								Explosion* subSubExplosion = new Explosion(new ExplosionType3State());
+								subSubExplosion->SetX(X + i * bossStage3Head->GetW() * 0.25f);
+								subSubExplosion->SetY(Y - k * bossStage3Head->GetH() * 0.25f);
+								effectEntities.push_back(subSubExplosion);
+							}
+						}
+					}
+				}
+				else 
+				if (auto bossStage3Hand = dynamic_cast<BossStage3Hand*>(deadEntity))
+				{
+					for (auto& bossStage3Joint : bossStage3Hand->joints)
+					{
+						Explosion* subExplosion = new Explosion(new ExplosionType3State());
+						subExplosion->SetX(bossStage3Joint->GetX());
+						subExplosion->SetY(bossStage3Joint->GetY());
+						effectEntities.push_back(subExplosion);
+					}
+				}
 			}
 		}
 		else
@@ -248,7 +285,17 @@ void Stage::CheckResolveClearCollision()
 			{
 				if (entity1 != entity2)
 				{
-					collidableEntity->CollideWith(entity2);
+					if (auto bossStage3Hand = dynamic_cast<BossStage3Hand*>(entity2))
+					{
+						collidableEntity->CollideWith(bossStage3Hand);
+						for (auto& bossStage3Joint :  bossStage3Hand->joints)
+							if    (bossStage3Joint)
+								   collidableEntity->CollideWith(bossStage3Joint);
+					}
+					else
+					{
+						collidableEntity->CollideWith(entity2);
+					}
 				}
 			}
 			if (dynamic_cast<Soldier*>(collidableEntity))

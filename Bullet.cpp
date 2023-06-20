@@ -5,7 +5,9 @@
 #include "Soldier.h"
 #include "RockFly.h"
 #include "GunBossStage1.h"
+#include "BossStage3Hand.h"
 #include "FinalBossStage1.h"
+#include "BossStage3Joint.h"
 
 Bullet::Bullet(                  ) : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity()
 {
@@ -206,7 +208,15 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 		isDead = 1;
 		Sound::getInstance()->play("beShooted", false, 1);
-		if (--enemy->hitCounts == 0)
+		auto bossStage3Joint = dynamic_cast<BossStage3Joint*>(aabbSweepResult.surfaceEntity);
+		if  (bossStage3Joint)
+		{
+			if (  bossStage3Joint->parent 
+			&&  --bossStage3Joint->parent->hitCounts == 0)
+				  bossStage3Joint->parent->isDead     = 1;
+		}
+		else
+		if  (--enemy->hitCounts == 0)
 		{
 			//if (auto soldier = dynamic_cast<Soldier*>(enemy))
 			//	soldier->SetState(new SoldierDieState());

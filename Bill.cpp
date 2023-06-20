@@ -4,7 +4,11 @@
 #include "Falcon.h"
 #include "RockFly.h"
 #include "AirCraft.h"
+#include "BossStage3.h"
 #include "TerrainBlock.h"
+#include "BossStage3Gate.h"
+#include "BossStage3Hand.h"
+#include "BossStage3Joint.h"
 
 Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletRState()), livesLeft(NULL)
 {
@@ -447,7 +451,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			}
 			else
 			{
-				vy = +0.0f;
+				vy = +1.0f;
 			}
 		}
 		return;
@@ -535,6 +539,11 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		{
 			surfaceEntity = NULL;
 			isAbSurface = 0;
+			return;
+		}
+
+		if (dynamic_cast<BillBeginState*>(state))
+		{
 			return;
 		}
 
@@ -634,6 +643,30 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 		auto aircraft = dynamic_cast<AirCraft*>(aabbSweepResult.surfaceEntity);
 		if  (aircraft)
+		{
+			return;
+		}
+
+		auto bossStage3Head = dynamic_cast<BossStage3*>(aabbSweepResult.surfaceEntity);
+		if  (bossStage3Head)
+		{
+			return;
+		}
+
+		auto bossStage3Gate = dynamic_cast<BossStage3Gate*>(aabbSweepResult.surfaceEntity);
+		if  (bossStage3Gate)
+		{
+			return;
+		}
+
+		auto bossStage3Hand = dynamic_cast<BossStage3Hand*>(aabbSweepResult.surfaceEntity);
+		if  (bossStage3Hand)
+		{
+			return;
+		}
+
+		auto bossStage3Joint = dynamic_cast<BossStage3Joint*>(aabbSweepResult.surfaceEntity);
+		if  (bossStage3Joint)
 		{
 			return;
 		}

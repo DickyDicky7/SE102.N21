@@ -20,7 +20,7 @@ BossStage3::BossStage3() : Entity(), HasTextures(), HasSprites(), HasAnimations(
 	this->isFire = false;
 	this->state = new BossStage3CloseState();
 	
-	this->hitCounts = 10;
+	this->hitCounts = 30;
 	isCounted = false;
 	this->enemyType = ENEMY_TYPE::BOSS;
 
@@ -52,7 +52,7 @@ void BossStage3::Update()
 	}
 	else 
 	{
-		this->hitCounts = 10000000; // neu tay chua mat thi bat tu
+		this->hitCounts = std::numeric_limits<INT>::infinity(); // neu tay chua mat thi bat tu
 	}
 	updateState = state->Update(*this);
 }

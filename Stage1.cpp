@@ -22,10 +22,10 @@ Stage1::Stage1() : Stage()
 	TerrainBlock* wallB = new TerrainBlock();
 	wallL->type = TERRAIN_BLOCK_TYPE::WALL;
 	wallB->type = TERRAIN_BLOCK_TYPE::WALL;
-	wallL->SetW(10.0f);
+	wallL->SetW(20.0f);
 	wallL->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
-	wallB->SetW(SCREEN_WIDTH / SCALING_RATIO_X);
-	wallB->SetH(10.0f);
+	wallB->SetW(SCREEN_WIDTH  / SCALING_RATIO_X);
+	wallB->SetH(20.0f);
 	walls.insert({ "L", wallL });
 	walls.insert({ "B", wallB });
 }
