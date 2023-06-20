@@ -147,6 +147,7 @@ void RockFall::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		{
 			if (alreadyCollidedWithEntities.find(terrainBlock) == alreadyCollidedWithEntities.end())
 			{
+				Sound::getInstance()->play("stonefailing", false, 1);
 				position.y += aabbSweepResult.enTime * vy;
 				vy = +1.5f;
 				ay = -0.1f;
