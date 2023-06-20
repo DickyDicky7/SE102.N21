@@ -6,8 +6,10 @@
 #include "AirCraft.h"
 #include "BossStage3.h"
 #include "TerrainBlock.h"
+#include "GunBossStage1.h"
 #include "BossStage3Gate.h"
 #include "BossStage3Hand.h"
+#include "FinalBossStage1.h"
 #include "BossStage3Joint.h"
 
 Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletRState()), livesLeft(NULL)
@@ -584,7 +586,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			break;
 
 			case ITEM_TYPE::I:
-				Sound::getInstance()->play("weaponD", false, 1);
+				 Sound::getInstance()->play("weaponD", false, 1);
 			break;
 
 			}
@@ -644,6 +646,20 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		auto aircraft = dynamic_cast<AirCraft*>(aabbSweepResult.surfaceEntity);
 		if  (aircraft)
 		{
+			return;
+		}
+
+		auto gunBossStage1 = dynamic_cast<GunBossStage1*>(aabbSweepResult.surfaceEntity);
+		if  (gunBossStage1)
+		{
+			position.x += aabbSweepResult.enTime * vx;
+			return;
+		}
+
+		auto finalBossStage1 = dynamic_cast<FinalBossStage1*>(aabbSweepResult.surfaceEntity);
+		if  (finalBossStage1)
+		{
+			position.x += aabbSweepResult.enTime * vx;
 			return;
 		}
 

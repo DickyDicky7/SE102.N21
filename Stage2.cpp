@@ -78,9 +78,15 @@ void Stage2::TranslateWalls()
 
 void Stage2::TranslateCamera()
 {
-	if (bill && camera && bill->GetY() >= translateY && camera->GetB() < translateY)
+	if (bill && camera && bill->GetY() >= translateY && camera->GetB() <  translateY)
 	{
 		camera->SetY(camera->GetY() + 1.0f);
+	}
+	else
+	if (bill && camera && bill->GetY() >= translateY && camera->GetB() >= translateY)
+	{
+		if (!camera->isStatic)
+			 camera->ToStatic();
 	}
 }
 

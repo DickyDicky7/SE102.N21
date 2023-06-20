@@ -19,14 +19,19 @@ Stage1::Stage1() : Stage()
 {
 	mapFilePath = "Resources/Maps/stage1.json";
 	TerrainBlock* wallL = new TerrainBlock();
+	TerrainBlock* wallR = new TerrainBlock();
 	TerrainBlock* wallB = new TerrainBlock();
 	wallL->type = TERRAIN_BLOCK_TYPE::WALL;
+	wallR->type = TERRAIN_BLOCK_TYPE::WALL;
 	wallB->type = TERRAIN_BLOCK_TYPE::WALL;
 	wallL->SetW(20.0f);
 	wallL->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
+	wallR->SetW(20.0f);
+	wallR->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
 	wallB->SetW(SCREEN_WIDTH  / SCALING_RATIO_X);
 	wallB->SetH(20.0f);
 	walls.insert({ "L", wallL });
+	walls.insert({ "R", wallR });
 	walls.insert({ "B", wallB });
 }
 
@@ -66,6 +71,16 @@ void Stage1::TranslateWalls()
 
 void Stage1::TranslateCamera()
 {
+	if (bill && camera && bill->GetX() >= translateX && camera->GetL() <  translateX)
+	{
+		camera->SetX(camera->GetX() + 1.0f);
+	}
+	else
+	if (bill && camera && bill->GetX() >= translateX && camera->GetL() >= translateX)
+	{
+		if (!camera->isStatic)
+			 camera->ToStatic();
+	}
 }
 
 void Stage1::SetRevivalPoint()
@@ -79,7 +94,7 @@ void Stage1::SetRevivalPoint()
 			sortedForegroundTerrainsResult.begin(), sortedForegroundTerrainsResult.end(),
 			[](std::pair<Entity*, QuadTreeNode*> pair1, std::pair<Entity*, QuadTreeNode*> pair2) -> BOOL
 			{
-				return pair1.first->GetR() < pair2.first->GetR();
+				return pair1.first->GetL() < pair2.first->GetL();
 			}
 		);
 
