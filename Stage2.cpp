@@ -64,7 +64,8 @@ void Stage2::TranslateWalls()
 		if (name == "B")
 		{
 			wall->SetX(camera->GetX());
-			wall->SetY(camera->GetB() - wall->GetH());
+			if (camera->GetY() < SCREEN_HEIGHT / SCALING_RATIO_Y) wall->SetY(camera->GetB() - wall->GetH() * 0.5f);
+			                                                 else wall->SetY(camera->GetB() - wall->GetH()       );
 		}
 		else
 		if (name == "T")
@@ -80,6 +81,39 @@ void Stage2::TranslateCamera()
 	if (bill && camera && bill->GetY() >= translateY && camera->GetB() < translateY)
 	{
 		camera->SetY(camera->GetY() + 1.0f);
+	}
+}
+
+void Stage2::SetRevivalPoint()
+{
+	if (bill->GetY() == +std::numeric_limits<FLOAT>::infinity())
+	{
+		std::vector<std::pair<Entity*, QuadTreeNode*>> 
+			 sortedForegroundTerrainsResult(foregroundTerrainsResult.begin(), foregroundTerrainsResult.end());
+		std::sort
+		(
+			sortedForegroundTerrainsResult.begin(), sortedForegroundTerrainsResult.end(),
+			[](std::pair<Entity*, QuadTreeNode*> pair1, std::pair<Entity*, QuadTreeNode*> pair2) -> BOOL
+			{
+				return pair1.first->GetL() < pair2.first->GetL();
+			}
+		);
+
+		BOOL hasForegroundTerrain = 0;
+		FLOAT W = bill->GetW() * 1.75f;
+		FLOAT H = bill->GetH() * 2.00f;
+		for (auto& [foregroundTerrain, node] : sortedForegroundTerrainsResult)
+		{
+			if (camera->GetY() - foregroundTerrain->GetT() > H)
+			{
+				bill->SetX(foregroundTerrain->GetL() + W);
+				hasForegroundTerrain = 1;
+				break;
+			}
+		}
+		if (!hasForegroundTerrain)
+			 bill->SetX(camera->GetL() + W);
+			 bill->SetY(camera->GetY() - H);
 	}
 }
 

@@ -68,6 +68,40 @@ void Stage1::TranslateCamera()
 {
 }
 
+void Stage1::SetRevivalPoint()
+{
+	if (bill->GetY() == +std::numeric_limits<FLOAT>::infinity())
+	{
+		std::vector<std::pair<Entity*, QuadTreeNode*>> 
+			 sortedForegroundTerrainsResult(foregroundTerrainsResult.begin(), foregroundTerrainsResult.end());
+		std::sort
+		(
+			sortedForegroundTerrainsResult.begin(), sortedForegroundTerrainsResult.end(),
+			[](std::pair<Entity*, QuadTreeNode*> pair1, std::pair<Entity*, QuadTreeNode*> pair2) -> BOOL
+			{
+				return pair1.first->GetR() < pair2.first->GetR();
+			}
+		);
+
+		BOOL hasForegroundTerrain = 0;
+		FLOAT W = bill->GetW() * 2.0f;
+		FLOAT H = bill->GetH() * 1.0f;
+		for (auto& [foregroundTerrain, node] : sortedForegroundTerrainsResult)
+		{
+			if (foregroundTerrain->GetR() - camera->GetL() > W)
+			{
+				hasForegroundTerrain = 1;
+				if (camera->GetL() >= foregroundTerrain->GetL()) bill->SetX(           camera->GetL() + W);
+				                                            else bill->SetX(foregroundTerrain->GetL() + W);
+				break;
+			}
+		}
+		if (!hasForegroundTerrain)
+			 bill->SetX(camera->GetL() + W);
+		     bill->SetY(camera->GetT() - H);
+	}
+}
+
 void Stage1::LoadEntities(void *entitiesLayer)
 {
 	auto _entitiesLayer = (tson::Layer*)entitiesLayer;

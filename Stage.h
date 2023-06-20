@@ -45,6 +45,7 @@ protected:
 
 	virtual void TranslateWalls () = 0;
 	virtual void TranslateCamera() = 0;
+	virtual void SetRevivalPoint() = 0;
 
 	virtual void LoadEntities(void*) = 0;
 	template <class T> void LoadBackgroundTerrains(void*);

@@ -35,20 +35,23 @@ Stage::~Stage()
 
 void Stage::Update()
 {
-	if (bill->GetY() == +std::numeric_limits<FLOAT>::infinity())
-	{
-		if (dynamic_cast<Stage1*>(this))
-		{
-			bill->SetX(camera->GetL() + bill->GetW() * 2.0f);
-			bill->SetY(camera->GetT() - bill->GetH() * 1.0f);
-		}
-		else
-		if (dynamic_cast<Stage2*>(this))
-		{
-			bill->SetX(camera->GetL() + bill->GetW() * 2.0f);
-			bill->SetY(camera->GetY() - bill->GetH() * 1.0f);
-		}
-	}
+	//if (bill->GetY() == +std::numeric_limits<FLOAT>::infinity())
+	//{
+	//	if (dynamic_cast<Stage1*>(this))
+	//	{
+	//		bill->SetX(camera->GetL() + bill->GetW() * 2.0f);
+	//		bill->SetY(camera->GetT() - bill->GetH() * 1.0f);
+	//	}
+	//	else
+	//	if (dynamic_cast<Stage2*>(this))
+	//	{
+	//		bill->SetX(camera->GetL() + bill->GetW() * 2.0f);
+	//		bill->SetY(camera->GetY() - bill->GetH() * 1.0f);
+	//	}
+	//}
+
+
+	SetRevivalPoint();
 
 
 	auto& bullets = HasWeapons::GetBullets();
