@@ -219,7 +219,7 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	if  (bill
 	&&   isEnemy)
 	{
-		isDead = 1;
-		return;
+		 bill->GoDead(); isDead = 1; 
+		 return;
 	}
 }
