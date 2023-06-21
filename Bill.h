@@ -43,6 +43,8 @@ class Bill : public Entity, public HasTextures<Bill>, public HasSprites<Bill>, p
 public:
 
 	INT* livesLeft;
+	ULONGLONG immortalTime;
+	ULONGLONG immortalTick;
 
 	Bill();
 	virtual ~Bill();
