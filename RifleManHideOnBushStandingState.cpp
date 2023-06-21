@@ -33,10 +33,19 @@ void RifleManHideOnBushStandingState::Render(RifleManHideOnBush& rifleManHideOnB
 
 RifleManHideOnBushState* RifleManHideOnBushStandingState::Update(RifleManHideOnBush& rifleManHideOnBush)
 {
-
 	if (GetTickCount64() - this->time == 1500.0f)
 	{
-		OutputDebugString(L"\nShoot\n");
+		OutputDebugString(L"shoot\n");
+
+		FLOAT w = rifleManHideOnBush.GetW();
+		FLOAT h = rifleManHideOnBush.GetH();
+
+		FLOAT x = rifleManHideOnBush.GetX() + (rifleManHideOnBush.GetMovingDirection() == DIRECTION::LEFT ? w * -0.5f : w * 0.5f);
+		FLOAT y = rifleManHideOnBush.GetY() + 11.0f;
+
+		FLOAT vx = rifleManHideOnBush.GetMovingDirection() == DIRECTION::LEFT ? -1.0f : 1.0f;
+
+		rifleManHideOnBush.Fire(x, y, 0.0f, vx, 0.0f, 0.0f, 0.0f, rifleManHideOnBush.GetMovingDirection());
 	}
 
 	if (GetTickCount64() - this->time > 3000.0f)

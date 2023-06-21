@@ -40,7 +40,8 @@ void WallTurret::Update() {
 		state = new WallTurretNormalState();
 	}
 
-	updateState = state->Update(*this);
+	//if (!Enemy::target->isDead)
+	//	updateState = state->Update(*this);
 }
 
 void WallTurret::Render() {
@@ -407,9 +408,17 @@ void AutoInscreaseSpriteIdLoadAnimations(std::vector<WALL_TURRET_SPRITE_ID> spri
 
 void WallTurret::Fire()
 {
+	if (Enemy::target->isDead)
+	{
+		return;
+	}
 }
 
 void WallTurret::Fire(FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION direction)
 {
+	if (Enemy::target->isDead)
+	{
+		return;
+	}
 	HasWeapons::Fire(this->position.x, this->position.y + this->h / 2, angle, vx, vy, ax, ay, direction);
 }

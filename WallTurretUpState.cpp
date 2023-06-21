@@ -21,7 +21,7 @@ WallTurretState* WallTurretUpState::Update(WallTurret& wallTurret)
 
 	FLOAT billAngle = wallTurret.CalculateBillAngle();
 
-	if (billAngle >= 165 && billAngle < -165)
+	if (billAngle >= 165 && billAngle > -165)
 	{
 		if (--shootDelay == 0)
 		{

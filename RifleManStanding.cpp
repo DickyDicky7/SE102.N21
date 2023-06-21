@@ -32,6 +32,9 @@ const Bill* RifleManStanding::GetEnemyTarget()
 
 void RifleManStanding::Update()
 {
+	if (Enemy::target->isDead)
+		return;
+
 	const float _shootingAngle = this->CalculateShootingAngle();
 
 	float dx = (this->GetPosition().x) - (Enemy::target->GetPosition().x);
@@ -146,10 +149,18 @@ void RifleManStanding::LoadAnimations()
 
 void RifleManStanding::Fire()
 {
-
+	if (Enemy::target->isDead)
+	{
+		return;
+	}
 }
 
 void RifleManStanding::Fire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION movingDirection)
 {
+	if(Enemy::target->isDead)
+	{
+		return;
+	}
+
 	HasWeapons::Fire(x, y, angle, vx, vy, ax, ay, movingDirection);
 }

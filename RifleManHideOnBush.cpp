@@ -1,7 +1,7 @@
 #pragma once
 #include "RifleManHideOnBush.h"
 
-RifleManHideOnBush::RifleManHideOnBush() : Entity(), HasAnimations()
+RifleManHideOnBush::RifleManHideOnBush() : Entity(), HasAnimations(), HasWeapons(new BulletEnemyState())
 {
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -103,4 +103,22 @@ void RifleManHideOnBush::LoadAnimations()
 		{
 			{RIFLE_MAN_SPRITE_ID::APPEAR_02, 0},
 		});
+}
+
+void RifleManHideOnBush::Fire()
+{
+	if (Enemy::target->isDead)
+	{
+		return;
+	}
+}
+
+void RifleManHideOnBush::Fire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION movingDirection)
+{
+	if (Enemy::target->isDead)
+	{
+		return;
+	}
+
+	HasWeapons::Fire(x, y, angle, vx, vy, ax, ay, movingDirection);
 }

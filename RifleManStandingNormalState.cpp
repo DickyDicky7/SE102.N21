@@ -22,18 +22,23 @@ void RifleManStandingNormalState::Enter(RifleManStanding& rifleManStanding)
 		shootDelay = SHOOT_DELAY;
 		D3DXVECTOR3 position = rifleManStanding.GetPosition();
 
+		float dy = -((rifleManStanding.GetPosition().y) - (rifleManStanding.GetEnemyTarget()->GetPosition().y));
+		float vy = dy / std::abs(dy);
+
 		FLOAT w = rifleManStanding.GetW();
 		FLOAT h = rifleManStanding.GetH();
 
 		DIRECTION movingDirection = rifleManStanding.GetMovingDirection();
 
+		FLOAT shootingAngle = D3DXToRadian(std::abs(rifleManStanding.CalculateShootingAngle()));
+
 		if (movingDirection == DIRECTION::LEFT)
 		{
-			rifleManStanding.Fire(position.x - w * 0.5f, position.y + h * 0.5f, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+			rifleManStanding.Fire(position.x - w * 0.5f, position.y + h * 0.7f, 0.0f, -1.0f, vy * std::tan(D3DX_PI / 2 - shootingAngle), 0.0f, 0.0f, movingDirection);
 			return;
 		}
 
-		rifleManStanding.Fire(position.x + w * 0.5f, position.y + h * 0.5f, 0.0f, 1.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+		rifleManStanding.Fire(position.x + w * 0.5f, position.y + h * 0.7f, 0.0f, 1.0f, vy * std::tan(D3DX_PI / 2 - shootingAngle), 0.0f, 0.0f, movingDirection);
 	}
 	return;
 }
