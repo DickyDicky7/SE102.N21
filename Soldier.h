@@ -22,7 +22,6 @@ public:
 
 	Soldier();
 	virtual ~Soldier();
-	void SetState(SoldierState*);
 	void Update() override;
 	void Render() override;
 	void HandleInput(Input&) override;
