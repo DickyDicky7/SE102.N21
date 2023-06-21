@@ -12,6 +12,30 @@ void WallTurretLeft120State::Render(WallTurret& wallTurret) {
 
 void WallTurretLeft120State::Enter(WallTurret& wallTurret) {}
 
-WallTurretState* WallTurretLeft120State::Update(WallTurret& wallTurret) {
+WallTurretState* WallTurretLeft120State::Update(WallTurret& wallTurret)
+{
+	if (--delayBeforeChangeState > 0)
+	{
+		return NULL;
+	}
+
+	FLOAT billAngle = wallTurret.CalculateBillAngle();
+
+	if (billAngle >= -75 && billAngle < -45)
+	{
+		if (--shootDelay == 0)
+		{
+			wallTurret.Fire(0.0f, -1.0f, -1.0f * std::tan(D3DX_PI / 2 - D3DXToRadian(60)), 0.0f, 0.0f, wallTurret.GetMovingDirection());
+			shootDelay = SHOOT_DELAY + STATE_CHANGE_DELAY;
+		}
+		return NULL;
+	}
+
+	if (billAngle < -75 || billAngle > 120)
+		return new WallTurretLeft90State();
+
+	if (billAngle >= -45 || billAngle <= 120)
+		return new WallTurretLeft150State();
+
 	return NULL;
 }

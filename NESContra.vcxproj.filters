@@ -1124,5 +1124,14 @@
     <ClCompile Include="GunBossStage1PrepareShootState.cpp">
       <Filter>Source Files\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State</Filter>
     </ClCompile>
+    <ClCompile Include="WallTurretOpeningState.cpp">
+      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretClosingState.cpp">
+      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="WallTurretNormalState.cpp">
+      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

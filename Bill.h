@@ -48,6 +48,7 @@ public:
 
 	Bill();
 	virtual ~Bill();
+	virtual void GoDead();
 	void Update() override;
 	void Render() override;
 	void HandleInput(Input&) override;

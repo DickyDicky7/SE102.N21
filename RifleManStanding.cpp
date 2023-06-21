@@ -1,7 +1,7 @@
 #pragma once
 #include "RifleManStanding.h"
 
-RifleManStanding::RifleManStanding() : Entity(), HasAnimations()
+RifleManStanding::RifleManStanding() : Entity(), HasAnimations(), HasWeapons(new BulletEnemyState())
 {
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -32,6 +32,9 @@ const Bill* RifleManStanding::GetEnemyTarget()
 
 void RifleManStanding::Update()
 {
+	if (Enemy::target->isDead)
+		return;
+
 	if (isDead) Sound::getInstance()->play("qexplode", false, 1);
 	const float _shootingAngle = this->CalculateShootingAngle();
 
@@ -143,4 +146,22 @@ void RifleManStanding::LoadAnimations()
 		{
 			{RIFLE_MAN_SPRITE_ID::SHOOT_DOWN, 0},
 		});
+}
+
+void RifleManStanding::Fire()
+{
+	if (Enemy::target->isDead)
+	{
+		return;
+	}
+}
+
+void RifleManStanding::Fire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION movingDirection)
+{
+	if(Enemy::target->isDead)
+	{
+		return;
+	}
+
+	HasWeapons::Fire(x, y, angle, vx, vy, ax, ay, movingDirection);
 }

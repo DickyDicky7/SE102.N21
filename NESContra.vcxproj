@@ -254,6 +254,9 @@
     <ClCompile Include="TerrainStage2.cpp" />
     <ClCompile Include="TestingEntity.cpp" />
     <ClCompile Include="WallTurret.cpp" />
+    <ClCompile Include="WallTurretNormalState.cpp" />
+    <ClCompile Include="WallTurretOpeningState.cpp" />
+    <ClCompile Include="WallTurretClosingState.cpp" />
     <ClCompile Include="WallTurretLeft120State.cpp" />
     <ClCompile Include="WallTurretLeft150State.cpp" />
     <ClCompile Include="WallTurretLeft90State.cpp" />

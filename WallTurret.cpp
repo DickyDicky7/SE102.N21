@@ -11,7 +11,7 @@ void AutoIncreasePositionSpriteLoader(
 );
 void AutoInscreaseSpriteIdLoadAnimations(std::vector<WALL_TURRET_SPRITE_ID>, ANIMATION_ID);
 
-WallTurret::WallTurret() : Entity(), HasAnimations()
+WallTurret::WallTurret() : Entity(), HasAnimations(), HasWeapons(new BulletEnemyState())
 {
 	this->name = L"WallTurret\n";
 
@@ -21,12 +21,12 @@ WallTurret::WallTurret() : Entity(), HasAnimations()
 	this->ay = 0.1f;
 	this->position.x = 50;
 	this->position.y = 50;
-	this->billAngle = -90;
+
 
 	this->movingDirection = DIRECTION::LEFT;
 
 	this->updateState = NULL;
-	this->state = new WallTurretLeft30State();
+	this->state = NULL;
 
 	this->hitCounts = 10;
 	this->enemyType = ENEMY_TYPE::MACHINE;
@@ -34,61 +34,15 @@ WallTurret::WallTurret() : Entity(), HasAnimations()
 
 WallTurret::~WallTurret() {}
 
-void WallTurret::Update() 
-{
-
+void WallTurret::Update() {
 	if (isDead) Sound::getInstance()->play("qexplode", false, 1);
-	CalculateBillAngle();
+	if (!state)
+	{
+		state = new WallTurretNormalState();
+	}
 
-	if (billAngle >= -105 && billAngle < -75)
-	{
-		this->state = new WallTurretLeft90State();
-	}
-	else if (billAngle >= -75 && billAngle < -45)
-	{
-		this->state = new WallTurretLeft120State();
-	}
-	else if (billAngle >= -45 && billAngle < -15)
-	{
-		this->state = new WallTurretLeft150State();
-	}
-	else if (billAngle >= -15 && billAngle < 15)
-	{
-		this->state = new WallTurretDownState();
-	}
-	else if (billAngle >= 15 && billAngle < 45)
-	{
-		this->state = new WallTurretRight150State();
-	}
-	else if (billAngle >= 45 && billAngle < 75)
-	{
-		this->state = new WallTurretRight120State();
-	}
-	else if (billAngle >= 75 && billAngle < 105)
-	{
-		this->state = new WallTurretRight90State();
-	}
-	else if (billAngle >= 105 && billAngle < 135)
-	{
-		this->state = new WallTurretRight30State();
-	}
-	else if (billAngle >= 135 && billAngle < 165)
-	{
-		this->state = new WallTurretRight60State();
-	}
-	else if (billAngle >= 165 || billAngle < -165)
-	{
-		this->state = new WallTurretUpState();
-	}
-	else if (billAngle >= -165 && billAngle < -135)
-	{
-		this->state = new WallTurretLeft30State();
-	}
-	else if (billAngle >= -135 && billAngle < -105)
-	{
-		this->state = new WallTurretLeft60State();
-	}
-	updateState = state->Update(*this);
+	//if (!Enemy::target->isDead)
+	//	updateState = state->Update(*this);
 }
 
 void WallTurret::Render() {
@@ -105,21 +59,29 @@ void WallTurret::Render() {
 
 void WallTurret::HandleInput(Input& input) {}
 
-void WallTurret::CalculateBillAngle()
+FLOAT WallTurret::CalculateBillAngle()
 {
 	float dx = +(this->GetPosition().x - Enemy::target->GetPosition().x);
 	float dy = -(this->GetPosition().y - Enemy::target->GetPosition().y);
 
 	if (dx > 0 && dy < 0)
-		billAngle = -atan(dx / (abs(dy))) * 180 / PI;
+		return (-atan(dx / (abs(dy))) * 180 / PI);
 	else if (dx < 0 && dy < 0)
-		billAngle = atan(abs(dx) / abs(dy)) * 180 / PI;
+		return (atan(abs(dx) / abs(dy)) * 180 / PI);
 	else if (dx > 0 && dy > 0)
-		billAngle = atan(dx / dy) * 180 / PI - 180;
+		return (atan(dx / dy) * 180 / PI - 180);
 	else if (dx < 0 && dy > 0)
-		billAngle = -atan(abs(dx) / dy) * 180 / PI + 180;
+		return (-atan(abs(dx) / dy) * 180 / PI + 180);
+
+	return -90.0f;
 }
 
+BOOLEAN WallTurret::IsTargetInRange()
+{
+	float dx = abs(this->GetX() - Enemy::target->GetX());
+
+	return dx <= 16.0f * 6.0f;
+}
 
 void WallTurret::LoadTextures() {
 	if (HasTextures<WallTurret>::hasBeenLoaded.value) {
@@ -362,7 +324,7 @@ void WallTurret::LoadAnimations() {
 
 #pragma endregion
 
-#pragma region LOAD APPEAR ANIMATIONS
+#pragma region LOAD OPENING ANIMATIONS
 
 	AutoInscreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>
@@ -374,12 +336,11 @@ void WallTurret::LoadAnimations() {
 			WALL_TURRET_SPRITE_ID::APPEAR_05,
 			WALL_TURRET_SPRITE_ID::APPEAR_06,
 	},
-		WALL_TURRET_ANIMATION_ID::APPEAR
-			);
+		WALL_TURRET_ANIMATION_ID::OPENING);
 
 #pragma endregion
 
-#pragma region LOAD CLOSE ANIMATIONS
+#pragma region LOAD CLOSING ANIMATIONS
 
 	AutoInscreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>
@@ -391,12 +352,23 @@ void WallTurret::LoadAnimations() {
 			WALL_TURRET_SPRITE_ID::APPEAR_02,
 			WALL_TURRET_SPRITE_ID::APPEAR_01,
 	},
-		WALL_TURRET_ANIMATION_ID::CLOSE
-			);
+		WALL_TURRET_ANIMATION_ID::CLOSING);
+
+#pragma endregion
+
+#pragma region LOAD NORMAL ANIMATIONS
+
+	AutoInscreaseSpriteIdLoadAnimations(
+		std::vector<WALL_TURRET_SPRITE_ID>
+	{
+		WALL_TURRET_SPRITE_ID::APPEAR_01,
+			WALL_TURRET_SPRITE_ID::APPEAR_02,
+			WALL_TURRET_SPRITE_ID::APPEAR_03,
+	},
+		WALL_TURRET_ANIMATION_ID::NORMAL);
 
 #pragma endregion
 }
-
 
 #pragma region Helpers
 
@@ -433,3 +405,21 @@ void AutoInscreaseSpriteIdLoadAnimations(std::vector<WALL_TURRET_SPRITE_ID> spri
 }
 
 #pragma endregion
+
+
+void WallTurret::Fire()
+{
+	if (Enemy::target->isDead)
+	{
+		return;
+	}
+}
+
+void WallTurret::Fire(FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION direction)
+{
+	if (Enemy::target->isDead)
+	{
+		return;
+	}
+	HasWeapons::Fire(this->position.x, this->position.y + this->h / 2, angle, vx, vy, ax, ay, direction);
+}

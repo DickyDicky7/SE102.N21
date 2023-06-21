@@ -50,6 +50,15 @@ Bill::~Bill()
 	Destroy(handleInputState);
 }
 
+void Bill::GoDead()
+{
+	if (!dynamic_cast<BillDeadState*>(state) 
+	&&  !dynamic_cast<BillDiveState*>(state))
+	{
+		ChangeState(state, new BillDeadState(), this);
+	}
+}
+
 void Bill::Update()
 {
 	updateState = state->Update(*this);
@@ -610,14 +619,6 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 			}
 			return;
-		}
-
-		auto bullet = dynamic_cast<Bullet*>(aabbSweepResult.surfaceEntity);
-		if  (bullet)
-		{
-		if  (bullet->isEnemy)
-			 ChangeState(state, new BillDeadState(), this);
-			 return;
 		}
 
 		auto rockFly = dynamic_cast<RockFly*>(aabbSweepResult.surfaceEntity);
