@@ -449,5 +449,8 @@ void Soldier::SetState(SoldierState* newState)
 
 void Soldier::GoDead()
 {
-	ChangeState(state, new SoldierDieState(), this);
+	if (!dynamic_cast<SoldierDieState*>(state))
+	{
+		ChangeState(state, new SoldierDieState(), this);
+	}
 }
