@@ -107,7 +107,7 @@ void Soldier::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			}
 			else
 			{
-				vy = +0.0f;
+				vy = +1.0f;
 			}
 		}
 		else
