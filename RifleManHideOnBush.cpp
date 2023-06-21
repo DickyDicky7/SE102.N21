@@ -32,7 +32,6 @@ const Bill* RifleManHideOnBush::GetEnemyTarget()
 
 void RifleManHideOnBush::Update()
 {
-	if (isDead) Sound::getInstance()->play("qexplode", false, 1);
 	updateState = state->Update(*this);
 }
 

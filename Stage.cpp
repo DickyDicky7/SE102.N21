@@ -118,10 +118,12 @@ void Stage::Update()
 			break;
 
 			case ENEMY_TYPE::HUMAN:
+				 Sound::getInstance()->play("qexplode", false, 1);
 				 explosion = new Explosion(new ExplosionType1State());
 			break;
 
 			case ENEMY_TYPE::MACHINE:
+				 Sound::getInstance()->play("qexplode", false, 1);
 				 explosion = new Explosion(new ExplosionType2State());
 			break;
 

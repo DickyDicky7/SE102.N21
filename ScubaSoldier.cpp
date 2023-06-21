@@ -34,7 +34,6 @@ ScubaSoldier::~ScubaSoldier()
 
 void ScubaSoldier::Update()
 {
-	if(isDead) Sound::getInstance()->play("qexplode", false, 1);
 	CalculateBillAngle();
 	if (billAngle >= 110 || billAngle < -110)
 	{

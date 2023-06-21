@@ -37,7 +37,6 @@ RockFall::~RockFall()
 
 void RockFall::Update()
 {
-	if (isDead) Sound::getInstance()->play("qexplode", false, 1);
 	updateState = state->Update(*this);
 }
 
