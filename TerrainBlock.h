@@ -14,6 +14,8 @@ class TerrainBlock : public Entity, public CollidableEntity
 
 public:
 
+	std::string name;
+
 	TerrainBlock();
 	virtual ~TerrainBlock();
 	TERRAIN_BLOCK_TYPE type;

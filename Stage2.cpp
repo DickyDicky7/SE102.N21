@@ -36,6 +36,9 @@ Stage2::Stage2() : Stage()
 	wallR->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
 	wallB->SetW(SCREEN_WIDTH  / SCALING_RATIO_X);
 	wallB->SetH(20.0f);
+	wallL->name  = "L";
+	wallR->name  = "R";
+	wallB->name  = "B";
 	walls.insert({ "L", wallL });
 	walls.insert({ "R", wallR });
 	walls.insert({ "B", wallB });

@@ -113,17 +113,21 @@ void Soldier::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		else
 		if (aabbSweepResult.normalX != +0.0f)
 		{
-			position.x += aabbSweepResult.enTime * vx;
-			if (!dynamic_cast<SoldierDieState*>(state))
+			if ((terrainBlock->name == "L" && aabbSweepResult.normalX == +1.0f) 
+			||  (terrainBlock->name == "R" && aabbSweepResult.normalX == -1.0f))
 			{
-				if (aabbSweepResult.normalX == -1.0f)
+				position.x += aabbSweepResult.enTime * vx;
+				if (!dynamic_cast<SoldierDieState*>(state))
 				{
-					movingDirection = DIRECTION::LEFT;
-				}
-				else
-				if (aabbSweepResult.normalX == +1.0f)
-				{
-					movingDirection = DIRECTION::RIGHT;
+					if (aabbSweepResult.normalX == -1.0f)
+					{
+						movingDirection = DIRECTION::LEFT;
+					}
+					else
+					if (aabbSweepResult.normalX == +1.0f)
+					{
+						movingDirection = DIRECTION::RIGHT;
+					}
 				}
 			}
 		}
