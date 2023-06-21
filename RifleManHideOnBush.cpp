@@ -1,4 +1,3 @@
-#pragma once
 #include "RifleManHideOnBush.h"
 
 RifleManHideOnBush::RifleManHideOnBush() : Entity(), HasAnimations(), HasWeapons(new BulletEnemyState())
@@ -18,6 +17,8 @@ RifleManHideOnBush::RifleManHideOnBush() : Entity(), HasAnimations(), HasWeapons
 
 	this->hitCounts = 1;
 	this->enemyType = ENEMY_TYPE::HUMAN;
+	
+	this->firingRate = 0;
 }
 
 RifleManHideOnBush::~RifleManHideOnBush()
@@ -113,7 +114,7 @@ void RifleManHideOnBush::Fire()
 	}
 }
 
-void RifleManHideOnBush::Fire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION movingDirection)
+void RifleManHideOnBush::CustomFire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION movingDirection)
 {
 	if (Enemy::target->isDead)
 	{

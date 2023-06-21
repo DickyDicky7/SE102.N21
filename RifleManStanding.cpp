@@ -18,6 +18,8 @@ RifleManStanding::RifleManStanding() : Entity(), HasAnimations(), HasWeapons(new
 
 	this->hitCounts = 1;
 	this->enemyType = ENEMY_TYPE::HUMAN;
+
+	this->firingRate = 0;
 }
 
 RifleManStanding::~RifleManStanding()
@@ -155,7 +157,7 @@ void RifleManStanding::Fire()
 	}
 }
 
-void RifleManStanding::Fire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION movingDirection)
+void RifleManStanding::CustomFire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION movingDirection)
 {
 	if(Enemy::target->isDead)
 	{
