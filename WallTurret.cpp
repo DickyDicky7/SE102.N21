@@ -35,7 +35,6 @@ WallTurret::WallTurret() : Entity(), HasAnimations(), HasWeapons(new BulletEnemy
 WallTurret::~WallTurret() {}
 
 void WallTurret::Update() {
-	if (isDead) Sound::getInstance()->play("qexplode", false, 1);
 	if (!state)
 	{
 		state = new WallTurretNormalState();

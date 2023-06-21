@@ -35,7 +35,6 @@ void RifleManStanding::Update()
 	if (Enemy::target->isDead)
 		return;
 
-	if (isDead) Sound::getInstance()->play("qexplode", false, 1);
 	const float _shootingAngle = this->CalculateShootingAngle();
 
 	float dx = (this->GetPosition().x) - (Enemy::target->GetPosition().x);
