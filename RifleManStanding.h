@@ -8,6 +8,9 @@
 #include "Bill.h"
 #include "Enemy.h"
 #include "RifleMan.h"
+#include "HasWeapons.h"
+
+#define SHOOT_DELAY 80
 
 class RifleManStanding;
 class RifleManStandingState;
@@ -16,7 +19,7 @@ class RifleManStandingAimUpState;
 class RifleManStandingAimDownState;
 
 class RifleManStanding : public Entity, public Enemy<Bill>
-	, public HasTextures<RifleManStanding>, public HasSprites<RifleManStanding>, public HasAnimations<RifleManStanding>, public RifleMan
+	, public HasTextures<RifleManStanding>, public HasSprites<RifleManStanding>, public HasAnimations<RifleManStanding>, public RifleMan, public HasWeapons
 {
 public:
 	RifleManStanding();
@@ -25,6 +28,9 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 	virtual void HandleInput(Input&) override;
+
+	void Fire() override;
+	void Fire(FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, DIRECTION);
 
 	void LoadTextures() override;
 	void LoadSprites() override;
@@ -54,6 +60,7 @@ public:
 
 protected:
 	FLOAT time;
+	static int shootDelay;
 };
 
 class RifleManStandingNormalState : public RifleManStandingState

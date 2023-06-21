@@ -25,7 +25,7 @@ WallTurretState* WallTurretUpState::Update(WallTurret& wallTurret)
 	{
 		if (--shootDelay == 0)
 		{
-			wallTurret.Fire(0.0f, 0.0f, +1.0f, 0.0f, 0.0f, wallTurret.GetMovingDirection());
+			wallTurret.Fire(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, wallTurret.GetMovingDirection());
 			shootDelay = SHOOT_DELAY + STATE_CHANGE_DELAY;
 		}
 		return NULL;

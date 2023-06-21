@@ -40,7 +40,7 @@ void WallTurret::Update() {
 		state = new WallTurretNormalState();
 	}
 
-	updateState = state->Update(*this);
+	//updateState = state->Update(*this);
 }
 
 void WallTurret::Render() {

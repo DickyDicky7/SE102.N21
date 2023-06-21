@@ -1,7 +1,7 @@
 #pragma once
 #include "RifleManStanding.h"
 
-RifleManStanding::RifleManStanding() : Entity(), HasAnimations()
+RifleManStanding::RifleManStanding() : Entity(), HasAnimations(), HasWeapons(new BulletEnemyState())
 {
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -142,4 +142,14 @@ void RifleManStanding::LoadAnimations()
 		{
 			{RIFLE_MAN_SPRITE_ID::SHOOT_DOWN, 0},
 		});
+}
+
+void RifleManStanding::Fire()
+{
+
+}
+
+void RifleManStanding::Fire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION movingDirection)
+{
+	HasWeapons::Fire(x, y, angle, vx, vy, ax, ay, movingDirection);
 }
