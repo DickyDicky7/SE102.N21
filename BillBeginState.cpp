@@ -17,6 +17,7 @@ void BillBeginState::Enter(Bill& bill)
 	bill.SetY (+std::numeric_limits<FLOAT>::infinity());
 	bill.SetVY(-2.50f);
 	bill.SetAY(-0.10f);
+	bill.immortalTick = 000;
 }
 
 void BillBeginState::Render(Bill& bill)

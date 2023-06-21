@@ -12,7 +12,7 @@ FinalBossStage1::FinalBossStage1()
 
 	this->state = NULL;
 	this->updateState = NULL;
-	
+
 	this->name = L"Final Boss Stage 1\n";
 
 	//
@@ -27,7 +27,7 @@ FinalBossStage1::~FinalBossStage1()
 
 void FinalBossStage1::Update()
 {
-	if (gun1->isDead && gun2->isDead)
+	if (gun1->isDead && gun2->isDead && hitCounts <= 0 && !isDead)
 	{
 		hitCounts = 24;
 	}

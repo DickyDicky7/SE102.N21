@@ -45,9 +45,10 @@ GunBossStage1State* GunBossStage1DestroyState::Update(GunBossStage1& gunBoss)
 	{
 		if (!isInDestroyPos)
 		{
-			float offset = gunBoss.GetType() == 1 ? 8.0f : 3.0f;
-			gunBoss.SetX(gunBoss.GetX() + offset);
-			gunBoss.SetY(gunBoss.GetY() - 1.0f);
+			float offsetX = gunBoss.GetType() == 1 ? 7.0f : 4.0f;
+			float offsetY = gunBoss.GetType() == 1 ? 1.0f : 0.0f;
+			gunBoss.SetX(gunBoss.GetX() + offsetX);
+			gunBoss.SetY(gunBoss.GetY() - offsetY);
 			isInDestroyPos = true;
 		}
 		return NULL;

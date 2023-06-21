@@ -43,9 +43,12 @@ class Bill : public Entity, public HasTextures<Bill>, public HasSprites<Bill>, p
 public:
 
 	INT* livesLeft;
+	ULONGLONG immortalTime;
+	ULONGLONG immortalTick;
 
 	Bill();
 	virtual ~Bill();
+	virtual void GoDead();
 	void Update() override;
 	void Render() override;
 	void HandleInput(Input&) override;

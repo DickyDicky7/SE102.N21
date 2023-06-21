@@ -33,6 +33,9 @@ Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), Collidabl
 	this->name = L"Bill\n";
 	//
 
+	this->immortalTime = 200;
+	this->immortalTick = 000;
+
 	if (!state)
 	{
 		 state = new BillBeginState();
@@ -47,14 +50,35 @@ Bill::~Bill()
 	Destroy(handleInputState);
 }
 
+void Bill::GoDead()
+{
+	if (!dynamic_cast<BillDeadState*>(state) 
+	&&  !dynamic_cast<BillDiveState*>(state))
+	{
+		ChangeState(state, new BillDeadState(), this);
+	}
+}
+
 void Bill::Update()
 {
 	updateState = state->Update(*this);
+	if  (immortalTick <= immortalTime)
+	   ++immortalTick;
 }
 
 void Bill::Render()
 {
-	state->Render(*this);
+	if  (immortalTick <= immortalTime)
+	{
+	if  (immortalTick %2)
+	{
+		 state->Render(*this);
+	}
+	}
+	else
+	{
+		 state->Render(*this);
+	}
 	this->w = this->currentFrameW;
 	this->h = this->currentFrameH;
 
@@ -548,7 +572,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			return;
 		}
 
-		if (dynamic_cast<BillBeginState*>(state))
+		if (dynamic_cast<BillDiveState*>(state) || dynamic_cast<BillBeginState*>(state))
 		{
 			return;
 		}
@@ -595,14 +619,6 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 			}
 			return;
-		}
-
-		auto bullet = dynamic_cast<Bullet*>(aabbSweepResult.surfaceEntity);
-		if  (bullet)
-		{
-		if  (bullet->isEnemy)
-			 ChangeState(state, new BillDeadState(), this);
-			 return;
 		}
 
 		auto rockFly = dynamic_cast<RockFly*>(aabbSweepResult.surfaceEntity);
@@ -693,6 +709,11 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 		auto soldier =  dynamic_cast<Soldier*>(aabbSweepResult.surfaceEntity);
 		if  (soldier && dynamic_cast<SoldierDieState*> (soldier->GetState()))
+		{
+			return;
+		}
+
+		if (immortalTick <= immortalTime)
 		{
 			return;
 		}

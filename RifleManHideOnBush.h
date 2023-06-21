@@ -8,6 +8,7 @@
 #include "Bill.h"
 #include "Enemy.h"
 #include "RifleMan.h"
+#include "HasWeapons.h"
 
 class RifleManHideOnBush;
 class RifleManHideOnBushState;
@@ -18,7 +19,7 @@ class RifleManHideOnBushStandingState;
 class RifleManHideOnBushHideState;
 
 class RifleManHideOnBush : public Entity, public Enemy<Bill>
-	, public HasTextures<RifleManHideOnBush>, public HasSprites<RifleManHideOnBush>, public HasAnimations<RifleManHideOnBush>, public RifleMan
+	, public HasTextures<RifleManHideOnBush>, public HasSprites<RifleManHideOnBush>, public HasAnimations<RifleManHideOnBush>, public RifleMan, public HasWeapons
 {
 public:
 	RifleManHideOnBush();
@@ -27,6 +28,9 @@ public:
 	virtual void Update() override;
 	virtual void Render() override;
 	virtual void HandleInput(Input&) override;
+
+	void Fire() override;
+	void Fire(FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, DIRECTION);
 
 	void LoadTextures() override;
 	void LoadSprites() override;
