@@ -17,24 +17,24 @@ void RifleManStandingAimDownState::Exit(RifleManStanding& rifleManStanding)
 
 void RifleManStandingAimDownState::Enter(RifleManStanding& rifleManStanding)
 {
-	if (--shootDelay > 0)
+	if (--rifleManStanding.shootDelay > 0)
 		return;
 
-	if (shootTime <= 0)
+	if (rifleManStanding.shootTime <= 0)
 	{
-		shootTime = SHOOT_TIME;
-		shootDelay = SHOOT_DELAY;
-		shootDelayPerBullet = SHOOT_DELAY_PER_BULLET;
+		rifleManStanding.shootTime = RILFE_MAN_STANDING_SHOOT_TIME;
+		rifleManStanding.shootDelay = RILFE_MAN_STANDING_SHOOT_DELAY;
+		rifleManStanding.shootDelayPerBullet = RILFE_MAN_STANDING_SHOOT_DELAY_PER_BULLET;
 		return;
 	}
 
-	if (--shootDelayPerBullet > 0)
+	if (--rifleManStanding.shootDelayPerBullet > 0)
 	{
 		return;
 	}
 
-	shootTime--;
-	shootDelayPerBullet = SHOOT_DELAY_PER_BULLET;
+	rifleManStanding.shootTime--;
+	rifleManStanding.shootDelayPerBullet = RILFE_MAN_STANDING_SHOOT_DELAY_PER_BULLET;
 
 	D3DXVECTOR3 position = rifleManStanding.GetPosition();
 
@@ -46,10 +46,16 @@ void RifleManStandingAimDownState::Enter(RifleManStanding& rifleManStanding)
 	FLOAT shootingAngle = D3DXToRadian(std::abs(rifleManStanding.CalculateShootingAngle()));
 
 	float vx = movingDirection == DIRECTION::LEFT ? -1.0f : 1.0f;
-	float vy = -1.0f * std::tan(D3DX_PI / 2 - shootingAngle);
 
-	vx = -1.0f * vx / vy;
-	vy = -1.0f;
+	float tanValue = std::tan(D3DX_PI / 2 - shootingAngle);
+
+	float vy = -1.0f * tanValue;
+
+	if (tanValue > 1.0f)
+	{
+		vx = -1.0f * vx / vy;
+		vy = -1.0f;
+	}
 
 	if (movingDirection == DIRECTION::LEFT)
 	{

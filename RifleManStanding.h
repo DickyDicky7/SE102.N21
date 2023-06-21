@@ -10,9 +10,9 @@
 #include "RifleMan.h"
 #include "HasWeapons.h"
 
-#define SHOOT_DELAY 80
-#define SHOOT_DELAY_PER_BULLET 20
-#define SHOOT_TIME 3
+#define RILFE_MAN_STANDING_SHOOT_DELAY 80
+#define RILFE_MAN_STANDING_SHOOT_DELAY_PER_BULLET 20
+#define RILFE_MAN_STANDING_SHOOT_TIME 3
 
 class RifleManStanding;
 class RifleManStandingState;
@@ -42,6 +42,10 @@ public:
 
 	FLOAT CalculateShootingAngle();
 
+	int shootDelay;
+	int shootDelayPerBullet;
+	int shootTime;
+
 protected:
 	RifleManStandingState* state;
 	RifleManStandingState* updateState;
@@ -62,9 +66,6 @@ public:
 
 protected:
 	FLOAT time;
-	static int shootDelay;
-	static int shootDelayPerBullet;
-	static int shootTime;
 };
 
 class RifleManStandingNormalState : public RifleManStandingState

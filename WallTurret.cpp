@@ -40,8 +40,8 @@ void WallTurret::Update() {
 		state = new WallTurretNormalState();
 	}
 
-	if (!Enemy::target->isDead)
-		updateState = state->Update(*this);
+	//if (!Enemy::target->isDead)
+	//	updateState = state->Update(*this);
 }
 
 void WallTurret::Render() {

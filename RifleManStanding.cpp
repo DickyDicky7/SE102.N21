@@ -19,7 +19,11 @@ RifleManStanding::RifleManStanding() : Entity(), HasAnimations(), HasWeapons(new
 	this->hitCounts = 1;
 	this->enemyType = ENEMY_TYPE::HUMAN;
 
-	this->firingRate = 0;
+	this->firingRate = 0; 
+
+	shootDelay = RILFE_MAN_STANDING_SHOOT_DELAY;
+	shootTime = RILFE_MAN_STANDING_SHOOT_TIME;
+	shootDelayPerBullet = RILFE_MAN_STANDING_SHOOT_DELAY_PER_BULLET;
 }
 
 RifleManStanding::~RifleManStanding()
@@ -63,7 +67,7 @@ void RifleManStanding::Update()
 		updateState = new RifleManStandingNormalState();
 		return;
 	}
-	
+
 	updateState = NULL;
 	return;
 }
@@ -159,7 +163,7 @@ void RifleManStanding::Fire()
 
 void RifleManStanding::CustomFire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION movingDirection)
 {
-	if(Enemy::target->isDead)
+	if (Enemy::target->isDead)
 	{
 		return;
 	}
