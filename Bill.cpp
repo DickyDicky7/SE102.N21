@@ -42,7 +42,10 @@ Bill::~Bill()
 
 void Bill::GoDead()
 {
-	ChangeState(state, new BillDeadState(), this);
+	if (!dynamic_cast<BillDeadState*>(state))
+	{
+		ChangeState(state, new BillDeadState(), this);
+	}
 }
 
 void Bill::Update()
