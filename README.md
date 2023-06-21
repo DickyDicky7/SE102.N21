@@ -29,9 +29,9 @@ Nhóm sinh viên thực hiện:
 
 ### 1) Màn 1: Jungle
 
-<img src="Resources/Images/stage1_img.png" alt="Getting Started" width="500" height="300">
+<img src="Resources/Images/stage1_img.png" alt="Getting Started" width="500" height="500">
 ![Untitled]()
 
 ### 2) **Màn 2: Water Fall**
 
-<img src="Resources/Images/stage2_img.png" alt="Getting Started" width="500" height="300">
+<img src="Resources/Images/stage2_img.png" alt="Getting Started" width="500" height="500">
