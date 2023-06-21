@@ -30,8 +30,8 @@ SoldierState* SoldierShootState::Update(Soldier& soldier)
 	ULONGLONG now = GetTickCount64();
 	if (now - time > soldier.GetFiringRate())
 	{
-		time = now;
 		soldier.Fire();
+		time = FLOAT(now);
 	}
 	return NULL;
 }
