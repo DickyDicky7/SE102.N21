@@ -187,22 +187,28 @@ void Stage2::LoadEntities(void *entitiesLayer)
 		}
 		else if (object.getName() == "soldiershotr")
 		{
-			entity = new Soldier();
-			entity->SetMovingDirection(DIRECTION::LEFT);
+			auto soldier = new Soldier();
+			soldier->shootable = 1;
+			entity = soldier;
+			entity->SetMovingDirection(DIRECTION::RIGHT);
 		}
 		else if (object.getName() == "soldiershotl")
 		{
-			entity = new Soldier();
+			auto soldier = new Soldier();
+			soldier->shootable = 1;
+			entity = soldier;
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else if (object.getName() == "soldiershotr")
 		{
-			entity = new Soldier();
-			entity->SetMovingDirection(DIRECTION::LEFT);
+			auto soldier = new Soldier();
+			soldier->shootable = 1;
+			entity = soldier;
+			entity->SetMovingDirection(DIRECTION::RIGHT);
 		}
 		else if (object.getName() == "staticweaponf")
 		{
-			entity = new Soldier();
+			entity = new Falcon(ITEM_TYPE::F);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else if (object.getName() == "staticweaponl")

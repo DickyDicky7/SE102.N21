@@ -3,6 +3,7 @@
 #include "Bridge.h"
 #include "Falcon.h"
 #include "RockFly.h"
+#include "Soldier.h"
 #include "AirCraft.h"
 #include "BossStage3.h"
 #include "TerrainBlock.h"
@@ -384,6 +385,7 @@ void Bill::StaticResolveNoCollision(                               )
 	if (dynamic_cast<BillDeadState*>(state))
 	{
 		surfaceEntity = NULL;
+		isAbSurface = 0;
 		return;
 	}
 }
@@ -393,6 +395,7 @@ void Bill::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
 	if (dynamic_cast<BillDeadState*>(state))
 	{
 		surfaceEntity = NULL;
+		isAbSurface = 0;
 		return;
 	}
 }
@@ -402,6 +405,7 @@ void Bill::DynamicResolveNoCollision(                               )
 	if (dynamic_cast<BillDeadState*>(state))
 	{
 		surfaceEntity = NULL;
+		isAbSurface = 0;
 		return;
 	}
 
@@ -683,6 +687,12 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 		auto bossStage3Joint = dynamic_cast<BossStage3Joint*>(aabbSweepResult.surfaceEntity);
 		if  (bossStage3Joint)
+		{
+			return;
+		}
+
+		auto soldier =  dynamic_cast<Soldier*>(aabbSweepResult.surfaceEntity);
+		if  (soldier && dynamic_cast<SoldierDieState*> (soldier->GetState()))
 		{
 			return;
 		}

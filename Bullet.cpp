@@ -218,10 +218,8 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		else
 		if  (--enemy->hitCounts == 0)
 		{
-			//if (auto soldier = dynamic_cast<Soldier*>(enemy))
-			//	soldier->SetState(new SoldierDieState());
-			//else
-			aabbSweepResult.surfaceEntity->isDead = 1;
+			if (auto soldier = dynamic_cast<Soldier*>(enemy)) soldier->GoDead();
+			else aabbSweepResult.surfaceEntity->isDead = 1;
 		}
 		return;
 	}
