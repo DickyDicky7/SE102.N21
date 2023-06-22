@@ -64,6 +64,13 @@ BillState* BillNormalState::HandleInput(Bill& bill, Input& input)
 	}
 
 
+	if (input.IsKey(DIK_C))
+	{
+		bill.SetY(bill.GetY() - bill.GetH() * 0.5f);
+		return new BillFallState();
+	}
+
+
 	if (input.IsKey(DIK_F))
 	{
 		return new BillFallState(new BillBeginSwimState());
@@ -71,32 +78,31 @@ BillState* BillNormalState::HandleInput(Bill& bill, Input& input)
 
 
 	// FOR DEBUG PURPOSE
-	if (input.IsKey(DIK_W))
-	{
-		bill.SetVY(+1.0f);
-		bill.SetY(bill.GetY() + bill.GetVY());
-
-	}
-	if (input.IsKey(DIK_S))
-	{
-		bill.SetVY(-1.0f);
-		bill.SetY(bill.GetY() + bill.GetVY());
-	}
-	if (input.IsKey(DIK_R))
-	{
-		bill.SetY(500);
-	}
-	if (input.IsKey(DIK_G))
-	{
-		bill.SetVX(-1.0f);
-		bill.SetX(bill.GetX() + bill.GetVX());
-	}
-	if (input.IsKey(DIK_H))
-	{
-		return new BillDeadState();
-		//bill.SetVX(+1.0f);
-		//bill.SetX(bill.GetX() + bill.GetVX());
-	}
+	//if (input.IsKey(DIK_W))
+	//{
+	//	bill.SetVY(+1.0f);
+	//	bill.SetY(bill.GetY() + bill.GetVY());
+	//}
+	//if (input.IsKey(DIK_S))
+	//{
+	//	bill.SetVY(-1.0f);
+	//	bill.SetY(bill.GetY() + bill.GetVY());
+	//}
+	//if (input.IsKey(DIK_R))
+	//{
+	//	bill.SetY(500);
+	//}
+	//if (input.IsKey(DIK_G))
+	//{
+	//	bill.SetVX(-1.0f);
+	//	bill.SetX(bill.GetX() + bill.GetVX());
+	//}
+	//if (input.IsKey(DIK_H))
+	//{
+	//	return new BillDeadState();
+	//	bill.SetVX(+1.0f);
+	//	bill.SetX(bill.GetX() + bill.GetVX());
+	//}
 	// FOR DEBUG PURPOSE
 
 
