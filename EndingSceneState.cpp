@@ -19,8 +19,8 @@ void EndingSceneState::Exit(Scene& scene)
 void EndingSceneState::Enter(Scene& scene)
 {
 	scene.stageIsReady = false;
-	scene.SetX(IN_GAME_SCREEN_W * 0.5f);
-	scene.SetY(IN_GAME_SCREEN_H * 1.0f);
+	scene.SetX(+IN_GAME_SCREEN_W * 0.5f);
+	scene.SetY(-IN_GAME_SCREEN_H * 0.5f);
 	Sound::getInstance()->play("aircraft", false, 1);
 }
 
