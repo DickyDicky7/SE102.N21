@@ -42,6 +42,10 @@ Stage1::~Stage1()
 {
 }
 
+void Stage1::CheckIfHasDone()
+{
+}
+
 void Stage1::TranslateWalls()
 {
 	for (auto& [name, wall] : walls)

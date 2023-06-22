@@ -18,7 +18,7 @@
 #include "BossStage3Hand.h"
 #include "FinalBossStage1.h"
 
-Stage:: Stage() : mapFilePath(""), translateX(0.0f), translateY(0.0f), bill(NULL), tileW(0.0f), tileH(0.0f), camera(NULL), entities(NULL), backgroundTerrains(NULL), foregroundTerrains(NULL)
+Stage:: Stage() : hasDone(0), checkPoint(NULL), mapFilePath(""), translateX(0.0f), translateY(0.0f), bill(NULL), tileW(0.0f), tileH(0.0f), camera(NULL), entities(NULL), backgroundTerrains(NULL), foregroundTerrains(NULL)
 {
 }
 
@@ -35,6 +35,10 @@ Stage::~Stage()
 
 void Stage::Update()
 {
+	if (hasDone)
+		return;
+
+
 	//if (bill->GetY() == +std::numeric_limits<FLOAT>::infinity())
 	//{
 	//	if (dynamic_cast<Stage1*>(this))
@@ -237,6 +241,7 @@ void Stage::Update()
 
 	TranslateCamera();
 	TranslateWalls ();
+	CheckIfHasDone ();
 }
 
 
@@ -245,6 +250,12 @@ void Stage::Render()
 	backgroundTerrainsResult.clear();
 	backgroundTerrains->Retrieve(camera,   backgroundTerrainsResult);
 	for (auto& [backgroundTerrain, node] : backgroundTerrainsResult) backgroundTerrain->Render();
+
+
+	if (hasDone)
+		return;
+
+
 	for (auto& [entity           , node] : entitiesResult)                      entity->Render();
 	for (auto&  effectEntity             : effectEntities)                effectEntity->Render();
 	bill->Render();
@@ -259,6 +270,10 @@ void Stage::HandleInput(Input& input)
 
 void Stage::CheckResolveClearCollision()
 {
+	if (hasDone)
+		return;
+
+
 	foregroundTerrainsResult.clear();
 	foregroundTerrains->Retrieve(camera, foregroundTerrainsResult);
 
@@ -428,10 +443,16 @@ void Stage::LoadForegroundTerrains(void* foregroundTerrainsLayer)
 		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::NON_THROUGHABLE;
 		if (object.getClassType() == "throughable")
 		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::THROUGHABLE;
+		if (object.getClassType() == "check_point")
+		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::CHECK_POINT;
 		if (object.getClassType() == "water")
 		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::WATER;
 
 		foregroundTerrains->Insert(foregroundTerrain);
+
+		if (foregroundTerrain 
+		&&  foregroundTerrain->type == TERRAIN_BLOCK_TYPE::CHECK_POINT)
+			checkPoint = foregroundTerrain;
 	}
 }
 

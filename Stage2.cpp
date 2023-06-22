@@ -48,6 +48,17 @@ Stage2::~Stage2()
 {
 }
 
+void Stage2::CheckIfHasDone()
+{
+	if (bill && checkPoint && !hasDone)
+	{
+		if (entitiesResult.size() <= 1 && bill->AABBCheck(checkPoint) && bill->GetVY() <= -3.0f)
+		{
+			hasDone = 1;
+		}
+	}
+}
+
 void Stage2::TranslateWalls()
 {
 	for (auto& [name, wall] : walls)

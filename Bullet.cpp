@@ -1,4 +1,5 @@
 #include "Bill.h"
+#include "Fire.h"
 #include "Enemy.h"
 #include "Bullet.h"
 #include "Bridge.h"
@@ -188,6 +189,12 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	if  (enemy)
 	{
 		if (isEnemy)
+		{
+			return;
+		}
+
+		auto fire = dynamic_cast<Fire*>(aabbSweepResult.surfaceEntity);
+		if  (fire)
 		{
 			return;
 		}

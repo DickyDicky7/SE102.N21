@@ -330,7 +330,7 @@
                  "visible":true,
                  "width":32,
                  "x":33.6667,
-                 "y":686.160333333333
+                 "y":688.160333333333
                 },
             
                 {
@@ -363,8 +363,8 @@
                  "type":"enemy",
                  "visible":true,
                  "width":32,
-                 "x":209.0029375,
-                 "y":710.99496875
+                 "x":215.0029375,
+                 "y":704.99496875
                 }, 
                 {
                  "height":15,
@@ -651,7 +651,7 @@
                  "visible":true,
                  "width":27,
                  "x":2.16666666666666,
-                 "y":717.833333333333
+                 "y":693.16
                 }, 
                 {
                  "height":32,
@@ -1279,7 +1279,7 @@
                  "rotation":0,
                  "type":"throughable",
                  "visible":true,
-                 "width":94,
+                 "width":96,
                  "x":160,
                  "y":742.999
                 }, 
@@ -1426,6 +1426,17 @@
                  "width":256,
                  "x":0,
                  "y":248.9375
+                }, 
+                {
+                 "height":64,
+                 "id":167,
+                 "name":"",
+                 "rotation":0,
+                 "type":"check_point",
+                 "visible":true,
+                 "width":64,
+                 "x":96,
+                 "y":148
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1434,7 +1445,7 @@
          "y":0
         }],
  "nextlayerid":4,
- "nextobjectid":167,
+ "nextobjectid":168,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.1",

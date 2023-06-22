@@ -9,6 +9,7 @@ public:
 
 	Stage2();
 	virtual ~Stage2();
+	virtual void CheckIfHasDone() override;
 
 protected:
 

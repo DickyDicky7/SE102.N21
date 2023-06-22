@@ -40,6 +40,20 @@ void PlayingSceneState::Render(Scene& scene)
 SceneState* PlayingSceneState::Update(Scene& scene)
 {
 	scene.stage->Update();
+	if (scene.stage->hasDone)
+	{
+		if (++turn == 500)
+		{
+			if (scene.currentStage == 1)
+			{
+				return new LoadingSceneState();
+			}
+			if (scene.currentStage == 2)
+			{
+				return new CreditSceneState();
+			}
+		}
+	}
 	if (*scene.livesLeft <= -1)
 	{
 		if (++turn == 300)

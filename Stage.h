@@ -4,7 +4,7 @@
 #include "Entity.h"
 #include "QuadTreeNode.h"
 
-class Bill; class Input; class Camera;
+class Bill; class Input; class Camera; class TerrainBlock;
 
 class Stage
 {
@@ -21,6 +21,10 @@ public:
 
 	virtual void  SetBill(Bill*);
 	virtual Bill* GetBill(     );
+
+	BOOL hasDone;
+	TerrainBlock* checkPoint;
+	virtual void  CheckIfHasDone() = 0;
 
 	virtual void    SetCamera(Camera*);
 	virtual Camera* GetCamera(       );
