@@ -3,7 +3,6 @@
 EndingSceneState::EndingSceneState() : SceneState()
 {
 	Sound::getInstance()->loadSound("Resources\\Sounds\\endingscene.wav", "endingscene");
-	Sound::getInstance()->play("endingscene", false, 1);
 }
 
 EndingSceneState::~EndingSceneState()
@@ -17,6 +16,7 @@ void EndingSceneState::Exit(Scene& scene)
 void EndingSceneState::Enter(Scene& scene)
 {
 	scene.stageIsReady = false;
+	Sound::getInstance()->play("endingscene", false, 1);
 }
 
 void EndingSceneState::Render(Scene& scene)

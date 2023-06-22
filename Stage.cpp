@@ -94,6 +94,9 @@ void Stage::Update()
 			if (++finalBossStage1->deadTurns != 5)
 				  continue;
 
+			Sound::getInstance()->stop();
+			Sound::getInstance()->play("boss1dead", false, 1);
+
 			FLOAT X = finalBossStage1->GetL() + finalBossStage1->GetW() * 0.25f;
 			FLOAT Y = finalBossStage1->GetT() - finalBossStage1->GetH() * 0.25f;
 			for (int i = 0; i <= 10; i++)

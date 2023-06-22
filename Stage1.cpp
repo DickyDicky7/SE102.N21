@@ -48,6 +48,7 @@ void Stage1::CheckIfHasDone()
 {
 	if (finalBossStage1->isDead && checkPoint && bill->AABBCheck(checkPoint))
 	{
+		Sound::getInstance()->play("passboss", false, 1);
 		hasDone = 1;
 	}
 }

@@ -62,6 +62,7 @@ void LoadingSceneState::Enter(Scene& scene)
 	Sound::getInstance()->loadSound("Resources\\Sounds\\stage2.wav", "stage2");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\stage3.wav", "stage3");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\beep.wav", "beep.wav");
+	Sound::getInstance()->loadSound("Resources\\Sounds\\boss1dead.wav", "boss1dead");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\boss2bulletsound.wav", "boss2bulletsound.wav");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\boss2finaldestroy.wav", "boss2finaldestroy");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\boss2finalhanddisappear.wav", "boss2finalhanddisappear");
@@ -77,6 +78,7 @@ void LoadingSceneState::Enter(Scene& scene)
 	Sound::getInstance()->loadSound("Resources\\Sounds\\playerdie.wav", "playerdie");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\addlife.wav", "addlife");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\gameOver.wav", "gameOver");
+	Sound::getInstance()->loadSound("Resources\\Sounds\\passboss.wav", "passboss");
 
 	Sound::getInstance()->loadSound("Resources\\Sounds\\shootL.wav", "shootL");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\shootM.wav", "shootM");

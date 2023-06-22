@@ -54,6 +54,7 @@ void Stage2::CheckIfHasDone()
 	{
 		if (entitiesResult.size() <= 1 && bill->AABBCheck(checkPoint) && bill->GetVY() <= -3.0f)
 		{
+			Sound::getInstance()->play("passboss", false, 1);
 			hasDone = 1;
 		}
 	}
