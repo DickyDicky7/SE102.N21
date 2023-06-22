@@ -2,7 +2,7 @@
 
 EndingSceneState::EndingSceneState() : SceneState()
 {
-	Sound::getInstance()->loadSound("Resources\\Sounds\\rapid-2.wav", "rapid");
+	Sound::getInstance()->loadSound("Resources\\Sounds\\aircraft.wav", "aircraft");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\bridgeexplosion.wav", "bridgeexplosion");
 	delayToExplosion = 120;
 }
@@ -19,7 +19,7 @@ void EndingSceneState::Exit(Scene& scene)
 void EndingSceneState::Enter(Scene& scene)
 {
 	scene.stageIsReady = false;
-	Sound::getInstance()->play("rapid", false, 1);
+	Sound::getInstance()->play("aircraft", false, 1);
 }
 
 void EndingSceneState::Render(Scene& scene)
