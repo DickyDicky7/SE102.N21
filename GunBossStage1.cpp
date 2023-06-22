@@ -56,6 +56,11 @@ GunBossStage1::~GunBossStage1()
 
 };
 
+const Bill* GunBossStage1::GetEnemyTarget()
+{
+	return Enemy::target;
+}
+
 void GunBossStage1::Update()
 {
 	if (!state)
@@ -158,5 +163,5 @@ void GunBossStage1::Fire(FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DI
 	{
 		return;
 	}
-	HasWeapons::Fire(this->position.x - this->w * 0.5f, this->position.y + this->h / 2, angle, vx, vy, ax, ay, direction);
+	HasWeapons::Fire(this->position.x - this->w * 0.8f, this->position.y, angle, vx, vy, ax, ay, direction);
 }
