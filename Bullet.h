@@ -40,6 +40,7 @@ public:
 	void HandleInput(Input&) override;
 
 	void SetState(BulletState*);
+	BulletState* GetState() const;
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;

@@ -65,6 +65,11 @@ void Bullet::SetState(BulletState* newState)
 	newState = NULL;
 }
 
+BulletState* Bullet::GetState() const
+{
+	return state;
+}
+
 void Bullet::LoadSprites()
 {
 	if (HasSprites<Bullet>::hasBeenLoaded.value) return;

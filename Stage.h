@@ -4,7 +4,7 @@
 #include "Entity.h"
 #include "QuadTreeNode.h"
 
-class Bill; class Input; class Camera; class TerrainBlock;
+class Bill; class Input; class Camera; class Bullet; class TerrainBlock;
 
 class Stage
 {
@@ -50,6 +50,9 @@ protected:
 	virtual void TranslateWalls () = 0;
 	virtual void TranslateCamera() = 0;
 	virtual void SetRevivalPoint() = 0;
+	virtual BOOL ProcessSpecialEntity   (Entity*) = 0;
+	virtual BOOL ProcessSpecialBullet   (Bullet*) = 0;
+	virtual BOOL ProcessSpecialExplosion(Entity*) = 0;
 
 	virtual void LoadEntities(void*) = 0;
 	template <class T> void LoadBackgroundTerrains(void*);

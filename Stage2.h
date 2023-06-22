@@ -16,6 +16,9 @@ protected:
 	virtual void TranslateWalls () override;
 	virtual void TranslateCamera() override;
 	virtual void SetRevivalPoint() override;
+	virtual BOOL ProcessSpecialEntity   (Entity*) override;
+	virtual BOOL ProcessSpecialBullet   (Bullet*) override;
+	virtual BOOL ProcessSpecialExplosion(Entity*) override;
 
 	virtual void LoadEntities(void*) override;
 
