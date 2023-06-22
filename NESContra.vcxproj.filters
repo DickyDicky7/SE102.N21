@@ -546,6 +546,9 @@
     <ClInclude Include="BossStage1.h">
       <Filter>Header Files\Objects\Enemies\BossStage1</Filter>
     </ClInclude>
+    <ClInclude Include="DDSTextureLoader9.h">
+      <Filter>Header Files\Abstractions\Graphics Abstractions</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -1132,6 +1135,9 @@
     </ClCompile>
     <ClCompile Include="WallTurretNormalState.cpp">
       <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    </ClCompile>
+    <ClCompile Include="DDSTextureLoader9.cpp">
+      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
