@@ -1,7 +1,5 @@
 #include "RifleManStanding.h"
 
-int RifleManStandingState::shootDelay = SHOOT_DELAY;
-
 RifleManStandingState::RifleManStandingState()
 {
 	this->time = 0.0f;

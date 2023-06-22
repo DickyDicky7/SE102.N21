@@ -9,8 +9,8 @@
 #include "Bill.h"
 #include "Enemy.h"
 
-#define SHOOT_DELAY 50
-#define STATE_CHANGE_DELAY 20
+#define WALL_TURRET_SHOOT_DELAY 50
+#define WALL_TURRET_STATE_CHANGE_DELAY 20
 
 class WallTurret;
 class WallTurretState;

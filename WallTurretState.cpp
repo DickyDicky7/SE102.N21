@@ -2,8 +2,8 @@
 
 WallTurretState::WallTurretState()
 {
-	delayBeforeChangeState = STATE_CHANGE_DELAY;
-	shootDelay = SHOOT_DELAY;
+	delayBeforeChangeState = WALL_TURRET_STATE_CHANGE_DELAY;
+	shootDelay = WALL_TURRET_SHOOT_DELAY;
 }
 
 WallTurretState::~WallTurretState(){}

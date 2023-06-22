@@ -17,32 +17,54 @@ void RifleManStandingAimDownState::Exit(RifleManStanding& rifleManStanding)
 
 void RifleManStandingAimDownState::Enter(RifleManStanding& rifleManStanding)
 {
-	if (--shootDelay == 0)
+	if (--rifleManStanding.shootDelay > 0)
+		return;
+
+	if (rifleManStanding.shootTime <= 0)
 	{
-		shootDelay = SHOOT_DELAY;
-		D3DXVECTOR3 position = rifleManStanding.GetPosition();
+		rifleManStanding.shootTime = RILFE_MAN_STANDING_SHOOT_TIME;
+		rifleManStanding.shootDelay = RILFE_MAN_STANDING_SHOOT_DELAY;
+		rifleManStanding.shootDelayPerBullet = RILFE_MAN_STANDING_SHOOT_DELAY_PER_BULLET;
+		return;
+	}
 
-		FLOAT w = rifleManStanding.GetW();
-		FLOAT h = rifleManStanding.GetH();
+	if (--rifleManStanding.shootDelayPerBullet > 0)
+	{
+		return;
+	}
 
-		DIRECTION movingDirection = rifleManStanding.GetMovingDirection();
+	rifleManStanding.shootTime--;
+	rifleManStanding.shootDelayPerBullet = RILFE_MAN_STANDING_SHOOT_DELAY_PER_BULLET;
 
-		FLOAT shootingAngle = D3DXToRadian(std::abs(rifleManStanding.CalculateShootingAngle()));
+	D3DXVECTOR3 position = rifleManStanding.GetPosition();
 
-		float vx = movingDirection == DIRECTION::LEFT ? -1.0f : 1.0f;
-		float vy = -1.0f * std::tan(D3DX_PI / 2 - shootingAngle);
+	FLOAT w = rifleManStanding.GetW();
+	FLOAT h = rifleManStanding.GetH();
 
+	DIRECTION movingDirection = rifleManStanding.GetMovingDirection();
+
+	FLOAT shootingAngle = D3DXToRadian(std::abs(rifleManStanding.CalculateShootingAngle()));
+
+	float vx = movingDirection == DIRECTION::LEFT ? -1.0f : 1.0f;
+
+	float tanValue = std::tan(D3DX_PI / 2 - shootingAngle);
+
+	float vy = -1.0f * tanValue;
+
+	if (tanValue > 1.0f)
+	{
 		vx = -1.0f * vx / vy;
 		vy = -1.0f;
-
-		if (movingDirection == DIRECTION::LEFT)
-		{
-			rifleManStanding.Fire(position.x - w * 0.5f, position.y + h * 0.375f, 0.0f, vx, vy, 0.0f, 0.0f, movingDirection);
-			return;
-		}
-
-		rifleManStanding.Fire(position.x + w * 0.5f, position.y + h * 0.375f, 0.0f, vx, vy, 0.0f, 0.0f, movingDirection);
 	}
+
+	if (movingDirection == DIRECTION::LEFT)
+	{
+		rifleManStanding.CustomFire(position.x - w * 0.5f, position.y + h * 0.375f, 0.0f, vx, vy, 0.0f, 0.0f, movingDirection);
+		return;
+	}
+
+	rifleManStanding.CustomFire(position.x + w * 0.5f, position.y + h * 0.375f, 0.0f, vx, vy, 0.0f, 0.0f, movingDirection);
+
 	return;
 }
 

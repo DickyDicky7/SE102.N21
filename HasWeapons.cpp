@@ -21,7 +21,7 @@ HasWeapons::~HasWeapons()
 
 void HasWeapons::Fire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION movingDirection)
 {
-	ULONGLONG now = GetTickCount64(); if (firingTime == 0) firingTime = now; if (now - firingTime > firingRate)
+	ULONGLONG now = GetTickCount64(); if (firingTime == 0) firingTime = now; if (now - firingTime >= firingRate)
 	{
 		Bullet* bullet = NULL;
 		BulletState* newState = NULL;

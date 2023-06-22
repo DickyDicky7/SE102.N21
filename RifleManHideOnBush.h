@@ -30,7 +30,7 @@ public:
 	virtual void HandleInput(Input&) override;
 
 	void Fire() override;
-	void Fire(FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, DIRECTION);
+	void CustomFire(FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, DIRECTION);
 
 	void LoadTextures() override;
 	void LoadSprites() override;
@@ -98,6 +98,8 @@ public:
 	virtual void Render(RifleManHideOnBush&);
 
 	virtual RifleManHideOnBushState* Update(RifleManHideOnBush&);
+protected:
+	BOOLEAN isShoot;
 };
 
 class RifleManHideOnBushHideState : public RifleManHideOnBushState

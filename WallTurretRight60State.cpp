@@ -26,7 +26,7 @@ WallTurretState* WallTurretRight60State::Update(WallTurret& wallTurret)
 		if (--shootDelay == 0)
 		{
 			wallTurret.Fire(0.0f, 1.0f, 1.0f * std::tan(D3DX_PI / 2 - D3DXToRadian(60)), 0.0f, 0.0f, wallTurret.GetMovingDirection());
-			shootDelay = SHOOT_DELAY + STATE_CHANGE_DELAY;
+			shootDelay = WALL_TURRET_SHOOT_DELAY + WALL_TURRET_STATE_CHANGE_DELAY;
 		}
 		return NULL;
 	}
