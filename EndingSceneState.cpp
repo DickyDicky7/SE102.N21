@@ -19,6 +19,8 @@ void EndingSceneState::Exit(Scene& scene)
 void EndingSceneState::Enter(Scene& scene)
 {
 	scene.stageIsReady = false;
+	scene.SetX(IN_GAME_SCREEN_W * 0.5f);
+	scene.SetY(IN_GAME_SCREEN_H * 1.0f);
 	Sound::getInstance()->play("aircraft", false, 1);
 }
 
@@ -39,6 +41,7 @@ SceneState* EndingSceneState::Update(Scene& scene)
 	{
 		return new CreditSceneState();
 	}
+	return NULL;
 }
 
 SceneState* EndingSceneState::HandleInput(Scene& scene, Input& input)
