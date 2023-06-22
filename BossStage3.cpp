@@ -2,7 +2,7 @@
 // O: open
 // P: close
 
-BossStage3::BossStage3() : Entity(), HasTextures(), HasSprites(), HasAnimations()
+BossStage3::BossStage3() : Entity(), HasTextures(), HasSprites(), HasAnimations(), HasWeapons(new BulletBossStage2StateHead())
 {
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -17,11 +17,19 @@ BossStage3::BossStage3() : Entity(), HasTextures(), HasSprites(), HasAnimations(
 	// set direction default is right
 	this->movingDirection = DIRECTION::RIGHT;
 	// set state begin is run
+	this->isFire = false;
 	this->state = new BossStage3CloseState();
+	
+	this->hitCounts = 50;
+	isCounted = false;
+	this->enemyType = ENEMY_TYPE::BOSS;
+
+	
 }
 
 BossStage3::~BossStage3()
 {
+	isFire = NULL;
 	Destroy(state);
 	Destroy(updateState);
 	Destroy(handleInputState);
@@ -29,6 +37,23 @@ BossStage3::~BossStage3()
 
 void BossStage3::Update()
 {
+	if (isDead)
+	{
+		Sound::getInstance()->play("boss2finaldestroy.wav", false, 1);
+	}
+
+	if (IsHandsDead())
+	{
+		if (!isCounted)
+		{
+			this->hitCounts = 50; // neu hand chet roi thi moi dc ban
+			isCounted = true;
+		}
+	}
+	else 
+	{
+		this->hitCounts = std::numeric_limits<INT>::infinity(); // neu tay chua mat thi bat tu
+	}
 	updateState = state->Update(*this);
 }
 
@@ -124,4 +149,17 @@ void BossStage3::LoadAnimations()
 #pragma endregion Load Animations
 
 	OutputDebugString(L"BossStage3 Animations Loaded Successfully\n");
+}
+
+void BossStage3::Fire() 
+{
+	if (dynamic_cast<BossStage3OpenState*>(state))
+	{
+		HasWeapons::Fire(position.x, position.y, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, movingDirection);
+	}
+}
+
+BOOL BossStage3::IsHandsDead()
+{
+	return boss3Stage3HandLeft->isDead && boss3Stage3HandRight->isDead;
 }

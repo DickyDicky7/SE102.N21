@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 
+#include "Sound.h"
 #include "State.h"
 #include "Motion.h"
 #include "Common.h"
@@ -21,7 +22,9 @@ class BulletFState;
 class BulletEnemyState;
 class BulletExplodeState;
 class BulletBossStage1State;
-class BulletBossStage2State;
+class BulletScubaSoldierState;
+class BulletBossStage2StateHand;
+class BulletBossStage2StateHead;
 
 
 class Bullet : public Entity, public HasTextures<Bullet>, public HasSprites<Bullet>, public HasAnimations<Bullet>, public CollidableEntity
@@ -29,6 +32,7 @@ class Bullet : public Entity, public HasTextures<Bullet>, public HasSprites<Bull
 
 public:
 
+	BOOL isFake ;
 	BOOL isEnemy;
 
 	Bullet(            );
@@ -39,6 +43,7 @@ public:
 	void HandleInput(Input&) override;
 
 	void SetState(BulletState*);
+	BulletState* GetState() const;
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
@@ -219,13 +224,31 @@ public:
 };
 
 
-class BulletBossStage2State : public BulletState
+class BulletBossStage2StateHand : public BulletState
 {
 
 public:
 
-	BulletBossStage2State();
-	virtual ~BulletBossStage2State();
+	BulletBossStage2StateHand();
+	virtual ~BulletBossStage2StateHand();
+
+	virtual void Exit(Bullet&) override;
+	virtual void Enter(Bullet&) override;
+	virtual void Render(Bullet&) override;
+
+	virtual BulletState* Update(Bullet&) override;
+	virtual BulletState* HandleInput(Bullet&, Input&) override;
+
+};
+
+
+class BulletBossStage2StateHead : public BulletState
+{
+
+public:
+
+	BulletBossStage2StateHead();
+	virtual ~BulletBossStage2StateHead();
 
 	virtual void Exit(Bullet&) override;
 	virtual void Enter(Bullet&) override;
@@ -244,6 +267,25 @@ public:
 
 	BulletExplodeState();
 	virtual ~BulletExplodeState();
+
+	virtual void Exit(Bullet&) override;
+	virtual void Enter(Bullet&) override;
+	virtual void Render(Bullet&) override;
+
+	virtual BulletState* Update(Bullet&) override;
+	virtual BulletState* HandleInput(Bullet&, Input&) override;
+
+};
+
+
+class BulletScubaSoldierState : public BulletState
+{
+
+public:
+
+	FLOAT θ; FLOAT v0;
+	virtual ~BulletScubaSoldierState();
+	BulletScubaSoldierState(FLOAT, FLOAT);
 
 	virtual void Exit(Bullet&) override;
 	virtual void Enter(Bullet&) override;

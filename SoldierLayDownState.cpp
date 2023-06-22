@@ -14,6 +14,10 @@ void SoldierLayDownState::Exit(Soldier& soldier)
 
 void SoldierLayDownState::Enter(Soldier& soldier)
 {
+	soldier.SetVX(+1.0f);
+	soldier.SetAX(+1.0f);
+	soldier.SetVY(+1.0f);
+	soldier.SetAY(+1.0f);
 }
 
 void SoldierLayDownState::Render(Soldier& soldier)
@@ -23,14 +27,21 @@ void SoldierLayDownState::Render(Soldier& soldier)
 
 SoldierState* SoldierLayDownState::Update(Soldier& soldier)
 {
+	ULONGLONG now = GetTickCount64();
+	if (now - time > soldier.GetFiringRate())
+	{
+		soldier.Fire();
+		time = FLOAT(now);
+	}
 	return NULL;
 }
 
 SoldierState* SoldierLayDownState::HandleInput(Soldier& soldier, Input& input)
 {
-	if (input.IsKey(DIK_DOWN))
-	{
-		return NULL;
-	}
-	return new SoldierRunState();
+	//if (input.IsKey(DIK_DOWN))
+	//{
+	//	return NULL;
+	//}
+	//return new SoldierRunState();
+	return NULL;
 }

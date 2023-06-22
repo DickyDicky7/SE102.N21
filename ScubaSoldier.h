@@ -13,7 +13,7 @@ class ScubaSoldierHiddenState;
 class ScubaSoldierShootingState;
 
 class ScubaSoldier : public Entity, public Enemy<Bill>
-				   , public HasTextures<ScubaSoldier>, public HasSprites<ScubaSoldier>, public HasAnimations<ScubaSoldier>
+				   , public HasTextures<ScubaSoldier>, public HasSprites<ScubaSoldier>, public HasAnimations<ScubaSoldier>, public HasWeapons
 {
 public:
 
@@ -27,6 +27,7 @@ public:
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
+	void Fire() override;
 	void CalculateBillAngle();
 
 protected:

@@ -13,6 +13,9 @@ Fire::Fire() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 	this->movingDirection = DIRECTION::LEFT;
 	this->distanceMove = 110.0f;
 	this->x0 = NULL;
+
+	this->enemyType = ENEMY_TYPE::NONE;
+	this->hitCounts = std::numeric_limits<INT>::infinity();
 }
 
 Fire::~Fire()

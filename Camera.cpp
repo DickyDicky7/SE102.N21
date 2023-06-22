@@ -20,6 +20,7 @@ Camera::Camera(/* Input* input, */ CameraState* state, FLOAT x, FLOAT y) : Entit
 	//}
 
 	this->state = state;
+	this->isStatic   = 0;
 	this->position.x = x;
 	this->position.y = y;
 }
@@ -100,6 +101,12 @@ FLOAT Camera::CalculateHH()
 const D3DMATRIX& Camera::GetViewMatrix() const
 {
 	return viewMatrix;
+}
+
+void Camera::ToStatic()
+{
+	isStatic = 1;
+	ChangeState(state, new CameraStaticState(), this);
 }
 
 BOOL Camera::CouldSee(Entity* entity)

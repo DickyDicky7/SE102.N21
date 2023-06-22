@@ -15,6 +15,7 @@ void BossStage3OpenState::Exit(BossStage3& bossStage3)
 
 void BossStage3OpenState::Enter(BossStage3& bossStage3)
 {
+	bossStage3.SetIsFire(false);
 }
 
 void BossStage3OpenState::Render(BossStage3& bossStage3)
@@ -24,6 +25,12 @@ void BossStage3OpenState::Render(BossStage3& bossStage3)
 
 BossStage3State* BossStage3OpenState::Update(BossStage3& bossStage3)
 {
+	if (bossStage3.GetIsFire() == false) 
+	{
+		bossStage3.Fire();
+		bossStage3.SetIsFire(true);
+	}
+	
 	if (time-- < 0) {
 		return new BossStage3MiddleState(BOSS_STAGE_3_ANIMATION_ID::CLOSE);
 	}

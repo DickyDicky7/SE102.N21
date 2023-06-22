@@ -14,7 +14,7 @@
 #include "HasAnimations.h"
 #include "TerrainStage1.h"
 #include "TerrainStage2.h"
-
+#include "Sound.h"
 
 static constexpr FLOAT IN_GAME_SCREEN_W = SCREEN_WIDTH  / SCALING_RATIO_X;
 static constexpr FLOAT IN_GAME_SCREEN_H = SCREEN_HEIGHT / SCALING_RATIO_Y;
@@ -196,7 +196,8 @@ public:
 
 	virtual SceneState* Update(Scene&) override;
 	virtual SceneState* HandleInput(Scene&, Input&) override;
-
+protected: 
+	float  delayToExplosion;
 };
 
 

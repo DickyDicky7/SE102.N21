@@ -1,7 +1,7 @@
 #pragma once
 #include "RifleManStanding.h"
 
-RifleManStanding::RifleManStanding() : Entity(), HasAnimations()
+RifleManStanding::RifleManStanding() : Entity(), HasAnimations(), HasWeapons(new BulletEnemyState())
 {
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -18,6 +18,12 @@ RifleManStanding::RifleManStanding() : Entity(), HasAnimations()
 
 	this->hitCounts = 1;
 	this->enemyType = ENEMY_TYPE::HUMAN;
+
+	this->firingRate = 0; 
+
+	shootDelay = RILFE_MAN_STANDING_SHOOT_DELAY;
+	shootTime = RILFE_MAN_STANDING_SHOOT_TIME;
+	shootDelayPerBullet = RILFE_MAN_STANDING_SHOOT_DELAY_PER_BULLET;
 }
 
 RifleManStanding::~RifleManStanding()
@@ -32,6 +38,9 @@ const Bill* RifleManStanding::GetEnemyTarget()
 
 void RifleManStanding::Update()
 {
+	if (Enemy::target->isDead)
+		return;
+
 	const float _shootingAngle = this->CalculateShootingAngle();
 
 	float dx = (this->GetPosition().x) - (Enemy::target->GetPosition().x);
@@ -58,7 +67,7 @@ void RifleManStanding::Update()
 		updateState = new RifleManStandingNormalState();
 		return;
 	}
-	
+
 	updateState = NULL;
 	return;
 }
@@ -142,4 +151,22 @@ void RifleManStanding::LoadAnimations()
 		{
 			{RIFLE_MAN_SPRITE_ID::SHOOT_DOWN, 0},
 		});
+}
+
+void RifleManStanding::Fire()
+{
+	if (Enemy::target->isDead)
+	{
+		return;
+	}
+}
+
+void RifleManStanding::CustomFire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION movingDirection)
+{
+	if (Enemy::target->isDead)
+	{
+		return;
+	}
+
+	HasWeapons::Fire(x, y, angle, vx, vy, ax, ay, movingDirection);
 }

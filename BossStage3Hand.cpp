@@ -1,7 +1,10 @@
 #include "BossStage3Hand.h"
 
-BossStage3Hand::BossStage3Hand() : Entity(), HasTextures(), HasSprites(), HasAnimations()
+BossStage3Hand::BossStage3Hand() : Entity(), HasTextures(), HasSprites(), HasAnimations(), HasWeapons(new BulletBossStage2StateHand())
 {
+	this->w = 15;
+	this->h = 15;
+
 	this->vx = 1.0f;
 	this->vy = 1.0f;
 	this->ax = 0.1f;
@@ -20,10 +23,18 @@ BossStage3Hand::BossStage3Hand() : Entity(), HasTextures(), HasSprites(), HasAni
 	isInitPositionJoints = false;
 
 	initPositionJoints();
+
+	this->hitCounts = 30;
+	this->enemyType = ENEMY_TYPE::BOSS;
+
+	this->isFire = false;
+
+	SetFiringRate(500);
 }
 
 BossStage3Hand::~BossStage3Hand()
 {
+	isFire = NULL;
 	Destroy(state);
 	Destroy(updateState);
 	Destroy(handleInputState);
@@ -39,13 +50,18 @@ void BossStage3Hand::initPositionJoints()
 {
 	for (size_t i = 0; i < 4; i++)
 	{
-		joints[i] = new BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID::ARM, position, movingDirection);
+		joints[i] = new BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID::ARM, position, movingDirection, this);
 	}
-	joints[4] = new BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID::HAND, position, movingDirection);
+	joints[4] = new BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID::HAND, position, movingDirection, this);
 }
 
 void BossStage3Hand::Update()
 {
+	if (this->isDead)
+	{
+		Sound::getInstance()->play("boss2finalhanddisappear.wav", false, 1);
+	}
+
 	if (!isInitPositionJoints) 
 	{
 		initPositionJoints();
@@ -124,4 +140,14 @@ void BossStage3Hand::LoadAnimations()
 #pragma endregion Load Animations
 
 	OutputDebugString(L"BossStage3Hand Animations Loaded Successfully\n");
+}
+
+void BossStage3Hand::Fire(FLOAT x, FLOAT y, FLOAT vx, FLOAT vy)
+{
+	HasWeapons::Fire(x, y, 0.0f, vx, vy, 0.0f, 0.0f, movingDirection);
+}
+
+void BossStage3Hand::Fire()
+{
+	HasWeapons::Fire(position.x, position.y, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, movingDirection);
 }

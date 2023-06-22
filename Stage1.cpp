@@ -19,19 +19,38 @@ Stage1::Stage1() : Stage()
 {
 	mapFilePath = "Resources/Maps/stage1.json";
 	TerrainBlock* wallL = new TerrainBlock();
+	TerrainBlock* wallR = new TerrainBlock();
 	TerrainBlock* wallB = new TerrainBlock();
 	wallL->type = TERRAIN_BLOCK_TYPE::WALL;
+	wallR->type = TERRAIN_BLOCK_TYPE::WALL;
 	wallB->type = TERRAIN_BLOCK_TYPE::WALL;
-	wallL->SetW(10.0f);
+	wallL->SetW(20.0f);
 	wallL->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
-	wallB->SetW(SCREEN_WIDTH / SCALING_RATIO_X);
-	wallB->SetH(10.0f);
+	wallR->SetW(20.0f);
+	wallR->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
+	wallB->SetW(SCREEN_WIDTH  / SCALING_RATIO_X);
+	wallB->SetH(20.0f);
+	wallL->name  = "L";
+	wallR->name  = "R";
+	wallB->name  = "B";
 	walls.insert({ "L", wallL });
+	walls.insert({ "R", wallR });
 	walls.insert({ "B", wallB });
+
+	finalBossStage1 = NULL;
 }
 
 Stage1::~Stage1()
 {
+}
+
+void Stage1::CheckIfHasDone()
+{
+	if (finalBossStage1->isDead && checkPoint && bill->AABBCheck(checkPoint))
+	{
+		Sound::getInstance()->play("passboss", false, 1);
+		hasDone = 1;
+	}
 }
 
 void Stage1::TranslateWalls()
@@ -66,6 +85,107 @@ void Stage1::TranslateWalls()
 
 void Stage1::TranslateCamera()
 {
+	if (bill && camera && bill->GetX() >= translateX && camera->GetL() <  translateX)
+	{
+		camera->SetX(camera->GetX() + 1.0f);
+		Sound::getInstance()->play("warning", false, 1);
+	}
+	else
+	if (bill && camera && bill->GetX() >= translateX && camera->GetL() >= translateX)
+	{
+		if (!camera->isStatic)
+			 camera->ToStatic();
+	}
+}
+
+void Stage1::SetRevivalPoint()
+{
+	if (bill->GetY() == +std::numeric_limits<FLOAT>::infinity())
+	{
+		std::vector<std::pair<Entity*, QuadTreeNode*>> 
+			 sortedForegroundTerrainsResult(foregroundTerrainsResult.begin(), foregroundTerrainsResult.end());
+		std::sort
+		(
+			sortedForegroundTerrainsResult.begin(), sortedForegroundTerrainsResult.end(),
+			[](std::pair<Entity*, QuadTreeNode*> pair1, std::pair<Entity*, QuadTreeNode*> pair2) -> BOOL
+			{
+				return pair1.first->GetL() < pair2.first->GetL();
+			}
+		);
+
+		BOOL hasForegroundTerrain = 0;
+		FLOAT W = bill->GetW() * 2.0f;
+		FLOAT H = bill->GetH() * 1.0f;
+		for (auto& [foregroundTerrain, node] : sortedForegroundTerrainsResult)
+		{
+			if (foregroundTerrain->GetR() - camera->GetL() > W)
+			{
+				hasForegroundTerrain = 1;
+				if (camera->GetL() >= foregroundTerrain->GetL()) bill->SetX(           camera->GetL() + W);
+				                                            else bill->SetX(foregroundTerrain->GetL() + W);
+				break;
+			}
+		}
+		if (!hasForegroundTerrain)
+			 bill->SetX(camera->GetL() + W);
+		     bill->SetY(camera->GetT() - H);
+	}
+}
+
+BOOL Stage1::ProcessSpecialEntity(Entity* entity)
+{
+	if (auto    gunBossStage1 = dynamic_cast<  GunBossStage1*>(entity))
+	{
+		return 1;
+	}
+
+	if (auto  finalBossStage1 = dynamic_cast<FinalBossStage1*>(entity))
+	{
+		if (! finalBossStage1->isDead)
+			  return 1;
+		
+		if (++finalBossStage1->deadTurns != 5)
+			  return 1;
+
+		Sound::getInstance()->stop();
+		Sound::getInstance()->play("boss1dead", false, 1);
+
+		FLOAT X = finalBossStage1->GetL() + finalBossStage1->GetW() * 0.25f;
+		FLOAT Y = finalBossStage1->GetT() - finalBossStage1->GetH() * 0.25f;
+		for (int i = 0; i <= 10; i++)
+		{
+			Explosion* subExplosion1 = new Explosion(new ExplosionType3State());
+			Explosion* subExplosion2 = new Explosion(new ExplosionType3State());
+			subExplosion1->SetX(X + i * finalBossStage1->GetW() * 0.75f);
+			subExplosion1->SetY(Y                                      );
+			subExplosion2->SetX(X + i * finalBossStage1->GetW() * 0.75f);
+			subExplosion2->SetY(Y -     finalBossStage1->GetH() * 0.75f);
+			effectEntities.push_back(subExplosion1);
+			effectEntities.push_back(subExplosion2);
+		}
+		return 1;
+	}
+
+	return 0;
+}
+
+BOOL Stage1::ProcessSpecialBullet(Bullet* bullet)
+{
+	if (dynamic_cast<BulletBossStage1State*>(bullet->GetState()))
+	{
+		Explosion* explosion = new Explosion(new ExplosionType2State());
+		explosion->SetX(bullet->GetX()       );
+		explosion->SetY(bullet->GetY() - 5.0f);
+		effectEntities.push_back(explosion);
+		return 1;
+	}
+
+	return 0;
+}
+
+BOOL Stage1::ProcessSpecialExplosion(Entity* deadEntity)
+{
+	return 0;
 }
 
 void Stage1::LoadEntities(void *entitiesLayer)
@@ -80,6 +200,8 @@ void Stage1::LoadEntities(void *entitiesLayer)
 
 	finalBoss->SetGun1(bossGun1);
 	finalBoss->SetGun2(bossGun2);
+
+	finalBossStage1 = finalBoss;
 
 	for (auto& object : _entitiesLayer->getObjects())
 	{

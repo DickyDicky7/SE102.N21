@@ -7,6 +7,11 @@
 #include "HasTextures.h"
 #include "Bill.h"
 #include "Enemy.h"
+#include "HasWeapons.h"
+
+#define CANON_SHOOT_DELAY 100
+#define CANON_SHOOT_DELAY_PER_BULLET 20
+#define CANON_SHOOT_TIME 3
 
 class Cannon;
 class CannonState;
@@ -16,7 +21,7 @@ class CannonUp30State;
 class CannonUp60State;
 
 class Cannon : public Entity, public Enemy<Bill>
-	, public HasTextures<Cannon>, public HasSprites<Cannon>, public HasAnimations<Cannon>
+	, public HasTextures<Cannon>, public HasSprites<Cannon>, public HasAnimations<Cannon>, public HasWeapons
 {
 public:
 	Cannon();
@@ -30,10 +35,17 @@ public:
 	void LoadSprites() override;
 	void LoadAnimations() override;
 
+	void Fire() override;
+	void Fire(FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, DIRECTION);
+
 	const Bill* GetEnemyTarget();
 
 	FLOAT CalculateShootingAngle();
 	BOOLEAN IsTargetInRange();
+
+	int shootDelay;
+	int shootDelayPerBullet;
+	int shootTime;
 
 protected:
 	CannonState* state;

@@ -8,6 +8,11 @@
 #include "Bill.h"
 #include "Enemy.h"
 #include "RifleMan.h"
+#include "HasWeapons.h"
+
+#define RILFE_MAN_STANDING_SHOOT_DELAY 120
+#define RILFE_MAN_STANDING_SHOOT_DELAY_PER_BULLET 20
+#define RILFE_MAN_STANDING_SHOOT_TIME 3
 
 class RifleManStanding;
 class RifleManStandingState;
@@ -16,7 +21,7 @@ class RifleManStandingAimUpState;
 class RifleManStandingAimDownState;
 
 class RifleManStanding : public Entity, public Enemy<Bill>
-	, public HasTextures<RifleManStanding>, public HasSprites<RifleManStanding>, public HasAnimations<RifleManStanding>, public RifleMan
+	, public HasTextures<RifleManStanding>, public HasSprites<RifleManStanding>, public HasAnimations<RifleManStanding>, public RifleMan, public HasWeapons
 {
 public:
 	RifleManStanding();
@@ -26,6 +31,9 @@ public:
 	virtual void Render() override;
 	virtual void HandleInput(Input&) override;
 
+	void Fire() override;
+	void CustomFire(FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, DIRECTION);
+
 	void LoadTextures() override;
 	void LoadSprites() override;
 	void LoadAnimations() override;
@@ -33,6 +41,10 @@ public:
 	const Bill* GetEnemyTarget();
 
 	FLOAT CalculateShootingAngle();
+
+	int shootDelay;
+	int shootDelayPerBullet;
+	int shootTime;
 
 protected:
 	RifleManStandingState* state;

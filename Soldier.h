@@ -16,7 +16,7 @@ class SoldierLayDownState;
 class SoldierDieState;
 
 class Soldier : public Entity, public Enemy<Bill>
-		      , public HasTextures<Soldier>, public HasSprites<Soldier>, public HasAnimations<Soldier>
+		      , public HasTextures<Soldier>, public HasSprites<Soldier>, public HasAnimations<Soldier>, public CollidableEntity, public HasWeapons
 {
 public:
 
@@ -29,8 +29,17 @@ public:
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
-  
-	BOOL IsHitWall();
+
+	SoldierState* GetState();
+	void SetState(SoldierState*);
+	void GoDead();
+	BOOL shootable;
+	void Fire() override;
+	void StaticResolveNoCollision() override;
+	void StaticResolveOnCollision(AABBSweepResult) override;
+	void DynamicResolveNoCollision() override;
+	void DynamicResolveOnCollision(AABBSweepResult) override;
+
 protected:
 
 	SoldierState* state;

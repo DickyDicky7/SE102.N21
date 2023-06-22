@@ -1,6 +1,6 @@
 #include "Cannon.h"
 
-Cannon::Cannon()
+Cannon::Cannon() : HasWeapons(new BulletEnemyState())
 {
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -17,8 +17,14 @@ Cannon::Cannon()
 	this->name = L"Cannon\n";
 	//
 
-	this->hitCounts = 10;
+	this->hitCounts = 8;
 	this->enemyType = ENEMY_TYPE::MACHINE;
+
+	this->firingRate = 0;
+
+	shootDelay = CANON_SHOOT_DELAY;
+	shootTime = CANON_SHOOT_TIME;
+	shootDelayPerBullet = CANON_SHOOT_DELAY_PER_BULLET;
 }
 
 Cannon::~Cannon()
@@ -76,7 +82,10 @@ void Cannon::Render()
 	{
 		ChangeState(state, updateState, this);
 		updateState = NULL;
+		return;
 	}
+	// i put fire in enter, so i need this
+	state->Enter(*this);
 }
 
 void Cannon::HandleInput(Input&)
@@ -161,3 +170,19 @@ void Cannon::LoadAnimations()
 		});
 }
 
+void Cannon::Fire()
+{
+	if (Enemy::target->isDead)
+	{
+		return;
+	}
+}
+
+void Cannon::Fire(FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION direction)
+{
+	if (Enemy::target->isDead)
+	{
+		return;
+	}
+	HasWeapons::Fire(this->position.x, this->position.y + this->h / 2, angle, vx, vy, ax, ay, direction);
+}

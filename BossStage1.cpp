@@ -3,7 +3,7 @@
 
 BossStage1::BossStage1()
 {
-
+	
 }
 
 BossStage1::~BossStage1()

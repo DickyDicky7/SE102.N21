@@ -95,7 +95,7 @@ void Item::HandleInput(Input& input)
 void InsertSpriteItem(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
 {
 	// i write this function to shorten the fuction: GraphicsHelper
-	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, DIRECTION::RIGHT, AIRCRAFT_TEXTURE_ID::AIRCRAFT_01);
+	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, DIRECTION::LEFT, AIRCRAFT_TEXTURE_ID::AIRCRAFT_01);
 }
 
 void Item::LoadSprites()

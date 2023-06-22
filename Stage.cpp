@@ -2,19 +2,23 @@
 #include "Item.h"
 #include "Stage.h"
 #include "Enemy.h"
+#include "Stage1.h"
+#include "Stage2.h"
 #include "Falcon.h"
 #include "Camera.h"
 #include "Soldier.h"
 #include "AirCraft.h"
 #include "Explosion.h"
 #include "tileson.hpp"
+#include "BossStage3.h"
 #include "TerrainBlock.h"
 #include "TerrainStage1.h"
 #include "TerrainStage2.h"
 #include "GunBossStage1.h"
+#include "BossStage3Hand.h"
 #include "FinalBossStage1.h"
 
-Stage:: Stage() : mapFilePath(""), translateX(0.0f), translateY(0.0f), bill(NULL), tileW(0.0f), tileH(0.0f), camera(NULL), entities(NULL), backgroundTerrains(NULL), foregroundTerrains(NULL)
+Stage:: Stage() : hasDone(0), checkPoint(NULL), mapFilePath(""), translateX(0.0f), translateY(0.0f), bill(NULL), tileW(0.0f), tileH(0.0f), camera(NULL), entities(NULL), backgroundTerrains(NULL), foregroundTerrains(NULL)
 {
 }
 
@@ -31,11 +35,27 @@ Stage::~Stage()
 
 void Stage::Update()
 {
-	if (bill->GetY() == +std::numeric_limits<FLOAT>::infinity())
-	{
-		bill->SetX(camera->GetL() + bill->GetW() * 2.0f);
-		bill->SetY(camera->GetT() - bill->GetH() * 1.0f);
-	}
+	if (hasDone)
+		return;
+
+
+	//if (bill->GetY() == +std::numeric_limits<FLOAT>::infinity())
+	//{
+	//	if (dynamic_cast<Stage1*>(this))
+	//	{
+	//		bill->SetX(camera->GetL() + bill->GetW() * 2.0f);
+	//		bill->SetY(camera->GetT() - bill->GetH() * 1.0f);
+	//	}
+	//	else
+	//	if (dynamic_cast<Stage2*>(this))
+	//	{
+	//		bill->SetX(camera->GetL() + bill->GetW() * 2.0f);
+	//		bill->SetY(camera->GetY() - bill->GetH() * 1.0f);
+	//	}
+	//}
+
+
+	SetRevivalPoint();
 
 
 	auto& bullets = HasWeapons::GetBullets();
@@ -60,17 +80,10 @@ void Stage::Update()
 		{
 			continue;
 		}
-
-		if (dynamic_cast<GunBossStage1*>(entity))
+		if (ProcessSpecialEntity(entity))
 		{
 			continue;
 		}
-
-		if (dynamic_cast<FinalBossStage1*>(entity))
-		{
-			continue;
-		}
-
 		if (entity && entity->isDead)
 		{
 			node->entities.remove (entity);
@@ -102,10 +115,12 @@ void Stage::Update()
 			break;
 
 			case ENEMY_TYPE::HUMAN:
+				 Sound::getInstance()->play("qexplode", false, 1);
 				 explosion = new Explosion(new ExplosionType1State());
 			break;
 
 			case ENEMY_TYPE::MACHINE:
+				 Sound::getInstance()->play("exbullet", false, 1);
 				 explosion = new Explosion(new ExplosionType2State());
 			break;
 
@@ -115,28 +130,36 @@ void Stage::Update()
 				explosion->SetX(deadEntity->GetX());
 				explosion->SetY(deadEntity->GetY());
 				effectEntities.push_back(explosion);
+				ProcessSpecialExplosion(deadEntity);
 			}
 		}
 		else
 		if (auto bullet = dynamic_cast<Bullet*>(deadEntity))
 		{
-			Bullet* explosion = new Bullet();
-			explosion->SetState(new BulletExplodeState());
-			if (bullet->GetVX() < 0.0f)
-				explosion->SetX(bullet->GetL() - 3.0f);
+			if (ProcessSpecialBullet(bullet))
+			{
+
+			}
 			else
-			if (bullet->GetVX() > 0.0f)
-				explosion->SetX(bullet->GetR() + 3.0f);
-			else 
-				explosion->SetX(bullet->GetX() + 0.0f);
-			if (bullet->GetVY() < 0.0f)
-				explosion->SetY(bullet->GetB() - 3.0f);
-			else
-			if (bullet->GetVY() > 0.0f)
-				explosion->SetY(bullet->GetT() + 3.0f);
-			else
-				explosion->SetY(bullet->GetY() + 0.0f);
-			effectEntities.push_back(explosion);
+			{
+				Bullet* explosion = new Bullet();
+				explosion->SetState(new BulletExplodeState());
+				if (bullet->GetVX() < 0.0f)
+					explosion->SetX(bullet->GetL() - 3.0f);
+				else
+				if (bullet->GetVX() > 0.0f)
+					explosion->SetX(bullet->GetR() + 3.0f);
+				else 
+					explosion->SetX(bullet->GetX() + 0.0f);
+				if (bullet->GetVY() < 0.0f)
+					explosion->SetY(bullet->GetB() - 3.0f);
+				else
+				if (bullet->GetVY() > 0.0f)
+					explosion->SetY(bullet->GetT() + 3.0f);
+				else
+					explosion->SetY(bullet->GetY() + 0.0f);
+				effectEntities.push_back(explosion);
+			}
 		}
 		if (auto falcon = dynamic_cast<Falcon*>(deadEntity))
 		{
@@ -184,6 +207,7 @@ void Stage::Update()
 
 	TranslateCamera();
 	TranslateWalls ();
+	CheckIfHasDone ();
 }
 
 
@@ -192,6 +216,16 @@ void Stage::Render()
 	backgroundTerrainsResult.clear();
 	backgroundTerrains->Retrieve(camera,   backgroundTerrainsResult);
 	for (auto& [backgroundTerrain, node] : backgroundTerrainsResult) backgroundTerrain->Render();
+
+
+	if (hasDone)
+	{
+		if (auto stage1 = dynamic_cast<Stage1*>(this))
+			     stage1-> finalBossStage1->Render();
+		return;
+	}
+
+
 	for (auto& [entity           , node] : entitiesResult)                      entity->Render();
 	for (auto&  effectEntity             : effectEntities)                effectEntity->Render();
 	bill->Render();
@@ -206,6 +240,10 @@ void Stage::HandleInput(Input& input)
 
 void Stage::CheckResolveClearCollision()
 {
+	if (hasDone)
+		return;
+
+
 	foregroundTerrainsResult.clear();
 	foregroundTerrains->Retrieve(camera, foregroundTerrainsResult);
 
@@ -237,7 +275,17 @@ void Stage::CheckResolveClearCollision()
 			{
 				if (entity1 != entity2)
 				{
-					collidableEntity->CollideWith(entity2);
+					if (auto bossStage3Hand = dynamic_cast<BossStage3Hand*>(entity2))
+					{
+						collidableEntity->CollideWith(bossStage3Hand);
+						for (auto& bossStage3Joint :  bossStage3Hand->joints)
+							if    (bossStage3Joint)
+								   collidableEntity->CollideWith(bossStage3Joint);
+					}
+					else
+					{
+						collidableEntity->CollideWith(entity2);
+					}
 				}
 			}
 			if (dynamic_cast<Soldier*>(collidableEntity))
@@ -365,10 +413,16 @@ void Stage::LoadForegroundTerrains(void* foregroundTerrainsLayer)
 		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::NON_THROUGHABLE;
 		if (object.getClassType() == "throughable")
 		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::THROUGHABLE;
+		if (object.getClassType() == "check_point")
+		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::CHECK_POINT;
 		if (object.getClassType() == "water")
 		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::WATER;
 
 		foregroundTerrains->Insert(foregroundTerrain);
+
+		if (foregroundTerrain 
+		&&  foregroundTerrain->type == TERRAIN_BLOCK_TYPE::CHECK_POINT)
+			checkPoint = foregroundTerrain;
 	}
 }
 

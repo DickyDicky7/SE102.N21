@@ -41,6 +41,7 @@
     <ClInclude Include="Bullet.h" />
     <ClInclude Include="BulletCommon.h" />
     <ClInclude Include="Common.h" />
+    <ClInclude Include="DDSTextureLoader9.h" />
     <ClInclude Include="Enemy.h" />
     <ClInclude Include="Entity.h" />
     <ClInclude Include="Explosion.h" />
@@ -82,6 +83,7 @@
     <ClInclude Include="ScubaSoldierCommon.h" />
     <ClInclude Include="Soldier.h" />
     <ClInclude Include="SoldierCommon.h" />
+    <ClInclude Include="Sound.h" />
     <ClInclude Include="Stage.h" />
     <ClInclude Include="Stage1.h" />
     <ClInclude Include="Stage2.h" />
@@ -117,13 +119,15 @@
     <ClCompile Include="BridgePartExplosionState.cpp" />
     <ClCompile Include="BridgePartState.cpp" />
     <ClCompile Include="BulletBossStage1State.cpp" />
-    <ClCompile Include="BulletBossStage2State.cpp" />
+    <ClCompile Include="BulletBossStage2StateHand.cpp" />
+    <ClCompile Include="BulletBossStage2StateHead.cpp" />
     <ClCompile Include="BulletEnemyState.cpp" />
     <ClCompile Include="BulletExplodeState.cpp" />
     <ClCompile Include="BulletFState.cpp" />
     <ClCompile Include="BulletLState.cpp" />
     <ClCompile Include="BulletMState.cpp" />
     <ClCompile Include="BulletRState.cpp" />
+    <ClCompile Include="BulletScubaSoldierState.cpp" />
     <ClCompile Include="BulletSState.cpp" />
     <ClCompile Include="Cannon.cpp" />
     <ClCompile Include="CannonNormalState.cpp" />
@@ -134,6 +138,7 @@
     <ClCompile Include="CollidableEntity.cpp" />
     <ClCompile Include="CollidableState.cpp" />
     <ClCompile Include="CreditSceneState.cpp" />
+    <ClCompile Include="DDSTextureLoader9.cpp" />
     <ClCompile Include="EndingSceneState.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="ExplosionState.cpp" />
@@ -238,6 +243,7 @@
     <ClCompile Include="SoldierShootState.cpp" />
     <ClCompile Include="SoldierState.cpp" />
     <ClCompile Include="RifleManHideOnBushStandingState.cpp" />
+    <ClCompile Include="Sound.cpp" />
     <ClCompile Include="FinalBossStage1.cpp" />
     <ClCompile Include="Stage.cpp" />
     <ClCompile Include="Stage1.cpp" />
@@ -251,6 +257,9 @@
     <ClCompile Include="TerrainStage2.cpp" />
     <ClCompile Include="TestingEntity.cpp" />
     <ClCompile Include="WallTurret.cpp" />
+    <ClCompile Include="WallTurretNormalState.cpp" />
+    <ClCompile Include="WallTurretOpeningState.cpp" />
+    <ClCompile Include="WallTurretClosingState.cpp" />
     <ClCompile Include="WallTurretLeft120State.cpp" />
     <ClCompile Include="WallTurretLeft150State.cpp" />
     <ClCompile Include="WallTurretLeft90State.cpp" />

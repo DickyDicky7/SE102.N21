@@ -8,6 +8,8 @@
 #include "Bill.h"
 #include "Enemy.h"
 
+class BossStage3Hand;
+
 // 1 Joint la 1 khop xuong
 class BossStage3Joint : public Entity, public Enemy<Bill>
 	, public HasTextures<BossStage3Joint>, public HasSprites<BossStage3Joint>, public HasAnimations<BossStage3Joint>
@@ -21,7 +23,7 @@ public:
         Unknow //default
     };
 
-	BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID, D3DXVECTOR3, DIRECTION);
+	BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID, D3DXVECTOR3, DIRECTION, BossStage3Hand*);
 	virtual ~BossStage3Joint();
 	void Update() override;
 	void Render() override;
@@ -70,6 +72,7 @@ public:
     float angleMoved;
     float moveAroundSpeed; // (Degree / frame)
 
+    BossStage3Hand* parent;
     MoveAroundDirection moveAroundDirection;
 
 protected:

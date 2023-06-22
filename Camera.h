@@ -42,6 +42,8 @@ public:
 		OutputDebugString(L"Camera");
 	}
 
+	BOOL isStatic;
+	void ToStatic();
 	BOOL CouldSee(Entity*);
 	FLOAT GetB() const override;
 	FLOAT GetT() const override;

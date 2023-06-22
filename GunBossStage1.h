@@ -9,6 +9,7 @@
 #include "Enemy.h"
 #include "BossStage1.h"
 #include "ExplosionCommon.h"
+#include "HasWeapons.h"
 
 class GunBossStage1;
 class GunBossStage1State;
@@ -17,7 +18,7 @@ class GunBossStage1PrepareShootState;
 class GunBossStage1DestroyState;
 
 class GunBossStage1 : public Entity, public Enemy<Bill>
-	, public HasTextures<GunBossStage1>, public HasSprites<GunBossStage1>, public HasAnimations<GunBossStage1>, public BossStage1
+	, public HasTextures<GunBossStage1>, public HasSprites<GunBossStage1>, public HasAnimations<GunBossStage1>, public BossStage1, public HasWeapons
 {
 public:
 	GunBossStage1();
@@ -28,10 +29,15 @@ public:
 	virtual void Render() override;
 	virtual void HandleInput(Input&) override;
 
+	void Fire() override;
+	void Fire(FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, DIRECTION);
+
 	void LoadTextures() override;
 	void LoadSprites() override;
 	void LoadAnimations() override;
 	int GetType();
+
+	const Bill* GetEnemyTarget();
 
 protected:
 	GunBossStage1State* state;

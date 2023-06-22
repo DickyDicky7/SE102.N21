@@ -3,8 +3,15 @@
 #include "Bridge.h"
 #include "Falcon.h"
 #include "RockFly.h"
+#include "Soldier.h"
 #include "AirCraft.h"
+#include "BossStage3.h"
 #include "TerrainBlock.h"
+#include "GunBossStage1.h"
+#include "BossStage3Gate.h"
+#include "BossStage3Hand.h"
+#include "FinalBossStage1.h"
+#include "BossStage3Joint.h"
 
 Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletRState()), livesLeft(NULL)
 {
@@ -26,6 +33,9 @@ Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), Collidabl
 	this->name = L"Bill\n";
 	//
 
+	this->immortalTime = 200;
+	this->immortalTick = 000;
+
 	if (!state)
 	{
 		 state = new BillBeginState();
@@ -40,14 +50,38 @@ Bill::~Bill()
 	Destroy(handleInputState);
 }
 
+void Bill::GoDead()
+{
+	if (immortalTick > immortalTime)
+	{
+		if (!dynamic_cast<BillDeadState*>(state) 
+		&&  !dynamic_cast<BillDiveState*>(state))
+		{
+			ChangeState(state, new BillDeadState(), this);
+		}
+	}
+}
+
 void Bill::Update()
 {
 	updateState = state->Update(*this);
+	if  (immortalTick <= immortalTime)
+	   ++immortalTick;
 }
 
 void Bill::Render()
 {
-	state->Render(*this);
+	if  (immortalTick <= immortalTime)
+	{
+	if  (immortalTick %2)
+	{
+		 state->Render(*this);
+	}
+	}
+	else
+	{
+		 state->Render(*this);
+	}
 	this->w = this->currentFrameW;
 	this->h = this->currentFrameH;
 
@@ -367,10 +401,6 @@ void Bill::Fire                    (                               )
 		else
 			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.2f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
 	}
-	else
-	{
-		HasWeapons::Fire(GetR(), GetT() * 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, movingDirection);
-	}
 }
 
 void Bill::StaticResolveNoCollision(                               )
@@ -378,6 +408,7 @@ void Bill::StaticResolveNoCollision(                               )
 	if (dynamic_cast<BillDeadState*>(state))
 	{
 		surfaceEntity = NULL;
+		isAbSurface = 0;
 		return;
 	}
 }
@@ -387,6 +418,7 @@ void Bill::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
 	if (dynamic_cast<BillDeadState*>(state))
 	{
 		surfaceEntity = NULL;
+		isAbSurface = 0;
 		return;
 	}
 }
@@ -396,6 +428,7 @@ void Bill::DynamicResolveNoCollision(                               )
 	if (dynamic_cast<BillDeadState*>(state))
 	{
 		surfaceEntity = NULL;
+		isAbSurface = 0;
 		return;
 	}
 
@@ -447,7 +480,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			}
 			else
 			{
-				vy = +0.0f;
+				vy = +1.0f;
 			}
 		}
 		return;
@@ -538,6 +571,11 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			return;
 		}
 
+		if (dynamic_cast<BillDiveState*>(state) || dynamic_cast<BillBeginState*>(state))
+		{
+			return;
+		}
+
 		auto item = dynamic_cast<Item*>(aabbSweepResult.surfaceEntity);
 		if  (item)
 		{
@@ -546,42 +584,40 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			{
 
 			case ITEM_TYPE::B:
-
+				 Sound::getInstance()->play("weaponB", false, 1);
 			break;
 
 			case ITEM_TYPE::F:
+				 Sound::getInstance()->play("weaponF", false, 1);
 				 SetBulletState(new BulletFState);
 			break;
 
 			case ITEM_TYPE::L:
+				 Sound::getInstance()->play("weaponL", false, 1);
 				 SetBulletState(new BulletLState);
 			break;
 
 			case ITEM_TYPE::M:
+				 Sound::getInstance()->play("weaponM", false, 1);
 				 SetBulletState(new BulletMState);
 			break;
 
 			case ITEM_TYPE::R:
+				 Sound::getInstance()->play("weaponR", false, 1);
 				 SetBulletState(new BulletRState);
 			break;
 
 			case ITEM_TYPE::S:
+				 Sound::getInstance()->play("weaponS", false, 1);
 				 SetBulletState(new BulletSState);
 			break;
 
 			case ITEM_TYPE::I:
+				 Sound::getInstance()->play("weaponD", false, 1);
 			break;
 
 			}
 			return;
-		}
-
-		auto bullet = dynamic_cast<Bullet*>(aabbSweepResult.surfaceEntity);
-		if  (bullet)
-		{
-		if  (bullet->isEnemy)
-			 ChangeState(state, new BillDeadState(), this);
-			 return;
 		}
 
 		auto rockFly = dynamic_cast<RockFly*>(aabbSweepResult.surfaceEntity);
@@ -628,6 +664,57 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 		auto aircraft = dynamic_cast<AirCraft*>(aabbSweepResult.surfaceEntity);
 		if  (aircraft)
+		{
+			return;
+		}
+
+		auto  gunBossStage1 = dynamic_cast<GunBossStage1*>(aabbSweepResult.surfaceEntity);
+		if  ( gunBossStage1)
+		{
+		if  (!gunBossStage1->isDead)
+			  position.x += aabbSweepResult.enTime * vx;
+			  return;
+		}
+
+		auto  finalBossStage1 = dynamic_cast<FinalBossStage1*>(aabbSweepResult.surfaceEntity);
+		if  ( finalBossStage1)
+		{
+		if  (!finalBossStage1->isDead)
+			  position.x += aabbSweepResult.enTime * vx;
+			  return;
+		}
+
+		auto bossStage3Head = dynamic_cast<BossStage3*>(aabbSweepResult.surfaceEntity);
+		if  (bossStage3Head)
+		{
+			return;
+		}
+
+		auto bossStage3Gate = dynamic_cast<BossStage3Gate*>(aabbSweepResult.surfaceEntity);
+		if  (bossStage3Gate)
+		{
+			return;
+		}
+
+		auto bossStage3Hand = dynamic_cast<BossStage3Hand*>(aabbSweepResult.surfaceEntity);
+		if  (bossStage3Hand)
+		{
+			return;
+		}
+
+		auto bossStage3Joint = dynamic_cast<BossStage3Joint*>(aabbSweepResult.surfaceEntity);
+		if  (bossStage3Joint)
+		{
+			return;
+		}
+
+		auto soldier =  dynamic_cast<Soldier*>(aabbSweepResult.surfaceEntity);
+		if  (soldier && dynamic_cast<SoldierDieState*> (soldier->GetState()))
+		{
+			return;
+		}
+
+		if (immortalTick <= immortalTime)
 		{
 			return;
 		}

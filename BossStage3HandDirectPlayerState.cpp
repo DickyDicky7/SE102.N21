@@ -21,7 +21,24 @@ void BossStage3HandDirectPlayerState::Exit(BossStage3Hand& bossStage3hand)
 
 void BossStage3HandDirectPlayerState::Enter(BossStage3Hand& bossStage3hand)
 {
+    isFirstTime = true;
 
+    timeAttack = 60;
+
+    joints = bossStage3hand.joints;
+    speed = 5.0f;
+    frameDelayChangeState = 280;
+
+    for (size_t i = 2; i < 5; i++)
+    {
+        joints[i]->moveFollow(joints[i - 1], false);
+    }
+
+    for (size_t i = 1; i < 5; i++)
+    {
+        joints[i]->stopMoveFollow();
+        moveAroundDirect(bossStage3hand, joints[0], joints[i], speed, 15 * i);
+    }
 }
 
 void BossStage3HandDirectPlayerState::Render(BossStage3Hand& bossStage3hand)
@@ -34,6 +51,54 @@ void BossStage3HandDirectPlayerState::Render(BossStage3Hand& bossStage3hand)
 
 BossStage3HandState* BossStage3HandDirectPlayerState::Update(BossStage3Hand& bossStage3hand)
 {
+    if (timeAttack > 0)
+    {
+        timeAttack--;
+
+        if (timeAttack == 0)
+        {
+            D3DXVECTOR3 a = getNearestPlayer(bossStage3hand);
+            D3DXVECTOR3 b = bossStage3hand.joints[4]->GetPosition();
+
+            float angle = getAngle(D3DXVECTOR2(a.x, a.y), D3DXVECTOR2(b.x, b.y));
+
+            bossStage3hand.Fire(bossStage3hand.joints[4]->GetX(), bossStage3hand.joints[4]->GetY(), angle, -0.5f);
+        }
+    }
+
+    frameDelayChangeState--;
+
+    if (frameDelayChangeState <= 0)
+    {
+        return new BossStage3HandWaveState(bossStage3hand);
+        return NULL;
+    }
+
+    if (!joints[1]->isMoveAround)
+    {
+        isFirstTime = false;
+    }
+
+    for (size_t i = 1; i < 5; i++)
+    {
+        if (!joints[i]->isMoveAround)
+        {
+            if (abs(getAngleBetweenPlayerAndjoint(joints[i], bossStage3hand)) >= 5.0f)
+            {
+                moveAroundDirect(bossStage3hand, joints[0], joints[i], speed, 15 * i);
+            }
+        }
+    }
+
+    for (size_t i = 2; i < 5; i++)
+    {
+        joints[i]->alignDistance(joints[i - 1]);
+    }
+
+    for (size_t i = 0; i < 5; i++)
+    {
+        bossStage3hand.joints[i]->Update();
+    }
     return NULL;
 }
 
@@ -114,8 +179,8 @@ float BossStage3HandDirectPlayerState::getAngle(D3DXVECTOR2 pos1, D3DXVECTOR2 po
     D3DXVECTOR2 vec(pos1 - pos2);
     D3DXVec2Normalize(&vec, &vec);
 
-    float angle = acos(vec.x) * (abs(vec.y) / vec.y);
-
+   // float angle = acos(vec.x) * (abs(vec.y) / vec.y);
+    float angle = - vec.x / vec.y;
     return angle;
 }
 

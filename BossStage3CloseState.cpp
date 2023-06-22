@@ -15,6 +15,7 @@ void BossStage3CloseState::Exit(BossStage3& bossStage3)
 
 void BossStage3CloseState::Enter(BossStage3& bossStage3)
 {
+	bossStage3.SetIsFire(false);
 }
 
 void BossStage3CloseState::Render(BossStage3& bossStage3)
@@ -24,6 +25,10 @@ void BossStage3CloseState::Render(BossStage3& bossStage3)
 
 BossStage3State* BossStage3CloseState::Update(BossStage3& bossStage3)
 {
+	if (!bossStage3.IsHandsDead())
+	{
+		return NULL;
+	}
 	if (time-- < 0) {
 		return new BossStage3MiddleState(BOSS_STAGE_3_ANIMATION_ID::OPEN);
 	}

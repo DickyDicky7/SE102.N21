@@ -1,9 +1,11 @@
+#include "Bridge.h"
 #include "Soldier.h"
+#include "TerrainBlock.h"
 
-Soldier::Soldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
+Soldier::Soldier() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletEnemyState())
 {
-	this->vx = 1.0f;
-	this->vy = 1.0f;
+	this->vx = +1.0f;
+	this->vy = -1.0f;
 	this->ax = 0.1f;
 	this->ay = 0.1f;
 	this->position.x = 100;
@@ -17,23 +19,220 @@ Soldier::Soldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 	// set state begin is run
 	this->state = new SoldierRunState();
 
+	shootable  = 0;
+	firingRate = 2000;
+	CollidableEntity::self = this;
+
 	this->hitCounts = 1;
 	this->enemyType = ENEMY_TYPE::HUMAN;
 }
 
-/// <summary>
-/// this fuction is check is the Bill hit the wall left and right ?
-/// </summary>
-/// <returns></returns>
-BOOL Soldier::IsHitWall() {
-	BOOL isHited = 0;
-	// check is hit the wall left
-	bool isHitLeftWall = (GetX() <= 0) && (GetMovingDirection() == DIRECTION::LEFT);
-	bool isHitRightWall = (GetX() >= SCREEN_WIDTH - 520) && (GetMovingDirection() == DIRECTION::RIGHT);
+void Soldier::Fire()
+{
+	FLOAT coefficient = dynamic_cast<SoldierShootState*>(state) ? 0.75f : dynamic_cast<SoldierLayDownState*>(state) ? 0.20f : 0.00f;
+	if (movingDirection == DIRECTION::LEFT)
+	{
+		HasWeapons::Fire(GetL(), position.y + h * coefficient, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+	}
+	else 
+	if (movingDirection == DIRECTION::RIGHT)
+	{
+		HasWeapons::Fire(GetR(), position.y + h * coefficient, 0.0f, +1.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+	}
+}
 
-	if (!isHitLeftWall && !isHitRightWall) isHited = 1;
+void Soldier::StaticResolveNoCollision()
+{
+	if (dynamic_cast<SoldierDieState*>(state))
+	{
+		surfaceEntity = NULL;
+		isAbSurface = 0;
+		return;
+	}
+}
 
-	return isHited;
+void Soldier::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
+{
+	if (dynamic_cast<SoldierDieState*>(state))
+	{
+		surfaceEntity = NULL;
+		isAbSurface = 0;
+		return;
+	}
+}
+
+void Soldier::DynamicResolveNoCollision()
+{
+	if (dynamic_cast<SoldierDieState*>(state))
+	{
+		surfaceEntity = NULL;
+		isAbSurface = 0;
+		return;
+	}
+	
+	if (isAbSurface)
+	{
+		if (surfaceEntity)
+		{
+			if (this->GetL() > surfaceEntity->GetR()
+			||  this->GetR() < surfaceEntity->GetL())
+			{
+				if (!dynamic_cast<SoldierJumpState*>(state))
+				{
+					isAbSurface = 0; surfaceEntity = NULL;
+					auto currentY = position.y; ChangeState(state, new SoldierJumpState(), this); position.y = currentY;
+				}
+			}
+		}
+	}
+}
+
+void Soldier::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
+{
+	auto    terrainBlock  = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
+	if     (terrainBlock)
+	switch (terrainBlock->type)
+	{
+
+	case TERRAIN_BLOCK_TYPE::WALL:
+	{
+		if (aabbSweepResult.normalY != +0.0f)
+		{
+			position.y += aabbSweepResult.enTime * vy;
+			isAbSurface = 0;
+			surfaceEntity = NULL;
+			if (!dynamic_cast<SoldierDieState*>(state))
+			{
+				ChangeState(state, new SoldierDieState(), this);
+			}
+			else
+			{
+				vy = +1.0f;
+			}
+		}
+		else
+		if (aabbSweepResult.normalX != +0.0f)
+		{
+			if ((terrainBlock->name == "L" && aabbSweepResult.normalX == +1.0f) 
+			||  (terrainBlock->name == "R" && aabbSweepResult.normalX == -1.0f))
+			{
+				position.x += aabbSweepResult.enTime * vx;
+				if (!dynamic_cast<SoldierDieState*>(state))
+				{
+					if (aabbSweepResult.normalX == -1.0f)
+					{
+						movingDirection = DIRECTION::LEFT;
+					}
+					else
+					if (aabbSweepResult.normalX == +1.0f)
+					{
+						movingDirection = DIRECTION::RIGHT;
+					}
+				}
+			}
+		}
+		else
+		{
+		}
+		return;
+	}
+	break;
+
+	case TERRAIN_BLOCK_TYPE::WATER:
+	{
+		if (dynamic_cast<SoldierDieState*>(state))
+			return;
+
+		if (aabbSweepResult.normalY == +1.0f)
+		{
+			position.y += aabbSweepResult.enTime * vy;
+			isAbSurface = 0;
+			surfaceEntity = NULL;
+			ChangeState(state, new SoldierDieState(), this);
+		}
+		else
+		{
+		}
+		return;
+	}
+	break;
+
+	case TERRAIN_BLOCK_TYPE::THROUGHABLE:
+	{
+		if (dynamic_cast<SoldierDieState*>(state))
+			return;
+
+		if (aabbSweepResult.normalY == +1.0f)
+		{
+			if (dynamic_cast<SoldierJumpState*>(state))
+			{
+				if (terrainBlock->GetY() > position.y)
+					return;
+			}
+			if (surfaceEntity)
+			{
+				if (abs(terrainBlock->GetY() - surfaceEntity->GetY() > 48.0f)) // size of 1 tile is 16 x 16 -> 48.0f = 3 tiles
+					return;
+			}
+			position.y += aabbSweepResult.enTime * vy;
+			isAbSurface = 1;
+			surfaceEntity = terrainBlock;
+			ChangeState(state, new SoldierRunState(), this);
+		}
+		else
+		{
+		}
+		return;
+	}
+	break;
+
+	case TERRAIN_BLOCK_TYPE::NON_THROUGHABLE:
+	{
+		if (dynamic_cast<SoldierDieState*>(state))
+			return;
+
+		if (aabbSweepResult.normalY == +1.0f)
+		{
+			position.y += aabbSweepResult.enTime * vy;
+			isAbSurface = 1;
+			surfaceEntity = terrainBlock;
+			ChangeState(state, new SoldierRunState(), this);
+		}
+		else
+		{
+		}
+		return;
+	}
+	break;
+
+	}
+	else
+	{
+		if (dynamic_cast<SoldierDieState*>(state))
+		{
+			surfaceEntity = NULL;
+			isAbSurface = 0;
+			return;
+		}
+
+		auto bridge = dynamic_cast<Bridge*>(aabbSweepResult.surfaceEntity);
+		if  (bridge)
+		{
+			if (aabbSweepResult.normalY == +1.0f)
+			{
+				if (surfaceEntity)
+				{
+					if (abs(bridge->GetY() - surfaceEntity->GetY() > 48.0f)) // size of 1 tile is 16 x 16 -> 48.0f = 3 tiles
+						return;
+				}
+				position.y += aabbSweepResult.enTime * vy;
+				isAbSurface = 1;
+				surfaceEntity = bridge;
+				ChangeState(state, new SoldierRunState(), this);
+			}
+			return;
+		}
+	}
 }
 
 Soldier::~Soldier()
@@ -45,6 +244,91 @@ Soldier::~Soldier()
 
 void Soldier::Update()
 {
+	if (!dynamic_cast<SoldierDieState*>(state) && !dynamic_cast<SoldierJumpState*>(state))
+	{
+		FLOAT dx = +(position.x - target->GetX());
+		FLOAT dy = -(position.y - target->GetY());
+
+		FLOAT targetAngle = 0.0f;
+
+		if (dx > 0.0f && dy < 0.0f)
+		{
+			targetAngle = -atan(abs(dx) / abs(dy)) * 180.0f / D3DX_PI;
+		}
+		else
+		if (dx < 0.0f && dy < 0.0f)
+		{
+			targetAngle = +atan(abs(dx) / abs(dy)) * 180.0f / D3DX_PI;
+		}
+		else
+		if (dx > 0.0f && dy > 0.0f)
+		{
+			targetAngle = +atan(abs(dx) / dy) * 180.0f / D3DX_PI - 180.0f;
+		}
+		else
+		if (dx < 0.0f && dy > 0.0f)
+		{
+			targetAngle = -atan(abs(dx) / dy) * 180.0f / D3DX_PI + 180.0f;
+		}
+
+		if (abs(target->GetX() - position.x) >= 64.0f)
+		{
+			if (targetAngle < 0.0f)
+			{
+				movingDirection = DIRECTION::LEFT;
+			}
+			else
+			if (targetAngle > 0.0f)
+			{
+				movingDirection = DIRECTION::RIGHT;
+			}
+			if (shootable)
+			{
+				if ((targetAngle <= +95.0f && targetAngle >= +85.0f)
+				||  (targetAngle >= -95.0f && targetAngle <= -85.0f))
+				{
+					if (!dynamic_cast<SoldierShootState*>(state))
+					{
+						ChangeState(state, new SoldierShootState(), this);
+					}
+				}
+				else 
+				if (dynamic_cast<SoldierShootState*>(state))
+				{
+					ChangeState(state, new SoldierRunState(), this);
+				}
+			}
+		}
+		else
+		if (abs(target->GetX() - position.x) <= 64.0f)
+		{
+			if (shootable)
+			{
+				if ((targetAngle <= +95.0f && targetAngle >= +85.0f)
+				||  (targetAngle >= -95.0f && targetAngle <= -85.0f))
+				{
+					if (targetAngle < 0.0f)
+					{
+						movingDirection = DIRECTION::LEFT;
+					}
+					else
+					if (targetAngle > 0.0f)
+					{
+						movingDirection = DIRECTION::RIGHT;
+					}
+					if (!dynamic_cast<SoldierLayDownState*>(state))
+					{
+						ChangeState(state, new SoldierLayDownState(), this);
+					}
+				}
+				else
+				if (dynamic_cast<SoldierLayDownState*>(state))
+				{
+					ChangeState(state, new SoldierRunState(), this);
+				}
+			}
+		}
+	}
 	updateState = state->Update(*this);
 }
 
@@ -153,4 +437,23 @@ void Soldier::LoadAnimations()
 #pragma endregion Load Animations
 
 	OutputDebugString(L"Soldier Animations Loaded Successfully\n");
+}
+
+SoldierState* Soldier::GetState()
+{
+	return state;
+}
+
+void Soldier::SetState(SoldierState* newState)
+{
+	ChangeState(state, newState, this);
+	newState = NULL;
+}
+
+void Soldier::GoDead()
+{
+	if (!dynamic_cast<SoldierDieState*>(state))
+	{
+		ChangeState(state, new SoldierDieState(), this);
+	}
 }

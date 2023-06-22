@@ -1,14 +1,19 @@
 #include "Bill.h"
+#include "Fire.h"
 #include "Enemy.h"
 #include "Bullet.h"
 #include "Bridge.h"
 #include "Soldier.h"
 #include "RockFly.h"
+#include "TerrainBlock.h"
 #include "GunBossStage1.h"
+#include "BossStage3Hand.h"
 #include "FinalBossStage1.h"
+#include "BossStage3Joint.h"
 
 Bullet::Bullet(                  ) : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity()
 {
+	this->isFake  = 0;
 	this->isEnemy = 0;
 	this->state = NULL;
 	this->updateState = NULL;
@@ -60,6 +65,11 @@ void Bullet::SetState(BulletState* newState)
 {
 	ChangeState(state, newState, this);
 	newState = NULL;
+}
+
+BulletState* Bullet::GetState() const
+{
+	return state;
 }
 
 void Bullet::LoadSprites()
@@ -190,6 +200,12 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			return;
 		}
 
+		auto fire = dynamic_cast<Fire*>(aabbSweepResult.surfaceEntity);
+		if  (fire)
+		{
+			return;
+		}
+
 		auto gunBossStage1 = dynamic_cast<GunBossStage1*>(aabbSweepResult.surfaceEntity);
 		if  (gunBossStage1 
 		&&   gunBossStage1->isDead)
@@ -205,12 +221,19 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 		}
 
 		isDead = 1;
-		if (--enemy->hitCounts == 0)
+		Sound::getInstance()->play("beShooted", false, 1);
+		auto bossStage3Joint = dynamic_cast<BossStage3Joint*>(aabbSweepResult.surfaceEntity);
+		if  (bossStage3Joint)
 		{
-			//if (auto soldier = dynamic_cast<Soldier*>(enemy))
-			//	soldier->SetState(new SoldierDieState());
-			//else
-			aabbSweepResult.surfaceEntity->isDead = 1;
+			if (  bossStage3Joint->parent 
+			&&  --bossStage3Joint->parent->hitCounts == 0)
+				  bossStage3Joint->parent->isDead     = 1;
+		}
+		else
+		if  (--enemy->hitCounts == 0)
+		{
+			if (auto soldier = dynamic_cast<Soldier*>(enemy)) soldier->GoDead();
+			else aabbSweepResult.surfaceEntity->isDead = 1;
 		}
 		return;
 	}
@@ -219,7 +242,40 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	if  (bill
 	&&   isEnemy)
 	{
-		isDead = 1;
+		 bill->GoDead(); isDead = 1; 
+		 return;
+	}
+
+	if (dynamic_cast<BulletScubaSoldierState*>(state))
+	{
+		auto    terrainBlock = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
+		if     (terrainBlock)
+		{
+		if     (aabbSweepResult.normalY == +1.0f)
+		switch (terrainBlock->type)
+		{
+		case TERRAIN_BLOCK_TYPE::    THROUGHABLE:
+		case TERRAIN_BLOCK_TYPE::NON_THROUGHABLE:
+			 isDead = 1;
+		break;
+		}
+		}
+		return;
+	}
+
+	if (dynamic_cast<BulletBossStage1State*>(state))
+	{
+		auto    terrainBlock = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
+		if     (terrainBlock)
+		{
+		if     (aabbSweepResult.normalY == +1.0f)
+		switch (terrainBlock->type)
+		{
+		case TERRAIN_BLOCK_TYPE::NON_THROUGHABLE:
+			 isDead = 1;
+		break;
+		}
+		}
 		return;
 	}
 }

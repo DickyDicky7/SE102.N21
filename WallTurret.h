@@ -5,11 +5,20 @@
 #include "HasAnimations.h"
 #include "HasSprites.h"
 #include "HasTextures.h"
+#include "HasWeapons.h"
 #include "Bill.h"
 #include "Enemy.h"
 
+#define WALL_TURRET_SHOOT_DELAY 80
+#define WALL_TURRET_STATE_CHANGE_DELAY 20
+
 class WallTurret;
 class WallTurretState;
+
+class WallTurretNormalState;
+
+class WallTurretOpeningState;
+class WallTurretClosingState;
 
 class WallTurretUpState;
 class WallTurretDownState;
@@ -31,7 +40,7 @@ class WallTurretLeft150State;
 
 
 class WallTurret : public Entity, public Enemy<Bill>
-				 , public HasTextures<WallTurret>, public HasSprites<WallTurret>, public HasAnimations<WallTurret>
+	, public HasTextures<WallTurret>, public HasSprites<WallTurret>, public HasAnimations<WallTurret>, public HasWeapons
 {
 public:
 	WallTurret();
@@ -44,13 +53,18 @@ public:
 	void LoadSprites() override;
 	void LoadAnimations() override;
 
-	void CalculateBillAngle();
+	void Fire() override;
+	void Fire(FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, DIRECTION);
+
+	FLOAT CalculateBillAngle();
+
+	BOOLEAN IsTargetInRange();
+
+	int shootDelay;
 
 protected:
 	WallTurretState* state;
 	WallTurretState* updateState;
-
-	float billAngle;
 };
 
 class WallTurretState : public State<WallTurretState, WallTurret>
@@ -65,6 +79,9 @@ public:
 
 	virtual WallTurretState* Update(WallTurret&) override;
 	virtual WallTurretState* HandleInput(WallTurret&, Input&) override;
+
+protected:
+	int delayBeforeChangeState;
 };
 
 class WallTurretLeft90State : public WallTurretState
@@ -102,7 +119,7 @@ public:
 	virtual void Render(WallTurret&) override;
 	virtual void Exit(WallTurret&) override;
 	virtual void Enter(WallTurret&) override;
-	
+
 	virtual WallTurretState* Update(WallTurret&) override;
 };
 
@@ -215,6 +232,45 @@ class WallTurretLeft150State : public WallTurretState
 public:
 	WallTurretLeft150State();
 	virtual ~WallTurretLeft150State();
+
+	virtual void Render(WallTurret&) override;
+	virtual void Exit(WallTurret&) override;
+	virtual void Enter(WallTurret&) override;
+
+	virtual WallTurretState* Update(WallTurret&) override;
+};
+
+class WallTurretOpeningState : public WallTurretState
+{
+public:
+	WallTurretOpeningState();
+	virtual ~WallTurretOpeningState();
+
+	virtual void Render(WallTurret&) override;
+	virtual void Exit(WallTurret&) override;
+	virtual void Enter(WallTurret&) override;
+
+	virtual WallTurretState* Update(WallTurret&) override;
+};
+
+class WallTurretClosingState : public WallTurretState
+{
+public:
+	WallTurretClosingState();
+	virtual ~WallTurretClosingState();
+
+	virtual void Render(WallTurret&) override;
+	virtual void Exit(WallTurret&) override;
+	virtual void Enter(WallTurret&) override;
+
+	virtual WallTurretState* Update(WallTurret&) override;
+};
+
+class WallTurretNormalState : public WallTurretState
+{
+public:
+	WallTurretNormalState();
+	virtual ~WallTurretNormalState();
 
 	virtual void Render(WallTurret&) override;
 	virtual void Exit(WallTurret&) override;

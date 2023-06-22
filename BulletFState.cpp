@@ -20,6 +20,8 @@ void BulletFState::Exit(Bullet& bullet)
 
 void BulletFState::Enter(Bullet& bullet)
 {
+	Sound::getInstance()->play("shootF", false, 1);
+
 	if (bullet.GetVX() != 0.0f && bullet.GetVY() != 0.0f)
 	{
 		ω = bullet.GetVX() < 0.0f ? +135.0f : +45.0f;

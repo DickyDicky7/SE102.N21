@@ -15,6 +15,7 @@ void BulletRState::Exit(Bullet& bullet)
 
 void BulletRState::Enter(Bullet& bullet)
 {
+	Sound::getInstance()->play("shootM", false, 1);
 }
 
 void BulletRState::Render(Bullet& bullet)

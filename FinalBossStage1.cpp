@@ -12,12 +12,14 @@ FinalBossStage1::FinalBossStage1()
 
 	this->state = NULL;
 	this->updateState = NULL;
-	
+
 	this->name = L"Final Boss Stage 1\n";
 
 	//
 	this->hitCounts = 0;
 	this->enemyType = ENEMY_TYPE::BOSS;
+
+	this->deadTurns = 0;
 }
 
 FinalBossStage1::~FinalBossStage1()
@@ -27,9 +29,9 @@ FinalBossStage1::~FinalBossStage1()
 
 void FinalBossStage1::Update()
 {
-	if (gun1->isDead && gun2->isDead)
+	if (gun1->isDead && gun2->isDead && hitCounts <= 0 && !isDead)
 	{
-		hitCounts = 24;
+		hitCounts = 32;
 	}
 
 	if (!state)

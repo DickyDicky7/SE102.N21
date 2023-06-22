@@ -9,7 +9,7 @@
 #include "Enemy.h"
 
 class Fire : public Entity
-	, public HasTextures<Fire>, public HasSprites<Fire>, public HasAnimations<Fire>
+	, public HasTextures<Fire>, public HasSprites<Fire>, public HasAnimations<Fire>, public Enemy<Bill>
 {
 public:
 	Fire();

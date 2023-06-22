@@ -1,6 +1,9 @@
 #include "WallTurret.h"
 
-WallTurretState::WallTurretState(){}
+WallTurretState::WallTurretState()
+{
+	delayBeforeChangeState = WALL_TURRET_STATE_CHANGE_DELAY;
+}
 
 WallTurretState::~WallTurretState(){}
 

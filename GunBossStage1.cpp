@@ -1,6 +1,6 @@
 #include "GunBossStage1.h"
 
-GunBossStage1::GunBossStage1()
+GunBossStage1::GunBossStage1() : HasWeapons(new BulletBossStage1State())
 {
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -19,9 +19,11 @@ GunBossStage1::GunBossStage1()
 	//
 	this->hitCounts = 8;
 	this->enemyType = ENEMY_TYPE::BOSS;
+
+	this->firingRate = 0;
 }
 
-GunBossStage1::GunBossStage1(int _type)
+GunBossStage1::GunBossStage1(int _type) : HasWeapons(new BulletBossStage1State())
 {
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -40,6 +42,8 @@ GunBossStage1::GunBossStage1(int _type)
 	//
 	this->hitCounts = 8;
 	this->enemyType = ENEMY_TYPE::BOSS;
+
+	this->firingRate = 0;
 }
 
 int GunBossStage1::GetType()
@@ -51,6 +55,11 @@ GunBossStage1::~GunBossStage1()
 {
 
 };
+
+const Bill* GunBossStage1::GetEnemyTarget()
+{
+	return Enemy::target;
+}
 
 void GunBossStage1::Update()
 {
@@ -139,3 +148,20 @@ void GunBossStage1::LoadAnimations()
 			{BOSS_STAGE_1_SPRITE_ID::GUN_BOSS_DESTROY_02, 0},
 		});
 };
+
+void GunBossStage1::Fire()
+{
+	if (Enemy::target->isDead)
+	{
+		return;
+	}
+}
+
+void GunBossStage1::Fire(FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION direction)
+{
+	if (Enemy::target->isDead)
+	{
+		return;
+	}
+	HasWeapons::Fire(this->position.x - this->w * 0.8f, this->position.y, angle, vx, vy, ax, ay, direction);
+}

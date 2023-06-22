@@ -23,7 +23,7 @@ Falcon::Falcon(ITEM_TYPE type) : Entity(), HasTextures(), HasSprites(), HasAnima
 
 	this->_ammoType = type;
 
-	this->hitCounts = 10;
+	this->hitCounts = 5;
 	this->enemyType = ENEMY_TYPE::MACHINE;
 }
 

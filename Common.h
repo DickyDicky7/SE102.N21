@@ -41,13 +41,13 @@
 #include "RifleManCommon.h"
 #include "ExplosionCommon.h"
 #include "WallTurretCommon.h"
+#include "BossStage1Common.h"
 #include "BossStage3Common.h"
 #include "ScubaSoldierCommon.h"
 #include "TerrainStage1Common.h"
 #include "TerrainStage2Common.h"
 #include "BossStage3GateCommon.h"
 #include "BossStage3HandCommon.h"
-#include "BossStage1Common.h"
 
 enum class DIRECTION
 {
@@ -79,13 +79,13 @@ using SPRITE_ID = std::variant
 	RIFLE_MAN_SPRITE_ID,
 	EXPLOSION_SPRITE_ID,
 	WALL_TURRET_SPRITE_ID,
+	BOSS_STAGE_1_SPRITE_ID,
 	BOSS_STAGE_3_SPRITE_ID,
 	SCUBA_SOLDIER_SPRITE_ID,
 	TERRAIN_STAGE_1_SPRITE_ID,
 	TERRAIN_STAGE_2_SPRITE_ID,
 	BOSS_STAGE_3_HAND_SPRITE_ID,
-	BOSS_STAGE_3_GATE_SPRITE_ID,
-	BOSS_STAGE_1_SPRITE_ID
+	BOSS_STAGE_3_GATE_SPRITE_ID
 >;
 
 using TEXTURE_ID = std::variant
@@ -105,11 +105,11 @@ using TEXTURE_ID = std::variant
 	RIFLE_MAN_TEXTURE_ID,
 	EXPLOSION_TEXTURE_ID,
 	WALL_TURRET_TEXTURE_ID,
+	BOSS_STAGE_1_TEXTURE_ID,
 	BOSS_STAGE_3_TEXTURE_ID,
 	SCUBA_SOLDIER_TEXTURE_ID,
 	TERRAIN_STAGE_1_TEXTURE_ID,
-	TERRAIN_STAGE_2_TEXTURE_ID,
-	BOSS_STAGE_1_TEXTURE_ID
+	TERRAIN_STAGE_2_TEXTURE_ID
 >;
 
 using ANIMATION_ID = std::variant
@@ -130,13 +130,13 @@ using ANIMATION_ID = std::variant
 	RIFLE_MAN_ANIMATION_ID,
 	EXPLOSION_ANIMATION_ID,
 	WALL_TURRET_ANIMATION_ID,
+	BOSS_STAGE_1_ANIMATION_ID,
 	BOSS_STAGE_3_ANIMATION_ID,
 	SCUBA_SOLDIER_ANIMATION_ID,
 	TERRAIN_STAGE_1_ANIMATION_ID,
 	TERRAIN_STAGE_2_ANIMATION_ID,
 	BOSS_STAGE_3_HAND_ANIMATION_ID,
-	BOSS_STAGE_3_GATE_ANIMATION_ID,
-	BOSS_STAGE_1_ANIMATION_ID
+	BOSS_STAGE_3_GATE_ANIMATION_ID
 >;
 
 using         TIME = DWORD;
@@ -165,4 +165,3 @@ inline std::string FormatId(std::string id)
 {
 	return id.size() == 1 ? "00" + id : id.size() == 2 ? "0" + id : id;
 }
-

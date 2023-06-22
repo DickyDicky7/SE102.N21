@@ -24,6 +24,7 @@ void BossStage3GateCloseState::Render(BossStage3Gate& BossStage3Gate)
 
 BossStage3GateState* BossStage3GateCloseState::Update(BossStage3Gate& BossStage3Gate)
 {
+	if (BossStage3Gate.IsDead()) return new BossStage3GateOpenState();
 	return NULL;
 }
 

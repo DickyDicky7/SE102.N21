@@ -1,7 +1,7 @@
 #include "ScubaSoldier.h"
 
 #define PI D3DX_PI
-ScubaSoldier::ScubaSoldier() : Entity(), HasTextures(), HasSprites(), HasAnimations()
+ScubaSoldier::ScubaSoldier() : Entity(), HasTextures(), HasSprites(), HasAnimations(), HasWeapons(new BulletScubaSoldierState(0.0f, 0.0f))
 {
 	this->vx = 1.0f;
 	this->vy = 1.0f;
@@ -22,6 +22,8 @@ ScubaSoldier::ScubaSoldier() : Entity(), HasTextures(), HasSprites(), HasAnimati
 
 	this->hitCounts = 1;
 	this->enemyType = ENEMY_TYPE::HUMAN;
+
+	this->firingRate = 2000;
 }
 
 ScubaSoldier::~ScubaSoldier()
@@ -41,6 +43,11 @@ void ScubaSoldier::Update()
 	}
 
 	updateState = state->Update(*this);
+}
+
+void ScubaSoldier::Fire()
+{
+	HasWeapons::Fire(GetX(), GetT(), 0.0f, 0.0f, +6.0f, 0.0f, -0.1f, movingDirection);
 }
 
 void ScubaSoldier::CalculateBillAngle()

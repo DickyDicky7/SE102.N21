@@ -7,6 +7,8 @@
 #include "HasTextures.h"
 #include "Bill.h"
 #include "Enemy.h"
+#include "BossStage3Hand.h"
+#include "Sound.h"
 
 class BossStage3;
 class BossStage3State;
@@ -16,7 +18,7 @@ class BossStage3MiddleState;
 
 
 class BossStage3 : public Entity, public Enemy<Bill>
-				 , public HasTextures<BossStage3>, public HasSprites<BossStage3>, public HasAnimations<BossStage3>
+				 , public HasTextures<BossStage3>, public HasSprites<BossStage3>, public HasAnimations<BossStage3>, public HasWeapons
 {
 public:
 	BossStage3();
@@ -29,10 +31,25 @@ public:
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
+	void  Fire() override;
+
+	BOOL GetIsFire() { return isFire; }
+	void SetIsFire(BOOL check) { isFire = check; }
+
+	BossStage3Hand* boss3Stage3HandLeft;
+	BossStage3Hand* boss3Stage3HandRight;
+
+	void SetHandLetf(BossStage3Hand* HandLeft) { boss3Stage3HandLeft = HandLeft; }
+	void SetHandRight(BossStage3Hand* HandRight) { boss3Stage3HandRight = HandRight; }
+	BOOL IsHandsDead();
+
 protected:
 	BossStage3State* state;
 	BossStage3State* updateState;
 	BossStage3State* handleInputState;
+
+	BOOL isCounted;
+	BOOL isFire;
 };
 
 
