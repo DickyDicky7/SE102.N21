@@ -80,39 +80,10 @@ void Stage::Update()
 		{
 			continue;
 		}
-
-		if (auto    gunBossStage1 = dynamic_cast<  GunBossStage1*>(entity))
+		if (ProcessSpecialEntity(entity))
 		{
 			continue;
 		}
-
-		if (auto  finalBossStage1 = dynamic_cast<FinalBossStage1*>(entity))
-		{
-			if (! finalBossStage1->isDead)
-				  continue;
-			
-			if (++finalBossStage1->deadTurns != 5)
-				  continue;
-
-			Sound::getInstance()->stop();
-			Sound::getInstance()->play("boss1dead", false, 1);
-
-			FLOAT X = finalBossStage1->GetL() + finalBossStage1->GetW() * 0.25f;
-			FLOAT Y = finalBossStage1->GetT() - finalBossStage1->GetH() * 0.25f;
-			for (int i = 0; i <= 10; i++)
-			{
-				Explosion* subExplosion1 = new Explosion(new ExplosionType3State());
-				Explosion* subExplosion2 = new Explosion(new ExplosionType3State());
-				subExplosion1->SetX(X + i * finalBossStage1->GetW() * 0.75f);
-				subExplosion1->SetY(Y                                      );
-				subExplosion2->SetX(X + i * finalBossStage1->GetW() * 0.75f);
-				subExplosion2->SetY(Y -     finalBossStage1->GetH() * 0.75f);
-				effectEntities.push_back(subExplosion1);
-				effectEntities.push_back(subExplosion2);
-			}
-			continue;
-		}
-
 		if (entity && entity->isDead)
 		{
 			node->entities.remove (entity);
@@ -159,66 +130,36 @@ void Stage::Update()
 				explosion->SetX(deadEntity->GetX());
 				explosion->SetY(deadEntity->GetY());
 				effectEntities.push_back(explosion);
-				
-				if (auto bossStage3Head = dynamic_cast<BossStage3    *>(deadEntity))
-				{
-					Sound::getInstance()->stop();
-					Sound::getInstance()->play("boss2finaldestroy", false, 1);
-					FLOAT X = bossStage3Head->GetL() + bossStage3Head->GetW() * 0.25f;
-					FLOAT Y = bossStage3Head->GetT() - bossStage3Head->GetH() * 0.25f;
-					for (int i = -2; i <= 4; i++)
-					{
-						Explosion* subExplosion = new Explosion(new ExplosionType3State());
-						subExplosion->SetX(X + i * bossStage3Head->GetW() * 0.25f);
-						subExplosion->SetY(Y                                     );
-						effectEntities.push_back(subExplosion);
-						if (i >= 0 
-						&&  i <= 2)
-						{
-							for (int k = +1; k <= 10; k++)
-							{
-								Explosion* subSubExplosion = new Explosion(new ExplosionType3State());
-								subSubExplosion->SetX(X + i * bossStage3Head->GetW() * 0.25f);
-								subSubExplosion->SetY(Y - k * bossStage3Head->GetH() * 0.25f);
-								effectEntities.push_back(subSubExplosion);
-							}
-						}
-					}
-				}
-				else 
-				if (auto bossStage3Hand = dynamic_cast<BossStage3Hand*>(deadEntity))
-				{
-					Sound::getInstance()->play("boss2finalhanddisappear", false, 1);
-					for (auto& bossStage3Joint : bossStage3Hand->joints)
-					{
-						Explosion* subExplosion = new Explosion(new ExplosionType3State());
-						subExplosion->SetX(bossStage3Joint->GetX());
-						subExplosion->SetY(bossStage3Joint->GetY());
-						effectEntities.push_back(subExplosion);
-					}
-				}
+				ProcessSpecialExplosion(deadEntity);
 			}
 		}
 		else
 		if (auto bullet = dynamic_cast<Bullet*>(deadEntity))
 		{
-			Bullet* explosion = new Bullet();
-			explosion->SetState(new BulletExplodeState());
-			if (bullet->GetVX() < 0.0f)
-				explosion->SetX(bullet->GetL() - 3.0f);
+			if (ProcessSpecialBullet(bullet))
+			{
+
+			}
 			else
-			if (bullet->GetVX() > 0.0f)
-				explosion->SetX(bullet->GetR() + 3.0f);
-			else 
-				explosion->SetX(bullet->GetX() + 0.0f);
-			if (bullet->GetVY() < 0.0f)
-				explosion->SetY(bullet->GetB() - 3.0f);
-			else
-			if (bullet->GetVY() > 0.0f)
-				explosion->SetY(bullet->GetT() + 3.0f);
-			else
-				explosion->SetY(bullet->GetY() + 0.0f);
-			effectEntities.push_back(explosion);
+			{
+				Bullet* explosion = new Bullet();
+				explosion->SetState(new BulletExplodeState());
+				if (bullet->GetVX() < 0.0f)
+					explosion->SetX(bullet->GetL() - 3.0f);
+				else
+				if (bullet->GetVX() > 0.0f)
+					explosion->SetX(bullet->GetR() + 3.0f);
+				else 
+					explosion->SetX(bullet->GetX() + 0.0f);
+				if (bullet->GetVY() < 0.0f)
+					explosion->SetY(bullet->GetB() - 3.0f);
+				else
+				if (bullet->GetVY() > 0.0f)
+					explosion->SetY(bullet->GetT() + 3.0f);
+				else
+					explosion->SetY(bullet->GetY() + 0.0f);
+				effectEntities.push_back(explosion);
+			}
 		}
 		if (auto falcon = dynamic_cast<Falcon*>(deadEntity))
 		{

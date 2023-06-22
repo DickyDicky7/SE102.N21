@@ -132,6 +132,62 @@ void Stage1::SetRevivalPoint()
 	}
 }
 
+BOOL Stage1::ProcessSpecialEntity(Entity* entity)
+{
+	if (auto    gunBossStage1 = dynamic_cast<  GunBossStage1*>(entity))
+	{
+		return 1;
+	}
+
+	if (auto  finalBossStage1 = dynamic_cast<FinalBossStage1*>(entity))
+	{
+		if (! finalBossStage1->isDead)
+			  return 1;
+		
+		if (++finalBossStage1->deadTurns != 5)
+			  return 1;
+
+		Sound::getInstance()->stop();
+		Sound::getInstance()->play("boss1dead", false, 1);
+
+		FLOAT X = finalBossStage1->GetL() + finalBossStage1->GetW() * 0.25f;
+		FLOAT Y = finalBossStage1->GetT() - finalBossStage1->GetH() * 0.25f;
+		for (int i = 0; i <= 10; i++)
+		{
+			Explosion* subExplosion1 = new Explosion(new ExplosionType3State());
+			Explosion* subExplosion2 = new Explosion(new ExplosionType3State());
+			subExplosion1->SetX(X + i * finalBossStage1->GetW() * 0.75f);
+			subExplosion1->SetY(Y                                      );
+			subExplosion2->SetX(X + i * finalBossStage1->GetW() * 0.75f);
+			subExplosion2->SetY(Y -     finalBossStage1->GetH() * 0.75f);
+			effectEntities.push_back(subExplosion1);
+			effectEntities.push_back(subExplosion2);
+		}
+		return 1;
+	}
+
+	return 0;
+}
+
+BOOL Stage1::ProcessSpecialBullet(Bullet* bullet)
+{
+	if (dynamic_cast<BulletBossStage1State*>(bullet->GetState()))
+	{
+		Explosion* explosion = new Explosion(new ExplosionType2State());
+		explosion->SetX(bullet->GetX());
+		explosion->SetY(bullet->GetY());
+		effectEntities.push_back(explosion);
+		return 1;
+	}
+
+	return 0;
+}
+
+BOOL Stage1::ProcessSpecialExplosion(Entity* deadEntity)
+{
+	return 0;
+}
+
 void Stage1::LoadEntities(void *entitiesLayer)
 {
 	auto _entitiesLayer = (tson::Layer*)entitiesLayer;

@@ -139,6 +139,59 @@ void Stage2::SetRevivalPoint()
 	}
 }
 
+BOOL Stage2::ProcessSpecialEntity(Entity* entity)
+{
+	return 0;
+}
+
+BOOL Stage2::ProcessSpecialBullet(Bullet* bullet)
+{
+	return 0;
+}
+
+BOOL Stage2::ProcessSpecialExplosion(Entity* deadEntity)
+{
+	if (auto bossStage3Head = dynamic_cast<BossStage3    *>(deadEntity))
+	{
+		Sound::getInstance()->stop();
+		Sound::getInstance()->play("boss2finaldestroy", false, 1);
+		FLOAT X = bossStage3Head->GetL() + bossStage3Head->GetW() * 0.25f;
+		FLOAT Y = bossStage3Head->GetT() - bossStage3Head->GetH() * 0.25f;
+		for (int i = -2; i <= 4; i++)
+		{
+			Explosion* subExplosion = new Explosion(new ExplosionType3State());
+			subExplosion->SetX(X + i * bossStage3Head->GetW() * 0.25f);
+			subExplosion->SetY(Y                                     );
+			effectEntities.push_back(subExplosion);
+			if (i >= 0 
+			&&  i <= 2)
+			{
+				for (int k = +1; k <= 10; k++)
+				{
+					Explosion* subSubExplosion = new Explosion(new ExplosionType3State());
+					subSubExplosion->SetX(X + i * bossStage3Head->GetW() * 0.25f);
+					subSubExplosion->SetY(Y - k * bossStage3Head->GetH() * 0.25f);
+					effectEntities.push_back(subSubExplosion);
+				}
+			}
+		}
+	}
+	else 
+	if (auto bossStage3Hand = dynamic_cast<BossStage3Hand*>(deadEntity))
+	{
+		Sound::getInstance()->play("boss2finalhanddisappear", false, 1);
+		for (auto& bossStage3Joint : bossStage3Hand->joints)
+		{
+			Explosion* subExplosion = new Explosion(new ExplosionType3State());
+			subExplosion->SetX(bossStage3Joint->GetX());
+			subExplosion->SetY(bossStage3Joint->GetY());
+			effectEntities.push_back(subExplosion);
+		}
+	}
+
+	return 0;
+}
+
 /*
 == List nhan vat stage 3 ==
 	failingstone 		done

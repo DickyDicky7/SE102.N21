@@ -188,7 +188,6 @@ void Scene::LoadAnimations()
 	GraphicsHelper::InsertAnimation(SCENE_ANIMATION_ID::START_SCENE  , 300, { { SCENE_SPRITE_ID::START_SCENE  , 0 } });
 	GraphicsHelper::InsertAnimation(SCENE_ANIMATION_ID::YELLOW_FALCON, 300, { { SCENE_SPRITE_ID::YELLOW_FALCON, 0 } });
 
-
 	GraphicsHelper::InsertAnimation(SCENE_ANIMATION_ID::ENDING_FRAME, 150,
 		{
 			{SCENE_SPRITE_ID::ENDING_FRAME_00,0},
@@ -244,5 +243,6 @@ void Scene::LoadAnimations()
 			{SCENE_SPRITE_ID::ENDING_FRAME_50,0},
 			{SCENE_SPRITE_ID::ENDING_FRAME_51,0},
 		});
+
 	OutputDebugString(L"Scene Animations Loaded Successfully\n");
 }
