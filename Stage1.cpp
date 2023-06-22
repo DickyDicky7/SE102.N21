@@ -36,6 +36,8 @@ Stage1::Stage1() : Stage()
 	walls.insert({ "L", wallL });
 	walls.insert({ "R", wallR });
 	walls.insert({ "B", wallB });
+
+	finalBossStage1 = NULL;
 }
 
 Stage1::~Stage1()
@@ -44,6 +46,10 @@ Stage1::~Stage1()
 
 void Stage1::CheckIfHasDone()
 {
+	if (finalBossStage1->isDead && checkPoint && bill->AABBCheck(checkPoint))
+	{
+		hasDone = 1;
+	}
 }
 
 void Stage1::TranslateWalls()
@@ -137,6 +143,8 @@ void Stage1::LoadEntities(void *entitiesLayer)
 
 	finalBoss->SetGun1(bossGun1);
 	finalBoss->SetGun2(bossGun2);
+
+	finalBossStage1 = finalBoss;
 
 	for (auto& object : _entitiesLayer->getObjects())
 	{

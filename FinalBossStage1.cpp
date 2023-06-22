@@ -18,6 +18,8 @@ FinalBossStage1::FinalBossStage1()
 	//
 	this->hitCounts = 0;
 	this->enemyType = ENEMY_TYPE::BOSS;
+
+	this->deadTurns = 0;
 }
 
 FinalBossStage1::~FinalBossStage1()

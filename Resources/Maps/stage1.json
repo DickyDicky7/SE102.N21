@@ -514,8 +514,19 @@
                  "type":"non_throughable",
                  "visible":true,
                  "width":200,
-                 "x":3256.4,
+                 "x":3256,
                  "y":198
+                }, 
+                {
+                 "height":48,
+                 "id":182,
+                 "name":"",
+                 "rotation":0,
+                 "type":"check_point",
+                 "visible":true,
+                 "width":32,
+                 "x":3304,
+                 "y":150
                 }],
          "opacity":1,
          "type":"objectgroup",
@@ -1041,7 +1052,7 @@
          "y":0
         }],
  "nextlayerid":5,
- "nextobjectid":182,
+ "nextobjectid":183,
  "orientation":"orthogonal",
  "renderorder":"right-down",
  "tiledversion":"1.10.1",
