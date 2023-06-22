@@ -16,6 +16,7 @@ void CreditSceneState::Exit(Scene& scene)
 void CreditSceneState::Enter(Scene& scene)
 {
 	scene.stageIsReady = false;
+	Sound::getInstance()->stop();
 	Sound::getInstance()->play("endingscene", false, 1);
 }
 

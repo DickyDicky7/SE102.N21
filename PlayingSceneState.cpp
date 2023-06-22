@@ -50,7 +50,7 @@ SceneState* PlayingSceneState::Update(Scene& scene)
 			}
 			if (scene.currentStage == 2)
 			{
-				return new CreditSceneState();
+				return new EndingSceneState();
 			}
 		}
 	}
