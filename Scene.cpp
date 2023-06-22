@@ -2,7 +2,7 @@
 
 Scene::Scene() : Entity(), HasTextures(), HasSprites(), HasAnimations(), state(NULL), updateState(NULL), handleInputState(NULL), stage(NULL), livesLeft(new INT(50)), currentStage(0), currentScore(0), highestScore(20000), stageIsReady(false)
 {
-	ChangeState(state, new StartSceneState(), this);
+	ChangeState(state, new EndingSceneState(), this);
 	this->LoadTextures(); this->LoadSprites(); this->LoadAnimations();
 	Letter representativeLetter(""); representativeLetter.LoadTextures(); representativeLetter.LoadSprites(); representativeLetter.LoadAnimations();
 }
@@ -187,7 +187,6 @@ void Scene::LoadAnimations()
 	GraphicsHelper::InsertAnimation(SCENE_ANIMATION_ID::START_SCENE  , 300, { { SCENE_SPRITE_ID::START_SCENE  , 0 } });
 	GraphicsHelper::InsertAnimation(SCENE_ANIMATION_ID::YELLOW_FALCON, 300, { { SCENE_SPRITE_ID::YELLOW_FALCON, 0 } });
 
-
 	GraphicsHelper::InsertAnimation(SCENE_ANIMATION_ID::ENDING_FRAME, 150,
 		{
 			{SCENE_SPRITE_ID::ENDING_FRAME_00,0},
@@ -243,5 +242,6 @@ void Scene::LoadAnimations()
 			{SCENE_SPRITE_ID::ENDING_FRAME_50,0},
 			{SCENE_SPRITE_ID::ENDING_FRAME_51,0},
 		});
+
 	OutputDebugString(L"Scene Animations Loaded Successfully\n");
 }
