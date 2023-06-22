@@ -81,6 +81,7 @@ void Stage1::TranslateCamera()
 	if (bill && camera && bill->GetX() >= translateX && camera->GetL() <  translateX)
 	{
 		camera->SetX(camera->GetX() + 1.0f);
+		Sound::getInstance()->play("warning", false, 1);
 	}
 	else
 	if (bill && camera && bill->GetX() >= translateX && camera->GetL() >= translateX)

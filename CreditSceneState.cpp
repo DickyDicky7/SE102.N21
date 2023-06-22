@@ -2,6 +2,8 @@
 
 CreditSceneState::CreditSceneState() : SceneState()
 {
+	Sound::getInstance()->loadSound("Resources\\Sounds\\endingscene.wav", "endingscene");
+	Sound::getInstance()->play("endingscene", false, 1);
 }
 
 CreditSceneState::~CreditSceneState()

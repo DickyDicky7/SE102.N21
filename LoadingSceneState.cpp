@@ -63,12 +63,12 @@ void LoadingSceneState::Enter(Scene& scene)
 	Sound::getInstance()->loadSound("Resources\\Sounds\\stage3.wav", "stage3");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\beep.wav", "beep.wav");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\boss2bulletsound.wav", "boss2bulletsound.wav");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\boss2finaldestroy.wav", "boss2finaldestroy.wav");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\boss2finalhanddisappear.wav", "boss2finalhanddisappear.wav");
+	Sound::getInstance()->loadSound("Resources\\Sounds\\boss2finaldestroy.wav", "boss2finaldestroy");
+	Sound::getInstance()->loadSound("Resources\\Sounds\\boss2finalhanddisappear.wav", "boss2finalhanddisappear");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\bridgeexplosion.wav", "bridgeexplosion.wav");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\enemydead.wav", "enemydead.wav");
+	Sound::getInstance()->loadSound("Resources\\Sounds\\enemydead.wav", "enemydead");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\warning.wav", "warning");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\explode.wav", "explode.wav");
+	Sound::getInstance()->loadSound("Resources\\Sounds\\explode.wav", "explode");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\beShooted.wav", "beShooted");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\qexplode.wav", "qexplode");
 	Sound::getInstance()->loadSound("Resources\\Sounds\\stonefailing.wav", "stonefailing");

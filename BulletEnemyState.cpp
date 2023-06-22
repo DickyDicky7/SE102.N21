@@ -2,7 +2,7 @@
 
 BulletEnemyState::BulletEnemyState() : BulletState()
 {
-
+	Sound::getInstance()->play("enemydead", false, 1);
 }
 
 BulletEnemyState::~BulletEnemyState()

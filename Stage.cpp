@@ -127,7 +127,7 @@ void Stage::Update()
 			break;
 
 			case ENEMY_TYPE::MACHINE:
-				 Sound::getInstance()->play("qexplode", false, 1);
+				 Sound::getInstance()->play("exbullet", false, 1);
 				 explosion = new Explosion(new ExplosionType2State());
 			break;
 
@@ -137,9 +137,11 @@ void Stage::Update()
 				explosion->SetX(deadEntity->GetX());
 				explosion->SetY(deadEntity->GetY());
 				effectEntities.push_back(explosion);
-
+				
 				if (auto bossStage3Head = dynamic_cast<BossStage3    *>(deadEntity))
 				{
+					Sound::getInstance()->stop();
+					Sound::getInstance()->play("boss2finaldestroy", false, 1);
 					FLOAT X = bossStage3Head->GetL() + bossStage3Head->GetW() * 0.25f;
 					FLOAT Y = bossStage3Head->GetT() - bossStage3Head->GetH() * 0.25f;
 					for (int i = -2; i <= 4; i++)
@@ -164,6 +166,7 @@ void Stage::Update()
 				else 
 				if (auto bossStage3Hand = dynamic_cast<BossStage3Hand*>(deadEntity))
 				{
+					Sound::getInstance()->play("boss2finalhanddisappear", false, 1);
 					for (auto& bossStage3Joint : bossStage3Hand->joints)
 					{
 						Explosion* subExplosion = new Explosion(new ExplosionType3State());
