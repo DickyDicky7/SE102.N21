@@ -9,7 +9,7 @@
 #include "Bill.h"
 #include "Enemy.h"
 
-#define WALL_TURRET_SHOOT_DELAY 50
+#define WALL_TURRET_SHOOT_DELAY 80
 #define WALL_TURRET_STATE_CHANGE_DELAY 20
 
 class WallTurret;
@@ -60,6 +60,8 @@ public:
 
 	BOOLEAN IsTargetInRange();
 
+	int shootDelay;
+
 protected:
 	WallTurretState* state;
 	WallTurretState* updateState;
@@ -80,7 +82,6 @@ public:
 
 protected:
 	int delayBeforeChangeState;
-	int shootDelay;
 };
 
 class WallTurretLeft90State : public WallTurretState

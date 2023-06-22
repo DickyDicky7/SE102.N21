@@ -30,6 +30,7 @@ WallTurret::WallTurret() : Entity(), HasAnimations(), HasWeapons(new BulletEnemy
 
 	this->hitCounts = 10;
 	this->enemyType = ENEMY_TYPE::MACHINE;
+	shootDelay = WALL_TURRET_SHOOT_DELAY;
 }
 
 WallTurret::~WallTurret() {}
@@ -51,9 +52,13 @@ void WallTurret::Render() {
 
 	if (updateState)
 	{
+		shootDelay = WALL_TURRET_SHOOT_DELAY;
+
 		ChangeState(state, updateState, this);
 		updateState = NULL;
+		return;
 	}
+	state->Enter(*this);
 }
 
 void WallTurret::HandleInput(Input& input) {}
@@ -79,7 +84,7 @@ BOOLEAN WallTurret::IsTargetInRange()
 {
 	float dx = abs(this->GetX() - Enemy::target->GetX());
 
-	return dx <= 16.0f * 6.0f;
+	return dx <= 16.0f * 6;
 }
 
 void WallTurret::LoadTextures() {
