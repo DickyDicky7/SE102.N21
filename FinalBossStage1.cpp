@@ -29,7 +29,7 @@ void FinalBossStage1::Update()
 {
 	if (gun1->isDead && gun2->isDead && hitCounts <= 0 && !isDead)
 	{
-		hitCounts = 24;
+		hitCounts = 32;
 	}
 
 	if (!state)

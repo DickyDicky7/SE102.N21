@@ -20,7 +20,7 @@ BossStage3::BossStage3() : Entity(), HasTextures(), HasSprites(), HasAnimations(
 	this->isFire = false;
 	this->state = new BossStage3CloseState();
 	
-	this->hitCounts = 30;
+	this->hitCounts = 50;
 	isCounted = false;
 	this->enemyType = ENEMY_TYPE::BOSS;
 
@@ -46,7 +46,7 @@ void BossStage3::Update()
 	{
 		if (!isCounted)
 		{
-			this->hitCounts = 30; // neu hand chet roi thi moi dc ban
+			this->hitCounts = 50; // neu hand chet roi thi moi dc ban
 			isCounted = true;
 		}
 	}

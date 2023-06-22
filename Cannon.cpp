@@ -17,7 +17,7 @@ Cannon::Cannon() : HasWeapons(new BulletEnemyState())
 	this->name = L"Cannon\n";
 	//
 
-	this->hitCounts = 10;
+	this->hitCounts = 8;
 	this->enemyType = ENEMY_TYPE::MACHINE;
 
 	this->firingRate = 0;

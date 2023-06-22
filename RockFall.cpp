@@ -20,7 +20,7 @@ RockFall::RockFall() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 	// set state begin is run
 	this->state = new RockFallNormalState();
 
-	this->hitCounts = 10;
+	this->hitCounts = 8;
 	this->enemyType = ENEMY_TYPE::MACHINE;
 
 	CollidableEntity::self = this;
