@@ -22,9 +22,9 @@ void CannonUp60State::Enter(Cannon& cannon)
 
 	if (cannon.shootTime <= 0)
 	{
-		cannon.shootTime = SHOOT_TIME;
-		cannon.shootDelay = SHOOT_DELAY;
-		cannon.shootDelayPerBullet = SHOOT_DELAY_PER_BULLET;
+		cannon.shootTime = CANON_SHOOT_TIME;
+		cannon.shootDelay = CANON_SHOOT_DELAY;
+		cannon.shootDelayPerBullet = CANON_SHOOT_DELAY_PER_BULLET;
 		return;
 	}
 
@@ -34,7 +34,7 @@ void CannonUp60State::Enter(Cannon& cannon)
 	}
 
 	cannon.shootTime--;
-	cannon.shootDelayPerBullet = SHOOT_DELAY_PER_BULLET;
+	cannon.shootDelayPerBullet = CANON_SHOOT_DELAY_PER_BULLET;
 
 	float vx = -1.0f;
 

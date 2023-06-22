@@ -22,9 +22,9 @@ Cannon::Cannon() : HasWeapons(new BulletEnemyState())
 
 	this->firingRate = 0;
 
-	shootDelay = SHOOT_DELAY;
-	shootTime = SHOOT_TIME;
-	shootDelayPerBullet = SHOOT_DELAY_PER_BULLET;
+	shootDelay = CANON_SHOOT_DELAY;
+	shootTime = CANON_SHOOT_TIME;
+	shootDelayPerBullet = CANON_SHOOT_DELAY_PER_BULLET;
 }
 
 Cannon::~Cannon()

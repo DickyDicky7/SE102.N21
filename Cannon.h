@@ -9,9 +9,9 @@
 #include "Enemy.h"
 #include "HasWeapons.h"
 
-#define SHOOT_DELAY 60
-#define SHOOT_DELAY_PER_BULLET 20
-#define SHOOT_TIME 3
+#define CANON_SHOOT_DELAY 100
+#define CANON_SHOOT_DELAY_PER_BULLET 20
+#define CANON_SHOOT_TIME 3
 
 class Cannon;
 class CannonState;
