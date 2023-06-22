@@ -672,18 +672,20 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			return;
 		}
 
-		auto gunBossStage1 = dynamic_cast<GunBossStage1*>(aabbSweepResult.surfaceEntity);
-		if  (gunBossStage1)
+		auto  gunBossStage1 = dynamic_cast<GunBossStage1*>(aabbSweepResult.surfaceEntity);
+		if  ( gunBossStage1)
 		{
-			position.x += aabbSweepResult.enTime * vx;
-			return;
+		if  (!gunBossStage1->isDead)
+			  position.x += aabbSweepResult.enTime * vx;
+			  return;
 		}
 
-		auto finalBossStage1 = dynamic_cast<FinalBossStage1*>(aabbSweepResult.surfaceEntity);
-		if  (finalBossStage1)
+		auto  finalBossStage1 = dynamic_cast<FinalBossStage1*>(aabbSweepResult.surfaceEntity);
+		if  ( finalBossStage1)
 		{
-			position.x += aabbSweepResult.enTime * vx;
-			return;
+		if  (!finalBossStage1->isDead)
+			  position.x += aabbSweepResult.enTime * vx;
+			  return;
 		}
 
 		auto bossStage3Head = dynamic_cast<BossStage3*>(aabbSweepResult.surfaceEntity);

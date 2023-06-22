@@ -54,6 +54,7 @@ void Stage2::CheckIfHasDone()
 	{
 		if (entitiesResult.size() <= 1 && bill->AABBCheck(checkPoint) && bill->GetVY() <= -3.0f)
 		{
+			Sound::getInstance()->play("passboss", false, 1);
 			hasDone = 1;
 		}
 	}
@@ -78,14 +79,15 @@ void Stage2::TranslateWalls()
 		if (name == "B")
 		{
 			wall->SetX(camera->GetX());
-			if (camera->GetY() < SCREEN_HEIGHT / SCALING_RATIO_Y) wall->SetY(camera->GetB() - wall->GetH() * 0.5f);
-			                                                 else wall->SetY(camera->GetB() - wall->GetH()       );
+			//if (camera->GetY() < SCREEN_HEIGHT / SCALING_RATIO_Y) wall->SetY(camera->GetB() - wall->GetH() * 0.5f);
+			//                                                 else wall->SetY(camera->GetB() - wall->GetH()       );
+			wall->SetY(camera->GetB() - wall->GetH() * 0.9f);
 		}
 		else
 		if (name == "T")
 		{
 			wall->SetX(camera->GetX());
-			wall->SetY(camera->GetT() - wall->GetH());
+			wall->SetY(camera->GetT() - wall->GetH()       );
 		}
 	}
 }

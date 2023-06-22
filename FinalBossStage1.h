@@ -34,6 +34,8 @@ public:
 	void SetGun1(GunBossStage1*);
 	void SetGun2(GunBossStage1*);
 
+	ULONGLONG deadTurns;
+
 protected:
 	FinalBossStage1State* state;
 	FinalBossStage1State* updateState;

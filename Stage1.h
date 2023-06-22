@@ -2,10 +2,14 @@
 
 #include "Stage.h"
 
+class FinalBossStage1;
+
 class Stage1 : public Stage
 {
 
 public:
+
+	FinalBossStage1* finalBossStage1;
 
 	Stage1();
 	virtual ~Stage1();
