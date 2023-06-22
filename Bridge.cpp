@@ -96,12 +96,9 @@ void Bridge::Update()
 
 	BOOLEAN isEnemyTouch = floor(Enemy::target->GetX() + Enemy::target->GetW() * 0.25f) >= floor(this->GetX() - w * 0.5f);
 
-	OutputDebugString(L"update bridge\n");
-
 	// if bill touch bridge or is destroying
 	if (isEnemyTouch || lastDestroyPart != -1)
 	{
-		OutputDebugString(L"update bridge per part\n");
 		// first part
 		if (lastDestroyPart == -1)
 		{
