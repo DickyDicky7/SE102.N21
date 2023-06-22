@@ -70,6 +70,7 @@ BillState* BillDeadState::Update(Bill& bill)
 		{
 			revivalCooldown  = DEFAULT_REVIVAL_COOLDOWN;
 			bill.isDead      = 0;
+			bill.SetBulletState(new BulletRState());
 			return new BillBeginState();
 		}
 	}
