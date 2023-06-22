@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 
+#include "Sound.h"
 #include "State.h"
 #include "Motion.h"
 #include "Common.h"
@@ -9,7 +10,7 @@
 #include "HasTextures.h"
 #include "HasAnimations.h"
 #include "CollidableEntity.h"
-#include "Sound.h"
+
 
 class Bullet;
 class BulletState;
@@ -21,6 +22,7 @@ class BulletFState;
 class BulletEnemyState;
 class BulletExplodeState;
 class BulletBossStage1State;
+class BulletScubaSoldierState;
 class BulletBossStage2StateHand;
 class BulletBossStage2StateHead;
 
@@ -30,6 +32,7 @@ class Bullet : public Entity, public HasTextures<Bullet>, public HasSprites<Bull
 
 public:
 
+	BOOL isFake ;
 	BOOL isEnemy;
 
 	Bullet(            );
@@ -264,6 +267,25 @@ public:
 
 	BulletExplodeState();
 	virtual ~BulletExplodeState();
+
+	virtual void Exit(Bullet&) override;
+	virtual void Enter(Bullet&) override;
+	virtual void Render(Bullet&) override;
+
+	virtual BulletState* Update(Bullet&) override;
+	virtual BulletState* HandleInput(Bullet&, Input&) override;
+
+};
+
+
+class BulletScubaSoldierState : public BulletState
+{
+
+public:
+
+	FLOAT θ; FLOAT v0;
+	virtual ~BulletScubaSoldierState();
+	BulletScubaSoldierState(FLOAT, FLOAT);
 
 	virtual void Exit(Bullet&) override;
 	virtual void Enter(Bullet&) override;

@@ -14,6 +14,7 @@ void SoldierShootState::Exit(Soldier& soldier)
 
 void SoldierShootState::Enter(Soldier& soldier)
 {
+	soldier.Fire();
 	soldier.SetVX(+1.0f);
 	soldier.SetAX(+1.0f);
 	soldier.SetVY(+1.0f);
@@ -28,7 +29,7 @@ void SoldierShootState::Render(Soldier& soldier)
 SoldierState* SoldierShootState::Update(Soldier& soldier)
 {
 	ULONGLONG now = GetTickCount64();
-	if (now - time > soldier.GetFiringRate())
+	if (now - time >= soldier.GetFiringRate())
 	{
 		soldier.Fire();
 		time = FLOAT(now);

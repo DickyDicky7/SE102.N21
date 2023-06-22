@@ -5,6 +5,7 @@
 #include "Bridge.h"
 #include "Soldier.h"
 #include "RockFly.h"
+#include "TerrainBlock.h"
 #include "GunBossStage1.h"
 #include "BossStage3Hand.h"
 #include "FinalBossStage1.h"
@@ -12,6 +13,7 @@
 
 Bullet::Bullet(                  ) : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity()
 {
+	this->isFake  = 0;
 	this->isEnemy = 0;
 	this->state = NULL;
 	this->updateState = NULL;
@@ -242,5 +244,38 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	{
 		 bill->GoDead(); isDead = 1; 
 		 return;
+	}
+
+	if (dynamic_cast<BulletScubaSoldierState*>(state))
+	{
+		auto    terrainBlock = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
+		if     (terrainBlock)
+		{
+		if     (aabbSweepResult.normalY == +1.0f)
+		switch (terrainBlock->type)
+		{
+		case TERRAIN_BLOCK_TYPE::    THROUGHABLE:
+		case TERRAIN_BLOCK_TYPE::NON_THROUGHABLE:
+			 isDead = 1;
+		break;
+		}
+		}
+		return;
+	}
+
+	if (dynamic_cast<BulletBossStage1State*>(state))
+	{
+		auto    terrainBlock = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
+		if     (terrainBlock)
+		{
+		if     (aabbSweepResult.normalY == +1.0f)
+		switch (terrainBlock->type)
+		{
+		case TERRAIN_BLOCK_TYPE::NON_THROUGHABLE:
+			 isDead = 1;
+		break;
+		}
+		}
+		return;
 	}
 }

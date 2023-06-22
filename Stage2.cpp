@@ -146,6 +146,17 @@ BOOL Stage2::ProcessSpecialEntity(Entity* entity)
 
 BOOL Stage2::ProcessSpecialBullet(Bullet* bullet)
 {
+	if (dynamic_cast<BulletScubaSoldierState*>(bullet->GetState()))
+	{
+		Explosion* explosion = NULL;
+		if (bullet->isFake) explosion = new Explosion(new ExplosionType2State());
+		               else explosion = new Explosion(new ExplosionType1State());
+		explosion->SetX(bullet->GetX()       );
+		explosion->SetY(bullet->GetY() - 5.0f);
+		effectEntities.push_back(explosion);
+		return 1;
+	}
+
 	return 0;
 }
 

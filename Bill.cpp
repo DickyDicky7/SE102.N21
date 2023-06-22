@@ -401,10 +401,6 @@ void Bill::Fire                    (                               )
 		else
 			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.2f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
 	}
-	else
-	{
-		HasWeapons::Fire(GetR(), GetT() * 0.5f, 1.0f, 0.0f, 0.0f, 0.0f, 0.0f, movingDirection);
-	}
 }
 
 void Bill::StaticResolveNoCollision(                               )

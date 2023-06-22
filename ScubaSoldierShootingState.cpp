@@ -15,6 +15,7 @@ void ScubaSoldierShootingState::Exit(ScubaSoldier& scubaSoldier)
 
 void ScubaSoldierShootingState::Enter(ScubaSoldier& scubaSoldier)
 {
+	scubaSoldier.Fire();
 }
 
 void ScubaSoldierShootingState::Render(ScubaSoldier& scubaSoldier)
@@ -24,6 +25,12 @@ void ScubaSoldierShootingState::Render(ScubaSoldier& scubaSoldier)
 
 ScubaSoldierState* ScubaSoldierShootingState::Update(ScubaSoldier& scubaSoldier)
 {
+	ULONGLONG now = GetTickCount64();
+	if (now - time >= scubaSoldier.GetFiringRate())
+	{
+		scubaSoldier.Fire();
+		time = FLOAT(now);
+	}
 	return NULL;
 }
 

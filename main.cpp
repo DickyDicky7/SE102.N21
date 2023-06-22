@@ -1,11 +1,10 @@
-#include <chrono>
 #include "Bill.h"
+#include "Sound.h"
 #include "Scene.h"
 #include "Input.h"
 #include "Camera.h"
 #include "Motion.h"
 #include "Common.h"
-#include "Sound.h"
 
 Scene* scene; Input* input; Camera* camera;
 LPDIRECT3D9 d3d; LPDIRECT3DDEVICE9 d3ddev; LPD3DXSPRITE spriteHandler;
@@ -48,9 +47,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	MSG msg;
 	while (TRUE)
 	{
-		auto start = std::chrono::high_resolution_clock().now();
-		std::ios_base::sync_with_stdio(false);
-
 		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
 		{
 			TranslateMessage(&msg);
@@ -99,13 +95,6 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		spriteHandler->End();
 		d3ddev->EndScene();
 		d3ddev->Present(NULL, NULL, NULL, NULL);
-
-		auto end = std::chrono::high_resolution_clock().now();
-		double time_taken = std::chrono::duration_cast<std::chrono::nanoseconds>(end - start).count();
-		time_taken *= 1e-9;
-		wchar_t mes[100];
-		swprintf(mes, 100, L"%f sec\n", time_taken);
-		//OutputDebugString(mes);
 	}
 
 	Sound::getInstance()->cleanUp();

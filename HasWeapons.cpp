@@ -90,6 +90,29 @@ void HasWeapons::Fire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT a
 			newState = new BulletBossStage1State();
 		}
 		else
+		if (dynamic_cast<BulletScubaSoldierState*>(bulletState))
+		{
+			bullet->isFake  = 1;
+			bullet->isEnemy = 1;
+			bullet->SetVY(vy - 1.0f);
+			newState = new BulletScubaSoldierState(+90.0f, +0.0f);
+
+			for (int i = 0; i < 3; i++)
+			{
+				Bullet* spreadBullet = new Bullet();
+				spreadBullet->isEnemy = 1;
+				spreadBullet->SetMovingDirection(movingDirection);
+				spreadBullet->SetAngle(angle);
+				spreadBullet->SetX(x);
+				spreadBullet->SetY(y);
+				spreadBullet->SetVX(vx);
+				spreadBullet->SetVY(vy);
+				spreadBullet->SetAX(ax);
+				spreadBullet->SetAY(ay);
+				spreadBullet->SetState(new BulletScubaSoldierState(i == 2 ? +90.0f : +45.0f, i == 0 ? -2.0f : i == 1 ? +2.0f : 0.0f)); bullets.push_back(spreadBullet);
+			}
+		}
+		else
 		if (dynamic_cast<BulletBossStage2StateHead*>(bulletState))
 		{
 			bullet->isEnemy = 1;

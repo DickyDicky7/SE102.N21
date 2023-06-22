@@ -174,8 +174,8 @@ BOOL Stage1::ProcessSpecialBullet(Bullet* bullet)
 	if (dynamic_cast<BulletBossStage1State*>(bullet->GetState()))
 	{
 		Explosion* explosion = new Explosion(new ExplosionType2State());
-		explosion->SetX(bullet->GetX());
-		explosion->SetY(bullet->GetY());
+		explosion->SetX(bullet->GetX()       );
+		explosion->SetY(bullet->GetY() - 5.0f);
 		effectEntities.push_back(explosion);
 		return 1;
 	}
