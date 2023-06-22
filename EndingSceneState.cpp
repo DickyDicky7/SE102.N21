@@ -21,6 +21,7 @@ void EndingSceneState::Enter(Scene& scene)
 
 void EndingSceneState::Render(Scene& scene)
 {
+	scene.SetAnimation(SCENE_ANIMATION_ID::ENDING_FRAME, scene.GetPosition(), scene.GetMovingDirection(), scene.GetAngle());
 }
 
 SceneState* EndingSceneState::Update(Scene& scene)

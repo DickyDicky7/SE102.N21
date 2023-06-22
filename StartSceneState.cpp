@@ -53,7 +53,8 @@ SceneState* StartSceneState::Update(Scene& scene)
 	{
 		if (++turn == 300)
 		{
-			return new LoadingSceneState();
+			//return new LoadingSceneState();
+			return new EndingSceneState();
 		}
 
 	}
