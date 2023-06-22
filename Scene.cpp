@@ -2,7 +2,7 @@
 
 Scene::Scene() : Entity(), HasTextures(), HasSprites(), HasAnimations(), state(NULL), updateState(NULL), handleInputState(NULL), stage(NULL), livesLeft(new INT(50)), currentStage(0), currentScore(0), highestScore(20000), stageIsReady(false)
 {
-	ChangeState(state, new StartSceneState(), this);
+	ChangeState(state, new EndingSceneState(), this);
 	this->LoadTextures(); this->LoadSprites(); this->LoadAnimations();
 	Letter representativeLetter(""); representativeLetter.LoadTextures(); representativeLetter.LoadSprites(); representativeLetter.LoadAnimations();
 }

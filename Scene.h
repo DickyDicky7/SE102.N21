@@ -196,7 +196,8 @@ public:
 
 	virtual SceneState* Update(Scene&) override;
 	virtual SceneState* HandleInput(Scene&, Input&) override;
-
+protected: 
+	float  delayToExplosion;
 };
 
 
