@@ -46,8 +46,11 @@ GunBossStage1State* GunBossStage1PrepareShootState::Update(GunBossStage1& gunBos
 		return new GunBossStage1DestroyState();
 	}
 
-	if (GetTickCount64() - this->time >= 400.0f)
+	if (GetTickCount64() - this->time >= 500.0f)
 	{
+		float vx = abs(gunBoss.GetX() - gunBoss.GetEnemyTarget()->GetX()) / 32.0f;
+		gunBoss.Fire(vx, 0.0f, 0.0f, 0.0f, 0.0f, gunBoss.GetMovingDirection());
+
 		float newX = gunBoss.GetX();
 		newX = gunBoss.GetX() - 1.0f;
 		gunBoss.SetX(newX);

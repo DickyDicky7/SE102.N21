@@ -37,6 +37,8 @@ public:
 	void LoadAnimations() override;
 	int GetType();
 
+	const Bill* GetEnemyTarget();
+
 protected:
 	GunBossStage1State* state;
 	GunBossStage1State* updateState;

@@ -24,7 +24,8 @@ void BulletBossStage1State::Render(Bullet& bullet)
 
 BulletState* BulletBossStage1State::Update(Bullet& bullet)
 {
-	auto result = Motion::CalculateProjectileMotion({ bullet.GetX(), bullet.GetY(), +5.0f, +110.0f, time, 0.01f });
+	//i use get angle cause not know why vx is positive and negative concurrently, i use this to control bullet speed
+	auto result = Motion::CalculateProjectileMotion({ bullet.GetX(), bullet.GetY(), bullet.GetAngle() <= 6.0f ? bullet.GetAngle() : 6.0f, +180.0f, time, 0.01f});
 	bullet.SetVX(result.vx);
 	bullet.SetVY(result.vy);
 	bullet.SetX(result.x);
