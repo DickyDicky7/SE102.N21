@@ -1139,5 +1139,8 @@
     <ClCompile Include="DDSTextureLoader9.cpp">
       <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
     </ClCompile>
+    <ClCompile Include="BulletScubaSoldierState.cpp">
+      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>
