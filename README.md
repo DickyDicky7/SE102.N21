@@ -40,3 +40,7 @@ Nhóm sinh viên thực hiện:
 - Cài đặt Visual Studio bản mới nhất (sau đó chọn những package phù hợp khi cài Visual Studio)
 - Cài đặt DXSDK_Jun10.exe vào máy vi tính (google DXSDK_Jun10.exe để biết thêm chi tiết)
 - Trong quá trình build, lưu ý chọn x86 Debug (hoặc x86 Release)
+
+## Link video demo
+
+[Google Drive](https://drive.google.com/drive/folders/1F71OwPAA1f4lZqMabdDLTNa0QyQlpCI1?usp=sharing)
