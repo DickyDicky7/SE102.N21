@@ -40,6 +40,7 @@ BridgePartState* BridgePartState::Update(BridgePart& bridgePart)
 	if (std::cmp_greater_equal(bridgePart.GetCurrentFrame() + 1, frames.size()))
 	{
 		this->time = (FLOAT)GetTickCount64();
+		Sound::getInstance()->play("bridgeexplosion.wav", false, 1);
 		return new BridgePartExplosionState();
 	}
 	return NULL;

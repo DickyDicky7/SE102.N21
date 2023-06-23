@@ -24,7 +24,7 @@ BossStage3::BossStage3() : Entity(), HasTextures(), HasSprites(), HasAnimations(
 	isCounted = false;
 	this->enemyType = ENEMY_TYPE::BOSS;
 
-	
+	this->firingRate = 0;
 }
 
 BossStage3::~BossStage3()

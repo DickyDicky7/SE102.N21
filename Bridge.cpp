@@ -96,8 +96,8 @@ void Bridge::Update()
 
 	BOOLEAN isEnemyTouch = floor(Enemy::target->GetX() + Enemy::target->GetW() * 0.25f) >= floor(this->GetX() - w * 0.5f);
 
-	// if bill touch bridge
-	if (isEnemyTouch)
+	// if bill touch bridge or is destroying
+	if (isEnemyTouch || lastDestroyPart != -1)
 	{
 		// first part
 		if (lastDestroyPart == -1)
@@ -140,7 +140,7 @@ void Bridge::Render()
 		{
 			bridgePart[i]->Render();
 			this->w += bridgePart[i]->GetW() * 1.25f;
-			this->h  = bridgePart[i]->GetH() * 0.75f;
+			this->h = bridgePart[i]->GetH() * 0.75f;
 		}
 	}
 	float L = this->GetL() + ow - this->w;
