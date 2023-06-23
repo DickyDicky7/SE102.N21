@@ -1142,5 +1142,8 @@
     <ClCompile Include="BulletScubaSoldierState.cpp">
       <Filter>Source Files\Objects\Bullet\BulletState</Filter>
     </ClCompile>
+    <ClCompile Include="ExplosionDrownState.cpp">
+      <Filter>Source Files\Objects\Explosion\ExplosionState</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

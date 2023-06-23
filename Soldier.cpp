@@ -149,6 +149,7 @@ void Soldier::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			isAbSurface = 0;
 			surfaceEntity = NULL;
 			ChangeState(state, new SoldierDieState(), this);
+			isDrown = 1;
 		}
 		else
 		{

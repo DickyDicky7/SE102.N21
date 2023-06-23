@@ -14,6 +14,7 @@ class ExplosionState;
 class ExplosionType1State;
 class ExplosionType2State;
 class ExplosionType3State;
+class ExplosionDrownState;
 // explosion co 2 type
 // type 1: danh cho cac enity dang nguoi nhu: soldier, scuba soldier, rifleMan,...
 // type 2: danh cho cac enity dang vat the con lai
@@ -107,3 +108,26 @@ public:
 	virtual ExplosionState* Update(Explosion&) override;
 	virtual ExplosionState* HandleInput(Explosion&, Input&) override;
 };
+
+
+class ExplosionDrownState : public ExplosionState
+{
+
+public:
+
+	ExplosionDrownState();
+	virtual ~ExplosionDrownState();
+
+	virtual void Exit(Explosion&) override;
+	virtual void Enter(Explosion&) override;
+	virtual void Render(Explosion&) override;
+
+	virtual ExplosionState* Update(Explosion&) override;
+	virtual ExplosionState* HandleInput(Explosion&, Input&) override;
+
+protected:
+
+	ULONGLONG time;
+
+};
+

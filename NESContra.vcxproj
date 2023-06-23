@@ -141,6 +141,7 @@
     <ClCompile Include="DDSTextureLoader9.cpp" />
     <ClCompile Include="EndingSceneState.cpp" />
     <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="ExplosionDrownState.cpp" />
     <ClCompile Include="ExplosionState.cpp" />
     <ClCompile Include="ExplosionType1State.cpp" />
     <ClCompile Include="ExplosionType2State.cpp" />

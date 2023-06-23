@@ -85,6 +85,8 @@ void Bullet::LoadSprites()
 	GraphicsHelper::InsertSprite(BULLET_SPRITE_ID::L_01, 39, 23, 38, 45, DIRECTION::LEFT, BULLET_TEXTURE_ID::BULLET_01);
 	GraphicsHelper::InsertSprite(BULLET_SPRITE_ID::F_01, 37, 41, 49, 45, DIRECTION::LEFT, BULLET_TEXTURE_ID::BULLET_01);
 
+	GraphicsHelper::InsertSprite(BULLET_SPRITE_ID::BURST_01, 38, 03, 18, 44, DIRECTION::LEFT, BULLET_TEXTURE_ID::BULLET_01);
+
 	GraphicsHelper::InsertSprite(BULLET_SPRITE_ID::ENEMY_01, 42, 58, 60, 44, DIRECTION::LEFT, BULLET_TEXTURE_ID::BULLET_01);
 
 	GraphicsHelper::InsertSprite(BULLET_SPRITE_ID::BOSS_1_01, 25, 50, 58, 33, DIRECTION::LEFT, BULLET_TEXTURE_ID::BULLET_01);
@@ -138,6 +140,11 @@ void Bullet::LoadAnimations()
 	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::F, 150,
 		{
 			{BULLET_SPRITE_ID::F_01, 0},
+		});
+
+	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::BURST, 150,
+		{
+			{BULLET_SPRITE_ID::BURST_01, 0},
 		});
 
 	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::ENEMY, 150,

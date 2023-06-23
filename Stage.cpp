@@ -116,7 +116,14 @@ void Stage::Update()
 
 			case ENEMY_TYPE::HUMAN:
 				 Sound::getInstance()->play("qexplode", false, 1);
-				 explosion = new Explosion(new ExplosionType1State());
+				 if (deadEntity->isDrown)
+				 {
+					 explosion = new Explosion(new ExplosionDrownState());
+				 }
+				 else 
+				 {
+					 explosion = new Explosion(new ExplosionType1State());
+				 }
 			break;
 
 			case ENEMY_TYPE::MACHINE:
@@ -129,6 +136,7 @@ void Stage::Update()
 			{
 				explosion->SetX(deadEntity->GetX());
 				explosion->SetY(deadEntity->GetY());
+				if (deadEntity->isDrown) explosion->SetY(explosion->GetY() - 20.0f);
 				effectEntities.push_back(explosion);
 				ProcessSpecialExplosion(deadEntity);
 			}
