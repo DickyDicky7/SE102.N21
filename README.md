@@ -29,8 +29,14 @@ Nhóm sinh viên thực hiện:
 
 ### 1) Màn 1: Jungle
 
-<img src="Resources/Images/stage1_img.png" alt="Getting Started" width="500" height="500">
+<img src="https://github.com/DickyDicky7/SE102.N21/blob/develop/Resources/images/stage1_img.png" alt="Getting Started" width="500" height="500">
 
 ### 2) **Màn 2: Water Fall**
 
-<img src="Resources/Images/stage2_img.png" alt="Getting Started" width="500" height="500">
+<img src="https://github.com/DickyDicky7/SE102.N21/blob/develop/Resources/images/stage2_img.png" alt="Getting Started" width="500" height="500">
+
+## Cách cài đặt
+
+- Cài đặt Visual Studio bản mới nhất (sau đó chọn những package phù hợp khi cài Visual Studio)
+- Cài đặt DXSDK_Jun10.exe vào máy vi tính (google DXSDK_Jun10.exe để biết thêm chi tiết)
+- Trong quá trình build, lưu ý chọn x86 Debug (hoặc x86 Release)
