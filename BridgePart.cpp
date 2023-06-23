@@ -43,8 +43,17 @@ void BridgePart::Render()
 	if (!isDestroy)
 	{
 		state->Render(*this);
-		this->w = this->currentFrameW;
-		this->h = this->currentFrameH;
+		
+		if (dynamic_cast<BridgePartExplosionState*>(state))
+		{
+			this->w = 0.0f;
+			this->h = 0.0f;
+		}
+		else
+		{
+			this->w = this->currentFrameW;
+			this->h = this->currentFrameH;
+		}
 
 		if (updateState)
 		{
