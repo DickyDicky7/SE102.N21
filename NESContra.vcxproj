@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,262 +19,266 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AirCraft.h" />
-    <ClInclude Include="AirCraftCommon.h" />
-    <ClInclude Include="Bill.h" />
-    <ClInclude Include="BillCommon.h" />
-    <ClInclude Include="BossStage1.h" />
-    <ClInclude Include="BossStage1Common.h" />
-    <ClInclude Include="BossStage3.h" />
-    <ClInclude Include="BossStage3Gate.h" />
-    <ClInclude Include="BossStage3GateCommon.h" />
-    <ClInclude Include="BossStage3Hand.h" />
-    <ClInclude Include="BossStage3HandCommon.h" />
-    <ClInclude Include="BossStage3Joint.h" />
-    <ClInclude Include="Bridge.h" />
-    <ClInclude Include="BridgeCommon.h" />
-    <ClInclude Include="Camera.h" />
-    <ClInclude Include="CameraCommon.h" />
-    <ClInclude Include="Cannon.h" />
-    <ClInclude Include="CannonCommon.h" />
-    <ClInclude Include="CollidableState.h" />
-    <ClInclude Include="Bullet.h" />
-    <ClInclude Include="BulletCommon.h" />
-    <ClInclude Include="Common.h" />
-    <ClInclude Include="DDSTextureLoader9.h" />
-    <ClInclude Include="Enemy.h" />
-    <ClInclude Include="Entity.h" />
-    <ClInclude Include="Explosion.h" />
-    <ClInclude Include="ExplosionCommon.h" />
-    <ClInclude Include="Falcon.h" />
-    <ClInclude Include="FalconCommon.h" />
-    <ClInclude Include="FinalBossStage1.h" />
-    <ClInclude Include="Fire.h" />
-    <ClInclude Include="FireCommon.h" />
-    <ClInclude Include="Item.h" />
-    <ClInclude Include="ItemCommon.h" />
-    <ClInclude Include="Letter.h" />
-    <ClInclude Include="LetterCommon.h" />
-    <ClInclude Include="GraphicsDatabase.h" />
-    <ClInclude Include="GraphicsHelper.h" />
-    <ClInclude Include="GunBossStage1.h" />
-    <ClInclude Include="HasAnimations.h" />
-    <ClInclude Include="CollidableEntity.h" />
-    <ClInclude Include="HasWeapons.h" />
-    <ClInclude Include="Motion.h" />
-    <ClInclude Include="HasSprites.h" />
-    <ClInclude Include="HasTextures.h" />
-    <ClInclude Include="Input.h" />
-    <ClInclude Include="QuadTree.h" />
-    <ClInclude Include="QuadTreeCommon.h" />
-    <ClInclude Include="QuadTreeContainer.h" />
-    <ClInclude Include="QuadTreeNode.h" />
-    <ClInclude Include="RifleMan.h" />
-    <ClInclude Include="RifleManCommon.h" />
-    <ClInclude Include="RifleManHideOnBush.h" />
-    <ClInclude Include="RifleManStanding.h" />
-    <ClInclude Include="RockFall.h" />
-    <ClInclude Include="RockFallCommon.h" />
-    <ClInclude Include="RockFly.h" />
-    <ClInclude Include="RockFlyCommon.h" />
-    <ClInclude Include="Scene.h" />
-    <ClInclude Include="SceneCommon.h" />
-    <ClInclude Include="ScubaSoldier.h" />
-    <ClInclude Include="ScubaSoldierCommon.h" />
-    <ClInclude Include="Soldier.h" />
-    <ClInclude Include="SoldierCommon.h" />
-    <ClInclude Include="Sound.h" />
-    <ClInclude Include="Stage.h" />
-    <ClInclude Include="Stage1.h" />
-    <ClInclude Include="Stage2.h" />
-    <ClInclude Include="State.h" />
-    <ClInclude Include="Terrain.h" />
-    <ClInclude Include="TerrainBlock.h" />
-    <ClInclude Include="TerrainStage1.h" />
-    <ClInclude Include="TerrainStage1Common.h" />
-    <ClInclude Include="TerrainStage2.h" />
-    <ClInclude Include="TerrainStage2Common.h" />
-    <ClInclude Include="TestingEntity.h" />
-    <ClInclude Include="WallTurret.h" />
-    <ClInclude Include="TestingEntityCommon.h" />
+    <ClInclude Include="src\Objects\Enemies\AirCraft\AirCraft.h" />
+    <ClInclude Include="src\Objects\Enemies\AirCraft\AirCraftCommon.h" />
+    <ClInclude Include="src\Objects\Bill\Bill.h" />
+    <ClInclude Include="src\Objects\Bill\BillCommon.h" />
+    <ClInclude Include="src\Objects\Enemies\BossStage1\BossStage1.h" />
+    <ClInclude Include="src\Objects\Enemies\BossStage1\BossStage1Common.h" />
+    <ClInclude Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3.h" />
+    <ClInclude Include="src\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3Gate.h" />
+    <ClInclude Include="src\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateCommon.h" />
+    <ClInclude Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3Hand.h" />
+    <ClInclude Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandCommon.h" />
+    <ClInclude Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3Joint.h" />
+    <ClInclude Include="src\Objects\Bridge\Bridge.h" />
+    <ClInclude Include="src\Objects\Bridge\BridgeCommon.h" />
+    <ClInclude Include="src\Objects\Camera\Camera.h" />
+    <ClInclude Include="src\Objects\Camera\CameraCommon.h" />
+    <ClInclude Include="src\Objects\Enemies\Cannon\Cannon.h" />
+    <ClInclude Include="src\Objects\Enemies\Cannon\CannonCommon.h" />
+    <ClInclude Include="src\Abstractions\Object\CollidableState.h" />
+    <ClInclude Include="src\Objects\Bullet\Bullet.h" />
+    <ClInclude Include="src\Objects\Bullet\BulletCommon.h" />
+    <ClInclude Include="src\Common.h" />
+    <ClInclude Include="src\Abstractions\Graphics\DX11Math.h" />
+    <ClInclude Include="src\Abstractions\Object\Enemy.h" />
+    <ClInclude Include="src\Abstractions\Object\Entity.h" />
+    <ClInclude Include="src\Objects\Explosion\Explosion.h" />
+    <ClInclude Include="src\Objects\Explosion\ExplosionCommon.h" />
+    <ClInclude Include="src\Objects\Enemies\Falcon\Falcon.h" />
+    <ClInclude Include="src\Objects\Enemies\Falcon\FalconCommon.h" />
+    <ClInclude Include="src\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1.h" />
+    <ClInclude Include="src\Objects\Fire\Fire.h" />
+    <ClInclude Include="src\Objects\Fire\FireCommon.h" />
+    <ClInclude Include="src\Objects\Item\Item.h" />
+    <ClInclude Include="src\Objects\Item\ItemCommon.h" />
+    <ClInclude Include="src\Objects\Letter\Letter.h" />
+    <ClInclude Include="src\Objects\Letter\LetterCommon.h" />
+    <ClInclude Include="src\Abstractions\Graphics\GraphicsDatabase.h" />
+    <ClInclude Include="src\Abstractions\Graphics\GraphicsHelper.h" />
+    <ClInclude Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1.h" />
+    <ClInclude Include="src\Abstractions\Graphics\HasAnimations.h" />
+    <ClInclude Include="src\Abstractions\Object\CollidableEntity.h" />
+    <ClInclude Include="src\Abstractions\Object\HasWeapons.h" />
+    <ClInclude Include="src\Abstractions\Object\Motion.h" />
+    <ClInclude Include="src\Abstractions\Graphics\HasSprites.h" />
+    <ClInclude Include="src\Abstractions\Graphics\HasTextures.h" />
+    <ClInclude Include="src\Abstractions\Device\Input.h" />
+    <!-- DEAD CODE: QuadTree.h / QuadTreeCommon.h / QuadTreeContainer.h are an
+         abandoned quadtree design, unreachable from any compiled file. Listing
+         them here only puts them in Solution Explorer (a ClInclude never causes
+         compilation), which is precisely what makes them look live. The quadtree
+         the game actually runs on is QuadTreeNode below. See docs/DeadCode.md. -->
+    <ClInclude Include="src\Abstractions\Space\QuadTree.h" />
+    <ClInclude Include="src\Abstractions\Space\QuadTreeCommon.h" />
+    <ClInclude Include="src\Abstractions\Space\QuadTreeContainer.h" />
+    <ClInclude Include="src\Abstractions\Space\QuadTreeNode.h" />   <!-- live -->
+    <ClInclude Include="src\Objects\Enemies\RifleMan\RifleMan.h" />
+    <ClInclude Include="src\Objects\Enemies\RifleMan\RifleManCommon.h" />
+    <ClInclude Include="src\Objects\Enemies\RifleMan\HideOnBush\RifleManHideOnBush.h" />
+    <ClInclude Include="src\Objects\Enemies\RifleMan\Standing\RifleManStanding.h" />
+    <ClInclude Include="src\Objects\RockFall\RockFall.h" />
+    <ClInclude Include="src\Objects\RockFall\RockFallCommon.h" />
+    <ClInclude Include="src\Objects\RockFly\RockFly.h" />
+    <ClInclude Include="src\Objects\RockFly\RockFlyCommon.h" />
+    <ClInclude Include="src\Objects\Scene\Scene.h" />
+    <ClInclude Include="src\Objects\Scene\SceneCommon.h" />
+    <ClInclude Include="src\Objects\Enemies\ScubaSoldier\ScubaSoldier.h" />
+    <ClInclude Include="src\Objects\Enemies\ScubaSoldier\ScubaSoldierCommon.h" />
+    <ClInclude Include="src\Objects\Enemies\Soldier\Soldier.h" />
+    <ClInclude Include="src\Objects\Enemies\Soldier\SoldierCommon.h" />
+    <ClInclude Include="src\Abstractions\Device\Sound.h" />
+    <ClInclude Include="src\Stages\Stage.h" />
+    <ClInclude Include="src\Stages\Stage1.h" />
+    <ClInclude Include="src\Stages\Stage2.h" />
+    <ClInclude Include="src\Abstractions\Object\State.h" />
+    <ClInclude Include="src\Abstractions\Object\Terrain.h" />
+    <ClInclude Include="src\Objects\Terrains\TerrainBlock\TerrainBlock.h" />
+    <ClInclude Include="src\Objects\Terrains\TerrainStage1\TerrainStage1.h" />
+    <ClInclude Include="src\Objects\Terrains\TerrainStage1\TerrainStage1Common.h" />
+    <ClInclude Include="src\Objects\Terrains\TerrainStage2\TerrainStage2.h" />
+    <ClInclude Include="src\Objects\Terrains\TerrainStage2\TerrainStage2Common.h" />
+    <ClInclude Include="src\Objects\TestingEntity\TestingEntity.h" />
+    <ClInclude Include="src\Objects\Enemies\WallTurret\WallTurret.h" />
+    <ClInclude Include="src\Objects\TestingEntity\TestingEntityCommon.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AirCraft.cpp" />
-    <ClCompile Include="BillSwimRunShotState.cpp" />
-    <ClCompile Include="BossStage1.cpp" />
-    <ClCompile Include="BossStage3Gate.cpp" />
-    <ClCompile Include="BossStage3GateCloseState.cpp" />
-    <ClCompile Include="BossStage3GateState.cpp" />
-    <ClCompile Include="BossStage3Hand.cpp" />
-    <ClCompile Include="BossStage3HandAttackState.cpp" />
-    <ClCompile Include="BossStage3HandDirectPlayerState.cpp" />
-    <ClCompile Include="BossStage3HandSpinningState.cpp" />
-    <ClCompile Include="BossStage3HandStartState.cpp" />
-    <ClCompile Include="BossStage3HandState.cpp" />
-    <ClCompile Include="BossStage3HandWaveState.cpp" />
-    <ClCompile Include="BossStage3Joint.cpp" />
-    <ClCompile Include="BossState3GateOpenState.cpp" />
-    <ClCompile Include="Bridge.cpp" />
-    <ClCompile Include="BridgePart.cpp" />
-    <ClCompile Include="BridgePartExplosionState.cpp" />
-    <ClCompile Include="BridgePartState.cpp" />
-    <ClCompile Include="BulletBossStage1State.cpp" />
-    <ClCompile Include="BulletBossStage2StateHand.cpp" />
-    <ClCompile Include="BulletBossStage2StateHead.cpp" />
-    <ClCompile Include="BulletEnemyState.cpp" />
-    <ClCompile Include="BulletExplodeState.cpp" />
-    <ClCompile Include="BulletFState.cpp" />
-    <ClCompile Include="BulletLState.cpp" />
-    <ClCompile Include="BulletMState.cpp" />
-    <ClCompile Include="BulletRState.cpp" />
-    <ClCompile Include="BulletScubaSoldierState.cpp" />
-    <ClCompile Include="BulletSState.cpp" />
-    <ClCompile Include="Cannon.cpp" />
-    <ClCompile Include="CannonNormalState.cpp" />
-    <ClCompile Include="CannonState.cpp" />
-    <ClCompile Include="CannonAppearState.cpp" />
-    <ClCompile Include="CannonUp30State.cpp" />
-    <ClCompile Include="CannonUp60State.cpp" />
-    <ClCompile Include="CollidableEntity.cpp" />
-    <ClCompile Include="CollidableState.cpp" />
-    <ClCompile Include="CreditSceneState.cpp" />
-    <ClCompile Include="DDSTextureLoader9.cpp" />
-    <ClCompile Include="EndingSceneState.cpp" />
-    <ClCompile Include="Explosion.cpp" />
-    <ClCompile Include="ExplosionDrownState.cpp" />
-    <ClCompile Include="ExplosionState.cpp" />
-    <ClCompile Include="ExplosionType1State.cpp" />
-    <ClCompile Include="ExplosionType2State.cpp" />
-    <ClCompile Include="ExplosionType3State.cpp" />
-    <ClCompile Include="Falcon.cpp" />
-    <ClCompile Include="FalconCloseState.cpp" />
-    <ClCompile Include="FalconOpeningState.cpp" />
-    <ClCompile Include="FalconOpenState.cpp" />
-    <ClCompile Include="FalconState.cpp" />
-    <ClCompile Include="FinalBossStage1DestroyState.cpp" />
-    <ClCompile Include="FinalBossStage1NormalState.cpp" />
-    <ClCompile Include="FinalBossStage1State.cpp" />
-    <ClCompile Include="Fire.cpp" />
-    <ClCompile Include="GameOverSceneState.cpp" />
-    <ClCompile Include="GunBossStage1DestroyState.cpp" />
-    <ClCompile Include="GunBossStage1NormalState.cpp" />
-    <ClCompile Include="GunBossStage1PrepareShootState.cpp" />
-    <ClCompile Include="Item.cpp" />
-    <ClCompile Include="ItemState.cpp" />
-    <ClCompile Include="Letter.cpp" />
-    <ClCompile Include="GunBossStage1.cpp" />
-    <ClCompile Include="GunBossStage1State.cpp" />
-    <ClCompile Include="HasWeapons.cpp" />
-    <ClCompile Include="LoadingSceneState.cpp" />
-    <ClCompile Include="Motion.cpp" />
-    <ClCompile Include="QuadTreeNode.cpp" />
-    <ClCompile Include="RifleManHideOnBushState.cpp" />
-    <ClCompile Include="RifleManStanding.cpp" />
-    <ClCompile Include="RifleManStandingAimDownState.cpp" />
-    <ClCompile Include="RifleManStandingAimUpState.cpp" />
-    <ClCompile Include="RifleManHideOnBushAppearState.cpp" />
-    <ClCompile Include="Bill.cpp" />
-    <ClCompile Include="BillBeginState.cpp" />
-    <ClCompile Include="BillBeginSwimState.cpp" />
-    <ClCompile Include="BillDeadState.cpp" />
-    <ClCompile Include="BillDiveState.cpp" />
-    <ClCompile Include="BillFallState.cpp" />
-    <ClCompile Include="BillJumpState.cpp" />
-    <ClCompile Include="BillLayDownState.cpp" />
-    <ClCompile Include="BillNormalShotState.cpp" />
-    <ClCompile Include="BillNormalState.cpp" />
-    <ClCompile Include="BillRunShotAngleDownState.cpp" />
-    <ClCompile Include="BillRunShotAngleUpState.cpp" />
-    <ClCompile Include="BillRunShotState.cpp" />
-    <ClCompile Include="BillRunState.cpp" />
-    <ClCompile Include="BillShotStraightUpState.cpp" />
-    <ClCompile Include="BillState.cpp" />
-    <ClCompile Include="BillStraightUpState.cpp" />
-    <ClCompile Include="BillSwimRunState.cpp" />
-    <ClCompile Include="BillSwimShotAngleUpState.cpp" />
-    <ClCompile Include="BillSwimNormalShotState.cpp" />
-    <ClCompile Include="BillSwimShotStraightUpState.cpp" />
-    <ClCompile Include="BillSwimNormalState.cpp" />
-    <ClCompile Include="BossStage3.cpp" />
-    <ClCompile Include="BossStage3CloseState.cpp" />
-    <ClCompile Include="BossStage3Common.h" />
-    <ClCompile Include="BossStage3MiddleState.cpp" />
-    <ClCompile Include="BossStage3OpenState.cpp" />
-    <ClCompile Include="BossStage3State.cpp" />
-    <ClCompile Include="Camera.cpp" />
-    <ClCompile Include="CameraMovingBackwardState.cpp" />
-    <ClCompile Include="CameraMovingDownwardState.cpp" />
-    <ClCompile Include="CameraMovingForwardState.cpp" />
-    <ClCompile Include="CameraMovingUpwardState.cpp" />
-    <ClCompile Include="CameraState.cpp" />
-    <ClCompile Include="CameraStaticState.cpp" />
-    <ClCompile Include="Enemy.cpp" />
-    <ClCompile Include="Bullet.cpp" />
-    <ClCompile Include="BulletState.cpp" />
-    <ClCompile Include="Entity.cpp" />
-    <ClCompile Include="GraphicsDatabase.cpp" />
-    <ClCompile Include="GraphicsHelper.cpp" />
-    <ClCompile Include="HasAnimations.cpp" />
-    <ClCompile Include="HasSprites.cpp" />
-    <ClCompile Include="HasTextures.cpp" />
-    <ClCompile Include="RifleManHideOnBushHideState.cpp" />
-    <ClCompile Include="RifleManHideOnBushHidingState.cpp" />
-    <ClCompile Include="Input.cpp" />
-    <ClCompile Include="main.cpp" />
-    <ClCompile Include="RifleManStandingNormalState.cpp" />
-    <ClCompile Include="RifleMan.cpp" />
-    <ClCompile Include="RifleManHideOnBush.cpp" />
-    <ClCompile Include="RifleManStandingState.cpp" />
-    <ClCompile Include="RockFall.cpp" />
-    <ClCompile Include="RockFallFallState.cpp" />
-    <ClCompile Include="RockFallNormalState.cpp" />
-    <ClCompile Include="RockFallState.cpp" />
-    <ClCompile Include="RockFly.cpp" />
-    <ClCompile Include="Scene.cpp" />
-    <ClCompile Include="SceneState.cpp" />
-    <ClCompile Include="ScubaSoldier.cpp" />
-    <ClCompile Include="ScubaSoldierHiddenState.cpp" />
-    <ClCompile Include="ScubaSoldierShootingState.cpp" />
-    <ClCompile Include="ScubaSoldierState.cpp" />
-    <ClCompile Include="Soldier.cpp" />
-    <ClCompile Include="SoldierDieState.cpp" />
-    <ClCompile Include="SoldierJumpState.cpp" />
-    <ClCompile Include="SoldierLayDownState.cpp" />
-    <ClCompile Include="SoldierRunState.cpp" />
-    <ClCompile Include="SoldierShootState.cpp" />
-    <ClCompile Include="SoldierState.cpp" />
-    <ClCompile Include="RifleManHideOnBushStandingState.cpp" />
-    <ClCompile Include="Sound.cpp" />
-    <ClCompile Include="FinalBossStage1.cpp" />
-    <ClCompile Include="Stage.cpp" />
-    <ClCompile Include="Stage1.cpp" />
-    <ClCompile Include="PlayingSceneState.cpp" />
-    <ClCompile Include="Stage2.cpp" />
-    <ClCompile Include="StartSceneState.cpp" />
-    <ClCompile Include="State.cpp" />
-    <ClCompile Include="Terrain.cpp" />
-    <ClCompile Include="TerrainBlock.cpp" />
-    <ClCompile Include="TerrainStage1.cpp" />
-    <ClCompile Include="TerrainStage2.cpp" />
-    <ClCompile Include="TestingEntity.cpp" />
-    <ClCompile Include="WallTurret.cpp" />
-    <ClCompile Include="WallTurretNormalState.cpp" />
-    <ClCompile Include="WallTurretOpeningState.cpp" />
-    <ClCompile Include="WallTurretClosingState.cpp" />
-    <ClCompile Include="WallTurretLeft120State.cpp" />
-    <ClCompile Include="WallTurretLeft150State.cpp" />
-    <ClCompile Include="WallTurretLeft90State.cpp" />
-    <ClCompile Include="WallTurretLeft60State.cpp" />
-    <ClCompile Include="WallTurretLeft30State.cpp" />
-    <ClCompile Include="WallTurretRight120State.cpp" />
-    <ClCompile Include="WallTurretRight150State.cpp" />
-    <ClCompile Include="WallTurretRight30State.cpp" />
-    <ClCompile Include="WallTurretRight60State.cpp" />
-    <ClCompile Include="WallTurretState.cpp" />
-    <ClCompile Include="WallTurretRight90State.cpp" />
-    <ClCompile Include="WallTurretUpState.cpp" />
-    <ClCompile Include="WallTurretDownState.cpp" />
-    <ClCompile Include="WallTurretCommon.h" />
+    <ClCompile Include="src\Objects\Enemies\AirCraft\AirCraft.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillSwimRunShotState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage1\BossStage1.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3Gate.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState\BossStage3GateCloseState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3Hand.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState\BossStage3HandAttackState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState\BossStage3HandDirectPlayerState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState\BossStage3HandSpinningState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState\BossStage3HandStartState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState\BossStage3HandWaveState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3Joint.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState\BossState3GateOpenState.cpp" />
+    <ClCompile Include="src\Objects\Bridge\Bridge.cpp" />
+    <ClCompile Include="src\Objects\Bridge\BridgePart.cpp" />
+    <ClCompile Include="src\Objects\Bridge\BridgePartState\BridgePartExplosionState.cpp" />
+    <ClCompile Include="src\Objects\Bridge\BridgePartState.cpp" />
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletBossStage1State.cpp" />
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletBossStage2StateHand.cpp" />
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletBossStage2StateHead.cpp" />
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletEnemyState.cpp" />
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletExplodeState.cpp" />
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletFState.cpp" />
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletLState.cpp" />
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletMState.cpp" />
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletRState.cpp" />
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletScubaSoldierState.cpp" />
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletSState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Cannon\Cannon.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Cannon\CannonState\CannonNormalState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Cannon\CannonState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Cannon\CannonState\CannonAppearState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Cannon\CannonState\CannonUp30State.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Cannon\CannonState\CannonUp60State.cpp" />
+    <ClCompile Include="src\Abstractions\Object\CollidableEntity.cpp" />
+    <ClCompile Include="src\Abstractions\Object\CollidableState.cpp" />
+    <ClCompile Include="src\Objects\Scene\SceneState\CreditSceneState.cpp" />
+    <ClCompile Include="src\Objects\Scene\SceneState\EndingSceneState.cpp" />
+    <ClCompile Include="src\Objects\Explosion\Explosion.cpp" />
+    <ClCompile Include="src\Objects\Explosion\ExplosionState\ExplosionDrownState.cpp" />
+    <ClCompile Include="src\Objects\Explosion\ExplosionState.cpp" />
+    <ClCompile Include="src\Objects\Explosion\ExplosionState\ExplosionType1State.cpp" />
+    <ClCompile Include="src\Objects\Explosion\ExplosionState\ExplosionType2State.cpp" />
+    <ClCompile Include="src\Objects\Explosion\ExplosionState\ExplosionType3State.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Falcon\Falcon.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Falcon\FalconState\FalconCloseState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Falcon\FalconState\FalconOpeningState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Falcon\FalconState\FalconOpenState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Falcon\FalconState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1State\FinalBossStage1DestroyState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1State\FinalBossStage1NormalState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1State.cpp" />
+    <ClCompile Include="src\Objects\Fire\Fire.cpp" />
+    <ClCompile Include="src\Objects\Scene\SceneState\GameOverSceneState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State\GunBossStage1DestroyState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State\GunBossStage1NormalState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State\GunBossStage1PrepareShootState.cpp" />
+    <ClCompile Include="src\Objects\Item\Item.cpp" />
+    <ClCompile Include="src\Objects\Item\ItemState.cpp" />
+    <ClCompile Include="src\Objects\Letter\Letter.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State.cpp" />
+    <ClCompile Include="src\Abstractions\Object\HasWeapons.cpp" />
+    <ClCompile Include="src\Objects\Scene\SceneState\LoadingSceneState.cpp" />
+    <ClCompile Include="src\Abstractions\Object\Motion.cpp" />
+    <ClCompile Include="src\Abstractions\Space\QuadTreeNode.cpp" />
+    <ClCompile Include="src\Objects\Enemies\RifleMan\HideOnBush\RifleManHideOnBushState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\RifleMan\Standing\RifleManStanding.cpp" />
+    <ClCompile Include="src\Objects\Enemies\RifleMan\Standing\StandingState\RifleManStandingAimDownState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\RifleMan\Standing\StandingState\RifleManStandingAimUpState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\RifleMan\HideOnBush\HideOnBushState\RifleManHideOnBushAppearState.cpp" />
+    <ClCompile Include="src\Objects\Bill\Bill.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillBeginState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillBeginSwimState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillDeadState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillDiveState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillFallState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillJumpState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillLayDownState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillNormalShotState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillNormalState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillRunShotAngleDownState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillRunShotAngleUpState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillRunShotState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillRunState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillShotStraightUpState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillStraightUpState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillSwimRunState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillSwimShotAngleUpState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillSwimNormalShotState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillSwimShotStraightUpState.cpp" />
+    <ClCompile Include="src\Objects\Bill\BillState\BillSwimNormalState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State\BossStage3CloseState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3Common.h" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State\BossStage3MiddleState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State\BossStage3OpenState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State.cpp" />
+    <ClCompile Include="src\Objects\Camera\Camera.cpp" />
+    <ClCompile Include="src\Objects\Camera\CameraState\CameraMovingBackwardState.cpp" />
+    <ClCompile Include="src\Objects\Camera\CameraState\CameraMovingDownwardState.cpp" />
+    <ClCompile Include="src\Objects\Camera\CameraState\CameraMovingForwardState.cpp" />
+    <ClCompile Include="src\Objects\Camera\CameraState\CameraMovingUpwardState.cpp" />
+    <ClCompile Include="src\Objects\Camera\CameraState.cpp" />
+    <ClCompile Include="src\Objects\Camera\CameraState\CameraStaticState.cpp" />
+    <ClCompile Include="src\Abstractions\Object\Enemy.cpp" />
+    <ClCompile Include="src\Objects\Bullet\Bullet.cpp" />
+    <ClCompile Include="src\Objects\Bullet\BulletState.cpp" />
+    <ClCompile Include="src\Abstractions\Object\Entity.cpp" />
+    <ClCompile Include="src\Abstractions\Graphics\GraphicsDatabase.cpp" />
+    <ClCompile Include="src\Abstractions\Graphics\GraphicsHelper.cpp" />
+    <ClCompile Include="src\Abstractions\Graphics\HasAnimations.cpp" />
+    <ClCompile Include="src\Abstractions\Graphics\HasSprites.cpp" />
+    <ClCompile Include="src\Abstractions\Graphics\HasTextures.cpp" />
+    <ClCompile Include="src\Objects\Enemies\RifleMan\HideOnBush\HideOnBushState\RifleManHideOnBushHideState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\RifleMan\HideOnBush\HideOnBushState\RifleManHideOnBushHidingState.cpp" />
+    <ClCompile Include="src\Abstractions\Device\Input.cpp" />
+    <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Objects\Enemies\RifleMan\Standing\StandingState\RifleManStandingNormalState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\RifleMan\RifleMan.cpp" />
+    <ClCompile Include="src\Objects\Enemies\RifleMan\HideOnBush\RifleManHideOnBush.cpp" />
+    <ClCompile Include="src\Objects\Enemies\RifleMan\Standing\RifleManStandingState.cpp" />
+    <ClCompile Include="src\Objects\RockFall\RockFall.cpp" />
+    <ClCompile Include="src\Objects\RockFall\RockFallState\RockFallFallState.cpp" />
+    <ClCompile Include="src\Objects\RockFall\RockFallState\RockFallNormalState.cpp" />
+    <ClCompile Include="src\Objects\RockFall\RockFallState.cpp" />
+    <ClCompile Include="src\Objects\RockFly\RockFly.cpp" />
+    <ClCompile Include="src\Objects\Scene\Scene.cpp" />
+    <ClCompile Include="src\Objects\Scene\SceneState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\ScubaSoldier\ScubaSoldier.cpp" />
+    <ClCompile Include="src\Objects\Enemies\ScubaSoldier\ScubaSoldierState\ScubaSoldierHiddenState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\ScubaSoldier\ScubaSoldierState\ScubaSoldierShootingState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\ScubaSoldier\ScubaSoldierState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Soldier\Soldier.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Soldier\SoldierState\SoldierDieState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Soldier\SoldierState\SoldierJumpState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Soldier\SoldierState\SoldierLayDownState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Soldier\SoldierState\SoldierRunState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Soldier\SoldierState\SoldierShootState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\Soldier\SoldierState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\RifleMan\HideOnBush\HideOnBushState\RifleManHideOnBushStandingState.cpp" />
+    <ClCompile Include="src\Abstractions\Device\Sound.cpp" />
+    <ClCompile Include="src\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1.cpp" />
+    <ClCompile Include="src\Stages\Stage.cpp" />
+    <ClCompile Include="src\Stages\Stage1.cpp" />
+    <ClCompile Include="src\Objects\Scene\SceneState\PlayingSceneState.cpp" />
+    <ClCompile Include="src\Stages\Stage2.cpp" />
+    <ClCompile Include="src\Objects\Scene\SceneState\StartSceneState.cpp" />
+    <ClCompile Include="src\Abstractions\Object\State.cpp" />
+    <ClCompile Include="src\Abstractions\Object\Terrain.cpp" />
+    <ClCompile Include="src\Objects\Terrains\TerrainBlock\TerrainBlock.cpp" />
+    <ClCompile Include="src\Objects\Terrains\TerrainStage1\TerrainStage1.cpp" />
+    <ClCompile Include="src\Objects\Terrains\TerrainStage2\TerrainStage2.cpp" />
+    <ClCompile Include="src\Objects\TestingEntity\TestingEntity.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurret.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretNormalState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretOpeningState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretClosingState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretLeft120State.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretLeft150State.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretLeft90State.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretLeft60State.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretLeft30State.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretRight120State.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretRight150State.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretRight30State.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretRight60State.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretRight90State.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretUpState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretDownState.cpp" />
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretCommon.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -327,71 +331,163 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
-  <PropertyGroup Label="UserMacros" />
-  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
-    <IncludePath>$(VC_IncludePath);$(WindowsSDK_IncludePath);$(DXSDK_DIR)Include;</IncludePath>
-    <LibraryPath>$(VC_LibraryPath_x86);$(WindowsSDK_LibraryPath_x86);$(DXSDK_DIR)Lib\x86;</LibraryPath>
+  <PropertyGroup Label="UserMacros">
+    <!-- Include path for the source tree.  Headers are included by bare name
+         (#include "Bill.h") from anywhere in the project, so every folder that
+         holds one goes on the search path; that is what let the flat layout be
+         reorganised into folders without editing 250-odd source files.
+         ADD A NEW FOLDER HERE when you add one that contains a header. -->
+    <GameIncludeDirs>$(ProjectDir)src;$(ProjectDir)src\Abstractions\Device;$(ProjectDir)src\Abstractions\Graphics;$(ProjectDir)src\Abstractions\Object;$(ProjectDir)src\Abstractions\Space;$(ProjectDir)src\Objects\Bill;$(ProjectDir)src\Objects\Bridge;$(ProjectDir)src\Objects\Bullet;$(ProjectDir)src\Objects\Camera;$(ProjectDir)src\Objects\Enemies\AirCraft;$(ProjectDir)src\Objects\Enemies\BossStage1;$(ProjectDir)src\Objects\Enemies\BossStage1\FinalBossStage1;$(ProjectDir)src\Objects\Enemies\BossStage1\GunBossStage1;$(ProjectDir)src\Objects\Enemies\BossStage3\BossStage3Gate;$(ProjectDir)src\Objects\Enemies\BossStage3\BossStage3Hand;$(ProjectDir)src\Objects\Enemies\BossStage3\BossStage3Head;$(ProjectDir)src\Objects\Enemies\Cannon;$(ProjectDir)src\Objects\Enemies\Falcon;$(ProjectDir)src\Objects\Enemies\RifleMan;$(ProjectDir)src\Objects\Enemies\RifleMan\HideOnBush;$(ProjectDir)src\Objects\Enemies\RifleMan\Standing;$(ProjectDir)src\Objects\Enemies\ScubaSoldier;$(ProjectDir)src\Objects\Enemies\Soldier;$(ProjectDir)src\Objects\Enemies\WallTurret;$(ProjectDir)src\Objects\Explosion;$(ProjectDir)src\Objects\Fire;$(ProjectDir)src\Objects\Item;$(ProjectDir)src\Objects\Letter;$(ProjectDir)src\Objects\RockFall;$(ProjectDir)src\Objects\RockFly;$(ProjectDir)src\Objects\Scene;$(ProjectDir)src\Objects\Terrains\TerrainBlock;$(ProjectDir)src\Objects\Terrains\TerrainStage1;$(ProjectDir)src\Objects\Terrains\TerrainStage2;$(ProjectDir)src\Objects\TestingEntity;$(ProjectDir)src\Stages;$(ProjectDir)third_party\tileson</GameIncludeDirs>
   </PropertyGroup>
+  <!-- No per-configuration IncludePath/LibraryPath overrides: every one of the
+       four configurations now builds entirely against the Windows SDK that
+       ships with Visual Studio, so the platform defaults are correct.  (Debug|Win32
+       used to carry a $(DXSDK_DIR) entry here for d3dx9; the DirectX 11 port
+       removed the dependency, which left the group restating the defaults for
+       one configuration out of four.) -->
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
+      <AdditionalIncludeDirectories>$(GameIncludeDirs);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ForceSynchronousPDBWrites>true</ForceSynchronousPDBWrites>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
-      <AdditionalLibraryDirectories>$(DXSDK_DIR)Lib\x86;</AdditionalLibraryDirectories>
-      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);d3d9.lib;d3dx9.lib;dinput8.lib;dxguid.lib;</AdditionalDependencies>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);d3d11.lib;d3dcompiler.lib;dxgi.lib;windowscodecs.lib;dinput8.lib;dxguid.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
     <ClCompile>
+      <AdditionalIncludeDirectories>$(GameIncludeDirs);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>WIN32;NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ForceSynchronousPDBWrites>true</ForceSynchronousPDBWrites>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);d3d11.lib;d3dcompiler.lib;dxgi.lib;windowscodecs.lib;dinput8.lib;dxguid.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
+      <AdditionalIncludeDirectories>$(GameIncludeDirs);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ForceSynchronousPDBWrites>true</ForceSynchronousPDBWrites>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);d3d11.lib;d3dcompiler.lib;dxgi.lib;windowscodecs.lib;dinput8.lib;dxguid.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
+      <AdditionalIncludeDirectories>$(GameIncludeDirs);%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <WarningLevel>Level3</WarningLevel>
       <FunctionLevelLinking>true</FunctionLevelLinking>
       <IntrinsicFunctions>true</IntrinsicFunctions>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <MultiProcessorCompilation>true</MultiProcessorCompilation>
+      <ForceSynchronousPDBWrites>true</ForceSynchronousPDBWrites>
     </ClCompile>
     <Link>
-      <SubSystem>Console</SubSystem>
+      <SubSystem>Windows</SubSystem>
       <EnableCOMDATFolding>true</EnableCOMDATFolding>
       <OptimizeReferences>true</OptimizeReferences>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>$(CoreLibraryDependencies);%(AdditionalDependencies);d3d11.lib;d3dcompiler.lib;dxgi.lib;windowscodecs.lib;dinput8.lib;dxguid.lib;</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
+  <!-- Shaders are compiled by FXC as part of the build, so a syntax error is a
+       build error rather than a black screen at runtime.  The .cso objects land
+       next to the executable; GraphicsHelper loads those and only falls back to
+       D3DCompileFromFile if they are missing.
+
+       This group sits BEFORE the Microsoft.Cpp.targets import, where every other
+       ItemGroup in this project lives.  MSBuild evaluates all items before it
+       runs any target, so it worked after the import too - but keeping the
+       declaration order conventional means the FXC item metadata is visible in
+       the same place a reader expects to find ClCompile/ClInclude. -->
+  <ItemGroup>
+    <FxCompile Include="src\Abstractions\Graphics\SpriteVS.hlsl">
+      <ShaderType>Vertex</ShaderType>
+      <ShaderModel>5.0</ShaderModel>
+      <EntryPointName>main</EntryPointName>
+      <ObjectFileOutput>$(OutDir)%(Filename).cso</ObjectFileOutput>
+      <HeaderFileOutput>
+      </HeaderFileOutput>
+    </FxCompile>
+    <FxCompile Include="src\Abstractions\Graphics\SpritePS.hlsl">
+      <ShaderType>Pixel</ShaderType>
+      <ShaderModel>5.0</ShaderModel>
+      <EntryPointName>main</EntryPointName>
+      <ObjectFileOutput>$(OutDir)%(Filename).cso</ObjectFileOutput>
+      <HeaderFileOutput>
+      </HeaderFileOutput>
+    </FxCompile>
+    <FxCompile Include="src\Abstractions\Graphics\DebugVS.hlsl">
+      <ShaderType>Vertex</ShaderType>
+      <ShaderModel>5.0</ShaderModel>
+      <EntryPointName>main</EntryPointName>
+      <ObjectFileOutput>$(OutDir)%(Filename).cso</ObjectFileOutput>
+      <HeaderFileOutput>
+      </HeaderFileOutput>
+    </FxCompile>
+    <FxCompile Include="src\Abstractions\Graphics\DebugPS.hlsl">
+      <ShaderType>Pixel</ShaderType>
+      <ShaderModel>5.0</ShaderModel>
+      <EntryPointName>main</EntryPointName>
+      <ObjectFileOutput>$(OutDir)%(Filename).cso</ObjectFileOutput>
+      <HeaderFileOutput>
+      </HeaderFileOutput>
+    </FxCompile>
+  </ItemGroup>
+
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
+
+  <!-- Copy runtime resources (and the shader sources, for the runtime
+       fallback) to the output directory so the game can be launched from
+       $(OutDir) without a separate working directory.
+
+       Custom targets belong after the Microsoft.Cpp.targets import, so that
+       AfterTargets can name a target the import has already defined.
+
+       The shader copy uses the Copy task rather than another Exec: $(OutDir)
+       ends in a backslash, so `copy /y "src" "$(OutDir)"` expanded to an
+       argument ending in \" - which cmd's own builtin tolerates, but which any
+       other tool would read as an escaped quote and mis-parse. The Copy task
+       takes the path as a real value instead of pasting it into a command line,
+       and SkipUnchangedFiles gives the /d behaviour the xcopy above has. -->
+  <Target Name="CopyRuntimeResources" AfterTargets="PostBuildEvent">
+    <ItemGroup>
+      <ShaderSource Include="$(ProjectDir)src\Abstractions\Graphics\*.hlsl" />
+    </ItemGroup>
+    <Exec Command="xcopy /y /s /i /d &quot;$(ProjectDir)Resources&quot; &quot;$(OutDir)Resources&quot;" />
+    <Copy SourceFiles="@(ShaderSource)" DestinationFolder="$(OutDir)" SkipUnchangedFiles="true" />
+  </Target>
 </Project>

@@ -1,1149 +1,962 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Source Files">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;cppm;ixx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    <Filter Include="src">
+      <UniqueIdentifier>{606bbdac-e7a4-470b-9002-edc70231b3a7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
+    <Filter Include="src\Abstractions">
+      <UniqueIdentifier>{ff7db18b-bc52-44d0-8695-8714f7cfa2aa}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    <Filter Include="src\Abstractions\Device">
+      <UniqueIdentifier>{206335a1-52be-4bea-a303-a13f16293e28}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects">
-      <UniqueIdentifier>{6e7f6abf-7bd8-4b45-9fa2-c1b8690f01e0}</UniqueIdentifier>
+    <Filter Include="src\Abstractions\Graphics">
+      <UniqueIdentifier>{c0037968-0a9f-41b4-bf5c-b58a868161e5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Enemies">
-      <UniqueIdentifier>{74f7207f-f0b3-4c07-a44f-6a5c2a1b9d59}</UniqueIdentifier>
+    <Filter Include="src\Abstractions\Object">
+      <UniqueIdentifier>{88b58ca5-fbaf-45d4-a3c4-4b807d6db2df}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects">
-      <UniqueIdentifier>{1b2d88d2-bc64-4ebf-a962-dedacfec1273}</UniqueIdentifier>
+    <Filter Include="src\Abstractions\Space">
+      <UniqueIdentifier>{37b02f5c-6c39-463f-8756-32df48e8faba}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies">
-      <UniqueIdentifier>{e39ceb5c-66af-4ed9-877b-e04acf34a59f}</UniqueIdentifier>
+    <Filter Include="src\Objects">
+      <UniqueIdentifier>{67161fea-9c96-47b8-8b03-4e355e660822}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Bill">
-      <UniqueIdentifier>{16fc020b-a894-4edb-ba03-7c4c3d612104}</UniqueIdentifier>
+    <Filter Include="src\Objects\Bill">
+      <UniqueIdentifier>{1510de72-4eb2-4734-87f6-d223a4c21914}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Bill\BillState">
-      <UniqueIdentifier>{bd0fda84-ecf8-476e-a06d-43d9fb4faf94}</UniqueIdentifier>
+    <Filter Include="src\Objects\Bill\BillState">
+      <UniqueIdentifier>{a80a742f-57bb-4afc-bf29-0d6b9d3f10d6}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Enemies\Soldier">
-      <UniqueIdentifier>{bf4f33db-920a-4578-85f3-889c9d446859}</UniqueIdentifier>
+    <Filter Include="src\Objects\Bridge">
+      <UniqueIdentifier>{8b6691a5-e0f7-44f3-b271-4c9a91c4c00f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Bill">
-      <UniqueIdentifier>{df7d36ea-3972-4de3-827c-8e972538dd00}</UniqueIdentifier>
+    <Filter Include="src\Objects\Bridge\BridgePartState">
+      <UniqueIdentifier>{5a00d5f8-bd20-45bf-bb45-a8f98c6adec8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Abstractions">
-      <UniqueIdentifier>{9ba54ad0-e114-4056-a582-4717d80d7e18}</UniqueIdentifier>
+    <Filter Include="src\Objects\Bullet">
+      <UniqueIdentifier>{6f876f54-9a54-4444-8734-f51871435907}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Abstractions\Object Abstractions">
-      <UniqueIdentifier>{d84f4867-f1bd-4d9a-ba13-a12f774fe8f0}</UniqueIdentifier>
+    <Filter Include="src\Objects\Bullet\BulletState">
+      <UniqueIdentifier>{aa3a364c-2624-4243-aa21-ec9841461bf8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Abstractions\Graphics Abstractions">
-      <UniqueIdentifier>{a474935d-6596-4cbd-9d7a-e4fbd1945296}</UniqueIdentifier>
+    <Filter Include="src\Objects\Camera">
+      <UniqueIdentifier>{e8748d38-e2c9-4bd2-a109-6fd447612bac}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Enemies\ScubaSoldier">
-      <UniqueIdentifier>{ce627cf7-08a6-467b-8044-f5c591fbfdeb}</UniqueIdentifier>
+    <Filter Include="src\Objects\Camera\CameraState">
+      <UniqueIdentifier>{32911d2b-56b8-4426-8291-856f6c540a07}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\TestingEntity">
-      <UniqueIdentifier>{683898e2-62ef-40cf-9911-cdbf3a5cec5b}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies">
+      <UniqueIdentifier>{0976700e-35f0-41a3-af4e-2991cce97568}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Abstractions">
-      <UniqueIdentifier>{4b7dd734-8732-44ef-b1f3-a08c73dcd8a6}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\AirCraft">
+      <UniqueIdentifier>{23b82d01-e2c0-4c6e-afd9-120488dbf779}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Abstractions\Object Abstractions">
-      <UniqueIdentifier>{0cd5ee03-3357-4d90-a95f-8e08f33242ae}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\BossStage1">
+      <UniqueIdentifier>{a502155b-2ebf-4891-9cd9-db6ecef6815b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Abstractions\Graphics Abstractions">
-      <UniqueIdentifier>{1e585eeb-dacb-4aa0-bc54-9abf4742f67b}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\BossStage1\FinalBossStage1">
+      <UniqueIdentifier>{12fb38d0-bf8d-4830-8ed1-06ae342ee3e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\TestingEntity">
-      <UniqueIdentifier>{11eba976-12b6-445c-a983-af1e80c495e5}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1State">
+      <UniqueIdentifier>{5e4c6639-2f42-4c68-9ea0-df9f62d3d371}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\Soldier">
-      <UniqueIdentifier>{cfe66d06-a43b-4ba9-ac2f-839559ae2570}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\BossStage1\GunBossStage1">
+      <UniqueIdentifier>{8fef9e30-303f-468b-9b33-f2e1842ea681}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\ScubaSoldier">
-      <UniqueIdentifier>{e57e8cc9-074e-4b39-b0d1-a2c80d20aaaa}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State">
+      <UniqueIdentifier>{ef032ef3-559b-4388-8446-9cb8d65f3e7c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\Soldier">
-      <UniqueIdentifier>{5545e3d2-e933-470b-83e4-3788fe656759}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\BossStage3">
+      <UniqueIdentifier>{270a4777-126e-4715-965a-9546c051bf0a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\Soldier\SoldierState">
-      <UniqueIdentifier>{27533dfb-7b0d-4735-8970-0db29728b6c0}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\BossStage3\BossStage3Gate">
+      <UniqueIdentifier>{d9745af1-a012-47bd-8dc4-bab1804f785e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\ScubaSoldier\ScubaSoldierState">
-      <UniqueIdentifier>{bf9a1c6d-c915-4f0b-a43a-4d37b838f7ef}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState">
+      <UniqueIdentifier>{faa6941a-9e3c-49a8-bccf-59b81bb04b1f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Enemies\WallTurret">
-      <UniqueIdentifier>{9768cc23-d528-4df8-b3ab-e7b008386ee6}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\BossStage3\BossStage3Hand">
+      <UniqueIdentifier>{47e1dd43-218d-4eff-b20a-42eef566a29d}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\WallTurret">
-      <UniqueIdentifier>{f2cd795a-178c-4b6f-bbc5-ebabd819b6e2}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState">
+      <UniqueIdentifier>{dc21af70-bf90-4335-a9af-74bac3890634}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\WallTurret\WallTurretState">
-      <UniqueIdentifier>{3887bf97-f37e-4fed-b077-c468432bd6de}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\BossStage3\BossStage3Head">
+      <UniqueIdentifier>{00936b06-72b9-49f7-bf48-78665f11fa9c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Enemies\BossStage3">
-      <UniqueIdentifier>{8f9e1b94-f64d-48fb-9966-32293c07c812}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State">
+      <UniqueIdentifier>{383dc2d8-a9c6-426c-a730-75975fbf6657}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\BossStage3">
-      <UniqueIdentifier>{be0dc8c7-0e71-47f6-80a8-600ab84024ad}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\Cannon">
+      <UniqueIdentifier>{27cf02e1-5e84-48a8-ba69-d122349674d0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Enemies\RifleMan">
-      <UniqueIdentifier>{79d2c866-2293-4630-9842-287f1a71d622}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\Cannon\CannonState">
+      <UniqueIdentifier>{2a5e2b35-ff19-45f1-8d5e-a50ba475e2dc}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\RifleMan">
-      <UniqueIdentifier>{6932a0fa-1526-4ae9-9a3a-3415efd401be}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\Falcon">
+      <UniqueIdentifier>{2b0c9a34-ca78-4db9-b94c-bb1d10f3bf2c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Enemies\RifleMan\HideOnBush">
-      <UniqueIdentifier>{14bbbc09-f6ba-4497-a508-993c9af08a10}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\Falcon\FalconState">
+      <UniqueIdentifier>{b3a28331-2c40-4d67-b147-10231faf1e59}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Enemies\RifleMan\Standing">
-      <UniqueIdentifier>{f56f47ec-84da-4430-be29-41a0de0b2045}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\RifleMan">
+      <UniqueIdentifier>{27752231-5d3b-4b11-aae9-4a2a86d75167}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\RifleMan\HideOnBush">
-      <UniqueIdentifier>{b6bdcd03-29f5-4a55-81d9-e64e154d1647}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\RifleMan\HideOnBush">
+      <UniqueIdentifier>{3da1e383-2d3a-4bc5-9e13-ae2f01ebaf86}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\RifleMan\Standing">
-      <UniqueIdentifier>{6039a4df-e9ea-4617-af4e-6cbc3c56ac77}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\RifleMan\HideOnBush\HideOnBushState">
+      <UniqueIdentifier>{fae318a5-5cce-4664-98df-9b7001f5e317}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\RifleMan\HideOnBush\State">
-      <UniqueIdentifier>{48380a2e-9d02-425f-8d9c-904c17547a6a}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\RifleMan\Standing">
+      <UniqueIdentifier>{b64987c0-24a0-45a1-af6b-68caa29bf3ff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\RifleMan\Standing\State">
-      <UniqueIdentifier>{ca618d7a-b8ae-4be6-ab0c-7a6c247f2d3b}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\RifleMan\Standing\StandingState">
+      <UniqueIdentifier>{46ea3eb7-2478-41e2-96e8-5f85e893cdd9}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Camera">
-      <UniqueIdentifier>{04bbb2ba-9815-44fb-a868-19898b1adf75}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\ScubaSoldier">
+      <UniqueIdentifier>{77e86442-446f-4b15-9470-c41879ae8dd0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Camera">
-      <UniqueIdentifier>{14356edb-079e-4955-a6e4-ee6d2de4b7b1}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\ScubaSoldier\ScubaSoldierState">
+      <UniqueIdentifier>{664f343f-985e-4078-abee-1bc694a7186a}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Camera\CameraState">
-      <UniqueIdentifier>{0c6a8194-4179-402d-be4c-bbe4d567c698}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\Soldier">
+      <UniqueIdentifier>{be69d5fe-a731-4d8c-965e-06ecbb40183f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Abstractions\Space Abstractions">
-      <UniqueIdentifier>{e5736747-d2df-4372-9565-e4aa6201acd4}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\Soldier\SoldierState">
+      <UniqueIdentifier>{2dae1283-a812-4ac5-9b6e-281e3a5ea3e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Bullet">
-      <UniqueIdentifier>{d01352c1-14c2-4eff-abac-a29e3dd0a853}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\WallTurret">
+      <UniqueIdentifier>{2c520909-8de3-44ad-b25b-97ffe8ad2d58}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Bullet">
-      <UniqueIdentifier>{fdfb6548-a9c8-4b1d-96e2-c85b7e60b794}</UniqueIdentifier>
+    <Filter Include="src\Objects\Enemies\WallTurret\WallTurretState">
+      <UniqueIdentifier>{a452272e-0a9a-4fac-8856-729fa328d6d8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Bullet\BulletState">
-      <UniqueIdentifier>{f806374c-df9b-43ab-a4fb-c422977c9d32}</UniqueIdentifier>
+    <Filter Include="src\Objects\Explosion">
+      <UniqueIdentifier>{e0c3557b-1fa8-4b94-b8ae-973899e77e9e}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Terrains">
-      <UniqueIdentifier>{389e08b1-559c-4cc8-92b6-3571b44afeaf}</UniqueIdentifier>
+    <Filter Include="src\Objects\Explosion\ExplosionState">
+      <UniqueIdentifier>{4d3bb613-2dde-4a03-b60d-ffaf64f52b85}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Terrains">
-      <UniqueIdentifier>{1ed65607-bc21-423b-9672-47c7696926ce}</UniqueIdentifier>
+    <Filter Include="src\Objects\Fire">
+      <UniqueIdentifier>{f508db2e-e8fb-45fe-8703-01586d6d01f7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Terrains\TerrainStage1">
-      <UniqueIdentifier>{f75b83ce-3b35-490c-af31-e6aa11f17e10}</UniqueIdentifier>
+    <Filter Include="src\Objects\Item">
+      <UniqueIdentifier>{99ab9076-1c0e-488b-ac38-c36fb6063f0b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Terrains\TerrainStage1">
-      <UniqueIdentifier>{725dc5a4-e0f7-49a6-97fe-28b075db5403}</UniqueIdentifier>
+    <Filter Include="src\Objects\Letter">
+      <UniqueIdentifier>{500981a5-fd95-46a9-b679-7d030d6552e2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Terrains\TerrainBlock">
-      <UniqueIdentifier>{4561b63d-f3dc-4d82-99f7-e2c316052469}</UniqueIdentifier>
+    <Filter Include="src\Objects\RockFall">
+      <UniqueIdentifier>{40362d18-4f66-4fe4-936f-ff2f793d7982}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Terrains\TerrainBlock">
-      <UniqueIdentifier>{5d9a2e4e-4850-4821-8582-0610e1f9150a}</UniqueIdentifier>
+    <Filter Include="src\Objects\RockFall\RockFallState">
+      <UniqueIdentifier>{d08f76bf-6d54-4b18-a6a4-77d8c9e01f47}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Terrains\TerrainStage2">
-      <UniqueIdentifier>{c762061f-3e6e-431d-93c4-14133af6b1d3}</UniqueIdentifier>
+    <Filter Include="src\Objects\RockFly">
+      <UniqueIdentifier>{78b1292d-b269-4e07-b26e-8231989913a0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Terrains\TerrainStage2">
-      <UniqueIdentifier>{bb97508d-7b36-46d7-b11a-1c5c30a099a0}</UniqueIdentifier>
+    <Filter Include="src\Objects\Scene">
+      <UniqueIdentifier>{ad3c91cc-9a9c-4cd6-b437-f7919f0909af}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Stages">
-      <UniqueIdentifier>{f81ff6f4-ae2a-40a8-91f5-c76cb5021107}</UniqueIdentifier>
+    <Filter Include="src\Objects\Scene\SceneState">
+      <UniqueIdentifier>{b1322ab5-cb8d-43db-8e81-4ebfbfeafe39}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Stages">
-      <UniqueIdentifier>{ac828fcc-65be-4ca8-8a8b-a29690f4c0c3}</UniqueIdentifier>
+    <Filter Include="src\Objects\Terrains">
+      <UniqueIdentifier>{6dab55c7-c946-4027-96b4-c1ebf374ef32}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\AirCraft">
-      <UniqueIdentifier>{01d5c4bb-5c0c-476b-84c0-cbf112009c3d}</UniqueIdentifier>
+    <Filter Include="src\Objects\Terrains\TerrainBlock">
+      <UniqueIdentifier>{140bb601-6f08-4440-a7c9-7358937e7bd5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Enemies\AirCraft">
-      <UniqueIdentifier>{af28f063-4f8c-4349-aee5-b06d0f0315ac}</UniqueIdentifier>
+    <Filter Include="src\Objects\Terrains\TerrainStage1">
+      <UniqueIdentifier>{5a56e6f1-aa60-4ffd-befe-6e41961842ce}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Objects\Enemies\Falcon">
-      <UniqueIdentifier>{f036c879-e274-4495-b011-e306db2edf7f}</UniqueIdentifier>
+    <Filter Include="src\Objects\Terrains\TerrainStage2">
+      <UniqueIdentifier>{259b0d6e-10b9-4db9-884c-cc9b5ca10b28}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\Falcon">
-      <UniqueIdentifier>{05bbee7b-969b-40d0-86a9-d99768c81f1e}</UniqueIdentifier>
+    <Filter Include="src\Objects\TestingEntity">
+      <UniqueIdentifier>{dfd9f518-ac8c-4563-853a-46abee2c02f1}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Objects\Enemies\Falcon\FalconState">
-      <UniqueIdentifier>{43bbc217-0974-4996-b420-24276b2d9dc6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Fire">
-      <UniqueIdentifier>{b6c84411-b0e6-451f-8341-3d5e7930a5d4}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\RockFall">
-      <UniqueIdentifier>{daa96ac8-c315-4bd7-aefd-e4d9eaffde6e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\RockFly">
-      <UniqueIdentifier>{89913019-d9db-4442-a868-90cfc4a82cbb}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Fire">
-      <UniqueIdentifier>{19f3ccfd-5f92-4825-8edd-fb4f310b6464}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\RockFall">
-      <UniqueIdentifier>{4e8163d0-19b8-4d00-ac46-240d4897d811}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\RockFall\RockFallState">
-      <UniqueIdentifier>{3029f3eb-79b4-46e0-ada4-d4a166100ed9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\RockFly">
-      <UniqueIdentifier>{fad04213-c289-43ff-bdaa-d2ee185f1356}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Enemies\BossStage3\BossStage3Hand">
-      <UniqueIdentifier>{316529ed-5183-4c7b-9771-3bca3c7dc78d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Enemies\BossStage3\BossStage3Gate">
-      <UniqueIdentifier>{d204f13b-26dc-4362-8036-bf3e4ec08280}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Enemies\BossStage3\BossStage3Head">
-      <UniqueIdentifier>{2fdf92c2-0b00-4c66-97b8-7eed7dc77c65}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3Head">
-      <UniqueIdentifier>{1b11aeb7-bed5-4db7-903d-74419cec2080}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State">
-      <UniqueIdentifier>{283e9967-ec2f-4af5-8faf-0b53a8a83ec9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3Gate">
-      <UniqueIdentifier>{900d05c8-9e03-43b2-850f-95821da2784d}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3Hand">
-      <UniqueIdentifier>{4ad52bbf-4421-47ec-a1bf-180478423988}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState">
-      <UniqueIdentifier>{e0e759e9-2f44-4082-8418-6392d2664525}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState">
-      <UniqueIdentifier>{d682b6d2-0d5c-4019-8aab-5a8226655bb3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Enemies\Cannon">
-      <UniqueIdentifier>{87bdd0b7-df90-49f3-baef-5240c53d3b26}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Enemies\Cannon">
-      <UniqueIdentifier>{9426887d-89bf-42f7-8d96-549c73030255}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Enemies\Cannon\State">
-      <UniqueIdentifier>{8b4a8624-dad7-4151-83b4-492e92dc0b07}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Scene">
-      <UniqueIdentifier>{f04b61b9-6f3b-4365-904c-5498f934e1d5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Scene">
-      <UniqueIdentifier>{de66538e-33d0-43d2-9548-c6c5909142e9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Scene\SceneState">
-      <UniqueIdentifier>{4f215116-02d7-490e-b112-cd5385e14dc1}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Letter">
-      <UniqueIdentifier>{157805d0-edf2-42de-8163-e7976e395b05}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Letter">
-      <UniqueIdentifier>{5f736031-bf14-4a32-866b-98b26e1c69fc}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Bridge">
-      <UniqueIdentifier>{f270ba11-7644-4444-8f8e-a08425c74c44}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Bridge">
-      <UniqueIdentifier>{68c1e018-1706-4a7d-9f12-107c441c3c39}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Bridge\BridgePartState">
-      <UniqueIdentifier>{4d2d96a8-55c5-4fb1-b4e7-0e4deb5ae8a2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Enemies\BossStage1">
-      <UniqueIdentifier>{e54172ab-458b-47c6-bb92-330df18308a3}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Enemies\BossStage1\GunBossStage1">
-      <UniqueIdentifier>{d822f5b6-daf6-456e-8684-38a61df9122e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Enemies\BossStage1\FinalBossStage1">
-      <UniqueIdentifier>{3f15a3f6-093e-4fef-9af2-712967720512}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Enemies\BossStage1">
-      <UniqueIdentifier>{81626882-b77d-4604-af63-5ae8550e0f43}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Enemies\BossStage1\GunBossStage1">
-      <UniqueIdentifier>{1f8f0411-a4db-4e53-860e-7f91d141a5ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State">
-      <UniqueIdentifier>{05fa0c44-80d2-49ec-b239-c0e4e70a5682}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Explosion">
-      <UniqueIdentifier>{d667820f-d301-46b9-8bee-72556b0fcfd6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Explosion">
-      <UniqueIdentifier>{140d29a3-5364-44f8-b965-dc00991edb5b}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Explosion\ExplosionState">
-      <UniqueIdentifier>{5ef3f699-6d1f-4863-b2c2-eec045653fee}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Objects\Item">
-      <UniqueIdentifier>{3e6bae66-50b4-4c56-a3b3-629c5db5af02}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Item">
-      <UniqueIdentifier>{5dfa3889-8501-4138-add6-54afcdda57e2}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Abstractions\Device Abstractions">
-      <UniqueIdentifier>{94719220-cd18-4b1a-9628-f86768bd5576}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Abstractions\Device Abstractions">
-      <UniqueIdentifier>{1f50034e-0340-43ab-99ff-a34293a005ac}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Abstractions\Space Abstractions">
-      <UniqueIdentifier>{6bff94f3-16db-4561-943c-6ad187c735c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Enemies\BossStage1\FinalBossStage1">
-      <UniqueIdentifier>{a035d963-1374-48fd-9722-ef3b51765056}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source Files\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1State">
-      <UniqueIdentifier>{7023be27-365d-4df9-9f39-253b97e3c6d3}</UniqueIdentifier>
+    <Filter Include="src\Stages">
+      <UniqueIdentifier>{da0c113b-1743-4cff-a120-82830e430221}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="Soldier.h">
-      <Filter>Header Files\Objects\Enemies\Soldier</Filter>
+    <ClInclude Include="src\Abstractions\Device\Input.h">
+      <Filter>src\Abstractions\Device</Filter>
     </ClInclude>
-    <ClInclude Include="Bill.h">
-      <Filter>Header Files\Objects\Bill</Filter>
+    <ClInclude Include="src\Abstractions\Device\Sound.h">
+      <Filter>src\Abstractions\Device</Filter>
     </ClInclude>
-    <ClInclude Include="HasSprites.h">
-      <Filter>Header Files\Abstractions\Graphics Abstractions</Filter>
+    <ClInclude Include="src\Abstractions\Graphics\DX11Math.h">
+      <Filter>src\Abstractions\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="HasAnimations.h">
-      <Filter>Header Files\Abstractions\Graphics Abstractions</Filter>
+    <ClInclude Include="src\Abstractions\Graphics\GraphicsDatabase.h">
+      <Filter>src\Abstractions\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="HasTextures.h">
-      <Filter>Header Files\Abstractions\Graphics Abstractions</Filter>
+    <ClInclude Include="src\Abstractions\Graphics\GraphicsHelper.h">
+      <Filter>src\Abstractions\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="Entity.h">
-      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    <ClInclude Include="src\Abstractions\Graphics\HasAnimations.h">
+      <Filter>src\Abstractions\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="State.h">
-      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    <ClInclude Include="src\Abstractions\Graphics\HasSprites.h">
+      <Filter>src\Abstractions\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="ScubaSoldier.h">
-      <Filter>Header Files\Objects\Enemies\ScubaSoldier</Filter>
+    <ClInclude Include="src\Abstractions\Graphics\HasTextures.h">
+      <Filter>src\Abstractions\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="ScubaSoldierCommon.h">
-      <Filter>Header Files\Objects\Enemies\ScubaSoldier</Filter>
+    <ClInclude Include="src\Abstractions\Object\CollidableEntity.h">
+      <Filter>src\Abstractions\Object</Filter>
     </ClInclude>
-    <ClInclude Include="SoldierCommon.h">
-      <Filter>Header Files\Objects\Enemies\Soldier</Filter>
+    <ClInclude Include="src\Abstractions\Object\CollidableState.h">
+      <Filter>src\Abstractions\Object</Filter>
     </ClInclude>
-    <ClInclude Include="TestingEntity.h">
-      <Filter>Header Files\Objects\TestingEntity</Filter>
+    <ClInclude Include="src\Abstractions\Object\Enemy.h">
+      <Filter>src\Abstractions\Object</Filter>
     </ClInclude>
-    <ClInclude Include="TestingEntityCommon.h">
-      <Filter>Header Files\Objects\TestingEntity</Filter>
+    <ClInclude Include="src\Abstractions\Object\Entity.h">
+      <Filter>src\Abstractions\Object</Filter>
     </ClInclude>
-    <ClInclude Include="BillCommon.h">
-      <Filter>Header Files\Objects\Bill</Filter>
+    <ClInclude Include="src\Abstractions\Object\HasWeapons.h">
+      <Filter>src\Abstractions\Object</Filter>
     </ClInclude>
-    <ClInclude Include="WallTurret.h">
-      <Filter>Header Files\Objects\Enemies\WallTurret</Filter>
+    <ClInclude Include="src\Abstractions\Object\Motion.h">
+      <Filter>src\Abstractions\Object</Filter>
     </ClInclude>
-    <ClInclude Include="Enemy.h">
-      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    <ClInclude Include="src\Abstractions\Object\State.h">
+      <Filter>src\Abstractions\Object</Filter>
     </ClInclude>
-    <ClInclude Include="RifleMan.h">
-      <Filter>Header Files\Objects\Enemies\RifleMan</Filter>
+    <ClInclude Include="src\Abstractions\Object\Terrain.h">
+      <Filter>src\Abstractions\Object</Filter>
     </ClInclude>
-    <ClInclude Include="RifleManCommon.h">
-      <Filter>Header Files\Objects\Enemies\RifleMan</Filter>
+    <ClInclude Include="src\Abstractions\Space\QuadTree.h">
+      <Filter>src\Abstractions\Space</Filter>
     </ClInclude>
-    <ClInclude Include="RifleManHideOnBush.h">
-      <Filter>Header Files\Objects\Enemies\RifleMan\HideOnBush</Filter>
+    <ClInclude Include="src\Abstractions\Space\QuadTreeCommon.h">
+      <Filter>src\Abstractions\Space</Filter>
     </ClInclude>
-    <ClInclude Include="RifleManStanding.h">
-      <Filter>Header Files\Objects\Enemies\RifleMan\Standing</Filter>
+    <ClInclude Include="src\Abstractions\Space\QuadTreeContainer.h">
+      <Filter>src\Abstractions\Space</Filter>
     </ClInclude>
-    <ClInclude Include="Camera.h">
-      <Filter>Header Files\Objects\Camera</Filter>
+    <ClInclude Include="src\Abstractions\Space\QuadTreeNode.h">
+      <Filter>src\Abstractions\Space</Filter>
     </ClInclude>
-    <ClInclude Include="CameraCommon.h">
-      <Filter>Header Files\Objects\Camera</Filter>
+    <ClInclude Include="src\Common.h">
+      <Filter>src</Filter>
     </ClInclude>
-    <ClInclude Include="CollidableEntity.h">
-      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    <ClInclude Include="src\Objects\Bill\Bill.h">
+      <Filter>src\Objects\Bill</Filter>
     </ClInclude>
-    <ClInclude Include="CollidableState.h">
-      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    <ClInclude Include="src\Objects\Bill\BillCommon.h">
+      <Filter>src\Objects\Bill</Filter>
     </ClInclude>
-    <ClInclude Include="QuadTree.h">
-      <Filter>Header Files\Abstractions\Space Abstractions</Filter>
+    <ClInclude Include="src\Objects\Bridge\Bridge.h">
+      <Filter>src\Objects\Bridge</Filter>
     </ClInclude>
-    <ClInclude Include="QuadTreeCommon.h">
-      <Filter>Header Files\Abstractions\Space Abstractions</Filter>
+    <ClInclude Include="src\Objects\Bridge\BridgeCommon.h">
+      <Filter>src\Objects\Bridge</Filter>
     </ClInclude>
-    <ClInclude Include="QuadTreeContainer.h">
-      <Filter>Header Files\Abstractions\Space Abstractions</Filter>
+    <ClInclude Include="src\Objects\Bullet\Bullet.h">
+      <Filter>src\Objects\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="Bullet.h">
-      <Filter>Header Files\Objects\Bullet</Filter>
+    <ClInclude Include="src\Objects\Bullet\BulletCommon.h">
+      <Filter>src\Objects\Bullet</Filter>
     </ClInclude>
-    <ClInclude Include="BulletCommon.h">
-      <Filter>Header Files\Objects\Bullet</Filter>
+    <ClInclude Include="src\Objects\Camera\Camera.h">
+      <Filter>src\Objects\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="TerrainStage1.h">
-      <Filter>Header Files\Objects\Terrains\TerrainStage1</Filter>
+    <ClInclude Include="src\Objects\Camera\CameraCommon.h">
+      <Filter>src\Objects\Camera</Filter>
     </ClInclude>
-    <ClInclude Include="Terrain.h">
-      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    <ClInclude Include="src\Objects\Enemies\AirCraft\AirCraft.h">
+      <Filter>src\Objects\Enemies\AirCraft</Filter>
     </ClInclude>
-    <ClInclude Include="TerrainStage1Common.h">
-      <Filter>Header Files\Objects\Terrains\TerrainStage1</Filter>
+    <ClInclude Include="src\Objects\Enemies\AirCraft\AirCraftCommon.h">
+      <Filter>src\Objects\Enemies\AirCraft</Filter>
     </ClInclude>
-    <ClInclude Include="TerrainBlock.h">
-      <Filter>Header Files\Objects\Terrains\TerrainBlock</Filter>
+    <ClInclude Include="src\Objects\Enemies\BossStage1\BossStage1.h">
+      <Filter>src\Objects\Enemies\BossStage1</Filter>
     </ClInclude>
-    <ClInclude Include="TerrainStage2.h">
-      <Filter>Header Files\Objects\Terrains\TerrainStage2</Filter>
+    <ClInclude Include="src\Objects\Enemies\BossStage1\BossStage1Common.h">
+      <Filter>src\Objects\Enemies\BossStage1</Filter>
     </ClInclude>
-    <ClInclude Include="TerrainStage2Common.h">
-      <Filter>Header Files\Objects\Terrains\TerrainStage2</Filter>
+    <ClInclude Include="src\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1.h">
+      <Filter>src\Objects\Enemies\BossStage1\FinalBossStage1</Filter>
     </ClInclude>
-    <ClInclude Include="Stage1.h">
-      <Filter>Header Files\Stages</Filter>
+    <ClInclude Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1.h">
+      <Filter>src\Objects\Enemies\BossStage1\GunBossStage1</Filter>
     </ClInclude>
-    <ClInclude Include="Stage2.h">
-      <Filter>Header Files\Stages</Filter>
+    <ClInclude Include="src\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3Gate.h">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Gate</Filter>
     </ClInclude>
-    <ClInclude Include="Stage.h">
-      <Filter>Header Files\Stages</Filter>
+    <ClInclude Include="src\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateCommon.h">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Gate</Filter>
     </ClInclude>
-    <ClInclude Include="AirCraft.h">
-      <Filter>Header Files\Objects\Enemies\AirCraft</Filter>
+    <ClInclude Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3Hand.h">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
     </ClInclude>
-    <ClInclude Include="AirCraftCommon.h">
-      <Filter>Header Files\Objects\Enemies\AirCraft</Filter>
+    <ClInclude Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandCommon.h">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
     </ClInclude>
-    <ClInclude Include="Falcon.h">
-      <Filter>Header Files\Objects\Enemies\Falcon</Filter>
+    <ClInclude Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3Joint.h">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
     </ClInclude>
-    <ClInclude Include="FalconCommon.h">
-      <Filter>Header Files\Objects\Enemies\Falcon</Filter>
+    <ClInclude Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3.h">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Head</Filter>
     </ClInclude>
-    <ClInclude Include="Fire.h">
-      <Filter>Header Files\Objects\Fire</Filter>
+    <ClInclude Include="src\Objects\Enemies\Cannon\Cannon.h">
+      <Filter>src\Objects\Enemies\Cannon</Filter>
     </ClInclude>
-    <ClInclude Include="FireCommon.h">
-      <Filter>Header Files\Objects\Fire</Filter>
+    <ClInclude Include="src\Objects\Enemies\Cannon\CannonCommon.h">
+      <Filter>src\Objects\Enemies\Cannon</Filter>
     </ClInclude>
-    <ClInclude Include="RockFall.h">
-      <Filter>Header Files\Objects\RockFall</Filter>
+    <ClInclude Include="src\Objects\Enemies\Falcon\Falcon.h">
+      <Filter>src\Objects\Enemies\Falcon</Filter>
     </ClInclude>
-    <ClInclude Include="RockFallCommon.h">
-      <Filter>Header Files\Objects\RockFall</Filter>
+    <ClInclude Include="src\Objects\Enemies\Falcon\FalconCommon.h">
+      <Filter>src\Objects\Enemies\Falcon</Filter>
     </ClInclude>
-    <ClInclude Include="RockFlyCommon.h">
-      <Filter>Header Files\Objects\RockFly</Filter>
+    <ClInclude Include="src\Objects\Enemies\RifleMan\HideOnBush\RifleManHideOnBush.h">
+      <Filter>src\Objects\Enemies\RifleMan\HideOnBush</Filter>
     </ClInclude>
-    <ClInclude Include="RockFly.h">
-      <Filter>Header Files\Objects\RockFly</Filter>
+    <ClInclude Include="src\Objects\Enemies\RifleMan\RifleMan.h">
+      <Filter>src\Objects\Enemies\RifleMan</Filter>
     </ClInclude>
-    <ClInclude Include="BossStage3.h">
-      <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Head</Filter>
+    <ClInclude Include="src\Objects\Enemies\RifleMan\RifleManCommon.h">
+      <Filter>src\Objects\Enemies\RifleMan</Filter>
     </ClInclude>
-    <ClInclude Include="BossStage3HandCommon.h">
-      <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    <ClInclude Include="src\Objects\Enemies\RifleMan\Standing\RifleManStanding.h">
+      <Filter>src\Objects\Enemies\RifleMan\Standing</Filter>
     </ClInclude>
-    <ClInclude Include="BossStage3GateCommon.h">
-      <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Gate</Filter>
+    <ClInclude Include="src\Objects\Enemies\ScubaSoldier\ScubaSoldier.h">
+      <Filter>src\Objects\Enemies\ScubaSoldier</Filter>
     </ClInclude>
-    <ClInclude Include="BossStage3Hand.h">
-      <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    <ClInclude Include="src\Objects\Enemies\ScubaSoldier\ScubaSoldierCommon.h">
+      <Filter>src\Objects\Enemies\ScubaSoldier</Filter>
     </ClInclude>
-    <ClInclude Include="BossStage3Gate.h">
-      <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Gate</Filter>
+    <ClInclude Include="src\Objects\Enemies\Soldier\Soldier.h">
+      <Filter>src\Objects\Enemies\Soldier</Filter>
     </ClInclude>
-    <ClInclude Include="BossStage3Joint.h">
-      <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    <ClInclude Include="src\Objects\Enemies\Soldier\SoldierCommon.h">
+      <Filter>src\Objects\Enemies\Soldier</Filter>
     </ClInclude>
-    <ClInclude Include="Cannon.h">
-      <Filter>Header Files\Objects\Enemies\Cannon</Filter>
+    <ClInclude Include="src\Objects\Enemies\WallTurret\WallTurret.h">
+      <Filter>src\Objects\Enemies\WallTurret</Filter>
     </ClInclude>
-    <ClInclude Include="CannonCommon.h">
-      <Filter>Header Files\Objects\Enemies\Cannon</Filter>
+    <ClInclude Include="src\Objects\Explosion\Explosion.h">
+      <Filter>src\Objects\Explosion</Filter>
     </ClInclude>
-    <ClInclude Include="Letter.h">
-      <Filter>Header Files\Objects\Letter</Filter>
+    <ClInclude Include="src\Objects\Explosion\ExplosionCommon.h">
+      <Filter>src\Objects\Explosion</Filter>
     </ClInclude>
-    <ClInclude Include="LetterCommon.h">
-      <Filter>Header Files\Objects\Letter</Filter>
+    <ClInclude Include="src\Objects\Fire\Fire.h">
+      <Filter>src\Objects\Fire</Filter>
     </ClInclude>
-    <ClInclude Include="Scene.h">
-      <Filter>Header Files\Objects\Scene</Filter>
+    <ClInclude Include="src\Objects\Fire\FireCommon.h">
+      <Filter>src\Objects\Fire</Filter>
     </ClInclude>
-    <ClInclude Include="SceneCommon.h">
-      <Filter>Header Files\Objects\Scene</Filter>
+    <ClInclude Include="src\Objects\Item\Item.h">
+      <Filter>src\Objects\Item</Filter>
     </ClInclude>
-    <ClInclude Include="BridgeCommon.h">
-      <Filter>Header Files\Objects\Bridge</Filter>
+    <ClInclude Include="src\Objects\Item\ItemCommon.h">
+      <Filter>src\Objects\Item</Filter>
     </ClInclude>
-    <ClInclude Include="Bridge.h">
-      <Filter>Header Files\Objects\Bridge</Filter>
+    <ClInclude Include="src\Objects\Letter\Letter.h">
+      <Filter>src\Objects\Letter</Filter>
     </ClInclude>
-    <ClInclude Include="BossStage1Common.h">
-      <Filter>Header Files\Objects\Enemies\BossStage1</Filter>
+    <ClInclude Include="src\Objects\Letter\LetterCommon.h">
+      <Filter>src\Objects\Letter</Filter>
     </ClInclude>
-    <ClInclude Include="ExplosionCommon.h">
-      <Filter>Header Files\Objects\Explosion</Filter>
+    <ClInclude Include="src\Objects\RockFall\RockFall.h">
+      <Filter>src\Objects\RockFall</Filter>
     </ClInclude>
-    <ClInclude Include="ItemCommon.h">
-      <Filter>Header Files\Objects\Item</Filter>
+    <ClInclude Include="src\Objects\RockFall\RockFallCommon.h">
+      <Filter>src\Objects\RockFall</Filter>
     </ClInclude>
-    <ClInclude Include="Item.h">
-      <Filter>Header Files\Objects\Item</Filter>
+    <ClInclude Include="src\Objects\RockFly\RockFly.h">
+      <Filter>src\Objects\RockFly</Filter>
     </ClInclude>
-    <ClInclude Include="Explosion.h">
-      <Filter>Header Files\Objects\Explosion</Filter>
+    <ClInclude Include="src\Objects\RockFly\RockFlyCommon.h">
+      <Filter>src\Objects\RockFly</Filter>
     </ClInclude>
-    <ClInclude Include="QuadTreeNode.h">
-      <Filter>Header Files\Abstractions\Space Abstractions</Filter>
+    <ClInclude Include="src\Objects\Scene\Scene.h">
+      <Filter>src\Objects\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Motion.h">
-      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    <ClInclude Include="src\Objects\Scene\SceneCommon.h">
+      <Filter>src\Objects\Scene</Filter>
     </ClInclude>
-    <ClInclude Include="Common.h">
-      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    <ClInclude Include="src\Objects\Terrains\TerrainBlock\TerrainBlock.h">
+      <Filter>src\Objects\Terrains\TerrainBlock</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsDatabase.h">
-      <Filter>Header Files\Abstractions\Graphics Abstractions</Filter>
+    <ClInclude Include="src\Objects\Terrains\TerrainStage1\TerrainStage1.h">
+      <Filter>src\Objects\Terrains\TerrainStage1</Filter>
     </ClInclude>
-    <ClInclude Include="HasWeapons.h">
-      <Filter>Header Files\Abstractions\Object Abstractions</Filter>
+    <ClInclude Include="src\Objects\Terrains\TerrainStage1\TerrainStage1Common.h">
+      <Filter>src\Objects\Terrains\TerrainStage1</Filter>
     </ClInclude>
-    <ClInclude Include="GraphicsHelper.h">
-      <Filter>Header Files\Abstractions\Graphics Abstractions</Filter>
+    <ClInclude Include="src\Objects\Terrains\TerrainStage2\TerrainStage2.h">
+      <Filter>src\Objects\Terrains\TerrainStage2</Filter>
     </ClInclude>
-    <ClInclude Include="Input.h">
-      <Filter>Header Files\Abstractions\Device Abstractions</Filter>
+    <ClInclude Include="src\Objects\Terrains\TerrainStage2\TerrainStage2Common.h">
+      <Filter>src\Objects\Terrains\TerrainStage2</Filter>
     </ClInclude>
-    <ClInclude Include="Sound.h">
-      <Filter>Header Files\Abstractions\Device Abstractions</Filter>
+    <ClInclude Include="src\Objects\TestingEntity\TestingEntity.h">
+      <Filter>src\Objects\TestingEntity</Filter>
     </ClInclude>
-    <ClInclude Include="GunBossStage1.h">
-      <Filter>Header Files\Objects\Enemies\BossStage1\GunBossStage1</Filter>
+    <ClInclude Include="src\Objects\TestingEntity\TestingEntityCommon.h">
+      <Filter>src\Objects\TestingEntity</Filter>
     </ClInclude>
-    <ClInclude Include="FinalBossStage1.h">
-      <Filter>Header Files\Objects\Enemies\BossStage1\FinalBossStage1</Filter>
+    <ClInclude Include="src\Stages\Stage.h">
+      <Filter>src\Stages</Filter>
     </ClInclude>
-    <ClInclude Include="BossStage1.h">
-      <Filter>Header Files\Objects\Enemies\BossStage1</Filter>
+    <ClInclude Include="src\Stages\Stage1.h">
+      <Filter>src\Stages</Filter>
     </ClInclude>
-    <ClInclude Include="DDSTextureLoader9.h">
-      <Filter>Header Files\Abstractions\Graphics Abstractions</Filter>
+    <ClInclude Include="src\Stages\Stage2.h">
+      <Filter>src\Stages</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
+    <ClCompile Include="src\Abstractions\Device\Input.cpp">
+      <Filter>src\Abstractions\Device</Filter>
     </ClCompile>
-    <ClCompile Include="BillState.cpp">
-      <Filter>Source Files\Objects\Bill</Filter>
+    <ClCompile Include="src\Abstractions\Device\Sound.cpp">
+      <Filter>src\Abstractions\Device</Filter>
     </ClCompile>
-    <ClCompile Include="BillRunState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Abstractions\Graphics\GraphicsDatabase.cpp">
+      <Filter>src\Abstractions\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="BillJumpState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Abstractions\Graphics\GraphicsHelper.cpp">
+      <Filter>src\Abstractions\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="BillSwimNormalState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Abstractions\Graphics\HasAnimations.cpp">
+      <Filter>src\Abstractions\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="BillNormalState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Abstractions\Graphics\HasSprites.cpp">
+      <Filter>src\Abstractions\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="BillLayDownState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Abstractions\Graphics\HasTextures.cpp">
+      <Filter>src\Abstractions\Graphics</Filter>
     </ClCompile>
-    <ClCompile Include="BillRunShotAngleUpState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Abstractions\Object\CollidableEntity.cpp">
+      <Filter>src\Abstractions\Object</Filter>
     </ClCompile>
-    <ClCompile Include="BillRunShotAngleDownState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Abstractions\Object\CollidableState.cpp">
+      <Filter>src\Abstractions\Object</Filter>
     </ClCompile>
-    <ClCompile Include="BillState.cpp">
-      <Filter>Source Files\Bill</Filter>
+    <ClCompile Include="src\Abstractions\Object\Enemy.cpp">
+      <Filter>src\Abstractions\Object</Filter>
     </ClCompile>
-    <ClCompile Include="BillDiveState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Abstractions\Object\Entity.cpp">
+      <Filter>src\Abstractions\Object</Filter>
     </ClCompile>
-    <ClCompile Include="BillDeadState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Abstractions\Object\HasWeapons.cpp">
+      <Filter>src\Abstractions\Object</Filter>
     </ClCompile>
-    <ClCompile Include="Bill.cpp">
-      <Filter>Source Files\Objects\Bill</Filter>
+    <ClCompile Include="src\Abstractions\Object\Motion.cpp">
+      <Filter>src\Abstractions\Object</Filter>
     </ClCompile>
-    <ClCompile Include="HasAnimations.cpp">
-      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
+    <ClCompile Include="src\Abstractions\Object\State.cpp">
+      <Filter>src\Abstractions\Object</Filter>
     </ClCompile>
-    <ClCompile Include="HasSprites.cpp">
-      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
+    <ClCompile Include="src\Abstractions\Object\Terrain.cpp">
+      <Filter>src\Abstractions\Object</Filter>
     </ClCompile>
-    <ClCompile Include="HasTextures.cpp">
-      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
+    <ClCompile Include="src\Abstractions\Space\QuadTreeNode.cpp">
+      <Filter>src\Abstractions\Space</Filter>
     </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    <ClCompile Include="src\main.cpp">
+      <Filter>src</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    <ClCompile Include="src\Objects\Bill\Bill.cpp">
+      <Filter>src\Objects\Bill</Filter>
     </ClCompile>
-    <ClCompile Include="TestingEntity.cpp">
-      <Filter>Source Files\Objects\TestingEntity</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillBeginState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="Soldier.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillBeginSwimState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="ScubaSoldier.cpp">
-      <Filter>Source Files\Objects\Enemies\ScubaSoldier</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillDeadState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="BillState.cpp">
-      <Filter>Source Files\Objects\Bill</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillDiveState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="Soldier.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillFallState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="BillState.cpp">
-      <Filter>Source Files\Objects\Bill</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillJumpState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="Soldier.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillLayDownState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="SoldierState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillNormalShotState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="Soldier.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillNormalState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="HasAnimations.cpp">
-      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillRunShotAngleDownState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="HasSprites.cpp">
-      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillRunShotAngleUpState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="HasTextures.cpp">
-      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillRunShotState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillRunState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="ScubaSoldier.cpp">
-      <Filter>Source Files\Objects\Enemies\ScubaSoldier</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillShotStraightUpState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="TestingEntity.cpp">
-      <Filter>Source Files\Objects\TestingEntity</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="SoldierDieState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillStraightUpState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="SoldierJumpState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillSwimNormalShotState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="SoldierLayDownState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillSwimNormalState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="SoldierRunState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillSwimRunShotState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="SoldierShootState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillSwimRunState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="SoldierDieState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillSwimShotAngleUpState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="SoldierJumpState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    <ClCompile Include="src\Objects\Bill\BillState\BillSwimShotStraightUpState.cpp">
+      <Filter>src\Objects\Bill\BillState</Filter>
     </ClCompile>
-    <ClCompile Include="SoldierLayDownState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    <ClCompile Include="src\Objects\Bridge\Bridge.cpp">
+      <Filter>src\Objects\Bridge</Filter>
     </ClCompile>
-    <ClCompile Include="SoldierRunState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    <ClCompile Include="src\Objects\Bridge\BridgePart.cpp">
+      <Filter>src\Objects\Bridge</Filter>
     </ClCompile>
-    <ClCompile Include="SoldierShootState.cpp">
-      <Filter>Source Files\Objects\Enemies\Soldier\SoldierState</Filter>
+    <ClCompile Include="src\Objects\Bridge\BridgePartState.cpp">
+      <Filter>src\Objects\Bridge</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurret.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret</Filter>
+    <ClCompile Include="src\Objects\Bridge\BridgePartState\BridgePartExplosionState.cpp">
+      <Filter>src\Objects\Bridge\BridgePartState</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretState.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret</Filter>
+    <ClCompile Include="src\Objects\Bullet\Bullet.cpp">
+      <Filter>src\Objects\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretLeft90State.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="src\Objects\Bullet\BulletState.cpp">
+      <Filter>src\Objects\Bullet</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretUpState.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletBossStage1State.cpp">
+      <Filter>src\Objects\Bullet\BulletState</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretDownState.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletBossStage2StateHand.cpp">
+      <Filter>src\Objects\Bullet\BulletState</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretRight90State.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletBossStage2StateHead.cpp">
+      <Filter>src\Objects\Bullet\BulletState</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretLeft120State.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletEnemyState.cpp">
+      <Filter>src\Objects\Bullet\BulletState</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretLeft150State.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletExplodeState.cpp">
+      <Filter>src\Objects\Bullet\BulletState</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretLeft60State.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletFState.cpp">
+      <Filter>src\Objects\Bullet\BulletState</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretLeft30State.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletLState.cpp">
+      <Filter>src\Objects\Bullet\BulletState</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretRight120State.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletMState.cpp">
+      <Filter>src\Objects\Bullet\BulletState</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretRight150State.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletRState.cpp">
+      <Filter>src\Objects\Bullet\BulletState</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretRight60State.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletScubaSoldierState.cpp">
+      <Filter>src\Objects\Bullet\BulletState</Filter>
     </ClCompile>
-    <ClCompile Include="Bill.cpp">
-      <Filter>Source Files\Objects\Bill</Filter>
+    <ClCompile Include="src\Objects\Bullet\BulletState\BulletSState.cpp">
+      <Filter>src\Objects\Bullet\BulletState</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretCommon.h">
-      <Filter>Header Files\Objects\Enemies\WallTurret</Filter>
+    <ClCompile Include="src\Objects\Camera\Camera.cpp">
+      <Filter>src\Objects\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="WallTurretRight30State.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
+    <ClCompile Include="src\Objects\Camera\CameraState.cpp">
+      <Filter>src\Objects\Camera</Filter>
     </ClCompile>
-    <ClCompile Include="ScubaSoldierHiddenState.cpp">
-      <Filter>Source Files\Objects\Enemies\ScubaSoldier\ScubaSoldierState</Filter>
+    <ClCompile Include="src\Objects\Camera\CameraState\CameraMovingBackwardState.cpp">
+      <Filter>src\Objects\Camera\CameraState</Filter>
     </ClCompile>
-    <ClCompile Include="ScubaSoldierShootingState.cpp">
-      <Filter>Source Files\Objects\Enemies\ScubaSoldier\ScubaSoldierState</Filter>
+    <ClCompile Include="src\Objects\Camera\CameraState\CameraMovingDownwardState.cpp">
+      <Filter>src\Objects\Camera\CameraState</Filter>
     </ClCompile>
-    <ClCompile Include="ScubaSoldierState.cpp">
-      <Filter>Source Files\Objects\Enemies\ScubaSoldier</Filter>
+    <ClCompile Include="src\Objects\Camera\CameraState\CameraMovingForwardState.cpp">
+      <Filter>src\Objects\Camera\CameraState</Filter>
     </ClCompile>
-    <ClCompile Include="Entity.cpp">
-      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    <ClCompile Include="src\Objects\Camera\CameraState\CameraMovingUpwardState.cpp">
+      <Filter>src\Objects\Camera\CameraState</Filter>
     </ClCompile>
-    <ClCompile Include="State.cpp">
-      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    <ClCompile Include="src\Objects\Camera\CameraState\CameraStaticState.cpp">
+      <Filter>src\Objects\Camera\CameraState</Filter>
     </ClCompile>
-    <ClCompile Include="HasAnimations.cpp">
-      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
+    <ClCompile Include="src\Objects\Enemies\AirCraft\AirCraft.cpp">
+      <Filter>src\Objects\Enemies\AirCraft</Filter>
     </ClCompile>
-    <ClCompile Include="BillSwimNormalShotState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage1\BossStage1.cpp">
+      <Filter>src\Objects\Enemies\BossStage1</Filter>
     </ClCompile>
-    <ClCompile Include="BillBeginSwimState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1.cpp">
+      <Filter>src\Objects\Enemies\BossStage1\FinalBossStage1</Filter>
     </ClCompile>
-    <ClCompile Include="BillRunShotState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1State.cpp">
+      <Filter>src\Objects\Enemies\BossStage1\FinalBossStage1</Filter>
     </ClCompile>
-    <ClCompile Include="BillNormalShotState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1State\FinalBossStage1DestroyState.cpp">
+      <Filter>src\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1State</Filter>
     </ClCompile>
-    <ClCompile Include="BillShotStraightUpState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1State\FinalBossStage1NormalState.cpp">
+      <Filter>src\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1State</Filter>
     </ClCompile>
-    <ClCompile Include="BillStraightUpState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1.cpp">
+      <Filter>src\Objects\Enemies\BossStage1\GunBossStage1</Filter>
     </ClCompile>
-    <ClCompile Include="BillSwimShotAngleUpState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State.cpp">
+      <Filter>src\Objects\Enemies\BossStage1\GunBossStage1</Filter>
     </ClCompile>
-    <ClCompile Include="BillSwimShotStraightUpState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State\GunBossStage1DestroyState.cpp">
+      <Filter>src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State</Filter>
     </ClCompile>
-    <ClCompile Include="BillBeginState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State\GunBossStage1NormalState.cpp">
+      <Filter>src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State</Filter>
     </ClCompile>
-    <ClCompile Include="BillFallState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State\GunBossStage1PrepareShootState.cpp">
+      <Filter>src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State</Filter>
     </ClCompile>
-    <ClCompile Include="BillSwimRunState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3Gate.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Gate</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3OpenState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Gate</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3CloseState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState\BossStage3GateCloseState.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3MiddleState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState\BossState3GateOpenState.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState</Filter>
     </ClCompile>
-    <ClCompile Include="Enemy.cpp">
-      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3Hand.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
     </ClCompile>
-    <ClCompile Include="Camera.cpp">
-      <Filter>Source Files\Objects\Camera</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
     </ClCompile>
-    <ClCompile Include="CameraState.cpp">
-      <Filter>Source Files\Objects\Camera</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState\BossStage3HandAttackState.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
     </ClCompile>
-    <ClCompile Include="CameraMovingForwardState.cpp">
-      <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState\BossStage3HandDirectPlayerState.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
     </ClCompile>
-    <ClCompile Include="CameraMovingUpwardState.cpp">
-      <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState\BossStage3HandSpinningState.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
     </ClCompile>
-    <ClCompile Include="CameraMovingDownwardState.cpp">
-      <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState\BossStage3HandStartState.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
     </ClCompile>
-    <ClCompile Include="CameraMovingBackwardState.cpp">
-      <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState\BossStage3HandWaveState.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
     </ClCompile>
-    <ClCompile Include="CameraStaticState.cpp">
-      <Filter>Source Files\Objects\Camera\CameraState</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3Joint.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
     </ClCompile>
-    <ClCompile Include="RifleMan.cpp">
-      <Filter>Source Files\Objects\Enemies\RifleMan</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Head</Filter>
     </ClCompile>
-    <ClCompile Include="RifleManHideOnBush.cpp">
-      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3Common.h">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Head</Filter>
     </ClCompile>
-    <ClCompile Include="RifleManHideOnBushHideState.cpp">
-      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush\State</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Head</Filter>
     </ClCompile>
-    <ClCompile Include="RifleManHideOnBushAppearState.cpp">
-      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush\State</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State\BossStage3CloseState.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State</Filter>
     </ClCompile>
-    <ClCompile Include="RifleManHideOnBushHidingState.cpp">
-      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush\State</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State\BossStage3MiddleState.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State</Filter>
     </ClCompile>
-    <ClCompile Include="RifleManHideOnBushStandingState.cpp">
-      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush\State</Filter>
+    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State\BossStage3OpenState.cpp">
+      <Filter>src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State</Filter>
     </ClCompile>
-    <ClCompile Include="RifleManStandingNormalState.cpp">
-      <Filter>Source Files\Objects\Enemies\RifleMan\Standing\State</Filter>
+    <ClCompile Include="src\Objects\Enemies\Cannon\Cannon.cpp">
+      <Filter>src\Objects\Enemies\Cannon</Filter>
     </ClCompile>
-    <ClCompile Include="RifleManStandingAimUpState.cpp">
-      <Filter>Source Files\Objects\Enemies\RifleMan\Standing\State</Filter>
+    <ClCompile Include="src\Objects\Enemies\Cannon\CannonState.cpp">
+      <Filter>src\Objects\Enemies\Cannon</Filter>
     </ClCompile>
-    <ClCompile Include="RifleManStandingAimDownState.cpp">
-      <Filter>Source Files\Objects\Enemies\RifleMan\Standing\State</Filter>
+    <ClCompile Include="src\Objects\Enemies\Cannon\CannonState\CannonAppearState.cpp">
+      <Filter>src\Objects\Enemies\Cannon\CannonState</Filter>
     </ClCompile>
-    <ClCompile Include="RifleManHideOnBushState.cpp">
-      <Filter>Source Files\Objects\Enemies\RifleMan\HideOnBush</Filter>
+    <ClCompile Include="src\Objects\Enemies\Cannon\CannonState\CannonNormalState.cpp">
+      <Filter>src\Objects\Enemies\Cannon\CannonState</Filter>
     </ClCompile>
-    <ClCompile Include="RifleManStandingState.cpp">
-      <Filter>Source Files\Objects\Enemies\RifleMan\Standing</Filter>
+    <ClCompile Include="src\Objects\Enemies\Cannon\CannonState\CannonUp30State.cpp">
+      <Filter>src\Objects\Enemies\Cannon\CannonState</Filter>
     </ClCompile>
-    <ClCompile Include="RifleManStanding.cpp">
-      <Filter>Source Files\Objects\Enemies\RifleMan\Standing</Filter>
+    <ClCompile Include="src\Objects\Enemies\Cannon\CannonState\CannonUp60State.cpp">
+      <Filter>src\Objects\Enemies\Cannon\CannonState</Filter>
     </ClCompile>
-    <ClCompile Include="CollidableEntity.cpp">
-      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    <ClCompile Include="src\Objects\Enemies\Falcon\Falcon.cpp">
+      <Filter>src\Objects\Enemies\Falcon</Filter>
     </ClCompile>
-    <ClCompile Include="CollidableState.cpp">
-      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    <ClCompile Include="src\Objects\Enemies\Falcon\FalconState.cpp">
+      <Filter>src\Objects\Enemies\Falcon</Filter>
     </ClCompile>
-    <ClCompile Include="Bullet.cpp">
-      <Filter>Source Files\Objects\Bullet</Filter>
+    <ClCompile Include="src\Objects\Enemies\Falcon\FalconState\FalconCloseState.cpp">
+      <Filter>src\Objects\Enemies\Falcon\FalconState</Filter>
     </ClCompile>
-    <ClCompile Include="BulletState.cpp">
-      <Filter>Source Files\Objects\Bullet</Filter>
+    <ClCompile Include="src\Objects\Enemies\Falcon\FalconState\FalconOpeningState.cpp">
+      <Filter>src\Objects\Enemies\Falcon\FalconState</Filter>
     </ClCompile>
-    <ClCompile Include="BulletFState.cpp">
-      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    <ClCompile Include="src\Objects\Enemies\Falcon\FalconState\FalconOpenState.cpp">
+      <Filter>src\Objects\Enemies\Falcon\FalconState</Filter>
     </ClCompile>
-    <ClCompile Include="BulletLState.cpp">
-      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    <ClCompile Include="src\Objects\Enemies\RifleMan\HideOnBush\HideOnBushState\RifleManHideOnBushAppearState.cpp">
+      <Filter>src\Objects\Enemies\RifleMan\HideOnBush\HideOnBushState</Filter>
     </ClCompile>
-    <ClCompile Include="BulletSState.cpp">
-      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    <ClCompile Include="src\Objects\Enemies\RifleMan\HideOnBush\HideOnBushState\RifleManHideOnBushHideState.cpp">
+      <Filter>src\Objects\Enemies\RifleMan\HideOnBush\HideOnBushState</Filter>
     </ClCompile>
-    <ClCompile Include="BulletMState.cpp">
-      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    <ClCompile Include="src\Objects\Enemies\RifleMan\HideOnBush\HideOnBushState\RifleManHideOnBushHidingState.cpp">
+      <Filter>src\Objects\Enemies\RifleMan\HideOnBush\HideOnBushState</Filter>
     </ClCompile>
-    <ClCompile Include="BulletRState.cpp">
-      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    <ClCompile Include="src\Objects\Enemies\RifleMan\HideOnBush\HideOnBushState\RifleManHideOnBushStandingState.cpp">
+      <Filter>src\Objects\Enemies\RifleMan\HideOnBush\HideOnBushState</Filter>
     </ClCompile>
-    <ClCompile Include="BillSwimRunShotState.cpp">
-      <Filter>Source Files\Objects\Bill\BillState</Filter>
+    <ClCompile Include="src\Objects\Enemies\RifleMan\HideOnBush\RifleManHideOnBush.cpp">
+      <Filter>src\Objects\Enemies\RifleMan\HideOnBush</Filter>
     </ClCompile>
-    <ClCompile Include="Terrain.cpp">
-      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
+    <ClCompile Include="src\Objects\Enemies\RifleMan\HideOnBush\RifleManHideOnBushState.cpp">
+      <Filter>src\Objects\Enemies\RifleMan\HideOnBush</Filter>
     </ClCompile>
-    <ClCompile Include="TerrainStage1.cpp">
-      <Filter>Source Files\Objects\Terrains\TerrainStage1</Filter>
+    <ClCompile Include="src\Objects\Enemies\RifleMan\RifleMan.cpp">
+      <Filter>src\Objects\Enemies\RifleMan</Filter>
     </ClCompile>
-    <ClCompile Include="TerrainBlock.cpp">
-      <Filter>Source Files\Objects\Terrains\TerrainBlock</Filter>
+    <ClCompile Include="src\Objects\Enemies\RifleMan\Standing\RifleManStanding.cpp">
+      <Filter>src\Objects\Enemies\RifleMan\Standing</Filter>
     </ClCompile>
-    <ClCompile Include="TerrainStage2.cpp">
-      <Filter>Source Files\Objects\Terrains\TerrainStage2</Filter>
+    <ClCompile Include="src\Objects\Enemies\RifleMan\Standing\RifleManStandingState.cpp">
+      <Filter>src\Objects\Enemies\RifleMan\Standing</Filter>
     </ClCompile>
-    <ClCompile Include="Stage.cpp">
-      <Filter>Source Files\Stages</Filter>
+    <ClCompile Include="src\Objects\Enemies\RifleMan\Standing\StandingState\RifleManStandingAimDownState.cpp">
+      <Filter>src\Objects\Enemies\RifleMan\Standing\StandingState</Filter>
     </ClCompile>
-    <ClCompile Include="Stage1.cpp">
-      <Filter>Source Files\Stages</Filter>
+    <ClCompile Include="src\Objects\Enemies\RifleMan\Standing\StandingState\RifleManStandingAimUpState.cpp">
+      <Filter>src\Objects\Enemies\RifleMan\Standing\StandingState</Filter>
     </ClCompile>
-    <ClCompile Include="Stage2.cpp">
-      <Filter>Source Files\Stages</Filter>
+    <ClCompile Include="src\Objects\Enemies\RifleMan\Standing\StandingState\RifleManStandingNormalState.cpp">
+      <Filter>src\Objects\Enemies\RifleMan\Standing\StandingState</Filter>
     </ClCompile>
-    <ClCompile Include="AirCraft.cpp">
-      <Filter>Source Files\Objects\Enemies\AirCraft</Filter>
+    <ClCompile Include="src\Objects\Enemies\ScubaSoldier\ScubaSoldier.cpp">
+      <Filter>src\Objects\Enemies\ScubaSoldier</Filter>
     </ClCompile>
-    <ClCompile Include="Falcon.cpp">
-      <Filter>Source Files\Objects\Enemies\Falcon</Filter>
+    <ClCompile Include="src\Objects\Enemies\ScubaSoldier\ScubaSoldierState.cpp">
+      <Filter>src\Objects\Enemies\ScubaSoldier</Filter>
     </ClCompile>
-    <ClCompile Include="FalconState.cpp">
-      <Filter>Source Files\Objects\Enemies\Falcon</Filter>
+    <ClCompile Include="src\Objects\Enemies\ScubaSoldier\ScubaSoldierState\ScubaSoldierHiddenState.cpp">
+      <Filter>src\Objects\Enemies\ScubaSoldier\ScubaSoldierState</Filter>
     </ClCompile>
-    <ClCompile Include="FalconCloseState.cpp">
-      <Filter>Source Files\Objects\Enemies\Falcon\FalconState</Filter>
+    <ClCompile Include="src\Objects\Enemies\ScubaSoldier\ScubaSoldierState\ScubaSoldierShootingState.cpp">
+      <Filter>src\Objects\Enemies\ScubaSoldier\ScubaSoldierState</Filter>
     </ClCompile>
-    <ClCompile Include="FalconOpeningState.cpp">
-      <Filter>Source Files\Objects\Enemies\Falcon\FalconState</Filter>
+    <ClCompile Include="src\Objects\Enemies\Soldier\Soldier.cpp">
+      <Filter>src\Objects\Enemies\Soldier</Filter>
     </ClCompile>
-    <ClCompile Include="FalconOpenState.cpp">
-      <Filter>Source Files\Objects\Enemies\Falcon\FalconState</Filter>
+    <ClCompile Include="src\Objects\Enemies\Soldier\SoldierState.cpp">
+      <Filter>src\Objects\Enemies\Soldier</Filter>
     </ClCompile>
-    <ClCompile Include="Fire.cpp">
-      <Filter>Source Files\Objects\Fire</Filter>
+    <ClCompile Include="src\Objects\Enemies\Soldier\SoldierState\SoldierDieState.cpp">
+      <Filter>src\Objects\Enemies\Soldier\SoldierState</Filter>
     </ClCompile>
-    <ClCompile Include="RockFall.cpp">
-      <Filter>Source Files\Objects\RockFall</Filter>
+    <ClCompile Include="src\Objects\Enemies\Soldier\SoldierState\SoldierJumpState.cpp">
+      <Filter>src\Objects\Enemies\Soldier\SoldierState</Filter>
     </ClCompile>
-    <ClCompile Include="RockFallState.cpp">
-      <Filter>Source Files\Objects\RockFall</Filter>
+    <ClCompile Include="src\Objects\Enemies\Soldier\SoldierState\SoldierLayDownState.cpp">
+      <Filter>src\Objects\Enemies\Soldier\SoldierState</Filter>
     </ClCompile>
-    <ClCompile Include="RockFallFallState.cpp">
-      <Filter>Source Files\Objects\RockFall\RockFallState</Filter>
+    <ClCompile Include="src\Objects\Enemies\Soldier\SoldierState\SoldierRunState.cpp">
+      <Filter>src\Objects\Enemies\Soldier\SoldierState</Filter>
     </ClCompile>
-    <ClCompile Include="RockFallNormalState.cpp">
-      <Filter>Source Files\Objects\RockFall\RockFallState</Filter>
+    <ClCompile Include="src\Objects\Enemies\Soldier\SoldierState\SoldierShootState.cpp">
+      <Filter>src\Objects\Enemies\Soldier\SoldierState</Filter>
     </ClCompile>
-    <ClCompile Include="RockFly.cpp">
-      <Filter>Source Files\Objects\RockFly</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurret.cpp">
+      <Filter>src\Objects\Enemies\WallTurret</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3Common.h">
-      <Filter>Header Files\Objects\Enemies\BossStage3\BossStage3Head</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretCommon.h">
+      <Filter>src\Objects\Enemies\WallTurret</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Head</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState.cpp">
+      <Filter>src\Objects\Enemies\WallTurret</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3State.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Head</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretClosingState.cpp">
+      <Filter>src\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3Gate.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Gate</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretDownState.cpp">
+      <Filter>src\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3Hand.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretLeft120State.cpp">
+      <Filter>src\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3GateState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Gate</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretLeft150State.cpp">
+      <Filter>src\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="BossState3GateOpenState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretLeft30State.cpp">
+      <Filter>src\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3GateCloseState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Gate\BossStage3GateState</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretLeft60State.cpp">
+      <Filter>src\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3Joint.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretLeft90State.cpp">
+      <Filter>src\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3HandState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretNormalState.cpp">
+      <Filter>src\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3HandStartState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretOpeningState.cpp">
+      <Filter>src\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3HandWaveState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretRight120State.cpp">
+      <Filter>src\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3HandSpinningState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretRight150State.cpp">
+      <Filter>src\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3HandAttackState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretRight30State.cpp">
+      <Filter>src\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="BossStage3HandDirectPlayerState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage3\BossStage3Hand\BossStage3HandState</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretRight60State.cpp">
+      <Filter>src\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="Cannon.cpp">
-      <Filter>Source Files\Objects\Enemies\Cannon</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretRight90State.cpp">
+      <Filter>src\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="CannonState.cpp">
-      <Filter>Source Files\Objects\Enemies\Cannon</Filter>
+    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretUpState.cpp">
+      <Filter>src\Objects\Enemies\WallTurret\WallTurretState</Filter>
     </ClCompile>
-    <ClCompile Include="CannonAppearState.cpp">
-      <Filter>Source Files\Objects\Enemies\Cannon\State</Filter>
+    <ClCompile Include="src\Objects\Explosion\Explosion.cpp">
+      <Filter>src\Objects\Explosion</Filter>
     </ClCompile>
-    <ClCompile Include="CannonNormalState.cpp">
-      <Filter>Source Files\Objects\Enemies\Cannon\State</Filter>
+    <ClCompile Include="src\Objects\Explosion\ExplosionState.cpp">
+      <Filter>src\Objects\Explosion</Filter>
     </ClCompile>
-    <ClCompile Include="CannonUp30State.cpp">
-      <Filter>Source Files\Objects\Enemies\Cannon\State</Filter>
+    <ClCompile Include="src\Objects\Explosion\ExplosionState\ExplosionDrownState.cpp">
+      <Filter>src\Objects\Explosion\ExplosionState</Filter>
     </ClCompile>
-    <ClCompile Include="CannonUp60State.cpp">
-      <Filter>Source Files\Objects\Enemies\Cannon\State</Filter>
+    <ClCompile Include="src\Objects\Explosion\ExplosionState\ExplosionType1State.cpp">
+      <Filter>src\Objects\Explosion\ExplosionState</Filter>
     </ClCompile>
-    <ClCompile Include="Letter.cpp">
-      <Filter>Source Files\Objects\Letter</Filter>
+    <ClCompile Include="src\Objects\Explosion\ExplosionState\ExplosionType2State.cpp">
+      <Filter>src\Objects\Explosion\ExplosionState</Filter>
     </ClCompile>
-    <ClCompile Include="Scene.cpp">
-      <Filter>Source Files\Objects\Scene</Filter>
+    <ClCompile Include="src\Objects\Explosion\ExplosionState\ExplosionType3State.cpp">
+      <Filter>src\Objects\Explosion\ExplosionState</Filter>
     </ClCompile>
-    <ClCompile Include="SceneState.cpp">
-      <Filter>Source Files\Objects\Scene</Filter>
+    <ClCompile Include="src\Objects\Fire\Fire.cpp">
+      <Filter>src\Objects\Fire</Filter>
     </ClCompile>
-    <ClCompile Include="LoadingSceneState.cpp">
-      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    <ClCompile Include="src\Objects\Item\Item.cpp">
+      <Filter>src\Objects\Item</Filter>
     </ClCompile>
-    <ClCompile Include="PlayingSceneState.cpp">
-      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    <ClCompile Include="src\Objects\Item\ItemState.cpp">
+      <Filter>src\Objects\Item</Filter>
     </ClCompile>
-    <ClCompile Include="StartSceneState.cpp">
-      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    <ClCompile Include="src\Objects\Letter\Letter.cpp">
+      <Filter>src\Objects\Letter</Filter>
     </ClCompile>
-    <ClCompile Include="GameOverSceneState.cpp">
-      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    <ClCompile Include="src\Objects\RockFall\RockFall.cpp">
+      <Filter>src\Objects\RockFall</Filter>
     </ClCompile>
-    <ClCompile Include="EndingSceneState.cpp">
-      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    <ClCompile Include="src\Objects\RockFall\RockFallState.cpp">
+      <Filter>src\Objects\RockFall</Filter>
     </ClCompile>
-    <ClCompile Include="CreditSceneState.cpp">
-      <Filter>Source Files\Objects\Scene\SceneState</Filter>
+    <ClCompile Include="src\Objects\RockFall\RockFallState\RockFallFallState.cpp">
+      <Filter>src\Objects\RockFall\RockFallState</Filter>
     </ClCompile>
-    <ClCompile Include="Bridge.cpp">
-      <Filter>Source Files\Objects\Bridge</Filter>
+    <ClCompile Include="src\Objects\RockFall\RockFallState\RockFallNormalState.cpp">
+      <Filter>src\Objects\RockFall\RockFallState</Filter>
     </ClCompile>
-    <ClCompile Include="BridgePart.cpp">
-      <Filter>Source Files\Objects\Bridge</Filter>
+    <ClCompile Include="src\Objects\RockFly\RockFly.cpp">
+      <Filter>src\Objects\RockFly</Filter>
     </ClCompile>
-    <ClCompile Include="BridgePartState.cpp">
-      <Filter>Source Files\Objects\Bridge</Filter>
+    <ClCompile Include="src\Objects\Scene\Scene.cpp">
+      <Filter>src\Objects\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="BridgePartExplosionState.cpp">
-      <Filter>Source Files\Objects\Bridge\BridgePartState</Filter>
+    <ClCompile Include="src\Objects\Scene\SceneState.cpp">
+      <Filter>src\Objects\Scene</Filter>
     </ClCompile>
-    <ClCompile Include="GunBossStage1.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage1\GunBossStage1</Filter>
+    <ClCompile Include="src\Objects\Scene\SceneState\CreditSceneState.cpp">
+      <Filter>src\Objects\Scene\SceneState</Filter>
     </ClCompile>
-    <ClCompile Include="GunBossStage1State.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage1\GunBossStage1</Filter>
+    <ClCompile Include="src\Objects\Scene\SceneState\EndingSceneState.cpp">
+      <Filter>src\Objects\Scene\SceneState</Filter>
     </ClCompile>
-    <ClCompile Include="Explosion.cpp">
-      <Filter>Source Files\Objects\Explosion</Filter>
+    <ClCompile Include="src\Objects\Scene\SceneState\GameOverSceneState.cpp">
+      <Filter>src\Objects\Scene\SceneState</Filter>
     </ClCompile>
-    <ClCompile Include="ExplosionState.cpp">
-      <Filter>Source Files\Objects\Explosion</Filter>
+    <ClCompile Include="src\Objects\Scene\SceneState\LoadingSceneState.cpp">
+      <Filter>src\Objects\Scene\SceneState</Filter>
     </ClCompile>
-    <ClCompile Include="ExplosionType1State.cpp">
-      <Filter>Source Files\Objects\Explosion\ExplosionState</Filter>
+    <ClCompile Include="src\Objects\Scene\SceneState\PlayingSceneState.cpp">
+      <Filter>src\Objects\Scene\SceneState</Filter>
     </ClCompile>
-    <ClCompile Include="ExplosionType2State.cpp">
-      <Filter>Source Files\Objects\Explosion\ExplosionState</Filter>
+    <ClCompile Include="src\Objects\Scene\SceneState\StartSceneState.cpp">
+      <Filter>src\Objects\Scene\SceneState</Filter>
     </ClCompile>
-    <ClCompile Include="Item.cpp">
-      <Filter>Source Files\Objects\Item</Filter>
+    <ClCompile Include="src\Objects\Terrains\TerrainBlock\TerrainBlock.cpp">
+      <Filter>src\Objects\Terrains\TerrainBlock</Filter>
     </ClCompile>
-    <ClCompile Include="ItemState.cpp">
-      <Filter>Source Files\Objects\Item</Filter>
+    <ClCompile Include="src\Objects\Terrains\TerrainStage1\TerrainStage1.cpp">
+      <Filter>src\Objects\Terrains\TerrainStage1</Filter>
     </ClCompile>
-    <ClCompile Include="ExplosionType3State.cpp">
-      <Filter>Source Files\Objects\Explosion\ExplosionState</Filter>
+    <ClCompile Include="src\Objects\Terrains\TerrainStage2\TerrainStage2.cpp">
+      <Filter>src\Objects\Terrains\TerrainStage2</Filter>
     </ClCompile>
-    <ClCompile Include="BulletBossStage2StateHand.cpp">
-      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    <ClCompile Include="src\Objects\TestingEntity\TestingEntity.cpp">
+      <Filter>src\Objects\TestingEntity</Filter>
     </ClCompile>
-    <ClCompile Include="BulletBossStage1State.cpp">
-      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    <ClCompile Include="src\Stages\Stage.cpp">
+      <Filter>src\Stages</Filter>
     </ClCompile>
-    <ClCompile Include="BulletEnemyState.cpp">
-      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    <ClCompile Include="src\Stages\Stage1.cpp">
+      <Filter>src\Stages</Filter>
     </ClCompile>
-    <ClCompile Include="BulletExplodeState.cpp">
-      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
+    <ClCompile Include="src\Stages\Stage2.cpp">
+      <Filter>src\Stages</Filter>
     </ClCompile>
-    <ClCompile Include="BulletBossStage2StateHead.cpp">
-      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsDatabase.cpp">
-      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
-    </ClCompile>
-    <ClCompile Include="GraphicsHelper.cpp">
-      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
-    </ClCompile>
-    <ClCompile Include="HasWeapons.cpp">
-      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
-    </ClCompile>
-    <ClCompile Include="Input.cpp">
-      <Filter>Source Files\Abstractions\Device Abstractions</Filter>
-    </ClCompile>
-    <ClCompile Include="Sound.cpp">
-      <Filter>Source Files\Abstractions\Device Abstractions</Filter>
-    </ClCompile>
-    <ClCompile Include="QuadTreeNode.cpp">
-      <Filter>Source Files\Abstractions\Space Abstractions</Filter>
-    </ClCompile>
-    <ClCompile Include="Motion.cpp">
-      <Filter>Source Files\Abstractions\Object Abstractions</Filter>
-    </ClCompile>
-    <ClCompile Include="ExplosionType3State.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="GunBossStage1DestroyState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State</Filter>
-    </ClCompile>
-    <ClCompile Include="GunBossStage1NormalState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State</Filter>
-    </ClCompile>
-    <ClCompile Include="FinalBossStage1.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage1\FinalBossStage1</Filter>
-    </ClCompile>
-    <ClCompile Include="BossStage1.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage1</Filter>
-    </ClCompile>
-    <ClCompile Include="FinalBossStage1State.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage1\FinalBossStage1</Filter>
-    </ClCompile>
-    <ClCompile Include="FinalBossStage1NormalState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1State</Filter>
-    </ClCompile>
-    <ClCompile Include="FinalBossStage1DestroyState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage1\FinalBossStage1\FinalBossStage1State</Filter>
-    </ClCompile>
-    <ClCompile Include="GunBossStage1PrepareShootState.cpp">
-      <Filter>Source Files\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State</Filter>
-    </ClCompile>
-    <ClCompile Include="WallTurretOpeningState.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
-    </ClCompile>
-    <ClCompile Include="WallTurretClosingState.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
-    </ClCompile>
-    <ClCompile Include="WallTurretNormalState.cpp">
-      <Filter>Source Files\Objects\Enemies\WallTurret\WallTurretState</Filter>
-    </ClCompile>
-    <ClCompile Include="DDSTextureLoader9.cpp">
-      <Filter>Source Files\Abstractions\Graphics Abstractions</Filter>
-    </ClCompile>
-    <ClCompile Include="BulletScubaSoldierState.cpp">
-      <Filter>Source Files\Objects\Bullet\BulletState</Filter>
-    </ClCompile>
-    <ClCompile Include="ExplosionDrownState.cpp">
-      <Filter>Source Files\Objects\Explosion\ExplosionState</Filter>
-    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <FxCompile Include="src\Abstractions\Graphics\DebugPS.hlsl">
+      <Filter>src\Abstractions\Graphics</Filter>
+    </FxCompile>
+    <FxCompile Include="src\Abstractions\Graphics\DebugVS.hlsl">
+      <Filter>src\Abstractions\Graphics</Filter>
+    </FxCompile>
+    <FxCompile Include="src\Abstractions\Graphics\SpritePS.hlsl">
+      <Filter>src\Abstractions\Graphics</Filter>
+    </FxCompile>
+    <FxCompile Include="src\Abstractions\Graphics\SpriteVS.hlsl">
+      <Filter>src\Abstractions\Graphics</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>

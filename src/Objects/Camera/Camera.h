@@ -52,6 +52,10 @@ public:
 
 protected:
 
+	// Adopts the state a handler returned: no-op when it is the current state,
+	// a full ChangeState (delete outgoing, Exit/Enter) when it is a new one.
+	void AdvanceState(CameraState*);
+
 	static FLOAT scalingRatioX;
 	static FLOAT scalingRatioY;
 	D3DXMATRIX viewMatrix;

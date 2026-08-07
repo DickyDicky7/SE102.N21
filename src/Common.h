@@ -11,8 +11,8 @@
 #include <queue>
 #include <vector>
 #include <string>
-#include <d3d9.h>
-#include <d3dx9.h>
+#include <d3d11.h>
+#include "DX11Math.h"
 #include <variant>
 #include <utility>
 #include <concepts>
@@ -142,12 +142,18 @@ using ANIMATION_ID = std::variant
 using         TIME = DWORD;
 using DEFAULT_TIME = DWORD;
 
-using TEXTURE   = LPDIRECT3DTEXTURE9;
+// D3D11 texture wrapper: SRV + dimensions for UV computation
+struct TEXTURE
+{
+	ID3D11ShaderResourceView* srv;
+	UINT                     width;
+	UINT                     height;
+
+	TEXTURE() : srv(nullptr), width(0), height(0) {}
+	TEXTURE(ID3D11ShaderResourceView* s, UINT w, UINT h) : srv(s), width(w), height(h) {}
+};
 using SPRITE    = std::tuple<RECT*, DIRECTION, TEXTURE_ID>;
 using ANIMATION = std::tuple<DEFAULT_TIME, std::vector<std::tuple<SPRITE_ID, TIME>>>;
-
-//using KEYBOARD_EVENT_HANDLER = std::function<void(LPDIRECTINPUTDEVICE8, char(&)[256])>;
-//using    MOUSE_EVENT_HANDLER = std::function<void(LPDIRECTINPUTDEVICE8, DIMOUSESTATE&)>;
 
 template <class T>
 inline void Destroy(T*& pointer)

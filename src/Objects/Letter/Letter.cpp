@@ -30,7 +30,15 @@ void Letter::LoadSprites()
 
 	tson::Tileson tileson;
 	auto  map     = tileson.parse(fs::path("Resources/Fonts/Font1.json"));
-	auto& tileset = map.get()->getTilesets()[0];
+
+	// Guard against tileson parse failure or empty tilesets
+	if (!map || map->getStatus() != tson::ParseStatus::OK || map->getTilesets().empty())
+	{
+		OutputDebugStringA("Letter::LoadSprites: Font1.json parse failed or no tilesets - resources may be missing\n");
+		return;
+	}
+
+	auto& tileset = map->getTilesets()[0];
 
 	for (auto& tile : tileset.getTiles())
 	{
