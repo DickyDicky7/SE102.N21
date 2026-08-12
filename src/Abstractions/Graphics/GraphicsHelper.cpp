@@ -75,8 +75,33 @@ namespace
 	static_assert(MAX_SPRITES_PER_BATCH <= INSTANCE_RING_CAPACITY,
 	              "a single batch has to fit in the ring");
 
+	struct PostProcessConstants
+	{
+		float time;
+		float frameCount;
+		float canvasSize[2];
+		float texelSize[2];
+		float padding[2];
+		float mousePosition[4];
+	};
+
 	// --- Pipeline objects -------------------------------------------------
 	ComPtr<ID3D11RenderTargetView> g_renderTargetView;
+
+	ComPtr<ID3D11Texture2D>          g_offscreenTexture;
+	ComPtr<ID3D11RenderTargetView>    g_offscreenRenderTargetView;
+	ComPtr<ID3D11ShaderResourceView>  g_offscreenShaderResourceView;
+
+	ComPtr<ID3D11VertexShader>        g_postProcessVS;
+	ComPtr<ID3D11PixelShader>         g_postProcessPS;
+	ComPtr<ID3D11Buffer>              g_postProcessConstantBuffer;
+
+	D3D11_VIEWPORT                    g_letterboxViewport = {};
+
+	float                             g_postProcessTime = 0.0f;
+	float                             g_postProcessFrameCount = 0.0f;
+	LARGE_INTEGER                     g_timeStart = {};
+	LARGE_INTEGER                     g_timeFrequency = {};
 
 	ComPtr<ID3D11VertexShader>  g_spriteVS;
 	ComPtr<ID3D11PixelShader>   g_spritePS;
@@ -306,6 +331,8 @@ namespace
 		viewport.MinDepth = 0.0f;
 		viewport.MaxDepth = 1.0f;
 		context->RSSetViewports(1, &viewport);
+
+		g_letterboxViewport = viewport;
 	}
 
 	bool CreateBackBufferView()
@@ -624,6 +651,54 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 		IID_PPV_ARGS(&g_wicFactory));
 	if (!Check(hr, L"could not create the WIC imaging factory")) return FALSE;
 
+	// --- Post Process Setup ---
+	QueryPerformanceFrequency(&g_timeFrequency);
+	QueryPerformanceCounter(&g_timeStart);
+
+	std::vector<char>  postVSBytes, postPSBytes;
+	ComPtr<ID3DBlob>   postVSBlob, postPSBlob;
+
+	if (!BuildShader(L"PostProcessVS.cso", L"PostProcessVS.hlsl", "main", "vs_5_0", postVSBytes, postVSBlob,
+		[](const void* bytes, SIZE_T size) {
+			return GraphicsHelper::device->CreateVertexShader(bytes, size, nullptr, &g_postProcessVS);
+		}, L"CreateVertexShader(PostProcessVS) failed")) return FALSE;
+
+	if (!BuildShader(L"PostProcessPS.cso", L"PostProcessPS.hlsl", "main", "ps_5_0", postPSBytes, postPSBlob,
+		[](const void* bytes, SIZE_T size) {
+			return GraphicsHelper::device->CreatePixelShader(bytes, size, nullptr, &g_postProcessPS);
+		}, L"CreatePixelShader(PostProcessPS) failed")) return FALSE;
+
+	// Create offscreen texture
+	D3D11_TEXTURE2D_DESC texDesc = {};
+	texDesc.Width            = DESIGN_WIDTH;
+	texDesc.Height           = DESIGN_HEIGHT;
+	texDesc.MipLevels        = 1;
+	texDesc.ArraySize        = 1;
+	texDesc.Format           = DXGI_FORMAT_B8G8R8A8_UNORM;
+	texDesc.SampleDesc.Count = 1;
+	texDesc.Usage            = D3D11_USAGE_DEFAULT;
+	texDesc.BindFlags        = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
+	texDesc.CPUAccessFlags   = 0;
+	texDesc.MiscFlags        = 0;
+
+	hr = device->CreateTexture2D(&texDesc, nullptr, &g_offscreenTexture);
+	if (!Check(hr, L"CreateTexture2D(offscreen) failed")) return FALSE;
+
+	hr = device->CreateRenderTargetView(g_offscreenTexture.Get(), nullptr, &g_offscreenRenderTargetView);
+	if (!Check(hr, L"CreateRenderTargetView(offscreen) failed")) return FALSE;
+
+	hr = device->CreateShaderResourceView(g_offscreenTexture.Get(), nullptr, &g_offscreenShaderResourceView);
+	if (!Check(hr, L"CreateShaderResourceView(offscreen) failed")) return FALSE;
+
+	// Create post process constant buffer
+	D3D11_BUFFER_DESC constBufDesc = {};
+	constBufDesc.Usage          = D3D11_USAGE_DYNAMIC;
+	constBufDesc.CPUAccessFlags = D3D11_CPU_ACCESS_WRITE;
+	constBufDesc.ByteWidth      = sizeof(PostProcessConstants);
+	constBufDesc.BindFlags      = D3D11_BIND_CONSTANT_BUFFER;
+	hr = device->CreateBuffer(&constBufDesc, nullptr, &g_postProcessConstantBuffer);
+	if (!Check(hr, L"CreateBuffer(post process constants) failed")) return FALSE;
+
 	return TRUE;
 }
 
@@ -671,6 +746,13 @@ void GraphicsHelper::Cleanup(void)
 	g_spritePS.Reset();
 	g_spriteVS.Reset();
 	g_renderTargetView.Reset();
+
+	g_offscreenTexture.Reset();
+	g_offscreenRenderTargetView.Reset();
+	g_offscreenShaderResourceView.Reset();
+	g_postProcessVS.Reset();
+	g_postProcessPS.Reset();
+	g_postProcessConstantBuffer.Reset();
 
 	if (swapChain) { swapChain->Release(); swapChain = nullptr; }
 	if (context)
@@ -722,26 +804,44 @@ void GraphicsHelper::OnResize(UINT clientWidth, UINT clientHeight)
 	// resolution, and UpdateViewport letterboxes it into the new client area.
 }
 
-// ===========================================================================
-// Frame
-// ===========================================================================
 void GraphicsHelper::Clear(FLOAT r, FLOAT g, FLOAT b, FLOAT a)
 {
-	if (!context || !g_renderTargetView) return;
+	if (!context || !g_offscreenRenderTargetView || !g_renderTargetView) return;
 
-	// Clears the whole back buffer, including the letterbox bars.  No bind is
-	// needed: ClearRenderTargetView acts on the view, not on whatever the output
-	// merger currently holds, and Begin does the binding for the frame.
+	// Clear offscreen target with the clear color (which clears sprite/game screen)
 	const FLOAT colour[4] = { r, g, b, a };
-	context->ClearRenderTargetView(g_renderTargetView.Get(), colour);
+	context->ClearRenderTargetView(g_offscreenRenderTargetView.Get(), colour);
+
+	// Clear backbuffer to solid black so letterboxes are always black
+	const FLOAT black[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	context->ClearRenderTargetView(g_renderTargetView.Get(), black);
 }
 
 void GraphicsHelper::Begin(void)
 {
-	if (!context || !g_renderTargetView) return;
+	if (!context || !g_offscreenRenderTargetView || !g_renderTargetView) return;
 
-	ID3D11RenderTargetView* views[] = { g_renderTargetView.Get() };
+	// Calculate and update running time
+	if (g_timeFrequency.QuadPart > 0)
+	{
+		LARGE_INTEGER current = {};
+		QueryPerformanceCounter(&current);
+		g_postProcessTime = static_cast<float>(current.QuadPart - g_timeStart.QuadPart) / static_cast<float>(g_timeFrequency.QuadPart);
+	}
+	g_postProcessFrameCount += 1.0f;
+
+	ID3D11RenderTargetView* views[] = { g_offscreenRenderTargetView.Get() };
 	context->OMSetRenderTargets(1, views, nullptr);
+
+	// Set viewport to the off-screen size (640x600)
+	D3D11_VIEWPORT offscreenViewport = {};
+	offscreenViewport.TopLeftX = 0.0f;
+	offscreenViewport.TopLeftY = 0.0f;
+	offscreenViewport.Width    = static_cast<FLOAT>(DESIGN_WIDTH);
+	offscreenViewport.Height   = static_cast<FLOAT>(DESIGN_HEIGHT);
+	offscreenViewport.MinDepth = 0.0f;
+	offscreenViewport.MaxDepth = 1.0f;
+	context->RSSetViewports(1, &offscreenViewport);
 
 	// Upload this frame's view and projection matrices once, for every sprite
 	// and debug line that follows.
@@ -781,6 +881,64 @@ void GraphicsHelper::End(void)
 {
 	FlushSprites();
 	FlushDebugLines();   // debug wireframes draw on top of the scene
+
+	// Run post processing pass
+	if (context && g_renderTargetView && g_offscreenShaderResourceView && g_postProcessVS && g_postProcessPS)
+	{
+		// Set render target to back buffer
+		ID3D11RenderTargetView* views[] = { g_renderTargetView.Get() };
+		context->OMSetRenderTargets(1, views, nullptr);
+
+		// Set viewport to the letterboxed size (saved in g_letterboxViewport)
+		context->RSSetViewports(1, &g_letterboxViewport);
+
+		// Update post-processing constant buffer
+		D3D11_MAPPED_SUBRESOURCE mapped = {};
+		if (SUCCEEDED(context->Map(g_postProcessConstantBuffer.Get(), 0, D3D11_MAP_WRITE_DISCARD, 0, &mapped)))
+		{
+			PostProcessConstants constants;
+			constants.time             = g_postProcessTime;
+			constants.frameCount       = g_postProcessFrameCount;
+			constants.canvasSize[0]    = static_cast<float>(DESIGN_WIDTH);
+			constants.canvasSize[1]    = static_cast<float>(DESIGN_HEIGHT);
+			constants.texelSize[0]     = 1.0f / static_cast<float>(DESIGN_WIDTH);
+			constants.texelSize[1]     = 1.0f / static_cast<float>(DESIGN_HEIGHT);
+			constants.padding[0]       = 0.0f;
+			constants.padding[1]       = 0.0f;
+			constants.mousePosition[0] = 0.0f;
+			constants.mousePosition[1] = 0.0f;
+			constants.mousePosition[2] = 0.0f;
+			constants.mousePosition[3] = 0.0f;
+			std::memcpy(mapped.pData, &constants, sizeof(constants));
+			context->Unmap(g_postProcessConstantBuffer.Get(), 0);
+		}
+
+		// Bind shaders and resources
+		context->IASetInputLayout(nullptr); // Vertex ID shader has no input layout
+		context->IASetPrimitiveTopology(D3D11_PRIMITIVE_TOPOLOGY_TRIANGLELIST);
+
+		context->VSSetShader(g_postProcessVS.Get(), nullptr, 0);
+		context->PSSetShader(g_postProcessPS.Get(), nullptr, 0);
+
+		ID3D11Buffer* constantBuffers[] = { g_postProcessConstantBuffer.Get() };
+		context->PSSetConstantBuffers(0, 1, constantBuffers);
+
+		ID3D11ShaderResourceView* textures[] = { g_offscreenShaderResourceView.Get() };
+		context->PSSetShaderResources(0, 1, textures);
+
+		ID3D11SamplerState* samplers[] = { g_samplerState.Get() };
+		context->PSSetSamplers(0, 1, samplers);
+
+		// Draw the full-screen triangle/quad
+		context->Draw(3, 0);
+
+		// Clean up shader resource slot to avoid warnings about target/resource binding conflicts
+		ID3D11ShaderResourceView* nullSRV[] = { nullptr };
+		context->PSSetShaderResources(0, 1, nullSRV);
+
+		// Mark bound pipeline as None so the next frame re-binds correctly
+		g_boundPipeline = BoundPipeline::None;
+	}
 }
 
 GraphicsHelper::PresentResult GraphicsHelper::Present(void)

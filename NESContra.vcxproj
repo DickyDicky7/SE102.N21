@@ -464,6 +464,22 @@
       <HeaderFileOutput>
       </HeaderFileOutput>
     </FxCompile>
+    <FxCompile Include="src\Abstractions\Graphics\PostProcessVS.hlsl">
+      <ShaderType>Vertex</ShaderType>
+      <ShaderModel>5.0</ShaderModel>
+      <EntryPointName>main</EntryPointName>
+      <ObjectFileOutput>$(OutDir)%(Filename).cso</ObjectFileOutput>
+      <HeaderFileOutput>
+      </HeaderFileOutput>
+    </FxCompile>
+    <FxCompile Include="src\Abstractions\Graphics\PostProcessPS.hlsl">
+      <ShaderType>Pixel</ShaderType>
+      <ShaderModel>5.0</ShaderModel>
+      <EntryPointName>main</EntryPointName>
+      <ObjectFileOutput>$(OutDir)%(Filename).cso</ObjectFileOutput>
+      <HeaderFileOutput>
+      </HeaderFileOutput>
+    </FxCompile>
   </ItemGroup>
 
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
