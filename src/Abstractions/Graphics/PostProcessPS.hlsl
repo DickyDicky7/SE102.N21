@@ -20,6 +20,7 @@ cbuffer PostProcessConstants : register(b0)
 #define ANALOG
 #define DIGITAL
 #define CRT
+#define BLOOM
 #define DURATION 5.0f
 #define AMT      0.5f 
 #define SS(a, b, x) (smoothstep(a, b, x) * smoothstep(b, a, x))
@@ -129,6 +130,47 @@ float4 main(PS_INPUT input) : SV_TARGET
     col.r += tex0.Sample(sampler0, st + eps).r * block;
     col.g += tex0.Sample(sampler0, st).g * block;
     col.b += tex0.Sample(sampler0, st - eps).b * block;
+#endif
+
+#ifdef BLOOM
+    // --- HDR Bloom / Glow ---
+    float3 bloom = float3(0.0f, 0.0f, 0.0f);
+    float2 directions[8] = {
+        float2(1.0f, 0.0f), float2(-1.0f, 0.0f), float2(0.0f, 1.0f), float2(0.0f, -1.0f),
+        float2(0.707f, 0.707f), float2(-0.707f, 0.707f), float2(0.707f, -0.707f), float2(-0.707f, -0.707f)
+    };
+    
+    float bloomThreshold = 0.8f;
+    float totalWeight = 0.0f;
+    
+    // Ring 1 (near glow)
+    for (int i = 0; i < 8; ++i)
+    {
+        float2 sampleUV = uv + directions[i] * texelSize * 2.0f;
+        float3 sampleCol = tex0.Sample(sampler0, sampleUV).rgb;
+        float brightness = dot(sampleCol, float3(0.2126f, 0.7152f, 0.0722f));
+        float factor = max(0.0f, brightness - bloomThreshold) / (brightness + 0.0001f);
+        bloom += sampleCol * factor * 0.15f;
+        totalWeight += 0.15f;
+    }
+    
+    // Ring 2 (far glow)
+    for (int j = 0; j < 8; ++j)
+    {
+        float2 sampleUV = uv + directions[j] * texelSize * 4.5f;
+        float3 sampleCol = tex0.Sample(sampler0, sampleUV).rgb;
+        float brightness = dot(sampleCol, float3(0.2126f, 0.7152f, 0.0722f));
+        float factor = max(0.0f, brightness - bloomThreshold) / (brightness + 0.0001f);
+        bloom += sampleCol * factor * 0.1f;
+        totalWeight += 0.1f;
+    }
+    
+    if (totalWeight > 0.0f)
+    {
+        bloom /= totalWeight;
+    }
+    
+    col += bloom * 1.6f;
 #endif
 
     displayNoise = clamp(displayNoise, 0.0f, 1.0f);

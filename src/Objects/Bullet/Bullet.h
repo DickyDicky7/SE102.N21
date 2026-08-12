@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 
 #include "Sound.h"
@@ -265,7 +265,7 @@ class BulletExplodeState : public BulletState
 
 public:
 
-	BulletExplodeState();
+	BulletExplodeState(DirectX::XMFLOAT4 color = DirectX::XMFLOAT4(3.0f, 1.0f, 0.2f, 1.0f));
 	virtual ~BulletExplodeState();
 
 	virtual void Exit(Bullet&) override;
@@ -274,6 +274,9 @@ public:
 
 	virtual BulletState* Update(Bullet&) override;
 	virtual BulletState* HandleInput(Bullet&, Input&) override;
+
+protected:
+	DirectX::XMFLOAT4 explodeColor;
 
 };
 

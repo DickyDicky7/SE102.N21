@@ -40,6 +40,7 @@
     <ClInclude Include="src\Abstractions\Object\CollidableState.h" />
     <ClInclude Include="src\Objects\Bullet\Bullet.h" />
     <ClInclude Include="src\Objects\Bullet\BulletCommon.h" />
+    <ClInclude Include="src\Objects\Bullet\ParticleSystem.h" />
     <ClInclude Include="src\Common.h" />
     <ClInclude Include="src\Abstractions\Graphics\DX11Math.h" />
     <ClInclude Include="src\Abstractions\Object\Enemy.h" />
@@ -215,6 +216,7 @@
     <ClCompile Include="src\Abstractions\Object\Enemy.cpp" />
     <ClCompile Include="src\Objects\Bullet\Bullet.cpp" />
     <ClCompile Include="src\Objects\Bullet\BulletState.cpp" />
+    <ClCompile Include="src\Objects\Bullet\ParticleSystem.cpp" />
     <ClCompile Include="src\Abstractions\Object\Entity.cpp" />
     <ClCompile Include="src\Abstractions\Graphics\GraphicsDatabase.cpp" />
     <ClCompile Include="src\Abstractions\Graphics\GraphicsHelper.cpp" />
@@ -355,6 +357,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ForceSynchronousPDBWrites>true</ForceSynchronousPDBWrites>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -374,6 +377,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ForceSynchronousPDBWrites>true</ForceSynchronousPDBWrites>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -393,6 +397,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ForceSynchronousPDBWrites>true</ForceSynchronousPDBWrites>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -412,6 +417,7 @@
       <LanguageStandard>stdcpp20</LanguageStandard>
       <MultiProcessorCompilation>true</MultiProcessorCompilation>
       <ForceSynchronousPDBWrites>true</ForceSynchronousPDBWrites>
+      <AdditionalOptions>/utf-8 %(AdditionalOptions)</AdditionalOptions>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>

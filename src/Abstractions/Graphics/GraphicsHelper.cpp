@@ -118,6 +118,8 @@ namespace
 	ComPtr<ID3D11Buffer>             g_cameraBuffer;   // dynamic
 	ComPtr<ID3D11SamplerState>       g_samplerState;
 	ComPtr<ID3D11BlendState>         g_blendState;
+	ComPtr<ID3D11BlendState>         g_additiveBlendState;
+	ComPtr<ID3D11ShaderResourceView>  g_particleSRV;
 	ComPtr<ID3D11RasterizerState>    g_rasterizerState;
 	ComPtr<ID3D11DepthStencilState>  g_depthStencilState;
 
@@ -619,6 +621,19 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 	hr = device->CreateBlendState(&blendDesc, &g_blendState);
 	if (!Check(hr, L"CreateBlendState failed")) return FALSE;
 
+	// Additive blend state for particles.
+	D3D11_BLEND_DESC addBlendDesc = {};
+	addBlendDesc.RenderTarget[0].BlendEnable           = TRUE;
+	addBlendDesc.RenderTarget[0].SrcBlend              = D3D11_BLEND_SRC_ALPHA;
+	addBlendDesc.RenderTarget[0].DestBlend             = D3D11_BLEND_ONE;
+	addBlendDesc.RenderTarget[0].BlendOp               = D3D11_BLEND_OP_ADD;
+	addBlendDesc.RenderTarget[0].SrcBlendAlpha         = D3D11_BLEND_ONE;
+	addBlendDesc.RenderTarget[0].DestBlendAlpha        = D3D11_BLEND_ONE;
+	addBlendDesc.RenderTarget[0].BlendOpAlpha          = D3D11_BLEND_OP_ADD;
+	addBlendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
+	hr = device->CreateBlendState(&addBlendDesc, &g_additiveBlendState);
+	if (!Check(hr, L"CreateBlendState (additive) failed")) return FALSE;
+
 	// Rasterizer state: Disable culling (mirroring reverses winding order) and MSAA.
 	D3D11_RASTERIZER_DESC rasterizerDesc = {};
 	rasterizerDesc.FillMode        = D3D11_FILL_SOLID;
@@ -674,7 +689,7 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 	texDesc.Height           = DESIGN_HEIGHT;
 	texDesc.MipLevels        = 1;
 	texDesc.ArraySize        = 1;
-	texDesc.Format           = DXGI_FORMAT_B8G8R8A8_UNORM;
+	texDesc.Format           = DXGI_FORMAT_R16G16B16A16_FLOAT;
 	texDesc.SampleDesc.Count = 1;
 	texDesc.Usage            = D3D11_USAGE_DEFAULT;
 	texDesc.BindFlags        = D3D11_BIND_RENDER_TARGET | D3D11_BIND_SHADER_RESOURCE;
@@ -698,6 +713,62 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 	constBufDesc.BindFlags      = D3D11_BIND_CONSTANT_BUFFER;
 	hr = device->CreateBuffer(&constBufDesc, nullptr, &g_postProcessConstantBuffer);
 	if (!Check(hr, L"CreateBuffer(post process constants) failed")) return FALSE;
+
+	// Create glowing particle dot texture programmatically
+	constexpr UINT particleWidth = 64;
+	constexpr UINT particleHeight = 64;
+	constexpr UINT rowPitch = particleWidth * 4;
+	constexpr UINT imageSize = rowPitch * particleHeight;
+	std::vector<UINT8> pixels(imageSize);
+
+	for (UINT y = 0; y < particleHeight; ++y)
+	{
+		for (UINT x = 0; x < particleWidth; ++x)
+		{
+			FLOAT dx = (static_cast<FLOAT>(x) - 31.5f) / 32.0f;
+			FLOAT dy = (static_cast<FLOAT>(y) - 31.5f) / 32.0f;
+			FLOAT dist = std::sqrt(dx * dx + dy * dy);
+
+			FLOAT alpha = 0.0f;
+			if (dist < 1.0f)
+			{
+				alpha = std::exp(-4.0f * dist * dist) * (1.0f - dist);
+			}
+
+			UINT index = (y * particleWidth + x) * 4;
+			pixels[index + 0] = 255; // Blue
+			pixels[index + 1] = 255; // Green
+			pixels[index + 2] = 255; // Red
+			pixels[index + 3] = static_cast<UINT8>(alpha * 255.0f);
+		}
+	}
+
+	D3D11_TEXTURE2D_DESC pTexDesc = {};
+	pTexDesc.Width            = particleWidth;
+	pTexDesc.Height           = particleHeight;
+	pTexDesc.MipLevels        = 1;
+	pTexDesc.ArraySize        = 1;
+	pTexDesc.Format           = DXGI_FORMAT_B8G8R8A8_UNORM;
+	pTexDesc.SampleDesc.Count = 1;
+	pTexDesc.Usage            = D3D11_USAGE_IMMUTABLE;
+	pTexDesc.BindFlags        = D3D11_BIND_SHADER_RESOURCE;
+
+	D3D11_SUBRESOURCE_DATA particleInitialData = {};
+	particleInitialData.pSysMem     = pixels.data();
+	particleInitialData.SysMemPitch = rowPitch;
+
+	ComPtr<ID3D11Texture2D> particleTexture;
+	hr = device->CreateTexture2D(&pTexDesc, &particleInitialData, &particleTexture);
+	if (FAILED(hr)) { Check(hr, L"CreateTexture2D (particle) failed"); return FALSE; }
+
+	D3D11_SHADER_RESOURCE_VIEW_DESC viewDesc = {};
+	viewDesc.Format                    = pTexDesc.Format;
+	viewDesc.ViewDimension             = D3D11_SRV_DIMENSION_TEXTURE2D;
+	viewDesc.Texture2D.MostDetailedMip = 0;
+	viewDesc.Texture2D.MipLevels       = 1;
+
+	hr = device->CreateShaderResourceView(particleTexture.Get(), &viewDesc, &g_particleSRV);
+	if (FAILED(hr)) { Check(hr, L"CreateShaderResourceView (particle) failed"); return FALSE; }
 
 	return TRUE;
 }
@@ -732,6 +803,8 @@ void GraphicsHelper::Cleanup(void)
 	g_wicFactory.Reset();
 	g_depthStencilState.Reset();
 	g_rasterizerState.Reset();
+	g_additiveBlendState.Reset();
+	g_particleSRV.Reset();
 	g_blendState.Reset();
 	g_samplerState.Reset();
 	g_cameraBuffer.Reset();
@@ -1057,6 +1130,15 @@ namespace
 			ID3D11ShaderResourceView* resources[] = { g_pendingTexture };
 			context->PSSetShaderResources(0, 1, resources);
 
+			if (g_pendingTexture == g_particleSRV.Get())
+			{
+				context->OMSetBlendState(g_additiveBlendState.Get(), nullptr, 0xFFFFFFFF);
+			}
+			else
+			{
+				context->OMSetBlendState(g_blendState.Get(), nullptr, 0xFFFFFFFF);
+			}
+
 			// StartInstanceLocation, unlike SV_InstanceID, really does offset the
 			// per-instance vertex fetch - so the ring offset needs nothing else.
 			context->DrawIndexedInstanced(6, count, 0, 0, g_instanceRingOffset);
@@ -1292,6 +1374,10 @@ void GraphicsHelper::DrawSprite(const SPRITE& sprite, D3DXVECTOR3 position,
 	const RECT*       rect            = std::get<RECT*>(sprite);
 	const DIRECTION   spriteDirection = std::get<DIRECTION>(sprite);
 	const TEXTURE_ID& textureId       = std::get<TEXTURE_ID>(sprite);
+	if (std::holds_alternative<BULLET_TEXTURE_ID>(textureId))
+	{
+		return;
+	}
 	if (!rect) return;
 
 	const TEXTURE* found = ResolveTexture(textureId);
@@ -1382,6 +1468,29 @@ void GraphicsHelper::DrawBox(FLOAT left, FLOAT bottom, FLOAT right, FLOAT top,
 			pivotX + bx * c - by * s,
 			pivotY + bx * s + by * c, 0.0f), rgba });
 	}
+}
+
+void GraphicsHelper::DrawParticle(D3DXVECTOR3 position, FLOAT size, DirectX::XMFLOAT4 tint)
+{
+	if (!context || !g_particleSRV) return;
+
+	const XMMATRIX world =
+		XMMatrixScaling(size, size, 1.0f) *
+		XMMatrixTranslation(position.x, position.y, position.z);
+
+	if (g_pendingTexture && g_pendingTexture != g_particleSRV.Get())
+		FlushSprites();
+	if (g_pendingSprites.size() >= MAX_SPRITES_PER_BATCH)
+		FlushSprites();
+
+	g_pendingTexture = g_particleSRV.Get();
+
+	SpriteInstance instance;
+	XMStoreFloat4x4(&instance.world, world);
+	instance.sourceRect = XMFLOAT4(0.0f, 0.0f, 1.0f, 1.0f);
+	instance.tint = XMFLOAT4(tint.x, tint.y, tint.z, tint.w);
+
+	g_pendingSprites.push_back(instance);
 }
 
 
