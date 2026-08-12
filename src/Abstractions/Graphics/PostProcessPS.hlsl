@@ -21,9 +21,17 @@ cbuffer PostProcessConstants : register(b0)
 #define DIGITAL
 #define CRT
 #define BLOOM
+// #define DITHER
 #define DURATION 5.0f
 #define AMT      0.5f 
 #define SS(a, b, x) (smoothstep(a, b, x) * smoothstep(b, a, x))
+
+static const float bayerIndex[4][4] = {
+    { 0.0f/16.0f,  8.0f/16.0f,  2.0f/16.0f, 10.0f/16.0f },
+    { 12.0f/16.0f, 4.0f/16.0f, 14.0f/16.0f,  6.0f/16.0f },
+    { 3.0f/16.0f, 11.0f/16.0f,  1.0f/16.0f,  9.0f/16.0f },
+    { 15.0f/16.0f, 7.0f/16.0f, 13.0f/16.0f,  5.0f/16.0f }
+};
 
 float mod(float x, float y)
 {
@@ -180,6 +188,19 @@ float4 main(PS_INPUT input) : SV_TARGET
 #ifdef CRT
     float vig = 8.0f * uv.x * uv.y * (1.0f - uv.x) * (1.0f - uv.y);
     col *= pow(max(vig, 0.0f), 0.25f) * 1.5f;
+#endif
+
+#ifdef DITHER
+    col = pow(max(col, 0.0f), 2.2f) - 0.004f;
+    uint px = (uint)abs(uv.x * canvasSize.x);
+    uint py = (uint)abs(uv.y * canvasSize.y);
+    float bayerValue = bayerIndex[py & 3u][px & 3u];
+    col.r = step(bayerValue, col.r);
+    col.g = step(bayerValue, col.g);
+    col.b = step(bayerValue, col.b);
+#endif
+
+#ifdef CRT
     if (uv.x < 0.0f || uv.x > 1.0f || uv.y < 0.0f || uv.y > 1.0f)
         col *= 0.0f;
 #endif
