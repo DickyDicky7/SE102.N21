@@ -3,6 +3,7 @@
 #include "Enemy.h"
 #include "Bullet.h"
 #include "Bridge.h"
+#include "ParticleSystem.h"
 #include "Soldier.h"
 #include "RockFly.h"
 #include "TerrainBlock.h"
@@ -36,6 +37,50 @@ Bullet::~Bullet()
 void Bullet::Update()
 {
 	updateState = state->Update(*this);
+
+	if (!isDead && state)
+	{
+		// Spawn trail particles depending on state
+		if (dynamic_cast<BulletRState*>(state))
+		{
+			float vx_offset = (((rand() % 100) - 50) / 100.0f) * 0.4f;
+			float vy_offset = (((rand() % 100) - 50) / 100.0f) * 0.4f;
+			BulletParticleSystem::AddParticle(GetX(), GetY(), -GetVX() * 0.1f + vx_offset, -GetVY() * 0.1f + vy_offset, 5.0f, 0.15f, DirectX::XMFLOAT4(3.0f, 1.2f, 0.2f, 1.0f));
+		}
+		else if (dynamic_cast<BulletMState*>(state))
+		{
+			BulletParticleSystem::AddParticle(GetX(), GetY(), -GetVX() * 0.15f, -GetVY() * 0.15f, 5.5f, 0.12f, DirectX::XMFLOAT4(0.2f, 2.0f, 3.5f, 1.0f));
+		}
+		else if (dynamic_cast<BulletSState*>(state))
+		{
+			BulletParticleSystem::AddParticle(GetX(), GetY(), -GetVX() * 0.2f, -GetVY() * 0.2f, 7.0f, 0.18f, DirectX::XMFLOAT4(3.0f, 0.2f, 2.0f, 1.0f));
+		}
+		else if (dynamic_cast<BulletLState*>(state))
+		{
+			float startX = GetX() - GetVX();
+			float startY = GetY() - GetVY();
+			for (int i = 0; i < 3; ++i)
+			{
+				float t = i / 3.0f;
+				BulletParticleSystem::AddParticle(startX + GetVX() * t, startY + GetVY() * t, 0.0f, 0.0f, 6.0f, 0.08f, DirectX::XMFLOAT4(0.2f, 1.5f, 4.0f, 1.0f));
+			}
+		}
+		else if (dynamic_cast<BulletFState*>(state))
+		{
+			float pvx = -GetVX() * 0.1f + ((rand() % 100) - 50) / 150.0f;
+			float pvy = -GetVY() * 0.1f + ((rand() % 100) - 50) / 150.0f;
+			BulletParticleSystem::AddParticle(GetX(), GetY(), pvx, pvy, 9.0f, 0.25f, DirectX::XMFLOAT4(4.0f, 0.8f, 0.0f, 1.0f));
+			BulletParticleSystem::AddParticle(GetX() + ((rand() % 10) - 5), GetY() + ((rand() % 10) - 5), pvx, pvy, 6.0f, 0.15f, DirectX::XMFLOAT4(3.0f, 1.2f, 0.0f, 1.0f));
+		}
+		else if (dynamic_cast<BulletEnemyState*>(state) || dynamic_cast<BulletScubaSoldierState*>(state))
+		{
+			BulletParticleSystem::AddParticle(GetX(), GetY(), -GetVX() * 0.1f, -GetVY() * 0.1f, 5.0f, 0.15f, DirectX::XMFLOAT4(3.0f, 0.5f, 0.1f, 1.0f));
+		}
+		else if (dynamic_cast<BulletBossStage1State*>(state) || dynamic_cast<BulletBossStage2StateHand*>(state) || dynamic_cast<BulletBossStage2StateHead*>(state))
+		{
+			BulletParticleSystem::AddParticle(GetX(), GetY(), -GetVX() * 0.1f, -GetVY() * 0.1f, 6.0f, 0.18f, DirectX::XMFLOAT4(1.5f, 0.1f, 3.0f, 1.0f));
+		}
+	}
 }
 
 void Bullet::Render()
@@ -43,6 +88,62 @@ void Bullet::Render()
 	state->Render(*this);
 	this->w = this->currentFrameW;
 	this->h = this->currentFrameH;
+
+	if (dynamic_cast<BulletExplodeState*>(state))
+	{
+		if (updateState)
+		{
+			ChangeState(state, updateState, this);
+			updateState = NULL;
+		}
+		if (handleInputState)
+		{
+			ChangeState(state, handleInputState, this);
+			handleInputState = NULL;
+		}
+		return;
+	}
+
+	DirectX::XMFLOAT4 coreColor = DirectX::XMFLOAT4(4.0f, 4.0f, 4.0f, 1.0f);
+	float coreSize = 6.0f;
+
+	if (dynamic_cast<BulletRState*>(state))
+	{
+		coreColor = DirectX::XMFLOAT4(4.0f, 3.0f, 1.0f, 1.0f);
+		coreSize = 6.0f;
+	}
+	else if (dynamic_cast<BulletMState*>(state))
+	{
+		coreColor = DirectX::XMFLOAT4(1.0f, 4.0f, 4.0f, 1.0f);
+		coreSize = 7.0f;
+	}
+	else if (dynamic_cast<BulletSState*>(state))
+	{
+		coreColor = DirectX::XMFLOAT4(4.0f, 1.0f, 4.0f, 1.0f);
+		coreSize = 8.0f;
+	}
+	else if (dynamic_cast<BulletLState*>(state))
+	{
+		coreColor = DirectX::XMFLOAT4(1.5f, 3.5f, 5.0f, 1.0f);
+		coreSize = 7.0f;
+	}
+	else if (dynamic_cast<BulletFState*>(state))
+	{
+		coreColor = DirectX::XMFLOAT4(5.0f, 2.5f, 0.5f, 1.0f);
+		coreSize = 9.0f;
+	}
+	else if (dynamic_cast<BulletEnemyState*>(state) || dynamic_cast<BulletScubaSoldierState*>(state))
+	{
+		coreColor = DirectX::XMFLOAT4(4.0f, 2.0f, 0.5f, 1.0f);
+		coreSize = 6.0f;
+	}
+	else if (dynamic_cast<BulletBossStage1State*>(state) || dynamic_cast<BulletBossStage2StateHand*>(state) || dynamic_cast<BulletBossStage2StateHead*>(state))
+	{
+		coreColor = DirectX::XMFLOAT4(3.0f, 1.0f, 4.0f, 1.0f);
+		coreSize = 8.0f;
+	}
+
+	GraphicsHelper::DrawParticle(D3DXVECTOR3(GetX(), GetY(), 0.0f), coreSize, coreColor);
 
 	if (updateState)
 	{

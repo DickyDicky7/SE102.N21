@@ -2,6 +2,8 @@
 #include "Item.h"
 #include "Stage.h"
 #include "Enemy.h"
+#include "Bullet.h"
+#include "ParticleSystem.h"
 #include "Stage1.h"
 #include "Stage2.h"
 #include "Falcon.h"
@@ -30,6 +32,7 @@ Stage::~Stage()
 	foregroundTerrains->Clean();
 	for (auto& effectEntity : effectEntities) Destroy(effectEntity); effectEntities.clear();
 	Destroy(camera); Destroy(entities); Destroy(backgroundTerrains), Destroy(foregroundTerrains);
+	BulletParticleSystem::Clear();
 }
 
 
@@ -150,8 +153,20 @@ void Stage::Update()
 			}
 			else
 			{
+				DirectX::XMFLOAT4 explodeColor = DirectX::XMFLOAT4(3.0f, 1.0f, 0.2f, 1.0f); // default yellow-orange
+				BulletState* bState = bullet->GetState();
+				if (dynamic_cast<BulletMState*>(bState))
+					explodeColor = DirectX::XMFLOAT4(0.2f, 2.0f, 3.5f, 1.0f);
+				else if (dynamic_cast<BulletSState*>(bState))
+					explodeColor = DirectX::XMFLOAT4(3.0f, 0.2f, 2.0f, 1.0f);
+				else if (dynamic_cast<BulletLState*>(bState))
+					explodeColor = DirectX::XMFLOAT4(0.2f, 1.5f, 4.0f, 1.0f);
+				else if (dynamic_cast<BulletFState*>(bState))
+					explodeColor = DirectX::XMFLOAT4(4.0f, 0.8f, 0.0f, 1.0f);
+				else if (dynamic_cast<BulletBossStage1State*>(bState) || dynamic_cast<BulletBossStage2StateHand*>(bState) || dynamic_cast<BulletBossStage2StateHead*>(bState))
+					explodeColor = DirectX::XMFLOAT4(1.5f, 0.1f, 3.0f, 1.0f);
+
 				Bullet* explosion = new Bullet();
-				explosion->SetState(new BulletExplodeState());
 				if (bullet->GetVX() < 0.0f)
 					explosion->SetX(bullet->GetL() - 3.0f);
 				else
@@ -166,6 +181,8 @@ void Stage::Update()
 					explosion->SetY(bullet->GetT() + 3.0f);
 				else
 					explosion->SetY(bullet->GetY() + 0.0f);
+
+				explosion->SetState(new BulletExplodeState(explodeColor));
 				effectEntities.push_back(explosion);
 			}
 		}
@@ -216,6 +233,7 @@ void Stage::Update()
 	TranslateCamera();
 	TranslateWalls ();
 	CheckIfHasDone ();
+	BulletParticleSystem::Update();
 }
 
 
@@ -237,6 +255,7 @@ void Stage::Render()
 	for (auto& [entity           , node] : entitiesResult)                      entity->Render();
 	for (auto&  effectEntity             : effectEntities)                effectEntity->Render();
 	bill->Render();
+	BulletParticleSystem::Render();
 }
 
 

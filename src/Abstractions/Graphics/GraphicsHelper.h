@@ -71,6 +71,9 @@ public:
 	// enum types, and this runs once per sprite per frame.
 	static void DrawSprite(const SPRITE& sprite, D3DXVECTOR3 position, DIRECTION movingDirection, FLOAT angle);
 
+	// Draws a glowing particle using a custom programmatic texture and additive blending.
+	static void DrawParticle(D3DXVECTOR3 position, FLOAT size, DirectX::XMFLOAT4 tint);
+
 	// Axis-aligned-then-rotated wireframe box in world space for hitbox debugging
 	static void DrawBox(FLOAT left, FLOAT bottom, FLOAT right, FLOAT top,
 	                    FLOAT angle, D3DCOLOR colour,

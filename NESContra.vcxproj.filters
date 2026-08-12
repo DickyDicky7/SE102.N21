@@ -264,6 +264,9 @@
     <ClInclude Include="src\Objects\Bullet\BulletCommon.h">
       <Filter>src\Objects\Bullet</Filter>
     </ClInclude>
+    <ClInclude Include="src\Objects\Bullet\ParticleSystem.h">
+      <Filter>src\Objects\Bullet</Filter>
+    </ClInclude>
     <ClInclude Include="src\Objects\Camera\Camera.h">
       <Filter>src\Objects\Camera</Filter>
     </ClInclude>
@@ -555,6 +558,9 @@
       <Filter>src\Objects\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="src\Objects\Bullet\BulletState.cpp">
+      <Filter>src\Objects\Bullet</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Objects\Bullet\ParticleSystem.cpp">
       <Filter>src\Objects\Bullet</Filter>
     </ClCompile>
     <ClCompile Include="src\Objects\Bullet\BulletState\BulletBossStage1State.cpp">
