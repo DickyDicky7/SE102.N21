@@ -958,5 +958,11 @@
     <FxCompile Include="src\Abstractions\Graphics\SpriteVS.hlsl">
       <Filter>src\Abstractions\Graphics</Filter>
     </FxCompile>
+    <FxCompile Include="src\Abstractions\Graphics\PostProcessVS.hlsl">
+      <Filter>src\Abstractions\Graphics</Filter>
+    </FxCompile>
+    <FxCompile Include="src\Abstractions\Graphics\PostProcessPS.hlsl">
+      <Filter>src\Abstractions\Graphics</Filter>
+    </FxCompile>
   </ItemGroup>
 </Project>
