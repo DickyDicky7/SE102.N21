@@ -1,13 +1,13 @@
 #include "Scene.h"
 
-GameOverSceneState::GameOverSceneState() : SceneState(), T_CURRENT_SCORE(NULL), T_HIGHEST_SCORE(NULL), selection(SELECTION::CONTINUE), atRow(AtRow(10.5f))
+GameOverSceneState::GameOverSceneState() : SceneState(), _tCurrentScore(nullptr), _tHighestScore(nullptr), _selection(SELECTION::CONTINUE), _atRow(AtRow(Constants::Scene::GAME_OVER_SELECTION_ROW_CONTINUE))
 {
 }
 
 GameOverSceneState::~GameOverSceneState()
 {
-	Destroy(T_CURRENT_SCORE);
-	Destroy(T_HIGHEST_SCORE);
+	Destroy(this->_tCurrentScore);
+	Destroy(this->_tHighestScore);
 }
 
 void GameOverSceneState::Exit(Scene& scene)
@@ -16,60 +16,60 @@ void GameOverSceneState::Exit(Scene& scene)
 
 void GameOverSceneState::Enter(Scene& scene)
 {
-	scene.stageIsReady = false; *scene.livesLeft = 3;
-	T_CURRENT_SCORE = new Text(std::to_string(scene.currentScore), AtRow(25.0f), AtCol(10.0f));
-	T_HIGHEST_SCORE = new Text(std::to_string(scene.highestScore), AtRow(19.0f), AtCol(15.0f));
-	Sound::getInstance()->play("gameOver", false, 1);
+	scene.SetStageReady(false); *scene.GetLivesLeft() = Constants::Scene::CONTINUE_LIVES_COUNT;
+	this->_tCurrentScore = new Text(std::to_string(scene.GetCurrentScore()), AtRow(Constants::Scene::UI_ROW_SCORE_VALUE), AtCol(Constants::Scene::UI_COLUMN_SCORE_VALUE));
+	this->_tHighestScore = new Text(std::to_string(scene.GetHighestScore()), AtRow(Constants::Scene::UI_ROW_HIGH_SCORE_VALUE), AtCol(Constants::Scene::UI_COLUMN_HIGH_SCORE_VALUE));
+	Sound::GetInstance()->Play("gameOver", false, 1);
 }
 
 void GameOverSceneState::Render(Scene& scene)
 {
 	ULONGLONG now = GetTickCount64();
-	if (now - time > 300)
+	if (now - this->_time > Constants::Scene::TEXT_BLINK_INTERVAL_MILLISECONDS)
 	{
-		T_CURRENT_SCORE->Render();
-		T_HIGHEST_SCORE->Render();
-		if (now - time > 600) time = now;
+		this->_tCurrentScore->Render();
+		this->_tHighestScore->Render();
+		if (now - this->_time > Constants::Scene::TEXT_BLINK_PERIOD_MILLISECONDS) this->_time = now;
 	}
-	T_1P.Render(); T_HI.Render(); T_END.Render(); T_CONTINUE.Render(); T_GAME_OVER.Render();
-	GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[SCENE_SPRITE_ID::YELLOW_FALCON], D3DXVECTOR3(AtCol(11.0f), atRow, 0.0f), DIRECTION::LEFT, 0.0f);
+	this->_t1P.Render(); this->_tHi.Render(); this->_tEnd.Render(); this->_tContinue.Render(); this->_tGameOver.Render();
+	GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[SCENE_SPRITE_ID::YELLOW_FALCON], D3DXVECTOR3(AtCol(Constants::Scene::GAME_OVER_FALCON_CURSOR_COLUMN), this->_atRow, 0.0f), DIRECTION::LEFT, 0.0f);
 }
 
 SceneState* GameOverSceneState::Update(Scene& scene)
 {
-	return NULL;
+	return nullptr;
 }
 
 SceneState* GameOverSceneState::HandleInput(Scene& scene, Input& input)
 {
-	if (input.IsKey(DIK_UP) && selection == SELECTION::END)
+	if (input.IsKey(DIK_UP) && this->_selection == SELECTION::END)
 	{
-		Sound::getInstance()->play("cursor", false, 1);
-		selection = SELECTION::CONTINUE, atRow = AtRow(10.5f);
+		Sound::GetInstance()->Play("cursor", false, 1);
+		this->_selection = SELECTION::CONTINUE, this->_atRow = AtRow(Constants::Scene::GAME_OVER_SELECTION_ROW_CONTINUE);
 	}
 	else
-	if (input.IsKey(DIK_DOWN) && selection == SELECTION::CONTINUE)
+	if (input.IsKey(DIK_DOWN) && this->_selection == SELECTION::CONTINUE)
 	{
-		Sound::getInstance()->play("cursor", false, 1);
-		selection = SELECTION::END, atRow = AtRow(08.5f);
+		Sound::GetInstance()->Play("cursor", false, 1);
+		this->_selection = SELECTION::END, this->_atRow = AtRow(Constants::Scene::GAME_OVER_SELECTION_ROW_END);
 	}
 
 	if (input.IsKey(DIK_RETURN))
 	{
-		switch (selection)
+		switch (this->_selection)
 		{
-		case SELECTION::CONTINUE: { 
-			Sound::getInstance()->stop();
-			Sound::getInstance()->play("select", false, 1);
-			--scene.currentStage    ; scene.currentScore = 0; return new LoadingSceneState(); 
+		case SELECTION::CONTINUE: {
+			Sound::GetInstance()->Stop();
+			Sound::GetInstance()->Play("select", false, 1);
+			scene.SetCurrentStage(scene.GetCurrentStage() - 1); scene.SetCurrentScore(0); return new LoadingSceneState();
 		}
-		case SELECTION::END     : {   
-			Sound::getInstance()->stop();
-			Sound::getInstance()->play("select", false, 1);
-			scene.currentStage = 0; scene.currentScore = 0; return new   StartSceneState(); 
+		case SELECTION::END     : {
+			Sound::GetInstance()->Stop();
+			Sound::GetInstance()->Play("select", false, 1);
+			scene.SetCurrentStage(0); scene.SetCurrentScore(0); return new   StartSceneState();
 		}
 		}
 	}
 
-	return NULL;
+	return nullptr;
 }

@@ -9,22 +9,23 @@ class Stage1 : public Stage
 
 public:
 
-	FinalBossStage1* finalBossStage1;
-
 	Stage1();
 	virtual ~Stage1();
 	virtual void CheckIfHasDone() override;
+	virtual void RenderBossCompletion() override;
 
 protected:
+
+	FinalBossStage1* _finalBossStage1;
 
 	virtual void TranslateWalls () override;
 	virtual void TranslateCamera() override;
 	virtual void SetRevivalPoint() override;
-	virtual BOOL ProcessSpecialEntity   (Entity*) override;
-	virtual BOOL ProcessSpecialBullet   (Bullet*) override;
-	virtual BOOL ProcessSpecialExplosion(Entity*) override;
+	virtual bool ProcessSpecialEntity   (Entity* entity) override;
+	virtual bool ProcessSpecialBullet   (Bullet* bullet) override;
+	virtual bool ProcessSpecialExplosion(Entity* deadEntity) override;
 
-	virtual void LoadEntities(void*) override;
+	virtual void LoadEntities(void* entitiesLayer) override;
 
 };
 

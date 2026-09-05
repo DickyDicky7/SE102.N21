@@ -1,8 +1,8 @@
 #include "Bill.h"
 
-BillDeadState::BillDeadState() : BillState(), revivalCooldown(DEFAULT_REVIVAL_COOLDOWN)
+BillDeadState::BillDeadState() : BillState(), _revivalCooldown(DEFAULT_REVIVAL_COOLDOWN)
 {
-	Sound::getInstance()->play("playerdie", false, 1);
+	Sound::GetInstance()->Play("playerdie", false, 1);
 }
 
 BillDeadState::~BillDeadState()
@@ -17,66 +17,70 @@ void BillDeadState::Enter(Bill& bill)
 {
 	if (bill.GetMovingDirection() == DIRECTION::LEFT)
 	{
-		bill.SetVX(+1.0f);
+		bill.SetVX(+Constants::Bill::DEAD_SPEED_X);
 	}
 	else
 	if (bill.GetMovingDirection() == DIRECTION::RIGHT)
 	{
-		bill.SetVX(-1.0f);
+		bill.SetVX(-Constants::Bill::DEAD_SPEED_X);
 	}
 
-	bill.SetVY(+2.5f);
-	bill.SetAY(-0.1f);
+	bill.SetVY(+Constants::Bill::DEAD_SPEED_Y);
+	bill.SetAY(Constants::Bill::DEAD_ACCELERATION_Y);
 }
 
 void BillDeadState::Render(Bill& bill)
 {
-	if (!bill.isDead)
+	if (!bill.IsDead())
 		 bill.SetAnimation(BILL_ANIMATION_ID::DEAD, bill.GetPosition(), bill.GetMovingDirection(), bill.GetAngle());
 }
 
 BillState* BillDeadState::Update(Bill& bill)
 {
-	if (*bill.livesLeft <= -1)
+	if (*bill.GetLivesLeft() <= -1)
 	{
-		return NULL;
+		return nullptr;
 	}
-	if (!bill.isDead)
+	if (!bill.IsDead())
 	{
 		auto resultX = Motion::CalculateUniformMotion({ bill.GetX(), bill.GetVX() });
-		bill.SetX(resultX.c);
+		bill.SetX(resultX.coordinate);
 
 		if (bill.GetVY() >= 0.0f)
 		{
-			auto   resultY = Motion::CalculateUniformlyDeceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), time, 0.05f });
-			time = resultY.t; bill.SetY(resultY.c); bill.SetVY(resultY.v);
+			auto resultY = Motion::CalculateUniformlyDeceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), this->_time, Constants::Physics::DEFAULT_MOTION_INTEGRATION_DELTA_TIME });
+			this->_time = resultY.elapsedTime;
+			bill.SetY(resultY.coordinate);
+			bill.SetVY(resultY.velocity);
 		}
-		if (bill.GetVY() <= 0.0f)
+		else
 		{
-			auto   resultY = Motion::CalculateUniformlyAcceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), time, 0.05f });
-			time = resultY.t; bill.SetY(resultY.c); bill.SetVY(resultY.v);
+			auto resultY = Motion::CalculateUniformlyAcceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), this->_time, Constants::Physics::DEFAULT_MOTION_INTEGRATION_DELTA_TIME });
+			this->_time = resultY.elapsedTime;
+			bill.SetY(resultY.coordinate);
+			bill.SetVY(resultY.velocity);
 		}
 
-		if (bill.GetCurrentFrame() == 3)
+		if (bill.GetCurrentFrame() == Constants::Bill::DEAD_FINAL_FRAME)
 		{
-			bill.isDead = 1;
+			bill.SetDead(true);
 		}
 	}
 	else
 	{
-		if (revivalCooldown == DEFAULT_REVIVAL_COOLDOWN) --(*bill.livesLeft);
-		  --revivalCooldown;
-		if (revivalCooldown == 0)
+		if (this->_revivalCooldown == DEFAULT_REVIVAL_COOLDOWN) --(*bill.GetLivesLeft());
+		  --this->_revivalCooldown;
+		if (this->_revivalCooldown == 0)
 		{
-			revivalCooldown  = DEFAULT_REVIVAL_COOLDOWN;
-			bill.isDead      = 0;
+			this->_revivalCooldown  = DEFAULT_REVIVAL_COOLDOWN;
+			bill.SetDead(false);
 			return new BillBeginState();
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 BillState* BillDeadState::HandleInput(Bill& bill, Input& input)
 {
-	return NULL;
+	return nullptr;
 }

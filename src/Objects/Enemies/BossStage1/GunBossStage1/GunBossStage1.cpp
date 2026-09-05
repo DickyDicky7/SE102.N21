@@ -2,86 +2,83 @@
 
 GunBossStage1::GunBossStage1() : HasWeapons(new BulletBossStage1State())
 {
-	this->vx = 1.0f;
-	this->vy = 1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
-	this->angle = 0;
-	this->position.x = 50;
-	this->position.y = 00;
+	this->_vx = Constants::Physics::DEFAULT_INITIAL_VELOCITY_X;
+	this->_vy = Constants::Physics::DEFAULT_INITIAL_VELOCITY_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_angle = 0;
+	this->_position.x = Constants::Enemies::BossStage1::DEFAULT_SPAWN_X;
+	this->_position.y = Constants::Enemies::BossStage1::DEFAULT_SPAWN_Y;
 
-	this->state = NULL;
-	this->updateState = NULL;
+	this->_state = nullptr;
+	this->_updateState = nullptr;
 
 	//
-	this->type = 1;
-	this->name = L"Gun Boss Stage 1\n";
+	this->_type = Constants::Enemies::BossStage1::Gun::TYPE_UPPER;
+	this->SetDebugName(L"Gun Boss Stage 1\n");
 	//
-	this->hitCounts = 8;
-	this->enemyType = ENEMY_TYPE::BOSS;
+	this->_hitCounts = Constants::Enemies::BossStage1::Gun::HEALTH_POINTS;
+	this->_enemyType = ENEMY_TYPE::BOSS;
 
-	this->firingRate = 0;
+	this->_firingRate = 0;
 }
 
-GunBossStage1::GunBossStage1(int _type) : HasWeapons(new BulletBossStage1State())
+GunBossStage1::GunBossStage1(int type) : HasWeapons(new BulletBossStage1State())
 {
-	this->vx = 1.0f;
-	this->vy = 1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
-	this->angle = 0;
-	this->position.x = 50;
-	this->position.y = 00;
+	this->_vx = Constants::Physics::DEFAULT_INITIAL_VELOCITY_X;
+	this->_vy = Constants::Physics::DEFAULT_INITIAL_VELOCITY_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_angle = 0;
+	this->_position.x = Constants::Enemies::BossStage1::DEFAULT_SPAWN_X;
+	this->_position.y = Constants::Enemies::BossStage1::DEFAULT_SPAWN_Y;
 
-	this->state = NULL;
-	this->updateState = NULL;
+	this->_state = nullptr;
+	this->_updateState = nullptr;
 
 	//
-	this->type = _type;
-	this->name = L"Gun Boss Stage 1\n";
+	this->_type = type;
+	this->SetDebugName(L"Gun Boss Stage 1\n");
 	//
-	this->hitCounts = 8;
-	this->enemyType = ENEMY_TYPE::BOSS;
+	this->_hitCounts = Constants::Enemies::BossStage1::Gun::HEALTH_POINTS;
+	this->_enemyType = ENEMY_TYPE::BOSS;
 
-	this->firingRate = 0;
+	this->_firingRate = 0;
 }
 
-int GunBossStage1::GetType()
+int GunBossStage1::GetType() const
 {
-	return type;
+	return this->_type;
 }
 
 GunBossStage1::~GunBossStage1()
 {
-
-};
+	Destroy(this->_state);
+	Destroy(this->_updateState);
+}
 
 const Bill* GunBossStage1::GetEnemyTarget()
 {
-	return Enemy::target;
+	return this->_target;
 }
 
 void GunBossStage1::Update()
 {
-	if (!state)
+	if (!this->_state)
 	{
-		state = new GunBossStage1NormalState();
+		this->_state = new GunBossStage1NormalState();
 	}
 
-	updateState = state->Update(*this);
+	DeferState(this->_updateState, this->_state->Update(*this));
+
+	ApplyDeferredState(this->_state, this->_updateState, this);
 };
 
 void GunBossStage1::Render()
 {
-	state->Render(*this);
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
-
-	if (updateState)
-	{
-		ChangeState(state, updateState, this);
-		updateState = NULL;
-	}
+	this->_state->Render(*this);
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
 };
 
 void GunBossStage1::HandleInput(Input&)
@@ -96,10 +93,10 @@ void GunBossStage1::LoadTextures()
 
 void GunBossStage1::LoadSprites()
 {
-	if (HasSprites::hasBeenLoaded.value) {
+	if (HasSprites<GunBossStage1>::_hasBeenLoaded) {
 		return;
 	}
-	HasSprites::hasBeenLoaded.value = true;
+	HasSprites<GunBossStage1>::_hasBeenLoaded = true;
 
 	GraphicsHelper::InsertSprite(BOSS_STAGE_1_SPRITE_ID::GUN_BOSS_01, 42, 27, 40, 48, DIRECTION::LEFT, BOSS_STAGE_1_TEXTURE_ID::BOSS_STAGE_1);
 	GraphicsHelper::InsertSprite(BOSS_STAGE_1_SPRITE_ID::GUN_BOSS_01_HALF, 42, 27, 39, 48, DIRECTION::LEFT, BOSS_STAGE_1_TEXTURE_ID::BOSS_STAGE_1);
@@ -113,37 +110,37 @@ void GunBossStage1::LoadSprites()
 
 void GunBossStage1::LoadAnimations()
 {
-	if (HasAnimations::hasBeenLoaded.value) {
+	if (HasAnimations<GunBossStage1>::_hasBeenLoaded) {
 		return;
 	}
-	HasAnimations::hasBeenLoaded.value = true;
+	HasAnimations<GunBossStage1>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_01, 165,
+	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_01, Constants::Enemies::BossStage1::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{BOSS_STAGE_1_SPRITE_ID::GUN_BOSS_01, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_01_HALF, 165,
+	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_01_HALF, Constants::Enemies::BossStage1::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{BOSS_STAGE_1_SPRITE_ID::GUN_BOSS_01_HALF, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_02, 165,
+	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_02, Constants::Enemies::BossStage1::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{BOSS_STAGE_1_SPRITE_ID::GUN_BOSS_02, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_02_HALF, 165,
+	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_02_HALF, Constants::Enemies::BossStage1::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{BOSS_STAGE_1_SPRITE_ID::GUN_BOSS_02_HALF, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_DESTROY_01, 165,
+	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_DESTROY_01, Constants::Enemies::BossStage1::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{BOSS_STAGE_1_SPRITE_ID::GUN_BOSS_DESTROY_01, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_DESTROY_02, 165,
+	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_DESTROY_02, Constants::Enemies::BossStage1::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{BOSS_STAGE_1_SPRITE_ID::GUN_BOSS_DESTROY_02, 0},
 		});
@@ -151,17 +148,17 @@ void GunBossStage1::LoadAnimations()
 
 void GunBossStage1::Fire()
 {
-	if (Enemy::target->isDead)
+	if (!Enemy::_target || Enemy::_target->IsDead())
 	{
 		return;
 	}
 }
 
-void GunBossStage1::Fire(FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION direction)
+void GunBossStage1::Fire(float angle, float vx, float vy, float ax, float ay, DIRECTION direction)
 {
-	if (Enemy::target->isDead)
+	if (!Enemy::_target || Enemy::_target->IsDead())
 	{
 		return;
 	}
-	HasWeapons::Fire(this->position.x - this->w * 0.8f, this->position.y, angle, vx, vy, ax, ay, direction);
+	HasWeapons::Fire(this->_position.x - this->_w * Constants::Enemies::BossStage1::Gun::MUZZLE_OFFSET_RATIO_X, this->_position.y, angle, vx, vy, ax, ay, direction);
 }

@@ -10,12 +10,12 @@ CannonAppearState::~CannonAppearState()
 
 }
 
-void CannonAppearState::Exit(Cannon& rifleManHideOnBush)
+void CannonAppearState::Exit(Cannon& cannon)
 {
 
 }
 
-void CannonAppearState::Enter(Cannon& rifleManHideOnBush)
+void CannonAppearState::Enter(Cannon& cannon)
 {
 
 }
@@ -35,6 +35,6 @@ CannonState* CannonAppearState::Update(Cannon& cannon)
 			return new CannonNormalState();
 	}
 
-	return NULL;
+	return nullptr;
 
 }

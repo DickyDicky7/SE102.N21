@@ -13,5 +13,5 @@ void WallTurretClosingState::Render(WallTurret& wallTurret) {
 void WallTurretClosingState::Enter(WallTurret& wallTurret) {}
 
 WallTurretState* WallTurretClosingState::Update(WallTurret& wallTurret) {
-	return NULL;
+	return nullptr;
 }

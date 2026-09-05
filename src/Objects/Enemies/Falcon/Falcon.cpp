@@ -1,117 +1,109 @@
 #include "Falcon.h"
-// O: open
-// P: close
-#define	DISTANCE_DETECT 130.0f
-Falcon::Falcon(ITEM_TYPE type) : Entity(), HasTextures(), HasSprites(), HasAnimations()
+#include "Item.h"
+
+Falcon::Falcon(ITEM_TYPE ammoType) : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
-	this->vx = 1.0f;
-	this->vy = 1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
-	this->position.x = 300;
-	this->position.y = 100;
-	this->name = L"Falcon\n";
-	this->billDistance = 0.0f;
+	this->_vx = Constants::Physics::DEFAULT_INITIAL_VELOCITY_X;
+	this->_vy = Constants::Physics::DEFAULT_INITIAL_VELOCITY_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_position.x = Constants::Enemies::Falcon::DEFAULT_SPAWN_X;
+	this->_position.y = Constants::Enemies::Falcon::DEFAULT_SPAWN_Y;
+	this->SetDebugName(L"Falcon\n");
+	this->_billDistance = 0.0f;
 
-	this->updateState = NULL;
-	this->handleInputState = NULL;
+	this->_updateState = nullptr;
+	this->_handleInputState = nullptr;
 	// set direction default is right
-	this->movingDirection = DIRECTION::RIGHT;
+	this->_movingDirection = DIRECTION::RIGHT;
 	// set state begin is run
-	this->state = new FalconCloseState();
-	this->currentState = FALCON_ANIMATION_ID::CLOSE;
+	this->_state = new FalconCloseState();
+	this->_currentState = FALCON_ANIMATION_ID::CLOSE;
 
-	this->_ammoType = type;
+	this->_ammoType = ammoType;
 
-	this->hitCounts = 5;
-	this->enemyType = ENEMY_TYPE::MACHINE;
+	this->_hitCounts = Constants::Enemies::Falcon::HEALTH_POINTS;
+	this->_enemyType = ENEMY_TYPE::MACHINE;
 }
 
 Falcon::~Falcon()
 {
-	Destroy(state);
-	Destroy(updateState);
-	Destroy(handleInputState);
-
-	billDistance = NULL;
+	Destroy(this->_state);
+	Destroy(this->_updateState);
+	Destroy(this->_handleInputState);
 }
 
-void Falcon::setAmmoType(ITEM_TYPE type)
+void Falcon::SetAmmoType(ITEM_TYPE ammoType)
 {
-	this->_ammoType = type;
+	this->_ammoType = ammoType;
 }
 
-ITEM_TYPE Falcon::getAmmoType()
+ITEM_TYPE Falcon::GetAmmoType()
 {
 	return this->_ammoType;
 }
 
+Item* Falcon::CreateDroppedItem() const
+{
+	Item* item = new Item(this->_ammoType);
+	item->SetX(this->GetX());
+	item->SetY(this->GetY());
+	return item;
+}
+
 void Falcon::Update()
 {
-	CalculateBillDistance();
+	this->CalculateBillDistance();
 
-	if (billDistance > DISTANCE_DETECT) 
+	if (this->_billDistance > Constants::Enemies::Falcon::DETECT_DISTANCE)
 	{
-		//this->state = new FalconOpeningState(FALCON_ANIMATION_ID::CLOSE);
-		if (currentState != FALCON_ANIMATION_ID::OPENING && currentState != FALCON_ANIMATION_ID::CLOSE) 
+		if (this->_currentState != FALCON_ANIMATION_ID::OPENING && this->_currentState != FALCON_ANIMATION_ID::CLOSE)
 		{
-			this->state = new FalconOpeningState(FALCON_ANIMATION_ID::CLOSE);
-			currentState = FALCON_ANIMATION_ID::OPENING;
+			ChangeState(this->_state, new FalconOpeningState(FALCON_ANIMATION_ID::CLOSE), this);
+			this->_currentState = FALCON_ANIMATION_ID::OPENING;
 		}
 	}
 	else {
-		//this->state = new FalconOpeningState(FALCON_ANIMATION_ID::OPEN);
-		if (currentState != FALCON_ANIMATION_ID::OPENING && currentState != FALCON_ANIMATION_ID::OPEN) 
+		if (this->_currentState != FALCON_ANIMATION_ID::OPENING && this->_currentState != FALCON_ANIMATION_ID::OPEN)
 		{
-			this->state = new FalconOpeningState(FALCON_ANIMATION_ID::OPEN);
-			currentState = FALCON_ANIMATION_ID::OPENING;
+			ChangeState(this->_state, new FalconOpeningState(FALCON_ANIMATION_ID::OPEN), this);
+			this->_currentState = FALCON_ANIMATION_ID::OPENING;
 		}
 	}
 
-	updateState = state->Update(*this);
+	DeferState(this->_updateState, this->_state->Update(*this));
+
+	ApplyDeferredState(this->_state, this->_updateState, this);
+	ApplyDeferredState(this->_state, this->_handleInputState, this);
 }
 
 void Falcon::CalculateBillDistance()
 {
-	float dx = +(this->GetPosition().x - Enemy::target->GetPosition().x);
-	float dy = -(this->GetPosition().y - Enemy::target->GetPosition().y);
-
-	billDistance = sqrt(dx * dx + dy * dy);
+	this->_billDistance = this->CalculateTargetDistance(this);
 }
 
 void Falcon::Render()
 {
-	state->Render(*this);
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
-
-	if (updateState)
-	{
-		ChangeState(state, updateState, this);
-		updateState = NULL;
-	}
-	if (handleInputState)
-	{
-		ChangeState(state, handleInputState, this);
-		handleInputState = NULL;
-	}
+	this->_state->Render(*this);
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
 }
 
 void Falcon::HandleInput(Input& input)
 {
-	handleInputState = state->HandleInput(*this, input);
+	DeferState(this->_handleInputState, this->_state->HandleInput(*this, input));
 }
 
-void InsertSpriteFalcon(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
+void InsertSpriteFalcon(SPRITE_ID spriteId, int left, int top, int right, int bottom)
 {
-	// i write this function to shorten the fuction: GraphicsHelper
+	// i write this function to shorten the function: GraphicsHelper
 	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, DIRECTION::RIGHT, FALCON_TEXTURE_ID::FALCON);
 }
 
 void Falcon::LoadSprites()
 {
-	if (HasSprites<Falcon>::hasBeenLoaded.value) return;
-	HasSprites<Falcon>::hasBeenLoaded.value = true;
+	if (HasSprites<Falcon>::_hasBeenLoaded) return;
+	HasSprites<Falcon>::_hasBeenLoaded = true;
 
 #pragma region Load Sprites
 
@@ -134,33 +126,33 @@ void Falcon::LoadSprites()
 
 void Falcon::LoadTextures()
 {
-	if (HasTextures<Falcon>::hasBeenLoaded.value) return;
-	HasTextures<Falcon>::hasBeenLoaded.value = true;
+	if (HasTextures<Falcon>::_hasBeenLoaded) return;
+	HasTextures<Falcon>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertTexure(FALCON_TEXTURE_ID::FALCON, L"Resources\\Textures\\Falcon.bmp");
+	GraphicsHelper::InsertTexture(FALCON_TEXTURE_ID::FALCON, L"Resources\\Textures\\Falcon.bmp");
 
 	OutputDebugString(L"Falcon Textures Loaded Successfully\n");
 }
 
 void Falcon::LoadAnimations()
 {
-	if (HasAnimations<Falcon>::hasBeenLoaded.value) return;
-	HasAnimations<Falcon>::hasBeenLoaded.value = true;
+	if (HasAnimations<Falcon>::_hasBeenLoaded) return;
+	HasAnimations<Falcon>::_hasBeenLoaded = true;
 
 #pragma region Load Animations
 
-	GraphicsHelper::InsertAnimation(FALCON_ANIMATION_ID::CLOSE, 150,
+	GraphicsHelper::InsertAnimation(FALCON_ANIMATION_ID::CLOSE, Constants::Enemies::Falcon::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{FALCON_SPRITE_ID::CLOSE_1,0},
 		});
 
-	GraphicsHelper::InsertAnimation(FALCON_ANIMATION_ID::OPENING, 150,
+	GraphicsHelper::InsertAnimation(FALCON_ANIMATION_ID::OPENING, Constants::Enemies::Falcon::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{FALCON_SPRITE_ID::OPENING_1,0},
 			{FALCON_SPRITE_ID::OPENING_2,0},
 			{FALCON_SPRITE_ID::OPENING_3,0},
 		});
-	GraphicsHelper::InsertAnimation(FALCON_ANIMATION_ID::OPEN, 150,
+	GraphicsHelper::InsertAnimation(FALCON_ANIMATION_ID::OPEN, Constants::Enemies::Falcon::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{FALCON_SPRITE_ID::OPEN_1,0},
 			{FALCON_SPRITE_ID::OPEN_2,0},

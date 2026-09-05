@@ -1,11 +1,8 @@
 #include "CollidableEntity.h"
 
-CollidableEntity:: CollidableEntity() : self(NULL), surfaceEntity(NULL)
+CollidableEntity::CollidableEntity()
+	: _self(nullptr), _surfaceEntity(nullptr), _isAbSurface(false), _isBeSurface(false), _isNeToSurfaceLe(false), _isNeToSurfaceRi(false)
 {
-	isAbSurface = 0;
-	isBeSurface = 0;
-	isNeToSurfaceLe = 0;
-	isNeToSurfaceRi = 0;
 }
 
 CollidableEntity::~CollidableEntity()

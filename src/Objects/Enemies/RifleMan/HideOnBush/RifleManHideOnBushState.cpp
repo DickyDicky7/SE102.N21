@@ -2,7 +2,7 @@
 
 RifleManHideOnBushState::RifleManHideOnBushState()
 {
-	this->time = (FLOAT)GetTickCount64();
+	this->_time = static_cast<float>(GetTickCount64());
 }
 
 RifleManHideOnBushState::~RifleManHideOnBushState()
@@ -10,7 +10,7 @@ RifleManHideOnBushState::~RifleManHideOnBushState()
 
 }
 
-RifleManHideOnBushState* RifleManHideOnBushState::HandleInput(RifleManHideOnBush& rifleManStanding, Input& input)
+RifleManHideOnBushState* RifleManHideOnBushState::HandleInput(RifleManHideOnBush& rifleManHideOnBush, Input& input)
 {
-	return NULL;
+	return nullptr;
 }

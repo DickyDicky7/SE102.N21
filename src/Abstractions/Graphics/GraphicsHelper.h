@@ -34,22 +34,30 @@ public:
 	//                the caller is expected to shut down.
 	enum class PresentResult { Presented, Occluded, DeviceLost };
 
+	// Constants::Rgba deliberately knows nothing about DirectXMath, so the two
+	// are bridged here - the one place that already depends on both - rather
+	// than by a free function at global scope in whichever header needed it.
+	static DirectX::XMFLOAT4 ToXMFloat4(const Constants::Rgba& colour)
+	{
+		return DirectX::XMFLOAT4(colour.r, colour.g, colour.b, colour.a);
+	}
+
 	// Lifecycle
-	static BOOL Init    (HWND hWnd, UINT clientWidth, UINT clientHeight);
+	static bool Init    (HWND hWnd, UINT clientWidth, UINT clientHeight);
 	static void Cleanup (void);
 
-	static void Clear   (FLOAT r, FLOAT g, FLOAT b, FLOAT a);
+	static void Clear   (float r, float g, float b, float a);
 	static void Begin   (void);
 	static void End     (void);
 
 	static PresentResult Present (void);
 
-	// TRUE while the window is minimised or fully covered, so the caller can
+	// true while the window is minimised or fully covered, so the caller can
 	// skip the frame's drawing entirely: nothing would reach the screen, and an
 	// occluded Present does not wait for vblank either way.  Cheap - it only
 	// asks DXGI (via a DXGI_PRESENT_TEST) once Present has actually reported
-	// occlusion, and answers FALSE outright the rest of the time.
-	static BOOL IsOccluded(void);
+	// occlusion, and answers false outright the rest of the time.
+	static bool IsOccluded(void);
 
 	// Recreates back buffer and viewport on window resize
 	static void OnResize(UINT clientWidth, UINT clientHeight);
@@ -58,36 +66,36 @@ public:
 	static void SetViewMatrix(const D3DMATRIX& view);
 
 	// Resource creation
-	static SPRITE    CreateSprite   (INT top, INT left, INT right, INT bottom, DIRECTION, TEXTURE_ID);
-	static ANIMATION CreateAnimation(DEFAULT_TIME, std::vector<std::tuple<SPRITE_ID, TIME>>);
+	static SPRITE    CreateSprite   (int top, int left, int right, int bottom, DIRECTION spriteDirection, const TEXTURE_ID& textureId);
+	static ANIMATION CreateAnimation(TIME defaultTime, std::vector<std::tuple<SPRITE_ID, TIME>> frames);
 
-	static void InsertTexure   (TEXTURE_ID, LPCWSTR);
-	static void InsertSprite   (SPRITE_ID, INT top, INT left, INT right, INT bottom, DIRECTION, TEXTURE_ID);
-	static void InsertAnimation(ANIMATION_ID, DEFAULT_TIME, std::vector<std::tuple<SPRITE_ID, TIME>>);
+	static void InsertTexture  (const TEXTURE_ID& textureId, LPCWSTR textureFilePath);
+	static void InsertSprite   (const SPRITE_ID& spriteId, int top, int left, int right, int bottom, DIRECTION spriteDirection, const TEXTURE_ID& textureId);
+	static void InsertAnimation(const ANIMATION_ID& animationId, TIME defaultTime, std::vector<std::tuple<SPRITE_ID, TIME>> frames);
 
 	// Drawing
 	// Draws sprite anchored at position, with optional mirroring and rotation.
 	// Taken by reference: SPRITE holds a TEXTURE_ID, which is a variant over ~20
 	// enum types, and this runs once per sprite per frame.
-	static void DrawSprite(const SPRITE& sprite, D3DXVECTOR3 position, DIRECTION movingDirection, FLOAT angle);
+	static void DrawSprite(const SPRITE& sprite, D3DXVECTOR3 position, DIRECTION movingDirection, float angle);
 
 	// Draws a glowing particle using a custom programmatic texture and additive blending.
-	static void DrawParticle(D3DXVECTOR3 position, FLOAT size, DirectX::XMFLOAT4 tint);
+	static void DrawParticle(D3DXVECTOR3 position, float size, DirectX::XMFLOAT4 tint);
 
 	// Axis-aligned-then-rotated wireframe box in world space for hitbox debugging
-	static void DrawBox(FLOAT left, FLOAT bottom, FLOAT right, FLOAT top,
-	                    FLOAT angle, D3DCOLOR colour,
-	                    FLOAT pivotX = 0.0f, FLOAT pivotY = 0.0f);
+	static void DrawBox(float left, float bottom, float right, float top,
+	                    float angle, D3DCOLOR colour,
+	                    float pivotX = 0.0f, float pivotY = 0.0f);
 
 	// Design resolution and letterboxing config
-	static constexpr UINT DESIGN_WIDTH  = SCREEN_WIDTH;
-	static constexpr UINT DESIGN_HEIGHT = SCREEN_HEIGHT;
+	static constexpr UINT DESIGN_WIDTH  = Constants::Screen::WIDTH;
+	static constexpr UINT DESIGN_HEIGHT = Constants::Screen::HEIGHT;
 
 private:
 
 	// Hands back a TEXTURE holding an SRV reference that only Cleanup's sweep
 	// over GraphicsDatabase::textures ever releases, so the caller MUST be the
-	// one that stores it there.  InsertTexure is that caller; keeping this
+	// one that stores it there.  InsertTexture is that caller; keeping this
 	// private means a second one cannot appear and quietly leak the view.
 	static TEXTURE CreateTexture(LPCWSTR textureFilePath);
 

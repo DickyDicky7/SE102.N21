@@ -16,12 +16,9 @@
 #include "TerrainStage2.h"
 #include "Sound.h"
 
-static constexpr FLOAT IN_GAME_SCREEN_W = SCREEN_WIDTH  / SCALING_RATIO_X;
-static constexpr FLOAT IN_GAME_SCREEN_H = SCREEN_HEIGHT / SCALING_RATIO_Y;
-
-
-inline FLOAT AtCol(FLOAT x) { return x / (IN_GAME_SCREEN_W / Letter::letterW) * IN_GAME_SCREEN_W; }
-inline FLOAT AtRow(FLOAT y) { return y / (IN_GAME_SCREEN_H / Letter::letterH) * IN_GAME_SCREEN_H; }
+// Column/row of the letter grid -> world position, in in-game pixels.
+inline float AtCol(float x) { return x / (Constants::Screen::IN_GAME_WIDTH  / Letter::letterW) * Constants::Screen::IN_GAME_WIDTH ; }
+inline float AtRow(float y) { return y / (Constants::Screen::IN_GAME_HEIGHT / Letter::letterH) * Constants::Screen::IN_GAME_HEIGHT; }
 
 
 class Scene; class SceneState; class StartSceneState; class LoadingSceneState; class PlayingSceneState; class GameOverSceneState; class EndingSceneState; class CreditSceneState;
@@ -32,16 +29,32 @@ class Scene : public Entity, public HasTextures<Scene>, public HasSprites<Scene>
 
 public:
 
-	Stage* stage; INT* livesLeft; BOOL stageIsReady;
-	INT currentStage;
-	INT currentScore;
-	INT highestScore;
+	Stage* GetStage() const { return this->_stage; }
+	// Destroys the stage in place before adopting the new one, so a caller
+	// swapping stages cannot leak the outgoing one by forgetting to.
+	void ReplaceStage(Stage* stage) { Destroy(this->_stage); this->_stage = stage; }
+
+	// Points into _livesLeftCount; Bill holds the same pointer, so a death it
+	// counts down is the count the HUD reads back.
+	int* GetLivesLeft() const { return this->_livesLeft; }
+
+	bool IsStageReady() const { return this->_stageIsReady; }
+	void SetStageReady(bool stageIsReady) { this->_stageIsReady = stageIsReady; }
+
+	int  GetCurrentStage() const { return this->_currentStage; }
+	void SetCurrentStage(int currentStage) { this->_currentStage = currentStage; }
+
+	int  GetCurrentScore() const { return this->_currentScore; }
+	void SetCurrentScore(int currentScore) { this->_currentScore = currentScore; }
+
+	int  GetHighestScore() const { return this->_highestScore; }
+	void SetHighestScore(int highestScore) { this->_highestScore = highestScore; }
 
 	Scene();
 	virtual ~Scene();
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 
 	void LoadSprites() override;
 	void LoadTextures() override;
@@ -49,9 +62,19 @@ public:
 
 protected:
 
-	SceneState* state;
-	SceneState* updateState;
-	SceneState* handleInputState;
+	Stage* _stage;
+	// Declared before _livesLeft: the constructor points that at this one, and
+	// members initialise in declaration order.
+	int  _livesLeftCount;
+	int* _livesLeft;
+	bool _stageIsReady;
+	int  _currentStage;
+	int  _currentScore;
+	int  _highestScore;
+
+	SceneState* _state;
+	SceneState* _updateState;
+	SceneState* _handleInputState;
 
 };
 
@@ -64,17 +87,17 @@ public:
 	SceneState();
 	virtual ~SceneState();
 
-	virtual void Exit(Scene&) override = 0;
-	virtual void Enter(Scene&) override = 0;
-	virtual void Render(Scene&) override = 0;
+	virtual void Exit(Scene& scene) override = 0;
+	virtual void Enter(Scene& scene) override = 0;
+	virtual void Render(Scene& scene) override = 0;
 
-	virtual SceneState* Update(Scene&) override = 0;
-	virtual SceneState* HandleInput(Scene&, Input&) override = 0;
+	virtual SceneState* Update(Scene& scene) override = 0;
+	virtual SceneState* HandleInput(Scene& scene, Input& input) override = 0;
 
 protected:
 
-	ULONGLONG turn;
-	ULONGLONG time;
+	ULONGLONG _turn;
+	ULONGLONG _time;
 
 };
 
@@ -87,16 +110,16 @@ public:
 	StartSceneState();
 	virtual ~StartSceneState();
 
-	virtual void Exit(Scene&) override;
-	virtual void Enter(Scene&) override;
-	virtual void Render(Scene&) override;
+	virtual void Exit(Scene& scene) override;
+	virtual void Enter(Scene& scene) override;
+	virtual void Render(Scene& scene) override;
 
-	virtual SceneState* Update(Scene&) override;
-	virtual SceneState* HandleInput(Scene&, Input&) override;
+	virtual SceneState* Update(Scene& scene) override;
+	virtual SceneState* HandleInput(Scene& scene, Input& input) override;
 
 protected:
 
-	BOOL chosen;
+	bool _chosen;
 
 };
 
@@ -109,24 +132,24 @@ public:
 	LoadingSceneState();
 	virtual ~LoadingSceneState();
 
-	virtual void Exit(Scene&) override;
-	virtual void Enter(Scene&) override;
-	virtual void Render(Scene&) override;
+	virtual void Exit(Scene& scene) override;
+	virtual void Enter(Scene& scene) override;
+	virtual void Render(Scene& scene) override;
 
-	virtual SceneState* Update(Scene&) override;
-	virtual SceneState* HandleInput(Scene&, Input&) override;
+	virtual SceneState* Update(Scene& scene) override;
+	virtual SceneState* HandleInput(Scene& scene, Input& input) override;
 
 protected:
 
-	Text* T_LIVES_LEFT;
-	Text* T_STAGE_NUMB;
-	Text* T_STAGE_NAME;
-	Text* T_CURRENT_SCORE;
-	Text* T_HIGHEST_SCORE;
+	Text* _tLivesLeft;
+	Text* _tStageNumb;
+	Text* _tStageName;
+	Text* _tCurrentScore;
+	Text* _tHighestScore;
 
-	Text T_1P   { "1P"  , AtRow(25.0f), AtCol(5.00f) };
-	Text T_HI   { "HI"  , AtRow(19.0f), AtCol(10.0f) };
-	Text T_REST { "REST", AtRow(23.0f), AtCol(5.00f) };
+	Text _t1P   { "1P"  , AtRow(Constants::Scene::UI_ROW_PLAYER_ONE), AtCol(Constants::Scene::UI_COLUMN_PLAYER_ONE) };
+	Text _tHi   { "HI"  , AtRow(Constants::Scene::UI_ROW_HIGH_SCORE), AtCol(Constants::Scene::UI_COLUMN_HIGH_SCORE) };
+	Text _tRest { "REST", AtRow(Constants::Scene::UI_ROW_REST), AtCol(Constants::Scene::UI_COLUMN_REST) };
 
 };
 
@@ -139,12 +162,12 @@ public:
 	PlayingSceneState();
 	virtual ~PlayingSceneState();
 
-	virtual void Exit(Scene&) override;
-	virtual void Enter(Scene&) override;
-	virtual void Render(Scene&) override;
+	virtual void Exit(Scene& scene) override;
+	virtual void Enter(Scene& scene) override;
+	virtual void Render(Scene& scene) override;
 
-	virtual SceneState* Update(Scene&) override;
-	virtual SceneState* HandleInput(Scene&, Input&) override;
+	virtual SceneState* Update(Scene& scene) override;
+	virtual SceneState* HandleInput(Scene& scene, Input& input) override;
 
 };
 
@@ -157,27 +180,27 @@ public:
 	GameOverSceneState();
 	virtual ~GameOverSceneState();
 
-	virtual void Exit(Scene&) override;
-	virtual void Enter(Scene&) override;
-	virtual void Render(Scene&) override;
+	virtual void Exit(Scene& scene) override;
+	virtual void Enter(Scene& scene) override;
+	virtual void Render(Scene& scene) override;
 
-	virtual SceneState* Update(Scene&) override;
-	virtual SceneState* HandleInput(Scene&, Input&) override;
+	virtual SceneState* Update(Scene& scene) override;
+	virtual SceneState* HandleInput(Scene& scene, Input& input) override;
 
 protected:
 
 	enum class SELECTION { CONTINUE, END, };
-			   SELECTION  selection;
-			   FLOAT      atRow;
-	
-	Text* T_CURRENT_SCORE;
-	Text* T_HIGHEST_SCORE;
+			   SELECTION  _selection;
+			   float      _atRow;
 
-	Text T_1P        { "1P"       , AtRow(25.0f), AtCol(5.00f) };
-	Text T_HI        { "HI"       , AtRow(19.0f), AtCol(10.0f) };
-	Text T_END       { "END"      , AtRow(09.0f), AtCol(13.0f) };
-	Text T_CONTINUE  { "CONTINUE" , AtRow(11.0f), AtCol(13.0f) };
-	Text T_GAME_OVER { "GAME OVER", AtRow(14.0f), AtCol(12.0f) };
+	Text* _tCurrentScore;
+	Text* _tHighestScore;
+
+	Text _t1P        { "1P"       , AtRow(Constants::Scene::UI_ROW_PLAYER_ONE), AtCol(Constants::Scene::UI_COLUMN_PLAYER_ONE) };
+	Text _tHi        { "HI"       , AtRow(Constants::Scene::UI_ROW_HIGH_SCORE), AtCol(Constants::Scene::UI_COLUMN_HIGH_SCORE) };
+	Text _tEnd       { "END"      , AtRow(Constants::Scene::UI_ROW_GAME_OVER_SELECTION_END_TEXT), AtCol(Constants::Scene::UI_COLUMN_GAME_OVER_SELECTION_END_TEXT) };
+	Text _tContinue  { "CONTINUE" , AtRow(Constants::Scene::UI_ROW_GAME_OVER_SELECTION_CONTINUE_TEXT), AtCol(Constants::Scene::UI_COLUMN_GAME_OVER_SELECTION_CONTINUE_TEXT) };
+	Text _tGameOver  { "GAME OVER", AtRow(Constants::Scene::UI_ROW_GAME_OVER_TITLE), AtCol(Constants::Scene::UI_COLUMN_GAME_OVER_TITLE) };
 
 };
 
@@ -190,14 +213,14 @@ public:
 	EndingSceneState();
 	virtual ~EndingSceneState();
 
-	virtual void Exit(Scene&) override;
-	virtual void Enter(Scene&) override;
-	virtual void Render(Scene&) override;
+	virtual void Exit(Scene& scene) override;
+	virtual void Enter(Scene& scene) override;
+	virtual void Render(Scene& scene) override;
 
-	virtual SceneState* Update(Scene&) override;
-	virtual SceneState* HandleInput(Scene&, Input&) override;
-protected: 
-	float  delayToExplosion;
+	virtual SceneState* Update(Scene& scene) override;
+	virtual SceneState* HandleInput(Scene& scene, Input& input) override;
+protected:
+	float  _delayToExplosion;
 };
 
 
@@ -209,24 +232,24 @@ public:
 	CreditSceneState();
 	virtual ~CreditSceneState();
 
-	virtual void Exit(Scene&) override;
-	virtual void Enter(Scene&) override;
-	virtual void Render(Scene&) override;
+	virtual void Exit(Scene& scene) override;
+	virtual void Enter(Scene& scene) override;
+	virtual void Render(Scene& scene) override;
 
-	virtual SceneState* Update(Scene&) override;
-	virtual SceneState* HandleInput(Scene&, Input&) override;
+	virtual SceneState* Update(Scene& scene) override;
+	virtual SceneState* HandleInput(Scene& scene, Input& input) override;
 
 protected:
 
-	Text T_CREDIT_1 { "CONGRATULATIONS!"              , AtRow(16.0f), AtCol(1.0f) };
-	Text T_CREDIT_2 { "YOU'VE DESTROYED THE VILE RED" , AtRow(14.0f), AtCol(1.0f) };
-	Text T_CREDIT_3 { "FALCON AND SAVED THE UNIVERSE.", AtRow(12.0f), AtCol(1.0f) };
-	Text T_CREDIT_4 { "CONSIDER YOURSELF A HERO."     , AtRow(10.0f), AtCol(1.0f) };
+	Text _tCredit1 { "CONGRATULATIONS!"              , AtRow(Constants::Scene::UI_ROW_CREDIT_LINE_1), AtCol(Constants::Scene::UI_COLUMN_CREDIT_PAGE_ONE) };
+	Text _tCredit2 { "YOU'VE DESTROYED THE VILE RED" , AtRow(Constants::Scene::UI_ROW_CREDIT_LINE_2), AtCol(Constants::Scene::UI_COLUMN_CREDIT_PAGE_ONE) };
+	Text _tCredit3 { "FALCON AND SAVED THE UNIVERSE.", AtRow(Constants::Scene::UI_ROW_CREDIT_LINE_3), AtCol(Constants::Scene::UI_COLUMN_CREDIT_PAGE_ONE) };
+	Text _tCredit4 { "CONSIDER YOURSELF A HERO."     , AtRow(Constants::Scene::UI_ROW_CREDIT_LINE_4), AtCol(Constants::Scene::UI_COLUMN_CREDIT_PAGE_ONE) };
 
-	Text T_CREDIT_5{ "TEAM MEMBERS"                , AtRow(16.0f), AtCol(2.0f) };
-	Text T_CREDIT_6{ "21522345 - PHAN VAN MINH"    , AtRow(14.0f), AtCol(2.0f) };
-	Text T_CREDIT_7{ "21520147 - PHAM TUAN ANH"    , AtRow(12.0f), AtCol(2.0f) };
-	Text T_CREDIT_8{ "21521307 - NGUYEN DUC PHUONG", AtRow(10.0f), AtCol(2.0f) };
+	Text _tCredit5{ "TEAM MEMBERS"                , AtRow(Constants::Scene::UI_ROW_CREDIT_LINE_1), AtCol(Constants::Scene::UI_COLUMN_CREDIT_PAGE_TWO) };
+	Text _tCredit6{ "21522345 - PHAN VAN MINH"    , AtRow(Constants::Scene::UI_ROW_CREDIT_LINE_2), AtCol(Constants::Scene::UI_COLUMN_CREDIT_PAGE_TWO) };
+	Text _tCredit7{ "21520147 - PHAM TUAN ANH"    , AtRow(Constants::Scene::UI_ROW_CREDIT_LINE_3), AtCol(Constants::Scene::UI_COLUMN_CREDIT_PAGE_TWO) };
+	Text _tCredit8{ "21521307 - NGUYEN DUC PHUONG", AtRow(Constants::Scene::UI_ROW_CREDIT_LINE_4), AtCol(Constants::Scene::UI_COLUMN_CREDIT_PAGE_TWO) };
 
 };
 

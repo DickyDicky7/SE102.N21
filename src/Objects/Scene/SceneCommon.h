@@ -1,11 +1,5 @@
 #pragma once
 
-static constexpr FLOAT BLACK_W = 256.0f;
-static constexpr FLOAT BLACK_H = 240.0f;
-
-static constexpr FLOAT START_SCENE_W = 256.0f;
-static constexpr FLOAT START_SCENE_H = 224.0f;
-
 enum class SCENE_TEXTURE_ID
 {
 
@@ -46,7 +40,7 @@ enum class SCENE_TEXTURE_ID
 	ENDING_FRAME_27,
 	ENDING_FRAME_28,
 	ENDING_FRAME_29,
-	ENDING_FRAME_30, 
+	ENDING_FRAME_30,
 	ENDING_FRAME_31,
 	ENDING_FRAME_32,
 	ENDING_FRAME_33,

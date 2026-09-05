@@ -10,6 +10,7 @@
 #include <cstdio>
 #include <cstring>
 #include <functional>
+#include <memory>
 #include <optional>
 #include <string>
 #include <vector>
@@ -17,8 +18,7 @@
 using Microsoft::WRL::ComPtr;
 using namespace DirectX;
 
-// Set to 1 to overlay every sprite's quad as a magenta wireframe box.
-#define DRAW_HITBOXES 0
+
 
 // ===========================================================================
 // Exposed device objects
@@ -62,15 +62,9 @@ namespace
 		XMFLOAT4 colour;
 	};
 
-	// Instances are streamed into the buffer as a ring, so it is sized for "a lot
-	// of batches' worth" rather than "one batch's worth": the bigger it is, the
-	// rarer a wrap - and a wrap is the only time the whole buffer is renamed.
-	constexpr UINT INSTANCE_RING_CAPACITY = 16384;   // 1.5 MB
-
-	// Largest number of instances one flush will submit.  Bounded well below the
-	// ring so that a full batch still has somewhere to go without wrapping.
-	constexpr UINT MAX_SPRITES_PER_BATCH = 4096;
-	constexpr UINT MAX_DEBUG_VERTICES    = 4096;
+	constexpr UINT INSTANCE_RING_CAPACITY = Constants::Graphics::INSTANCE_RING_CAPACITY;
+	constexpr UINT MAX_SPRITES_PER_BATCH  = Constants::Graphics::MAX_SPRITES_PER_BATCH;
+	constexpr UINT MAX_DEBUG_VERTICES     = Constants::Graphics::MAX_DEBUG_VERTICES;
 
 	static_assert(MAX_SPRITES_PER_BATCH <= INSTANCE_RING_CAPACITY,
 	              "a single batch has to fit in the ring");
@@ -95,6 +89,7 @@ namespace
 	ComPtr<ID3D11VertexShader>        g_postProcessVS;
 	ComPtr<ID3D11PixelShader>         g_postProcessPS;
 	ComPtr<ID3D11Buffer>              g_postProcessConstantBuffer;
+	ComPtr<ID3D11ShaderResourceView>  g_lutShaderResourceView;
 
 	D3D11_VIEWPORT                    g_letterboxViewport = {};
 
@@ -117,6 +112,7 @@ namespace
 
 	ComPtr<ID3D11Buffer>             g_cameraBuffer;   // dynamic
 	ComPtr<ID3D11SamplerState>       g_samplerState;
+	ComPtr<ID3D11SamplerState>       g_linearSamplerState;
 	ComPtr<ID3D11BlendState>         g_blendState;
 	ComPtr<ID3D11BlendState>         g_additiveBlendState;
 	ComPtr<ID3D11ShaderResourceView>  g_particleSRV;
@@ -124,21 +120,21 @@ namespace
 	ComPtr<ID3D11DepthStencilState>  g_depthStencilState;
 
 	ComPtr<IWICImagingFactory> g_wicFactory;
-	BOOL g_comInitialised = FALSE;
+	bool g_comInitialised = false;
 
 	// Set once the pipeline can no longer draw: the device was lost, or the back
 	// buffer could not be rebuilt after a resize.  Without this the game would
 	// keep looping over a window that never updates again - Clear and Begin
 	// silently no-op with no render target view, and Present on a swap chain
 	// whose buffers were never recreated still succeeds.
-	BOOL g_deviceLost = FALSE;
+	bool g_deviceLost = false;
 
 	// Set while Present is reporting DXGI_STATUS_OCCLUDED, so IsOccluded knows
 	// there is something to probe for.  Clearing it needs DXGI's answer, not a
 	// window message: an occluded swap chain becomes visible again without the
 	// window itself changing at all (the covering window moves, the taskbar
 	// preview closes), so nothing would tell us locally.
-	BOOL g_occluded = FALSE;
+	bool g_occluded = false;
 
 	// Which of the two pipelines the context currently has bound.  Every batch
 	// needs the same input layout, topology, buffers and shaders as the last
@@ -171,7 +167,7 @@ namespace
 	// Logs graphics errors and alerts the user (first 3 failures).
 	void Report(LPCWSTR what, HRESULT hr = S_OK)
 	{
-		wchar_t message[1024];
+		wchar_t message[Constants::Graphics::FATAL_MESSAGE_BUFFER_LENGTH];
 		if (hr == S_OK)
 			_snwprintf_s(message, ARRAYSIZE(message), _TRUNCATE, L"GraphicsHelper: %s\n", what);
 		else
@@ -215,7 +211,7 @@ namespace
 			if (file != INVALID_HANDLE_VALUE)
 			{
 				LARGE_INTEGER size = {};
-				if (GetFileSizeEx(file, &size) && size.QuadPart > 0 && size.QuadPart < (1 << 22))
+				if (GetFileSizeEx(file, &size) && size.QuadPart > 0 && size.QuadPart < Constants::Graphics::MAX_SHADER_BYTECODE_BYTES)
 				{
 					bytecodeOut.resize(static_cast<size_t>(size.QuadPart));
 					DWORD read = 0;
@@ -254,7 +250,7 @@ namespace
 		if (FAILED(hr))
 		{
 			if (errors) OutputDebugStringA(static_cast<const char*>(errors->GetBufferPointer()));
-			wchar_t message[512];
+			wchar_t message[Constants::Graphics::REPORT_MESSAGE_BUFFER_LENGTH];
 			_snwprintf_s(message, ARRAYSIZE(message), _TRUNCATE,
 				L"could not load shader '%s' (nor compile '%s')",
 				compiledName, sourceName);
@@ -318,12 +314,12 @@ namespace
 		if (!context || clientWidth == 0 || clientHeight == 0) return;
 
 		// Parenthesised so Windows.h's min() macro cannot swallow the call.
-		const FLOAT scale = (std::min)(
-			static_cast<FLOAT>(clientWidth)  / GraphicsHelper::DESIGN_WIDTH,
-			static_cast<FLOAT>(clientHeight) / GraphicsHelper::DESIGN_HEIGHT);
+		const float scale = (std::min)(
+			static_cast<float>(clientWidth)  / GraphicsHelper::DESIGN_WIDTH,
+			static_cast<float>(clientHeight) / GraphicsHelper::DESIGN_HEIGHT);
 
-		const FLOAT width  = GraphicsHelper::DESIGN_WIDTH  * scale;
-		const FLOAT height = GraphicsHelper::DESIGN_HEIGHT * scale;
+		const float width  = GraphicsHelper::DESIGN_WIDTH  * scale;
+		const float height = GraphicsHelper::DESIGN_HEIGHT * scale;
 
 		D3D11_VIEWPORT viewport = {};
 		viewport.TopLeftX = (clientWidth  - width)  * 0.5f;
@@ -352,10 +348,10 @@ namespace
 	XMFLOAT4 UnpackColour(D3DCOLOR colour)
 	{
 		return XMFLOAT4(
-			((colour >> 16) & 0xFF) / 255.0f,
-			((colour >>  8) & 0xFF) / 255.0f,
-			((colour      ) & 0xFF) / 255.0f,
-			((colour >> 24) & 0xFF) / 255.0f);
+			((colour >> Constants::Graphics::COLOUR_SHIFT_RED  ) & Constants::Graphics::COLOUR_CHANNEL_MASK) / Constants::Graphics::COLOUR_CHANNEL_MAX,
+			((colour >> Constants::Graphics::COLOUR_SHIFT_GREEN) & Constants::Graphics::COLOUR_CHANNEL_MASK) / Constants::Graphics::COLOUR_CHANNEL_MAX,
+			((colour >> Constants::Graphics::COLOUR_SHIFT_BLUE ) & Constants::Graphics::COLOUR_CHANNEL_MASK) / Constants::Graphics::COLOUR_CHANNEL_MAX,
+			((colour >> Constants::Graphics::COLOUR_SHIFT_ALPHA) & Constants::Graphics::COLOUR_CHANNEL_MASK) / Constants::Graphics::COLOUR_CHANNEL_MAX);
 	}
 
 	void FlushSprites();
@@ -365,7 +361,7 @@ namespace
 // ===========================================================================
 // Initialisation
 // ===========================================================================
-BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
+bool GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 {
 	// --- COM, for WIC texture decoding ---
 	HRESULT hr = CoInitializeEx(nullptr, COINIT_MULTITHREADED);
@@ -373,15 +369,15 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 		// S_OK and S_FALSE BOTH took a reference on the apartment - S_FALSE only
 		// means someone had already initialised it the same way, not that the call
 		// was a no-op - so both have to be balanced by a CoUninitialize in Cleanup.
-		g_comInitialised = TRUE;
+		g_comInitialised = true;
 	else if (hr == RPC_E_CHANGED_MODE)
 		// An STA is already running on this thread.  No reference was taken, so
 		// there is nothing for Cleanup to release; WIC works either way.
-		g_comInitialised = FALSE;
+		g_comInitialised = false;
 	else
 	{
 		Check(hr, L"CoInitializeEx failed");
-		return FALSE;
+		return false;
 	}
 
 	// --- Device ---
@@ -419,7 +415,7 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 			featureLevels, ARRAYSIZE(featureLevels), D3D11_SDK_VERSION,
 			&device, &obtainedLevel, &context);
 	}
-	if (!Check(hr, L"D3D11CreateDevice failed (Direct3D 11 hardware is required)")) return FALSE;
+	if (!Check(hr, L"D3D11CreateDevice failed (Direct3D 11 hardware is required)")) return false;
 
 	// Swap chain creation: prefer flip-model, fallback to bitblt
 	ComPtr<IDXGIDevice>  dxgiDevice;
@@ -430,7 +426,7 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 	{
 		adapter->GetParent(IID_PPV_ARGS(&factory));
 	}
-	if (!factory) { Report(L"could not reach the DXGI factory"); return FALSE; }
+	if (!factory) { Report(L"could not reach the DXGI factory"); return false; }
 
 	// Queue at most one frame.  The flip model's default maximum frame latency
 	// lets DXGI accept several frames before Present blocks, and because dt is a
@@ -475,45 +471,59 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 		desc.SwapEffect         = DXGI_SWAP_EFFECT_DISCARD;
 
 		hr = factory->CreateSwapChain(device, &desc, &swapChain);
-		if (!Check(hr, L"CreateSwapChain failed")) return FALSE;
+		if (!Check(hr, L"CreateSwapChain failed")) return false;
 	}
 
 	// The game handles its own presentation; don't let DXGI hijack Alt+Enter.
 	factory->MakeWindowAssociation(hWnd, DXGI_MWA_NO_ALT_ENTER);
 
-	if (!CreateBackBufferView()) return FALSE;
+	if (!CreateBackBufferView()) return false;
 	UpdateViewport(clientWidth, clientHeight);
 
 	// --- Sprite shaders ---
-	std::vector<char>  spriteVSRaw, spritePSRaw;
-	ComPtr<ID3DBlob>   spriteVSBlob, spritePSBlob;
+	std::vector<char> spriteVSRaw;
+	std::vector<char> spritePSRaw;
+	ComPtr<ID3DBlob>  spriteVSBlob;
+	ComPtr<ID3DBlob>  spritePSBlob;
 
 	// The vertex shader's bytecode is kept: CreateInputLayout needs it below.
 	if (!BuildShader(L"SpriteVS.cso", L"SpriteVS.hlsl", "main", "vs_5_0", spriteVSRaw, spriteVSBlob,
 		[](const void* bytes, SIZE_T size) {
 			return GraphicsHelper::device->CreateVertexShader(bytes, size, nullptr, &g_spriteVS);
-		}, L"CreateVertexShader(SpriteVS) failed")) return FALSE;
+		}, L"CreateVertexShader(SpriteVS) failed")) return false;
 
 	if (!BuildShader(L"SpritePS.cso", L"SpritePS.hlsl", "main", "ps_5_0", spritePSRaw, spritePSBlob,
 		[](const void* bytes, SIZE_T size) {
 			return GraphicsHelper::device->CreatePixelShader(bytes, size, nullptr, &g_spritePS);
-		}, L"CreatePixelShader(SpritePS) failed")) return FALSE;
+		}, L"CreatePixelShader(SpritePS) failed")) return false;
 
-	// Debug line shaders (loaded only if DRAW_HITBOXES is active)
-#if DRAW_HITBOXES
-	std::vector<char>  debugVSRaw, debugPSRaw;
-	ComPtr<ID3DBlob>   debugVSBlob, debugPSBlob;
+	// Debug line shaders, created only when hitbox drawing is on.
+	//
+	// The switch is Constants::Graphics::DRAW_HITBOXES - a C++ constant, not a
+	// macro - so the `#if DRAW_HITBOXES` this used to be spelled with was an
+	// undefined identifier the preprocessor read as 0, and never once compiled
+	// its body in.  DrawSprite gates its DrawBox call on the constant instead,
+	// so turning the constant on enabled the calls while leaving the pipeline
+	// they need uncreated, and DrawBox's `if (!g_debugVertexBuffer) return`
+	// silently swallowed every one of them: the feature could not be switched on
+	// at all.  `if constexpr` reads the same constant, so both halves now agree.
+	std::vector<char> debugVSRaw;
+	std::vector<char> debugPSRaw;
+	ComPtr<ID3DBlob>  debugVSBlob;
+	ComPtr<ID3DBlob>  debugPSBlob;
 
-	if (!BuildShader(L"DebugVS.cso", L"DebugVS.hlsl", "main", "vs_5_0", debugVSRaw, debugVSBlob,
-		[](const void* bytes, SIZE_T size) {
-			return GraphicsHelper::device->CreateVertexShader(bytes, size, nullptr, &g_debugVS);
-		}, L"CreateVertexShader(DebugVS) failed")) return FALSE;
+	if constexpr (Constants::Graphics::DRAW_HITBOXES)
+	{
+		if (!BuildShader(L"DebugVS.cso", L"DebugVS.hlsl", "main", "vs_5_0", debugVSRaw, debugVSBlob,
+			[](const void* bytes, SIZE_T size) {
+				return GraphicsHelper::device->CreateVertexShader(bytes, size, nullptr, &g_debugVS);
+			}, L"CreateVertexShader(DebugVS) failed")) return false;
 
-	if (!BuildShader(L"DebugPS.cso", L"DebugPS.hlsl", "main", "ps_5_0", debugPSRaw, debugPSBlob,
-		[](const void* bytes, SIZE_T size) {
-			return GraphicsHelper::device->CreatePixelShader(bytes, size, nullptr, &g_debugPS);
-		}, L"CreatePixelShader(DebugPS) failed")) return FALSE;
-#endif
+		if (!BuildShader(L"DebugPS.cso", L"DebugPS.hlsl", "main", "ps_5_0", debugPSRaw, debugPSBlob,
+			[](const void* bytes, SIZE_T size) {
+				return GraphicsHelper::device->CreatePixelShader(bytes, size, nullptr, &g_debugPS);
+			}, L"CreatePixelShader(DebugPS) failed")) return false;
+	}
 
 	// --- Input layouts ---
 	// Slot 0 is the shared unit quad; slot 1 steps once per sprite instance.
@@ -530,27 +540,29 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 	hr = device->CreateInputLayout(spriteLayout, ARRAYSIZE(spriteLayout),
 		BytecodePointer(spriteVSRaw, spriteVSBlob), BytecodeSize(spriteVSRaw, spriteVSBlob),
 		&g_spriteInputLayout);
-	if (!Check(hr, L"CreateInputLayout(sprite) failed")) return FALSE;
+	if (!Check(hr, L"CreateInputLayout(sprite) failed")) return false;
 
-#if DRAW_HITBOXES
-	const D3D11_INPUT_ELEMENT_DESC debugLayout[] = {
-		{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-		{ "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
-	};
-	hr = device->CreateInputLayout(debugLayout, ARRAYSIZE(debugLayout),
-		BytecodePointer(debugVSRaw, debugVSBlob), BytecodeSize(debugVSRaw, debugVSBlob),
-		&g_debugInputLayout);
-	if (!Check(hr, L"CreateInputLayout(debug) failed")) return FALSE;
-#endif
+	if constexpr (Constants::Graphics::DRAW_HITBOXES)
+	{
+		const D3D11_INPUT_ELEMENT_DESC debugLayout[] = {
+			{ "POSITION", 0, DXGI_FORMAT_R32G32B32_FLOAT,    0,  0, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+			{ "COLOR",    0, DXGI_FORMAT_R32G32B32A32_FLOAT, 0, 12, D3D11_INPUT_PER_VERTEX_DATA, 0 },
+		};
+		hr = device->CreateInputLayout(debugLayout, ARRAYSIZE(debugLayout),
+			BytecodePointer(debugVSRaw, debugVSBlob), BytecodeSize(debugVSRaw, debugVSBlob),
+			&g_debugInputLayout);
+		if (!Check(hr, L"CreateInputLayout(debug) failed")) return false;
+	}
 
 	// --- Static unit quad (LOCAL space, bottom-centre anchored) ---
+	constexpr float quadHalfWidth = Constants::Graphics::QUAD_HALF_WIDTH;
 	const QuadVertex quadVertices[4] = {
-		{ XMFLOAT2(-0.5f, 1.0f), XMFLOAT2(0.0f, 0.0f) },   // top-left
-		{ XMFLOAT2(+0.5f, 1.0f), XMFLOAT2(1.0f, 0.0f) },   // top-right
-		{ XMFLOAT2(-0.5f, 0.0f), XMFLOAT2(0.0f, 1.0f) },   // bottom-left
-		{ XMFLOAT2(+0.5f, 0.0f), XMFLOAT2(1.0f, 1.0f) },   // bottom-right
+		{ XMFLOAT2(-quadHalfWidth, 1.0f), XMFLOAT2(0.0f, 0.0f) },   // top-left
+		{ XMFLOAT2(+quadHalfWidth, 1.0f), XMFLOAT2(1.0f, 0.0f) },   // top-right
+		{ XMFLOAT2(-quadHalfWidth, 0.0f), XMFLOAT2(0.0f, 1.0f) },   // bottom-left
+		{ XMFLOAT2(+quadHalfWidth, 0.0f), XMFLOAT2(1.0f, 1.0f) },   // bottom-right
 	};
-	const UINT16 quadIndices[6] = { 0, 1, 2, 2, 1, 3 };
+	const UINT16 quadIndices[Constants::Graphics::QUAD_INDEX_COUNT] = { 0, 1, 2, 2, 1, 3 };
 
 	D3D11_BUFFER_DESC bufferDesc = {};
 	D3D11_SUBRESOURCE_DATA initialData = {};
@@ -560,13 +572,13 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	initialData.pSysMem  = quadVertices;
 	hr = device->CreateBuffer(&bufferDesc, &initialData, &g_quadVertexBuffer);
-	if (!Check(hr, L"CreateBuffer(quad vertices) failed")) return FALSE;
+	if (!Check(hr, L"CreateBuffer(quad vertices) failed")) return false;
 
 	bufferDesc.ByteWidth = sizeof(quadIndices);
 	bufferDesc.BindFlags = D3D11_BIND_INDEX_BUFFER;
 	initialData.pSysMem  = quadIndices;
 	hr = device->CreateBuffer(&bufferDesc, &initialData, &g_quadIndexBuffer);
-	if (!Check(hr, L"CreateBuffer(quad indices) failed")) return FALSE;
+	if (!Check(hr, L"CreateBuffer(quad indices) failed")) return false;
 
 	// --- Dynamic per-instance / per-frame buffers ---
 	bufferDesc = {};
@@ -576,18 +588,19 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 	bufferDesc.ByteWidth = sizeof(SpriteInstance) * INSTANCE_RING_CAPACITY;
 	bufferDesc.BindFlags = D3D11_BIND_VERTEX_BUFFER;
 	hr = device->CreateBuffer(&bufferDesc, nullptr, &g_instanceBuffer);
-	if (!Check(hr, L"CreateBuffer(sprite instances) failed")) return FALSE;
+	if (!Check(hr, L"CreateBuffer(sprite instances) failed")) return false;
 
-#if DRAW_HITBOXES
-	bufferDesc.ByteWidth = sizeof(DebugVertex) * MAX_DEBUG_VERTICES;
-	hr = device->CreateBuffer(&bufferDesc, nullptr, &g_debugVertexBuffer);
-	if (!Check(hr, L"CreateBuffer(debug vertices) failed")) return FALSE;
-#endif
+	if constexpr (Constants::Graphics::DRAW_HITBOXES)
+	{
+		bufferDesc.ByteWidth = sizeof(DebugVertex) * MAX_DEBUG_VERTICES;
+		hr = device->CreateBuffer(&bufferDesc, nullptr, &g_debugVertexBuffer);
+		if (!Check(hr, L"CreateBuffer(debug vertices) failed")) return false;
+	}
 
 	bufferDesc.ByteWidth = sizeof(CameraConstants);
 	bufferDesc.BindFlags = D3D11_BIND_CONSTANT_BUFFER;
 	hr = device->CreateBuffer(&bufferDesc, nullptr, &g_cameraBuffer);
-	if (!Check(hr, L"CreateBuffer(camera constants) failed")) return FALSE;
+	if (!Check(hr, L"CreateBuffer(camera constants) failed")) return false;
 
 	// Sampler state: POINT filtering, which is both correct for NES-era pixel art
 	// and what keeps a sprite from picking up its atlas neighbours - a point
@@ -606,7 +619,12 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 	samplerDesc.MinLOD         = 0.0f;
 	samplerDesc.MaxLOD         = D3D11_FLOAT32_MAX;
 	hr = device->CreateSamplerState(&samplerDesc, &g_samplerState);
-	if (!Check(hr, L"CreateSamplerState failed")) return FALSE;
+	if (!Check(hr, L"CreateSamplerState failed")) return false;
+
+	// Linear sampler for the post-process / screen-scaling pass
+	samplerDesc.Filter         = D3D11_FILTER_MIN_MAG_LINEAR_MIP_POINT;
+	hr = device->CreateSamplerState(&samplerDesc, &g_linearSamplerState);
+	if (!Check(hr, L"CreateSamplerState (linear) failed")) return false;
 
 	// Blend state: Straight alpha blending.
 	D3D11_BLEND_DESC blendDesc = {};
@@ -619,7 +637,7 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 	blendDesc.RenderTarget[0].BlendOpAlpha          = D3D11_BLEND_OP_ADD;
 	blendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 	hr = device->CreateBlendState(&blendDesc, &g_blendState);
-	if (!Check(hr, L"CreateBlendState failed")) return FALSE;
+	if (!Check(hr, L"CreateBlendState failed")) return false;
 
 	// Additive blend state for particles.
 	D3D11_BLEND_DESC addBlendDesc = {};
@@ -632,7 +650,7 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 	addBlendDesc.RenderTarget[0].BlendOpAlpha          = D3D11_BLEND_OP_ADD;
 	addBlendDesc.RenderTarget[0].RenderTargetWriteMask = D3D11_COLOR_WRITE_ENABLE_ALL;
 	hr = device->CreateBlendState(&addBlendDesc, &g_additiveBlendState);
-	if (!Check(hr, L"CreateBlendState (additive) failed")) return FALSE;
+	if (!Check(hr, L"CreateBlendState (additive) failed")) return false;
 
 	// Rasterizer state: Disable culling (mirroring reverses winding order) and MSAA.
 	D3D11_RASTERIZER_DESC rasterizerDesc = {};
@@ -641,47 +659,46 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 	rasterizerDesc.DepthClipEnable = TRUE;
 	rasterizerDesc.MultisampleEnable = FALSE;
 	hr = device->CreateRasterizerState(&rasterizerDesc, &g_rasterizerState);
-	if (!Check(hr, L"CreateRasterizerState failed")) return FALSE;
+	if (!Check(hr, L"CreateRasterizerState failed")) return false;
 
 	// Depth/stencil state: Disabled (render order is submission order).
 	D3D11_DEPTH_STENCIL_DESC depthDesc = {};
 	depthDesc.DepthEnable   = FALSE;
 	depthDesc.StencilEnable = FALSE;
 	hr = device->CreateDepthStencilState(&depthDesc, &g_depthStencilState);
-	if (!Check(hr, L"CreateDepthStencilState failed")) return FALSE;
+	if (!Check(hr, L"CreateDepthStencilState failed")) return false;
 
 	// Projection: Orthographic projection for Y-up design resolution.
 	XMStoreFloat4x4(&g_projectionMatrix,
-		XMMatrixOrthographicLH(static_cast<FLOAT>(DESIGN_WIDTH),
-		                       static_cast<FLOAT>(DESIGN_HEIGHT), -1.0f, 1000.0f));
+		XMMatrixOrthographicLH(static_cast<float>(DESIGN_WIDTH),
+		                       static_cast<float>(DESIGN_HEIGHT), Constants::Graphics::ORTHOGRAPHIC_NEAR_PLANE, Constants::Graphics::ORTHOGRAPHIC_FAR_PLANE));
 	XMStoreFloat4x4(&g_viewMatrix, XMMatrixIdentity());
 
-	g_pendingSprites.reserve(MAX_SPRITES_PER_BATCH);
-#if DRAW_HITBOXES
-	g_pendingDebugVertices.reserve(MAX_DEBUG_VERTICES);
-#endif
+	// (Both pending buffers are reserved once, at the end of Init.)
 
 	// --- WIC, for texture decoding ---
 	hr = CoCreateInstance(CLSID_WICImagingFactory, nullptr, CLSCTX_INPROC_SERVER,
 		IID_PPV_ARGS(&g_wicFactory));
-	if (!Check(hr, L"could not create the WIC imaging factory")) return FALSE;
+	if (!Check(hr, L"could not create the WIC imaging factory")) return false;
 
 	// --- Post Process Setup ---
 	QueryPerformanceFrequency(&g_timeFrequency);
 	QueryPerformanceCounter(&g_timeStart);
 
-	std::vector<char>  postVSBytes, postPSBytes;
-	ComPtr<ID3DBlob>   postVSBlob, postPSBlob;
+	std::vector<char> postVSBytes;
+	std::vector<char> postPSBytes;
+	ComPtr<ID3DBlob>  postVSBlob;
+	ComPtr<ID3DBlob>  postPSBlob;
 
 	if (!BuildShader(L"PostProcessVS.cso", L"PostProcessVS.hlsl", "main", "vs_5_0", postVSBytes, postVSBlob,
 		[](const void* bytes, SIZE_T size) {
 			return GraphicsHelper::device->CreateVertexShader(bytes, size, nullptr, &g_postProcessVS);
-		}, L"CreateVertexShader(PostProcessVS) failed")) return FALSE;
+		}, L"CreateVertexShader(PostProcessVS) failed")) return false;
 
 	if (!BuildShader(L"PostProcessPS.cso", L"PostProcessPS.hlsl", "main", "ps_5_0", postPSBytes, postPSBlob,
 		[](const void* bytes, SIZE_T size) {
 			return GraphicsHelper::device->CreatePixelShader(bytes, size, nullptr, &g_postProcessPS);
-		}, L"CreatePixelShader(PostProcessPS) failed")) return FALSE;
+		}, L"CreatePixelShader(PostProcessPS) failed")) return false;
 
 	// Create offscreen texture
 	D3D11_TEXTURE2D_DESC texDesc = {};
@@ -697,13 +714,13 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 	texDesc.MiscFlags        = 0;
 
 	hr = device->CreateTexture2D(&texDesc, nullptr, &g_offscreenTexture);
-	if (!Check(hr, L"CreateTexture2D(offscreen) failed")) return FALSE;
+	if (!Check(hr, L"CreateTexture2D(offscreen) failed")) return false;
 
 	hr = device->CreateRenderTargetView(g_offscreenTexture.Get(), nullptr, &g_offscreenRenderTargetView);
-	if (!Check(hr, L"CreateRenderTargetView(offscreen) failed")) return FALSE;
+	if (!Check(hr, L"CreateRenderTargetView(offscreen) failed")) return false;
 
 	hr = device->CreateShaderResourceView(g_offscreenTexture.Get(), nullptr, &g_offscreenShaderResourceView);
-	if (!Check(hr, L"CreateShaderResourceView(offscreen) failed")) return FALSE;
+	if (!Check(hr, L"CreateShaderResourceView(offscreen) failed")) return false;
 
 	// Create post process constant buffer
 	D3D11_BUFFER_DESC constBufDesc = {};
@@ -712,34 +729,56 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 	constBufDesc.ByteWidth      = sizeof(PostProcessConstants);
 	constBufDesc.BindFlags      = D3D11_BIND_CONSTANT_BUFFER;
 	hr = device->CreateBuffer(&constBufDesc, nullptr, &g_postProcessConstantBuffer);
-	if (!Check(hr, L"CreateBuffer(post process constants) failed")) return FALSE;
+	if (!Check(hr, L"CreateBuffer(post process constants) failed")) return false;
+
+	// Load LUT texture for post-processing from Textures directory
+	TEXTURE lutTexture = CreateTexture(L"Resources\\Textures\\vividmemory8-1x.png");
+	if (!lutTexture.srv)
+		lutTexture = CreateTexture(PathNextToExecutable(L"Resources\\Textures\\vividmemory8-1x.png").c_str());
+
+	if (lutTexture.srv)
+	{
+		g_lutShaderResourceView.Attach(lutTexture.srv);
+	}
+	else
+	{
+		OutputDebugStringW(L"GraphicsHelper: Failed to load LUT texture 'Resources\\Textures\\vividmemory8-1x.png'\n");
+	}
 
 	// Create glowing particle dot texture programmatically
-	constexpr UINT particleWidth = 64;
-	constexpr UINT particleHeight = 64;
-	constexpr UINT rowPitch = particleWidth * 4;
+	constexpr UINT particleWidth = Constants::Graphics::PARTICLE_TEXTURE_SIZE;
+	constexpr UINT particleHeight = Constants::Graphics::PARTICLE_TEXTURE_SIZE;
+	constexpr UINT rowPitch = particleWidth * Constants::Graphics::BYTES_PER_PIXEL;
 	constexpr UINT imageSize = rowPitch * particleHeight;
 	std::vector<UINT8> pixels(imageSize);
+
+	// Derived, not hard-coded: the gradient is a unit disc centred on the
+	// texture, so the centre offset is (size - 1) / 2 and the radius is size / 2.
+	// Spelling 31.5 and 32.0 out separately silently broke both if size changed.
+	constexpr float particleCenterX = (particleWidth  - 1) * 0.5f;
+	constexpr float particleCenterY = (particleHeight - 1) * 0.5f;
+	constexpr float particleRadiusX = particleWidth  * 0.5f;
+	constexpr float particleRadiusY = particleHeight * 0.5f;
 
 	for (UINT y = 0; y < particleHeight; ++y)
 	{
 		for (UINT x = 0; x < particleWidth; ++x)
 		{
-			FLOAT dx = (static_cast<FLOAT>(x) - 31.5f) / 32.0f;
-			FLOAT dy = (static_cast<FLOAT>(y) - 31.5f) / 32.0f;
-			FLOAT dist = std::sqrt(dx * dx + dy * dy);
+			float dx = (static_cast<float>(x) - particleCenterX) / particleRadiusX;
+			float dy = (static_cast<float>(y) - particleCenterY) / particleRadiusY;
+			float dist = std::hypot(dx, dy);
 
-			FLOAT alpha = 0.0f;
+			float alpha = 0.0f;
 			if (dist < 1.0f)
 			{
-				alpha = std::exp(-4.0f * dist * dist) * (1.0f - dist);
+				alpha = std::exp(-Constants::Graphics::PARTICLE_GLOW_FALLOFF_EXPONENT * dist * dist) * (1.0f - dist);
 			}
 
-			UINT index = (y * particleWidth + x) * 4;
-			pixels[index + 0] = 255; // Blue
-			pixels[index + 1] = 255; // Green
-			pixels[index + 2] = 255; // Red
-			pixels[index + 3] = static_cast<UINT8>(alpha * 255.0f);
+			UINT index = (y * particleWidth + x) * Constants::Graphics::BYTES_PER_PIXEL;
+			pixels[index + 0] = Constants::Graphics::COLOUR_CHANNEL_MAX_BYTE; // Blue
+			pixels[index + 1] = Constants::Graphics::COLOUR_CHANNEL_MAX_BYTE; // Green
+			pixels[index + 2] = Constants::Graphics::COLOUR_CHANNEL_MAX_BYTE; // Red
+			pixels[index + 3] = static_cast<UINT8>(alpha * Constants::Graphics::COLOUR_CHANNEL_MAX);
 		}
 	}
 
@@ -759,7 +798,7 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 
 	ComPtr<ID3D11Texture2D> particleTexture;
 	hr = device->CreateTexture2D(&pTexDesc, &particleInitialData, &particleTexture);
-	if (FAILED(hr)) { Check(hr, L"CreateTexture2D (particle) failed"); return FALSE; }
+	if (FAILED(hr)) { Check(hr, L"CreateTexture2D (particle) failed"); return false; }
 
 	D3D11_SHADER_RESOURCE_VIEW_DESC viewDesc = {};
 	viewDesc.Format                    = pTexDesc.Format;
@@ -768,9 +807,12 @@ BOOL GraphicsHelper::Init(HWND hWnd, UINT clientWidth, UINT clientHeight)
 	viewDesc.Texture2D.MipLevels       = 1;
 
 	hr = device->CreateShaderResourceView(particleTexture.Get(), &viewDesc, &g_particleSRV);
-	if (FAILED(hr)) { Check(hr, L"CreateShaderResourceView (particle) failed"); return FALSE; }
+	if (FAILED(hr)) { Check(hr, L"CreateShaderResourceView (particle) failed"); return false; }
 
-	return TRUE;
+	g_pendingSprites.reserve(MAX_SPRITES_PER_BATCH);
+	g_pendingDebugVertices.reserve(MAX_DEBUG_VERTICES);
+
+	return true;
 }
 
 void GraphicsHelper::Cleanup(void)
@@ -778,13 +820,6 @@ void GraphicsHelper::Cleanup(void)
 	for (auto& entry : GraphicsDatabase::textures)
 		if (entry.second.srv) { entry.second.srv->Release(); entry.second.srv = nullptr; }
 	GraphicsDatabase::textures.clear();
-
-	for (auto& entry : GraphicsDatabase::sprites)
-	{
-		RECT*& rect = std::get<RECT*>(entry.second);
-		delete rect;
-		rect = nullptr;
-	}
 	GraphicsDatabase::sprites.clear();
 
 	// Clear lists to prevent referencing stale sprite IDs.
@@ -807,6 +842,7 @@ void GraphicsHelper::Cleanup(void)
 	g_particleSRV.Reset();
 	g_blendState.Reset();
 	g_samplerState.Reset();
+	g_linearSamplerState.Reset();
 	g_cameraBuffer.Reset();
 	g_debugVertexBuffer.Reset();
 	g_debugInputLayout.Reset();
@@ -823,6 +859,7 @@ void GraphicsHelper::Cleanup(void)
 	g_offscreenTexture.Reset();
 	g_offscreenRenderTargetView.Reset();
 	g_offscreenShaderResourceView.Reset();
+	g_lutShaderResourceView.Reset();
 	g_postProcessVS.Reset();
 	g_postProcessPS.Reset();
 	g_postProcessConstantBuffer.Reset();
@@ -841,10 +878,10 @@ void GraphicsHelper::Cleanup(void)
 	}
 	if (device)    { device->Release(); device = nullptr; }
 
-	if (g_comInitialised) { CoUninitialize(); g_comInitialised = FALSE; }
+	if (g_comInitialised) { CoUninitialize(); g_comInitialised = false; }
 
-	g_deviceLost = FALSE;
-	g_occluded   = FALSE;
+	g_deviceLost = false;
+	g_occluded   = false;
 }
 
 void GraphicsHelper::OnResize(UINT clientWidth, UINT clientHeight)
@@ -862,31 +899,31 @@ void GraphicsHelper::OnResize(UINT clientWidth, UINT clientHeight)
 	{
 		Report(L"the graphics device was lost while resizing the back buffer",
 			device->GetDeviceRemovedReason());
-		g_deviceLost = TRUE;
+		g_deviceLost = true;
 		return;
 	}
 
 	// Any other failure leaves the render target view released above, so nothing
 	// would be drawn from here on; that has to end the frame loop rather than
 	// leave a window that quietly stops updating.
-	if (!Check(hr, L"ResizeBuffers failed"))   { g_deviceLost = TRUE; return; }
-	if (!CreateBackBufferView())               { g_deviceLost = TRUE; return; }
+	if (!Check(hr, L"ResizeBuffers failed"))   { g_deviceLost = true; return; }
+	if (!CreateBackBufferView())               { g_deviceLost = true; return; }
 	UpdateViewport(clientWidth, clientHeight);
 
 	// The projection is deliberately NOT rebuilt: it belongs to the design
 	// resolution, and UpdateViewport letterboxes it into the new client area.
 }
 
-void GraphicsHelper::Clear(FLOAT r, FLOAT g, FLOAT b, FLOAT a)
+void GraphicsHelper::Clear(float r, float g, float b, float a)
 {
 	if (!context || !g_offscreenRenderTargetView || !g_renderTargetView) return;
 
 	// Clear offscreen target with the clear color (which clears sprite/game screen)
-	const FLOAT colour[4] = { r, g, b, a };
+	const float colour[4] = { r, g, b, a };
 	context->ClearRenderTargetView(g_offscreenRenderTargetView.Get(), colour);
 
 	// Clear backbuffer to solid black so letterboxes are always black
-	const FLOAT black[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
+	const float black[4] = { 0.0f, 0.0f, 0.0f, 1.0f };
 	context->ClearRenderTargetView(g_renderTargetView.Get(), black);
 }
 
@@ -910,8 +947,8 @@ void GraphicsHelper::Begin(void)
 	D3D11_VIEWPORT offscreenViewport = {};
 	offscreenViewport.TopLeftX = 0.0f;
 	offscreenViewport.TopLeftY = 0.0f;
-	offscreenViewport.Width    = static_cast<FLOAT>(DESIGN_WIDTH);
-	offscreenViewport.Height   = static_cast<FLOAT>(DESIGN_HEIGHT);
+	offscreenViewport.Width    = static_cast<float>(DESIGN_WIDTH);
+	offscreenViewport.Height   = static_cast<float>(DESIGN_HEIGHT);
 	offscreenViewport.MinDepth = 0.0f;
 	offscreenViewport.MaxDepth = 1.0f;
 	context->RSSetViewports(1, &offscreenViewport);
@@ -996,18 +1033,24 @@ void GraphicsHelper::End(void)
 		ID3D11Buffer* constantBuffers[] = { g_postProcessConstantBuffer.Get() };
 		context->PSSetConstantBuffers(0, 1, constantBuffers);
 
-		ID3D11ShaderResourceView* textures[] = { g_offscreenShaderResourceView.Get() };
-		context->PSSetShaderResources(0, 1, textures);
+		ID3D11ShaderResourceView* textures[] = {
+			g_offscreenShaderResourceView.Get(),
+			g_lutShaderResourceView.Get()
+		};
+		context->PSSetShaderResources(0, 2, textures);
 
-		ID3D11SamplerState* samplers[] = { g_samplerState.Get() };
-		context->PSSetSamplers(0, 1, samplers);
+		ID3D11SamplerState* samplers[] = {
+			g_linearSamplerState.Get(),
+			g_samplerState.Get()
+		};
+		context->PSSetSamplers(0, 2, samplers);
 
 		// Draw the full-screen triangle/quad
 		context->Draw(3, 0);
 
 		// Clean up shader resource slot to avoid warnings about target/resource binding conflicts
-		ID3D11ShaderResourceView* nullSRV[] = { nullptr };
-		context->PSSetShaderResources(0, 1, nullSRV);
+		ID3D11ShaderResourceView* nullSRVs[] = { nullptr, nullptr };
+		context->PSSetShaderResources(0, 2, nullSRVs);
 
 		// Mark bound pipeline as None so the next frame re-binds correctly
 		g_boundPipeline = BoundPipeline::None;
@@ -1020,8 +1063,8 @@ GraphicsHelper::PresentResult GraphicsHelper::Present(void)
 
 	const HRESULT hr = swapChain->Present(1, 0);
 
-	if (hr == S_OK)                 { g_occluded = FALSE; return PresentResult::Presented; }
-	if (hr == DXGI_STATUS_OCCLUDED) { g_occluded = TRUE;  return PresentResult::Occluded;  }
+	if (hr == S_OK)                 { g_occluded = false; return PresentResult::Presented; }
+	if (hr == DXGI_STATUS_OCCLUDED) { g_occluded = true;  return PresentResult::Occluded;  }
 
 	// Everything else is fatal to rendering and must be distinguished from
 	// occlusion: a device lost to a TDR or a driver update also stops returning
@@ -1033,33 +1076,33 @@ GraphicsHelper::PresentResult GraphicsHelper::Present(void)
 	else
 		Report(L"IDXGISwapChain::Present failed", hr);
 
-	g_deviceLost = TRUE;
+	g_deviceLost = true;
 	return PresentResult::DeviceLost;
 }
 
-BOOL GraphicsHelper::IsOccluded(void)
+bool GraphicsHelper::IsOccluded(void)
 {
-	// A lost device is NOT occluded: answering TRUE would park the caller in a
+	// A lost device is NOT occluded: answering true would park the caller in a
 	// sleep loop instead of letting the next Present report the loss and stop.
-	if (!swapChain || g_deviceLost) return FALSE;
+	if (!swapChain || g_deviceLost) return false;
 
 	// Nothing to probe for until Present has said so, which is the common case
 	// and costs a single comparison.
-	if (!g_occluded) return FALSE;
+	if (!g_occluded) return false;
 
 	// DXGI_PRESENT_TEST asks the question without presenting anything: no back
 	// buffer is flipped and no vblank is waited on, so this is safe to call on a
 	// frame we are about to skip.
 	if (swapChain->Present(0, DXGI_PRESENT_TEST) == DXGI_STATUS_OCCLUDED)
-		return TRUE;
+		return true;
 
-	g_occluded = FALSE;
-	return FALSE;
+	g_occluded = false;
+	return false;
 }
 
 void GraphicsHelper::SetViewMatrix(const D3DMATRIX& view)
 {
-	// sizeof(g_viewMatrix) == sizeof(D3DMATRIX) == 16 * sizeof(FLOAT); using the
+	// sizeof(g_viewMatrix) == sizeof(D3DMATRIX) == 16 * sizeof(float); using the
 	// destination size is robust if either type is ever extended.
 	static_assert(sizeof(g_viewMatrix) == sizeof(D3DMATRIX),
 	              "XMFLOAT4X4 and D3DMATRIX must be the same size");
@@ -1141,7 +1184,7 @@ namespace
 
 			// StartInstanceLocation, unlike SV_InstanceID, really does offset the
 			// per-instance vertex fetch - so the ring offset needs nothing else.
-			context->DrawIndexedInstanced(6, count, 0, 0, g_instanceRingOffset);
+			context->DrawIndexedInstanced(Constants::Graphics::QUAD_INDEX_COUNT, count, 0, 0, g_instanceRingOffset);
 
 			g_instanceRingOffset += count;
 		}
@@ -1212,7 +1255,7 @@ TEXTURE GraphicsHelper::CreateTexture(LPCWSTR textureFilePath)
 		GENERIC_READ, WICDecodeMetadataCacheOnLoad, &decoder);
 	if (FAILED(hr))
 	{
-		wchar_t message[512];
+		wchar_t message[Constants::Graphics::REPORT_MESSAGE_BUFFER_LENGTH];
 		_snwprintf_s(message, ARRAYSIZE(message), _TRUNCATE,
 			L"could not open image '%s'", textureFilePath);
 		Report(message, hr);
@@ -1223,7 +1266,8 @@ TEXTURE GraphicsHelper::CreateTexture(LPCWSTR textureFilePath)
 	hr = decoder->GetFrame(0, &frame);
 	if (FAILED(hr)) { Report(L"IWICBitmapDecoder::GetFrame failed", hr); return TEXTURE(); }
 
-	UINT width = 0, height = 0;
+	UINT width = 0;
+	UINT height = 0;
 	hr = frame->GetSize(&width, &height);
 	if (FAILED(hr) || width == 0 || height == 0)
 	{
@@ -1256,9 +1300,9 @@ TEXTURE GraphicsHelper::CreateTexture(LPCWSTR textureFilePath)
 
 	const UINT rowPitch  = width * 4;
 	const UINT imageSize = rowPitch * height;
-	std::vector<UINT8> pixels(imageSize);
+	std::unique_ptr<UINT8[]> pixels(new UINT8[imageSize]);
 
-	hr = source->CopyPixels(nullptr, rowPitch, imageSize, pixels.data());
+	hr = source->CopyPixels(nullptr, rowPitch, imageSize, pixels.get());
 	if (FAILED(hr)) { Report(L"IWICBitmapSource::CopyPixels failed", hr); return TEXTURE(); }
 
 	// Texture description: standard UNORM format, single mip level.
@@ -1273,7 +1317,7 @@ TEXTURE GraphicsHelper::CreateTexture(LPCWSTR textureFilePath)
 	textureDesc.BindFlags        = D3D11_BIND_SHADER_RESOURCE;
 
 	D3D11_SUBRESOURCE_DATA initialData = {};
-	initialData.pSysMem     = pixels.data();
+	initialData.pSysMem     = pixels.get();
 	initialData.SysMemPitch = rowPitch;
 
 	ComPtr<ID3D11Texture2D> texture;
@@ -1296,28 +1340,28 @@ TEXTURE GraphicsHelper::CreateTexture(LPCWSTR textureFilePath)
 // ===========================================================================
 // Resource helpers
 // ===========================================================================
-SPRITE GraphicsHelper::CreateSprite(INT top, INT left, INT right, INT bottom,
-                                    DIRECTION spriteDirection, TEXTURE_ID textureId)
+SPRITE GraphicsHelper::CreateSprite(int top, int left, int right, int bottom,
+                                    DIRECTION spriteDirection, const TEXTURE_ID& textureId)
 {
-	return SPRITE(new RECT{ left, top, right, bottom }, spriteDirection, textureId);
+	return SPRITE(RECT{ left, top, right, bottom }, spriteDirection, textureId);
 }
 
-ANIMATION GraphicsHelper::CreateAnimation(DEFAULT_TIME defaultTime,
+ANIMATION GraphicsHelper::CreateAnimation(TIME defaultTime,
                                           std::vector<std::tuple<SPRITE_ID, TIME>> frames)
 {
 	for (auto& frame : frames)
 		if (std::get<TIME>(frame) == 0)
 			std::get<TIME>(frame) = defaultTime;
 
-	return ANIMATION(defaultTime, frames);
+	return ANIMATION(defaultTime, std::move(frames));
 }
 
-void GraphicsHelper::InsertTexure(TEXTURE_ID textureId, LPCWSTR textureFilePath)
+void GraphicsHelper::InsertTexture(const TEXTURE_ID& textureId, LPCWSTR textureFilePath)
 {
 	// Prevent duplicate texture insertions to avoid leaking Shader Resource Views.
 	if (GraphicsDatabase::textures.contains(textureId))
 	{
-		OutputDebugStringW(L"GraphicsHelper: InsertTexure called twice for the same "
+		OutputDebugStringW(L"GraphicsHelper: InsertTexture called twice for the same "
 		                   L"TEXTURE_ID; keeping the texture already loaded\n");
 		return;
 	}
@@ -1325,8 +1369,8 @@ void GraphicsHelper::InsertTexure(TEXTURE_ID textureId, LPCWSTR textureFilePath)
 	GraphicsDatabase::textures.insert({ textureId, CreateTexture(textureFilePath) });
 }
 
-void GraphicsHelper::InsertSprite(SPRITE_ID spriteId, INT top, INT left, INT right, INT bottom,
-                                  DIRECTION spriteDirection, TEXTURE_ID textureId)
+void GraphicsHelper::InsertSprite(const SPRITE_ID& spriteId, int top, int left, int right, int bottom,
+                                  DIRECTION spriteDirection, const TEXTURE_ID& textureId)
 {
 	// Prevent duplicate sprite insertions to avoid leaking allocated RECT memory.
 	if (GraphicsDatabase::sprites.contains(spriteId))
@@ -1340,10 +1384,10 @@ void GraphicsHelper::InsertSprite(SPRITE_ID spriteId, INT top, INT left, INT rig
 		{ spriteId, CreateSprite(top, left, right, bottom, spriteDirection, textureId) });
 }
 
-void GraphicsHelper::InsertAnimation(ANIMATION_ID animationId, DEFAULT_TIME defaultTime,
+void GraphicsHelper::InsertAnimation(const ANIMATION_ID& animationId, TIME defaultTime,
                                      std::vector<std::tuple<SPRITE_ID, TIME>> frames)
 {
-	GraphicsDatabase::animations.insert({ animationId, CreateAnimation(defaultTime, frames) });
+	GraphicsDatabase::animations.insert({ animationId, CreateAnimation(defaultTime, std::move(frames)) });
 }
 
 // ===========================================================================
@@ -1367,18 +1411,17 @@ namespace
 }
 
 void GraphicsHelper::DrawSprite(const SPRITE& sprite, D3DXVECTOR3 position,
-                                DIRECTION movingDirection, FLOAT angle)
+                                DIRECTION movingDirection, float angle)
 {
 	if (!context) return;
 
-	const RECT*       rect            = std::get<RECT*>(sprite);
+	const RECT&       rect            = std::get<RECT>(sprite);
 	const DIRECTION   spriteDirection = std::get<DIRECTION>(sprite);
 	const TEXTURE_ID& textureId       = std::get<TEXTURE_ID>(sprite);
 	if (std::holds_alternative<BULLET_TEXTURE_ID>(textureId))
 	{
 		return;
 	}
-	if (!rect) return;
 
 	const TEXTURE* found = ResolveTexture(textureId);
 	if (!found) return;
@@ -1386,14 +1429,14 @@ void GraphicsHelper::DrawSprite(const SPRITE& sprite, D3DXVECTOR3 position,
 	const TEXTURE& texture = *found;
 	if (!texture.srv || texture.width == 0 || texture.height == 0) return;
 
-	const FLOAT width  = static_cast<FLOAT>(rect->right  - rect->left);
-	const FLOAT height = static_cast<FLOAT>(rect->bottom - rect->top);
+	const float width  = static_cast<float>(rect.right  - rect.left);
+	const float height = static_cast<float>(rect.bottom - rect.top);
 	if (width <= 0.0f || height <= 0.0f) return;
 
 	// --- LOCAL -> WORLD ---
 	// Compose world matrix: scale (negative X = mirror) -> rotate -> translate
-	const BOOL  mirrored = (movingDirection != spriteDirection);
-	const FLOAT radians  = XMConvertToRadians(angle);
+	const bool  mirrored = (movingDirection != spriteDirection);
+	const float radians  = XMConvertToRadians(angle);
 
 	const XMMATRIX world =
 		XMMatrixScaling(mirrored ? -width : width, height, 1.0f) *
@@ -1410,29 +1453,31 @@ void GraphicsHelper::DrawSprite(const SPRITE& sprite, D3DXVECTOR3 position,
 
 	SpriteInstance instance;
 	XMStoreFloat4x4(&instance.world, world);
+	constexpr float eps = Constants::Graphics::TEXEL_INSET_EPSILON;
 	instance.sourceRect = XMFLOAT4(
-		static_cast<FLOAT>(rect->left)   / texture.width,
-		static_cast<FLOAT>(rect->top)    / texture.height,
-		static_cast<FLOAT>(rect->right)  / texture.width,
-		static_cast<FLOAT>(rect->bottom) / texture.height);
+		(static_cast<float>(rect.left)   + eps) / texture.width,
+		(static_cast<float>(rect.top)    + eps) / texture.height,
+		(static_cast<float>(rect.right)  - eps) / texture.width,
+		(static_cast<float>(rect.bottom) - eps) / texture.height);
 	instance.tint = XMFLOAT4(1.0f, 1.0f, 1.0f, 1.0f);
 
 	g_pendingSprites.push_back(instance);
 
-#if DRAW_HITBOXES
-	// Draw hitbox overlay relative to sprite anchor.
-	DrawBox(position.x - width * 0.5f, position.y,
-	        position.x + width * 0.5f, position.y + height,
-	        angle, 0xFFFF007F, position.x, position.y);
-#endif
+	if constexpr (Constants::Graphics::DRAW_HITBOXES)
+	{
+		// Draw hitbox overlay relative to sprite anchor.
+		DrawBox(position.x - width * 0.5f, position.y,
+		        position.x + width * 0.5f, position.y + height,
+		        angle, 0xFFFF007F, position.x, position.y);
+	}
 }
 
 // ===========================================================================
 // Debug wireframes
 // ===========================================================================
-void GraphicsHelper::DrawBox(FLOAT left, FLOAT bottom, FLOAT right, FLOAT top,
-                             FLOAT angle, D3DCOLOR colour,
-                             FLOAT pivotX, FLOAT pivotY)
+void GraphicsHelper::DrawBox(float left, float bottom, float right, float top,
+                             float angle, D3DCOLOR colour,
+                             float pivotX, float pivotY)
 {
 	if (!context) return;
 
@@ -1440,11 +1485,12 @@ void GraphicsHelper::DrawBox(FLOAT left, FLOAT bottom, FLOAT right, FLOAT top,
 	if (!g_debugVertexBuffer) return;
 
 	// Flush debug batch if full.
-	if (g_pendingDebugVertices.size() + 8 > MAX_DEBUG_VERTICES)
+	if (g_pendingDebugVertices.size() + Constants::Graphics::DEBUG_VERTICES_PER_BOX > MAX_DEBUG_VERTICES)
 		FlushDebugLines();
 
-	const FLOAT    radians = XMConvertToRadians(angle);
-	const FLOAT    c = std::cos(radians), s = std::sin(radians);
+	const float    radians = XMConvertToRadians(angle);
+	const float    c = std::cos(radians);
+	const float    s = std::sin(radians);
 	const XMFLOAT4 rgba = UnpackColour(colour);
 
 	const XMFLOAT2 corners[4] = {
@@ -1458,8 +1504,10 @@ void GraphicsHelper::DrawBox(FLOAT left, FLOAT bottom, FLOAT right, FLOAT top,
 		const XMFLOAT2& a = corners[i];
 		const XMFLOAT2& b = corners[(i + 1) % 4];
 
-		const FLOAT ax = a.x - pivotX, ay = a.y - pivotY;
-		const FLOAT bx = b.x - pivotX, by = b.y - pivotY;
+		const float ax = a.x - pivotX;
+		const float ay = a.y - pivotY;
+		const float bx = b.x - pivotX;
+		const float by = b.y - pivotY;
 
 		g_pendingDebugVertices.push_back({ XMFLOAT3(
 			pivotX + ax * c - ay * s,
@@ -1470,7 +1518,7 @@ void GraphicsHelper::DrawBox(FLOAT left, FLOAT bottom, FLOAT right, FLOAT top,
 	}
 }
 
-void GraphicsHelper::DrawParticle(D3DXVECTOR3 position, FLOAT size, DirectX::XMFLOAT4 tint)
+void GraphicsHelper::DrawParticle(D3DXVECTOR3 position, float size, DirectX::XMFLOAT4 tint)
 {
 	if (!context || !g_particleSRV) return;
 

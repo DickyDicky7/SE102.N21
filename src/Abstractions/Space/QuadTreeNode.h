@@ -3,63 +3,70 @@
 #include "Common.h"
 #include "Entity.h"
 #include "Camera.h"
-
-static constexpr INT   MAX    = 20;
-static constexpr FLOAT TILE_C = 08.0f;
-static constexpr FLOAT TILE_R = 08.0f;
-static constexpr FLOAT TILE_W = 16.0f;
-static constexpr FLOAT TILE_H = 16.0f;
-static constexpr FLOAT NODE_SMALLEST_W = TILE_W * TILE_C;
-static constexpr FLOAT NODE_SMALLEST_H = TILE_H * TILE_R;
+#include "AABB.h"
+#include "BLAS.h"
+#include "BVH.h"
+#include "TLAS.h"
+#include <memory>
+#include <vector>
+#include <unordered_map>
 
 struct QuadTreeNode;
 
 struct BoundingBox
 {
-
-	FLOAT B;
-	FLOAT T;
-	FLOAT L;
-	FLOAT R;
-	BOOL Intersect(Entity*);
-	BoundingBox CalcIntersection(QuadTreeNode*);
-
+	float B;
+	float T;
+	float L;
+	float R;
+	bool Intersect(Entity* entity);
+	BoundingBox CalcIntersection(QuadTreeNode* node);
 };
 
 struct QuadTreeNode
 {
-
-	FLOAT x;
-	FLOAT y;
-	FLOAT w;
-	FLOAT h;
+	float x;
+	float y;
+	float w;
+	float h;
 	QuadTreeNode* nodes[4];
-	std::list<Entity*> entities;
+	std::vector<Entity*> entities;
+
+	QuadTreeNode();
+	QuadTreeNode(float x, float y, float w, float h);
+	~QuadTreeNode();
 
 	void Clear();
 	void Clean();
-	void Insert(Entity*);
-	void Remove(Entity*);
+	void Insert(Entity* entity);
+	void Remove(Entity* entity);
 
-	BOOL Contain(Entity*);
-	BOOL Contain(Camera*);
-	BOOL Contain(BoundingBox);
-	BOOL Intersect(Entity*);
-	BOOL Intersect(Camera*);
-	BOOL Intersect(BoundingBox);
+	bool Contain(Entity* entity);
+	bool Contain(Camera* camera);
+	bool Contain(BoundingBox boundingBox);
+	bool Intersect(Entity* entity);
+	bool Intersect(Camera* camera);
+	bool Intersect(BoundingBox boundingBox);
 
-	void Retrieve(Entity*, FLOAT, FLOAT, std::unordered_map<Entity*, QuadTreeNode*>&);
-	void Retrieve(Camera*              , std::unordered_map<Entity*, QuadTreeNode*>&);
-	void Retrieve(BoundingBox          , std::unordered_map<Entity*, QuadTreeNode*>&);
+	void Retrieve(Entity* entity, float rx, float ry, std::unordered_map<Entity*, QuadTreeNode*>& result);
+	void Retrieve(Camera* camera, std::unordered_map<Entity*, QuadTreeNode*>& result);
+	void Retrieve(BoundingBox boundingBox, std::unordered_map<Entity*, QuadTreeNode*>& result);
 
-	FLOAT GetB() const;
-	FLOAT GetT() const;
-	FLOAT GetL() const;
-	FLOAT GetR() const;
-	BOOL IsSmallestNode() const;
-	static QuadTreeNode* New(FLOAT, FLOAT, FLOAT, FLOAT);
-	static BOOL Update(QuadTreeNode*, const std::unordered_map<Entity*, QuadTreeNode*>&);
+	// Zero-allocation vector query overloads
+	void Retrieve(const Space::AABB& box, std::vector<Entity*>& result);
+	void Retrieve(const Camera* camera, std::vector<Entity*>& result);
 
+	float GetB() const;
+	float GetT() const;
+	float GetL() const;
+	float GetR() const;
+	bool IsSmallestNode() const;
+
+	Space::TLAS* GetTLAS() const { return this->_tlas.get(); }
+
+	static QuadTreeNode* New(float x, float y, float w, float h);
+	static bool Update(QuadTreeNode* root, const std::unordered_map<Entity*, QuadTreeNode*>& result);
+
+private:
+	std::unique_ptr<Space::TLAS> _tlas;
 };
-
-

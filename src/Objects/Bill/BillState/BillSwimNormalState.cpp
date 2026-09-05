@@ -14,19 +14,14 @@ void BillSwimNormalState::Exit(Bill& bill)
 
 void BillSwimNormalState::Enter(Bill& bill)
 {
-	//bill.SetVX(0.0f);
-	//bill.SetVY(0.0f);
-	//bill.SetAX(0.0f);
-	//bill.SetAY(0.0f);
-
 	if (bill.GetMovingDirection() == DIRECTION::LEFT)
 	{
-		bill.SetVX(-2.0f);
+		bill.SetVX(-Constants::Bill::SWIM_SPEED_X);
 		bill.SetAX(-0.0f);
 	}
 	if (bill.GetMovingDirection() == DIRECTION::RIGHT)
 	{
-		bill.SetVX(+2.0f);
+		bill.SetVX(+Constants::Bill::SWIM_SPEED_X);
 		bill.SetAX(+0.0f);
 	}
 
@@ -41,7 +36,7 @@ void BillSwimNormalState::Render(Bill& bill)
 
 BillState* BillSwimNormalState::Update(Bill& bill)
 {
-	return NULL;
+	return nullptr;
 }
 
 BillState* BillSwimNormalState::HandleInput(Bill& bill, Input& input)
@@ -65,5 +60,5 @@ BillState* BillSwimNormalState::HandleInput(Bill& bill, Input& input)
 	//
 
 
-	return NULL;
+	return nullptr;
 }

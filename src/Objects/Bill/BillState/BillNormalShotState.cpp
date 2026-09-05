@@ -23,7 +23,7 @@ void BillNormalShotState::Render(Bill& bill)
 
 BillState* BillNormalShotState::Update(Bill& bill)
 {
-	return NULL;
+	return nullptr;
 }
 
 BillState* BillNormalShotState::HandleInput(Bill& bill, Input& input)
@@ -31,7 +31,7 @@ BillState* BillNormalShotState::HandleInput(Bill& bill, Input& input)
 	if (input.IsKey(DIK_X))
 	{
 		bill.Fire();
-		return NULL;
+		return nullptr;
 	}
 	return new BillNormalState();
 }

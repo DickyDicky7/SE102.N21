@@ -42,32 +42,42 @@ class Bill : public Entity, public HasTextures<Bill>, public HasSprites<Bill>, p
 
 public:
 
-	INT* livesLeft;
-	ULONGLONG immortalTime;
-	ULONGLONG immortalTick;
+	// Points at Scene's life counter, so a death decrements the one the HUD reads.
+	int* GetLivesLeft() const { return this->_livesLeft; }
+	void SetLivesLeft(int* livesLeft) { this->_livesLeft = livesLeft; }
+
+	// Cleared on respawn; Update counts it back up to _immortalTime.
+	void ResetImmortalTick() { this->_immortalTick = 0; }
 
 	Bill();
 	virtual ~Bill();
 	virtual void GoDead();
+	bool IsBill() const override { return true; }
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
-	void  Fire                    (               ) override;
-	void  StaticResolveNoCollision(               ) override;
-	void  StaticResolveOnCollision(AABBSweepResult) override;
-	void DynamicResolveNoCollision(               ) override;
-	void DynamicResolveOnCollision(AABBSweepResult) override;
+	void  Fire                    (                               ) override;
+	void  CollectItem             (ITEM_TYPE type                 );
+	CollidableEntity* AsCollidable(                               ) override { return this; }
+	void  StaticResolveNoCollision(                               ) override;
+	void  StaticResolveOnCollision(AABBSweepResult aabbSweepResult) override;
+	void DynamicResolveNoCollision(                               ) override;
+	void DynamicResolveOnCollision(AABBSweepResult aabbSweepResult) override;
 
 protected:
 
-	BillState* state;
-	BillState* updateState;
-	BillState* handleInputState;
+	int* _livesLeft;
+	ULONGLONG _immortalTime;
+	ULONGLONG _immortalTick;
+
+	BillState* _state;
+	BillState* _updateState;
+	BillState* _handleInputState;
 
 };
 
@@ -80,16 +90,24 @@ public:
 	BillState();
 	virtual ~BillState();
 
-	virtual void Exit(Bill&) override = 0;
-	virtual void Enter(Bill&) override = 0;
-	virtual void Render(Bill&) override = 0;
+	virtual void Exit(Bill& bill) override = 0;
+	virtual void Enter(Bill& bill) override = 0;
+	virtual void Render(Bill& bill) override = 0;
 
-	virtual BillState* Update(Bill&) override = 0;
-	virtual BillState* HandleInput(Bill&, Input&) override = 0;
+	virtual BillState* Update(Bill& bill) override = 0;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override = 0;
+
+	virtual std::optional<BulletSpawnParams> GetBulletSpawnParams(const Bill& bill) const;
+	virtual bool IsDead() const { return false; }
+	virtual bool IsInvulnerable() const { return false; }
+	virtual bool IsJumping() const { return false; }
+	virtual bool IsNormal() const { return false; }
+	virtual bool IsFalling() const { return false; }
+	virtual bool IsBeginning() const { return false; }
 
 protected:
 
-	FLOAT time;
+	float _time;
 
 };
 
@@ -102,12 +120,12 @@ public:
 	BillRunState();
 	virtual ~BillRunState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
 
 };
 
@@ -118,19 +136,21 @@ class BillFallState : public BillState
 public:
 
 	BillFallState();
-	BillFallState(BillState*);
+	BillFallState(BillState* returnState);
 	virtual ~BillFallState( );
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	bool IsFalling() const override { return true; }
 
 protected:
 
-	BillState* returnState;
+	BillState* _returnState;
 
 };
 
@@ -143,17 +163,20 @@ public:
 	BillJumpState();
 	virtual ~BillJumpState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	bool IsJumping() const override { return true; }
+	std::optional<BulletSpawnParams> GetBulletSpawnParams(const Bill& bill) const override;
 
 protected:
 
-	BOOL hasMovedLeft;
-	BOOL hasMovedRight;
+	bool _hasMovedLeft;
+	bool _hasMovedRight;
 
 };
 
@@ -166,12 +189,14 @@ public:
 	BillDiveState();
 	virtual ~BillDiveState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	bool IsInvulnerable() const override { return true; }
 
 };
 
@@ -184,17 +209,19 @@ public:
 	BillDeadState();
 	virtual ~BillDeadState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	bool IsDead() const override { return true; }
 
 protected:
 
-	static constexpr ULONGLONG DEFAULT_REVIVAL_COOLDOWN = 100;
-	                 ULONGLONG revivalCooldown;
+	static constexpr ULONGLONG DEFAULT_REVIVAL_COOLDOWN = Constants::Bill::DEFAULT_REVIVAL_COOLDOWN_MILLISECONDS;
+	                 ULONGLONG _revivalCooldown;
 
 };
 
@@ -207,12 +234,14 @@ public:
 	BillBeginState();
 	virtual ~BillBeginState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	bool IsBeginning() const override { return true; }
 
 };
 
@@ -225,12 +254,14 @@ public:
 	BillNormalState();
 	virtual ~BillNormalState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	bool IsNormal() const override { return true; }
 
 };
 
@@ -243,12 +274,14 @@ public:
 	BillLayDownState();
 	virtual ~BillLayDownState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	std::optional<BulletSpawnParams> GetBulletSpawnParams(const Bill& bill) const override;
 
 };
 
@@ -261,12 +294,14 @@ public:
 	BillRunShotState();
 	virtual ~BillRunShotState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	std::optional<BulletSpawnParams> GetBulletSpawnParams(const Bill& bill) const override;
 
 };
 
@@ -279,12 +314,12 @@ public:
 	BillSwimRunState();
 	virtual ~BillSwimRunState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
 
 };
 
@@ -297,16 +332,16 @@ public:
 	BillBeginSwimState();
 	virtual ~BillBeginSwimState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
 
 protected:
 
-	TIME delayTime;
+	TIME _delayTime;
 
 };
 
@@ -319,12 +354,12 @@ public:
 	BillSwimNormalState();
 	virtual ~BillSwimNormalState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
 
 };
 
@@ -337,12 +372,14 @@ public:
 	BillNormalShotState();
 	virtual ~BillNormalShotState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	std::optional<BulletSpawnParams> GetBulletSpawnParams(const Bill& bill) const override;
 
 };
 
@@ -355,12 +392,12 @@ public:
 	BillStraightUpState();
 	virtual ~BillStraightUpState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
 
 };
 
@@ -373,12 +410,14 @@ public:
 	BillSwimRunShotState();
 	virtual ~BillSwimRunShotState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	std::optional<BulletSpawnParams> GetBulletSpawnParams(const Bill& bill) const override;
 
 };
 
@@ -391,12 +430,14 @@ public:
 	BillSwimNormalShotState();
 	virtual ~BillSwimNormalShotState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	std::optional<BulletSpawnParams> GetBulletSpawnParams(const Bill& bill) const override;
 
 };
 
@@ -409,12 +450,14 @@ public:
 	BillShotStraightUpState();
 	virtual ~BillShotStraightUpState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	std::optional<BulletSpawnParams> GetBulletSpawnParams(const Bill& bill) const override;
 
 };
 
@@ -427,12 +470,14 @@ public:
 	BillRunShotAngleUpState();
 	virtual ~BillRunShotAngleUpState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	std::optional<BulletSpawnParams> GetBulletSpawnParams(const Bill& bill) const override;
 
 };
 
@@ -445,12 +490,14 @@ public:
 	BillSwimShotAngleUpState();
 	virtual ~BillSwimShotAngleUpState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	std::optional<BulletSpawnParams> GetBulletSpawnParams(const Bill& bill) const override;
 
 };
 
@@ -463,12 +510,14 @@ public:
 	BillRunShotAngleDownState();
 	virtual ~BillRunShotAngleDownState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	std::optional<BulletSpawnParams> GetBulletSpawnParams(const Bill& bill) const override;
 
 };
 
@@ -481,12 +530,14 @@ public:
 	BillSwimShotStraightUpState();
 	virtual ~BillSwimShotStraightUpState();
 
-	virtual void Exit(Bill&) override;
-	virtual void Enter(Bill&) override;
-	virtual void Render(Bill&) override;
+	virtual void Exit(Bill& bill) override;
+	virtual void Enter(Bill& bill) override;
+	virtual void Render(Bill& bill) override;
 
-	virtual BillState* Update(Bill&) override;
-	virtual BillState* HandleInput(Bill&, Input&) override;
+	virtual BillState* Update(Bill& bill) override;
+	virtual BillState* HandleInput(Bill& bill, Input& input) override;
+
+	std::optional<BulletSpawnParams> GetBulletSpawnParams(const Bill& bill) const override;
 
 };
 

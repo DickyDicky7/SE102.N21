@@ -6,28 +6,33 @@
 #include "CollidableEntity.h"
 
 
-enum class TERRAIN_BLOCK_TYPE { NONE, WALL, WATER, CHECK_POINT, THROUGHABLE, NON_THROUGHABLE, };
-
-
 class TerrainBlock : public Entity, public CollidableEntity
 {
 
 public:
 
-	std::string name;
-
 	TerrainBlock();
 	virtual ~TerrainBlock();
-	TERRAIN_BLOCK_TYPE type;
+
+	void SetTerrainType(TERRAIN_BLOCK_TYPE type) { this->_type = type; }
+	TERRAIN_BLOCK_TYPE GetTerrainType() const override { return this->_type; }
+	void SetEntityName(std::string_view entityName) { this->_name = entityName; }
+	std::string GetEntityName() const override { return this->_name; }
 
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 
-	void  StaticResolveNoCollision(               ) override;
-	void  StaticResolveOnCollision(AABBSweepResult) override;
-	void DynamicResolveNoCollision(               ) override;
-	void DynamicResolveOnCollision(AABBSweepResult) override;
+	CollidableEntity* AsCollidable() override { return this; }
+	void  StaticResolveNoCollision(                               ) override;
+	void  StaticResolveOnCollision(AABBSweepResult aabbSweepResult) override;
+	void DynamicResolveNoCollision(                               ) override;
+	void DynamicResolveOnCollision(AABBSweepResult aabbSweepResult) override;
+
+protected:
+
+	std::string _name;
+	TERRAIN_BLOCK_TYPE _type;
 
 };
 

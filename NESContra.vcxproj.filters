@@ -231,19 +231,28 @@
     <ClInclude Include="src\Abstractions\Object\Terrain.h">
       <Filter>src\Abstractions\Object</Filter>
     </ClInclude>
-    <ClInclude Include="src\Abstractions\Space\QuadTree.h">
+    <ClInclude Include="src\Abstractions\Space\AABB.h">
       <Filter>src\Abstractions\Space</Filter>
     </ClInclude>
-    <ClInclude Include="src\Abstractions\Space\QuadTreeCommon.h">
+    <ClInclude Include="src\Abstractions\Space\BLAS.h">
       <Filter>src\Abstractions\Space</Filter>
     </ClInclude>
-    <ClInclude Include="src\Abstractions\Space\QuadTreeContainer.h">
+    <ClInclude Include="src\Abstractions\Space\BVH.h">
+      <Filter>src\Abstractions\Space</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Abstractions\Space\TLAS.h">
+      <Filter>src\Abstractions\Space</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Abstractions\Space\SpatialPartitioning.h">
       <Filter>src\Abstractions\Space</Filter>
     </ClInclude>
     <ClInclude Include="src\Abstractions\Space\QuadTreeNode.h">
       <Filter>src\Abstractions\Space</Filter>
     </ClInclude>
     <ClInclude Include="src\Common.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Constants.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Objects\Bill\Bill.h">
@@ -466,6 +475,15 @@
     </ClCompile>
     <ClCompile Include="src\Abstractions\Object\Terrain.cpp">
       <Filter>src\Abstractions\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Abstractions\Space\BLAS.cpp">
+      <Filter>src\Abstractions\Space</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Abstractions\Space\BVH.cpp">
+      <Filter>src\Abstractions\Space</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Abstractions\Space\TLAS.cpp">
+      <Filter>src\Abstractions\Space</Filter>
     </ClCompile>
     <ClCompile Include="src\Abstractions\Space\QuadTreeNode.cpp">
       <Filter>src\Abstractions\Space</Filter>

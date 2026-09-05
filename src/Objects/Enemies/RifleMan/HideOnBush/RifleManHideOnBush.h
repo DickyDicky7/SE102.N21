@@ -27,10 +27,10 @@ public:
 
 	virtual void Update() override;
 	virtual void Render() override;
-	virtual void HandleInput(Input&) override;
+	virtual void HandleInput(Input& input) override;
 
 	void Fire() override;
-	void CustomFire(FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, DIRECTION);
+	void CustomFire(float x, float y, float angle, float vx, float vy, float ax, float ay, DIRECTION movingDirection);
 
 	void LoadTextures() override;
 	void LoadSprites() override;
@@ -38,27 +38,32 @@ public:
 
 	const Bill* GetEnemyTarget();
 
+	bool IsEnemy() const override { return true; }
+	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
+	bool IsLethalToTouch() const override { return true; }
+	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	bool TakeBulletHit() override { return this->Enemy<Bill>::TakeEnemyBulletHit(this); }
 protected:
-	RifleManHideOnBushState* state;
-	RifleManHideOnBushState* updateState;
+	RifleManHideOnBushState* _state;
+	RifleManHideOnBushState* _updateState;
 
 };
 
 class RifleManHideOnBushState : public State<RifleManHideOnBushState, RifleManHideOnBush>
 {
-public: 
+public:
 	RifleManHideOnBushState();
 	~RifleManHideOnBushState();
 
-	virtual void Exit(RifleManHideOnBush&) = 0;
-	virtual void Enter(RifleManHideOnBush&) = 0;
-	virtual void Render(RifleManHideOnBush&) = 0;
+	virtual void Exit(RifleManHideOnBush& rifleManHideOnBush) = 0;
+	virtual void Enter(RifleManHideOnBush& rifleManHideOnBush) = 0;
+	virtual void Render(RifleManHideOnBush& rifleManHideOnBush) = 0;
 
-	virtual RifleManHideOnBushState* Update(RifleManHideOnBush&) = 0;
-	virtual RifleManHideOnBushState* HandleInput(RifleManHideOnBush&, Input&) override;
+	virtual RifleManHideOnBushState* Update(RifleManHideOnBush& rifleManHideOnBush) = 0;
+	virtual RifleManHideOnBushState* HandleInput(RifleManHideOnBush& rifleManHideOnBush, Input& input) override;
 
 protected:
-	FLOAT time;
+	float _time;
 };
 
 class RifleManHideOnBushHidingState : public RifleManHideOnBushState
@@ -67,11 +72,11 @@ public:
 	RifleManHideOnBushHidingState();
 	~RifleManHideOnBushHidingState();
 
-	virtual void Exit(RifleManHideOnBush&);
-	virtual void Enter(RifleManHideOnBush&);
-	virtual void Render(RifleManHideOnBush&);
+	virtual void Exit(RifleManHideOnBush& rifleManHideOnBush);
+	virtual void Enter(RifleManHideOnBush& rifleManHideOnBush);
+	virtual void Render(RifleManHideOnBush& rifleManHideOnBush);
 
-	virtual RifleManHideOnBushState* Update(RifleManHideOnBush&);
+	virtual RifleManHideOnBushState* Update(RifleManHideOnBush& rifleManHideOnBush);
 };
 
 class RifleManHideOnBushAppearState : public RifleManHideOnBushState
@@ -80,26 +85,26 @@ public:
 	RifleManHideOnBushAppearState();
 	~RifleManHideOnBushAppearState();
 
-	virtual void Exit(RifleManHideOnBush&);
-	virtual void Enter(RifleManHideOnBush&);
-	virtual void Render(RifleManHideOnBush&);
+	virtual void Exit(RifleManHideOnBush& rifleManHideOnBush);
+	virtual void Enter(RifleManHideOnBush& rifleManHideOnBush);
+	virtual void Render(RifleManHideOnBush& rifleManHideOnBush);
 
-	virtual RifleManHideOnBushState* Update(RifleManHideOnBush&);
+	virtual RifleManHideOnBushState* Update(RifleManHideOnBush& rifleManHideOnBush);
 };
 
 class RifleManHideOnBushStandingState : public RifleManHideOnBushState
 {
 public:
-	RifleManHideOnBushStandingState(RifleManHideOnBush&);
+	RifleManHideOnBushStandingState(RifleManHideOnBush& rifleManHideOnBush);
 	~RifleManHideOnBushStandingState();
 
-	virtual void Exit(RifleManHideOnBush&);
-	virtual void Enter(RifleManHideOnBush&);
-	virtual void Render(RifleManHideOnBush&);
+	virtual void Exit(RifleManHideOnBush& rifleManHideOnBush);
+	virtual void Enter(RifleManHideOnBush& rifleManHideOnBush);
+	virtual void Render(RifleManHideOnBush& rifleManHideOnBush);
 
-	virtual RifleManHideOnBushState* Update(RifleManHideOnBush&);
+	virtual RifleManHideOnBushState* Update(RifleManHideOnBush& rifleManHideOnBush);
 protected:
-	BOOLEAN isShoot;
+	bool _isShoot;
 };
 
 class RifleManHideOnBushHideState : public RifleManHideOnBushState
@@ -108,9 +113,9 @@ public:
 	RifleManHideOnBushHideState();
 	~RifleManHideOnBushHideState();
 
-	virtual void Exit(RifleManHideOnBush&);
-	virtual void Enter(RifleManHideOnBush&);
-	virtual void Render(RifleManHideOnBush&);
+	virtual void Exit(RifleManHideOnBush& rifleManHideOnBush);
+	virtual void Enter(RifleManHideOnBush& rifleManHideOnBush);
+	virtual void Render(RifleManHideOnBush& rifleManHideOnBush);
 
-	virtual RifleManHideOnBushState* Update(RifleManHideOnBush&);
+	virtual RifleManHideOnBushState* Update(RifleManHideOnBush& rifleManHideOnBush);
 };

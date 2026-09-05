@@ -1,85 +1,104 @@
-﻿#include "Motion.h"
+#include <cmath>
+#include "Motion.h"
 
 namespace Motion
 {
 
+	template <typename OutType>
+	static OutType CalculateVariableMotionInternal(
+		float coordinate,
+		float velocity,
+		float acceleration,
+		float elapsedTime,
+		float deltaTime,
+		bool isAccelerating)
+	{
+		float adjustedAcceleration = acceleration;
+		if (isAccelerating ? (velocity * acceleration <= 0.0f) : (velocity * acceleration >= 0.0f))
+		{
+			adjustedAcceleration = -acceleration;
+		}
+		float nextElapsedTime = elapsedTime + deltaTime;
+		float nextVelocity = velocity + adjustedAcceleration * elapsedTime;
+		float nextCoordinate = coordinate + velocity * elapsedTime + adjustedAcceleration * elapsedTime * elapsedTime * Constants::Physics::KINEMATIC_DISPLACEMENT_COEFFICIENT;
+
+		return OutType{ nextCoordinate, nextVelocity, adjustedAcceleration, nextElapsedTime, deltaTime };
+	}
+
 	UniformMotionOutputParameters CalculateUniformMotion(UniformMotionInputParameters uniformMotionInputParameters)
 	{
-		auto [c, v] = uniformMotionInputParameters;
-
-		FLOAT _c_ = c + v;
-
-		return { _c_, v };
+		auto [coordinate, velocity] = uniformMotionInputParameters;
+		float nextCoordinate = coordinate + velocity;
+		return { nextCoordinate, velocity };
 	}
 
 	ProjectileMotionOutputParameters CalculateProjectileMotion(ProjectileMotionInputParameters projectileMotionInputParameters)
 	{
-		auto [x, y, v0, θ, t, dt] = projectileMotionInputParameters;
+		auto [positionX, positionY, initialVelocity, launchAngleDegrees, elapsedTime, deltaTime] = projectileMotionInputParameters;
 
-		FLOAT _t_  = t + dt;
-		FLOAT _x_  = x + v0 * cos(D3DXToRadian(θ)) * t;
-		FLOAT _y_  = y + v0 * sin(D3DXToRadian(θ)) * t - 9.8f * pow(t, 2.0f) / 2.0f;
-		FLOAT _vx_ =	 v0 * cos(D3DXToRadian(θ))				 ;
-		FLOAT _vy_ =	 v0 * sin(D3DXToRadian(θ))	   - 9.8f * t;
+		float radians = D3DXToRadian(launchAngleDegrees);
+		float cosRadians = std::cos(radians);
+		float sinRadians = std::sin(radians);
 
-		return  { _x_, _y_, v0, θ, _t_, dt, _vx_, _vy_ };
+		float nextElapsedTime = elapsedTime + deltaTime;
+		float nextPositionX = positionX + initialVelocity * cosRadians * elapsedTime;
+		float nextPositionY = positionY + initialVelocity * sinRadians * elapsedTime - (Constants::Physics::GRAVITY_ACCELERATION * Constants::Physics::KINEMATIC_DISPLACEMENT_COEFFICIENT) * elapsedTime * elapsedTime;
+		float velocityX = initialVelocity * cosRadians;
+		float velocityY = initialVelocity * sinRadians - Constants::Physics::GRAVITY_ACCELERATION * elapsedTime;
+
+		return { nextPositionX, nextPositionY, initialVelocity, launchAngleDegrees, nextElapsedTime, deltaTime, velocityX, velocityY };
 	}
 
 	OscillatoryMotionOutputParameters CalculateOscillatoryMotion(OscillatoryMotionInputParameters oscillatoryMotionInputParameters)
 	{
-		auto [c0, t, dt, T, A, φ] = oscillatoryMotionInputParameters;
+		auto [initialCoordinate, elapsedTime, deltaTime, period, amplitude, initialPhaseDegrees] = oscillatoryMotionInputParameters;
 
-		FLOAT ω = 2.0f * D3DX_PI / T;
-		FLOAT angle = ω * t + D3DXToRadian(φ);
+		float angularFrequency = (period != 0.0f) ? (Constants::Physics::TURN_RADIANS / period) : 0.0f;
+		float currentPhaseRadians = angularFrequency * elapsedTime + D3DXToRadian(initialPhaseDegrees);
 
-		FLOAT _t_ = t + dt;
-		FLOAT _c_ = c0 + A * cos(angle);
-		FLOAT _v_ = -A * pow(ω, 1.0f) * sin(angle);
-		FLOAT _a_ = -A * pow(ω, 2.0f) * cos(angle);
+		float nextElapsedTime = elapsedTime + deltaTime;
+		float coordinate = initialCoordinate + amplitude * std::cos(currentPhaseRadians);
+		float velocity = -amplitude * angularFrequency * std::sin(currentPhaseRadians);
+		float acceleration = -amplitude * angularFrequency * angularFrequency * std::cos(currentPhaseRadians);
 
-		return  { c0, _t_, dt, T, A, φ, _c_, _v_, _a_ };
+		return { initialCoordinate, nextElapsedTime, deltaTime, period, amplitude, initialPhaseDegrees, coordinate, velocity, acceleration };
 	}
 
 	UniformCircularMotionOutputParameters CalculateUniformCircularMotion(UniformCircularMotionInputParameters uniformCircularMotionInputParameters)
 	{
-		auto [r, ω, dω, xO, yO] = uniformCircularMotionInputParameters;
+		auto [radius, angleDegrees, deltaAngleDegrees, centerPositionX, centerPositionY] = uniformCircularMotionInputParameters;
 
-		FLOAT _ω_ = ω + dω;
-		FLOAT _x_ = xO + r * cos(D3DXToRadian(ω));
-		FLOAT _y_ = yO + r * sin(D3DXToRadian(ω));
+		float nextAngleDegrees = angleDegrees + deltaAngleDegrees;
+		float positionX = centerPositionX + radius * std::cos(D3DXToRadian(angleDegrees));
+		float positionY = centerPositionY + radius * std::sin(D3DXToRadian(angleDegrees));
 
-		return { r, _ω_, dω, xO, yO, _x_, _y_ };
+		return { radius, nextAngleDegrees, deltaAngleDegrees, centerPositionX, centerPositionY, positionX, positionY };
 	}
 
-	UniformlyAcceleratedMotionOutputParameters CalculateUniformlyAcceleratedMotion(UniformlyAcceleratedMotionInputParameters uniformlyAcceleratedMotionInputParameters)
+	UniformlyAcceleratedMotionOutputParameters CalculateUniformlyAcceleratedMotion(UniformlyAcceleratedMotionInputParameters acceleratedMotionInputParameters)
 	{
-		auto [c, v, a, t, dt] = uniformlyAcceleratedMotionInputParameters;
-
-		if (v * a <= 0)
-		{
-			a *= -1.0f;
-		}
-		FLOAT _t_ = t + dt;
-		FLOAT _v_ = v + a * t;
-		FLOAT _c_ = c + v * t + a * pow(t, 2.0f) / 2.0f;
-
-		return { _c_, _v_, a, _t_, dt };
+		return CalculateVariableMotionInternal<UniformlyAcceleratedMotionOutputParameters>(
+			acceleratedMotionInputParameters.coordinate,
+			acceleratedMotionInputParameters.velocity,
+			acceleratedMotionInputParameters.acceleration,
+			acceleratedMotionInputParameters.elapsedTime,
+			acceleratedMotionInputParameters.deltaTime,
+			true
+		);
 	}
 
-	UniformlyDeceleratedMotionOutputParameters CalculateUniformlyDeceleratedMotion(UniformlyDeceleratedMotionInputParameters uniformlyDeceleratedMotionInputParameters)
+	UniformlyDeceleratedMotionOutputParameters CalculateUniformlyDeceleratedMotion(UniformlyDeceleratedMotionInputParameters deceleratedMotionInputParameters)
 	{
-		auto [c, v, a, t, dt] = uniformlyDeceleratedMotionInputParameters;
-
-		if (v * a >= 0)
-		{
-			a *= -1.0f;
-		}
-		FLOAT _t_ = t + dt;
-		FLOAT _v_ = v + a * t;
-		FLOAT _c_ = c + v * t + a * pow(t, 2.0f) / 2.0f;
-
-		return { _c_, _v_, a, _t_, dt };
+		return CalculateVariableMotionInternal<UniformlyDeceleratedMotionOutputParameters>(
+			deceleratedMotionInputParameters.coordinate,
+			deceleratedMotionInputParameters.velocity,
+			deceleratedMotionInputParameters.acceleration,
+			deceleratedMotionInputParameters.elapsedTime,
+			deceleratedMotionInputParameters.deltaTime,
+			false
+		);
 	}
 
 };
+
 

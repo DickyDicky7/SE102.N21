@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "State.h"
 #include "Common.h"
 #include "Entity.h"
@@ -7,8 +7,6 @@
 #include "HasTextures.h"
 #include "Bill.h"
 #include "Enemy.h"
-
-#define BRIDGE_PART 4
 
 class Bridge;
 class BridgePart;
@@ -20,11 +18,11 @@ class Bridge : public Entity, public Enemy<Bill>
 {
 public:
 	Bridge();
-	Bridge(D3DXVECTOR3, FLOAT);
+	Bridge(D3DXVECTOR3 position, float w);
 	virtual ~Bridge();
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 
 	void LoadSprites() override;
 	void LoadTextures() override;
@@ -32,47 +30,57 @@ public:
 
 	void InitBridgePart();
 
+	bool IsBridge() const override { return true; }
+	bool IsWalkableSurface() const override { return true; }
+	bool IsEnemy() const override { return true; }
+	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
 protected:
-	BridgePart* bridgePart[BRIDGE_PART];
-	BOOL isInitBridge;
-	int lastDestroyPart = -1;
+	BridgePart* _bridgePart[Constants::Enemies::Bridge::PART_COUNT];
+	bool _isInitBridge;
+	int _lastDestroyPart = -1;
 };
 
 class BridgePart : public Entity, public Enemy<Bill>, public HasAnimations<BridgePart>
 {
 public:
 	BridgePart();
-	BridgePart(ANIMATION_ID);
+	BridgePart(ANIMATION_ID animationId);
 	virtual ~BridgePart();
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 	void LoadAnimations() override;
-	void SetIsDestroy(BOOLEAN);
-	BOOLEAN GetIsDestroy();
+	void SetIsDestroy(bool isDestroy);
+	bool GetIsDestroy() const;
 
+	bool IsBridge() const override { return true; }
+	bool IsWalkableSurface() const override { return true; }
+	bool IsEnemy() const override { return true; }
+	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
 protected:
-	BOOLEAN isDestroy;
-	BridgePartState* state;
-	BridgePartState* updateState;
+	bool _isDestroy;
+	BridgePartState* _state;
+	BridgePartState* _updateState;
 };
 
 class BridgePartState : public State<BridgePartState, BridgePart>
 {
 public:
 	BridgePartState();
-	BridgePartState(ANIMATION_ID);
+	BridgePartState(ANIMATION_ID animationId);
 	virtual ~BridgePartState();
 
-	virtual void Exit(BridgePart&);
-	virtual void Enter(BridgePart&);
-	virtual void Render(BridgePart&);
+	virtual void Exit(BridgePart& bridgePart);
+	virtual void Enter(BridgePart& bridgePart);
+	virtual void Render(BridgePart& bridgePart);
 
-	virtual BridgePartState* Update(BridgePart&);
-	virtual BridgePartState* HandleInput(BridgePart&, Input&) override;
+	virtual BridgePartState* Update(BridgePart& bridgePart);
+	virtual BridgePartState* HandleInput(BridgePart& bridgePart, Input& input) override;
+
+	virtual bool HasZeroDimensions() const { return false; }
 protected:
-	FLOAT time;
-	ANIMATION_ID animationId;
+	float _time;
+	ANIMATION_ID _animationId;
 };
 
 
@@ -82,9 +90,11 @@ public:
 	BridgePartExplosionState();
 	~BridgePartExplosionState();
 
-	virtual void Exit(BridgePart&);
-	virtual void Enter(BridgePart&);
-	virtual void Render(BridgePart&);
+	virtual void Exit(BridgePart& bridgePart);
+	virtual void Enter(BridgePart& bridgePart);
+	virtual void Render(BridgePart& bridgePart);
 
-	virtual BridgePartState* Update(BridgePart&);
+	virtual BridgePartState* Update(BridgePart& bridgePart);
+
+	bool HasZeroDimensions() const override { return true; }
 };

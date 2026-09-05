@@ -1,4 +1,5 @@
 #include "Bullet.h"
+#include "ParticleSystem.h"
 
 BulletMState::BulletMState() : BulletState()
 {
@@ -15,7 +16,7 @@ void BulletMState::Exit(Bullet& bullet)
 
 void BulletMState::Enter(Bullet& bullet)
 {
-	Sound::getInstance()->play("shootM", false, 1);
+	Sound::GetInstance()->Play("shootM", false, 1);
 }
 
 void BulletMState::Render(Bullet& bullet)
@@ -26,13 +27,28 @@ void BulletMState::Render(Bullet& bullet)
 BulletState* BulletMState::Update(Bullet& bullet)
 {
 	auto resultX = Motion::CalculateUniformMotion({ bullet.GetX(), bullet.GetVX() });
-	bullet.SetX(resultX.c);
+	bullet.SetX(resultX.coordinate);
 	auto resultY = Motion::CalculateUniformMotion({ bullet.GetY(), bullet.GetVY() });
-	bullet.SetY(resultY.c);
-	return NULL;
+	bullet.SetY(resultY.coordinate);
+	return nullptr;
 }
 
 BulletState* BulletMState::HandleInput(Bullet& bullet, Input& input)
 {
-	return NULL;
+	return nullptr;
+}
+
+void BulletMState::SpawnTrail(const Bullet& bullet) const
+{
+	BulletParticleSystem::AddParticle(bullet.GetX(), bullet.GetY(), -bullet.GetVX() * Constants::Particles::TRAIL_DRAG_RATIO_M, -bullet.GetVY() * Constants::Particles::TRAIL_DRAG_RATIO_M, Constants::Particles::TRAIL_SIZE_M, Constants::Particles::TRAIL_LIFE_M, GraphicsHelper::ToXMFloat4(Constants::Particles::TRAIL_COLOUR_M));
+}
+
+DirectX::XMFLOAT4 BulletMState::GetExplodeColor() const
+{
+	return GraphicsHelper::ToXMFloat4(Constants::Particles::EXPLODE_COLOUR_M);
+}
+
+void BulletMState::SpawnBullets(float x, float y, float angle, float vx, float vy, float ax, float ay, DIRECTION movingDirection, std::vector<Bullet*>& bullets) const
+{
+	bullets.push_back(Bullet::Create(x, y, vx, vy, ax, ay, angle, movingDirection, false, new BulletMState()));
 }

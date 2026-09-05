@@ -1,103 +1,103 @@
 #include "Camera.h"
 
-FLOAT Camera::scalingRatioX = SCALING_RATIO_X;
-FLOAT Camera::scalingRatioY = SCALING_RATIO_Y;
+float Camera::_scalingRatioX = Constants::Screen::SCALING_X;
+float Camera::_scalingRatioY = Constants::Screen::SCALING_Y;
 
-Camera::Camera(CameraState* state, FLOAT x, FLOAT y) : Entity()
+Camera::Camera(CameraState* state, float x, float y) : Entity()
 {
-	this->state = state;
-	this->isStatic   = 0;
-	this->position.x = x;
-	this->position.y = y;
+	this->_state = state;
+	this->_isStatic = false;
+	this->_position.x = x;
+	this->_position.y = y;
 }
 
 Camera::~Camera()
 {
-	Destroy(state);
+	Destroy(this->_state);
 }
 
 // Advances camera state, deleting the outgoing state and running Exit/Enter handlers.
 void Camera::AdvanceState(CameraState* next)
 {
-	if (next == state) return;
+	if (next == this->_state) return;
 
-	ChangeState(state, next, this);
+	ChangeState(this->_state, next, this);
 }
 
 void Camera::Update()
 {
-	if (state)
-		AdvanceState(state->Update(*this));
+	if (this->_state)
+		this->AdvanceState(this->_state->Update(*this));
 }
 
 void Camera::Render()
 {
-	if (state)
-		state->Render(*this);
+	if (this->_state)
+		this->_state->Render(*this);
 }
 
 void Camera::HandleInput(Input& input)
 {
-	if (state)
-		AdvanceState(state->HandleInput(*this, input));
+	if (this->_state)
+		this->AdvanceState(this->_state->HandleInput(*this, input));
 
-	if (input.IsWheelUp()) ZoomIn();
-	if (input.IsWheelDown()) ZoomOut();
+	if (input.IsWheelUp()) this->ZoomIn();
+	if (input.IsWheelDown()) this->ZoomOut();
 }
 
-void Camera::ZoomIn(FLOAT percentage)
+void Camera::ZoomIn(float percentage)
 {
-	scalingRatioX += percentage;
-	scalingRatioY += percentage;
+	Camera::_scalingRatioX += percentage;
+	Camera::_scalingRatioY += percentage;
 }
 
-void Camera::ZoomOut(FLOAT percentage)
+void Camera::ZoomOut(float percentage)
 {
-	if (scalingRatioX - percentage > 0) scalingRatioX -= percentage;
-	if (scalingRatioY - percentage > 0) scalingRatioY -= percentage;
+	if (Camera::_scalingRatioX - percentage > 0) Camera::_scalingRatioX -= percentage;
+	if (Camera::_scalingRatioY - percentage > 0) Camera::_scalingRatioY -= percentage;
 }
 
-void Camera::Capture(FLOAT x, FLOAT y)
+void Camera::Capture(float x, float y)
 {
-	if (state)
-		AdvanceState(state->Capture(x, y, *this));
+	if (this->_state)
+		this->AdvanceState(this->_state->Capture(x, y, *this));
 
 	// World to View transform (Y-up world space)
-	eye = D3DXVECTOR3(+position.x, +position.y, -1.0f);
-	at  = D3DXVECTOR3(+position.x, +position.y, +0.0f);
-	up  = D3DXVECTOR3(+0.0f, +1.0f, +0.0f);
+	this->_eye = D3DXVECTOR3(+this->_position.x, +this->_position.y, -1.0f);
+	this->_at  = D3DXVECTOR3(+this->_position.x, +this->_position.y, +0.0f);
+	this->_up  = D3DXVECTOR3(+0.0f, +1.0f, +0.0f);
 
-	D3DXMatrixLookAtLH(&viewMatrix, &eye, &at, &up);
+	D3DXMatrixLookAtLH(&this->_viewMatrix, &this->_eye, &this->_at, &this->_up);
 
 	// Zoom is applied after centring to scale about camera centre
 	D3DXMATRIX scalingMatrix;
-	D3DXMatrixScaling(&scalingMatrix, scalingRatioX, scalingRatioY, 1.0f);
+	D3DXMatrixScaling(&scalingMatrix, Camera::_scalingRatioX, Camera::_scalingRatioY, 1.0f);
 
-	viewMatrix *= scalingMatrix;
+	this->_viewMatrix *= scalingMatrix;
 }
 
-FLOAT Camera::CalculateHW()
+float Camera::CalculateHW()
 {
-	return +SCREEN_WIDTH  / (2.0f * scalingRatioX);
+	return +Constants::Screen::WIDTH  / (2.0f * Camera::_scalingRatioX);
 }
 
-FLOAT Camera::CalculateHH()
+float Camera::CalculateHH()
 {
-	return +SCREEN_HEIGHT / (2.0f * scalingRatioY);
+	return +Constants::Screen::HEIGHT / (2.0f * Camera::_scalingRatioY);
 }
 
 const D3DMATRIX& Camera::GetViewMatrix() const
 {
-	return viewMatrix;
+	return this->_viewMatrix;
 }
 
 void Camera::ToStatic()
 {
-	isStatic = 1;
-	ChangeState(state, new CameraStaticState(), this);
+	this->_isStatic = true;
+	ChangeState(this->_state, new CameraStaticState(), this);
 }
 
-BOOL Camera::CouldSee(Entity* entity)
+bool Camera::CouldSee(Entity* entity)
 {
 	return !(entity->GetB() >= this->GetT()
 		||   entity->GetT() <= this->GetB()
@@ -107,26 +107,26 @@ BOOL Camera::CouldSee(Entity* entity)
 }
 
 // The visible rectangle, used by CouldSee to cull.  These go through
-// CalculateHW/HH so they read the LIVE scalingRatioX/Y rather than the
+// CalculateHW/HH so they read the LIVE _scalingRatioX/Y rather than the
 // SCALING_RATIO_* macros the ratios were merely initialised from: the mouse
 // wheel changes the ratios at runtime, and culling against the un-zoomed
 // rectangle makes entities vanish inside the frame (or linger outside it).
-FLOAT Camera::GetB() const
+float Camera::GetB() const
 {
-	return position.y - CalculateHH();
+	return this->_position.y - this->CalculateHH();
 }
 
-FLOAT Camera::GetT() const
+float Camera::GetT() const
 {
-	return position.y + CalculateHH();
+	return this->_position.y + this->CalculateHH();
 }
 
-FLOAT Camera::GetL() const
+float Camera::GetL() const
 {
-	return position.x - CalculateHW();
+	return this->_position.x - this->CalculateHW();
 }
 
-FLOAT Camera::GetR() const
+float Camera::GetR() const
 {
-	return position.x + CalculateHW();
+	return this->_position.x + this->CalculateHW();
 }

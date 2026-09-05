@@ -1,4 +1,4 @@
-#include "Bill.h" 
+#include "Bill.h"
 #include "Item.h"
 #include "Stage.h"
 #include "Enemy.h"
@@ -20,96 +20,89 @@
 #include "BossStage3Hand.h"
 #include "FinalBossStage1.h"
 
-Stage:: Stage() : hasDone(0), checkPoint(NULL), mapFilePath(""), translateX(0.0f), translateY(0.0f), bill(NULL), tileW(0.0f), tileH(0.0f), camera(NULL), entities(NULL), backgroundTerrains(NULL), foregroundTerrains(NULL)
+Stage:: Stage() : _hasDone(false), _hasUpdated(false), _checkPoint(nullptr), _mapFilePath(""), _translateX(0.0f), _translateY(0.0f), _bill(nullptr), _tileW(0.0f), _tileH(0.0f), _camera(nullptr), _entities(nullptr), _backgroundTerrains(nullptr), _foregroundTerrains(nullptr)
 {
 }
 
 
 Stage::~Stage()
 {
-	entities->Clean();
-	backgroundTerrains->Clean();
-	foregroundTerrains->Clean();
-	for (auto& effectEntity : effectEntities) Destroy(effectEntity); effectEntities.clear();
-	Destroy(camera); Destroy(entities); Destroy(backgroundTerrains), Destroy(foregroundTerrains);
+	// The three trees are only built by Load(); a stage destroyed before that
+	// runs - a map that fails to parse, a construction that is abandoned - still
+	// gets here, and these were unconditional dereferences of the NULLs the
+	// constructor left.
+	if (this->_entities)           this->_entities->Clean();
+	if (this->_backgroundTerrains) this->_backgroundTerrains->Clean();
+	if (this->_foregroundTerrains) this->_foregroundTerrains->Clean();
+	for (auto& effectEntity : this->_effectEntities) Destroy(effectEntity); this->_effectEntities.clear();
+	for (auto& [name, wall] : this->_walls) Destroy(wall); this->_walls.clear();
+	Destroy(this->_camera); Destroy(this->_entities); Destroy(this->_backgroundTerrains); Destroy(this->_foregroundTerrains);
 	BulletParticleSystem::Clear();
+	auto& bullets = HasWeapons::GetBullets();
+	for (auto& bullet : bullets) Destroy(bullet);
+	bullets.clear();
 }
 
 
 void Stage::Update()
 {
-	if (hasDone)
+	if (this->_hasDone)
 		return;
 
-
-	//if (bill->GetY() == +std::numeric_limits<FLOAT>::infinity())
-	//{
-	//	if (dynamic_cast<Stage1*>(this))
-	//	{
-	//		bill->SetX(camera->GetL() + bill->GetW() * 2.0f);
-	//		bill->SetY(camera->GetT() - bill->GetH() * 1.0f);
-	//	}
-	//	else
-	//	if (dynamic_cast<Stage2*>(this))
-	//	{
-	//		bill->SetX(camera->GetL() + bill->GetW() * 2.0f);
-	//		bill->SetY(camera->GetY() - bill->GetH() * 1.0f);
-	//	}
-	//}
-
-
-	SetRevivalPoint();
+	this->SetRevivalPoint();
 
 
 	auto& bullets = HasWeapons::GetBullets();
 	for (auto& bullet : bullets)
 	{
-		if (camera->CouldSee(bullet))
-			entities->Insert(bullet); else Destroy(bullet);
+		if (this->_camera->CouldSee(bullet))
+			this->_entities->Insert(bullet); else Destroy(bullet);
 	}
 	bullets.clear();
 
 
-	entitiesResult.clear();
-	entities->Retrieve(camera,  entitiesResult);
-	for (auto& [entity, node] : entitiesResult) entity->Update();
+	this->_entitiesResult.clear();
+	this->_entities->Retrieve(this->_camera, this->_entitiesResult);
+	for (auto& [entity, node] : this->_entitiesResult) entity->Update();
 
 
-	std::list<Entity*> deadEntities;
-	std::list<Entity*> outOfBoundBullets;
-	for (auto& [entity, node] : entitiesResult)
+	std::vector<Entity*> deadEntities;
+	deadEntities.reserve(Constants::Stages::DEFAULT_CANDIDATE_RESERVE_CAPACITY);
+	std::vector<Entity*> outOfBoundBullets;
+	outOfBoundBullets.reserve(Constants::Stages::DEFAULT_CANDIDATE_RESERVE_CAPACITY);
+	for (auto& [entity, node] : this->_entitiesResult)
 	{
-		if (entity && entity == bill)
+		if (entity && entity == this->_bill)
 		{
 			continue;
 		}
-		if (ProcessSpecialEntity(entity))
+		if (this->ProcessSpecialEntity(entity))
 		{
 			continue;
 		}
-		if (entity && entity->isDead)
+		if (entity && entity->IsDead())
 		{
-			node->entities.remove (entity);
+			this->_entities->Remove(entity);
 			deadEntities.push_back(entity);
 			continue;
 		}
-		if (dynamic_cast<Bullet*>(entity))
+		if (entity && entity->IsBullet())
 		{
-			if (!camera->CouldSee(entity))
+			if (!this->_camera->CouldSee(entity))
 			{
-				node->entities.remove      (entity);
+				this->_entities->Remove(entity);
 				outOfBoundBullets.push_back(entity);
 			}
 		}
 	}
 	for (auto& deadEntity : deadEntities)
 	{
-		if (auto enemy = dynamic_cast<Enemy<Bill>*>(deadEntity))
+		if (deadEntity->IsEnemy())
 		{
-			Explosion* explosion = NULL;
-			switch (enemy->enemyType)
+			Explosion* explosion = nullptr;
+			switch (deadEntity->GetEnemyType())
 			{
-			
+
 			case ENEMY_TYPE::NONE:
 			break;
 
@@ -118,19 +111,19 @@ void Stage::Update()
 			break;
 
 			case ENEMY_TYPE::HUMAN:
-				 Sound::getInstance()->play("qexplode", false, 1);
-				 if (deadEntity->isDrown)
+				 Sound::GetInstance()->Play("qexplode", false, 1);
+				 if (deadEntity->IsDrown())
 				 {
 					 explosion = new Explosion(new ExplosionDrownState());
 				 }
-				 else 
+				 else
 				 {
 					 explosion = new Explosion(new ExplosionType1State());
 				 }
 			break;
 
 			case ENEMY_TYPE::MACHINE:
-				 Sound::getInstance()->play("exbullet", false, 1);
+				 Sound::GetInstance()->Play("exbullet", false, 1);
 				 explosion = new Explosion(new ExplosionType2State());
 			break;
 
@@ -139,79 +132,47 @@ void Stage::Update()
 			{
 				explosion->SetX(deadEntity->GetX());
 				explosion->SetY(deadEntity->GetY());
-				if (deadEntity->isDrown) explosion->SetY(explosion->GetY() - 20.0f);
-				effectEntities.push_back(explosion);
-				ProcessSpecialExplosion(deadEntity);
+				if (deadEntity->IsDrown()) explosion->SetY(explosion->GetY() - Constants::Stages::EXPLOSION_SPAWN_OFFSET_Y);
+				this->_effectEntities.push_back(explosion);
+				this->ProcessSpecialExplosion(deadEntity);
 			}
 		}
 		else
-		if (auto bullet = dynamic_cast<Bullet*>(deadEntity))
+		if (deadEntity->IsBullet())
 		{
-			if (ProcessSpecialBullet(bullet))
+			Bullet* bullet = static_cast<Bullet*>(deadEntity);
+			if (this->ProcessSpecialBullet(bullet))
 			{
 
 			}
 			else
 			{
-				DirectX::XMFLOAT4 explodeColor = DirectX::XMFLOAT4(3.0f, 1.0f, 0.2f, 1.0f); // default yellow-orange
-				BulletState* bState = bullet->GetState();
-				if (dynamic_cast<BulletMState*>(bState))
-					explodeColor = DirectX::XMFLOAT4(0.2f, 2.0f, 3.5f, 1.0f);
-				else if (dynamic_cast<BulletSState*>(bState))
-					explodeColor = DirectX::XMFLOAT4(3.0f, 0.2f, 2.0f, 1.0f);
-				else if (dynamic_cast<BulletLState*>(bState))
-					explodeColor = DirectX::XMFLOAT4(0.2f, 1.5f, 4.0f, 1.0f);
-				else if (dynamic_cast<BulletFState*>(bState))
-					explodeColor = DirectX::XMFLOAT4(4.0f, 0.8f, 0.0f, 1.0f);
-				else if (dynamic_cast<BulletBossStage1State*>(bState) || dynamic_cast<BulletBossStage2StateHand*>(bState) || dynamic_cast<BulletBossStage2StateHead*>(bState))
-					explodeColor = DirectX::XMFLOAT4(1.5f, 0.1f, 3.0f, 1.0f);
-
-				Bullet* explosion = new Bullet();
-				if (bullet->GetVX() < 0.0f)
-					explosion->SetX(bullet->GetL() - 3.0f);
+				Explosion* specialExplosion = bullet->CreateDeathExplosion();
+				if (specialExplosion)
+				{
+					this->_effectEntities.push_back(specialExplosion);
+				}
 				else
-				if (bullet->GetVX() > 0.0f)
-					explosion->SetX(bullet->GetR() + 3.0f);
-				else 
-					explosion->SetX(bullet->GetX() + 0.0f);
-				if (bullet->GetVY() < 0.0f)
-					explosion->SetY(bullet->GetB() - 3.0f);
-				else
-				if (bullet->GetVY() > 0.0f)
-					explosion->SetY(bullet->GetT() + 3.0f);
-				else
-					explosion->SetY(bullet->GetY() + 0.0f);
-
-				explosion->SetState(new BulletExplodeState(explodeColor));
-				effectEntities.push_back(explosion);
+				{
+					this->_effectEntities.push_back(bullet->CreateBulletExplosion());
+				}
 			}
 		}
-		if (auto falcon = dynamic_cast<Falcon*>(deadEntity))
+		if (Item* item = deadEntity->CreateDroppedItem())
 		{
-			Item* item = new Item(falcon->getAmmoType());
-			item->SetX(falcon->GetX());
-			item->SetY(falcon->GetY());
-			entities->Insert(item);
+			this->_entities->Insert(item);
 		}
-		else 
-		if (auto aircraft = dynamic_cast<AirCraft*>(deadEntity))
-		{
-			Item* item = new Item(aircraft->getAmmoType());
-			item->SetX(aircraft->GetX());
-			item->SetY(aircraft->GetY());
-			entities->Insert(item);
-		}
-		entitiesResult.erase(deadEntity);
+		this->_entitiesResult.erase(deadEntity);
 		Destroy             (deadEntity);
 	}
 	for (auto& outOfBoundBullet : outOfBoundBullets)
 	{
-		entitiesResult.erase(outOfBoundBullet);
+		this->_entitiesResult.erase(outOfBoundBullet);
 		Destroy             (outOfBoundBullet);
 	}
-	for (auto& effectEntity : effectEntities)
+	for (auto& effectEntity : this->_effectEntities)
 	{
-		if (effectEntity->isDead)
+		if (effectEntity->IsDead())
 		{
 			Destroy(effectEntity);
 		}
@@ -220,104 +181,134 @@ void Stage::Update()
 			effectEntity->Update();
 		}
 	}
-	effectEntities.remove_if([](Entity* effectEntity) { return effectEntity == NULL; });
+	std::erase_if(this->_effectEntities, [](Entity* effectEntity) -> bool { return effectEntity == nullptr; });
 
 
-	if (QuadTreeNode::Update(entities, entitiesResult))
+	if (QuadTreeNode::Update(this->_entities, this->_entitiesResult))
 	{
-		entitiesResult.clear();
-		entities->Retrieve(camera, entitiesResult);
+		this->_entitiesResult.clear();
+		this->_entities->Retrieve(this->_camera, this->_entitiesResult);
 	}
 
 
-	TranslateCamera();
-	TranslateWalls ();
-	CheckIfHasDone ();
+	this->TranslateCamera();
+	this->TranslateWalls ();
+	this->CheckIfHasDone ();
 	BulletParticleSystem::Update();
+
+	this->_hasUpdated = true;
 }
 
 
 void Stage::Render()
 {
-	backgroundTerrainsResult.clear();
-	backgroundTerrains->Retrieve(camera,   backgroundTerrainsResult);
-	for (auto& [backgroundTerrain, node] : backgroundTerrainsResult) backgroundTerrain->Render();
+	this->_backgroundTerrainsResult.clear();
+	this->_backgroundTerrains->Retrieve(this->_camera, this->_backgroundTerrainsResult);
+	for (auto& [backgroundTerrain, node] : this->_backgroundTerrainsResult) backgroundTerrain->Render();
 
 
-	if (hasDone)
+	if (this->_hasDone)
 	{
-		if (auto stage1 = dynamic_cast<Stage1*>(this))
-			     stage1-> finalBossStage1->Render();
+		this->RenderBossCompletion();
 		return;
 	}
 
 
-	for (auto& [entity           , node] : entitiesResult)                      entity->Render();
-	for (auto&  effectEntity             : effectEntities)                effectEntity->Render();
-	bill->Render();
+	for (auto& [entity, node] : this->_entitiesResult) entity->Render();
+	for (auto& effectEntity : this->_effectEntities) effectEntity->Render();
+	this->_bill->Render();
 	BulletParticleSystem::Render();
 }
 
 
 void Stage::HandleInput(Input& input)
 {
-	bill->HandleInput(input);
+	this->_bill->HandleInput(input);
 }
 
 
 void Stage::CheckResolveClearCollision()
 {
-	if (hasDone)
+	if (this->_hasDone)
 		return;
 
+	// Nothing to resolve against until Update has built the world once.  The game
+	// loop calls this whenever Scene::stageIsReady is set, and the scene turns
+	// that on from PlayingSceneState::Enter - which now runs inside Scene::Update,
+	// on a step where the stage itself was still loading and so was never updated.
+	// Resolving then would sweep Bill against the boundary walls while they still
+	// sit at the origin where the stage constructor left them, and the WALL branch
+	// of Bill::DynamicResolveOnCollision kills him for it.
+	if (!this->_hasUpdated)
+		return;
 
-	foregroundTerrainsResult.clear();
-	foregroundTerrains->Retrieve(camera, foregroundTerrainsResult);
+	this->_foregroundTerrainsResult.clear();
+	this->_foregroundTerrains->Retrieve(this->_camera, this->_foregroundTerrainsResult);
 
+	std::vector<Entity*> terrainCandidates;
+	terrainCandidates.reserve(Constants::Stages::DEFAULT_CANDIDATE_RESERVE_CAPACITY);
 
-	for (auto& [entity, node] : entitiesResult)
+	// 1. Entity vs Foreground Terrains accelerated by TLAS swept broadphase
+	for (auto& [entity, node] : this->_entitiesResult)
 	{
-		auto collidableEntity = dynamic_cast<CollidableEntity*>(entity);
-		if  (collidableEntity)
+		if (auto collidableEntity = entity->AsCollidable())
 		{
-			for (auto& [foregroundTerrain, node] : foregroundTerrainsResult)
-			 collidableEntity->CollideWith(foregroundTerrain);
+			terrainCandidates.clear();
+			const Space::AABB sweptBox = Space::AABB::FromEntity(entity)
+				.Swept(entity->GetVX(), entity->GetVY())
+				.Expand(Constants::Physics::CANDIDATE_EXPAND_EPSILON);
+
+			this->_foregroundTerrains->GetTLAS()->QueryAABB(sweptBox, [&](Entity* terrain) {
+				terrainCandidates.push_back(terrain);
+			});
+
+			if (!terrainCandidates.empty())
+			{
+				for (auto* foregroundTerrain : terrainCandidates)
+				{
+					collidableEntity->CollideWith(foregroundTerrain);
+				}
+			}
+			else
+			{
+				collidableEntity->DynamicResolveNoCollision();
+			}
 		}
 	}
 
+	// 2. Entity vs Entity accelerated by TLAS + BLAS broadphase
+	std::vector<Entity*> entityCandidates;
+	entityCandidates.reserve(Constants::Stages::DEFAULT_CANDIDATE_RESERVE_CAPACITY);
 
-	//for (auto& [entity, node] : entitiesResult)
-	//{
-	//	if (bill != entity)
-	//	    bill->CollideWith(entity);
-	//}
-
-
-	for (auto& [entity1, node1] : entitiesResult)
+	for (auto& [entity1, node1] : this->_entitiesResult)
 	{
-		auto collidableEntity = dynamic_cast<CollidableEntity*>(entity1);
-		if  (collidableEntity)
+		if (auto collidableEntity = entity1->AsCollidable())
 		{
-			for (auto& [entity2, node2] : entitiesResult)
-			{
-				if (entity1 != entity2)
+			entityCandidates.clear();
+			const Space::AABB sweptBox1 = Space::AABB::FromEntity(entity1)
+				.Swept(entity1->GetVX(), entity1->GetVY())
+				.Expand(Constants::Physics::CANDIDATE_EXPAND_EPSILON);
+
+			this->_entities->GetTLAS()->QueryAABB(sweptBox1, [&](Entity* candidate) {
+				if (candidate && candidate != entity1)
 				{
-					if (auto bossStage3Hand = dynamic_cast<BossStage3Hand*>(entity2))
-					{
-						collidableEntity->CollideWith(bossStage3Hand);
-						for (auto& bossStage3Joint :  bossStage3Hand->joints)
-							if    (bossStage3Joint)
-								   collidableEntity->CollideWith(bossStage3Joint);
-					}
-					else
-					{
-						collidableEntity->CollideWith(entity2);
-					}
+					entityCandidates.push_back(candidate);
 				}
-			}
-			if (dynamic_cast<Soldier*>(collidableEntity))
+			});
+
+			for (auto* entity2 : entityCandidates)
 			{
-				for (auto& [name, wall] : walls)
+				entity2->ForEachCollisionEntity([collidableEntity, &sweptBox1](Entity* subEntity) {
+					if (Space::AABB::FromEntity(subEntity).Intersects(sweptBox1))
+					{
+						collidableEntity->CollideWith(subEntity);
+					}
+				});
+			}
+
+			if (entity1->CollidesWithBoundaryWalls())
+			{
+				for (auto& [name, wall] : this->_walls)
 				{
 					collidableEntity->CollideWith(wall);
 				}
@@ -325,20 +316,22 @@ void Stage::CheckResolveClearCollision()
 		}
 	}
 
-
-	for (auto& [name, wall] : walls)
+	if (this->_bill)
 	{
-		bill->CollideWith(wall);
+		for (auto& [name, wall] : this->_walls)
+		{
+			this->_bill->CollideWith(wall);
+		}
 	}
 }
 
 
-void  Stage::SetBill(Bill* bill) {		  this->bill = bill; bill = NULL; }
-Bill* Stage::GetBill(          ) { return this->bill       ;              }
+void  Stage::SetBill(Bill* bill) {		  this->_bill = bill; }
+Bill* Stage::GetBill(          ) { return this->_bill       ; }
 
 
-void    Stage::SetCamera(Camera* camera) {		  this->camera = camera; camera = NULL; }
-Camera* Stage::GetCamera(              ) { return this->camera         ;                }
+void    Stage::SetCamera(Camera* camera) {		  this->_camera = camera; }
+Camera* Stage::GetCamera(              ) { return this->_camera         ; }
 
 
 template void Stage::Load<TerrainStage1, CameraMovingForwardState>();
@@ -347,7 +340,7 @@ template <class T, class S>
 void Stage::Load()
 {
 	tson::Tileson tileson;
-	std::unique_ptr<tson::Map> map = tileson.parse(fs::path(mapFilePath));
+	std::unique_ptr<tson::Map> map = tileson.parse(fs::path(this->_mapFilePath));
 
 	tson::Layer* backgroundTerrainsLayer = map.get()->getLayer("BackgroundLayer");
 	tson::Layer* foregroundTerrainsLayer = map.get()->getLayer("ForegroundLayer");
@@ -356,20 +349,23 @@ void Stage::Load()
 	auto& tileSize = map.get()->getTileSize();
 	auto&  mapSize = map.get()->getSize();
 
-	entities            = QuadTreeNode::New(0.0f, 0.0f, FLOAT(mapSize.x * tileSize.x), FLOAT(mapSize.y * tileSize.y));
-	backgroundTerrains  = QuadTreeNode::New(0.0f, 0.0f, FLOAT(mapSize.x * tileSize.x), FLOAT(mapSize.y * tileSize.y));
-	foregroundTerrains  = QuadTreeNode::New(0.0f, 0.0f, FLOAT(mapSize.x * tileSize.x), FLOAT(mapSize.y * tileSize.y));
-	tileW = FLOAT(tileSize.x);
-	tileH = FLOAT(tileSize.y);
+	this->_entities            = QuadTreeNode::New(0.0f, 0.0f, static_cast<float>(mapSize.x * tileSize.x), static_cast<float>(mapSize.y * tileSize.y));
+	this->_backgroundTerrains  = QuadTreeNode::New(0.0f, 0.0f, static_cast<float>(mapSize.x * tileSize.x), static_cast<float>(mapSize.y * tileSize.y));
+	this->_foregroundTerrains  = QuadTreeNode::New(0.0f, 0.0f, static_cast<float>(mapSize.x * tileSize.x), static_cast<float>(mapSize.y * tileSize.y));
+	this->_tileW = static_cast<float>(tileSize.x);
+	this->_tileH = static_cast<float>(tileSize.y);
 	T::SetTileset(&tileset);
 
-	if (!camera) camera = new Camera(new S());
-	if (!  bill)   bill = new Bill();
+	if (!this->_camera) this->_camera = new Camera(new S());
+	if (!this->_bill)   this->_bill = new Bill();
 
-	LoadBackgroundTerrains<T>(backgroundTerrainsLayer);
-	LoadForegroundTerrains   (foregroundTerrainsLayer);
-	LoadEntities(entitiesLayer);
-	entities->Insert(bill);
+	this->LoadBackgroundTerrains<T>(backgroundTerrainsLayer);
+	this->LoadForegroundTerrains   (foregroundTerrainsLayer);
+	this->LoadEntities(entitiesLayer);
+	this->_entities->Insert(this->_bill);
+
+	// `tileset` is a reference into `map`, which dies with this scope.
+	T::SetTileset(nullptr);
 }
 
 
@@ -378,54 +374,59 @@ template void Stage::LoadBackgroundTerrains<TerrainStage2>(void*);
 template <class T>
 void Stage::LoadBackgroundTerrains(void* backgroundTerrainsLayer)
 {
-	auto               _backgroundTerrainsLayer = (tson::Layer*)backgroundTerrainsLayer; 
-	std::list<Entity*> _backgroundTerrains;
+	auto backgroundLayer = static_cast<tson::Layer*>(backgroundTerrainsLayer);
+	auto& tileObjects = backgroundLayer->getTileObjects();
+	std::vector<Entity*> backgroundTerrainList;
+	backgroundTerrainList.reserve(tileObjects.size());
 
-	for (auto& [tileObjectPosition, tileObject] : _backgroundTerrainsLayer->getTileObjects())
+	for (auto& [tileObjectPosition, tileObject] : tileObjects)
 	{
-		T* _backgroundTerrain = new T();
+		T* backgroundTerrain = new T();
 		auto animationId = std::to_string(tileObject.getTile()->getId()); auto& position = tileObject.getPosition(); auto& size = tileObject.getTile()->getTileSize();
 
-		_backgroundTerrain->SetW(FLOAT(size.x));
-		_backgroundTerrain->SetH(FLOAT(size.y));
-		_backgroundTerrain->SetAnimationId(animationId);
-		_backgroundTerrain->SetX(position.x + size.x * 0.5f);
-		_backgroundTerrain->SetY(position.y + size.y * 0.0f);
+		backgroundTerrain->SetW(static_cast<float>(size.x));
+		backgroundTerrain->SetH(static_cast<float>(size.y));
+		backgroundTerrain->SetAnimationId(animationId);
+		backgroundTerrain->SetX(position.x + size.x * 0.5f);
+		backgroundTerrain->SetY(position.y + size.y * 0.0f);
 
-		_backgroundTerrains.push_back(_backgroundTerrain);
+		backgroundTerrainList.push_back(backgroundTerrain);
 	}
 
-	std::vector<Entity*> temp{ std::make_move_iterator(std::begin(_backgroundTerrains)), std::make_move_iterator(std::end(_backgroundTerrains)) };
-	_backgroundTerrains.clear();
-	for (int i = 0; std::cmp_less(i, temp.size() / 2); i++)
+	for (size_t i = 0; i < backgroundTerrainList.size() / 2; i++)
 	{
-		auto y1 = temp[                  i]->GetY();
-		auto y2 = temp[temp.size() - 1 - i]->GetY();
+		auto y1 = backgroundTerrainList[i]->GetY();
+		auto y2 = backgroundTerrainList[backgroundTerrainList.size() - 1 - i]->GetY();
 		std::swap(y1, y2);
-		temp[                  i]->SetY(y1);
-		temp[temp.size() - 1 - i]->SetY(y2);
+		backgroundTerrainList[i]->SetY(y1);
+		backgroundTerrainList[backgroundTerrainList.size() - 1 - i]->SetY(y2);
 	}
-	_backgroundTerrains.assign(temp.begin(), temp.end());
-	_backgroundTerrains.sort([](Entity* e1, Entity* e2) -> bool { return e1->GetX() < e2->GetX(); });
+	std::sort(backgroundTerrainList.begin(), backgroundTerrainList.end(), [](Entity* e1, Entity* e2) -> bool { return e1->GetX() < e2->GetX(); });
 
-	auto representativeBackgroundTerrain = dynamic_cast<T*>(_backgroundTerrains.front());
-		 representativeBackgroundTerrain->LoadTextures  ();
-		 representativeBackgroundTerrain->LoadSprites   ();
-		 representativeBackgroundTerrain->LoadAnimations();
+	if (!backgroundTerrainList.empty())
+	{
+		auto representativeBackgroundTerrain = static_cast<T*>(backgroundTerrainList.front());
+		if (representativeBackgroundTerrain)
+		{
+			representativeBackgroundTerrain->LoadTextures  ();
+			representativeBackgroundTerrain->LoadSprites   ();
+			representativeBackgroundTerrain->LoadAnimations();
+		}
+	}
 
-	for (auto& _backgroundTerrain : _backgroundTerrains)
-	 backgroundTerrains->Insert(    _backgroundTerrain);
-	_backgroundTerrains.clear();
+	for (auto& bgTerrain : backgroundTerrainList)
+		this->_backgroundTerrains->Insert(bgTerrain);
+	backgroundTerrainList.clear();
 }
 
 
 void Stage::LoadForegroundTerrains(void* foregroundTerrainsLayer)
 {
-	auto _foregroundTerrainsLayer = (tson::Layer*)foregroundTerrainsLayer;
-	auto mapH = _foregroundTerrainsLayer->getMap()->getSize    ().y 
-		      * _foregroundTerrainsLayer->getMap()->getTileSize().y;
+	auto foregroundLayer = static_cast<tson::Layer*>(foregroundTerrainsLayer);
+	auto mapH = foregroundLayer->getMap()->getSize    ().y
+		      * foregroundLayer->getMap()->getTileSize().y;
 
-	for (auto& object : _foregroundTerrainsLayer->getObjects())
+	for (auto& object : foregroundLayer->getObjects())
 	{
 		TerrainBlock* foregroundTerrain = new TerrainBlock();
 		auto& position = object.getPosition();
@@ -433,23 +434,23 @@ void Stage::LoadForegroundTerrains(void* foregroundTerrainsLayer)
 
 		foregroundTerrain->SetX(	   position.x + size.x * 0.5f);
 		foregroundTerrain->SetY(mapH - position.y - size.y * 1.0f);
-		foregroundTerrain->SetW(FLOAT(size.x));
-		foregroundTerrain->SetH(FLOAT(size.y));
+		foregroundTerrain->SetW(static_cast<float>(size.x));
+		foregroundTerrain->SetH(static_cast<float>(size.y));
 
 		if (object.getClassType() == "non_throughable")
-		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::NON_THROUGHABLE;
+		foregroundTerrain->SetTerrainType(TERRAIN_BLOCK_TYPE::NON_THROUGHABLE);
 		if (object.getClassType() == "throughable")
-		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::THROUGHABLE;
+		foregroundTerrain->SetTerrainType(TERRAIN_BLOCK_TYPE::THROUGHABLE);
 		if (object.getClassType() == "check_point")
-		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::CHECK_POINT;
+		foregroundTerrain->SetTerrainType(TERRAIN_BLOCK_TYPE::CHECK_POINT);
 		if (object.getClassType() == "water")
-		foregroundTerrain->type = TERRAIN_BLOCK_TYPE::WATER;
+		foregroundTerrain->SetTerrainType(TERRAIN_BLOCK_TYPE::WATER);
 
-		foregroundTerrains->Insert(foregroundTerrain);
+		this->_foregroundTerrains->Insert(foregroundTerrain);
 
-		if (foregroundTerrain 
-		&&  foregroundTerrain->type == TERRAIN_BLOCK_TYPE::CHECK_POINT)
-			checkPoint = foregroundTerrain;
+		if (foregroundTerrain
+		&&  foregroundTerrain->GetTerrainType() == TERRAIN_BLOCK_TYPE::CHECK_POINT)
+			this->_checkPoint = foregroundTerrain;
 	}
 }
 

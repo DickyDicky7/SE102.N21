@@ -1,7 +1,7 @@
 #include "tileson.hpp"
 #include "TerrainStage2.h"
 
-TerrainStage2:: TerrainStage2() : Terrain(), Entity(), HasTextures(), HasSprites(), HasAnimations()
+TerrainStage2::TerrainStage2() : Terrain(), Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 }
 
@@ -15,9 +15,9 @@ void TerrainStage2::Update()
 
 void TerrainStage2::Render()
 {
-	SetAnimation(TERRAIN_STAGE_2_ANIMATION_ID(animationId), position, movingDirection, angle);
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
+	this->SetAnimation(TERRAIN_STAGE_2_ANIMATION_ID(this->_animationId), this->_position, this->_movingDirection, this->_angle);
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
 }
 
 void TerrainStage2::HandleInput(Input& input)
@@ -26,66 +26,71 @@ void TerrainStage2::HandleInput(Input& input)
 
 void TerrainStage2::LoadSprites()
 {
-	if (HasSprites<TerrainStage2>::hasBeenLoaded.value) return;
-	HasSprites<TerrainStage2>::hasBeenLoaded.value = true;
+	if (HasSprites<TerrainStage2>::_hasBeenLoaded) return;
 
-	auto _tileset = (tson::Tileset*)tileset;
-	for (auto& _tile : _tileset->getTiles())
+	auto tsonTileset = static_cast<tson::Tileset*>(this->_tileset);
+	if (!tsonTileset) return;
+
+	HasSprites<TerrainStage2>::_hasBeenLoaded = true;
+
+	for (auto& tile : tsonTileset->getTiles())
 	{
-		std::string _id = std::to_string(_tile.getId()); _id = "Stage 2 Sprite " + FormatId(_id);
-		auto& _rect = _tile.getDrawingRect();
+		std::string id = std::to_string(tile.getId()); id = "Stage 2 Sprite " + FormatId(id);
+		auto& rect = tile.getDrawingRect();
 		GraphicsHelper::InsertSprite
 		(
-			TERRAIN_STAGE_2_SPRITE_ID(_id), _rect.y, _rect.x, _rect.x + _rect.width, _rect.y + _rect.height,
+			TERRAIN_STAGE_2_SPRITE_ID(id),
+			rect.y, rect.x, rect.x + rect.width, rect.y + rect.height,
 			DIRECTION::LEFT, TERRAIN_STAGE_2_TEXTURE_ID("Stage 2 Texture 001")
 		);
 	}
-		 _tileset = NULL;
 
 	OutputDebugString(L"Stage 2 Sprites Loaded Successfully\n");
 }
 
 void TerrainStage2::LoadTextures()
 {
-	if (HasTextures<TerrainStage2>::hasBeenLoaded.value) return;
-	HasTextures<TerrainStage2>::hasBeenLoaded.value = true;
+	if (HasTextures<TerrainStage2>::_hasBeenLoaded) return;
+	HasTextures<TerrainStage2>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertTexure(TERRAIN_STAGE_2_TEXTURE_ID("Stage 2 Texture 001"), L"Resources\\Textures\\Stage2.bmp");
+	GraphicsHelper::InsertTexture(TERRAIN_STAGE_2_TEXTURE_ID("Stage 2 Texture 001"), L"Resources\\Textures\\Stage2.bmp");
 
 	OutputDebugString(L"Stage 2 Textures Loaded Successfully\n");
 }
 
 void TerrainStage2::LoadAnimations()
 {
-	if (HasAnimations<TerrainStage2>::hasBeenLoaded.value) return;
-	HasAnimations<TerrainStage2>::hasBeenLoaded.value = true;
+	if (HasAnimations<TerrainStage2>::_hasBeenLoaded) return;
 
-	auto _tileset = (tson::Tileset*)tileset;
-	for (auto& _tile : _tileset->getTiles())
+	auto tsonTileset = static_cast<tson::Tileset*>(this->_tileset);
+	if (!tsonTileset) return;
+
+	HasAnimations<TerrainStage2>::_hasBeenLoaded = true;
+
+	for (auto& tile : tsonTileset->getTiles())
 	{
-		std::string  _id = std::to_string(_tile.getId()); std::string _animationId = "Stage 2 Animation " + FormatId(_id);
-		std::vector<std::tuple<SPRITE_ID, TIME>> _frames;
-		auto& _animation = _tile.getAnimation();
-		if   (_animation.any())
+		std::string id = std::to_string(tile.getId()); std::string animId = "Stage 2 Animation " + FormatId(id);
+		std::vector<std::tuple<SPRITE_ID, TIME>> frames;
+		auto& animation = tile.getAnimation();
+		if (animation.any())
 		{
-			for (auto& _frame : _animation.getFrames())
+			for (auto& frame : animation.getFrames())
 			{
-				std::string _spriteId = std::to_string(_frame.getTileId()); _spriteId = "Stage 2 Sprite " + FormatId(_spriteId);
-				_frames.push_back({ TERRAIN_STAGE_2_SPRITE_ID(_spriteId), _frame.getDuration() });
+				std::string spriteId = std::to_string(frame.getTileId()); spriteId = "Stage 2 Sprite " + FormatId(spriteId);
+				frames.push_back({ TERRAIN_STAGE_2_SPRITE_ID(spriteId), frame.getDuration() });
 			}
 		}
 		else
 		{
-			std::string _spriteId = "Stage 2 Sprite " + FormatId(_id); _frames.push_back({ TERRAIN_STAGE_2_SPRITE_ID(_spriteId), 0 });
+			std::string spriteId = "Stage 2 Sprite " + FormatId(id); frames.push_back({ TERRAIN_STAGE_2_SPRITE_ID(spriteId), 0 });
 		}
-		GraphicsHelper::InsertAnimation(TERRAIN_STAGE_2_ANIMATION_ID(_animationId), 300, _frames);
+		GraphicsHelper::InsertAnimation(TERRAIN_STAGE_2_ANIMATION_ID(animId), Constants::Graphics::DEFAULT_ANIMATION_DELAY_MILLISECONDS, std::move(frames));
 	}
-		 _tileset = NULL;
 
 	OutputDebugString(L"Stage 2 Animations Loaded Successfully\n");
 }
 
 void TerrainStage2::SetAnimationId(const std::string& animationId)
 {
-	this->animationId = "Stage 2 Animation " + FormatId(animationId);
+	this->_animationId = "Stage 2 Animation " + FormatId(animationId);
 }

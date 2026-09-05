@@ -2,11 +2,11 @@
 
 BossStage3State::BossStage3State()
 {
-	time = 100;
+	this->_time = Constants::Enemies::BossStage3::Head::OPEN_DURATION_FRAMES;
 }
 
 BossStage3State::~BossStage3State()
 {
-	time = NULL;
+	this->_time = 0;
 }
 

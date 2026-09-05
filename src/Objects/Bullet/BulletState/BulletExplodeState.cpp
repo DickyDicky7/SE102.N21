@@ -3,9 +3,9 @@
 #include <cmath>
 #include <cstdlib>
 
-BulletExplodeState::BulletExplodeState(DirectX::XMFLOAT4 color) : BulletState(), explodeColor(color)
+BulletExplodeState::BulletExplodeState(DirectX::XMFLOAT4 color) : BulletState(), _explodeColor(color)
 {
-	time = 20.0f;
+	this->_time = Constants::Weapons::BULLET_EXPLODE_DURATION_FRAMES;
 }
 
 BulletExplodeState::~BulletExplodeState()
@@ -18,17 +18,17 @@ void BulletExplodeState::Exit(Bullet& bullet)
 
 void BulletExplodeState::Enter(Bullet& bullet)
 {
-	int count = 10 + (rand() % 5);
+	int count = Constants::Particles::EXPLODE_COUNT_BASE + (rand() % Constants::Particles::EXPLODE_COUNT_JITTER_MODULO);
 	for (int i = 0; i < count; ++i)
 	{
-		float angle = (static_cast<float>(i) / count) * 2.0f * 3.14159265f + ((rand() % 100) / 500.0f);
-		float speed = 0.8f + ((rand() % 100) / 80.0f); 
+		float angle = (static_cast<float>(i) / count) * Constants::Physics::TURN_RADIANS + ((rand() % Constants::Particles::RANDOM_PERCENT_MODULO) / Constants::Particles::EXPLODE_ANGLE_JITTER_DIVISOR);
+		float speed = Constants::Particles::EXPLODE_SPEED_BASE + ((rand() % Constants::Particles::RANDOM_PERCENT_MODULO) / Constants::Particles::EXPLODE_SPEED_JITTER_DIVISOR);
 		float vx = std::cos(angle) * speed;
 		float vy = std::sin(angle) * speed;
-		float life = 0.15f + ((rand() % 100) / 1000.0f); 
-		float size = 4.0f + (rand() % 4);
-		
-		BulletParticleSystem::AddParticle(bullet.GetX(), bullet.GetY(), vx, vy, size, life, explodeColor);
+		float life = Constants::Particles::EXPLODE_LIFE_BASE + ((rand() % Constants::Particles::RANDOM_PERCENT_MODULO) / Constants::Particles::EXPLODE_LIFE_JITTER_DIVISOR);
+		float size = Constants::Particles::EXPLODE_SIZE_BASE + (rand() % Constants::Particles::EXPLODE_SIZE_JITTER_MODULO);
+
+		BulletParticleSystem::AddParticle(bullet.GetX(), bullet.GetY(), vx, vy, size, life, this->_explodeColor);
 	}
 }
 
@@ -39,14 +39,14 @@ void BulletExplodeState::Render(Bullet& bullet)
 
 BulletState* BulletExplodeState::Update(Bullet& bullet)
 {
-	if (--time <= 0.0f)
+	if (--this->_time <= 0.0f)
 	{
-		bullet.isDead = 1;
+		bullet.SetDead(true);
 	}
-	return NULL;
+	return nullptr;
 }
 
 BulletState* BulletExplodeState::HandleInput(Bullet& bullet, Input& input)
 {
-	return NULL;
+	return nullptr;
 }

@@ -16,17 +16,17 @@ void SoldierDieState::Enter(Soldier& soldier)
 {
 	if (soldier.GetMovingDirection() == DIRECTION::LEFT)
 	{
-		soldier.SetVX(+1.0f);
+		soldier.SetVX(+Constants::Enemies::Soldier::DIE_SPEED_X);
 		soldier.SetAX(+0.0f);
 	}
 	if (soldier.GetMovingDirection() == DIRECTION::RIGHT)
 	{
-		soldier.SetVX(-1.0f);
+		soldier.SetVX(-Constants::Enemies::Soldier::DIE_SPEED_X);
 		soldier.SetAX(-0.0f);
 	}
 
-	soldier.SetVY(+2.00f);
-	soldier.SetAY(-0.10f);
+	soldier.SetVY(+Constants::Enemies::Soldier::DIE_SPEED_Y);
+	soldier.SetAY(Constants::Enemies::Soldier::DIE_ACCELERATION_Y);
 }
 
 void SoldierDieState::Render(Soldier& soldier)
@@ -37,28 +37,32 @@ void SoldierDieState::Render(Soldier& soldier)
 SoldierState* SoldierDieState::Update(Soldier& soldier)
 {
 	auto resultX = Motion::CalculateUniformMotion({ soldier.GetX(), soldier.GetVX() });
-	soldier.SetX(resultX.c);
+	soldier.SetX(resultX.coordinate);
 
 	if (soldier.GetVY() >= 0.0f)
 	{
-		auto   resultY = Motion::CalculateUniformlyDeceleratedMotion({ soldier.GetY(), soldier.GetVY(), soldier.GetAY(), time, 0.05f });
-		time = resultY.t; soldier.SetY(resultY.c); soldier.SetVY(resultY.v);
+		auto resultY = Motion::CalculateUniformlyDeceleratedMotion({ soldier.GetY(), soldier.GetVY(), soldier.GetAY(), this->_time, Constants::Enemies::Soldier::MOTION_INTEGRATION_DELTA_TIME });
+		this->_time = resultY.elapsedTime;
+		soldier.SetY(resultY.coordinate);
+		soldier.SetVY(resultY.velocity);
 	}
-	if (soldier.GetVY() <= 0.0f)
+	else
 	{
-		auto   resultY = Motion::CalculateUniformlyAcceleratedMotion({ soldier.GetY(), soldier.GetVY(), soldier.GetAY(), time, 0.05f });
-		time = resultY.t; soldier.SetY(resultY.c); soldier.SetVY(resultY.v);
+		auto resultY = Motion::CalculateUniformlyAcceleratedMotion({ soldier.GetY(), soldier.GetVY(), soldier.GetAY(), this->_time, Constants::Enemies::Soldier::MOTION_INTEGRATION_DELTA_TIME });
+		this->_time = resultY.elapsedTime;
+		soldier.SetY(resultY.coordinate);
+		soldier.SetVY(resultY.velocity);
 	}
 
-	if (time >= 1.5f)
+	if (this->_time >= Constants::Enemies::Soldier::DIE_DURATION_SECONDS)
 	{
-		soldier.isDead = 1;
+		soldier.SetDead(true);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 SoldierState* SoldierDieState::HandleInput(Soldier& soldier, Input& input)
 {
-	return NULL;
+	return nullptr;
 }

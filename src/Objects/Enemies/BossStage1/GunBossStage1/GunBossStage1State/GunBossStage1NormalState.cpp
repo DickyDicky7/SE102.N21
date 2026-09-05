@@ -5,9 +5,9 @@ GunBossStage1NormalState::GunBossStage1NormalState()
 
 }
 
-GunBossStage1NormalState::GunBossStage1NormalState(FLOAT _time)
+GunBossStage1NormalState::GunBossStage1NormalState(float time)
 {
-	time = _time;
+	this->_time = time;
 }
 
 GunBossStage1NormalState::~GunBossStage1NormalState()
@@ -25,34 +25,34 @@ void GunBossStage1NormalState::Enter(GunBossStage1&)
 
 }
 
-void GunBossStage1NormalState::Render(GunBossStage1& gunBoss)
+void GunBossStage1NormalState::Render(GunBossStage1& gunBossStage1)
 {
-	if (gunBoss.GetType() == 1)
+	if (gunBossStage1.GetType() == Constants::Enemies::BossStage1::Gun::TYPE_UPPER)
 	{
-		gunBoss.SetAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_01, gunBoss.GetPosition(), gunBoss.GetMovingDirection(), gunBoss.GetAngle());
+		gunBossStage1.SetAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_01, gunBossStage1.GetPosition(), gunBossStage1.GetMovingDirection(), gunBossStage1.GetAngle());
 		return;
 	}
 
-	gunBoss.SetAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_02, gunBoss.GetPosition(), gunBoss.GetMovingDirection(), gunBoss.GetAngle());
+	gunBossStage1.SetAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_02, gunBossStage1.GetPosition(), gunBossStage1.GetMovingDirection(), gunBossStage1.GetAngle());
 }
 
-GunBossStage1State* GunBossStage1NormalState::Update(GunBossStage1& gunBoss)
+GunBossStage1State* GunBossStage1NormalState::Update(GunBossStage1& gunBossStage1)
 {
-	if (gunBoss.isDead)
+	if (gunBossStage1.IsDead())
 	{
-		float newX = gunBoss.GetX();
-		newX = gunBoss.GetX() + 1.0f;
-		gunBoss.SetX(newX);
+		float newX = gunBossStage1.GetX();
+		newX = gunBossStage1.GetX() + Constants::Enemies::BossStage1::Gun::STEP_DISTANCE_X;
+		gunBossStage1.SetX(newX);
 		return new GunBossStage1DestroyState();
 	}
 
-	if (GetTickCount64() - this->time >= 400.0f)
+	if (GetTickCount64() - this->_time >= Constants::Enemies::BossStage1::Gun::NORMAL_STEP_INTERVAL_MILLISECONDS)
 	{
-		float newX = gunBoss.GetX();
-		newX = gunBoss.GetX() + 1.0f;
-		gunBoss.SetX(newX);
-		return new GunBossStage1PrepareShootState((FLOAT)GetTickCount64());
+		float newX = gunBossStage1.GetX();
+		newX = gunBossStage1.GetX() + Constants::Enemies::BossStage1::Gun::STEP_DISTANCE_X;
+		gunBossStage1.SetX(newX);
+		return new GunBossStage1PrepareShootState(static_cast<float>(GetTickCount64()));
 	}
 
-	return NULL;
+	return nullptr;
 }

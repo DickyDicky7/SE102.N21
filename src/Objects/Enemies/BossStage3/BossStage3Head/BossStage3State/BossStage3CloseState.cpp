@@ -27,12 +27,12 @@ BossStage3State* BossStage3CloseState::Update(BossStage3& bossStage3)
 {
 	if (!bossStage3.IsHandsDead())
 	{
-		return NULL;
+		return nullptr;
 	}
-	if (time-- < 0) {
+	if (this->_time-- < 0) {
 		return new BossStage3MiddleState(BOSS_STAGE_3_ANIMATION_ID::OPEN);
 	}
-	return NULL;
+	return nullptr;
 }
 
 BossStage3State* BossStage3CloseState::HandleInput(BossStage3& bossStage3, Input& input)
@@ -42,5 +42,5 @@ BossStage3State* BossStage3CloseState::HandleInput(BossStage3& bossStage3, Input
 		return new BossStage3MiddleState(BOSS_STAGE_3_ANIMATION_ID::OPEN);
 	}
 
-	return NULL;
+	return nullptr;
 }

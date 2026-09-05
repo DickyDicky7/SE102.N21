@@ -27,7 +27,7 @@ void RifleManHideOnBushHidingState::Render(RifleManHideOnBush& rifleManHideOnBus
 
 RifleManHideOnBushState* RifleManHideOnBushHidingState::Update(RifleManHideOnBush& rifleManHideOnBush)
 {
-	if (GetTickCount64() - this->time > 2000.0f)
+	if (GetTickCount64() - this->_time > Constants::Enemies::RifleMan::HIDING_INTERVAL_MILLISECONDS)
 		return new RifleManHideOnBushAppearState();
-	return NULL;
+	return nullptr;
 }

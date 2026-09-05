@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-StartSceneState::StartSceneState() : SceneState(), chosen(false)
+StartSceneState::StartSceneState() : SceneState(), _chosen(false)
 {
 }
 
@@ -14,60 +14,60 @@ void StartSceneState::Exit(Scene& scene)
 
 void StartSceneState::Enter(Scene& scene)
 {
-	scene.stageIsReady = false;
-	scene.SetX(START_SCENE_W * 1.5f); scene.SetY(0.0f); scene.SetVX(-0.5f);
+	scene.SetStageReady(false);
+	scene.SetX(Constants::Scene::START_SCENE_WIDTH * Constants::Scene::SCENE_OFFSCREEN_WIDTH_FACTOR); scene.SetY(0.0f); scene.SetVX(Constants::Scene::START_SCENE_SPEED_X);
 
-	Sound::getInstance()->loadSound("Resources\\Sounds\\cursor.wav", "cursor");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\select.wav", "select");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\exbullet.wav", "exbullet");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\startingscene.wav", "startingscene");
-	Sound::getInstance()->play("startingscene", false, 1);
+	Sound::GetInstance()->LoadSound("Resources\\Sounds\\cursor.wav", "cursor");
+	Sound::GetInstance()->LoadSound("Resources\\Sounds\\select.wav", "select");
+	Sound::GetInstance()->LoadSound("Resources\\Sounds\\exbullet.wav", "exbullet");
+	Sound::GetInstance()->LoadSound("Resources\\Sounds\\startingscene.wav", "startingscene");
+	Sound::GetInstance()->Play("startingscene", false, 1);
 }
 
 void StartSceneState::Render(Scene& scene)
 {
 	scene.SetAnimation(SCENE_ANIMATION_ID::START_SCENE, scene.GetPosition(), scene.GetMovingDirection(), scene.GetAngle());
-	if (chosen)
+	if (this->_chosen)
 	{
 		ULONGLONG now = GetTickCount64();
-		if (now - time > 300)
+		if (now - this->_time > Constants::Scene::TEXT_BLINK_INTERVAL_MILLISECONDS)
 		{
-			GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[SCENE_SPRITE_ID::BLANK], D3DXVECTOR3(83.0f, 80.0f, 0.0f), DIRECTION::LEFT, 0.0f);
-			if (now - time > 600) time = now;
+			GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[SCENE_SPRITE_ID::BLANK], D3DXVECTOR3(Constants::Scene::START_SCENE_CURSOR_POSITION_X, Constants::Scene::START_SCENE_CURSOR_POSITION_Y, 0.0f), DIRECTION::LEFT, 0.0f);
+			if (now - this->_time > Constants::Scene::TEXT_BLINK_PERIOD_MILLISECONDS) this->_time = now;
 		}
 	}
-	if (scene.GetX() <= START_SCENE_W * 0.5f)
+	if (scene.GetX() <= Constants::Scene::START_SCENE_WIDTH * Constants::Scene::SCENE_CENTRE_WIDTH_FACTOR)
 	{
-		GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[SCENE_SPRITE_ID::YELLOW_FALCON], D3DXVECTOR3(25.0f, 79.0f, 0.0f), DIRECTION::LEFT, 0.0f);
+		GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[SCENE_SPRITE_ID::YELLOW_FALCON], D3DXVECTOR3(Constants::Scene::START_SCENE_FALCON_LOGO_POSITION_X, Constants::Scene::START_SCENE_FALCON_LOGO_POSITION_Y, 0.0f), DIRECTION::LEFT, 0.0f);
 	}
 }
 
 SceneState* StartSceneState::Update(Scene& scene)
 {
-	if (scene.GetX() > START_SCENE_W * 0.5f)
+	if (scene.GetX() > Constants::Scene::START_SCENE_WIDTH * Constants::Scene::SCENE_CENTRE_WIDTH_FACTOR)
 	{
 		auto result = Motion::CalculateUniformMotion({ scene.GetX(), scene.GetVX() });
-		scene.SetX(result.c);
+		scene.SetX(result.coordinate);
 	}
-	if (chosen)
+	if (this->_chosen)
 	{
-		if (++turn == 300)
+		if (++this->_turn == Constants::Scene::START_SCENE_TRANSITION_TURNS)
 		{
 			return new LoadingSceneState();
 		}
 
 	}
-	return NULL;
+	return nullptr;
 }
 
 SceneState* StartSceneState::HandleInput(Scene& scene, Input& input)
 {
-	if (scene.GetX() <= START_SCENE_W * 0.5f && (input.IsKey(DIK_RETURN) || input.IsKey(DIK_NUMPADENTER)) && !chosen)
+	if (scene.GetX() <= Constants::Scene::START_SCENE_WIDTH * Constants::Scene::SCENE_CENTRE_WIDTH_FACTOR && (input.IsKey(DIK_RETURN) || input.IsKey(DIK_NUMPADENTER)) && !this->_chosen)
 	{
-		Sound::getInstance()->stop();
-		Sound::getInstance()->play("exbullet", false, 1);
-		chosen = true;
+		Sound::GetInstance()->Stop();
+		Sound::GetInstance()->Play("exbullet", false, 1);
+		this->_chosen = true;
 	}
-	return NULL;
+	return nullptr;
 }
 

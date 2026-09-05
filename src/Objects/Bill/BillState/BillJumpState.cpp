@@ -2,7 +2,7 @@
 
 BillJumpState::BillJumpState() : BillState()
 {
-	hasMovedLeft = 0; hasMovedRight = 0;
+	this->_hasMovedLeft = false; this->_hasMovedRight = false;
 }
 
 BillJumpState::~BillJumpState()
@@ -11,24 +11,24 @@ BillJumpState::~BillJumpState()
 
 void BillJumpState::Exit(Bill& bill)
 {
-	Sound::getInstance()->play("landing", false, 1);
+	Sound::GetInstance()->Play("landing", false, 1);
 }
 
 void BillJumpState::Enter(Bill& bill)
 {
 	if (bill.GetMovingDirection() == DIRECTION::LEFT)
 	{
-		bill.SetVX(-2.0f);
+		bill.SetVX(-Constants::Bill::JUMP_SPEED_X);
 		bill.SetAX(-0.0f);
 	}
 	if (bill.GetMovingDirection() == DIRECTION::RIGHT)
 	{
-		bill.SetVX(+2.0f);
+		bill.SetVX(+Constants::Bill::JUMP_SPEED_X);
 		bill.SetAX(+0.0f);
 	}
 
-	bill.SetVY(+4.00f);
-	bill.SetAY(-0.10f);
+	bill.SetVY(+Constants::Bill::JUMP_SPEED_Y);
+	bill.SetAY(Constants::Bill::JUMP_ACCELERATION_Y);
 }
 
 void BillJumpState::Render(Bill& bill)
@@ -40,40 +40,44 @@ BillState* BillJumpState::Update(Bill& bill)
 {
 	if (bill.GetMovingDirection() == DIRECTION::LEFT)
 	{
-		bill.SetVX(-abs(bill.GetVX()));
-		bill.SetAX(-abs(bill.GetAX()));
+		bill.SetVX(-std::abs(bill.GetVX()));
+		bill.SetAX(-std::abs(bill.GetAX()));
 	}
 	if (bill.GetMovingDirection() == DIRECTION::RIGHT)
 	{
-		bill.SetVX(+abs(bill.GetVX()));
-		bill.SetAX(+abs(bill.GetAX()));
+		bill.SetVX(+std::abs(bill.GetVX()));
+		bill.SetAX(+std::abs(bill.GetAX()));
 	}
 
-	if (hasMovedLeft || hasMovedRight)
+	if (this->_hasMovedLeft || this->_hasMovedRight)
 	{
 		auto result = Motion::CalculateUniformMotion({ bill.GetX(), bill.GetVX() });
-		bill.SetX(result.c);
+		bill.SetX(result.coordinate);
 	}
 
 	if (bill.GetVY() >= 0.0f)
 	{
-		auto   result = Motion::CalculateUniformlyDeceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), time, 0.05f });
-		time = result.t; bill.SetY(result.c); bill.SetVY(result.v);
+		auto resultY = Motion::CalculateUniformlyDeceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), this->_time, Constants::Physics::DEFAULT_MOTION_INTEGRATION_DELTA_TIME });
+		this->_time = resultY.elapsedTime;
+		bill.SetY(resultY.coordinate);
+		bill.SetVY(resultY.velocity);
 	}
-	if (bill.GetVY() <= 0.0f)
+	else
 	{
-		auto   result = Motion::CalculateUniformlyAcceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), time, 0.05f });
-		time = result.t; bill.SetY(result.c); bill.SetVY(result.v);
+		auto resultY = Motion::CalculateUniformlyAcceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), this->_time, Constants::Physics::DEFAULT_MOTION_INTEGRATION_DELTA_TIME });
+		this->_time = resultY.elapsedTime;
+		bill.SetY(resultY.coordinate);
+		bill.SetVY(resultY.velocity);
 	}
 
 	if (bill.GetVY() <= 0.0f && bill.GetY() <= 0.0f)
 	{
 		bill.SetY(0.0f);
-		Sound::getInstance()->play("landing", false, 1);
+		Sound::GetInstance()->Play("landing", false, 1);
 		return new BillNormalState();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 BillState* BillJumpState::HandleInput(Bill& bill, Input& input)
@@ -84,12 +88,12 @@ BillState* BillJumpState::HandleInput(Bill& bill, Input& input)
 	}
 	if (input.IsKey(DIK_LEFT))
 	{
-		hasMovedLeft = 1; bill.SetMovingDirection(DIRECTION::LEFT);
+		this->_hasMovedLeft = true; bill.SetMovingDirection(DIRECTION::LEFT);
 	}
 	if (input.IsKey(DIK_RIGHT))
 	{
-		hasMovedRight = 1; bill.SetMovingDirection(DIRECTION::RIGHT);
+		this->_hasMovedRight = true; bill.SetMovingDirection(DIRECTION::RIGHT);
 	}
 
-	return NULL;
+	return nullptr;
 }

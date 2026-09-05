@@ -2,69 +2,66 @@
 
 BossStage3Gate::BossStage3Gate() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
-	this->vx = 1.0f;
-	this->vy = 1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
-	this->position.x = 200;
-	this->position.y = 200;
-	this->name = L"BossStage3Gate\n";
+	this->_vx = Constants::Physics::DEFAULT_INITIAL_VELOCITY_X;
+	this->_vy = Constants::Physics::DEFAULT_INITIAL_VELOCITY_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_position.x = Constants::Enemies::BossStage3::DEFAULT_SPAWN_X;
+	this->_position.y = Constants::Enemies::BossStage3::DEFAULT_SPAWN_Y;
+	this->SetDebugName(L"BossStage3Gate\n");
 
-	this->updateState = NULL;
-	this->handleInputState = NULL;
+	this->_updateState = nullptr;
+	this->_handleInputState = nullptr;
+	// Filled in by SetHead; IsDead reads it unguarded.
+	this->_bossStage3Head = nullptr;
 	// set direction default is right
-	this->movingDirection = DIRECTION::RIGHT;
+	this->_movingDirection = DIRECTION::RIGHT;
 	// set state begin is run
-	this->state = new BossStage3GateCloseState();
+	this->_state = new BossStage3GateCloseState();
 }
 
 BossStage3Gate::~BossStage3Gate()
 {
-	Destroy(state);
-	Destroy(updateState);
-	Destroy(handleInputState);
+	Destroy(this->_state);
+	Destroy(this->_updateState);
+	Destroy(this->_handleInputState);
 }
 
 void BossStage3Gate::Update()
 {
-	if (IsDead()) this->isDead = true;
-	if (isDead) Sound::getInstance()->play("boss2finaldestroy", false, 1);
-	updateState = state->Update(*this);
+	if (!this->IsDead() && this->IsHeadDead())
+	{
+		this->SetDead(true);
+		Sound::GetInstance()->Play("boss2finaldestroy", false, 1);
+	}
+	DeferState(this->_updateState, this->_state->Update(*this));
+
+	ApplyDeferredState(this->_state, this->_updateState, this);
+	ApplyDeferredState(this->_state, this->_handleInputState, this);
 }
 
 void BossStage3Gate::Render()
 {
-	state->Render(*this);
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
-
-	if (updateState)
-	{
-		ChangeState(state, updateState, this);
-		updateState = NULL;
-	}
-	if (handleInputState)
-	{
-		ChangeState(state, handleInputState, this);
-		handleInputState = NULL;
-	}
+	this->_state->Render(*this);
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
 }
 
 void BossStage3Gate::HandleInput(Input& input)
 {
-	handleInputState = state->HandleInput(*this, input);
+	DeferState(this->_handleInputState, this->_state->HandleInput(*this, input));
 }
 
-void InsertSpriteBoss3Gate(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
+void InsertSpriteBoss3Gate(SPRITE_ID spriteId, int left, int top, int right, int bottom)
 {
-	// i write this function to shorten the fuction: GraphicsHelper
+	// i write this function to shorten the function: GraphicsHelper
 	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, DIRECTION::RIGHT, BOSS_STAGE_3_TEXTURE_ID::BOSS_STAGE_3);
 }
 
 void BossStage3Gate::LoadSprites()
 {
-	if (HasSprites<BossStage3Gate>::hasBeenLoaded.value) return;
-	HasSprites<BossStage3Gate>::hasBeenLoaded.value = true;
+	if (HasSprites<BossStage3Gate>::_hasBeenLoaded) return;
+	HasSprites<BossStage3Gate>::_hasBeenLoaded = true;
 
 #pragma region Load Sprites
 
@@ -80,21 +77,21 @@ void BossStage3Gate::LoadSprites()
 
 void BossStage3Gate::LoadTextures()
 {
-	// ís loaded
+	// The gate draws from BOSS_STAGE_3, which BossStage3 loads; nothing to do here.
 }
 
 void BossStage3Gate::LoadAnimations()
 {
-	if (HasAnimations<BossStage3Gate>::hasBeenLoaded.value) return;
-	HasAnimations<BossStage3Gate>::hasBeenLoaded.value = true;
+	if (HasAnimations<BossStage3Gate>::_hasBeenLoaded) return;
+	HasAnimations<BossStage3Gate>::_hasBeenLoaded = true;
 
 #pragma region Load Animations
 
-	GraphicsHelper::InsertAnimation(BOSS_STAGE_3_GATE_ANIMATION_ID::OPEN, 150,
+	GraphicsHelper::InsertAnimation(BOSS_STAGE_3_GATE_ANIMATION_ID::OPEN, Constants::Enemies::BossStage3::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{BOSS_STAGE_3_GATE_SPRITE_ID::OPEN_1,0},
 		});
-	GraphicsHelper::InsertAnimation(BOSS_STAGE_3_GATE_ANIMATION_ID::CLOSE, 150,
+	GraphicsHelper::InsertAnimation(BOSS_STAGE_3_GATE_ANIMATION_ID::CLOSE, Constants::Enemies::BossStage3::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{BOSS_STAGE_3_GATE_SPRITE_ID::CLOSE_1,0},
 		});
@@ -103,7 +100,7 @@ void BossStage3Gate::LoadAnimations()
 	OutputDebugString(L"BossStage3Gate Animations Loaded Successfully\n");
 }
 
-BOOL BossStage3Gate::IsDead()
+bool BossStage3Gate::IsHeadDead() const
 {
-	return bossStage3Head->isDead;
+	return this->_bossStage3Head && this->_bossStage3Head->IsDead();
 }

@@ -2,8 +2,8 @@
 
 GunBossStage1DestroyState::GunBossStage1DestroyState()
 {
-	isDestroy = false;
-	isInDestroyPos = false;
+	this->_isDestroy = false;
+	this->_isInDestroyPos = false;
 }
 
 GunBossStage1DestroyState::~GunBossStage1DestroyState()
@@ -21,46 +21,46 @@ void GunBossStage1DestroyState::Enter(GunBossStage1&)
 
 }
 
-void GunBossStage1DestroyState::Render(GunBossStage1& gunBoss)
+void GunBossStage1DestroyState::Render(GunBossStage1& gunBossStage1)
 {
-	if (!isDestroy)
+	if (!this->_isDestroy)
 	{
-		gunBoss.SetAnimation(EXPLOSION_ANIMATION_ID::TYPE_3, gunBoss.GetPosition(), gunBoss.GetMovingDirection(), gunBoss.GetAngle());
+		gunBossStage1.SetAnimation(EXPLOSION_ANIMATION_ID::TYPE_3, gunBossStage1.GetPosition(), gunBossStage1.GetMovingDirection(), gunBossStage1.GetAngle());
 		return;
 	}
 
 
-	if (gunBoss.GetType() == 1)
+	if (gunBossStage1.GetType() == Constants::Enemies::BossStage1::Gun::TYPE_UPPER)
 	{
-		gunBoss.SetAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_DESTROY_01, gunBoss.GetPosition(), gunBoss.GetMovingDirection(), gunBoss.GetAngle());
+		gunBossStage1.SetAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_DESTROY_01, gunBossStage1.GetPosition(), gunBossStage1.GetMovingDirection(), gunBossStage1.GetAngle());
 		return;
 	}
 
-	gunBoss.SetAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_DESTROY_02, gunBoss.GetPosition(), gunBoss.GetMovingDirection(), gunBoss.GetAngle());
+	gunBossStage1.SetAnimation(BOSS_STAGE_1_ANIMATION_ID::GUN_BOSS_DESTROY_02, gunBossStage1.GetPosition(), gunBossStage1.GetMovingDirection(), gunBossStage1.GetAngle());
 }
 
-GunBossStage1State* GunBossStage1DestroyState::Update(GunBossStage1& gunBoss)
+GunBossStage1State* GunBossStage1DestroyState::Update(GunBossStage1& gunBossStage1)
 {
-	if (isDestroy)
+	if (this->_isDestroy)
 	{
-		if (!isInDestroyPos)
+		if (!this->_isInDestroyPos)
 		{
-			float offsetX = gunBoss.GetType() == 1 ? 7.0f : 4.0f;
-			float offsetY = gunBoss.GetType() == 1 ? 1.0f : 0.0f;
-			gunBoss.SetX(gunBoss.GetX() + offsetX);
-			gunBoss.SetY(gunBoss.GetY() - offsetY);
-			isInDestroyPos = true;
+			float offsetX = gunBossStage1.GetType() == Constants::Enemies::BossStage1::Gun::TYPE_UPPER ? Constants::Enemies::BossStage1::Gun::DESTROY_OFFSET_X_UPPER : Constants::Enemies::BossStage1::Gun::DESTROY_OFFSET_X_LOWER;
+			float offsetY = gunBossStage1.GetType() == Constants::Enemies::BossStage1::Gun::TYPE_UPPER ? Constants::Enemies::BossStage1::Gun::DESTROY_OFFSET_Y_UPPER : Constants::Enemies::BossStage1::Gun::DESTROY_OFFSET_Y_LOWER;
+			gunBossStage1.SetX(gunBossStage1.GetX() + offsetX);
+			gunBossStage1.SetY(gunBossStage1.GetY() - offsetY);
+			this->_isInDestroyPos = true;
 		}
-		return NULL;
+		return nullptr;
 	}
 
 	std::vector<std::tuple<SPRITE_ID, TIME>>& frames = std::get<
 		std::vector<std::tuple<SPRITE_ID, TIME>>>(GraphicsDatabase::animations[EXPLOSION_ANIMATION_ID::TYPE_3]);
 
-	if (std::cmp_greater_equal(gunBoss.GetCurrentFrame() + 1, frames.size()))
+	if (std::cmp_greater_equal(gunBossStage1.GetCurrentFrame() + 1, frames.size()))
 	{
-		isDestroy = true;
+		this->_isDestroy = true;
 	}
-	
-	return NULL;
+
+	return nullptr;
 }

@@ -22,27 +22,34 @@ class GunBossStage1 : public Entity, public Enemy<Bill>
 {
 public:
 	GunBossStage1();
-	GunBossStage1(int);
+	GunBossStage1(int type);
 	~GunBossStage1();
 
 	virtual void Update() override;
 	virtual void Render() override;
-	virtual void HandleInput(Input&) override;
+	virtual void HandleInput(Input& input) override;
 
 	void Fire() override;
-	void Fire(FLOAT, FLOAT, FLOAT, FLOAT, FLOAT, DIRECTION);
+	void Fire(float angle, float vx, float vy, float ax, float ay, DIRECTION direction);
 
 	void LoadTextures() override;
 	void LoadSprites() override;
 	void LoadAnimations() override;
-	int GetType();
+	int GetType() const;
 
 	const Bill* GetEnemyTarget();
 
+	bool IsEnemy() const override { return true; }
+	bool ShouldRetainWhenDead() const override { return true; }
+	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
+	bool IsPushableObstacle() const override { return !this->IsDead(); }
+	bool IsVulnerableToBullet() const override { return !this->IsDead(); }
+	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	bool TakeBulletHit() override { return this->IsDead() ? false : this->Enemy<Bill>::TakeEnemyBulletHit(this); }
 protected:
-	GunBossStage1State* state;
-	GunBossStage1State* updateState;
-	int type;
+	GunBossStage1State* _state;
+	GunBossStage1State* _updateState;
+	int _type;
 };
 
 class GunBossStage1State : public State<GunBossStage1State, GunBossStage1>
@@ -51,29 +58,29 @@ public:
 	GunBossStage1State();
 	~GunBossStage1State();
 
-	virtual void Exit(GunBossStage1&) = 0;
-	virtual void Enter(GunBossStage1&) = 0;
-	virtual void Render(GunBossStage1&) = 0;
+	virtual void Exit(GunBossStage1& gunBossStage1) = 0;
+	virtual void Enter(GunBossStage1& gunBossStage1) = 0;
+	virtual void Render(GunBossStage1& gunBossStage1) = 0;
 
-	virtual GunBossStage1State* Update(GunBossStage1&) = 0;
-	virtual GunBossStage1State* HandleInput(GunBossStage1&, Input&) override;
+	virtual GunBossStage1State* Update(GunBossStage1& gunBossStage1) = 0;
+	virtual GunBossStage1State* HandleInput(GunBossStage1& gunBossStage1, Input& input) override;
 
 protected:
-	FLOAT time;
+	float _time;
 };
 
 class GunBossStage1NormalState : public GunBossStage1State
 {
 public:
 	GunBossStage1NormalState();
-	GunBossStage1NormalState(FLOAT);
+	GunBossStage1NormalState(float time);
 	~GunBossStage1NormalState();
 
-	virtual void Exit(GunBossStage1&);
-	virtual void Enter(GunBossStage1&);
-	virtual void Render(GunBossStage1&);
+	virtual void Exit(GunBossStage1& gunBossStage1);
+	virtual void Enter(GunBossStage1& gunBossStage1);
+	virtual void Render(GunBossStage1& gunBossStage1);
 
-	virtual GunBossStage1State* Update(GunBossStage1&);
+	virtual GunBossStage1State* Update(GunBossStage1& gunBossStage1);
 
 };
 
@@ -81,14 +88,14 @@ class GunBossStage1PrepareShootState : public GunBossStage1State
 {
 public:
 	GunBossStage1PrepareShootState();
-	GunBossStage1PrepareShootState(FLOAT);
+	GunBossStage1PrepareShootState(float time);
 	~GunBossStage1PrepareShootState();
 
-	virtual void Exit(GunBossStage1&);
-	virtual void Enter(GunBossStage1&);
-	virtual void Render(GunBossStage1&);
+	virtual void Exit(GunBossStage1& gunBossStage1);
+	virtual void Enter(GunBossStage1& gunBossStage1);
+	virtual void Render(GunBossStage1& gunBossStage1);
 
-	virtual GunBossStage1State* Update(GunBossStage1&);
+	virtual GunBossStage1State* Update(GunBossStage1& gunBossStage1);
 };
 
 
@@ -98,14 +105,14 @@ public:
 	GunBossStage1DestroyState();
 	~GunBossStage1DestroyState();
 
-	virtual void Exit(GunBossStage1&);
-	virtual void Enter(GunBossStage1&);
-	virtual void Render(GunBossStage1&);
+	virtual void Exit(GunBossStage1& gunBossStage1);
+	virtual void Enter(GunBossStage1& gunBossStage1);
+	virtual void Render(GunBossStage1& gunBossStage1);
 
-	virtual GunBossStage1State* Update(GunBossStage1&);
+	virtual GunBossStage1State* Update(GunBossStage1& gunBossStage1);
 
 protected:
-	boolean isDestroy;
-	boolean isInDestroyPos;
+	bool _isDestroy;
+	bool _isInDestroyPos;
 };
 

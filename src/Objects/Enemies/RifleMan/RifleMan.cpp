@@ -14,12 +14,12 @@ RifleMan::~RifleMan()
 
 void RifleMan::LoadTextures()
 {
-	if (HasTextures<RifleMan>::hasBeenLoaded.value) {
+	if (HasTextures<RifleMan>::_hasBeenLoaded) {
 		return;
 	}
-	HasTextures<RifleMan>::hasBeenLoaded.value = true;
+	HasTextures<RifleMan>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertTexure(RIFLE_MAN_TEXTURE_ID::RIFLE_MAN, L"Resources\\Textures\\RifleMan.bmp");
+	GraphicsHelper::InsertTexture(RIFLE_MAN_TEXTURE_ID::RIFLE_MAN, L"Resources\\Textures\\RifleMan.bmp");
 
 	return;
 }

@@ -1,6 +1,6 @@
 #include "Explosion.h"
 
-// state cho khong phai nguoi
+// Explosion state for non-human entities
 ExplosionType3State::ExplosionType3State() : ExplosionState()
 {
 }
@@ -30,13 +30,13 @@ ExplosionState* ExplosionType3State::Update(Explosion& explosion)
 
 	if (std::cmp_greater_equal(explosion.GetCurrentFrame() + 1, frames.size()))
 	{
-		explosion.isDead = 1;
+		explosion.SetDead(true);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 ExplosionState* ExplosionType3State::HandleInput(Explosion& explosion, Input& input)
 {
-	return NULL;
+	return nullptr;
 }

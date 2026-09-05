@@ -1,8 +1,10 @@
 #pragma once
-#include "dsound.h"
-#include "windows.h"
+#include "Constants.h"
+#include <dsound.h>
+#include <Windows.h>
 #include <map>
 #include <string>
+#include <string_view>
 #include <iostream>
 #include <mmsystem.h>
 #pragma comment(lib, "dsound.lib")
@@ -28,25 +30,23 @@ public:
 		char dataChunkId[4];
 		unsigned long dataSize;
 	};
-	float volume;
-	void static create(HWND hWnd);
-	void setVolume(float percentage, std::string name = "");
-	void loadSound(const char* fileName, std::string name);
-	void play(std::string name, bool infiniteLoop, int times);
-	void stop(std::string name = "");
-	float getVolume();
+	static void Create(HWND hWnd);
+	void SetVolume(float percentage, std::string_view name = "");
+	void LoadSound(const char* fileName, std::string_view name);
+	void Play(std::string_view name, bool infiniteLoop, int times);
+	void Stop(std::string_view name = "");
+	float GetVolume() const;
 	~Sound();
-	static Sound* getInstance();
-	void mute();
-	void unMute();
-	void cleanUp();
+	static Sound* GetInstance();
+	void Mute();
+	void UnMute();
+	void CleanUp();
 private:
 	Sound(HWND hWnd);
-	static Sound* instance;
-	IDirectSound8* pDevice;
-	IDirectSoundBuffer* primaryBuffer;
-	std::map<std::string, IDirectSoundBuffer8*> soundBufferMap;
-	bool isMute;
-
+	static Sound* _instance;
+	IDirectSound8* _pDevice;
+	IDirectSoundBuffer* _primaryBuffer;
+	std::map<std::string, IDirectSoundBuffer8*, std::less<>> _soundBufferMap;
+	float _volume;
+	bool _isMute;
 };
-

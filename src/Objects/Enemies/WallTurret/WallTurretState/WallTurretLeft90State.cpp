@@ -12,31 +12,30 @@ void WallTurretLeft90State::Render(WallTurret& wallTurret){
 
 void WallTurretLeft90State::Enter(WallTurret& wallTurret)
 {
-	if (--wallTurret.shootDelay == 0)
+	if (this->UpdateShooting(wallTurret))
 	{
 		wallTurret.Fire(0.0f, -1.0f, 0.0f, 0.0f, 0.0f, wallTurret.GetMovingDirection());
-		wallTurret.shootDelay = WALL_TURRET_SHOOT_DELAY;
 	}
 }
 
 WallTurretState* WallTurretLeft90State::Update(WallTurret& wallTurret)
 {
-	if (--delayBeforeChangeState > 0)
+	if (--this->_delayBeforeChangeState > 0)
 	{
-		return NULL;
+		return nullptr;
 	}
 
-	FLOAT billAngle = wallTurret.CalculateBillAngle();
+	float billAngle = wallTurret.CalculateBillAngle();
 
-	if (billAngle >= -105 && billAngle < -75)
-		return NULL;
+	if (billAngle >= -Constants::Enemies::WallTurret::AIM_ANGLE_105_DEGREES && billAngle < -Constants::Enemies::WallTurret::AIM_ANGLE_75_DEGREES)
+		return nullptr;
 
-	if (billAngle < -105 || billAngle > 90)
+	if (billAngle < -Constants::Enemies::WallTurret::AIM_ANGLE_105_DEGREES || billAngle > Constants::Enemies::WallTurret::AIM_ANGLE_90_DEGREES)
 		return new WallTurretLeft60State();
 
-	if (billAngle >= -75 || billAngle <= 90)
+	if (billAngle >= -Constants::Enemies::WallTurret::AIM_ANGLE_75_DEGREES || billAngle <= Constants::Enemies::WallTurret::AIM_ANGLE_90_DEGREES)
 		return new WallTurretLeft120State();
 
-	return NULL;
+	return nullptr;
 }
-	
+

@@ -2,7 +2,7 @@
 
 ExplosionDrownState::ExplosionDrownState() : ExplosionState()
 {
-	time = 100.0f;
+	this->_time = Constants::Objects::Explosion::DROWN_DURATION_FRAMES;
 }
 
 ExplosionDrownState::~ExplosionDrownState()
@@ -24,14 +24,14 @@ void ExplosionDrownState::Render(Explosion& explosion)
 
 ExplosionState* ExplosionDrownState::Update(Explosion& explosion)
 {
-	if (--time == 0)
+	if (--this->_time == 0)
 	{
-		explosion.isDead = 1;
+		explosion.SetDead(true);
 	}
-	return NULL;
+	return nullptr;
 }
 
 ExplosionState* ExplosionDrownState::HandleInput(Explosion& explosion, Input& input)
 {
-	return NULL;
+	return nullptr;
 }

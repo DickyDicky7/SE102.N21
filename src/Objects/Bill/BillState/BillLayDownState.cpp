@@ -23,14 +23,14 @@ void BillLayDownState::Render(Bill& bill)
 
 BillState* BillLayDownState::Update(Bill& bill)
 {
-	return NULL;
+	return nullptr;
 }
 
 BillState* BillLayDownState::HandleInput(Bill& bill, Input& input)
 {
 	if (input.IsKey(DIK_DOWN))
 	{
-		if (input.IsKey(DIK_X)) bill.Fire(); return NULL;
+		if (input.IsKey(DIK_X)) bill.Fire(); return nullptr;
 	}
 	return new BillNormalState();
 }

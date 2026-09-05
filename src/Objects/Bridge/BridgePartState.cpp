@@ -2,14 +2,14 @@
 
 BridgePartState::BridgePartState()
 {
-	this->time = 0.0f;
-	animationId = BRIDGE_ANIMATION_ID::BODY;
+	this->_time = 0.0f;
+	this->_animationId = BRIDGE_ANIMATION_ID::BODY;
 }
 
-BridgePartState::BridgePartState(ANIMATION_ID _animationId)
+BridgePartState::BridgePartState(ANIMATION_ID animationId)
 {
-	this->time = 0.0f;
-	animationId = _animationId;
+	this->_time = 0.0f;
+	this->_animationId = animationId;
 }
 
 BridgePartState::~BridgePartState()
@@ -29,24 +29,24 @@ void BridgePartState::Enter(BridgePart&)
 
 void BridgePartState::Render(BridgePart& bridgePart)
 {
-	bridgePart.SetAnimation(this->animationId, bridgePart.GetPosition(), bridgePart.GetMovingDirection(), bridgePart.GetAngle());
+	bridgePart.SetAnimation(this->_animationId, bridgePart.GetPosition(), bridgePart.GetMovingDirection(), bridgePart.GetAngle());
 }
 
 BridgePartState* BridgePartState::Update(BridgePart& bridgePart)
 {
 	std::vector<std::tuple<SPRITE_ID, TIME>>& frames = std::get<
-		std::vector<std::tuple<SPRITE_ID, TIME>>>(GraphicsDatabase::animations[this->animationId]);
+		std::vector<std::tuple<SPRITE_ID, TIME>>>(GraphicsDatabase::animations[this->_animationId]);
 
 	if (std::cmp_greater_equal(bridgePart.GetCurrentFrame() + 1, frames.size()))
 	{
-		this->time = (FLOAT)GetTickCount64();
-		Sound::getInstance()->play("bridgeexplosion.wav", false, 1);
+		this->_time = static_cast<float>(GetTickCount64());
+		Sound::GetInstance()->Play("bridgeexplosion", false, 1);
 		return new BridgePartExplosionState();
 	}
-	return NULL;
+	return nullptr;
 }
 
 BridgePartState* BridgePartState::HandleInput(BridgePart&, Input&)
 {
-	return NULL;
+	return nullptr;
 }
