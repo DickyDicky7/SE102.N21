@@ -120,30 +120,14 @@ else {
 # Check output (only meaningful when the build actually succeeded, otherwise
 # we would report a stale executable left over from a previous successful build)
 if ($exitCode -eq 0) {
-    # The project sets no explicit OutDir, so MSBuild's defaults for a classic
-    # VC++ project apply: 64-bit platforms build into $(Platform)\$(Configuration)\
-    # while Win32 builds into $(Configuration)\ with no platform folder at all.
-    # (The previous mapping assumed "Win32\$Config" and so never found the exe.)
-    #
-    # $Platform is a SOLUTION platform here (x64 / x86), but the output folder is
-    # named after the PROJECT platform - which is "Win32" for a 32-bit build.
-    $candidates = if ($Platform -eq "x86") {
-        @("$Config", "Win32\$Config")
-    } else {
-        @("$Platform\$Config", "$Config")
-    }
+    $exePath = Join-Path $projectDir "link\$Platform\$Config\NESContra.exe"
 
-    $exePath = $candidates |
-        ForEach-Object { Join-Path $projectDir "$_\NESContra.exe" } |
-        Where-Object { Test-Path $_ } |
-        Select-Object -First 1
-
-    if ($exePath) {
+    if (Test-Path $exePath) {
         $size = (Get-Item $exePath).Length
         Write-Host "  Output: $exePath ($size bytes)" -ForegroundColor Green
     }
     else {
-        Write-Host "  Warning: build succeeded but NESContra.exe was not found under $($candidates -join ' or ')" -ForegroundColor Yellow
+        Write-Host "  Warning: build succeeded but NESContra.exe was not found at $exePath" -ForegroundColor Yellow
     }
 }
 

@@ -331,6 +331,10 @@
   <ImportGroup Label="PropertySheets" Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
+  <PropertyGroup>
+    <OutDir>$(ProjectDir)link\$(PlatformShortName)\$(Configuration)\</OutDir>
+    <IntDir>$(ProjectDir)build\$(PlatformShortName)\$(Configuration)\</IntDir>
+  </PropertyGroup>
   <PropertyGroup Label="UserMacros">
     <!-- Include path for the source tree.  Headers are included by bare name
          (#include "Bill.h") from anywhere in the project, so every folder that
