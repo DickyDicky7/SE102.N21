@@ -2,63 +2,63 @@
 
 BridgePart::BridgePart()
 {
-	this->vx = 1.0f;
-	this->vy = 1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
+	this->_vx = Constants::Physics::DEFAULT_INITIAL_VELOCITY_X;
+	this->_vy = Constants::Physics::DEFAULT_INITIAL_VELOCITY_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
 
-	this->name = L"BridgePart\n";
+	this->SetDebugName(L"BridgePart\n");
 
-	state = new BridgePartState(BRIDGE_ANIMATION_ID::BODY);
-	updateState = NULL;
-	isDestroy = false;
+	this->_state = new BridgePartState(BRIDGE_ANIMATION_ID::BODY);
+	this->_updateState = nullptr;
+	this->_isDestroy = false;
 }
 
 BridgePart::BridgePart(ANIMATION_ID animationId)
 {
-	this->vx = 1.0f;
-	this->vy = 1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
+	this->_vx = Constants::Physics::DEFAULT_INITIAL_VELOCITY_X;
+	this->_vy = Constants::Physics::DEFAULT_INITIAL_VELOCITY_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
 
-	this->name = L"BridgePart\n";
+	this->SetDebugName(L"BridgePart\n");
 
-	state = new BridgePartState(animationId);
-	updateState = NULL;
-	isDestroy = false;
+	this->_state = new BridgePartState(animationId);
+	this->_updateState = nullptr;
+	this->_isDestroy = false;
 }
 
 BridgePart::~BridgePart()
 {
-
+	Destroy(this->_state);
+	Destroy(this->_updateState);
 }
 
 void BridgePart::Update()
 {
-	updateState = state->Update(*this);
+	DeferState(this->_updateState, this->_state->Update(*this));
+
+	// Unconditional, where Render applied this from inside its `!_isDestroy`
+	// guard: that guard is about whether the part is still drawn, not about
+	// whether its state machine may advance.
+	ApplyDeferredState(this->_state, this->_updateState, this);
 }
 
 void BridgePart::Render()
 {
-	if (!isDestroy)
+	if (!this->_isDestroy)
 	{
-		state->Render(*this);
-		
-		if (dynamic_cast<BridgePartExplosionState*>(state))
+		this->_state->Render(*this);
+
+		if (this->_state && this->_state->HasZeroDimensions())
 		{
-			this->w = 0.0f;
-			this->h = 0.0f;
+			this->_w = 0.0f;
+			this->_h = 0.0f;
 		}
 		else
 		{
-			this->w = this->currentFrameW;
-			this->h = this->currentFrameH;
-		}
-
-		if (updateState)
-		{
-			ChangeState(state, updateState, this);
-			updateState = NULL;
+			this->_w = this->GetCurrentFrameW();
+			this->_h = this->GetCurrentFrameH();
 		}
 	}
 }
@@ -73,12 +73,12 @@ void BridgePart::LoadAnimations()
 
 }
 
-void BridgePart::SetIsDestroy(BOOLEAN value)
+void BridgePart::SetIsDestroy(bool isDestroy)
 {
-	isDestroy = value;
+	this->_isDestroy = isDestroy;
 }
 
-BOOLEAN BridgePart::GetIsDestroy()
+bool BridgePart::GetIsDestroy() const
 {
-	return isDestroy;
+	return this->_isDestroy;
 }

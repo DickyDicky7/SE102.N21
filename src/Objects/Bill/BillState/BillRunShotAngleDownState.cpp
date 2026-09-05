@@ -16,13 +16,13 @@ void BillRunShotAngleDownState::Enter(Bill& bill)
 {
 	if (bill.GetMovingDirection() == DIRECTION::LEFT)
 	{
-		bill.SetVX(-abs(bill.GetVX()));
-		bill.SetAX(-abs(bill.GetAX()));
+		bill.SetVX(-std::abs(bill.GetVX()));
+		bill.SetAX(-std::abs(bill.GetAX()));
 	}
 	if (bill.GetMovingDirection() == DIRECTION::RIGHT)
 	{
-		bill.SetVX(+abs(bill.GetVX()));
-		bill.SetAX(+abs(bill.GetAX()));
+		bill.SetVX(+std::abs(bill.GetVX()));
+		bill.SetAX(+std::abs(bill.GetAX()));
 	}
 }
 
@@ -34,9 +34,9 @@ void BillRunShotAngleDownState::Render(Bill& bill)
 BillState* BillRunShotAngleDownState::Update(Bill& bill)
 {
 	auto result = Motion::CalculateUniformMotion({ bill.GetX(), bill.GetVX() });
-	bill.SetX(result.c);
+	bill.SetX(result.coordinate);
 
-	return NULL;
+	return nullptr;
 }
 
 BillState* BillRunShotAngleDownState::HandleInput(Bill& bill, Input& input)
@@ -47,7 +47,7 @@ BillState* BillRunShotAngleDownState::HandleInput(Bill& bill, Input& input)
 		if (input.IsKey(DIK_DOWN))
 		{
 			if (input.IsKey(DIK_X)) bill.Fire();
-			return NULL;
+			return nullptr;
 		}
 	}
 	return new BillRunState();

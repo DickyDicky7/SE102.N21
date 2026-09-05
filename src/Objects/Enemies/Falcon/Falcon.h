@@ -21,11 +21,11 @@ class Falcon : public Entity, public Enemy<Bill>
 	, public HasTextures<Falcon>, public HasSprites<Falcon>, public HasAnimations<Falcon>
 {
 public:
-	Falcon(ITEM_TYPE);
+	Falcon(ITEM_TYPE ammoType);
 	virtual ~Falcon();
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 
 	void LoadSprites() override;
 	void LoadTextures() override;
@@ -35,24 +35,30 @@ public:
 
 	void SetCurrentState(FALCON_ANIMATION_ID id)
 	{
-		currentState = id;
+		this->_currentState = id;
 	}
 
-	FALCON_ANIMATION_ID getCurrentState()
+	FALCON_ANIMATION_ID GetCurrentState()
 	{
-		return currentState;
+		return this->_currentState;
 	}
 
-	ITEM_TYPE getAmmoType();
-	void setAmmoType(ITEM_TYPE);
+	ITEM_TYPE GetAmmoType();
+	void SetAmmoType(ITEM_TYPE ammoType);
+
+	bool IsEnemy() const override { return true; }
+	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
+	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	Item* CreateDroppedItem() const override;
+	bool TakeBulletHit() override { return this->Enemy<Bill>::TakeEnemyBulletHit(this); }
 protected:
-	FalconState* state;
-	FalconState* updateState;
-	FalconState* handleInputState;
+	FalconState* _state;
+	FalconState* _updateState;
+	FalconState* _handleInputState;
 
 	ITEM_TYPE _ammoType;
-	FLOAT billDistance;
-	FALCON_ANIMATION_ID currentState;
+	float _billDistance;
+	FALCON_ANIMATION_ID _currentState;
 };
 
 
@@ -65,12 +71,12 @@ public:
 	FalconState();
 	virtual ~FalconState();
 
-	virtual void Exit(Falcon&) override = 0;
-	virtual void Enter(Falcon&) override = 0;
-	virtual void Render(Falcon&) override = 0;
+	virtual void Exit(Falcon& falcon) override = 0;
+	virtual void Enter(Falcon& falcon) override = 0;
+	virtual void Render(Falcon& falcon) override = 0;
 
-	virtual FalconState* Update(Falcon&) override = 0;
-	virtual FalconState* HandleInput(Falcon&, Input&) override = 0;
+	virtual FalconState* Update(Falcon& falcon) override = 0;
+	virtual FalconState* HandleInput(Falcon& falcon, Input& input) override = 0;
 };
 
 
@@ -82,12 +88,12 @@ public:
 	FalconCloseState();
 	virtual ~FalconCloseState();
 
-	virtual void Exit(Falcon&) override;
-	virtual void Enter(Falcon&) override;
-	virtual void Render(Falcon&) override;
+	virtual void Exit(Falcon& falcon) override;
+	virtual void Enter(Falcon& falcon) override;
+	virtual void Render(Falcon& falcon) override;
 
-	virtual FalconState* Update(Falcon&) override;
-	virtual FalconState* HandleInput(Falcon&, Input&) override;
+	virtual FalconState* Update(Falcon& falcon) override;
+	virtual FalconState* HandleInput(Falcon& falcon, Input& input) override;
 };
 
 
@@ -99,15 +105,15 @@ public:
 	FalconOpeningState(FALCON_ANIMATION_ID nextState);
 	virtual ~FalconOpeningState();
 
-	virtual void Exit(Falcon&) override;
-	virtual void Enter(Falcon&) override;
-	virtual void Render(Falcon&) override;
+	virtual void Exit(Falcon& falcon) override;
+	virtual void Enter(Falcon& falcon) override;
+	virtual void Render(Falcon& falcon) override;
 
-	virtual FalconState* Update(Falcon&) override;
-	virtual FalconState* HandleInput(Falcon&, Input&) override;
+	virtual FalconState* Update(Falcon& falcon) override;
+	virtual FalconState* HandleInput(Falcon& falcon, Input& input) override;
 protected:
-	TIME delayTime;
-	FALCON_ANIMATION_ID nextState;
+	TIME _delayTime;
+	FALCON_ANIMATION_ID _nextState;
 };
 
 class FalconOpenState : public FalconState
@@ -118,10 +124,10 @@ public:
 	FalconOpenState();
 	virtual ~FalconOpenState();
 
-	virtual void Exit(Falcon&) override;
-	virtual void Enter(Falcon&) override;
-	virtual void Render(Falcon&) override;
+	virtual void Exit(Falcon& falcon) override;
+	virtual void Enter(Falcon& falcon) override;
+	virtual void Render(Falcon& falcon) override;
 
-	virtual FalconState* Update(Falcon&) override;
-	virtual FalconState* HandleInput(Falcon&, Input&) override;
+	virtual FalconState* Update(Falcon& falcon) override;
+	virtual FalconState* HandleInput(Falcon& falcon, Input& input) override;
 };

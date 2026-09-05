@@ -61,3 +61,8 @@
 #*.PDF   diff=astextplain
 #*.rtf   diff=astextplain
 #*.RTF   diff=astextplain
+
+###############################################################################
+# Vendored third-party sources are left exactly as upstream ships them.
+###############################################################################
+third_party/** -text

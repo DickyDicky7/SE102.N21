@@ -14,169 +14,132 @@
 
 Bullet::Bullet(                  ) : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity()
 {
-	this->isFake  = 0;
-	this->isEnemy = 0;
-	this->state = NULL;
-	this->updateState = NULL;
-	this->handleInputState = NULL;
-	CollidableEntity::self = (Entity*)this;
+	this->_isFake = false;
+	this->_isEnemy = false;
+	this->_state = nullptr;
+	this->_updateState = nullptr;
+	this->_handleInputState = nullptr;
+	CollidableEntity::_self = this;
 }
 
 Bullet::Bullet(BulletState* state) : Bullet()
 {
-	this->state = state;
+	this->_state = state;
 }
 
 Bullet::~Bullet()
 {
-	Destroy(state);
-	Destroy(updateState);
-	Destroy(handleInputState);
+	Destroy(this->_state);
+	Destroy(this->_updateState);
+	Destroy(this->_handleInputState);
+}
+
+Bullet* Bullet::Create(float x, float y, float vx, float vy, float ax, float ay, float angle, DIRECTION movingDirection, bool isEnemy, BulletState* state, bool isFake)
+{
+	Bullet* bullet = new Bullet();
+	bullet->_isFake = isFake;
+	bullet->_isEnemy = isEnemy;
+	bullet->SetX(x);
+	bullet->SetY(y);
+	bullet->SetVX(vx);
+	bullet->SetVY(vy);
+	bullet->SetAX(ax);
+	bullet->SetAY(ay);
+	bullet->SetAngle(angle);
+	bullet->SetMovingDirection(movingDirection);
+	bullet->SetState(state);
+	return bullet;
+}
+
+Explosion* Bullet::CreateDeathExplosion() const
+{
+	if (this->_state) return this->_state->CreateDeathExplosion(*this);
+	return nullptr;
+}
+
+Bullet* Bullet::CreateBulletExplosion() const
+{
+	BulletState* bulletState = this->GetState();
+	DirectX::XMFLOAT4 explodeColor = bulletState ? bulletState->GetExplodeColor() : GraphicsHelper::ToXMFloat4(Constants::Particles::EXPLODE_COLOUR_DEFAULT);
+
+	Bullet* explosion = new Bullet();
+	if (this->GetVX() < 0.0f)
+		explosion->SetX(this->GetL() - Constants::Weapons::BULLET_EXPLOSION_OFFSET);
+	else if (this->GetVX() > 0.0f)
+		explosion->SetX(this->GetR() + Constants::Weapons::BULLET_EXPLOSION_OFFSET);
+	else
+		explosion->SetX(this->GetX() + 0.0f);
+
+	if (this->GetVY() < 0.0f)
+		explosion->SetY(this->GetB() - Constants::Weapons::BULLET_EXPLOSION_OFFSET);
+	else if (this->GetVY() > 0.0f)
+		explosion->SetY(this->GetT() + Constants::Weapons::BULLET_EXPLOSION_OFFSET);
+	else
+		explosion->SetY(this->GetY() + 0.0f);
+
+	explosion->SetState(new BulletExplodeState(explodeColor));
+	return explosion;
 }
 
 void Bullet::Update()
 {
-	updateState = state->Update(*this);
-
-	if (!isDead && state)
+	if (this->_state)
 	{
-		// Spawn trail particles depending on state
-		if (dynamic_cast<BulletRState*>(state))
+		DeferState(this->_updateState, this->_state->Update(*this));
+		if (!this->IsDead())
 		{
-			float vx_offset = (((rand() % 100) - 50) / 100.0f) * 0.4f;
-			float vy_offset = (((rand() % 100) - 50) / 100.0f) * 0.4f;
-			BulletParticleSystem::AddParticle(GetX(), GetY(), -GetVX() * 0.1f + vx_offset, -GetVY() * 0.1f + vy_offset, 5.0f, 0.15f, DirectX::XMFLOAT4(3.0f, 1.2f, 0.2f, 1.0f));
-		}
-		else if (dynamic_cast<BulletMState*>(state))
-		{
-			BulletParticleSystem::AddParticle(GetX(), GetY(), -GetVX() * 0.15f, -GetVY() * 0.15f, 5.5f, 0.12f, DirectX::XMFLOAT4(0.2f, 2.0f, 3.5f, 1.0f));
-		}
-		else if (dynamic_cast<BulletSState*>(state))
-		{
-			BulletParticleSystem::AddParticle(GetX(), GetY(), -GetVX() * 0.2f, -GetVY() * 0.2f, 7.0f, 0.18f, DirectX::XMFLOAT4(3.0f, 0.2f, 2.0f, 1.0f));
-		}
-		else if (dynamic_cast<BulletLState*>(state))
-		{
-			float startX = GetX() - GetVX();
-			float startY = GetY() - GetVY();
-			for (int i = 0; i < 3; ++i)
-			{
-				float t = i / 3.0f;
-				BulletParticleSystem::AddParticle(startX + GetVX() * t, startY + GetVY() * t, 0.0f, 0.0f, 6.0f, 0.08f, DirectX::XMFLOAT4(0.2f, 1.5f, 4.0f, 1.0f));
-			}
-		}
-		else if (dynamic_cast<BulletFState*>(state))
-		{
-			float pvx = -GetVX() * 0.1f + ((rand() % 100) - 50) / 150.0f;
-			float pvy = -GetVY() * 0.1f + ((rand() % 100) - 50) / 150.0f;
-			BulletParticleSystem::AddParticle(GetX(), GetY(), pvx, pvy, 9.0f, 0.25f, DirectX::XMFLOAT4(4.0f, 0.8f, 0.0f, 1.0f));
-			BulletParticleSystem::AddParticle(GetX() + ((rand() % 10) - 5), GetY() + ((rand() % 10) - 5), pvx, pvy, 6.0f, 0.15f, DirectX::XMFLOAT4(3.0f, 1.2f, 0.0f, 1.0f));
-		}
-		else if (dynamic_cast<BulletEnemyState*>(state) || dynamic_cast<BulletScubaSoldierState*>(state))
-		{
-			BulletParticleSystem::AddParticle(GetX(), GetY(), -GetVX() * 0.1f, -GetVY() * 0.1f, 5.0f, 0.15f, DirectX::XMFLOAT4(3.0f, 0.5f, 0.1f, 1.0f));
-		}
-		else if (dynamic_cast<BulletBossStage1State*>(state) || dynamic_cast<BulletBossStage2StateHand*>(state) || dynamic_cast<BulletBossStage2StateHead*>(state))
-		{
-			BulletParticleSystem::AddParticle(GetX(), GetY(), -GetVX() * 0.1f, -GetVY() * 0.1f, 6.0f, 0.18f, DirectX::XMFLOAT4(1.5f, 0.1f, 3.0f, 1.0f));
+			this->_state->SpawnTrail(*this);
 		}
 	}
+
+	ApplyDeferredState(this->_state, this->_updateState, this);
+	ApplyDeferredState(this->_state, this->_handleInputState, this);
 }
 
 void Bullet::Render()
 {
-	state->Render(*this);
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
-
-	if (dynamic_cast<BulletExplodeState*>(state))
+	// A Bullet built through the default constructor - or through Create with a
+	// null state - has none, and the rest of this function already guards for
+	// that; this line did not.
+	if (this->_state)
 	{
-		if (updateState)
-		{
-			ChangeState(state, updateState, this);
-			updateState = NULL;
-		}
-		if (handleInputState)
-		{
-			ChangeState(state, handleInputState, this);
-			handleInputState = NULL;
-		}
+		this->_state->Render(*this);
+	}
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
+
+	// An exploding bullet draws its own sprite above and gets no glow on top.
+	if (this->_state && this->_state->IsExploding())
+	{
 		return;
 	}
 
-	DirectX::XMFLOAT4 coreColor = DirectX::XMFLOAT4(4.0f, 4.0f, 4.0f, 1.0f);
-	float coreSize = 6.0f;
-
-	if (dynamic_cast<BulletRState*>(state))
-	{
-		coreColor = DirectX::XMFLOAT4(4.0f, 3.0f, 1.0f, 1.0f);
-		coreSize = 6.0f;
-	}
-	else if (dynamic_cast<BulletMState*>(state))
-	{
-		coreColor = DirectX::XMFLOAT4(1.0f, 4.0f, 4.0f, 1.0f);
-		coreSize = 7.0f;
-	}
-	else if (dynamic_cast<BulletSState*>(state))
-	{
-		coreColor = DirectX::XMFLOAT4(4.0f, 1.0f, 4.0f, 1.0f);
-		coreSize = 8.0f;
-	}
-	else if (dynamic_cast<BulletLState*>(state))
-	{
-		coreColor = DirectX::XMFLOAT4(1.5f, 3.5f, 5.0f, 1.0f);
-		coreSize = 7.0f;
-	}
-	else if (dynamic_cast<BulletFState*>(state))
-	{
-		coreColor = DirectX::XMFLOAT4(5.0f, 2.5f, 0.5f, 1.0f);
-		coreSize = 9.0f;
-	}
-	else if (dynamic_cast<BulletEnemyState*>(state) || dynamic_cast<BulletScubaSoldierState*>(state))
-	{
-		coreColor = DirectX::XMFLOAT4(4.0f, 2.0f, 0.5f, 1.0f);
-		coreSize = 6.0f;
-	}
-	else if (dynamic_cast<BulletBossStage1State*>(state) || dynamic_cast<BulletBossStage2StateHand*>(state) || dynamic_cast<BulletBossStage2StateHead*>(state))
-	{
-		coreColor = DirectX::XMFLOAT4(3.0f, 1.0f, 4.0f, 1.0f);
-		coreSize = 8.0f;
-	}
-
-	GraphicsHelper::DrawParticle(D3DXVECTOR3(GetX(), GetY(), 0.0f), coreSize, coreColor);
-
-	if (updateState)
-	{
-		ChangeState(state, updateState, this);
-		updateState = NULL;
-	}
-	if (handleInputState)
-	{
-		ChangeState(state, handleInputState, this);
-		handleInputState = NULL;
-	}
+	auto config = this->_state ? this->_state->GetParticleConfig() : BulletParticleConfig{};
+	GraphicsHelper::DrawParticle(D3DXVECTOR3(this->GetX(), this->GetY(), 0.0f), config.coreSize, config.coreColor);
 }
 
 void Bullet::HandleInput(Input& input)
 {
-	handleInputState = state->HandleInput(*this, input);
+	if (this->_state)
+	{
+		DeferState(this->_handleInputState, this->_state->HandleInput(*this, input));
+	}
 }
 
-void Bullet::SetState(BulletState* newState)
+void Bullet::SetState(BulletState* state)
 {
-	ChangeState(state, newState, this);
-	newState = NULL;
+	ChangeState(this->_state, state, this);
 }
 
 BulletState* Bullet::GetState() const
 {
-	return state;
+	return this->_state;
 }
 
 void Bullet::LoadSprites()
 {
-	if (HasSprites<Bullet>::hasBeenLoaded.value) return;
-	HasSprites<Bullet>::hasBeenLoaded.value = true;
+	if (HasSprites<Bullet>::_hasBeenLoaded) return;
+	HasSprites<Bullet>::_hasBeenLoaded = true;
 
 	GraphicsHelper::InsertSprite(BULLET_SPRITE_ID::R_01, 42, 52, 55, 45, DIRECTION::LEFT, BULLET_TEXTURE_ID::BULLET_01);
 	GraphicsHelper::InsertSprite(BULLET_SPRITE_ID::M_01, 28, 69, 74, 33, DIRECTION::LEFT, BULLET_TEXTURE_ID::BULLET_01);
@@ -203,62 +166,62 @@ void Bullet::LoadSprites()
 
 void Bullet::LoadTextures()
 {
-	if (HasTextures<Bullet>::hasBeenLoaded.value) return;
-	HasTextures<Bullet>::hasBeenLoaded.value = true;
+	if (HasTextures<Bullet>::_hasBeenLoaded) return;
+	HasTextures<Bullet>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertTexure(BULLET_TEXTURE_ID::BULLET_01, L"Resources\\Textures\\Bullet.bmp");
+	GraphicsHelper::InsertTexture(BULLET_TEXTURE_ID::BULLET_01, L"Resources\\Textures\\Bullet.bmp");
 
 	OutputDebugString(L"Bullet Textures Loaded Successfully\n");
 }
 
 void Bullet::LoadAnimations()
 {
-	if (HasAnimations<Bullet>::hasBeenLoaded.value) return;
-	HasAnimations<Bullet>::hasBeenLoaded.value = true;
+	if (HasAnimations<Bullet>::_hasBeenLoaded) return;
+	HasAnimations<Bullet>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::R, 150,
+	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::R, Constants::Weapons::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 		{
 			{BULLET_SPRITE_ID::R_01, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::M, 150,
+	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::M, Constants::Weapons::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 		{
 			{BULLET_SPRITE_ID::M_01, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::S, 400,
+	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::S, Constants::Weapons::ANIMATION_SPREAD_AMMO_DELAY_MILLISECONDS,
 		{
 			{BULLET_SPRITE_ID::S_01, 0},
 			{BULLET_SPRITE_ID::S_02, 0},
 			{BULLET_SPRITE_ID::S_03, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::L, 150,
+	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::L, Constants::Weapons::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 		{
 			{BULLET_SPRITE_ID::L_01, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::F, 150,
+	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::F, Constants::Weapons::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 		{
 			{BULLET_SPRITE_ID::F_01, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::BURST, 150,
+	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::BURST, Constants::Weapons::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 		{
 			{BULLET_SPRITE_ID::BURST_01, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::ENEMY, 150,
+	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::ENEMY, Constants::Weapons::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 		{
 			{BULLET_SPRITE_ID::ENEMY_01, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::BOSS_1, 150,
+	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::BOSS_1, Constants::Weapons::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 		{
 			{BULLET_SPRITE_ID::BOSS_1_01, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::BOSS_2, 150,
+	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::BOSS_2, Constants::Weapons::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 		{
 			{BULLET_SPRITE_ID::BOSS_2_01, 0},
 			{BULLET_SPRITE_ID::BOSS_2_02, 0},
@@ -266,7 +229,7 @@ void Bullet::LoadAnimations()
 			{BULLET_SPRITE_ID::BOSS_2_04, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::EXPLODE, 150,
+	GraphicsHelper::InsertAnimation(BULLET_ANIMATION_ID::EXPLODE, Constants::Weapons::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 		{
 			{BULLET_SPRITE_ID::EXPLODE_01, 0},
 		});
@@ -288,102 +251,44 @@ void Bullet::DynamicResolveNoCollision(                               )
 
 void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
-	auto rockfly = dynamic_cast<RockFly*>(aabbSweepResult.surfaceEntity);
-	if  (rockfly)
+	Entity* target = aabbSweepResult.surfaceEntity;
+	if (!target)
+		return;
+
+	if (target->IsRockFly() || target->IsBridge())
 	{
 		return;
 	}
 
-	auto bridge = dynamic_cast<Bridge*>(aabbSweepResult.surfaceEntity);
-	if  (bridge)
+	if (target->IsEnemy())
 	{
+		if (this->_isEnemy)
+		{
+			return;
+		}
+
+		if (!target->IsVulnerableToBullet())
+		{
+			return;
+		}
+
+		this->SetDead(true);
+		Sound::GetInstance()->Play("beShooted", false, 1);
+		target->TakeBulletHit();
 		return;
 	}
 
-	auto enemy = dynamic_cast<Enemy<Bill>*>(aabbSweepResult.surfaceEntity);
-	if  (enemy)
+	if (target->IsBill() && this->_isEnemy)
 	{
-		if (isEnemy)
-		{
-			return;
-		}
-
-		auto fire = dynamic_cast<Fire*>(aabbSweepResult.surfaceEntity);
-		if  (fire)
-		{
-			return;
-		}
-
-		auto gunBossStage1 = dynamic_cast<GunBossStage1*>(aabbSweepResult.surfaceEntity);
-		if  (gunBossStage1 
-		&&   gunBossStage1->isDead)
-		{
-			return;
-		}
-
-		auto finalBossStage1 = dynamic_cast<FinalBossStage1*>(aabbSweepResult.surfaceEntity);
-		if  (finalBossStage1 
-		&&   finalBossStage1->isDead)
-		{
-			return;
-		}
-
-		isDead = 1;
-		Sound::getInstance()->play("beShooted", false, 1);
-		auto bossStage3Joint = dynamic_cast<BossStage3Joint*>(aabbSweepResult.surfaceEntity);
-		if  (bossStage3Joint)
-		{
-			if (  bossStage3Joint->parent 
-			&&  --bossStage3Joint->parent->hitCounts == 0)
-				  bossStage3Joint->parent->isDead     = 1;
-		}
-		else
-		if  (--enemy->hitCounts == 0)
-		{
-			if (auto soldier = dynamic_cast<Soldier*>(enemy)) soldier->GoDead();
-			else aabbSweepResult.surfaceEntity->isDead = 1;
-		}
+		static_cast<Bill*>(target)->GoDead();
+		this->SetDead(true);
 		return;
 	}
 
-	auto bill = dynamic_cast<Bill*>(aabbSweepResult.surfaceEntity);
-	if  (bill
-	&&   isEnemy)
+	TERRAIN_BLOCK_TYPE terrainType = target->GetTerrainType();
+	if (terrainType != TERRAIN_BLOCK_TYPE::NONE && this->_state)
 	{
-		 bill->GoDead(); isDead = 1; 
-		 return;
-	}
-
-	if (dynamic_cast<BulletScubaSoldierState*>(state))
-	{
-		auto    terrainBlock = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
-		if     (terrainBlock)
-		{
-		if     (aabbSweepResult.normalY == +1.0f)
-		switch (terrainBlock->type)
-		{
-		case TERRAIN_BLOCK_TYPE::    THROUGHABLE:
-		case TERRAIN_BLOCK_TYPE::NON_THROUGHABLE:
-			 isDead = 1;
-		break;
-		}
-		}
-		return;
-	}
-
-	if (dynamic_cast<BulletBossStage1State*>(state))
-	{
-		auto    terrainBlock = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
-		if     (terrainBlock)
-		{
-		if     (aabbSweepResult.normalY == +1.0f)
-		switch (terrainBlock->type)
-		{
-		case TERRAIN_BLOCK_TYPE::NON_THROUGHABLE:
-			 isDead = 1;
-		break;
-		}
-		}
+		this->_state->OnTerrainCollision(*this, terrainType, aabbSweepResult.normalY);
 		return;
 	}
 }

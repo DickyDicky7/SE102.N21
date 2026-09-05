@@ -16,7 +16,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 // Ensures working directory points to executable folder if resources are not in CWD
 static const wchar_t* const RESOURCE_SENTINEL = L"Resources\\Fonts\\Font1.json";
 
-static BOOL FileExists(const wchar_t* path)
+static bool FileExists(const wchar_t* path)
 {
 	const DWORD attributes = GetFileAttributesW(path);
 	return attributes != INVALID_FILE_ATTRIBUTES
@@ -63,7 +63,7 @@ static void EnableDpiAwareness(void)
 		const auto setContext = reinterpret_cast<SetContextFn>(
 			reinterpret_cast<void*>(GetProcAddress(user32, "SetProcessDpiAwarenessContext")));
 
-		if (setContext && setContext(reinterpret_cast<HANDLE>(static_cast<INT_PTR>(-4))))
+		if (setContext && setContext(reinterpret_cast<HANDLE>(Constants::Engine::DPI_AWARENESS_PER_MONITOR_AWARE_V2)))
 			return;
 	}
 
@@ -75,23 +75,22 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	EnableDpiAwareness();
 	EnsureResourcesAreReachable();
 
-	WNDCLASSEX wc;
-	ZeroMemory(&wc, sizeof(WNDCLASSEX));
+	WNDCLASSEX wc{};
 
 	wc.cbSize = sizeof(WNDCLASSEX); wc.style = CS_HREDRAW | CS_VREDRAW; wc.lpfnWndProc = WindowProc; wc.hInstance = hInstance;
-	wc.hCursor = LoadCursor(NULL, IDC_ARROW);	wc.hbrBackground = (HBRUSH)COLOR_WINDOW;	wc.lpszClassName = L"WindowClass";
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);	wc.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW);	wc.lpszClassName = L"WindowClass";
 	RegisterClassEx(&wc);
 
 	// Adjust window rect so client area matches SCREEN_WIDTH x SCREEN_HEIGHT
-	RECT windowRect = { 0, 0, SCREEN_WIDTH, SCREEN_HEIGHT };
+	RECT windowRect = { 0, 0, static_cast<LONG>(Constants::Screen::WIDTH), static_cast<LONG>(Constants::Screen::HEIGHT) };
 	const DWORD windowStyle = WS_OVERLAPPEDWINDOW;
 	AdjustWindowRect(&windowRect, windowStyle, FALSE);
 
 	HWND hWnd = CreateWindowEx
 	(
-		NULL, L"WindowClass", L"Contra", windowStyle, CW_USEDEFAULT, CW_USEDEFAULT,
+		0, L"WindowClass", L"Contra", windowStyle, CW_USEDEFAULT, CW_USEDEFAULT,
 		windowRect.right - windowRect.left, windowRect.bottom - windowRect.top,
-		NULL, NULL, hInstance, NULL
+		nullptr, nullptr, hInstance, nullptr
 	);
 	if (!hWnd) return 0;
 
@@ -112,7 +111,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		return 0;
 	}
 
-	Sound::create(hWnd);
+	Sound::Create(hWnd);
 
 	scene = new Scene();
 
@@ -123,8 +122,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 	camera = new Camera(new CameraStaticState());
 
-	MSG msg;
-	ZeroMemory(&msg, sizeof(msg));
+	MSG msg{};
 
 	// --- Fixed timestep -----------------------------------------------------
 	// The game's logic is a hybrid, and that is what forces this design.
@@ -147,18 +145,18 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// against, on any display. Fixing it the other way - threading a variable dt
 	// through the motion helpers - would mean re-tuning every velocity in the
 	// game, and would still leave the frame-tuned constants wrong.
-	constexpr double TICK_SECONDS = 1.0 / 60.0;
+	constexpr double TICK_SECONDS = Constants::Engine::SECONDS_PER_TICK;
 
 	// Ceiling on catch-up work per iteration. After a long stall - a debugger
 	// breakpoint, a dragged window, a slow stage load - the elapsed time must be
 	// absorbed rather than replayed, or the game bursts forward through spawn
 	// timers and boss state machines exactly as it did when Present was occluded.
-	constexpr int MAX_TICKS_PER_ITERATION = 5;
+	constexpr int MAX_TICKS_PER_ITERATION = Constants::Engine::MAX_TICKS_PER_ITERATION;
 
 	LARGE_INTEGER tickFrequency = {};
 	LARGE_INTEGER previousCounter = {};
 	QueryPerformanceCounter(&previousCounter);
-	const BOOL hasClock = QueryPerformanceFrequency(&tickFrequency) && tickFrequency.QuadPart > 0;
+	const bool hasClock = QueryPerformanceFrequency(&tickFrequency) && tickFrequency.QuadPart > 0;
 
 	// Primed with one step's worth so the first iteration updates before it draws,
 	// as the old loop did. Starting at zero would render the opening frame with
@@ -166,12 +164,12 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	// positioned inside a logic step - a visibly mis-framed first frame.
 	double tickAccumulator = TICK_SECONDS;
 
-	BOOL running = TRUE;
+	bool running = true;
 	while (running)
 	{
-		while (PeekMessage(&msg, NULL, 0, 0, PM_REMOVE))
+		while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 		{
-			if (msg.message == WM_QUIT) { running = FALSE; break; }
+			if (msg.message == WM_QUIT) { running = false; break; }
 
 			TranslateMessage(&msg);
 			DispatchMessage(&msg);
@@ -203,29 +201,29 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 
 			scene->HandleInput(*input);
 			scene->Update();
-			if (scene->stageIsReady)
+			if (scene->IsStageReady())
 			{
-				scene->stage->CheckResolveClearCollision();
+				scene->GetStage()->CheckResolveClearCollision();
 			}
 
 			// VIEW stage: pass camera view matrix to renderer
-			if (scene->stageIsReady)
+			if (scene->IsStageReady())
 			{
-				scene->stage->GetCamera()->HandleInput(*input);
-				scene->stage->GetCamera()->Capture
+				scene->GetStage()->GetCamera()->HandleInput(*input);
+				scene->GetStage()->GetCamera()->Capture
 				(
-					scene->stage->GetBill()->GetX(),
-					scene->stage->GetBill()->GetY()
+					scene->GetStage()->GetBill()->GetX(),
+					scene->GetStage()->GetBill()->GetY()
 				);
-				GraphicsHelper::SetViewMatrix(scene->stage->GetCamera()->GetViewMatrix());
+				GraphicsHelper::SetViewMatrix(scene->GetStage()->GetCamera()->GetViewMatrix());
 			}
 			else
 			{
 				camera->HandleInput(*input);
 				camera->Capture
 				(
-					IN_GAME_SCREEN_W / 2.0f,
-					IN_GAME_SCREEN_H / 2.0f
+					Constants::Screen::IN_GAME_WIDTH * 0.5f,
+					Constants::Screen::IN_GAME_HEIGHT * 0.5f
 				);
 				GraphicsHelper::SetViewMatrix(camera->GetViewMatrix());
 			}
@@ -255,7 +253,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		// vblank to pace it.
 		if (GraphicsHelper::IsOccluded())
 		{
-			Sleep(16);
+			Sleep(Constants::Engine::INACTIVE_WINDOW_SLEEP_MILLISECONDS);
 			continue;
 		}
 
@@ -280,24 +278,24 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 		case GraphicsHelper::PresentResult::Occluded:
 			// The frame we just built was the one that DISCOVERED the occlusion;
 			// from here the check above takes over and skips the drawing.
-			Sleep(16);
+			Sleep(Constants::Engine::INACTIVE_WINDOW_SLEEP_MILLISECONDS);
 			break;
 
 		case GraphicsHelper::PresentResult::DeviceLost:
 			// Nothing can be drawn again and GraphicsHelper has already told the
 			// player why; carrying on would just run the game behind a dead window.
-			running = FALSE;
+			running = false;
 			break;
 		}
 	}
 
-	Sound::getInstance()->cleanUp();
+	Sound::GetInstance()->CleanUp();
 	Destroy(input);
 	Destroy(scene);
 	Destroy(camera);
 	GraphicsHelper::Cleanup();
 
-	return (int)msg.wParam;
+	return static_cast<int>(msg.wParam);
 }
 
 LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam)

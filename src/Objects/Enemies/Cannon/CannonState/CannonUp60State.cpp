@@ -17,38 +17,18 @@ void CannonUp60State::Exit(Cannon&)
 
 void CannonUp60State::Enter(Cannon& cannon)
 {
-	if (--cannon.shootDelay > 0)
-		return;
-
-	if (cannon.shootTime <= 0)
+	if (this->UpdateShooting(cannon))
 	{
-		cannon.shootTime = CANON_SHOOT_TIME;
-		cannon.shootDelay = CANON_SHOOT_DELAY;
-		cannon.shootDelayPerBullet = CANON_SHOOT_DELAY_PER_BULLET;
-		return;
+		float vx = -1.0f;
+		float tanValue = std::tan(D3DXToRadian(Constants::Enemies::Cannon::AIM_ANGLE_UP_60_DEGREES));
+		float vy = 1.0f * tanValue;
+		if (tanValue > 1.0f)
+		{
+			vx = 1.0f * vx / vy;
+			vy = 1.0f;
+		}
+		cannon.Fire(0.0f, vx, vy, 0.0f, 0.0f, cannon.GetMovingDirection());
 	}
-
-	if (--cannon.shootDelayPerBullet > 0)
-	{
-		return;
-	}
-
-	cannon.shootTime--;
-	cannon.shootDelayPerBullet = CANON_SHOOT_DELAY_PER_BULLET;
-
-	float vx = -1.0f;
-
-	float tanValue = std::tan(D3DXToRadian(60));
-
-	float vy = 1.0f * tanValue;
-
-	if (tanValue > 1.0f)
-	{
-		vx = 1.0f * vx / vy;
-		vy = 1.0f;
-	}
-
-	cannon.Fire(0.0f, vx, vy, 0.0f, 0.0f, cannon.GetMovingDirection());
 }
 
 void CannonUp60State::Render(Cannon& cannon)
@@ -60,8 +40,8 @@ CannonState* CannonUp60State::Update(Cannon& cannon)
 {
 	float shootingAngle = cannon.CalculateShootingAngle();
 
-	if (shootingAngle > 45 && cannon.IsTargetInRange())
+	if (shootingAngle > Constants::Enemies::Cannon::AIM_ANGLE_THRESHOLD_45_DEGREES && cannon.IsTargetInRange())
 		return new CannonUp30State();
 
-	return NULL;
+	return nullptr;
 }

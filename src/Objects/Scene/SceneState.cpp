@@ -1,6 +1,6 @@
 #include "Scene.h"
 
-SceneState::SceneState() : State(), turn(0), time(0)
+SceneState::SceneState() : State(), _turn(0), _time(0)
 {
 }
 

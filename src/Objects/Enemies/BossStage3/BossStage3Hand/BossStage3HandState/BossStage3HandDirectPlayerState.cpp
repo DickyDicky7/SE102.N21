@@ -1,192 +1,178 @@
+#include <cmath>
 #include "BossStage3Hand.h"
 
-BossStage3HandDirectPlayerState::BossStage3HandDirectPlayerState(BossStage3Hand& bossStage3hand) : BossStage3HandState()
+BossStage3HandDirectPlayerState::BossStage3HandDirectPlayerState(BossStage3Hand& bossStage3Hand) : BossStage3HandState()
 {
-
+	// Moved out of the destructor, where the stores were dead and left the
+	// object uninitialised between construction and Enter().
+	this->_joints = nullptr;
+	this->_speed = 0.0f;
+	this->_isFirstTime = false;
+	this->_frameDelayChangeState = 0;
+	this->_timeAttack = 0;
 }
 
 BossStage3HandDirectPlayerState::~BossStage3HandDirectPlayerState()
 {
-    joints = NULL;
-    speed = NULL;
-    isFirstTime = NULL;
-    frameDelayChangeState = NULL;
-    timeAttack = NULL;
 }
 
 
-void BossStage3HandDirectPlayerState::Exit(BossStage3Hand& bossStage3hand)
+void BossStage3HandDirectPlayerState::Exit(BossStage3Hand& bossStage3Hand)
 {
 }
 
-void BossStage3HandDirectPlayerState::Enter(BossStage3Hand& bossStage3hand)
+void BossStage3HandDirectPlayerState::Enter(BossStage3Hand& bossStage3Hand)
 {
-    isFirstTime = true;
+	this->_isFirstTime = true;
 
-    timeAttack = 60;
+	this->_timeAttack = Constants::Enemies::BossStage3::Hand::DIRECT_PLAYER_ATTACK_TIME_FRAMES;
 
-    joints = bossStage3hand.joints;
-    speed = 5.0f;
-    frameDelayChangeState = 280;
+	this->_joints = bossStage3Hand.GetJoints();
+	this->_speed = Constants::Enemies::BossStage3::Hand::ATTACK_SPEED;
+	this->_frameDelayChangeState = Constants::Enemies::BossStage3::Hand::DIRECT_PLAYER_DELAY_FRAMES;
 
-    for (size_t i = 2; i < 5; i++)
-    {
-        joints[i]->moveFollow(joints[i - 1], false);
-    }
+	for (size_t i = 2; i < Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT; i++)
+	{
+		this->_joints[i]->MoveFollow(this->_joints[i - 1], false);
+	}
 
-    for (size_t i = 1; i < 5; i++)
-    {
-        joints[i]->stopMoveFollow();
-        moveAroundDirect(bossStage3hand, joints[0], joints[i], speed, 15 * i);
-    }
-}
-
-void BossStage3HandDirectPlayerState::Render(BossStage3Hand& bossStage3hand)
-{
-    for (size_t i = 0; i < 5; i++)
-    {
-        bossStage3hand.joints[i]->Render();
-    }
-}
-
-BossStage3HandState* BossStage3HandDirectPlayerState::Update(BossStage3Hand& bossStage3hand)
-{
-    if (timeAttack > 0)
-    {
-        timeAttack--;
-
-        if (timeAttack == 0)
-        {
-            D3DXVECTOR3 a = getNearestPlayer(bossStage3hand);
-            D3DXVECTOR3 b = bossStage3hand.joints[4]->GetPosition();
-
-            float angle = getAngle(D3DXVECTOR2(a.x, a.y), D3DXVECTOR2(b.x, b.y));
-
-            bossStage3hand.Fire(bossStage3hand.joints[4]->GetX(), bossStage3hand.joints[4]->GetY(), angle, -0.5f);
-        }
-    }
-
-    frameDelayChangeState--;
-
-    if (frameDelayChangeState <= 0)
-    {
-        return new BossStage3HandWaveState(bossStage3hand);
-        return NULL;
-    }
-
-    if (!joints[1]->isMoveAround)
-    {
-        isFirstTime = false;
-    }
-
-    for (size_t i = 1; i < 5; i++)
-    {
-        if (!joints[i]->isMoveAround)
-        {
-            if (abs(getAngleBetweenPlayerAndjoint(joints[i], bossStage3hand)) >= 5.0f)
-            {
-                moveAroundDirect(bossStage3hand, joints[0], joints[i], speed, 15 * i);
-            }
-        }
-    }
-
-    for (size_t i = 2; i < 5; i++)
-    {
-        joints[i]->alignDistance(joints[i - 1]);
-    }
-
-    for (size_t i = 0; i < 5; i++)
-    {
-        bossStage3hand.joints[i]->Update();
-    }
-    return NULL;
-}
-
-BossStage3HandState* BossStage3HandDirectPlayerState::HandleInput(BossStage3Hand& bossStage3hand, Input& input)
-{
-    return NULL;
+	for (size_t i = 1; i < Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT; i++)
+	{
+		this->_joints[i]->StopMoveFollow();
+		this->MoveAroundDirect(bossStage3Hand, this->_joints[0], this->_joints[i], this->_speed, Constants::Enemies::BossStage3::Hand::DIRECT_MOVE_ANGLE_FACTOR * static_cast<float>(i));
+	}
 }
 
 
-float BossStage3HandDirectPlayerState::getAngle2Vector(D3DXVECTOR3 vec31, D3DXVECTOR3 vec32)
+
+BossStage3HandState* BossStage3HandDirectPlayerState::Update(BossStage3Hand& bossStage3Hand)
 {
-    D3DXVECTOR2 vec1 = D3DXVECTOR2(vec31.x, vec31.y);
-    D3DXVECTOR2 vec2 = D3DXVECTOR2(vec32.x, vec32.y);
+	if (this->_timeAttack > 0)
+	{
+		this->_timeAttack--;
 
-    D3DXVec2Normalize(&vec1, &vec1);
-    D3DXVec2Normalize(&vec2, &vec2);
+		if (this->_timeAttack == 0)
+		{
+			D3DXVECTOR3 a = this->GetNearestPlayer(bossStage3Hand);
+			D3DXVECTOR3 b = bossStage3Hand.GetJoint(4)->GetPosition();
 
-    float angle1 = acos(vec1.x) * (abs(vec1.y) / vec1.y);
-    float angle2 = acos(vec2.x) * (abs(vec2.y) / vec2.y);;
+			float angle = this->GetAngle(D3DXVECTOR2(a.x, a.y), D3DXVECTOR2(b.x, b.y));
 
-    float result = angle2 - angle1;
+			bossStage3Hand.Fire(bossStage3Hand.GetJoint(4)->GetX(), bossStage3Hand.GetJoint(4)->GetY(), angle, Constants::Enemies::BossStage3::Hand::ATTACK_FIRE_ANGLE_OFFSET);
+		}
+	}
 
-    return result;
+	this->_frameDelayChangeState--;
+
+	if (this->_frameDelayChangeState <= 0)
+	{
+		return new BossStage3HandWaveState(bossStage3Hand);
+	}
+
+	if (!this->_joints[1]->IsMoveAround())
+	{
+		this->_isFirstTime = false;
+	}
+
+	for (size_t i = 1; i < Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT; i++)
+	{
+		if (!this->_joints[i]->IsMoveAround())
+		{
+			if (std::abs(this->GetAngleBetweenPlayerAndJoint(this->_joints[i], bossStage3Hand)) >= Constants::Enemies::BossStage3::Hand::DIRECT_PLAYER_ANGLE_TOLERANCE_DEGREES)
+			{
+				this->MoveAroundDirect(bossStage3Hand, this->_joints[0], this->_joints[i], this->_speed, Constants::Enemies::BossStage3::Hand::DIRECT_MOVE_ANGLE_FACTOR * static_cast<float>(i));
+			}
+		}
+	}
+
+	for (size_t i = 2; i < Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT; i++)
+	{
+		this->_joints[i]->AlignDistance(this->_joints[i - 1]);
+	}
+
+	for (size_t i = 0; i < Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT; i++)
+	{
+		bossStage3Hand.GetJoint(i)->Update();
+	}
+	return nullptr;
 }
 
-float BossStage3HandDirectPlayerState::getAngleBetweenPlayerAndjoint(BossStage3Joint* joint, BossStage3Hand& bossStage3hand)
+BossStage3HandState* BossStage3HandDirectPlayerState::HandleInput(BossStage3Hand& bossStage3Hand, Input& input)
 {
-    D3DXVECTOR3 playerPos;
-    playerPos = getNearestPlayer(bossStage3hand);
-
-    float angle = D3DXToDegree(getAngle2Vector(joint->GetPosition() - joints[0]->GetPosition(), playerPos - joints[0]->GetPosition()));
-
-    return angle;
-}
-
-void BossStage3HandDirectPlayerState::moveAroundDirect(BossStage3Hand& bossStage3hand, BossStage3Joint* joint0, BossStage3Joint* joint, float speed, float radius)
-{
-    D3DXVECTOR3 playerPos;
-    playerPos = getNearestPlayer(bossStage3hand);
-
-    float angle = D3DXToDegree(getAngle2Vector(joint->GetPosition() - joints[0]->GetPosition(), playerPos - joints[0]->GetPosition()));
-
-    int frameMove = abs(angle / speed);
-
-    if (isFirstTime)
-    {
-        //lan dau tien tay trai se di ve ben trai, tay phai di huong ben phai
-        //lan sau thi di chuyen theo do lech 
-        //do lech goc
-        if (bossStage3hand.GetMovingDirection() == DIRECTION::LEFT)
-        {
-            if (angle > 0)
-                frameMove = abs((360 - angle) / speed);
-
-            joint->moveAround(joint0->GetPosition().x, joint0->GetPosition().y, radius, frameMove, speed, BossStage3Joint::MoveAroundDirection::Negative);
-        }
-        else
-        {
-            joint->moveAround(joint0->GetPosition().x, joint0->GetPosition().y, radius, frameMove, speed, BossStage3Joint::MoveAroundDirection::Positive);
-        }
-    }
-    else
-    {
-        if (angle < 0)
-        {
-            joint->moveAround(joint0->GetPosition().x, joint0->GetPosition().y, radius, frameMove, speed, BossStage3Joint::MoveAroundDirection::Negative);
-        }
-        else
-        {
-            joint->moveAround(joint0->GetPosition().x, joint0->GetPosition().y, radius, frameMove, speed, BossStage3Joint::MoveAroundDirection::Positive);
-        }
-    }
+	return nullptr;
 }
 
 
-float BossStage3HandDirectPlayerState::getAngle(D3DXVECTOR2 pos1, D3DXVECTOR2 pos2)
+float BossStage3HandDirectPlayerState::GetAngle2Vector(D3DXVECTOR3 vec1, D3DXVECTOR3 vec2)
 {
-    D3DXVECTOR2 vec(pos1 - pos2);
-    D3DXVec2Normalize(&vec, &vec);
+	// atan2 reproduces the old acos(x) * sign(y) exactly for these vectors, but
+	// sign(y) was spelled abs(y)/y, which is 0/0 = NaN for a horizontal or a
+	// zero-length vector.  atan2 needs no normalise, so both are gone.
+	//
+	// The result is still a raw difference, so it is not wrapped to (-pi, pi] -
+	// that is the pre-existing behaviour the callers are tuned against, and it
+	// is deliberately left alone here.
+	float angle1 = std::atan2(vec1.y, vec1.x);
+	float angle2 = std::atan2(vec2.y, vec2.x);
 
-   // float angle = acos(vec.x) * (abs(vec.y) / vec.y);
-    float angle = - vec.x / vec.y;
-    return angle;
+	float result = angle2 - angle1;
+
+	return result;
 }
 
-D3DXVECTOR3 BossStage3HandDirectPlayerState::getNearestPlayer(BossStage3Hand& bossStage3hand)
+float BossStage3HandDirectPlayerState::GetAngleBetweenPlayerAndJoint(BossStage3Joint* joint, BossStage3Hand& bossStage3Hand)
 {
-    FLOAT xBill = bossStage3hand.GetTarget()->GetPosition().x;
-    FLOAT yBill = bossStage3hand.GetTarget()->GetPosition().y;
-    return  D3DXVECTOR3(xBill, yBill, 0);
+	D3DXVECTOR3 playerPos;
+	playerPos = this->GetNearestPlayer(bossStage3Hand);
+
+	float angle = D3DXToDegree(this->GetAngle2Vector(joint->GetPosition() - this->_joints[0]->GetPosition(), playerPos - this->_joints[0]->GetPosition()));
+
+	return angle;
+}
+
+void BossStage3HandDirectPlayerState::MoveAroundDirect(BossStage3Hand& bossStage3Hand, BossStage3Joint* joint0, BossStage3Joint* joint, float speed, float radius)
+{
+	D3DXVECTOR3 playerPos;
+	playerPos = this->GetNearestPlayer(bossStage3Hand);
+
+	float angle = D3DXToDegree(this->GetAngle2Vector(joint->GetPosition() - this->_joints[0]->GetPosition(), playerPos - this->_joints[0]->GetPosition()));
+
+	int frameMove = static_cast<int>(std::abs(angle / speed));
+
+	if (this->_isFirstTime)
+	{
+		// On the first pass the left hand swings left and the right hand swings right;
+		// after that each moves by the angular offset instead.
+		// Angular offset.
+		if (bossStage3Hand.GetMovingDirection() == DIRECTION::LEFT)
+		{
+			if (angle > 0)
+				frameMove = static_cast<int>(std::abs((Constants::Physics::FULL_CIRCLE_DEGREES - angle) / speed));
+
+			joint->MoveAround(joint0->GetPosition().x, joint0->GetPosition().y, radius, frameMove, speed, BossStage3Joint::MoveAroundDirection::Negative);
+		}
+		else
+		{
+			joint->MoveAround(joint0->GetPosition().x, joint0->GetPosition().y, radius, frameMove, speed, BossStage3Joint::MoveAroundDirection::Positive);
+		}
+	}
+	else
+	{
+		if (angle < 0)
+		{
+			joint->MoveAround(joint0->GetPosition().x, joint0->GetPosition().y, radius, frameMove, speed, BossStage3Joint::MoveAroundDirection::Negative);
+		}
+		else
+		{
+			joint->MoveAround(joint0->GetPosition().x, joint0->GetPosition().y, radius, frameMove, speed, BossStage3Joint::MoveAroundDirection::Positive);
+		}
+	}
+}
+
+D3DXVECTOR3 BossStage3HandDirectPlayerState::GetNearestPlayer(BossStage3Hand& bossStage3Hand)
+{
+	if (!bossStage3Hand.GetTarget()) return D3DXVECTOR3(0.0f, 0.0f, 0.0f);
+	float xBill = bossStage3Hand.GetTarget()->GetPosition().x;
+	float yBill = bossStage3Hand.GetTarget()->GetPosition().y;
+	return  D3DXVECTOR3(xBill, yBill, 0);
 }

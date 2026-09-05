@@ -19,5 +19,5 @@ WallTurretState* WallTurretNormalState::Update(WallTurret& wallTurret)
 		return new WallTurretOpeningState();
 	}
 
-	return NULL;
+	return nullptr;
 }

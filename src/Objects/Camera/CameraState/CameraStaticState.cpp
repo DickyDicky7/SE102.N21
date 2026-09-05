@@ -30,7 +30,7 @@ CameraState* CameraStaticState::HandleInput(Camera& camera, Input& input)
 	return this;
 }
 
-CameraState* CameraStaticState::Capture(FLOAT x, FLOAT y, Camera& camera)
+CameraState* CameraStaticState::Capture(float x, float y, Camera& camera)
 {
 	return this;
 }

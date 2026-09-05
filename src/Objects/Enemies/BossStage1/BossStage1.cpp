@@ -3,7 +3,7 @@
 
 BossStage1::BossStage1()
 {
-	
+
 }
 
 BossStage1::~BossStage1()
@@ -13,13 +13,13 @@ BossStage1::~BossStage1()
 
 void BossStage1::LoadTextures()
 {
-	if (HasTextures::hasBeenLoaded.value)
+	if (HasTextures<BossStage1>::_hasBeenLoaded)
 	{
 		return;
 	}
 
-	HasTextures::hasBeenLoaded.value = true;
+	HasTextures<BossStage1>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertTexure(BOSS_STAGE_1_TEXTURE_ID::BOSS_STAGE_1, L"Resources\\Textures\\boss_stage1.bmp");
+	GraphicsHelper::InsertTexture(BOSS_STAGE_1_TEXTURE_ID::BOSS_STAGE_1, L"Resources\\Textures\\boss_stage1.bmp");
 	return;
 }

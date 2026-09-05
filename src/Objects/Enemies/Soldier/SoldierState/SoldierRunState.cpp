@@ -16,17 +16,17 @@ void SoldierRunState::Enter(Soldier& soldier)
 {
 	if (soldier.GetMovingDirection() == DIRECTION::LEFT)
 	{
-		soldier.SetVX(-1.50f);
-		soldier.SetAX(-0.01f);
+		soldier.SetVX(-Constants::Enemies::Soldier::RUN_SPEED);
+		soldier.SetAX(-Constants::Enemies::Soldier::RUN_ACCELERATION);
 	}
 	if (soldier.GetMovingDirection() == DIRECTION::RIGHT)
 	{
-		soldier.SetVX(+1.50f);
-		soldier.SetAX(+0.01f);
+		soldier.SetVX(+Constants::Enemies::Soldier::RUN_SPEED);
+		soldier.SetAX(+Constants::Enemies::Soldier::RUN_ACCELERATION);
 	}
 
-	soldier.SetVY(+1.0f);
-	soldier.SetAY(+1.0f);
+	soldier.SetVY(+Constants::Enemies::Soldier::PARK_VELOCITY);
+	soldier.SetAY(+Constants::Enemies::Soldier::PARK_ACCELERATION);
 }
 
 void SoldierRunState::Render(Soldier& soldier)
@@ -38,19 +38,19 @@ SoldierState* SoldierRunState::Update(Soldier& soldier)
 {
 	if (soldier.GetMovingDirection() == DIRECTION::LEFT)
 	{
-		soldier.SetVX(-abs(soldier.GetVX()));
-		soldier.SetAX(-abs(soldier.GetAX()));
+		soldier.SetVX(-std::abs(soldier.GetVX()));
+		soldier.SetAX(-std::abs(soldier.GetAX()));
 	}
 	if (soldier.GetMovingDirection() == DIRECTION::RIGHT)
 	{
-		soldier.SetVX(+abs(soldier.GetVX()));
-		soldier.SetAX(+abs(soldier.GetAX()));
+		soldier.SetVX(+std::abs(soldier.GetVX()));
+		soldier.SetAX(+std::abs(soldier.GetAX()));
 	}
 
 	auto result = Motion::CalculateUniformMotion({ soldier.GetX(), soldier.GetVX() });
-	soldier.SetX(result.c);
+	soldier.SetX(result.coordinate);
 
-	return NULL;
+	return nullptr;
 }
 
 SoldierState* SoldierRunState::HandleInput(Soldier& soldier, Input& input)
@@ -63,5 +63,5 @@ SoldierState* SoldierRunState::HandleInput(Soldier& soldier, Input& input)
 	{
 		return new SoldierLayDownState();
 	}
-	return NULL;
+	return nullptr;
 }

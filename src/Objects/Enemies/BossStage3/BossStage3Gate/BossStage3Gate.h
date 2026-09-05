@@ -23,21 +23,20 @@ public:
 	virtual ~BossStage3Gate();
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
-	BossStage3* bossStage3Head;
-
-	void SetHead(BossStage3* head) { bossStage3Head = head; }
-	BOOL IsDead();
+	void SetHead(BossStage3* head) { this->_bossStage3Head = head; }
+	bool IsHeadDead() const;
 
 protected:
-	BossStage3GateState* state;
-	BossStage3GateState* updateState;
-	BossStage3GateState* handleInputState;
+	BossStage3* _bossStage3Head;
+	BossStage3GateState* _state;
+	BossStage3GateState* _updateState;
+	BossStage3GateState* _handleInputState;
 };
 
 
@@ -50,12 +49,12 @@ public:
 	BossStage3GateState();
 	virtual ~BossStage3GateState();
 
-	virtual void Exit(BossStage3Gate&) override = 0;
-	virtual void Enter(BossStage3Gate&) override = 0;
-	virtual void Render(BossStage3Gate&) override = 0;
+	virtual void Exit(BossStage3Gate& bossStage3Gate) override = 0;
+	virtual void Enter(BossStage3Gate& bossStage3Gate) override = 0;
+	virtual void Render(BossStage3Gate& bossStage3Gate) override = 0;
 
-	virtual BossStage3GateState* Update(BossStage3Gate&) override = 0;
-	virtual BossStage3GateState* HandleInput(BossStage3Gate&, Input&) override = 0;
+	virtual BossStage3GateState* Update(BossStage3Gate& bossStage3Gate) override = 0;
+	virtual BossStage3GateState* HandleInput(BossStage3Gate& bossStage3Gate, Input& input) override = 0;
 };
 
 
@@ -67,12 +66,12 @@ public:
 	BossStage3GateOpenState();
 	virtual ~BossStage3GateOpenState();
 
-	virtual void Exit(BossStage3Gate&) override;
-	virtual void Enter(BossStage3Gate&) override;
-	virtual void Render(BossStage3Gate&) override;
+	virtual void Exit(BossStage3Gate& bossStage3Gate) override;
+	virtual void Enter(BossStage3Gate& bossStage3Gate) override;
+	virtual void Render(BossStage3Gate& bossStage3Gate) override;
 
-	virtual BossStage3GateState* Update(BossStage3Gate&) override;
-	virtual BossStage3GateState* HandleInput(BossStage3Gate&, Input&) override;
+	virtual BossStage3GateState* Update(BossStage3Gate& bossStage3Gate) override;
+	virtual BossStage3GateState* HandleInput(BossStage3Gate& bossStage3Gate, Input& input) override;
 };
 
 
@@ -84,10 +83,10 @@ public:
 	BossStage3GateCloseState();
 	virtual ~BossStage3GateCloseState();
 
-	virtual void Exit(BossStage3Gate&) override;
-	virtual void Enter(BossStage3Gate&) override;
-	virtual void Render(BossStage3Gate&) override;
+	virtual void Exit(BossStage3Gate& bossStage3Gate) override;
+	virtual void Enter(BossStage3Gate& bossStage3Gate) override;
+	virtual void Render(BossStage3Gate& bossStage3Gate) override;
 
-	virtual BossStage3GateState* Update(BossStage3Gate&) override;
-	virtual BossStage3GateState* HandleInput(BossStage3Gate&, Input&) override;
+	virtual BossStage3GateState* Update(BossStage3Gate& bossStage3Gate) override;
+	virtual BossStage3GateState* HandleInput(BossStage3Gate& bossStage3Gate, Input& input) override;
 };

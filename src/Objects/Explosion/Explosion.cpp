@@ -4,73 +4,73 @@
 
 Explosion::Explosion() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
-	this->vx = 1.0f;
-	this->vy = 1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
-	this->position.x = 200;
-	this->position.y = 200;
-	this->name = L"Explosion\n";
+	this->_vx = Constants::Physics::DEFAULT_INITIAL_VELOCITY_X;
+	this->_vy = Constants::Physics::DEFAULT_INITIAL_VELOCITY_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_position.x = Constants::Objects::Explosion::DEFAULT_SPAWN_X;
+	this->_position.y = Constants::Objects::Explosion::DEFAULT_SPAWN_Y;
+	this->SetDebugName(L"Explosion\n");
 
-	this->updateState = NULL;
-	this->handleInputState = NULL;
-	// set direction default is right
-	this->movingDirection = DIRECTION::RIGHT;
-	// set state begin is run
-	//this->state = new ExplosionType3State();
+	this->_updateState = nullptr;
+	this->_handleInputState = nullptr;
+	this->_movingDirection = DIRECTION::RIGHT;
+	this->_state = new ExplosionType1State();
 }
 
-Explosion::Explosion(ExplosionState* explosionState) : Explosion()
+Explosion::Explosion(ExplosionState* state) : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
-	Destroy(this->state);
-	this->state = explosionState;
+	this->_vx = Constants::Physics::DEFAULT_INITIAL_VELOCITY_X;
+	this->_vy = Constants::Physics::DEFAULT_INITIAL_VELOCITY_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_position.x = Constants::Objects::Explosion::DEFAULT_SPAWN_X;
+	this->_position.y = Constants::Objects::Explosion::DEFAULT_SPAWN_Y;
+	this->SetDebugName(L"Explosion\n");
+
+	this->_updateState = nullptr;
+	this->_handleInputState = nullptr;
+	this->_movingDirection = DIRECTION::RIGHT;
+	this->_state = state;
 }
 
 Explosion::~Explosion()
 {
-	Destroy(state);
-	Destroy(updateState);
-	Destroy(handleInputState);
+	Destroy(this->_state);
+	Destroy(this->_updateState);
+	Destroy(this->_handleInputState);
 }
 
 void Explosion::Update()
 {
-	updateState = state->Update(*this);
+	DeferState(this->_updateState, this->_state->Update(*this));
+
+	ApplyDeferredState(this->_state, this->_updateState, this);
+	ApplyDeferredState(this->_state, this->_handleInputState, this);
 }
 
 void Explosion::Render()
 {
-	state->Render(*this);
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
-
-	if (updateState)
-	{
-		ChangeState(state, updateState, this);
-		updateState = NULL;
-	}
-	if (handleInputState)
-	{
-		ChangeState(state, handleInputState, this);
-		handleInputState = NULL;
-	}
+	this->_state->Render(*this);
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
 }
 
 void Explosion::HandleInput(Input& input)
 {
-	handleInputState = state->HandleInput(*this, input);
+	DeferState(this->_handleInputState, this->_state->HandleInput(*this, input));
 }
 
-void InsertSpriteExplosion(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
+void InsertSpriteExplosion(SPRITE_ID spriteId, int left, int top, int right, int bottom)
 {
-	// i write this function to shorten the fuction: GraphicsHelper
+	// i write this function to shorten the function: GraphicsHelper
 	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, DIRECTION::RIGHT, EXPLOSION_TEXTURE_ID::EXPLOSION);
 }
 
 void Explosion::LoadSprites()
 {
-	if (HasSprites<Explosion>::hasBeenLoaded.value) return;
-	HasSprites<Explosion>::hasBeenLoaded.value = true;
+	if (HasSprites<Explosion>::_hasBeenLoaded) return;
+	HasSprites<Explosion>::_hasBeenLoaded = true;
 
 #pragma region Load Sprites
 
@@ -98,22 +98,22 @@ void Explosion::LoadSprites()
 
 void Explosion::LoadTextures()
 {
-	if (HasTextures<Explosion>::hasBeenLoaded.value) return;
-	HasTextures<Explosion>::hasBeenLoaded.value = true;
+	if (HasTextures<Explosion>::_hasBeenLoaded) return;
+	HasTextures<Explosion>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertTexure(EXPLOSION_TEXTURE_ID::EXPLOSION, L"Resources\\Textures\\Explosion.png");
+	GraphicsHelper::InsertTexture(EXPLOSION_TEXTURE_ID::EXPLOSION, L"Resources\\Textures\\Explosion.png");
 
 	OutputDebugString(L"Explosion Textures Loaded Successfully\n");
 }
 
 void Explosion::LoadAnimations()
 {
-	if (HasAnimations<Explosion>::hasBeenLoaded.value) return;
-	HasAnimations<Explosion>::hasBeenLoaded.value = true;
+	if (HasAnimations<Explosion>::_hasBeenLoaded) return;
+	HasAnimations<Explosion>::_hasBeenLoaded = true;
 
 #pragma region Load Animations
 
-	GraphicsHelper::InsertAnimation(EXPLOSION_ANIMATION_ID::TYPE_1, 100,
+	GraphicsHelper::InsertAnimation(EXPLOSION_ANIMATION_ID::TYPE_1, Constants::Objects::Explosion::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{EXPLOSION_SPRITE_ID::TYPE_1_01,0},
 			{EXPLOSION_SPRITE_ID::TYPE_1_02,0},
@@ -122,7 +122,7 @@ void Explosion::LoadAnimations()
 			{EXPLOSION_SPRITE_ID::TYPE_1_05,0},
 			{EXPLOSION_SPRITE_ID::TYPE_1_06,0},
 		});
-	GraphicsHelper::InsertAnimation(EXPLOSION_ANIMATION_ID::TYPE_2, 100,
+	GraphicsHelper::InsertAnimation(EXPLOSION_ANIMATION_ID::TYPE_2, Constants::Objects::Explosion::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{EXPLOSION_SPRITE_ID::TYPE_2_01,0},
 			{EXPLOSION_SPRITE_ID::TYPE_2_02,0},
@@ -131,7 +131,7 @@ void Explosion::LoadAnimations()
 			{EXPLOSION_SPRITE_ID::TYPE_2_05,0},
 			{EXPLOSION_SPRITE_ID::TYPE_2_06,0},
 		});
-	GraphicsHelper::InsertAnimation(EXPLOSION_ANIMATION_ID::TYPE_3, 100,
+	GraphicsHelper::InsertAnimation(EXPLOSION_ANIMATION_ID::TYPE_3, Constants::Objects::Explosion::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{EXPLOSION_SPRITE_ID::TYPE_2_01,0},
 			{EXPLOSION_SPRITE_ID::TYPE_2_03,0},

@@ -13,111 +13,94 @@
 #include "FinalBossStage1.h"
 #include "BossStage3Joint.h"
 
-Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletRState()), livesLeft(NULL)
+Bill::Bill() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletRState()), _livesLeft(nullptr)
 {
-	CollidableEntity::self = (Entity*)this;
+	CollidableEntity::_self = this;
 
-	this->vx = 1.0f;
-	this->vy = 1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
-	this->angle = 0;
-	this->position.x = 50;
-	this->position.y = 00;
+	this->_vx = Constants::Physics::DEFAULT_INITIAL_VELOCITY_X;
+	this->_vy = Constants::Physics::DEFAULT_INITIAL_VELOCITY_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_angle = 0;
+	this->_position.x = Constants::Bill::DEFAULT_SPAWN_X;
+	this->_position.y = Constants::Bill::DEFAULT_SPAWN_Y;
 
-	this->state = NULL;
-	this->updateState = NULL;
-	this->handleInputState = NULL;
+	this->_state = nullptr;
+	this->_updateState = nullptr;
+	this->_handleInputState = nullptr;
 
 	//
-	this->name = L"Bill\n";
+	this->SetDebugName(L"Bill\n");
 	//
 
-	this->immortalTime = 200;
-	this->immortalTick = 000;
+	this->_immortalTime = Constants::Bill::IMMORTAL_DURATION_FRAMES;
+	this->_immortalTick = 000;
 
-	if (!state)
+	if (!this->_state)
 	{
-		 state = new BillBeginState();
-		 state->Enter(*this);
+		 this->_state = new BillBeginState();
+		 this->_state->Enter(*this);
 	}
 }
 
 Bill::~Bill()
 {
-	Destroy(state);
-	Destroy(updateState);
-	Destroy(handleInputState);
+	Destroy(this->_state);
+	Destroy(this->_updateState);
+	Destroy(this->_handleInputState);
 }
 
 void Bill::GoDead()
 {
-	if (immortalTick > immortalTime)
+	if (this->_immortalTick > this->_immortalTime)
 	{
-		if (!dynamic_cast<BillDeadState*>(state) 
-		&&  !dynamic_cast<BillDiveState*>(state))
+		if (this->_state && !this->_state->IsDead() && !this->_state->IsInvulnerable())
 		{
-			ChangeState(state, new BillDeadState(), this);
+			ChangeState(this->_state, new BillDeadState(), this);
 		}
 	}
 }
 
 void Bill::Update()
 {
-	updateState = state->Update(*this);
-	if  (immortalTick <= immortalTime)
-	   ++immortalTick;
+	DeferState(this->_updateState, this->_state->Update(*this));
+
+	if  (this->_immortalTick <= this->_immortalTime)
+	   ++this->_immortalTick;
+
+	// Last, so that BillBeginState::Enter's reset of _immortalTick is not spent by
+	// the increment above in the same step.
+	ApplyDeferredState(this->_state, this->_updateState, this);
+	ApplyDeferredState(this->_state, this->_handleInputState, this);
 }
 
 void Bill::Render()
 {
-	if  (immortalTick <= immortalTime)
+	if  (this->_immortalTick <= this->_immortalTime)
 	{
-	if  (immortalTick %2)
+	if  (this->_immortalTick %2)
 	{
-		 state->Render(*this);
+		 this->_state->Render(*this);
 	}
 	}
 	else
 	{
-		 state->Render(*this);
+		 this->_state->Render(*this);
 	}
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
-
-	if (updateState)
-	{
-		ChangeState(state, updateState, this);
-		updateState = NULL;
-	}
-	if (handleInputState)
-	{
-		ChangeState(state, handleInputState, this);
-		handleInputState = NULL;
-	}
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
 }
 
 //int i = 1;
 void Bill::HandleInput(Input& input)
 {
-	handleInputState = state->HandleInput(*this, input);
-
-	//if (input.IsKey(DIK_RSHIFT))
-	//{
-	//	if (i == 1) SetBulletState(new BulletRState);
-	//	if (i == 2) SetBulletState(new BulletFState);
-	//	if (i == 3) SetBulletState(new BulletLState);
-	//	if (i == 4) SetBulletState(new BulletMState);
-	//	if (i == 5) SetBulletState(new BulletSState);
-	//	i++;
-	//	if (i == 6) i = 1;
-	//}
+	DeferState(this->_handleInputState, this->_state->HandleInput(*this, input));
 }
 
 void Bill::LoadSprites()
 {
-	if (HasSprites<Bill>::hasBeenLoaded.value) return;
-	HasSprites<Bill>::hasBeenLoaded.value = true;
+	if (HasSprites<Bill>::_hasBeenLoaded) return;
+	HasSprites<Bill>::_hasBeenLoaded = true;
 
 #pragma region Load Sprites
 
@@ -196,22 +179,22 @@ void Bill::LoadSprites()
 
 void Bill::LoadTextures()
 {
-	if (HasTextures<Bill>::hasBeenLoaded.value) return;
-	HasTextures<Bill>::hasBeenLoaded.value = true;
+	if (HasTextures<Bill>::_hasBeenLoaded) return;
+	HasTextures<Bill>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertTexure(BILL_TEXTURE_ID::BILL_01, L"Resources\\Textures\\BillAndLance.bmp");
+	GraphicsHelper::InsertTexture(BILL_TEXTURE_ID::BILL_01, L"Resources\\Textures\\BillAndLance.bmp");
 
 	OutputDebugString(L"Bill Textures Loaded Successfully\n");
 }
 
 void Bill::LoadAnimations()
 {
-	if (HasAnimations<Bill>::hasBeenLoaded.value) return;
-	HasAnimations<Bill>::hasBeenLoaded.value = true;
+	if (HasAnimations<Bill>::_hasBeenLoaded) return;
+	HasAnimations<Bill>::_hasBeenLoaded = true;
 
 #pragma region Load Animations
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::RUN, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::RUN, Constants::Bill::ANIMATION_RUN_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::RUN_01,0},
 		{BILL_SPRITE_ID::RUN_02,0},
@@ -221,7 +204,7 @@ void Bill::LoadAnimations()
 		{BILL_SPRITE_ID::RUN_06,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::JUMP, 60,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::JUMP, Constants::Bill::ANIMATION_JUMP_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::JUMP_01,0},
 		{BILL_SPRITE_ID::JUMP_02,0},
@@ -229,7 +212,7 @@ void Bill::LoadAnimations()
 		{BILL_SPRITE_ID::JUMP_04,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::DEAD, 300,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::DEAD, Constants::Bill::ANIMATION_DEAD_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::DEAD_01,0},
 		{BILL_SPRITE_ID::DEAD_02,0},
@@ -237,18 +220,18 @@ void Bill::LoadAnimations()
 		{BILL_SPRITE_ID::DEAD_04,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::DIVE, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::DIVE, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::DIVE_01,0},
 		{BILL_SPRITE_ID::DIVE_02,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::FALL, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::FALL, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::FALL_01,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::BEGIN, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::BEGIN, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::BEGIN_01,0},
 		{BILL_SPRITE_ID::BEGIN_02,0},
@@ -256,84 +239,84 @@ void Bill::LoadAnimations()
 		{BILL_SPRITE_ID::BEGIN_04,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::NORMAL, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::NORMAL, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::NORMAL_01,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::LAYDOWN, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::LAYDOWN, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::LAYDOWN_01,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SWIM_RUN, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SWIM_RUN, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::SWIM_RUN_01,0},
 		{BILL_SPRITE_ID::SWIM_RUN_02,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::RUN_SHOT, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::RUN_SHOT, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::RUN_SHOT_01,0},
 		{BILL_SPRITE_ID::RUN_SHOT_02,0},
 		{BILL_SPRITE_ID::RUN_SHOT_03,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SWIM_SHOT, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SWIM_SHOT, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::SWIM_SHOT_01,0},
 		{BILL_SPRITE_ID::SWIM_SHOT_02,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::BEGIN_SWIM, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::BEGIN_SWIM, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::BEGIN_SWIM_01,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SWIM_NORMAL, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SWIM_NORMAL, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::SWIM_NORMAL_01,0},
 		{BILL_SPRITE_ID::SWIM_NORMAL_02,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::NORMAL_SHOT, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::NORMAL_SHOT, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::NORMAL_SHOT_01,0},
 		{BILL_SPRITE_ID::NORMAL_SHOT_02,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::STRAIGHT_UP, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::STRAIGHT_UP, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::STRAIGHT_UP_01,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SHOT_STRAIGHT_UP, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SHOT_STRAIGHT_UP, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::SHOT_STRAIGHT_UP_01,0},
 		{BILL_SPRITE_ID::SHOT_STRAIGHT_UP_02,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::RUN_SHOT_ANGLE_UP, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::RUN_SHOT_ANGLE_UP, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::RUN_SHOT_ANGLE_UP_01,0},
 		{BILL_SPRITE_ID::RUN_SHOT_ANGLE_UP_02,0},
 		{BILL_SPRITE_ID::RUN_SHOT_ANGLE_UP_03,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SWIM_SHOT_ANGLE_UP, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SWIM_SHOT_ANGLE_UP, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::SWIM_SHOT_ANGLE_UP_01,0},
 		{BILL_SPRITE_ID::SWIM_SHOT_ANGLE_UP_02,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::RUN_SHOT_ANGLE_DOWN, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::RUN_SHOT_ANGLE_DOWN, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_01,0},
 		{BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_02,0},
 		{BILL_SPRITE_ID::RUN_SHOT_ANGLE_DOWN_03,0},
 	});
 
-	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SWIM_SHOT_STRAIGHT_UP, 100,
+	GraphicsHelper::InsertAnimation(BILL_ANIMATION_ID::SWIM_SHOT_STRAIGHT_UP, Constants::Bill::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 	{
 		{BILL_SPRITE_ID::SWIM_SHOT_STRAIGHT_UP_01,0},
 		{BILL_SPRITE_ID::SWIM_SHOT_STRAIGHT_UP_02,0},
@@ -344,111 +327,100 @@ void Bill::LoadAnimations()
 	OutputDebugString(L"Bill Animations Loaded Successfully\n");
 }
 
-void Bill::Fire                    (                               )
+void Bill::Fire()
 {
-	if (dynamic_cast<BillJumpState*>(state))
+	if (this->_state)
 	{
-		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.5f, 0.0f, +3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
-		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.5f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+		auto params = this->_state->GetBulletSpawnParams(*this);
+		if (params.has_value())
+		{
+			this->HasWeapons::Fire(*params);
+		}
 	}
-	else
-	if (dynamic_cast<BillLayDownState*>(state))
+}
+
+void Bill::CollectItem(ITEM_TYPE type)
+{
+	switch (type)
 	{
-		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.4f, 0.0f, +3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
-		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.4f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
-	}
-	else
-	if (dynamic_cast<BillRunShotAngleDownState*>(state))
-	{
-		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.4f, 0.0f, +3.0f, -2.0f, 0.0f, 0.0f, movingDirection);
-		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.4f, 0.0f, -3.0f, -2.0f, 0.0f, 0.0f, movingDirection);
-	}
-	else
-	if (dynamic_cast<BillNormalShotState*>(state) || dynamic_cast<BillRunShotState*>(state))
-	{
-		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.6f, 0.0f, +3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
-		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.6f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
-	}
-	else
-	if (dynamic_cast<BillShotStraightUpState*>(state) || dynamic_cast<BillSwimShotStraightUpState*>(state))
-	{
-		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f * 0.6f, position.y + h, 0.0f, 0.0f, +3.0f, 0.0f, 0.0f, movingDirection);
-		else
-			HasWeapons::Fire(position.x - w / 2.0f * 0.6f, position.y + h, 0.0f, 0.0f, +3.0f, 0.0f, 0.0f, movingDirection);
-	}
-	else
-	if (dynamic_cast<BillRunShotAngleUpState*>(state) || dynamic_cast<BillSwimShotAngleUpState*>(state))
-	{
-		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.9f, 0.0f, +3.0f, +2.0f, 0.0f, 0.0f, movingDirection);
-		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.9f, 0.0f, -3.0f, +2.0f, 0.0f, 0.0f, movingDirection);
-	}
-	else
-	if (dynamic_cast<BillSwimNormalShotState*>(state) || dynamic_cast<BillSwimRunShotState*>(state))
-	{
-		if (movingDirection == DIRECTION::RIGHT)
-			HasWeapons::Fire(position.x + w / 2.0f, position.y + h * 0.2f, 0.0f, +3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
-		else
-			HasWeapons::Fire(position.x - w / 2.0f, position.y + h * 0.2f, 0.0f, -3.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+	case ITEM_TYPE::B:
+		Sound::GetInstance()->Play("weaponB", false, 1);
+		break;
+	case ITEM_TYPE::F:
+		Sound::GetInstance()->Play("weaponF", false, 1);
+		SetBulletState(new BulletFState);
+		break;
+	case ITEM_TYPE::L:
+		Sound::GetInstance()->Play("weaponL", false, 1);
+		SetBulletState(new BulletLState);
+		break;
+	case ITEM_TYPE::M:
+		Sound::GetInstance()->Play("weaponM", false, 1);
+		SetBulletState(new BulletMState);
+		break;
+	case ITEM_TYPE::R:
+		Sound::GetInstance()->Play("weaponR", false, 1);
+		SetBulletState(new BulletRState);
+		break;
+	case ITEM_TYPE::S:
+		Sound::GetInstance()->Play("weaponS", false, 1);
+		SetBulletState(new BulletSState);
+		break;
+	case ITEM_TYPE::I:
+		Sound::GetInstance()->Play("weaponD", false, 1);
+		break;
 	}
 }
 
 void Bill::StaticResolveNoCollision(                               )
 {
-	if (dynamic_cast<BillDeadState*>(state))
+	if (this->_state && this->_state->IsDead())
 	{
-		surfaceEntity = NULL;
-		isAbSurface = 0;
+		this->_surfaceEntity = nullptr;
+		this->_isAbSurface = false;
 		return;
 	}
 }
 
 void Bill::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
-	if (dynamic_cast<BillDeadState*>(state))
+	if (this->_state && this->_state->IsDead())
 	{
-		surfaceEntity = NULL;
-		isAbSurface = 0;
+		this->_surfaceEntity = nullptr;
+		this->_isAbSurface = false;
 		return;
 	}
 }
 
 void Bill::DynamicResolveNoCollision(                               )
 {
-	if (dynamic_cast<BillDeadState*>(state))
+	if (this->_state && this->_state->IsDead())
 	{
-		surfaceEntity = NULL;
-		isAbSurface = 0;
+		this->_surfaceEntity = nullptr;
+		this->_isAbSurface = false;
 		return;
 	}
 
-	if (isAbSurface)
+	// The guard above only proves _state is non-null on the branch it returns
+	// from; falling through it also covers the _state == nullptr case, which the two
+	// _state-> calls below then dereferenced.
+	if (this->_isAbSurface && this->_state)
 	{
-		if (surfaceEntity)
+		if (this->_surfaceEntity)
 		{
-			if (dynamic_cast<RockFly*>(surfaceEntity)
-			&&  dynamic_cast<BillNormalState*>(state))
+			if (this->_surfaceEntity->RidesWithSurface()
+			&&  this->_state->IsNormal())
 			{
-				position.x = surfaceEntity->GetX();
+				this->_position.x = this->_surfaceEntity->GetX();
 			}
 			else
-			if (this->GetL() > surfaceEntity->GetR()
-			||  this->GetR() < surfaceEntity->GetL())
+			if (this->GetL() > this->_surfaceEntity->GetR()
+			||  this->GetR() < this->_surfaceEntity->GetL())
 			{
-				if (!dynamic_cast<BillJumpState*>(state))
+				if (!this->_state->IsJumping())
 				{
-					isAbSurface = 0; surfaceEntity = NULL;
-					auto currentY = position.y; ChangeState(state, new BillFallState(new BillNormalState()), this); position.y = currentY;
+					this->_isAbSurface = false; this->_surfaceEntity = nullptr;
+					auto currentY = this->_position.y; ChangeState(this->_state, new BillFallState(new BillNormalState()), this); this->_position.y = currentY;
 				}
 			}
 		}
@@ -457,30 +429,33 @@ void Bill::DynamicResolveNoCollision(                               )
 
 void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
-	auto    terrainBlock  = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
-	if     (terrainBlock)
-	switch (terrainBlock->type)
+	if (!aabbSweepResult.surfaceEntity)
+		return;
+
+	TERRAIN_BLOCK_TYPE terrainType = aabbSweepResult.surfaceEntity->GetTerrainType();
+	if (terrainType != TERRAIN_BLOCK_TYPE::NONE)
+	switch (terrainType)
 	{
 
 	case TERRAIN_BLOCK_TYPE::WALL:
 	{
 		if (aabbSweepResult.normalX != +0.0f)
 		{
-			position.x += aabbSweepResult.enTime * vx;
+			this->_position.x += aabbSweepResult.enTime * this->_vx;
 		}
 		else
 		if (aabbSweepResult.normalY != +0.0f)
 		{
-			position.y += aabbSweepResult.enTime * vy;
-			isAbSurface = 0;
-			surfaceEntity = NULL;
-			if (!dynamic_cast<BillDeadState*>(state))
+			this->_position.y += aabbSweepResult.enTime * this->_vy;
+			this->_isAbSurface = false;
+			this->_surfaceEntity = nullptr;
+			if (!this->_state->IsDead())
 			{
-				ChangeState(state, new BillDeadState(), this);
+				ChangeState(this->_state, new BillDeadState(), this);
 			}
 			else
 			{
-				vy = +1.0f;
+				this->_vy = Constants::Bill::WALL_DEAD_DRIFT_VELOCITY_Y;
 			}
 		}
 		return;
@@ -489,15 +464,15 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 	case TERRAIN_BLOCK_TYPE::WATER:
 	{
-		if (dynamic_cast<BillDeadState*>(state))
+		if (this->_state && this->_state->IsDead())
 			return;
 
 		if (aabbSweepResult.normalY == +1.0f)
 		{
-			position.y += aabbSweepResult.enTime * vy;
-			isAbSurface = 1;
-			surfaceEntity = terrainBlock;
-			ChangeState(state, new BillBeginSwimState(), this);
+			this->_position.y += aabbSweepResult.enTime * this->_vy;
+			this->_isAbSurface = true;
+			this->_surfaceEntity = aabbSweepResult.surfaceEntity;
+			ChangeState(this->_state, new BillBeginSwimState(), this);
 		}
 		else
 		{
@@ -508,25 +483,25 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 	case TERRAIN_BLOCK_TYPE::THROUGHABLE:
 	{
-		if (dynamic_cast<BillDeadState*>(state))
+		if (this->_state && this->_state->IsDead())
 			return;
 
 		if (aabbSweepResult.normalY == +1.0f)
 		{
-			if (dynamic_cast<BillFallState*>(state))
+			if (this->_state && this->_state->IsFalling())
 			{
-				if (terrainBlock->GetY() > position.y)
+				if (aabbSweepResult.surfaceEntity->GetY() > this->_position.y)
 					return;
 			}
-			if (surfaceEntity)
+			if (this->_surfaceEntity)
 			{
-				if (abs(terrainBlock->GetY() - surfaceEntity->GetY() > 48.0f)) // size of 1 tile is 16 x 16 -> 48.0f = 3 tiles
+				if (std::abs(aabbSweepResult.surfaceEntity->GetY() - this->_surfaceEntity->GetY()) > Constants::Bill::MAX_STEP_HEIGHT)
 					return;
 			}
-			position.y += aabbSweepResult.enTime * vy;
-			isAbSurface = 1;
-			surfaceEntity = terrainBlock;
-			ChangeState(state, new BillNormalState(), this);
+			this->_position.y += aabbSweepResult.enTime * this->_vy;
+			this->_isAbSurface = true;
+			this->_surfaceEntity = aabbSweepResult.surfaceEntity;
+			ChangeState(this->_state, new BillNormalState(), this);
 		}
 		else
 		{
@@ -537,22 +512,22 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 	case TERRAIN_BLOCK_TYPE::NON_THROUGHABLE:
 	{
-		if (dynamic_cast<BillDeadState*>(state))
+		if (this->_state && this->_state->IsDead())
 			return;
 
 		if (aabbSweepResult.normalY == +1.0f)
 		{
-			position.y += aabbSweepResult.enTime * vy;
-			isAbSurface = 1;
-			surfaceEntity = terrainBlock;
-			ChangeState(state, new BillNormalState(), this);
+			this->_position.y += aabbSweepResult.enTime * this->_vy;
+			this->_isAbSurface = true;
+			this->_surfaceEntity = aabbSweepResult.surfaceEntity;
+			ChangeState(this->_state, new BillNormalState(), this);
 		}
 		else
 		if (aabbSweepResult.normalX != +0.0f)
 		{
-			ChangeState(state, new BillNormalState(), this);
-			position.y = terrainBlock->GetT();
-			vy = -1.0f;
+			ChangeState(this->_state, new BillNormalState(), this);
+			this->_position.y = aabbSweepResult.surfaceEntity->GetT();
+			this->_vy = Constants::Bill::LEDGE_SLIDE_VELOCITY_Y;
 		}
 		else
 		{
@@ -564,177 +539,58 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	}
 	else
 	{
-		if (dynamic_cast<BillDeadState*>(state))
+		if (this->_state && this->_state->IsDead())
 		{
-			surfaceEntity = NULL;
-			isAbSurface = 0;
+			this->_surfaceEntity = nullptr;
+			this->_isAbSurface = false;
 			return;
 		}
 
-		if (dynamic_cast<BillDiveState*>(state) || dynamic_cast<BillBeginState*>(state))
+		if (this->_state && (this->_state->IsInvulnerable() || this->_state->IsBeginning()))
 		{
 			return;
 		}
 
-		auto item = dynamic_cast<Item*>(aabbSweepResult.surfaceEntity);
-		if  (item)
+		if (aabbSweepResult.surfaceEntity->OnBillCollision(*this, aabbSweepResult))
 		{
-			item->isDead = 1;
-			switch (item->type)
-			{
-
-			case ITEM_TYPE::B:
-				 Sound::getInstance()->play("weaponB", false, 1);
-			break;
-
-			case ITEM_TYPE::F:
-				 Sound::getInstance()->play("weaponF", false, 1);
-				 SetBulletState(new BulletFState);
-			break;
-
-			case ITEM_TYPE::L:
-				 Sound::getInstance()->play("weaponL", false, 1);
-				 SetBulletState(new BulletLState);
-			break;
-
-			case ITEM_TYPE::M:
-				 Sound::getInstance()->play("weaponM", false, 1);
-				 SetBulletState(new BulletMState);
-			break;
-
-			case ITEM_TYPE::R:
-				 Sound::getInstance()->play("weaponR", false, 1);
-				 SetBulletState(new BulletRState);
-			break;
-
-			case ITEM_TYPE::S:
-				 Sound::getInstance()->play("weaponS", false, 1);
-				 SetBulletState(new BulletSState);
-			break;
-
-			case ITEM_TYPE::I:
-				 Sound::getInstance()->play("weaponD", false, 1);
-			break;
-
-			}
 			return;
 		}
 
-		auto rockFly = dynamic_cast<RockFly*>(aabbSweepResult.surfaceEntity);
-		if  (rockFly)
+		if (aabbSweepResult.surfaceEntity->IsWalkableSurface())
 		{
 			if (aabbSweepResult.normalY == +1.0f)
 			{
-				if (surfaceEntity)
+				if (this->_surfaceEntity)
 				{
-					if (abs(rockFly->GetY() - surfaceEntity->GetY() > 48.0f)) // size of 1 tile is 16 x 16 -> 48.0f = 3 tiles
+					if (std::abs(aabbSweepResult.surfaceEntity->GetY() - this->_surfaceEntity->GetY()) > Constants::Bill::MAX_STEP_HEIGHT)
 						return;
 				}
-				position.y += aabbSweepResult.enTime * vy;
-				isAbSurface = 1;
-				surfaceEntity = rockFly;
-				ChangeState(state, new BillNormalState(), this);
+				this->_position.y += aabbSweepResult.enTime * this->_vy;
+				this->_isAbSurface = true;
+				this->_surfaceEntity = aabbSweepResult.surfaceEntity;
+				ChangeState(this->_state, new BillNormalState(), this);
 			}
 			return;
 		}
 
-		auto bridge = dynamic_cast<Bridge*>(aabbSweepResult.surfaceEntity);
-		if  (bridge)
+		if (aabbSweepResult.surfaceEntity->IsPushableObstacle())
 		{
-			if (aabbSweepResult.normalY == +1.0f)
+			this->_position.x += aabbSweepResult.enTime * this->_vx;
+			return;
+		}
+
+		if (aabbSweepResult.surfaceEntity->IsEnemy())
+		{
+			if (this->_immortalTick <= this->_immortalTime)
 			{
-				if (surfaceEntity)
-				{
-					if (abs(bridge->GetY() - surfaceEntity->GetY() > 48.0f)) // size of 1 tile is 16 x 16 -> 48.0f = 3 tiles
-						return;
-				}
-				position.y += aabbSweepResult.enTime * vy;
-				isAbSurface = 1;
-				surfaceEntity = bridge;
-				ChangeState(state, new BillNormalState(), this);
+				return;
 			}
-			return;
-		}
 
-		auto falcon = dynamic_cast<Falcon*>(aabbSweepResult.surfaceEntity);
-		if  (falcon)
-		{
-			return;
-		}
-
-		auto aircraft = dynamic_cast<AirCraft*>(aabbSweepResult.surfaceEntity);
-		if  (aircraft)
-		{
-			return;
-		}
-
-		auto  gunBossStage1 = dynamic_cast<GunBossStage1*>(aabbSweepResult.surfaceEntity);
-		if  ( gunBossStage1)
-		{
-		if  (!gunBossStage1->isDead)
-			  position.x += aabbSweepResult.enTime * vx;
-			  return;
-		}
-
-		auto  finalBossStage1 = dynamic_cast<FinalBossStage1*>(aabbSweepResult.surfaceEntity);
-		if  ( finalBossStage1)
-		{
-		if  (!finalBossStage1->isDead)
-			  position.x += aabbSweepResult.enTime * vx;
-			  return;
-		}
-
-		auto bossStage3Head = dynamic_cast<BossStage3*>(aabbSweepResult.surfaceEntity);
-		if  (bossStage3Head)
-		{
-			return;
-		}
-
-		auto bossStage3Gate = dynamic_cast<BossStage3Gate*>(aabbSweepResult.surfaceEntity);
-		if  (bossStage3Gate)
-		{
-			return;
-		}
-
-		auto bossStage3Hand = dynamic_cast<BossStage3Hand*>(aabbSweepResult.surfaceEntity);
-		if  (bossStage3Hand)
-		{
-			return;
-		}
-
-		auto bossStage3Joint = dynamic_cast<BossStage3Joint*>(aabbSweepResult.surfaceEntity);
-		if  (bossStage3Joint)
-		{
-			return;
-		}
-
-		auto soldier =  dynamic_cast<Soldier*>(aabbSweepResult.surfaceEntity);
-		if  (soldier && dynamic_cast<SoldierDieState*> (soldier->GetState()))
-		{
-			return;
-		}
-
-		if (immortalTick <= immortalTime)
-		{
-			return;
-		}
-
-		if (dynamic_cast<Enemy<Bill>*>(aabbSweepResult.surfaceEntity))
-		{
-			ChangeState(state, new BillDeadState(), this);
+			if (aabbSweepResult.surfaceEntity->IsLethalToTouch())
+			{
+				ChangeState(this->_state, new BillDeadState(), this);
+			}
 			return;
 		}
 	}
-
-	//_RPT1
-	//(
-	//	0, "collided: %d, contactX: %f, contactY: %f\nnormalX: %f, normalY: %f, entryTime: %f, exitTime: %f\n\n",
-	//	aabbSweepResult.isCollided,
-	//	aabbSweepResult.contactX,
-	//	aabbSweepResult.contactY,
-	//	aabbSweepResult.normalX,
-	//	aabbSweepResult.normalY,
-	//	aabbSweepResult.enTime,
-	//	aabbSweepResult.exTime
-	//);
 }

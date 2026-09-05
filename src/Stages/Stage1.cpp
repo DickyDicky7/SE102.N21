@@ -17,27 +17,27 @@
 
 Stage1::Stage1() : Stage()
 {
-	mapFilePath = "Resources/Maps/stage1.json";
+	this->_mapFilePath = "Resources/Maps/stage1.json";
 	TerrainBlock* wallL = new TerrainBlock();
 	TerrainBlock* wallR = new TerrainBlock();
 	TerrainBlock* wallB = new TerrainBlock();
-	wallL->type = TERRAIN_BLOCK_TYPE::WALL;
-	wallR->type = TERRAIN_BLOCK_TYPE::WALL;
-	wallB->type = TERRAIN_BLOCK_TYPE::WALL;
-	wallL->SetW(20.0f);
-	wallL->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
-	wallR->SetW(20.0f);
-	wallR->SetH(SCREEN_HEIGHT / SCALING_RATIO_Y);
-	wallB->SetW(SCREEN_WIDTH  / SCALING_RATIO_X);
-	wallB->SetH(20.0f);
-	wallL->name  = "L";
-	wallR->name  = "R";
-	wallB->name  = "B";
-	walls.insert({ "L", wallL });
-	walls.insert({ "R", wallR });
-	walls.insert({ "B", wallB });
+	wallL->SetTerrainType(TERRAIN_BLOCK_TYPE::WALL);
+	wallR->SetTerrainType(TERRAIN_BLOCK_TYPE::WALL);
+	wallB->SetTerrainType(TERRAIN_BLOCK_TYPE::WALL);
+	wallL->SetW(Constants::Stages::BOUNDARY_WALL_THICKNESS);
+	wallL->SetH(Constants::Screen::IN_GAME_HEIGHT);
+	wallR->SetW(Constants::Stages::BOUNDARY_WALL_THICKNESS);
+	wallR->SetH(Constants::Screen::IN_GAME_HEIGHT);
+	wallB->SetW(Constants::Screen::IN_GAME_WIDTH);
+	wallB->SetH(Constants::Stages::BOUNDARY_WALL_THICKNESS);
+	wallL->SetEntityName("L");
+	wallR->SetEntityName("R");
+	wallB->SetEntityName("B");
+	this->_walls.insert({ "L", wallL });
+	this->_walls.insert({ "R", wallR });
+	this->_walls.insert({ "B", wallB });
 
-	finalBossStage1 = NULL;
+	this->_finalBossStage1 = nullptr;
 }
 
 Stage1::~Stage1()
@@ -46,168 +46,171 @@ Stage1::~Stage1()
 
 void Stage1::CheckIfHasDone()
 {
-	if (finalBossStage1->isDead && checkPoint && bill->AABBCheck(checkPoint))
+	// _finalBossStage1 is only assigned by LoadEntities, and CheckIfHasDone runs
+	// from Stage::Update; RenderBossCompletion already guards the same pointer.
+	if (this->_finalBossStage1 && this->_finalBossStage1->IsDead() && this->_checkPoint && this->_bill && this->_bill->AABBCheck(this->_checkPoint))
 	{
-		Sound::getInstance()->play("passboss", false, 1);
-		hasDone = 1;
+		Sound::GetInstance()->Play("passboss", false, 1);
+		this->_hasDone = true;
 	}
+}
+
+void Stage1::RenderBossCompletion()
+{
+	if (this->_finalBossStage1)
+		this->_finalBossStage1->Render();
 }
 
 void Stage1::TranslateWalls()
 {
-	for (auto& [name, wall] : walls)
+	for (auto& [name, wall] : this->_walls)
 	{
 		if (name == "L")
 		{
-			wall->SetX(camera->GetL());
-			wall->SetY(camera->GetB());
+			wall->SetX(this->_camera->GetL());
+			wall->SetY(this->_camera->GetB());
 		}
 		else
 		if (name == "R")
 		{
-			wall->SetX(camera->GetR());
-			wall->SetY(camera->GetB());
+			wall->SetX(this->_camera->GetR());
+			wall->SetY(this->_camera->GetB());
 		}
 		else
 		if (name == "B")
 		{
-			wall->SetX(camera->GetX());
-			wall->SetY(camera->GetB() - wall->GetH() * 0.5f);
+			wall->SetX(this->_camera->GetX());
+			wall->SetY(this->_camera->GetB() - wall->GetH() * 0.5f);
 		}
 		else
 		if (name == "T")
 		{
-			wall->SetX(camera->GetX());
-			wall->SetY(camera->GetT() - wall->GetH() * 0.5f);
+			wall->SetX(this->_camera->GetX());
+			wall->SetY(this->_camera->GetT() - wall->GetH() * 0.5f);
 		}
 	}
 }
 
 void Stage1::TranslateCamera()
 {
-	if (bill && camera && bill->GetX() >= translateX && camera->GetL() <  translateX)
+	if (this->_bill && this->_camera && this->_bill->GetX() >= this->_translateX && this->_camera->GetL() <  this->_translateX)
 	{
-		camera->SetX(camera->GetX() + 1.0f);
-		Sound::getInstance()->play("warning", false, 1);
+		this->_camera->SetX(this->_camera->GetX() + Constants::Stages::CAMERA_TRANSLATE_STEP);
+		Sound::GetInstance()->Play("warning", false, 1);
 	}
 	else
-	if (bill && camera && bill->GetX() >= translateX && camera->GetL() >= translateX)
+	if (this->_bill && this->_camera && this->_bill->GetX() >= this->_translateX && this->_camera->GetL() >= this->_translateX)
 	{
-		if (!camera->isStatic)
-			 camera->ToStatic();
+		if (!this->_camera->IsStatic())
+			 this->_camera->ToStatic();
 	}
 }
 
 void Stage1::SetRevivalPoint()
 {
-	if (bill->GetY() == +std::numeric_limits<FLOAT>::infinity())
+	if (this->_bill->GetY() == +std::numeric_limits<float>::infinity())
 	{
-		std::vector<std::pair<Entity*, QuadTreeNode*>> 
-			 sortedForegroundTerrainsResult(foregroundTerrainsResult.begin(), foregroundTerrainsResult.end());
+		std::vector<std::pair<Entity*, QuadTreeNode*>>
+			 sortedForegroundTerrainsResult(this->_foregroundTerrainsResult.begin(), this->_foregroundTerrainsResult.end());
 		std::sort
 		(
 			sortedForegroundTerrainsResult.begin(), sortedForegroundTerrainsResult.end(),
-			[](std::pair<Entity*, QuadTreeNode*> pair1, std::pair<Entity*, QuadTreeNode*> pair2) -> BOOL
+			[](std::pair<Entity*, QuadTreeNode*> pair1, std::pair<Entity*, QuadTreeNode*> pair2) -> bool
 			{
 				return pair1.first->GetL() < pair2.first->GetL();
 			}
 		);
 
-		BOOL hasForegroundTerrain = 0;
-		FLOAT W = bill->GetW() * 2.0f;
-		FLOAT H = bill->GetH() * 1.0f;
+		bool hasForegroundTerrain = false;
+		float W = this->_bill->GetW() * Constants::Stages::Stage1::BILL_SPAWN_OFFSET_FACTOR_W;
+		float H = this->_bill->GetH() * Constants::Stages::REVIVAL_DEFAULT_HEIGHT_FACTOR;
 		for (auto& [foregroundTerrain, node] : sortedForegroundTerrainsResult)
 		{
-			if (foregroundTerrain->GetR() - camera->GetL() > W)
+			if (foregroundTerrain->GetR() - this->_camera->GetL() > W)
 			{
-				hasForegroundTerrain = 1;
-				if (camera->GetL() >= foregroundTerrain->GetL()) bill->SetX(           camera->GetL() + W);
-				                                            else bill->SetX(foregroundTerrain->GetL() + W);
+				hasForegroundTerrain = true;
+				if (this->_camera->GetL() >= foregroundTerrain->GetL()) this->_bill->SetX(           this->_camera->GetL() + W);
+				                                                  else this->_bill->SetX(foregroundTerrain->GetL() + W);
 				break;
 			}
 		}
 		if (!hasForegroundTerrain)
-			 bill->SetX(camera->GetL() + W);
-		     bill->SetY(camera->GetT() - H);
+		{
+			this->_bill->SetX(this->_camera->GetL() + W);
+		}
+		this->_bill->SetY(this->_camera->GetT() - H);
 	}
 }
 
-BOOL Stage1::ProcessSpecialEntity(Entity* entity)
+bool Stage1::ProcessSpecialEntity(Entity* entity)
 {
-	if (auto    gunBossStage1 = dynamic_cast<  GunBossStage1*>(entity))
+	if (!entity)
+		return false;
+
+	if (entity->ShouldRetainWhenDead())
+		return true;
+
+	if (entity == this->_finalBossStage1)
 	{
-		return 1;
-	}
+		if (!this->_finalBossStage1->IsDead())
+			return true;
 
-	if (auto  finalBossStage1 = dynamic_cast<FinalBossStage1*>(entity))
-	{
-		if (! finalBossStage1->isDead)
-			  return 1;
-		
-		if (++finalBossStage1->deadTurns != 5)
-			  return 1;
+		this->_finalBossStage1->IncrementDeadTurns();
+		if (this->_finalBossStage1->GetDeadTurns() != Constants::Enemies::BossStage1::FinalBoss::DEAD_TURN_COUNT)
+			return true;
 
-		Sound::getInstance()->stop();
-		Sound::getInstance()->play("boss1dead", false, 1);
+		Sound::GetInstance()->Stop();
+		Sound::GetInstance()->Play("boss1dead", false, 1);
 
-		FLOAT X = finalBossStage1->GetL() + finalBossStage1->GetW() * 0.25f;
-		FLOAT Y = finalBossStage1->GetT() - finalBossStage1->GetH() * 0.25f;
-		for (int i = 0; i <= 10; i++)
+		float X = this->_finalBossStage1->GetL() + this->_finalBossStage1->GetW() * Constants::Enemies::BossStage1::FINAL_BOSS_EXPLOSION_OFFSET_RATIO_X;
+		float Y = this->_finalBossStage1->GetT() - this->_finalBossStage1->GetH() * Constants::Enemies::BossStage1::FINAL_BOSS_EXPLOSION_OFFSET_RATIO_Y;
+		for (int i = 0; i < Constants::Enemies::BossStage1::FinalBoss::SUB_EXPLOSIONS_TOTAL_COUNT; i++)
 		{
 			Explosion* subExplosion1 = new Explosion(new ExplosionType3State());
 			Explosion* subExplosion2 = new Explosion(new ExplosionType3State());
-			subExplosion1->SetX(X + i * finalBossStage1->GetW() * 0.75f);
+			subExplosion1->SetX(X + i * this->_finalBossStage1->GetW() * Constants::Enemies::BossStage1::FINAL_BOSS_EXPLOSION_SPACING_RATIO_X);
 			subExplosion1->SetY(Y                                      );
-			subExplosion2->SetX(X + i * finalBossStage1->GetW() * 0.75f);
-			subExplosion2->SetY(Y -     finalBossStage1->GetH() * 0.75f);
-			effectEntities.push_back(subExplosion1);
-			effectEntities.push_back(subExplosion2);
+			subExplosion2->SetX(X + i * this->_finalBossStage1->GetW() * Constants::Enemies::BossStage1::FINAL_BOSS_EXPLOSION_SPACING_RATIO_X);
+			subExplosion2->SetY(Y -     this->_finalBossStage1->GetH() * Constants::Enemies::BossStage1::FINAL_BOSS_EXPLOSION_SPACING_RATIO_Y);
+			this->_effectEntities.push_back(subExplosion1);
+			this->_effectEntities.push_back(subExplosion2);
 		}
-		return 1;
+		return true;
 	}
 
-	return 0;
+	return false;
 }
 
-BOOL Stage1::ProcessSpecialBullet(Bullet* bullet)
+bool Stage1::ProcessSpecialBullet(Bullet* bullet)
 {
-	if (dynamic_cast<BulletBossStage1State*>(bullet->GetState()))
-	{
-		Explosion* explosion = new Explosion(new ExplosionType2State());
-		explosion->SetX(bullet->GetX()       );
-		explosion->SetY(bullet->GetY() - 5.0f);
-		effectEntities.push_back(explosion);
-		return 1;
-	}
-
-	return 0;
+	return false;
 }
 
-BOOL Stage1::ProcessSpecialExplosion(Entity* deadEntity)
+bool Stage1::ProcessSpecialExplosion(Entity* deadEntity)
 {
-	return 0;
+	return false;
 }
 
-void Stage1::LoadEntities(void *entitiesLayer)
+void Stage1::LoadEntities(void* entitiesLayer)
 {
-	auto _entitiesLayer = (tson::Layer*)entitiesLayer;
-	auto mapH = _entitiesLayer->getMap()->getSize().y * _entitiesLayer->getMap()->getTileSize().y;
+	auto entitiesLyr = static_cast<tson::Layer*>(entitiesLayer);
+	auto mapH = entitiesLyr->getMap()->getSize().y * entitiesLyr->getMap()->getTileSize().y;
 
-	GunBossStage1* bossGun1 = new GunBossStage1(1);
-	GunBossStage1* bossGun2 = new GunBossStage1(2);
+	GunBossStage1* bossGun1 = new GunBossStage1(Constants::Enemies::BossStage1::Gun::TYPE_UPPER);
+	GunBossStage1* bossGun2 = new GunBossStage1(Constants::Enemies::BossStage1::Gun::TYPE_LOWER);
 
 	FinalBossStage1* finalBoss = new FinalBossStage1();
 
 	finalBoss->SetGun1(bossGun1);
 	finalBoss->SetGun2(bossGun2);
 
-	finalBossStage1 = finalBoss;
+	this->_finalBossStage1 = finalBoss;
 
-	for (auto& object : _entitiesLayer->getObjects())
+	for (auto& object : entitiesLyr->getObjects())
 	{
 		auto& position = object.getPosition();
 		auto& size = object.getSize();
-		Entity* entity = NULL;
+		Entity* entity = nullptr;
 
 		if (object.getName() == "bridge")
 		{
@@ -216,7 +219,7 @@ void Stage1::LoadEntities(void *entitiesLayer)
 			bridgePos.x = position.x + size.x * 0.5f;
 			bridgePos.y = mapH - position.y - size.y * 1.0f;
 
-			entity = new Bridge(bridgePos, FLOAT(size.x));
+			entity = new Bridge(bridgePos, static_cast<float>(size.x));
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
 		else if (object.getName() == "sniper")
@@ -291,102 +294,46 @@ void Stage1::LoadEntities(void *entitiesLayer)
 		}
 		else if (object.getName() == "respawnposition")
 		{
-			bill->SetX(position.x + size.x * 0.5f);
-			bill->SetY(mapH - position.y - size.y * 1.0f);
+			this->_bill->SetX(position.x + size.x * 0.5f);
+			this->_bill->SetY(mapH - position.y - size.y * 1.0f);
 		}
 		else if (object.getName() == "cameratranslateposition")
 		{
-			translateX = position.x + size.x * 0.5f;
-			translateY = mapH - position.y - size.y * 1.0f;
+			this->_translateX = position.x + size.x * 0.5f;
+			this->_translateY = mapH - position.y - size.y * 1.0f;
 		}
 
 		if (!entity)
 			continue;
 
-		auto enemy = dynamic_cast<Enemy<Bill> *>(entity);
-		if (enemy)
-			enemy->SetTarget(bill);
+		entity->SetTarget(this->_bill);
 
 		entity->SetX(position.x + size.x * 0.5f);
 		entity->SetY(mapH - position.y - size.y * 1.0f);
-		entity->SetW(FLOAT(size.x));
-		entity->SetH(FLOAT(size.y));
+		entity->SetW(static_cast<float>(size.x));
+		entity->SetH(static_cast<float>(size.y));
 
-		entities->Insert(entity);
+		this->_entities->Insert(entity);
 	}
 
-	auto representativeBill = new Bill();
-	auto representativeBullet = new Bullet();
-	auto representativeFalcon = new Falcon(ITEM_TYPE::I);
-	auto representativeSoldier = new Soldier();
-	auto representativeAirCraft = new AirCraft(ITEM_TYPE::I, AIRCRAFT_DIRECTION::HORIZONTAL);
-	auto representativeWallTurret = new WallTurret();
-	auto representativeRifleManStanding = new RifleManStanding();
-	auto representativeRifleManHideOnBush = new RifleManHideOnBush();
-	auto representativeCannon = new Cannon();
-	auto representativeBridge = new Bridge();
+	Stage::PreloadResources<Bill>();
+	Stage::PreloadResources<Bullet>();
+	Stage::PreloadResources<Falcon>(ITEM_TYPE::I);
+	Stage::PreloadResources<Soldier>();
+	Stage::PreloadResources<AirCraft>(ITEM_TYPE::I, AIRCRAFT_DIRECTION::HORIZONTAL);
+	Stage::PreloadResources<WallTurret>();
+	Stage::PreloadResources<RifleManStanding>();
+	Stage::PreloadResources<RifleManHideOnBush>();
+	Stage::PreloadResources<Cannon>();
+	Stage::PreloadResources<Bridge>();
+	Stage::PreloadResources<Explosion>();
+	Stage::PreloadResources<Item>(ITEM_TYPE::I);
 
-	representativeBill->LoadTextures();
-	representativeFalcon->LoadTextures();
-	representativeBullet->LoadTextures();
-	representativeSoldier->LoadTextures();
-	representativeAirCraft->LoadTextures();
-	representativeWallTurret->LoadTextures();
-	representativeRifleManStanding->LoadTextures();
-	representativeRifleManHideOnBush->LoadTextures();
-	representativeCannon->LoadTextures();
-	representativeBridge->LoadTextures();
 	bossGun1->LoadTextures();
-	finalBoss->LoadTextures();
-
-	representativeBill->LoadSprites();
-	representativeFalcon->LoadSprites();
-	representativeBullet->LoadSprites();
-	representativeSoldier->LoadSprites();
-	representativeAirCraft->LoadSprites();
-	representativeWallTurret->LoadSprites();
-	representativeRifleManStanding->LoadSprites();
-	representativeRifleManHideOnBush->LoadSprites();
-	representativeCannon->LoadSprites();
-	representativeBridge->LoadSprites();
 	bossGun1->LoadSprites();
-	finalBoss->LoadSprites();
-
-	representativeBill->LoadAnimations();
-	representativeFalcon->LoadAnimations();
-	representativeBullet->LoadAnimations();
-	representativeSoldier->LoadAnimations();
-	representativeAirCraft->LoadAnimations();
-	representativeWallTurret->LoadAnimations();
-	representativeRifleManStanding->LoadAnimations();
-	representativeRifleManHideOnBush->LoadAnimations();
-	representativeCannon->LoadAnimations();
-	representativeBridge->LoadAnimations();
 	bossGun1->LoadAnimations();
+
+	finalBoss->LoadTextures();
+	finalBoss->LoadSprites();
 	finalBoss->LoadAnimations();
-
-	Destroy(representativeBill);
-	Destroy(representativeFalcon);
-	Destroy(representativeBullet);
-	Destroy(representativeSoldier);
-	Destroy(representativeAirCraft);
-	Destroy(representativeWallTurret);
-	Destroy(representativeRifleManStanding);
-	Destroy(representativeRifleManHideOnBush);
-	Destroy(representativeCannon);
-	Destroy(representativeBridge);
-
-	// explosion
-	auto representativeExplosion = new Explosion();
-	representativeExplosion->LoadTextures();
-	representativeExplosion->LoadSprites();
-	representativeExplosion->LoadAnimations();
-	Destroy(representativeExplosion);
-
-	// item
-	auto representativeItem = new Item(ITEM_TYPE::I);
-	representativeItem->LoadTextures();
-	representativeItem->LoadSprites();
-	representativeItem->LoadAnimations();
-	Destroy(representativeItem);
 }

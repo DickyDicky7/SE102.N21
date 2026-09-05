@@ -25,7 +25,7 @@ public:
 	virtual ~BossStage3();
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 
 	void LoadSprites() override;
 	void LoadTextures() override;
@@ -33,23 +33,29 @@ public:
 
 	void  Fire() override;
 
-	BOOL GetIsFire() { return isFire; }
-	void SetIsFire(BOOL check) { isFire = check; }
+	bool GetIsFire() const { return this->_isFire; }
+	void SetIsFire(bool check) { this->_isFire = check; }
 
-	BossStage3Hand* boss3Stage3HandLeft;
-	BossStage3Hand* boss3Stage3HandRight;
+	BossStage3Hand* GetHandLeft() const { return this->_boss3Stage3HandLeft; }
+	BossStage3Hand* GetHandRight() const { return this->_boss3Stage3HandRight; }
+	void SetHandLeft(BossStage3Hand* handLeft) { this->_boss3Stage3HandLeft = handLeft; }
+	void SetHandRight(BossStage3Hand* handRight) { this->_boss3Stage3HandRight = handRight; }
+	bool IsHandsDead() const;
 
-	void SetHandLetf(BossStage3Hand* HandLeft) { boss3Stage3HandLeft = HandLeft; }
-	void SetHandRight(BossStage3Hand* HandRight) { boss3Stage3HandRight = HandRight; }
-	BOOL IsHandsDead();
-
+	bool IsEnemy() const override { return true; }
+	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
+	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	void ProcessSpecialDeathEffects(std::vector<Entity*>& effectEntities) override;
+	bool TakeBulletHit() override { return this->Enemy<Bill>::TakeEnemyBulletHit(this); }
 protected:
-	BossStage3State* state;
-	BossStage3State* updateState;
-	BossStage3State* handleInputState;
+	BossStage3State* _state;
+	BossStage3State* _updateState;
+	BossStage3State* _handleInputState;
 
-	BOOL isCounted;
-	BOOL isFire;
+	BossStage3Hand* _boss3Stage3HandLeft;
+	BossStage3Hand* _boss3Stage3HandRight;
+	bool _isCounted;
+	bool _isFire;
 };
 
 
@@ -62,15 +68,17 @@ public:
 	BossStage3State();
 	virtual ~BossStage3State();
 
-	virtual void Exit(BossStage3&) override = 0;
-	virtual void Enter(BossStage3&) override = 0;
-	virtual void Render(BossStage3&) override = 0;
+	virtual void Exit(BossStage3& bossStage3) override = 0;
+	virtual void Enter(BossStage3& bossStage3) override = 0;
+	virtual void Render(BossStage3& bossStage3) override = 0;
 
-	virtual BossStage3State* Update(BossStage3&) override = 0;
-	virtual BossStage3State* HandleInput(BossStage3&, Input&) override = 0;
+	virtual BossStage3State* Update(BossStage3& bossStage3) override = 0;
+	virtual BossStage3State* HandleInput(BossStage3& bossStage3, Input& input) override = 0;
+
+	virtual bool CanFire() const { return false; }
 
 protected:
-	FLOAT time;
+	float _time;
 };
 
 
@@ -82,12 +90,14 @@ public:
 	BossStage3OpenState();
 	virtual ~BossStage3OpenState();
 
-	virtual void Exit(BossStage3&) override;
-	virtual void Enter(BossStage3&) override;
-	virtual void Render(BossStage3&) override;
+	virtual void Exit(BossStage3& bossStage3) override;
+	virtual void Enter(BossStage3& bossStage3) override;
+	virtual void Render(BossStage3& bossStage3) override;
 
-	virtual BossStage3State* Update(BossStage3&) override;
-	virtual BossStage3State* HandleInput(BossStage3&, Input&) override;
+	virtual BossStage3State* Update(BossStage3& bossStage3) override;
+	virtual BossStage3State* HandleInput(BossStage3& bossStage3, Input& input) override;
+
+	bool CanFire() const override { return true; }
 };
 
 
@@ -99,12 +109,12 @@ public:
 	BossStage3CloseState();
 	virtual ~BossStage3CloseState();
 
-	virtual void Exit(BossStage3&) override;
-	virtual void Enter(BossStage3&) override;
-	virtual void Render(BossStage3&) override;
+	virtual void Exit(BossStage3& bossStage3) override;
+	virtual void Enter(BossStage3& bossStage3) override;
+	virtual void Render(BossStage3& bossStage3) override;
 
-	virtual BossStage3State* Update(BossStage3&) override;
-	virtual BossStage3State* HandleInput(BossStage3&, Input&) override;
+	virtual BossStage3State* Update(BossStage3& bossStage3) override;
+	virtual BossStage3State* HandleInput(BossStage3& bossStage3, Input& input) override;
 };
 
 class BossStage3MiddleState : public BossStage3State
@@ -115,13 +125,13 @@ public:
 	BossStage3MiddleState(BOSS_STAGE_3_ANIMATION_ID nextState);
 	virtual ~BossStage3MiddleState();
 
-	virtual void Exit(BossStage3&) override;
-	virtual void Enter(BossStage3&) override;
-	virtual void Render(BossStage3&) override;
+	virtual void Exit(BossStage3& bossStage3) override;
+	virtual void Enter(BossStage3& bossStage3) override;
+	virtual void Render(BossStage3& bossStage3) override;
 
-	virtual BossStage3State* Update(BossStage3&) override;
-	virtual BossStage3State* HandleInput(BossStage3&, Input&) override;
+	virtual BossStage3State* Update(BossStage3& bossStage3) override;
+	virtual BossStage3State* HandleInput(BossStage3& bossStage3, Input& input) override;
 protected:
-	TIME delayTime;
-	BOSS_STAGE_3_ANIMATION_ID nextState;
+	TIME _delayTime;
+	BOSS_STAGE_3_ANIMATION_ID _nextState;
 };

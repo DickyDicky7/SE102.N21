@@ -14,10 +14,11 @@ void SoldierLayDownState::Exit(Soldier& soldier)
 
 void SoldierLayDownState::Enter(Soldier& soldier)
 {
-	soldier.SetVX(+1.0f);
-	soldier.SetAX(+1.0f);
-	soldier.SetVY(+1.0f);
-	soldier.SetAY(+1.0f);
+	this->_time = static_cast<float>(GetTickCount64());
+	soldier.SetVX(+Constants::Enemies::Soldier::PARK_VELOCITY);
+	soldier.SetAX(+Constants::Enemies::Soldier::PARK_ACCELERATION);
+	soldier.SetVY(+Constants::Enemies::Soldier::PARK_VELOCITY);
+	soldier.SetAY(+Constants::Enemies::Soldier::PARK_ACCELERATION);
 }
 
 void SoldierLayDownState::Render(Soldier& soldier)
@@ -28,20 +29,15 @@ void SoldierLayDownState::Render(Soldier& soldier)
 SoldierState* SoldierLayDownState::Update(Soldier& soldier)
 {
 	ULONGLONG now = GetTickCount64();
-	if (now - time > soldier.GetFiringRate())
+	if (now - this->_time > soldier.GetFiringRate())
 	{
 		soldier.Fire();
-		time = FLOAT(now);
+		this->_time = static_cast<float>(now);
 	}
-	return NULL;
+	return nullptr;
 }
 
 SoldierState* SoldierLayDownState::HandleInput(Soldier& soldier, Input& input)
 {
-	//if (input.IsKey(DIK_DOWN))
-	//{
-	//	return NULL;
-	//}
-	//return new SoldierRunState();
-	return NULL;
+	return nullptr;
 }

@@ -2,8 +2,8 @@
 
 BillBeginSwimState::BillBeginSwimState() : BillState()
 {
-	Sound::getInstance()->play("landing", false, 1);
-	delayTime = 50;
+	Sound::GetInstance()->Play("landing", false, 1);
+	this->_delayTime = Constants::Bill::SWIM_BEGIN_DELAY_FRAMES;
 }
 
 BillBeginSwimState::~BillBeginSwimState()
@@ -16,24 +16,19 @@ void BillBeginSwimState::Exit(Bill& bill)
 
 void BillBeginSwimState::Enter(Bill& bill)
 {
-	//bill.SetVX(0.0f);
-	//bill.SetVY(0.0f);
-	//bill.SetAX(0.0f);
-	//bill.SetAY(0.0f);
-
 	if (bill.GetMovingDirection() == DIRECTION::LEFT)
 	{
-		bill.SetVX(-2.0f);
+		bill.SetVX(-Constants::Bill::SWIM_SPEED_X);
 		bill.SetAX(-0.0f);
 	}
 	if (bill.GetMovingDirection() == DIRECTION::RIGHT)
 	{
-		bill.SetVX(+2.0f);
+		bill.SetVX(+Constants::Bill::SWIM_SPEED_X);
 		bill.SetAX(+0.0f);
 	}
 
-	bill.SetVY(+1.0f);
-	bill.SetAY(+1.0f);
+	bill.SetVY(+Constants::Bill::SWIM_BUOYANCY_VELOCITY_Y);
+	bill.SetAY(+Constants::Bill::SWIM_BUOYANCY_ACCELERATION_Y);
 }
 
 void BillBeginSwimState::Render(Bill& bill)
@@ -43,11 +38,11 @@ void BillBeginSwimState::Render(Bill& bill)
 
 BillState* BillBeginSwimState::Update(Bill& bill)
 {
-	if (--delayTime == 0) return new BillSwimNormalState();
-	return NULL;
+	if (--this->_delayTime == 0) return new BillSwimNormalState();
+	return nullptr;
 }
 
 BillState* BillBeginSwimState::HandleInput(Bill& bill, Input& input)
 {
-	return NULL;
+	return nullptr;
 }
