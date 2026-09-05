@@ -1,3 +1,4 @@
+#include <numbers>
 #include "WallTurret.h"
 
 WallTurretLeft150State::WallTurretLeft150State() {}
@@ -10,34 +11,32 @@ void WallTurretLeft150State::Render(WallTurret& wallTurret) {
 	wallTurret.SetAnimation(WALL_TURRET_ANIMATION_ID::LEFT_150, wallTurret.GetPosition(), wallTurret.GetMovingDirection(), wallTurret.GetAngle());
 }
 
-void WallTurretLeft150State::Enter(WallTurret& wallTurret) 
+void WallTurretLeft150State::Enter(WallTurret& wallTurret)
 {
-	if (--wallTurret.shootDelay == 0)
+	if (this->UpdateShooting(wallTurret))
 	{
-		FLOAT tanValue = std::tan(D3DX_PI / 2 - D3DXToRadian(30));
-
+		float tanValue = std::tan(std::numbers::pi_v<float> / 2 - D3DXToRadian(Constants::Enemies::WallTurret::AIM_ANGLE_30_DEGREES));
 		wallTurret.Fire(0.0f, -1.0f / tanValue, -1.0f, 0.0f, 0.0f, wallTurret.GetMovingDirection());
-		wallTurret.shootDelay = WALL_TURRET_SHOOT_DELAY;
 	}
 }
 
 WallTurretState* WallTurretLeft150State::Update(WallTurret& wallTurret)
 {
-	if (--delayBeforeChangeState > 0)
+	if (--this->_delayBeforeChangeState > 0)
 	{
-		return NULL;
+		return nullptr;
 	}
 
-	FLOAT billAngle = wallTurret.CalculateBillAngle();
+	float billAngle = wallTurret.CalculateBillAngle();
 
-	if (billAngle >= -45 && billAngle < -15)
-		return NULL;
+	if (billAngle >= -Constants::Enemies::WallTurret::AIM_ANGLE_45_DEGREES && billAngle < -Constants::Enemies::WallTurret::AIM_ANGLE_15_DEGREES)
+		return nullptr;
 
-	if (billAngle < -45 || billAngle > 150)
+	if (billAngle < -Constants::Enemies::WallTurret::AIM_ANGLE_45_DEGREES || billAngle > Constants::Enemies::WallTurret::AIM_ANGLE_150_DEGREES)
 		return new WallTurretLeft120State();
 
-	if (billAngle >= -15 || billAngle <= 150)
+	if (billAngle >= -Constants::Enemies::WallTurret::AIM_ANGLE_15_DEGREES || billAngle <= Constants::Enemies::WallTurret::AIM_ANGLE_150_DEGREES)
 		return new WallTurretDownState();
 
-	return NULL;
+	return nullptr;
 }

@@ -20,19 +20,16 @@ void FinalBossStage1NormalState::Enter(FinalBossStage1&)
 
 }
 
-void FinalBossStage1NormalState::Render(FinalBossStage1& finalBoss)
+void FinalBossStage1NormalState::Render(FinalBossStage1& finalBossStage1)
 {
-	finalBoss.SetAnimation(BOSS_STAGE_1_ANIMATION_ID::FINAL_BOSS_NORMAL, finalBoss.GetPosition(), finalBoss.GetMovingDirection(), finalBoss.GetAngle());
+	finalBossStage1.SetAnimation(BOSS_STAGE_1_ANIMATION_ID::FINAL_BOSS_NORMAL, finalBossStage1.GetPosition(), finalBossStage1.GetMovingDirection(), finalBossStage1.GetAngle());
 }
 
-FinalBossStage1State* FinalBossStage1NormalState::Update(FinalBossStage1& finalBoss)
+FinalBossStage1State* FinalBossStage1NormalState::Update(FinalBossStage1& finalBossStage1)
 {
-	if (finalBoss.isDead)
+	if (finalBossStage1.IsDead())
 	{
-		//finalBoss.SetX(finalBoss.GetX() + 37.4f);
-		//finalBoss.SetY(finalBoss.GetY() - 8.0f);
-
 		return new FinalBossStage1DestroyState();
 	}
-	return NULL;
+	return nullptr;
 }

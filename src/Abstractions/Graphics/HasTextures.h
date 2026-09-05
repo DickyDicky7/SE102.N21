@@ -14,7 +14,7 @@ public:
 
 protected:
 
-	static Bool<T> hasBeenLoaded;
+	static inline bool _hasBeenLoaded = false;
 
 };
 
@@ -27,9 +27,3 @@ template <class T>
 inline HasTextures<T>::~HasTextures()
 {
 }
-
-template <class T>
-Bool<T> HasTextures<T>::hasBeenLoaded
-{
-	false
-};

@@ -22,33 +22,44 @@ public:
 	virtual ~RockFall();
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
-	void setTimeDelayToFall(FLOAT time)
+	void SetTimeDelayToFall(float timeDelayToFall)
 	{
-		_timedelayToFall = time;
+		this->_timeDelayToFall = timeDelayToFall;
 	}
-	FLOAT getTimeDelayToFall() 
+	float GetTimeDelayToFall() const
 	{
-		return _timedelayToFall;
+		return this->_timeDelayToFall;
 	}
 
-	std::unordered_set<Entity*> alreadyCollidedWithEntities;
-	BOOL bouncedBack = 0;
+	bool HasBouncedBack() const { return this->_bouncedBack; }
+	void SetBouncedBack(bool bouncedBack) { this->_bouncedBack = bouncedBack; }
+
+	CollidableEntity* AsCollidable() override { return this; }
 	void  StaticResolveNoCollision() override;
-	void  StaticResolveOnCollision(AABBSweepResult) override;
+	void  StaticResolveOnCollision(AABBSweepResult aabbSweepResult) override;
 	void DynamicResolveNoCollision() override;
-	void DynamicResolveOnCollision(AABBSweepResult) override;
-protected:
-	RockFallState* state;
-	RockFallState* updateState;
-	RockFallState* handleInputState;
+	void DynamicResolveOnCollision(AABBSweepResult aabbSweepResult) override;
 
-	FLOAT _timedelayToFall;
+	bool IsEnemy() const override { return true; }
+	bool IsLethalToTouch() const override { return true; }
+	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
+	bool TakeBulletHit() override { return this->Enemy<Bill>::TakeEnemyBulletHit(this); }
+	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+protected:
+	std::unordered_set<Entity*> _alreadyCollidedWithEntities;
+	bool _bouncedBack = false;
+
+	RockFallState* _state;
+	RockFallState* _updateState;
+	RockFallState* _handleInputState;
+
+	float _timeDelayToFall;
 };
 
 
@@ -61,16 +72,16 @@ public:
 	RockFallState();
 	virtual ~RockFallState();
 
-	virtual void Exit(RockFall&) override = 0;
-	virtual void Enter(RockFall&) override = 0;
-	virtual void Render(RockFall&) override = 0;
+	virtual void Exit(RockFall& rockFall) override = 0;
+	virtual void Enter(RockFall& rockFall) override = 0;
+	virtual void Render(RockFall& rockFall) override = 0;
 
-	virtual RockFallState* Update(RockFall&) override = 0;
-	virtual RockFallState* HandleInput(RockFall&, Input&) override = 0;
+	virtual RockFallState* Update(RockFall& rockFall) override = 0;
+	virtual RockFallState* HandleInput(RockFall& rockFall, Input& input) override = 0;
 
 protected:
 
-	FLOAT time;
+	float _time;
 
 };
 
@@ -83,12 +94,12 @@ public:
 	RockFallNormalState();
 	virtual ~RockFallNormalState();
 
-	virtual void Exit(RockFall&) override;
-	virtual void Enter(RockFall&) override;
-	virtual void Render(RockFall&) override;
+	virtual void Exit(RockFall& rockFall) override;
+	virtual void Enter(RockFall& rockFall) override;
+	virtual void Render(RockFall& rockFall) override;
 
-	virtual RockFallState* Update(RockFall&) override;
-	virtual RockFallState* HandleInput(RockFall&, Input&) override;
+	virtual RockFallState* Update(RockFall& rockFall) override;
+	virtual RockFallState* HandleInput(RockFall& rockFall, Input& input) override;
 };
 
 
@@ -100,10 +111,10 @@ public:
 	RockFallFallState();
 	virtual ~RockFallFallState();
 
-	virtual void Exit(RockFall&) override;
-	virtual void Enter(RockFall&) override;
-	virtual void Render(RockFall&) override;
+	virtual void Exit(RockFall& rockFall) override;
+	virtual void Enter(RockFall& rockFall) override;
+	virtual void Render(RockFall& rockFall) override;
 
-	virtual RockFallState* Update(RockFall&) override;
-	virtual RockFallState* HandleInput(RockFall&, Input&) override;
+	virtual RockFallState* Update(RockFall& rockFall) override;
+	virtual RockFallState* HandleInput(RockFall& rockFall, Input& input) override;
 };

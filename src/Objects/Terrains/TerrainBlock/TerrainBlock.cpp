@@ -1,7 +1,8 @@
 #include "TerrainBlock.h"
 
-TerrainBlock::TerrainBlock() : Entity(), CollidableEntity(), type(TERRAIN_BLOCK_TYPE::NONE)
+TerrainBlock::TerrainBlock() : Entity(), CollidableEntity(), _name(""), _type(TERRAIN_BLOCK_TYPE::NONE)
 {
+	CollidableEntity::_self = this;
 }
 
 TerrainBlock::~TerrainBlock()

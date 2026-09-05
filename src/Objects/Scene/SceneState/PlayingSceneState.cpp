@@ -10,28 +10,28 @@ PlayingSceneState::~PlayingSceneState()
 
 void PlayingSceneState::Exit(Scene& scene)
 {
-	Sound::getInstance()->stop();
+	Sound::GetInstance()->Stop();
 }
 
 void PlayingSceneState::Enter(Scene& scene)
 {
-	scene.stageIsReady = true;
-	scene.SetX(BLACK_W * 0.5f); scene.SetY(0.0f); scene.SetVX(+3.0f);
-	Sound::getInstance()->stop();
-	Sound::getInstance()->play("stage" + std::to_string(scene.currentStage), true, 1);
+	scene.SetStageReady(true);
+	scene.SetX(Constants::Scene::BLACK_OVERLAY_WIDTH * Constants::Scene::SCENE_CENTRE_WIDTH_FACTOR); scene.SetY(0.0f); scene.SetVX(+Constants::Scene::BLACK_TRANSITION_SPEED_X);
+	Sound::GetInstance()->Stop();
+	Sound::GetInstance()->Play("stage" + std::to_string(scene.GetCurrentStage()), true, 1);
 }
 
 void PlayingSceneState::Render(Scene& scene)
 {
-	scene.stage->Render();
-	for (int i = 0; i < *scene.livesLeft; i++)
+	scene.GetStage()->Render();
+	for (int i = 0; i < *scene.GetLivesLeft(); i++)
 	{
 		GraphicsHelper::DrawSprite
 		( GraphicsDatabase::sprites[SCENE_SPRITE_ID::LIFE]
-		, D3DXVECTOR3( scene.stage->GetCamera()->GetL() + AtCol(FLOAT(i + 2))
-		             , scene.stage->GetCamera()->GetB() + AtRow(27.0f), 0.0f), DIRECTION::LEFT, 0.0f );
+		, D3DXVECTOR3( scene.GetStage()->GetCamera()->GetL() + AtCol(static_cast<float>(i) + Constants::Scene::UI_COLUMN_HUD_LIVES_ICONS_START)
+		             , scene.GetStage()->GetCamera()->GetB() + AtRow(Constants::Scene::UI_ROW_HUD_LIVES_ICONS), 0.0f), DIRECTION::LEFT, 0.0f );
 	}
-	if (scene.GetX() <= BLACK_W * 1.5f)
+	if (scene.GetX() <= Constants::Scene::BLACK_OVERLAY_WIDTH * Constants::Scene::SCENE_OFFSCREEN_WIDTH_FACTOR)
 	{
 		scene.SetAnimation(SCENE_ANIMATION_ID::BLACK, scene.GetPosition(), scene.GetMovingDirection(), scene.GetAngle());
 	}
@@ -39,34 +39,34 @@ void PlayingSceneState::Render(Scene& scene)
 
 SceneState* PlayingSceneState::Update(Scene& scene)
 {
-	scene.stage->Update();
-	if (scene.stage->hasDone)
+	scene.GetStage()->Update();
+	if (scene.GetStage()->HasDone())
 	{
-		if (++turn == 500)
+		if (++this->_turn == Constants::Scene::STAGE_CLEAR_TRANSITION_TURNS)
 		{
-			if (scene.currentStage == 1)
+			if (scene.GetCurrentStage() == Constants::Stages::STAGE_1_INDEX)
 			{
 				return new LoadingSceneState();
 			}
-			if (scene.currentStage == 2)
+			if (scene.GetCurrentStage() == Constants::Stages::STAGE_2_INDEX)
 			{
 				return new EndingSceneState();
 			}
 		}
 	}
-	if (*scene.livesLeft <= -1)
+	if (*scene.GetLivesLeft() <= -1)
 	{
-		if (++turn == 300)
+		if (++this->_turn == Constants::Scene::GAME_OVER_TRANSITION_TURNS)
 		{
 			return new GameOverSceneState();
 		}
 	}
-	if (scene.GetX() <= BLACK_W * 1.5f)
+	if (scene.GetX() <= Constants::Scene::BLACK_OVERLAY_WIDTH * Constants::Scene::SCENE_OFFSCREEN_WIDTH_FACTOR)
 	{
 		auto result = Motion::CalculateUniformMotion({ scene.GetX(), scene.GetVX() });
-		scene.SetX(result.c);
+		scene.SetX(result.coordinate);
 	}
-	return NULL;
+	return nullptr;
 }
 
 SceneState* PlayingSceneState::HandleInput(Scene& scene, Input& input)
@@ -75,7 +75,7 @@ SceneState* PlayingSceneState::HandleInput(Scene& scene, Input& input)
 	{
 		return new LoadingSceneState();
 	}
-	scene.stage->HandleInput(input);
-	return NULL;
+	scene.GetStage()->HandleInput(input);
+	return nullptr;
 }
 

@@ -16,13 +16,13 @@ void BillSwimRunState::Enter(Bill& bill)
 {
 	if (bill.GetMovingDirection() == DIRECTION::LEFT)
 	{
-		bill.SetVX(-abs(bill.GetVX()));
-		bill.SetAX(-abs(bill.GetAX()));
+		bill.SetVX(-std::abs(bill.GetVX()));
+		bill.SetAX(-std::abs(bill.GetAX()));
 	}
 	if (bill.GetMovingDirection() == DIRECTION::RIGHT)
 	{
-		bill.SetVX(+abs(bill.GetVX()));
-		bill.SetAX(+abs(bill.GetAX()));
+		bill.SetVX(+std::abs(bill.GetVX()));
+		bill.SetAX(+std::abs(bill.GetAX()));
 	}
 }
 
@@ -34,9 +34,9 @@ void BillSwimRunState::Render(Bill& bill)
 BillState* BillSwimRunState::Update(Bill& bill)
 {
 	auto result = Motion::CalculateUniformMotion({ bill.GetX(), bill.GetVX() });
-	bill.SetX(result.c);
+	bill.SetX(result.coordinate);
 
-	return NULL;
+	return nullptr;
 }
 
 BillState* BillSwimRunState::HandleInput(Bill& bill, Input& input)
@@ -52,7 +52,7 @@ BillState* BillSwimRunState::HandleInput(Bill& bill, Input& input)
 		{
 			return new BillSwimRunShotState();
 		}
-		return NULL;
+		return nullptr;
 	}
 	return new BillSwimNormalState();
 }

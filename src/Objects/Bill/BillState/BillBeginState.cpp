@@ -14,10 +14,10 @@ void BillBeginState::Exit(Bill& bill)
 
 void BillBeginState::Enter(Bill& bill)
 {
-	bill.SetY (+std::numeric_limits<FLOAT>::infinity());
-	bill.SetVY(-2.50f);
-	bill.SetAY(-0.10f);
-	bill.immortalTick = 000;
+	bill.SetY (+std::numeric_limits<float>::infinity());
+	bill.SetVY(Constants::Bill::FALL_SPEED_Y);
+	bill.SetAY(Constants::Bill::FALL_ACCELERATION_Y);
+	bill.ResetImmortalTick();
 }
 
 void BillBeginState::Render(Bill& bill)
@@ -27,10 +27,10 @@ void BillBeginState::Render(Bill& bill)
 
 BillState* BillBeginState::Update(Bill& bill)
 {
-	auto result = Motion::CalculateUniformlyAcceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), time, 0.05f });
+	auto result = Motion::CalculateUniformlyAcceleratedMotion({ bill.GetY(), bill.GetVY(), bill.GetAY(), this->_time, Constants::Physics::DEFAULT_MOTION_INTEGRATION_DELTA_TIME });
 
-	time = result.t;
-	bill.SetY(result.c); bill.SetVY(result.v);
+	this->_time = result.elapsedTime;
+	bill.SetY(result.coordinate); bill.SetVY(result.velocity);
 
 	if (bill.GetVY() <= 0.0f && bill.GetY() <= 0.0f)
 	{
@@ -38,10 +38,10 @@ BillState* BillBeginState::Update(Bill& bill)
 		return new BillNormalState();
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 BillState* BillBeginState::HandleInput(Bill& bill, Input& input)
 {
-	return NULL;
+	return nullptr;
 }

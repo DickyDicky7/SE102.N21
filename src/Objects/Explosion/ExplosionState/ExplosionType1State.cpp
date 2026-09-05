@@ -1,6 +1,6 @@
 #include "Explosion.h"
 
-// state cho nguoi
+// Explosion state for a person (enemy soldier)
 ExplosionType1State::ExplosionType1State() : ExplosionState()
 {
 }
@@ -30,13 +30,13 @@ ExplosionState* ExplosionType1State::Update(Explosion& explosion)
 
 	if (std::cmp_greater_equal(explosion.GetCurrentFrame() + 1, frames.size()))
 	{
-		explosion.isDead = 1;
+		explosion.SetDead(true);
 	}
 
-	return NULL;
+	return nullptr;
 }
 
 ExplosionState* ExplosionType1State::HandleInput(Explosion& explosion, Input& input)
 {
-	return NULL;
+	return nullptr;
 }

@@ -12,7 +12,7 @@ void WallTurretOpeningState::Render(WallTurret& wallTurret) {
 
 void WallTurretOpeningState::Enter(WallTurret& wallTurret) {}
 
-WallTurretState* WallTurretOpeningState::Update(WallTurret& wallTurret) 
+WallTurretState* WallTurretOpeningState::Update(WallTurret& wallTurret)
 {
 	std::vector<std::tuple<SPRITE_ID, TIME>>& frames = std::get<
 		std::vector<std::tuple<SPRITE_ID, TIME>>>(GraphicsDatabase::animations[WALL_TURRET_ANIMATION_ID::OPENING]);
@@ -22,5 +22,5 @@ WallTurretState* WallTurretOpeningState::Update(WallTurret& wallTurret)
 		return new WallTurretLeft90State();
 	}
 
-	return NULL;
+	return nullptr;
 }

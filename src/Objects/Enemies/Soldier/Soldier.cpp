@@ -1,86 +1,87 @@
+#include <cmath>
 #include "Bridge.h"
 #include "Soldier.h"
 #include "TerrainBlock.h"
 
 Soldier::Soldier() : Entity(), HasTextures(), HasSprites(), HasAnimations(), CollidableEntity(), HasWeapons(new BulletEnemyState())
 {
-	this->vx = +1.0f;
-	this->vy = -1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
-	this->position.x = 100;
-	this->position.y = 0;
-	this->name = L"Soldier\n";
+	this->_vx = +1.0f;
+	this->_vy = -1.0f;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_position.x = Constants::Enemies::Soldier::DEFAULT_SPAWN_X;
+	this->_position.y = Constants::Enemies::Soldier::DEFAULT_SPAWN_Y;
+	this->SetDebugName(L"Soldier\n");
 
-	this->updateState = NULL;
-	this->handleInputState = NULL;
+	this->_updateState = nullptr;
+	this->_handleInputState = nullptr;
 	// set direction default is right
-	this->movingDirection = DIRECTION::RIGHT;
+	this->_movingDirection = DIRECTION::RIGHT;
 	// set state begin is run
-	this->state = new SoldierRunState();
+	this->_state = new SoldierRunState();
 
-	shootable  = 0;
-	firingRate = 2000;
-	CollidableEntity::self = this;
+	this->_shootable = false;
+	this->_firingRate = Constants::Enemies::Soldier::FIRING_RATE_MILLISECONDS;
+	CollidableEntity::_self = this;
 
-	this->hitCounts = 1;
-	this->enemyType = ENEMY_TYPE::HUMAN;
+	this->_hitCounts = Constants::Enemies::Soldier::HEALTH_POINTS;
+	this->_enemyType = ENEMY_TYPE::HUMAN;
 }
 
 void Soldier::Fire()
 {
-	FLOAT coefficient = dynamic_cast<SoldierShootState*>(state) ? 0.75f : dynamic_cast<SoldierLayDownState*>(state) ? 0.20f : 0.00f;
-	if (movingDirection == DIRECTION::LEFT)
+	float coefficient = this->_state ? this->_state->GetGunMountOffsetRatio() : 0.0f;
+	if (this->_movingDirection == DIRECTION::LEFT)
 	{
-		HasWeapons::Fire(GetL(), position.y + h * coefficient, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+		this->HasWeapons::Fire(this->GetL(), this->_position.y + this->_h * coefficient, 0.0f, -1.0f, 0.0f, 0.0f, 0.0f, this->_movingDirection);
 	}
-	else 
-	if (movingDirection == DIRECTION::RIGHT)
+	else
+	if (this->_movingDirection == DIRECTION::RIGHT)
 	{
-		HasWeapons::Fire(GetR(), position.y + h * coefficient, 0.0f, +1.0f, 0.0f, 0.0f, 0.0f, movingDirection);
+		this->HasWeapons::Fire(this->GetR(), this->_position.y + this->_h * coefficient, 0.0f, +1.0f, 0.0f, 0.0f, 0.0f, this->_movingDirection);
 	}
 }
 
 void Soldier::StaticResolveNoCollision()
 {
-	if (dynamic_cast<SoldierDieState*>(state))
+	if (this->_state && this->_state->IsDead())
 	{
-		surfaceEntity = NULL;
-		isAbSurface = 0;
+		this->_surfaceEntity = nullptr;
+		this->_isAbSurface = false;
 		return;
 	}
 }
 
 void Soldier::StaticResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
-	if (dynamic_cast<SoldierDieState*>(state))
+	if (this->_state && this->_state->IsDead())
 	{
-		surfaceEntity = NULL;
-		isAbSurface = 0;
+		this->_surfaceEntity = nullptr;
+		this->_isAbSurface = false;
 		return;
 	}
 }
 
 void Soldier::DynamicResolveNoCollision()
 {
-	if (dynamic_cast<SoldierDieState*>(state))
+	if (this->_state && this->_state->IsDead())
 	{
-		surfaceEntity = NULL;
-		isAbSurface = 0;
+		this->_surfaceEntity = nullptr;
+		this->_isAbSurface = false;
 		return;
 	}
-	
-	if (isAbSurface)
+
+	if (this->_isAbSurface)
 	{
-		if (surfaceEntity)
+		if (this->_surfaceEntity)
 		{
-			if (this->GetL() > surfaceEntity->GetR()
-			||  this->GetR() < surfaceEntity->GetL())
+			if (this->GetL() > this->_surfaceEntity->GetR()
+			||  this->GetR() < this->_surfaceEntity->GetL())
 			{
-				if (!dynamic_cast<SoldierJumpState*>(state))
+				if (this->_state && !this->_state->IsJumping())
 				{
-					isAbSurface = 0; surfaceEntity = NULL;
-					auto currentY = position.y; ChangeState(state, new SoldierJumpState(), this); position.y = currentY;
+					this->_isAbSurface = false; this->_surfaceEntity = nullptr;
+					auto currentY = this->_position.y; ChangeState(this->_state, new SoldierJumpState(), this); this->_position.y = currentY;
 				}
 			}
 		}
@@ -89,44 +90,48 @@ void Soldier::DynamicResolveNoCollision()
 
 void Soldier::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
-	auto    terrainBlock  = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
-	if     (terrainBlock)
-	switch (terrainBlock->type)
+	if (!aabbSweepResult.surfaceEntity)
+		return;
+
+	TERRAIN_BLOCK_TYPE terrainType = aabbSweepResult.surfaceEntity->GetTerrainType();
+	if (terrainType != TERRAIN_BLOCK_TYPE::NONE)
+	switch (terrainType)
 	{
 
 	case TERRAIN_BLOCK_TYPE::WALL:
 	{
 		if (aabbSweepResult.normalY != +0.0f)
 		{
-			position.y += aabbSweepResult.enTime * vy;
-			isAbSurface = 0;
-			surfaceEntity = NULL;
-			if (!dynamic_cast<SoldierDieState*>(state))
+			this->_position.y += aabbSweepResult.enTime * this->_vy;
+			this->_isAbSurface = false;
+			this->_surfaceEntity = nullptr;
+			if (this->_state && !this->_state->IsDead())
 			{
-				ChangeState(state, new SoldierDieState(), this);
+				ChangeState(this->_state, new SoldierDieState(), this);
 			}
 			else
 			{
-				vy = +1.0f;
+				this->_vy = +1.0f;
 			}
 		}
 		else
 		if (aabbSweepResult.normalX != +0.0f)
 		{
-			if ((terrainBlock->name == "L" && aabbSweepResult.normalX == +1.0f) 
-			||  (terrainBlock->name == "R" && aabbSweepResult.normalX == -1.0f))
+			std::string wallName = aabbSweepResult.surfaceEntity->GetEntityName();
+			if ((wallName == "L" && aabbSweepResult.normalX == +1.0f)
+			||  (wallName == "R" && aabbSweepResult.normalX == -1.0f))
 			{
-				position.x += aabbSweepResult.enTime * vx;
-				if (!dynamic_cast<SoldierDieState*>(state))
+				this->_position.x += aabbSweepResult.enTime * this->_vx;
+				if (this->_state && !this->_state->IsDead())
 				{
 					if (aabbSweepResult.normalX == -1.0f)
 					{
-						movingDirection = DIRECTION::LEFT;
+						this->_movingDirection = DIRECTION::LEFT;
 					}
 					else
 					if (aabbSweepResult.normalX == +1.0f)
 					{
-						movingDirection = DIRECTION::RIGHT;
+						this->_movingDirection = DIRECTION::RIGHT;
 					}
 				}
 			}
@@ -140,16 +145,16 @@ void Soldier::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 	case TERRAIN_BLOCK_TYPE::WATER:
 	{
-		if (dynamic_cast<SoldierDieState*>(state))
+		if (this->_state && this->_state->IsDead())
 			return;
 
 		if (aabbSweepResult.normalY == +1.0f)
 		{
-			position.y += aabbSweepResult.enTime * vy;
-			isAbSurface = 0;
-			surfaceEntity = NULL;
-			ChangeState(state, new SoldierDieState(), this);
-			isDrown = 1;
+			this->_position.y += aabbSweepResult.enTime * this->_vy;
+			this->_isAbSurface = false;
+			this->_surfaceEntity = nullptr;
+			ChangeState(this->_state, new SoldierDieState(), this);
+			this->SetDrown(true);
 		}
 		else
 		{
@@ -160,25 +165,25 @@ void Soldier::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 	case TERRAIN_BLOCK_TYPE::THROUGHABLE:
 	{
-		if (dynamic_cast<SoldierDieState*>(state))
+		if (this->_state && this->_state->IsDead())
 			return;
 
 		if (aabbSweepResult.normalY == +1.0f)
 		{
-			if (dynamic_cast<SoldierJumpState*>(state))
+			if (this->_state && this->_state->IsJumping())
 			{
-				if (terrainBlock->GetY() > position.y)
+				if (aabbSweepResult.surfaceEntity->GetY() > this->_position.y)
 					return;
 			}
-			if (surfaceEntity)
+			if (this->_surfaceEntity)
 			{
-				if (abs(terrainBlock->GetY() - surfaceEntity->GetY() > 48.0f)) // size of 1 tile is 16 x 16 -> 48.0f = 3 tiles
+				if (std::abs(aabbSweepResult.surfaceEntity->GetY() - this->_surfaceEntity->GetY()) > Constants::Enemies::Soldier::MAX_STEP_HEIGHT)
 					return;
 			}
-			position.y += aabbSweepResult.enTime * vy;
-			isAbSurface = 1;
-			surfaceEntity = terrainBlock;
-			ChangeState(state, new SoldierRunState(), this);
+			this->_position.y += aabbSweepResult.enTime * this->_vy;
+			this->_isAbSurface = true;
+			this->_surfaceEntity = aabbSweepResult.surfaceEntity;
+			ChangeState(this->_state, new SoldierRunState(), this);
 		}
 		else
 		{
@@ -189,15 +194,15 @@ void Soldier::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 	case TERRAIN_BLOCK_TYPE::NON_THROUGHABLE:
 	{
-		if (dynamic_cast<SoldierDieState*>(state))
+		if (this->_state && this->_state->IsDead())
 			return;
 
 		if (aabbSweepResult.normalY == +1.0f)
 		{
-			position.y += aabbSweepResult.enTime * vy;
-			isAbSurface = 1;
-			surfaceEntity = terrainBlock;
-			ChangeState(state, new SoldierRunState(), this);
+			this->_position.y += aabbSweepResult.enTime * this->_vy;
+			this->_isAbSurface = true;
+			this->_surfaceEntity = aabbSweepResult.surfaceEntity;
+			ChangeState(this->_state, new SoldierRunState(), this);
 		}
 		else
 		{
@@ -209,27 +214,26 @@ void Soldier::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	}
 	else
 	{
-		if (dynamic_cast<SoldierDieState*>(state))
+		if (this->_state && this->_state->IsDead())
 		{
-			surfaceEntity = NULL;
-			isAbSurface = 0;
+			this->_surfaceEntity = nullptr;
+			this->_isAbSurface = false;
 			return;
 		}
 
-		auto bridge = dynamic_cast<Bridge*>(aabbSweepResult.surfaceEntity);
-		if  (bridge)
+		if (aabbSweepResult.surfaceEntity->IsBridge())
 		{
 			if (aabbSweepResult.normalY == +1.0f)
 			{
-				if (surfaceEntity)
+				if (this->_surfaceEntity)
 				{
-					if (abs(bridge->GetY() - surfaceEntity->GetY() > 48.0f)) // size of 1 tile is 16 x 16 -> 48.0f = 3 tiles
+					if (std::abs(aabbSweepResult.surfaceEntity->GetY() - this->_surfaceEntity->GetY()) > Constants::Enemies::Soldier::MAX_STEP_HEIGHT)
 						return;
 				}
-				position.y += aabbSweepResult.enTime * vy;
-				isAbSurface = 1;
-				surfaceEntity = bridge;
-				ChangeState(state, new SoldierRunState(), this);
+				this->_position.y += aabbSweepResult.enTime * this->_vy;
+				this->_isAbSurface = true;
+				this->_surfaceEntity = aabbSweepResult.surfaceEntity;
+				ChangeState(this->_state, new SoldierRunState(), this);
 			}
 			return;
 		}
@@ -238,134 +242,126 @@ void Soldier::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 Soldier::~Soldier()
 {
-	Destroy(state);
-	Destroy(updateState);
-	Destroy(handleInputState);
+	Destroy(this->_state);
+	Destroy(this->_updateState);
+	Destroy(this->_handleInputState);
 }
 
 void Soldier::Update()
 {
-	if (!dynamic_cast<SoldierDieState*>(state) && !dynamic_cast<SoldierJumpState*>(state))
+	if (this->_state && !this->_state->IsDead() && !this->_state->IsJumping() && this->_target)
 	{
-		FLOAT dx = +(position.x - target->GetX());
-		FLOAT dy = -(position.y - target->GetY());
+		float dx = +(this->_position.x - this->_target->GetX());
+		float dy = -(this->_position.y - this->_target->GetY());
 
-		FLOAT targetAngle = 0.0f;
+		float targetAngle = 0.0f;
 
 		if (dx > 0.0f && dy < 0.0f)
 		{
-			targetAngle = -atan(abs(dx) / abs(dy)) * 180.0f / D3DX_PI;
+			targetAngle = D3DXToDegree(-std::atan(std::abs(dx) / std::abs(dy)));
 		}
 		else
 		if (dx < 0.0f && dy < 0.0f)
 		{
-			targetAngle = +atan(abs(dx) / abs(dy)) * 180.0f / D3DX_PI;
+			targetAngle = D3DXToDegree(+std::atan(std::abs(dx) / std::abs(dy)));
 		}
 		else
 		if (dx > 0.0f && dy > 0.0f)
 		{
-			targetAngle = +atan(abs(dx) / dy) * 180.0f / D3DX_PI - 180.0f;
+			targetAngle = D3DXToDegree(+std::atan(std::abs(dx) / dy)) - Constants::Physics::HALF_CIRCLE_DEGREES;
 		}
 		else
 		if (dx < 0.0f && dy > 0.0f)
 		{
-			targetAngle = -atan(abs(dx) / dy) * 180.0f / D3DX_PI + 180.0f;
+			targetAngle = D3DXToDegree(-std::atan(std::abs(dx) / dy)) + Constants::Physics::HALF_CIRCLE_DEGREES;
 		}
 
-		if (abs(target->GetX() - position.x) >= 64.0f)
+		if (std::abs(this->_target->GetX() - this->_position.x) >= Constants::Enemies::Soldier::DETECT_DISTANCE)
 		{
 			if (targetAngle < 0.0f)
 			{
-				movingDirection = DIRECTION::LEFT;
+				this->_movingDirection = DIRECTION::LEFT;
 			}
 			else
 			if (targetAngle > 0.0f)
 			{
-				movingDirection = DIRECTION::RIGHT;
+				this->_movingDirection = DIRECTION::RIGHT;
 			}
-			if (shootable)
+			if (this->_shootable)
 			{
-				if ((targetAngle <= +95.0f && targetAngle >= +85.0f)
-				||  (targetAngle >= -95.0f && targetAngle <= -85.0f))
+				if ((targetAngle <= +Constants::Enemies::Soldier::SHOOT_ANGLE_TOLERANCE_MAX_DEGREES && targetAngle >= +Constants::Enemies::Soldier::SHOOT_ANGLE_TOLERANCE_MIN_DEGREES)
+				||  (targetAngle >= -Constants::Enemies::Soldier::SHOOT_ANGLE_TOLERANCE_MAX_DEGREES && targetAngle <= -Constants::Enemies::Soldier::SHOOT_ANGLE_TOLERANCE_MIN_DEGREES))
 				{
-					if (!dynamic_cast<SoldierShootState*>(state))
+					if (!this->_state->IsShooting())
 					{
-						ChangeState(state, new SoldierShootState(), this);
+						ChangeState(this->_state, new SoldierShootState(), this);
 					}
 				}
-				else 
-				if (dynamic_cast<SoldierShootState*>(state))
+				else
+				if (this->_state->IsShooting())
 				{
-					ChangeState(state, new SoldierRunState(), this);
+					ChangeState(this->_state, new SoldierRunState(), this);
 				}
 			}
 		}
 		else
-		if (abs(target->GetX() - position.x) <= 64.0f)
+		if (std::abs(this->_target->GetX() - this->_position.x) <= Constants::Enemies::Soldier::DETECT_DISTANCE)
 		{
-			if (shootable)
+			if (this->_shootable)
 			{
-				if ((targetAngle <= +95.0f && targetAngle >= +85.0f)
-				||  (targetAngle >= -95.0f && targetAngle <= -85.0f))
+				if ((targetAngle <= +Constants::Enemies::Soldier::SHOOT_ANGLE_TOLERANCE_MAX_DEGREES && targetAngle >= +Constants::Enemies::Soldier::SHOOT_ANGLE_TOLERANCE_MIN_DEGREES)
+				||  (targetAngle >= -Constants::Enemies::Soldier::SHOOT_ANGLE_TOLERANCE_MAX_DEGREES && targetAngle <= -Constants::Enemies::Soldier::SHOOT_ANGLE_TOLERANCE_MIN_DEGREES))
 				{
 					if (targetAngle < 0.0f)
 					{
-						movingDirection = DIRECTION::LEFT;
+						this->_movingDirection = DIRECTION::LEFT;
 					}
 					else
 					if (targetAngle > 0.0f)
 					{
-						movingDirection = DIRECTION::RIGHT;
+						this->_movingDirection = DIRECTION::RIGHT;
 					}
-					if (!dynamic_cast<SoldierLayDownState*>(state))
+					if (!this->_state->IsLayingDown())
 					{
-						ChangeState(state, new SoldierLayDownState(), this);
+						ChangeState(this->_state, new SoldierLayDownState(), this);
 					}
 				}
 				else
-				if (dynamic_cast<SoldierLayDownState*>(state))
+				if (this->_state->IsLayingDown())
 				{
-					ChangeState(state, new SoldierRunState(), this);
+					ChangeState(this->_state, new SoldierRunState(), this);
 				}
 			}
 		}
 	}
-	updateState = state->Update(*this);
+	DeferState(this->_updateState, this->_state->Update(*this));
+
+	ApplyDeferredState(this->_state, this->_updateState, this);
+	ApplyDeferredState(this->_state, this->_handleInputState, this);
 }
 
 void Soldier::Render()
 {
-	state->Render(*this);
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
-
-	if (updateState)
-	{
-		ChangeState(state, updateState, this);
-		updateState = NULL;
-	}
-	if (handleInputState)
-	{
-		ChangeState(state, handleInputState, this);
-		handleInputState = NULL;
-	}
+	this->_state->Render(*this);
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
 }
 
 void Soldier::HandleInput(Input& input)
 {
-	handleInputState = state->HandleInput(*this, input);
+	DeferState(this->_handleInputState, this->_state->HandleInput(*this, input));
 }
 
-void InsertSpriteSoldier(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
+void InsertSpriteSoldier(SPRITE_ID spriteId, int left, int top, int right, int bottom)
 {
-	// i write this function to shorten the fuction: GraphicsHelper
+	// i write this function to shorten the function: GraphicsHelper
 	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, DIRECTION::LEFT, SOLDIER_TEXTURE_ID::SOLDIER_01);
 }
 
 void Soldier::LoadSprites()
 {
-	if (HasSprites<Soldier>::hasBeenLoaded.value) return;
-	HasSprites<Soldier>::hasBeenLoaded.value = true;
+	if (HasSprites<Soldier>::_hasBeenLoaded) return;
+	HasSprites<Soldier>::_hasBeenLoaded = true;
 
 #pragma region Load Sprites
 
@@ -393,22 +389,22 @@ void Soldier::LoadSprites()
 
 void Soldier::LoadTextures()
 {
-	if (HasTextures<Soldier>::hasBeenLoaded.value) return;
-	HasTextures<Soldier>::hasBeenLoaded.value = true;
+	if (HasTextures<Soldier>::_hasBeenLoaded) return;
+	HasTextures<Soldier>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertTexure(SOLDIER_TEXTURE_ID::SOLDIER_01, L"Resources\\Textures\\Soldier.bmp");
+	GraphicsHelper::InsertTexture(SOLDIER_TEXTURE_ID::SOLDIER_01, L"Resources\\Textures\\Soldier.bmp");
 
 	OutputDebugString(L"Soldier Textures Loaded Successfully\n");
 }
 
 void Soldier::LoadAnimations()
 {
-	if (HasAnimations<Soldier>::hasBeenLoaded.value) return;
-	HasAnimations<Soldier>::hasBeenLoaded.value = true;
+	if (HasAnimations<Soldier>::_hasBeenLoaded) return;
+	HasAnimations<Soldier>::_hasBeenLoaded = true;
 
 #pragma region Load Animations
 
-	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::RUN, 70,
+	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::RUN, Constants::Enemies::Soldier::ANIMATION_RUN_DELAY_MILLISECONDS,
 		{
 			{SOLDIER_SPRITE_ID::RUN_01,0},
 			{SOLDIER_SPRITE_ID::RUN_02,0},
@@ -417,20 +413,20 @@ void Soldier::LoadAnimations()
 			{SOLDIER_SPRITE_ID::RUN_05,0},
 			{SOLDIER_SPRITE_ID::RUN_06,0},
 		});
-	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::JUMP, 60,
+	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::JUMP, Constants::Enemies::Soldier::ANIMATION_JUMP_DELAY_MILLISECONDS,
 		{
 			{SOLDIER_SPRITE_ID::JUMP_01,0},
 		});
-	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::SHOOT, 150,
+	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::SHOOT, Constants::Enemies::Soldier::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 		{
 			{SOLDIER_SPRITE_ID::SHOOT_01,0},
 			{SOLDIER_SPRITE_ID::SHOOT_02,0},
 		});
-	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::LAY_DOWN, 150,
+	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::LAY_DOWN, Constants::Enemies::Soldier::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 		{
 			{SOLDIER_SPRITE_ID::LAY_DOWN_01,0},
 		});
-	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::DIE, 150,
+	GraphicsHelper::InsertAnimation(SOLDIER_ANIMATION_ID::DIE, Constants::Enemies::Soldier::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 		{
 			{SOLDIER_SPRITE_ID::DIE_01,0},
 		});
@@ -442,19 +438,32 @@ void Soldier::LoadAnimations()
 
 SoldierState* Soldier::GetState()
 {
-	return state;
+	return this->_state;
 }
 
-void Soldier::SetState(SoldierState* newState)
+void Soldier::SetState(SoldierState* state)
 {
-	ChangeState(state, newState, this);
-	newState = NULL;
+	ChangeState(this->_state, state, this);
 }
 
 void Soldier::GoDead()
 {
-	if (!dynamic_cast<SoldierDieState*>(state))
+	if (!this->_state || !this->_state->IsDead())
 	{
-		ChangeState(state, new SoldierDieState(), this);
+		ChangeState(this->_state, new SoldierDieState(), this);
 	}
+}
+
+bool Soldier::TakeBulletHit()
+{
+	if (--this->_hitCounts == 0)
+	{
+		this->GoDead();
+	}
+	return true;
+}
+
+bool Soldier::IsLethalToTouch() const
+{
+	return this->_state ? !this->_state->IsDead() : true;
 }

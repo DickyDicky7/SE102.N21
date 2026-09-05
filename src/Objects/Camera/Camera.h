@@ -22,47 +22,48 @@ public:
 
 	Camera
 	(
-		/* Input* = NULL, */  CameraState* = NULL,
-		FLOAT = +SCREEN_WIDTH / (2.0f * scalingRatioX), FLOAT = +SCREEN_HEIGHT / (2.0f * scalingRatioY)
+		/* Input* = nullptr, */  CameraState* state = nullptr,
+		float x = +Constants::Screen::WIDTH / (2.0f * _scalingRatioX), float y = +Constants::Screen::HEIGHT / (2.0f * _scalingRatioY)
 	);
 	~Camera();
 
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 
-	void ZoomIn(FLOAT = 0.1f);
-	void ZoomOut(FLOAT = 0.1f);
-	void Capture(FLOAT, FLOAT);
-	static FLOAT CalculateHW();
-	static FLOAT CalculateHH();
+	void ZoomIn(float percentage = Constants::Graphics::DEFAULT_CAMERA_ZOOM_STEP);
+	void ZoomOut(float percentage = Constants::Graphics::DEFAULT_CAMERA_ZOOM_STEP);
+	void Capture(float x, float y);
+	static float CalculateHW();
+	static float CalculateHH();
 	const D3DMATRIX& GetViewMatrix() const;
 
 	void LogName() override {
 		OutputDebugString(L"Camera");
 	}
 
-	BOOL isStatic;
+	bool IsStatic() const { return this->_isStatic; }
 	void ToStatic();
-	BOOL CouldSee(Entity*);
-	FLOAT GetB() const override;
-	FLOAT GetT() const override;
-	FLOAT GetL() const override;
-	FLOAT GetR() const override;
+	bool CouldSee(Entity* entity);
+	float GetB() const override;
+	float GetT() const override;
+	float GetL() const override;
+	float GetR() const override;
 
 protected:
 
 	// Adopts the state a handler returned: no-op when it is the current state,
 	// a full ChangeState (delete outgoing, Exit/Enter) when it is a new one.
-	void AdvanceState(CameraState*);
+	void AdvanceState(CameraState* next);
 
-	static FLOAT scalingRatioX;
-	static FLOAT scalingRatioY;
-	D3DXMATRIX viewMatrix;
-	CameraState* state;
-	D3DXVECTOR3 eye;
-	D3DXVECTOR3 at;
-	D3DXVECTOR3 up;
+	bool _isStatic;
+	static float _scalingRatioX;
+	static float _scalingRatioY;
+	D3DXMATRIX _viewMatrix;
+	CameraState* _state;
+	D3DXVECTOR3 _eye;
+	D3DXVECTOR3 _at;
+	D3DXVECTOR3 _up;
 
 };
 
@@ -75,13 +76,13 @@ public:
 	CameraState();
 	virtual ~CameraState();
 
-	virtual void Exit(Camera&) override = 0;
-	virtual void Enter(Camera&) override = 0;
-	virtual void Render(Camera&) override = 0;
+	virtual void Exit(Camera& camera) override = 0;
+	virtual void Enter(Camera& camera) override = 0;
+	virtual void Render(Camera& camera) override = 0;
 
-	virtual CameraState* Update(Camera&) override = 0;
-	virtual CameraState* Capture(FLOAT, FLOAT, Camera&) = 0;
-	virtual CameraState* HandleInput(Camera&, Input&) override = 0;
+	virtual CameraState* Update(Camera& camera) override = 0;
+	virtual CameraState* Capture(float x, float y, Camera& camera) = 0;
+	virtual CameraState* HandleInput(Camera& camera, Input& input) override = 0;
 
 };
 
@@ -94,13 +95,13 @@ public:
 	CameraStaticState();
 	virtual ~CameraStaticState();
 
-	virtual void Exit(Camera&) override;
-	virtual void Enter(Camera&) override;
-	virtual void Render(Camera&) override;
+	virtual void Exit(Camera& camera) override;
+	virtual void Enter(Camera& camera) override;
+	virtual void Render(Camera& camera) override;
 
-	virtual CameraState* Update(Camera&) override;
-	virtual CameraState* HandleInput(Camera&, Input&) override;
-	virtual CameraState* Capture(FLOAT, FLOAT, Camera&) override;
+	virtual CameraState* Update(Camera& camera) override;
+	virtual CameraState* HandleInput(Camera& camera, Input& input) override;
+	virtual CameraState* Capture(float x, float y, Camera& camera) override;
 
 };
 
@@ -113,13 +114,13 @@ public:
 	CameraMovingUpwardState();
 	virtual ~CameraMovingUpwardState();
 
-	virtual void Exit(Camera&) override;
-	virtual void Enter(Camera&) override;
-	virtual void Render(Camera&) override;
+	virtual void Exit(Camera& camera) override;
+	virtual void Enter(Camera& camera) override;
+	virtual void Render(Camera& camera) override;
 
-	virtual CameraState* Update(Camera&) override;
-	virtual CameraState* HandleInput(Camera&, Input&) override;
-	virtual CameraState* Capture(FLOAT, FLOAT, Camera&) override;
+	virtual CameraState* Update(Camera& camera) override;
+	virtual CameraState* HandleInput(Camera& camera, Input& input) override;
+	virtual CameraState* Capture(float x, float y, Camera& camera) override;
 
 };
 
@@ -132,13 +133,13 @@ public:
 	CameraMovingForwardState();
 	virtual ~CameraMovingForwardState();
 
-	virtual void Exit(Camera&) override;
-	virtual void Enter(Camera&) override;
-	virtual void Render(Camera&) override;
+	virtual void Exit(Camera& camera) override;
+	virtual void Enter(Camera& camera) override;
+	virtual void Render(Camera& camera) override;
 
-	virtual CameraState* Update(Camera&) override;
-	virtual CameraState* HandleInput(Camera&, Input&) override;
-	virtual CameraState* Capture(FLOAT, FLOAT, Camera&) override;
+	virtual CameraState* Update(Camera& camera) override;
+	virtual CameraState* HandleInput(Camera& camera, Input& input) override;
+	virtual CameraState* Capture(float x, float y, Camera& camera) override;
 
 };
 
@@ -151,13 +152,13 @@ public:
 	CameraMovingDownwardState();
 	virtual ~CameraMovingDownwardState();
 
-	virtual void Exit(Camera&) override;
-	virtual void Enter(Camera&) override;
-	virtual void Render(Camera&) override;
+	virtual void Exit(Camera& camera) override;
+	virtual void Enter(Camera& camera) override;
+	virtual void Render(Camera& camera) override;
 
-	virtual CameraState* Update(Camera&) override;
-	virtual CameraState* HandleInput(Camera&, Input&) override;
-	virtual CameraState* Capture(FLOAT, FLOAT, Camera&) override;
+	virtual CameraState* Update(Camera& camera) override;
+	virtual CameraState* HandleInput(Camera& camera, Input& input) override;
+	virtual CameraState* Capture(float x, float y, Camera& camera) override;
 
 };
 
@@ -170,13 +171,13 @@ public:
 	CameraMovingBackwardState();
 	virtual ~CameraMovingBackwardState();
 
-	virtual void Exit(Camera&) override;
-	virtual void Enter(Camera&) override;
-	virtual void Render(Camera&) override;
+	virtual void Exit(Camera& camera) override;
+	virtual void Enter(Camera& camera) override;
+	virtual void Render(Camera& camera) override;
 
-	virtual CameraState* Update(Camera&) override;
-	virtual CameraState* HandleInput(Camera&, Input&) override;
-	virtual CameraState* Capture(FLOAT, FLOAT, Camera&) override;
+	virtual CameraState* Update(Camera& camera) override;
+	virtual CameraState* HandleInput(Camera& camera, Input& input) override;
+	virtual CameraState* Capture(float x, float y, Camera& camera) override;
 
 };
 

@@ -14,18 +14,21 @@ class Letter : public Entity, public HasTextures<Letter>, public HasSprites<Lett
 public:
 
 	virtual ~Letter();
-	Letter(std::string);
+	Letter(std::string_view codeName);
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
-	static FLOAT letterW;
-	static FLOAT letterH;
-	 std::string letterSpriteId;
+	static float letterW;
+	static float letterH;
+
+protected:
+
+	std::string _letterSpriteId;
 
 };
 
@@ -37,12 +40,12 @@ public:
 
 	virtual ~Text();
 	virtual void Render();
-	Text(std::string, FLOAT, FLOAT);
-	Text(std::vector<std::string>, FLOAT, FLOAT);
+	Text(std::string_view text, float bottom, float left);
+	Text(const std::vector<std::string>& textList, float bottom, float left);
 
 protected:
 
-	std::list<Letter> letters;
+	std::vector<Letter> _letters;
 
 };
 

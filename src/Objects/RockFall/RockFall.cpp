@@ -3,76 +3,68 @@
 
 RockFall::RockFall() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
-	this->_timedelayToFall = 70;
+	this->_timeDelayToFall = Constants::Enemies::RockFall::DELAY_TO_FALL_FRAMES;
 
-	this->vx = 1.0f;
-	this->vy = 1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
-	this->position.x = 0;
-	this->position.y = 0;
-	this->name = L"RockFall\n";
+	this->_vx = Constants::Physics::DEFAULT_INITIAL_VELOCITY_X;
+	this->_vy = Constants::Physics::DEFAULT_INITIAL_VELOCITY_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_position.x = Constants::Enemies::RockFall::DEFAULT_SPAWN_X;
+	this->_position.y = Constants::Enemies::RockFall::DEFAULT_SPAWN_Y;
+	this->SetDebugName(L"RockFall\n");
 
-	this->updateState = NULL;
-	this->handleInputState = NULL;
+	this->_updateState = nullptr;
+	this->_handleInputState = nullptr;
 	// set direction default is right
-	this->movingDirection = DIRECTION::RIGHT;
+	this->_movingDirection = DIRECTION::RIGHT;
 	// set state begin is run
-	this->state = new RockFallNormalState();
+	this->_state = new RockFallNormalState();
 
-	this->hitCounts = 8;
-	this->enemyType = ENEMY_TYPE::MACHINE;
+	this->_hitCounts = Constants::Enemies::RockFall::HEALTH_POINTS;
+	this->_enemyType = ENEMY_TYPE::MACHINE;
 
-	CollidableEntity::self = this;
+	CollidableEntity::_self = this;
 }
 
 RockFall::~RockFall()
 {
-	Destroy(state);
-	Destroy(updateState);
-	Destroy(handleInputState);
+	Destroy(this->_state);
+	Destroy(this->_updateState);
+	Destroy(this->_handleInputState);
 
-	_timedelayToFall = NULL;
+	this->_timeDelayToFall = 0.0f;
 }
 
 void RockFall::Update()
 {
-	updateState = state->Update(*this);
+	DeferState(this->_updateState, this->_state->Update(*this));
+
+	ApplyDeferredState(this->_state, this->_updateState, this);
+	ApplyDeferredState(this->_state, this->_handleInputState, this);
 }
 
 void RockFall::Render()
 {
-	state->Render(*this);
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
-
-	if (updateState)
-	{
-		ChangeState(state, updateState, this);
-		updateState = NULL;
-	}
-	if (handleInputState)
-	{
-		ChangeState(state, handleInputState, this);
-		handleInputState = NULL;
-	}
+	this->_state->Render(*this);
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
 }
 
 void RockFall::HandleInput(Input& input)
 {
-	handleInputState = state->HandleInput(*this, input);
+	DeferState(this->_handleInputState, this->_state->HandleInput(*this, input));
 }
 
-void InsertSpriteRockFall(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
+void InsertSpriteRockFall(SPRITE_ID spriteId, int left, int top, int right, int bottom)
 {
-	// i write this function to shorten the fuction: GraphicsHelper
+	// i write this function to shorten the function: GraphicsHelper
 	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, DIRECTION::RIGHT, ROCK_FALL_TEXTURE_ID::ROCK_FALL);
 }
 
 void RockFall::LoadSprites()
 {
-	if (HasSprites<RockFall>::hasBeenLoaded.value) return;
-	HasSprites<RockFall>::hasBeenLoaded.value = true;
+	if (HasSprites<RockFall>::_hasBeenLoaded) return;
+	HasSprites<RockFall>::_hasBeenLoaded = true;
 
 #pragma region Load Sprites
 
@@ -91,26 +83,26 @@ void RockFall::LoadSprites()
 
 void RockFall::LoadTextures()
 {
-	if (HasTextures<RockFall>::hasBeenLoaded.value) return;
-	HasTextures<RockFall>::hasBeenLoaded.value = true;
+	if (HasTextures<RockFall>::_hasBeenLoaded) return;
+	HasTextures<RockFall>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertTexure(ROCK_FALL_TEXTURE_ID::ROCK_FALL, L"Resources\\Textures\\RockFall.bmp");
+	GraphicsHelper::InsertTexture(ROCK_FALL_TEXTURE_ID::ROCK_FALL, L"Resources\\Textures\\RockFall.bmp");
 
 	OutputDebugString(L"RockFall Textures Loaded Successfully\n");
 }
 
 void RockFall::LoadAnimations()
 {
-	if (HasAnimations<RockFall>::hasBeenLoaded.value) return;
-	HasAnimations<RockFall>::hasBeenLoaded.value = true;
+	if (HasAnimations<RockFall>::_hasBeenLoaded) return;
+	HasAnimations<RockFall>::_hasBeenLoaded = true;
 
 #pragma region Load Animations
 
-	GraphicsHelper::InsertAnimation(ROCK_FALL_ANIMATION_ID::NORMAL, 150,
+	GraphicsHelper::InsertAnimation(ROCK_FALL_ANIMATION_ID::NORMAL, Constants::Enemies::RockFall::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{ROCK_FALL_SPRITE_ID::NORMAL_01,0},
 		});
-	GraphicsHelper::InsertAnimation(ROCK_FALL_ANIMATION_ID::FALL, 150,
+	GraphicsHelper::InsertAnimation(ROCK_FALL_ANIMATION_ID::FALL, Constants::Enemies::RockFall::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{ROCK_FALL_SPRITE_ID::FALL_01,0},
 			{ROCK_FALL_SPRITE_ID::FALL_02,0},
@@ -135,27 +127,26 @@ void RockFall::DynamicResolveNoCollision()
 
 void RockFall::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 {
-	auto    terrainBlock  = dynamic_cast<TerrainBlock*>(aabbSweepResult.surfaceEntity);
-	if     (terrainBlock)
-	switch (terrainBlock->type)
+	if (!aabbSweepResult.surfaceEntity)
+		return;
+
+	TERRAIN_BLOCK_TYPE terrainType = aabbSweepResult.surfaceEntity->GetTerrainType();
+	switch (terrainType)
 	{
 
 	case TERRAIN_BLOCK_TYPE::THROUGHABLE:
 	{
 		if (aabbSweepResult.normalY == +1.0f)
 		{
-			if (alreadyCollidedWithEntities.find(terrainBlock) == alreadyCollidedWithEntities.end())
+			if (this->_alreadyCollidedWithEntities.find(aabbSweepResult.surfaceEntity) == this->_alreadyCollidedWithEntities.end())
 			{
-				Sound::getInstance()->play("stonefailing", false, 1);
-				position.y += aabbSweepResult.enTime * vy;
-				vy = +1.5f;
-				ay = -0.1f;
-				bouncedBack = 1;
-				alreadyCollidedWithEntities.insert(terrainBlock);
+				Sound::GetInstance()->Play("stonefailing", false, 1);
+				this->_position.y += aabbSweepResult.enTime * this->_vy;
+				this->_vy = +Constants::Enemies::RockFall::BOUNCE_REBOUND_VELOCITY_Y;
+				this->_ay = Constants::Enemies::RockFall::BOUNCE_REBOUND_ACCELERATION_Y;
+				this->_bouncedBack = true;
+				this->_alreadyCollidedWithEntities.insert(aabbSweepResult.surfaceEntity);
 			}
-		}
-		else
-		{
 		}
 		return;
 	}
@@ -165,17 +156,14 @@ void RockFall::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	{
 		if (aabbSweepResult.normalY == +1.0f)
 		{
-			if (alreadyCollidedWithEntities.find(terrainBlock) == alreadyCollidedWithEntities.end())
+			if (this->_alreadyCollidedWithEntities.find(aabbSweepResult.surfaceEntity) == this->_alreadyCollidedWithEntities.end())
 			{
-				position.y += aabbSweepResult.enTime * vy;
-				vy = +1.5f;
-				ay = -0.1f;
-				bouncedBack = 1;
-				alreadyCollidedWithEntities.insert(terrainBlock);
+				this->_position.y += aabbSweepResult.enTime * this->_vy;
+				this->_vy = +Constants::Enemies::RockFall::BOUNCE_REBOUND_VELOCITY_Y;
+				this->_ay = Constants::Enemies::RockFall::BOUNCE_REBOUND_ACCELERATION_Y;
+				this->_bouncedBack = true;
+				this->_alreadyCollidedWithEntities.insert(aabbSweepResult.surfaceEntity);
 			}
-		}
-		else
-		{
 		}
 		return;
 	}

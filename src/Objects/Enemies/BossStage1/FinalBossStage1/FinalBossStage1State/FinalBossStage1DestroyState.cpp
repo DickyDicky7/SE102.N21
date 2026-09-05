@@ -2,7 +2,7 @@
 
 FinalBossStage1DestroyState::FinalBossStage1DestroyState()
 {
-	isDestroy = false;
+	this->_isDestroy = false;
 };
 
 FinalBossStage1DestroyState::~FinalBossStage1DestroyState()
@@ -20,32 +20,32 @@ void FinalBossStage1DestroyState::Enter(FinalBossStage1&)
 
 }
 
-void FinalBossStage1DestroyState::Render(FinalBossStage1& finalBoss)
+void FinalBossStage1DestroyState::Render(FinalBossStage1& finalBossStage1)
 {
-	if (!isDestroy)
+	if (!this->_isDestroy)
 	{
-		finalBoss.SetAnimation(EXPLOSION_ANIMATION_ID::TYPE_3, finalBoss.GetPosition(), finalBoss.GetMovingDirection(), finalBoss.GetAngle());
+		finalBossStage1.SetAnimation(EXPLOSION_ANIMATION_ID::TYPE_3, finalBossStage1.GetPosition(), finalBossStage1.GetMovingDirection(), finalBossStage1.GetAngle());
 		return;
 	}
 
-	finalBoss.SetAnimation(BOSS_STAGE_1_ANIMATION_ID::FINAL_BOSS_DESTROY, finalBoss.GetPosition(), finalBoss.GetMovingDirection(), finalBoss.GetAngle());
+	finalBossStage1.SetAnimation(BOSS_STAGE_1_ANIMATION_ID::FINAL_BOSS_DESTROY, finalBossStage1.GetPosition(), finalBossStage1.GetMovingDirection(), finalBossStage1.GetAngle());
 }
 
-FinalBossStage1State* FinalBossStage1DestroyState::Update(FinalBossStage1& finalBoss)
+FinalBossStage1State* FinalBossStage1DestroyState::Update(FinalBossStage1& finalBossStage1)
 {
-	if (isDestroy)
+	if (this->_isDestroy)
 	{
-		return NULL;
+		return nullptr;
 	}
 
 	std::vector<std::tuple<SPRITE_ID, TIME>>& frames = std::get<
 		std::vector<std::tuple<SPRITE_ID, TIME>>>(GraphicsDatabase::animations[EXPLOSION_ANIMATION_ID::TYPE_3]);
 
-	if (std::cmp_greater_equal(finalBoss.GetCurrentFrame() + 1, frames.size()))
+	if (std::cmp_greater_equal(finalBossStage1.GetCurrentFrame() + 1, frames.size()))
 	{
-		finalBoss.SetX(finalBoss.GetX() + 37.4f);
-		finalBoss.SetY(finalBoss.GetY() - 8.0f);
-		isDestroy = true;
+		finalBossStage1.SetX(finalBossStage1.GetX() + Constants::Enemies::BossStage1::FinalBoss::DESTROY_POSITION_OFFSET_X);
+		finalBossStage1.SetY(finalBossStage1.GetY() + Constants::Enemies::BossStage1::FinalBoss::DESTROY_POSITION_OFFSET_Y);
+		this->_isDestroy = true;
 	}
-	return NULL;
+	return nullptr;
 }

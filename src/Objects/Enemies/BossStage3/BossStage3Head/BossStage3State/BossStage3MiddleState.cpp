@@ -2,13 +2,13 @@
 
 BossStage3MiddleState::BossStage3MiddleState(BOSS_STAGE_3_ANIMATION_ID nextState) : BossStage3State()
 {
-	delayTime = 20;
-	this->nextState = nextState;
+	this->_delayTime = Constants::Enemies::BossStage3::Head::MIDDLE_STATE_DELAY_FRAMES;
+	this->_nextState = nextState;
 }
 
 BossStage3MiddleState::~BossStage3MiddleState()
 {
-	delayTime = NULL;
+	this->_delayTime = 0;
 }
 
 
@@ -27,17 +27,17 @@ void BossStage3MiddleState::Render(BossStage3& bossStage3)
 
 BossStage3State* BossStage3MiddleState::Update(BossStage3& bossStage3)
 {
-	if (--delayTime == 0) {
-		if (nextState == BOSS_STAGE_3_ANIMATION_ID::CLOSE) {
+	if (--this->_delayTime == 0) {
+		if (this->_nextState == BOSS_STAGE_3_ANIMATION_ID::CLOSE) {
 			return new BossStage3CloseState();
 		}
-		else if (nextState == BOSS_STAGE_3_ANIMATION_ID::OPEN) {
+		else if (this->_nextState == BOSS_STAGE_3_ANIMATION_ID::OPEN) {
 			return new BossStage3OpenState();
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 BossStage3State* BossStage3MiddleState::HandleInput(BossStage3& bossStage3, Input& input)
 {
-	return NULL;
+	return nullptr;
 }

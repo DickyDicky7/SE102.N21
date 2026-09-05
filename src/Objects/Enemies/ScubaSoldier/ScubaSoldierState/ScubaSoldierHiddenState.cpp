@@ -24,7 +24,7 @@ void ScubaSoldierHiddenState::Render(ScubaSoldier& scubaSoldier)
 
 ScubaSoldierState* ScubaSoldierHiddenState::Update(ScubaSoldier& scubaSoldier)
 {
-	return NULL;
+	return nullptr;
 }
 
 ScubaSoldierState* ScubaSoldierHiddenState::HandleInput(ScubaSoldier& scubaSoldier, Input& input)
@@ -34,5 +34,5 @@ ScubaSoldierState* ScubaSoldierHiddenState::HandleInput(ScubaSoldier& scubaSoldi
 		return new ScubaSoldierShootingState();
 	}
 
-	return NULL;
+	return nullptr;
 }

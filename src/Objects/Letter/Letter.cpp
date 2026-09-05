@@ -1,9 +1,11 @@
 #include "Letter.h"
 #include "tileson.hpp"
 
-Letter::Letter(std::string codeName) : Entity(), HasTextures(), HasSprites(), HasAnimations()
+Letter::Letter(std::string_view codeName) : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
-	letterSpriteId = "Letter Sprite " + codeName;
+	this->_letterSpriteId.reserve(Constants::Objects::Letter::LETTER_SPRITE_ID_RESERVE_CAPACITY + codeName.size());
+	this->_letterSpriteId.append("Letter Sprite ");
+	this->_letterSpriteId.append(codeName);
 }
 
 Letter::~Letter()
@@ -16,7 +18,7 @@ void Letter::Update()
 
 void Letter::Render()
 {
-	GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[LETTER_SPRITE_ID(letterSpriteId)], position, movingDirection, angle);
+	GraphicsHelper::DrawSprite(GraphicsDatabase::sprites[LETTER_SPRITE_ID(this->_letterSpriteId)], this->_position, this->_movingDirection, this->_angle);
 }
 
 void Letter::HandleInput(Input& input)
@@ -25,8 +27,8 @@ void Letter::HandleInput(Input& input)
 
 void Letter::LoadSprites()
 {
-	if (HasSprites<Letter>::hasBeenLoaded.value) return;
-	HasSprites<Letter>::hasBeenLoaded.value = true;
+	if (HasSprites<Letter>::_hasBeenLoaded) return;
+	HasSprites<Letter>::_hasBeenLoaded = true;
 
 	tson::Tileson tileson;
 	auto  map     = tileson.parse(fs::path("Resources/Fonts/Font1.json"));
@@ -55,32 +57,32 @@ void Letter::LoadSprites()
 	}
 
 	auto& tileSize  = tileset.getTileSize();
-	Letter::letterW = FLOAT(tileSize.x);
-	Letter::letterH = FLOAT(tileSize.y);
+	Letter::letterW = static_cast<float>(tileSize.x);
+	Letter::letterH = static_cast<float>(tileSize.y);
 
 	OutputDebugString(L"Letter Sprites Loaded Successfully\n");
 }
 
 void Letter::LoadTextures()
 {
-	if (HasTextures<Letter>::hasBeenLoaded.value) return;
-	HasTextures<Letter>::hasBeenLoaded.value = true;
+	if (HasTextures<Letter>::_hasBeenLoaded) return;
+	HasTextures<Letter>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertTexure(LETTER_TEXTURE_ID("Letter Texture 001"), L"Resources\\Textures\\Font1.bmp");
+	GraphicsHelper::InsertTexture(LETTER_TEXTURE_ID("Letter Texture 001"), L"Resources\\Textures\\Font1.bmp");
 
 	OutputDebugString(L"Letter Textures Loaded Successfully\n");
 }
 
 void Letter::LoadAnimations()
 {
-	if (HasAnimations<Letter>::hasBeenLoaded.value) return;
-	HasAnimations<Letter>::hasBeenLoaded.value = true;
+	if (HasAnimations<Letter>::_hasBeenLoaded) return;
+	HasAnimations<Letter>::_hasBeenLoaded = true;
 
 	OutputDebugString(L"Letter Animations Loaded Successfully\n");
 }
 
-FLOAT Letter::letterW;
-FLOAT Letter::letterH;
+float Letter::letterW = Constants::Objects::Letter::WIDTH;
+float Letter::letterH = Constants::Objects::Letter::HEIGHT;
 
 
 Text::~Text()
@@ -89,24 +91,28 @@ Text::~Text()
 
 void Text::Render()
 {
-	for (auto& letter : letters) letter.Render();
+	for (auto& letter : this->_letters) letter.Render();
 }
 
-Text::Text(std::string letters, FLOAT bottom, FLOAT left)
+Text::Text(std::string_view text, float bottom, float left)
 {
-	for (int i = 0, k = 1; std::cmp_less(i, letters.size()); ++i, ++k)
+	this->_letters.reserve(text.size());
+	int k = 1;
+	for (int i = 0; std::cmp_less(i, text.size()); ++i, ++k)
 	{
-		Letter letter(std::string(1, letters[i])); letter.SetX(left + (i + k) * 0.5f * Letter::letterW); letter.SetY(bottom);
-		this->letters.push_back(letter);
+		Letter letter(std::string_view(&text[i], 1)); letter.SetX(left + (i + k) * Constants::Objects::Letter::SPACING_RATIO * Letter::letterW); letter.SetY(bottom);
+		this->_letters.push_back(std::move(letter));
 	}
 }
 
-Text::Text(std::vector<std::string> letters, FLOAT bottom, FLOAT left)
+Text::Text(const std::vector<std::string>& textList, float bottom, float left)
 {
-	for (int i = 0, k = 1; std::cmp_less(i, letters.size()); ++i, ++k)
+	this->_letters.reserve(textList.size());
+	int k = 1;
+	for (int i = 0; std::cmp_less(i, textList.size()); ++i, ++k)
 	{
-		Letter letter(letters[i]); letter.SetX(left + (i + k) * 0.5f * Letter::letterW); letter.SetY(bottom);
-		this->letters.push_back(letter);
+		Letter letter(textList[i]); letter.SetX(left + (i + k) * Constants::Objects::Letter::SPACING_RATIO * Letter::letterW); letter.SetY(bottom);
+		this->_letters.push_back(std::move(letter));
 	}
 }
 

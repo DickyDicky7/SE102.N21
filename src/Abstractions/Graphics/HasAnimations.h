@@ -13,30 +13,30 @@ public:
 	HasAnimations();
 	virtual ~HasAnimations();
 
-	virtual INT GetCurrentFrame() const;
-	virtual FLOAT GetCurrentFrameW() const;
-	virtual FLOAT GetCurrentFrameH() const;
+	virtual int GetCurrentFrame() const;
+	virtual float GetCurrentFrameW() const;
+	virtual float GetCurrentFrameH() const;
 
-	virtual void SetAnimation(ANIMATION_ID, D3DXVECTOR3, DIRECTION, FLOAT);
+	virtual void SetAnimation(const ANIMATION_ID& animationId, D3DXVECTOR3 position, DIRECTION movingDirection, float angle);
 	virtual void LoadAnimations()									   = 0;
 
 protected:
 
-	INT currentFrame;
-	FLOAT currentFrameW;
-	FLOAT currentFrameH;
-	ULONGLONG lastFrameTime;
-	static Bool<T> hasBeenLoaded;
+	int _currentFrame;
+	float _currentFrameW;
+	float _currentFrameH;
+	ULONGLONG _lastFrameTime;
+	static inline bool _hasBeenLoaded = false;
 
 };
 
 template <class T>
 inline HasAnimations<T>::HasAnimations()
 {
-	currentFrame  = -1	 ;
-	currentFrameW = +0.0f;
-	currentFrameH = +0.0f;
-	lastFrameTime = -1	 ;
+	this->_currentFrame  = -1	 ;
+	this->_currentFrameW = +0.0f;
+	this->_currentFrameH = +0.0f;
+	this->_lastFrameTime = +0	 ;
 }
 
 template <class T>
@@ -45,58 +45,60 @@ inline HasAnimations<T>::~HasAnimations()
 }
 
 template <class T>
-inline INT HasAnimations<T>::GetCurrentFrame() const
+inline int HasAnimations<T>::GetCurrentFrame() const
 {
-	return currentFrame;
+	return this->_currentFrame;
 }
 
 template <class T>
-inline FLOAT HasAnimations<T>::GetCurrentFrameW() const
+inline float HasAnimations<T>::GetCurrentFrameW() const
 {
-	return currentFrameW;
+	return this->_currentFrameW;
 }
 
 template <class T>
-inline FLOAT HasAnimations<T>::GetCurrentFrameH() const
+inline float HasAnimations<T>::GetCurrentFrameH() const
 {
-	return currentFrameH;
+	return this->_currentFrameH;
 }
 
 template <class T>
-inline void HasAnimations<T>::SetAnimation(ANIMATION_ID animationId, D3DXVECTOR3 position, DIRECTION movingDirection, FLOAT angle)
+inline void HasAnimations<T>::SetAnimation(const ANIMATION_ID& animationId, D3DXVECTOR3 position, DIRECTION movingDirection, float angle)
 {
 	ULONGLONG now = GetTickCount64();
-	std::vector<std::tuple<SPRITE_ID, TIME>>& frames = std::get<
-	std::vector<std::tuple<SPRITE_ID, TIME>>>(GraphicsDatabase::animations[animationId]);
+	auto animIt = GraphicsDatabase::animations.find(animationId);
+	if (animIt == GraphicsDatabase::animations.end()) return;
 
-	if (currentFrame == -1 || std::cmp_greater_equal(currentFrame, frames.size()))
+	std::vector<std::tuple<SPRITE_ID, TIME>>& frames = std::get<
+		std::vector<std::tuple<SPRITE_ID, TIME>>>(animIt->second);
+
+	// A registered animation with no frames would otherwise reach frames[0]
+	// below: the clamp underneath resets _currentFrame to 0 rather than leaving
+	// it out of range, so an empty vector is the one size it cannot make safe.
+	if (frames.empty()) return;
+
+	if (this->_currentFrame == -1 || std::cmp_greater_equal(this->_currentFrame, frames.size()))
 	{
-		currentFrame = 0;
-		lastFrameTime = now;
+		this->_currentFrame = 0;
+		this->_lastFrameTime = now;
 	}
 	else
 	{
-		if (now - lastFrameTime > std::get<TIME>(frames[currentFrame]))
+		if (now - this->_lastFrameTime > std::get<TIME>(frames[this->_currentFrame]))
 		{
-			currentFrame++;
-			lastFrameTime = now;
-			if (std::cmp_greater_equal(currentFrame, frames.size())) currentFrame = 0;
+			this->_currentFrame++;
+			this->_lastFrameTime = now;
+			if (std::cmp_greater_equal(this->_currentFrame, frames.size())) this->_currentFrame = 0;
 		}
 	}
 
-	SPRITE& currentSprite = GraphicsDatabase::sprites[std::get<SPRITE_ID>(frames[currentFrame])];
-	RECT* rect = std::get<RECT*>(currentSprite);
-	if (rect)
-	{
-		currentFrameW = (FLOAT)(rect->right  - rect->left);
-		currentFrameH = (FLOAT)(rect->bottom - rect->top );
-	}
+	auto spriteIt = GraphicsDatabase::sprites.find(std::get<SPRITE_ID>(frames[this->_currentFrame]));
+	if (spriteIt == GraphicsDatabase::sprites.end()) return;
+
+	SPRITE& currentSprite = spriteIt->second;
+	const RECT& rect = std::get<RECT>(currentSprite);
+	this->_currentFrameW = static_cast<float>(rect.right  - rect.left);
+	this->_currentFrameH = static_cast<float>(rect.bottom - rect.top );
 
 	GraphicsHelper::DrawSprite(currentSprite, position, movingDirection, angle);
 }
-
-template <class T>
-Bool<T> HasAnimations<T>::hasBeenLoaded
-{
-	false
-};

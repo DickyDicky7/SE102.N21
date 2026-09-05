@@ -1,288 +1,247 @@
 #include "QuadTreeNode.h"
+#include <algorithm>
 
+QuadTreeNode::QuadTreeNode()
+	: x(0.0f), y(0.0f), w(0.0f), h(0.0f)
+	, nodes{ nullptr, nullptr, nullptr, nullptr }
+	, _tlas(std::make_unique<Space::TLAS>())
+{
+}
+
+QuadTreeNode::QuadTreeNode(float x, float y, float w, float h)
+	: x(x), y(y), w(w), h(h)
+	, nodes{ nullptr, nullptr, nullptr, nullptr }
+	, _tlas(std::make_unique<Space::TLAS>())
+{
+}
+
+QuadTreeNode::~QuadTreeNode()
+{
+	this->Clear();
+}
 
 void QuadTreeNode::Clear()
 {
-	for (int i = 0; i <= 3; i++) if (this->nodes[i]) this->nodes[i]->Clear(), Destroy(this->nodes[i]);
+	if (this->_tlas)
+	{
+		this->_tlas->Clear();
+	}
+	for (int i = 0; i < 4; ++i)
+	{
+		if (this->nodes[i])
+		{
+			delete this->nodes[i];
+			this->nodes[i] = nullptr;
+		}
+	}
 	this->entities.clear();
 }
 
 void QuadTreeNode::Clean()
 {
-	for (int i = 0; i <= 3; i++) if (this->nodes[i]) this->nodes[i]->Clean(), Destroy(this->nodes[i]);
-	for (auto& entity : entities) Destroy(entity);
+	if (this->_tlas)
+	{
+		this->_tlas->Clean();
+	}
+	else
+	{
+		for (auto& entity : this->entities)
+		{
+			Destroy(entity);
+		}
+	}
+	for (int i = 0; i < 4; ++i)
+	{
+		if (this->nodes[i])
+		{
+			this->nodes[i]->Clean();
+			delete this->nodes[i];
+			this->nodes[i] = nullptr;
+		}
+	}
 	this->entities.clear();
 }
 
 void QuadTreeNode::Insert(Entity* entity)
 {
-	if (this->Contain(entity))
+	if (!entity)
 	{
-		if (this->IsSmallestNode())
-		{
-			this->entities.push_back(entity);
-			return;
-		}
+		return;
+	}
 
-		this->entities.push_back(entity);
-
-		if (this->entities.size() > MAX)
-		{
-			if (!this->nodes[0]) this->nodes[0] = new QuadTreeNode{ this->x                 , this->y                 , this->w * 0.5f, this->h * 0.5f };
-			if (!this->nodes[1]) this->nodes[1] = new QuadTreeNode{ this->x + this->w * 0.5f, this->y                 , this->w * 0.5f, this->h * 0.5f };
-			if (!this->nodes[2]) this->nodes[2] = new QuadTreeNode{ this->x + this->w * 0.5f, this->y + this->h * 0.5f, this->w * 0.5f, this->h * 0.5f };
-			if (!this->nodes[3]) this->nodes[3] = new QuadTreeNode{ this->x                 , this->y + this->h * 0.5f, this->w * 0.5f, this->h * 0.5f };
-
-			std::list<Entity*> movedEntities;
-
-			for (auto& _entity : entities)
-			{
-				for (int i = 0; i <= 3; i++)
-				{
-					if (this->nodes[i]->Contain(_entity))
-					{
-						movedEntities.push_back(_entity);
-						this->nodes[i]->Insert (_entity);
-						break;
-					}
-				}
-			}
-
-			for (auto& movedEntity : movedEntities)
-			{
-				this->entities.remove(movedEntity);
-			}
-		}
+	this->entities.push_back(entity);
+	if (this->_tlas)
+	{
+		this->_tlas->Insert(entity);
 	}
 }
 
-void QuadTreeNode::Remove(Entity* entity) // THIS METHOD IS STILL UNDER EXPERIMENTS
+void QuadTreeNode::Remove(Entity* entity)
 {
-	if (this->Contain(entity))
+	if (!entity)
 	{
-		if (this->entities.remove(entity) > 0) return;
-		for (int i = 0; i <= 3; i++)
-		{
-			if (this->nodes[i] && this->nodes[i]->Contain(entity))
-			{
-				this->nodes[i]->Remove(entity);
-				return;
-			}
-		}
+		return;
+	}
+
+	std::erase(this->entities, entity);
+	if (this->_tlas)
+	{
+		this->_tlas->Remove(entity);
 	}
 }
 
-
-BOOL QuadTreeNode::Contain(Entity* entity)
+bool QuadTreeNode::Contain(Entity* entity)
 {
+	if (!entity) return false;
 	return entity->GetB() >= this->GetB()
 		&& entity->GetT() <= this->GetT()
 		&& entity->GetL() >= this->GetL()
-		&& entity->GetR() <= this->GetR()
-		;
+		&& entity->GetR() <= this->GetR();
 }
 
-BOOL QuadTreeNode::Contain(Camera* camera)
+bool QuadTreeNode::Contain(Camera* camera)
 {
+	if (!camera) return false;
 	return camera->GetB() >= this->GetB()
 		&& camera->GetT() <= this->GetT()
 		&& camera->GetL() >= this->GetL()
-		&& camera->GetR() <= this->GetR()
-		;
+		&& camera->GetR() <= this->GetR();
 }
 
-BOOL QuadTreeNode::Contain(BoundingBox boundingBox)
+bool QuadTreeNode::Contain(BoundingBox boundingBox)
 {
 	return boundingBox.B >= this->GetB()
 		&& boundingBox.T <= this->GetT()
 		&& boundingBox.L >= this->GetL()
-		&& boundingBox.R <= this->GetR()
-		;
+		&& boundingBox.R <= this->GetR();
 }
 
-BOOL QuadTreeNode::Intersect(Entity* entity)
+bool QuadTreeNode::Intersect(Entity* entity)
 {
+	if (!entity) return false;
 	return !(entity->GetB() >= this->GetT()
 		||   entity->GetT() <= this->GetB()
 		||   entity->GetL() >= this->GetR()
-		||   entity->GetR() <= this->GetL())
-		;
+		||   entity->GetR() <= this->GetL());
 }
 
-BOOL QuadTreeNode::Intersect(Camera* camera)
+bool QuadTreeNode::Intersect(Camera* camera)
 {
+	if (!camera) return false;
 	return !(camera->GetB() >= this->GetT()
 		||   camera->GetT() <= this->GetB()
 		||   camera->GetL() >= this->GetR()
-		||   camera->GetR() <= this->GetL())
-		;
+		||   camera->GetR() <= this->GetL());
 }
 
-BOOL QuadTreeNode::Intersect(BoundingBox boundingBox)
+bool QuadTreeNode::Intersect(BoundingBox boundingBox)
 {
 	return !(boundingBox.B >= this->GetT()
-		||	 boundingBox.T <= this->GetB()
-		||	 boundingBox.L >= this->GetR()
-		||   boundingBox.R <= this->GetL())
-		;
+		||   boundingBox.T <= this->GetB()
+		||   boundingBox.L >= this->GetR()
+		||   boundingBox.R <= this->GetL());
 }
 
-
-void QuadTreeNode::Retrieve(Entity* entity, FLOAT rx, FLOAT ry, std::unordered_map<Entity*, QuadTreeNode*>& result)
+void QuadTreeNode::Retrieve(Entity* entity, float rx, float ry, std::unordered_map<Entity*, QuadTreeNode*>& result)
 {
-	this->Retrieve({ entity->GetB() - ry, entity->GetT() + ry, entity->GetL() - rx, entity->GetR() + rx }, result);
+	if (!entity || !this->_tlas) return;
+	const Space::AABB box = Space::AABB::FromEntity(entity).Expand(rx, ry);
+	this->_tlas->QueryAABB(box, [&](Entity* found) {
+		result.insert({ found, this });
+	});
 }
 
 void QuadTreeNode::Retrieve(Camera* camera, std::unordered_map<Entity*, QuadTreeNode*>& result)
 {
-	this->Retrieve({ camera->GetB(), camera->GetT(), camera->GetL(), camera->GetR() }, result);
+	if (!camera || !this->_tlas) return;
+	this->_tlas->QueryFrustum(camera, [&](Entity* found) {
+		result.insert({ found, this });
+	});
 }
 
 void QuadTreeNode::Retrieve(BoundingBox boundingBox, std::unordered_map<Entity*, QuadTreeNode*>& result)
 {
-	if (this->Contain(boundingBox))
-	{
-		if (this->IsSmallestNode())
-		{
-			for (auto& entity : entities)
-			{
-				if (boundingBox.Intersect(entity))
-				{
-					result.insert({ entity, this });
-				}
-			}
-			return;
-		}
-
-		for (auto& entity : entities)
-		{
-			if (boundingBox.Intersect(entity))
-			{
-				result.insert({ entity, this });
-			}
-		}
-
-		for (int i = 0; i <= 3; i++)
-		{
-			if (this->nodes[i] && this->nodes[i]->Contain(boundingBox))
-			{
-				this->nodes[i]->Retrieve(boundingBox, result);
-				return;
-			}
-		}
-
-		for (int i = 0; i <= 3; i++)
-		{
-			if (this->nodes[i] && this->nodes[i]->Intersect(boundingBox))
-			{
-				this->nodes[i]->Retrieve(boundingBox.CalcIntersection(this), result);
-			}
-		}
-	}
-	else
-	if (this->Intersect(boundingBox))
-	{
-		if (this->IsSmallestNode())
-		{
-			for (auto& entity : entities)
-			{
-				if (boundingBox.Intersect(entity))
-				{
-					result.insert({ entity, this });
-				}
-			}
-			return;
-		}
-
-		for (auto& entity : entities)
-		{
-			if (boundingBox.Intersect(entity))
-			{
-				result.insert({ entity, this });
-			}
-		}
-
-		for (int i = 0; i <= 3; i++)
-		{
-			if (this->nodes[i] && this->nodes[i]->Intersect(boundingBox))
-			{
-				this->nodes[i]->Retrieve(boundingBox.CalcIntersection(this), result);
-			}
-		}
-	}
+	if (!this->_tlas) return;
+	const Space::AABB box(boundingBox.L, boundingBox.B, boundingBox.R, boundingBox.T);
+	this->_tlas->QueryAABB(box, [&](Entity* found) {
+		result.insert({ found, this });
+	});
 }
 
+void QuadTreeNode::Retrieve(const Space::AABB& box, std::vector<Entity*>& result)
+{
+	if (!this->_tlas) return;
+	this->_tlas->QueryAABB(box, [&](Entity* found) {
+		result.push_back(found);
+	});
+}
 
-FLOAT QuadTreeNode::GetB() const
+void QuadTreeNode::Retrieve(const Camera* camera, std::vector<Entity*>& result)
+{
+	if (!camera || !this->_tlas) return;
+	this->_tlas->QueryFrustum(camera, [&](Entity* found) {
+		result.push_back(found);
+	});
+}
+
+float QuadTreeNode::GetB() const
 {
 	return this->y;
 }
 
-FLOAT QuadTreeNode::GetT() const
+float QuadTreeNode::GetT() const
 {
 	return this->y + this->h;
 }
 
-FLOAT QuadTreeNode::GetL() const
+float QuadTreeNode::GetL() const
 {
 	return this->x;
 }
 
-FLOAT QuadTreeNode::GetR() const
+float QuadTreeNode::GetR() const
 {
 	return this->x + this->w;
 }
 
-BOOL QuadTreeNode::IsSmallestNode() const
+bool QuadTreeNode::IsSmallestNode() const
 {
-	return this->w == NODE_SMALLEST_W
-		&& this->h == NODE_SMALLEST_H;
+	return this->w <= Constants::Physics::QUADTREE_NODE_SMALLEST_WIDTH
+		&& this->h <= Constants::Physics::QUADTREE_NODE_SMALLEST_HEIGHT;
 }
 
-QuadTreeNode* QuadTreeNode::New(FLOAT x, FLOAT y, FLOAT w, FLOAT h)
+QuadTreeNode* QuadTreeNode::New(float x, float y, float w, float h)
 {
-	QuadTreeNode* newNode = new QuadTreeNode();
-	newNode->w = NODE_SMALLEST_W;
-	newNode->h = NODE_SMALLEST_H;
-	newNode->x = x;
-	newNode->y = y;
-	while (newNode->w < w 
-	||     newNode->h < h) 
+	return new QuadTreeNode(x, y, w, h);
+}
+
+bool QuadTreeNode::Update(QuadTreeNode* root, const std::unordered_map<Entity*, QuadTreeNode*>& result)
+{
+	if (!root || !root->_tlas)
 	{
-		   newNode->w *= 2.0f;
-		   newNode->h *= 2.0f;
+		return false;
 	}
-	return newNode;
+
+	root->_tlas->Update();
+	return true;
 }
 
-BOOL QuadTreeNode::Update(QuadTreeNode* root, const std::unordered_map<Entity*, QuadTreeNode*>& result)
+bool BoundingBox::Intersect(Entity* entity)
 {
-	BOOL hasChanged = 0;
-	for (auto& [entity, node] : result)
-	{
-		if (!node->Contain(entity))
-		{
-			 node->entities.remove(entity);
-			 root->Insert(entity);
-			 hasChanged = 1;
-		}
-	}
-	return hasChanged;
-}
-
-
-BOOL BoundingBox::Intersect(Entity* entity)
-{
+	if (!entity) return false;
 	return !(entity->GetB() >= this->T
 		||   entity->GetT() <= this->B
 		||   entity->GetL() >= this->R
-		||   entity->GetR() <= this->L)
-		;
+		||   entity->GetR() <= this->L);
 }
 
 BoundingBox BoundingBox::CalcIntersection(QuadTreeNode* node)
 {
-	return BoundingBox{ max(this->B, node->GetB()), min(this->T, node->GetT()), max(this->L,node->GetL()), min(this->R, node->GetR()) };
+	if (!node) return *this;
+	return BoundingBox{
+		(std::max)(this->B, node->GetB()),
+		(std::min)(this->T, node->GetT()),
+		(std::max)(this->L, node->GetL()),
+		(std::min)(this->R, node->GetR())
+	};
 }
-
-

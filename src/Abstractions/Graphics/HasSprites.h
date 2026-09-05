@@ -14,7 +14,7 @@ public:
 
 protected:
 
-	static Bool<T> hasBeenLoaded;
+	static inline bool _hasBeenLoaded = false;
 
 };
 
@@ -27,9 +27,3 @@ template <class T>
 inline HasSprites<T>::~HasSprites()
 {
 }
-
-template <class T>
-Bool<T> HasSprites<T>::hasBeenLoaded
-{
-	false
-};

@@ -2,67 +2,72 @@
 
 Fire::Fire() : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
-	this->vx = 1.0f;
-	this->vy = 1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
-	this->position.x = 0;
-	this->position.y = 0;
-	this->name = L"Fire\n";
+	this->_vx = Constants::Objects::Fire::INITIAL_SPEED_X;
+	this->_vy = Constants::Objects::Fire::INITIAL_SPEED_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_position.x = 0;
+	this->_position.y = 0;
+	this->SetDebugName(L"Fire\n");
 
-	this->movingDirection = DIRECTION::LEFT;
-	this->distanceMove = 110.0f;
-	this->x0 = NULL;
+	this->_movingDirection = DIRECTION::LEFT;
+	this->_distanceMove = Constants::Objects::Fire::MOVE_DISTANCE;
+	this->_x0 = 0.0f;
+	this->_hasCapturedOrigin = false;
 
-	this->enemyType = ENEMY_TYPE::NONE;
-	this->hitCounts = std::numeric_limits<INT>::infinity();
+	this->_enemyType = ENEMY_TYPE::NONE;
+	this->_hitCounts = (std::numeric_limits<int>::max)();
 }
 
 Fire::~Fire()
 {
-	distanceMove = NULL;
-	x0 = NULL;
 }
 
 void Fire::Update()
 {
-	FLOAT x = GetX();
-	if (x0 == NULL) x0 = x;
+	float x = this->GetX();
 
-	if (GetMovingDirection() == DIRECTION::RIGHT) 
+	// Capture the patrol centre once, on the first update.
+	if (!this->_hasCapturedOrigin)
 	{
-		if (x > x0 + distanceMove || x < x0) vx = -vx;
+		this->_x0 = x;
+		this->_hasCapturedOrigin = true;
+	}
+
+	if (this->GetMovingDirection() == DIRECTION::RIGHT)
+	{
+		if (x > this->_x0 + this->_distanceMove || x < this->_x0) this->_vx = -this->_vx;
 	}
 	else {
-		if (x > x0 || x < x0 - distanceMove) vx = -vx;
+		if (x > this->_x0 || x < this->_x0 - this->_distanceMove) this->_vx = -this->_vx;
 	}
 
-	x += vx;
-	SetX(x);
+	x += this->_vx;
+	this->SetX(x);
 }
 
 void Fire::Render()
 {
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
-	SetAnimation(FIRE_ANIMATION_ID::NORMAL, GetPosition(), GetMovingDirection(), GetAngle());
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
+	this->SetAnimation(FIRE_ANIMATION_ID::NORMAL, this->GetPosition(), this->GetMovingDirection(), this->GetAngle());
 }
 
 void Fire::HandleInput(Input& input)
 {
-	//handleInputState = state->HandleInput(*this, input);
+	//DeferState(_handleInputState, _state->HandleInput(*this, input));
 }
 
-void InsertSpriteFire(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
+void InsertSpriteFire(SPRITE_ID spriteId, int left, int top, int right, int bottom)
 {
-	// i write this function to shorten the fuction: GraphicsHelper
+	// i write this function to shorten the function: GraphicsHelper
 	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, DIRECTION::RIGHT, FIRE_TEXTURE_ID::FIRE);
 }
 
 void Fire::LoadSprites()
 {
-	if (HasSprites<Fire>::hasBeenLoaded.value) return;
-	HasSprites<Fire>::hasBeenLoaded.value = true;
+	if (HasSprites<Fire>::_hasBeenLoaded) return;
+	HasSprites<Fire>::_hasBeenLoaded = true;
 
 #pragma region Load Sprites
 
@@ -78,22 +83,22 @@ void Fire::LoadSprites()
 
 void Fire::LoadTextures()
 {
-	if (HasTextures<Fire>::hasBeenLoaded.value) return;
-	HasTextures<Fire>::hasBeenLoaded.value = true;
+	if (HasTextures<Fire>::_hasBeenLoaded) return;
+	HasTextures<Fire>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertTexure(FIRE_TEXTURE_ID::FIRE, L"Resources\\Textures\\Fire.bmp");
+	GraphicsHelper::InsertTexture(FIRE_TEXTURE_ID::FIRE, L"Resources\\Textures\\Fire.bmp");
 
 	OutputDebugString(L"Fire Textures Loaded Successfully\n");
 }
 
 void Fire::LoadAnimations()
 {
-	if (HasAnimations<Fire>::hasBeenLoaded.value) return;
-	HasAnimations<Fire>::hasBeenLoaded.value = true;
+	if (HasAnimations<Fire>::_hasBeenLoaded) return;
+	HasAnimations<Fire>::_hasBeenLoaded = true;
 
 #pragma region Load Animations
 
-	GraphicsHelper::InsertAnimation(FIRE_ANIMATION_ID::NORMAL, 150,
+	GraphicsHelper::InsertAnimation(FIRE_ANIMATION_ID::NORMAL, Constants::Objects::Fire::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{FIRE_SPRITE_ID::NORMAL_01,0},
 			{FIRE_SPRITE_ID::NORMAL_02,0},

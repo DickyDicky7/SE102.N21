@@ -2,10 +2,10 @@
 
 ScubaSoldierState::ScubaSoldierState()
 {
-	this->time = 0.0f;
+	this->_time = 0.0f;
 }
 
 ScubaSoldierState::~ScubaSoldierState()
 {
-	time = NULL;
+	this->_time = 0.0f;
 }

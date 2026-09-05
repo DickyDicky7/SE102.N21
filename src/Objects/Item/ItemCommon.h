@@ -1,9 +1,5 @@
 #pragma once
 
-//enum class ITEM_TEXTURE_ID {
-//	ITEM
-//};
-
 enum class ITEM_SPRITE_ID {
 
 	B_AMMO_01,

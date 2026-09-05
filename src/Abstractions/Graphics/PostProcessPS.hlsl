@@ -7,6 +7,9 @@ struct PS_INPUT
 Texture2D tex0 : register(t0);
 SamplerState sampler0 : register(s0);
 
+Texture2D lutTex : register(t1);
+SamplerState lutSampler : register(s1);
+
 cbuffer PostProcessConstants : register(b0)
 {
     float time;
@@ -17,6 +20,7 @@ cbuffer PostProcessConstants : register(b0)
     float4 mousePosition;
 };
 
+#define LUT
 #define ANALOG
 #define DIGITAL
 #define CRT
@@ -92,6 +96,35 @@ float2 crt(float2 uv) {
     return 0.5f *      (uv  +  1.0f);
 }
 
+float3 ApplyLUT(float3 color)
+{
+    float3 result = color;
+    uint lutWidth = 0;
+    uint lutHeight = 0;
+    lutTex.GetDimensions(lutWidth, lutHeight);
+
+    if (lutWidth > 0)
+    {
+        // 1D Palette LUT (dynamic palette matching over lutWidth colors)
+        float minDistance = 1e10f;
+        
+        [loop]
+        for (uint i = 0; i < lutWidth; ++i)
+        {
+            float3 palColor = lutTex.Load(int3(i, 0, 0)).rgb;
+            float3 diff = color - palColor;
+            float dist = dot(diff, diff);
+            if (dist < minDistance)
+            {
+                minDistance = dist;
+                result = palColor;
+            }
+        }
+    }
+
+    return result;
+}
+
 float4 main(PS_INPUT input) : SV_TARGET
 {
     float2 uv = input.Tex;
@@ -122,6 +155,10 @@ float4 main(PS_INPUT input) : SV_TARGET
     col.b += tex0.Sample(sampler0, st - eps - distortion).b;
 #else
     col += tex0.Sample(sampler0, uv).xyz;
+#endif
+
+#ifdef LUT
+    col = ApplyLUT(col);
 #endif
 
 #ifdef DIGITAL

@@ -2,13 +2,13 @@
 
 FalconOpeningState::FalconOpeningState(FALCON_ANIMATION_ID nextState) : FalconState()
 {
-	delayTime = 30;
-	this->nextState = nextState;
+	this->_delayTime = Constants::Enemies::Falcon::OPENING_DELAY_FRAMES;
+	this->_nextState = nextState;
 }
 
 FalconOpeningState::~FalconOpeningState()
 {
-	delayTime = NULL;
+	this->_delayTime = 0;
 }
 
 
@@ -27,49 +27,20 @@ void FalconOpeningState::Render(Falcon& falcon)
 
 FalconState* FalconOpeningState::Update(Falcon& falcon)
 {
-	if (--delayTime == 0) {
-		if (nextState == FALCON_ANIMATION_ID::CLOSE) {
+	if (--this->_delayTime == 0) {
+		if (this->_nextState == FALCON_ANIMATION_ID::CLOSE) {
 			falcon.SetCurrentState(FALCON_ANIMATION_ID::CLOSE);
 			return new FalconCloseState();
 		}
-		else if (nextState == FALCON_ANIMATION_ID::OPEN) {
+		else if (this->_nextState == FALCON_ANIMATION_ID::OPEN) {
 			falcon.SetCurrentState(FALCON_ANIMATION_ID::OPEN);
 			return new FalconOpenState();
 		}
 	}
-	return NULL;
+	return nullptr;
 }
 
 FalconState* FalconOpeningState::HandleInput(Falcon& falcon, Input& input)
 {
-	//invul, b, f, l, m, r, s
-	/*if (input.IsKey(DIK_1))
-	{
-		return new AirCraftInvulState();
-	}
-	else if (input.IsKey(DIK_2))
-	{
-		return new AirCraftBAmmoState();
-	}
-	else if (input.IsKey(DIK_3))
-	{
-		return new AirCraftFAmmoState();
-	}
-	else if (input.IsKey(DIK_4))
-	{
-		return new AirCraftLAmmoState();
-	}
-	else if (input.IsKey(DIK_5))
-	{
-		return new AirCraftMAmmoState();
-	}
-	else if (input.IsKey(DIK_6))
-	{
-		return new AirCraftRAmmoState();
-	}
-	else if (input.IsKey(DIK_7))
-	{
-		return new AirCraftSAmmoState();
-	}*/
-	return NULL;
+	return nullptr;
 }

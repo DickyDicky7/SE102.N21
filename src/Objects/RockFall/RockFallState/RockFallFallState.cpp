@@ -2,7 +2,7 @@
 
 RockFallFallState::RockFallFallState() : RockFallState()
 {
-	Sound::getInstance()->play("stonefailing", false, 1);
+	Sound::GetInstance()->Play("stonefailing", false, 1);
 }
 
 RockFallFallState::~RockFallFallState()
@@ -10,41 +10,41 @@ RockFallFallState::~RockFallFallState()
 }
 
 
-void RockFallFallState::Exit(RockFall& RockFall)
+void RockFallFallState::Exit(RockFall& rockFall)
 {
 }
 
-void RockFallFallState::Enter(RockFall& RockFall)
+void RockFallFallState::Enter(RockFall& rockFall)
 {
-	RockFall.SetVY(-abs(RockFall.GetVY()));
+	rockFall.SetVY(-std::abs(rockFall.GetVY()));
 }
 
-void RockFallFallState::Render(RockFall& RockFall)
+void RockFallFallState::Render(RockFall& rockFall)
 {
-	RockFall.SetAnimation(ROCK_FALL_ANIMATION_ID::FALL, RockFall.GetPosition(), RockFall.GetMovingDirection(), RockFall.GetAngle());
+	rockFall.SetAnimation(ROCK_FALL_ANIMATION_ID::FALL, rockFall.GetPosition(), rockFall.GetMovingDirection(), rockFall.GetAngle());
 }
 
 RockFallState* RockFallFallState::Update(RockFall& rockFall)
 {
-	if (rockFall.bouncedBack)
+	if (rockFall.HasBouncedBack())
 	{
-		auto   result = Motion::CalculateUniformlyDeceleratedMotion({ rockFall.GetY(), rockFall.GetVY(), rockFall.GetAY(), time, 0.05f });
-		time = result.t; rockFall.SetY(result.c); rockFall.SetVY(result.v);
+		auto   result = Motion::CalculateUniformlyDeceleratedMotion({ rockFall.GetY(), rockFall.GetVY(), rockFall.GetAY(), this->_time, Constants::Enemies::RockFall::MOTION_INTEGRATION_DELTA_TIME });
+		this->_time = result.elapsedTime; rockFall.SetY(result.coordinate); rockFall.SetVY(result.velocity);
 		if (rockFall.GetVY() <= 0.0f)
 		{
-			rockFall.bouncedBack = 0;
-			rockFall.SetVY(-1.0f);
+			rockFall.SetBouncedBack(false);
+			rockFall.SetVY(Constants::Enemies::RockFall::BOUNCE_SPEED_Y);
 		}
 	}
 	else
 	{
 		auto result = Motion::CalculateUniformMotion({ rockFall.GetY(), rockFall.GetVY() });
-		rockFall.SetY(result.c);
+		rockFall.SetY(result.coordinate);
 	}
-	return NULL;
+	return nullptr;
 }
 
-RockFallState* RockFallFallState::HandleInput(RockFall& RockFall, Input& input)
+RockFallState* RockFallFallState::HandleInput(RockFall& rockFall, Input& input)
 {
-	return NULL;
+	return nullptr;
 }

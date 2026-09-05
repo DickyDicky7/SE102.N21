@@ -1,122 +1,132 @@
-﻿#include "AirCraft.h"
+#include "AirCraft.h"
+#include "Item.h"
 
-AirCraft::AirCraft(ITEM_TYPE type, AIRCRAFT_DIRECTION direction) : Entity(), HasTextures(), HasSprites(), HasAnimations()
+AirCraft::AirCraft(ITEM_TYPE ammoType, AIRCRAFT_DIRECTION direction) : Entity(), HasTextures(), HasSprites(), HasAnimations()
 {
 
-	this->vx = 1.0f;
-	this->vy = 0.5f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
-	this->position.x = 100;
-	this->position.y = 200;
-	this->name = L"AirCraft\n";
+	this->_vx = 1.0f;
+	this->_vy = Constants::Enemies::AirCraft::INITIAL_SPEED_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_position.x = Constants::Enemies::AirCraft::DEFAULT_SPAWN_X;
+	this->_position.y = Constants::Enemies::AirCraft::DEFAULT_SPAWN_Y;
+	this->SetDebugName(L"AirCraft\n");
 
 	// set direction default is right
-	this->movingDirection = DIRECTION::RIGHT;
+	this->_movingDirection = DIRECTION::RIGHT;
 
-	this->_ammoType = type;
-	this->_aircarftDirection = direction;
+	this->_ammoType = ammoType;
+	this->_aircraftDirection = direction;
 
-	// y0: vị trí lúc đầu
-	// time: thời gian
+	// y0: initial position
+	// time: time
 	// dt: delta time ( t = t + dt )
-	// T: khoảng thời gian để quay hết 1 vòng (tính bằng giây)
-	// A: Bán kính
-	// φ: pha ban đầu của dao động (-π<φ<π)
+	// period: period (in seconds)
+	// amplitude: amplitude / radius
+	// phi: initial phase (-pi < phi < pi)
 
-	x0 = NULL;
-	y0 = NULL;
-	time = 0.0f;
-	dt = 0.03f;
-	T = 2.5f;
-	A = 35.0f;
-	φ = 0.0f;
+	this->_x0 = 0.0f;
+	this->_y0 = 0.0f;
+	this->_hasCapturedOrigin = false;
+	this->_time = 0.0f;
+	this->_dt = Constants::Enemies::AirCraft::OSCILLATION_DELTA_TIME;
+	this->_period = Constants::Enemies::AirCraft::OSCILLATION_PERIOD;
+	this->_amplitude = Constants::Enemies::AirCraft::OSCILLATION_RADIUS;
+	this->_phi = 0.0f;
 
-	this->hitCounts = 1;
-	this->enemyType = ENEMY_TYPE::MACHINE;
+	this->_hitCounts = Constants::Enemies::AirCraft::HEALTH_POINTS;
+	this->_enemyType = ENEMY_TYPE::MACHINE;
 }
 
 AirCraft::~AirCraft()
 {
-	x0 = NULL;
-	y0 = NULL;
-	time = NULL;
-	dt = NULL;
-	T = NULL;
-	A = NULL;
-	φ = NULL;
-
 }
 
-void AirCraft::setAmmoType(ITEM_TYPE type) 
+void AirCraft::SetAmmoType(ITEM_TYPE ammoType)
 {
-	this->_ammoType = type;
+	this->_ammoType = ammoType;
 }
 
-ITEM_TYPE AirCraft::getAmmoType() 
+ITEM_TYPE AirCraft::GetAmmoType()
 {
 	return this->_ammoType;
 }
 
+Item* AirCraft::CreateDroppedItem() const
+{
+	Item* item = new Item(this->_ammoType);
+	item->SetX(this->GetX());
+	item->SetY(this->GetY());
+	return item;
+}
+
 void AirCraft::Update()
 {
-	// Chuyen dong hinh sin
-	FLOAT x = GetX();
-	FLOAT y = GetY();
-	FLOAT vx = GetVX();
-	FLOAT vy = GetVY();
+	// Sinusoidal motion
+	float x = this->GetX();
+	float y = this->GetY();
+	float vx = this->GetVX();
+	float vy = this->GetVY();
 
-	// gán vị trí lúc đầu
-	if (x0 == NULL) x0 = x;
-	if (y0 == NULL) y0 = y;
+	// Capture the oscillation centre once, on the first update.  Keying this off
+	// "_x0 == 0.0f" treated a craft that genuinely spawned at 0 as uncaptured,
+	// so frame 1 stored 0 and moved it to 0 + A, and frame 2 - still seeing 0 -
+	// re-captured that displaced position, shifting the centre by a full
+	// amplitude for the rest of its life.
+	if (!this->_hasCapturedOrigin)
+	{
+		this->_x0 = x;
+		this->_y0 = y;
+		this->_hasCapturedOrigin = true;
+	}
 
-	if (getAircarftDirection() == AIRCRAFT_DIRECTION::HORIZONTAL) {
-		// di chuyen theo chieu ngang
-		Motion::OscillatoryMotionInputParameters pio{ y0, time, dt, T, A, φ };
+	if (this->GetAircraftDirection() == AIRCRAFT_DIRECTION::HORIZONTAL) {
+		// Horizontal oscillation
+		Motion::OscillatoryMotionInputParameters pio{ this->_y0, this->_time, this->_dt, this->_period, this->_amplitude, this->_phi };
 		auto poo = Motion::CalculateOscillatoryMotion(pio);
-		time = poo.t;
+		this->_time = poo.elapsedTime;
 
 		x += vx;
 
-		SetX(x);
-		SetY(poo.c);
+		this->SetX(x);
+		this->SetY(poo.coordinate);
 	}
 	else
 	{
-		// di chuyen theo chieu doc
-		Motion::OscillatoryMotionInputParameters pio{ x0, time, dt, T, A, φ };
+		// Vertical oscillation
+		Motion::OscillatoryMotionInputParameters pio{ this->_x0, this->_time, this->_dt, this->_period, this->_amplitude, this->_phi };
 		auto poo = Motion::CalculateOscillatoryMotion(pio);
-		time = poo.t;
+		this->_time = poo.elapsedTime;
 
 		y += vy;
 
-		SetY(y);
-		SetX(poo.c);
+		this->SetY(y);
+		this->SetX(poo.coordinate);
 	}
 
 }
 
 void AirCraft::Render()
 {
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
-	SetAnimation(AIRCRAFT_ANIMATION_ID::NORMAL, GetPosition(), GetMovingDirection(), GetAngle());
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
+	this->SetAnimation(AIRCRAFT_ANIMATION_ID::NORMAL, this->GetPosition(), this->GetMovingDirection(), this->GetAngle());
 }
 
 void AirCraft::HandleInput(Input& input)
 {
 }
 
-void InsertSpriteAirCraft(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
+void InsertSpriteAirCraft(SPRITE_ID spriteId, int left, int top, int right, int bottom)
 {
-	// i write this function to shorten the fuction: GraphicsHelper
+	// i write this function to shorten the function: GraphicsHelper
 	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, DIRECTION::RIGHT, AIRCRAFT_TEXTURE_ID::AIRCRAFT_01);
 }
 
 void AirCraft::LoadSprites()
 {
-	if (HasSprites<AirCraft>::hasBeenLoaded.value) return;
-	HasSprites<AirCraft>::hasBeenLoaded.value = true;
+	if (HasSprites<AirCraft>::_hasBeenLoaded) return;
+	HasSprites<AirCraft>::_hasBeenLoaded = true;
 
 #pragma region Load Sprites
 
@@ -131,22 +141,22 @@ void AirCraft::LoadSprites()
 
 void AirCraft::LoadTextures()
 {
-	if (HasTextures<AirCraft>::hasBeenLoaded.value) return;
-	HasTextures<AirCraft>::hasBeenLoaded.value = true;
+	if (HasTextures<AirCraft>::_hasBeenLoaded) return;
+	HasTextures<AirCraft>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertTexure(AIRCRAFT_TEXTURE_ID::AIRCRAFT_01, L"Resources\\Textures\\Aircraft.bmp");
+	GraphicsHelper::InsertTexture(AIRCRAFT_TEXTURE_ID::AIRCRAFT_01, L"Resources\\Textures\\Aircraft.bmp");
 
 	OutputDebugString(L"AirCraft Textures Loaded Successfully\n");
 }
 
 void AirCraft::LoadAnimations()
 {
-	if (HasAnimations<AirCraft>::hasBeenLoaded.value) return;
-	HasAnimations<AirCraft>::hasBeenLoaded.value = true;
+	if (HasAnimations<AirCraft>::_hasBeenLoaded) return;
+	HasAnimations<AirCraft>::_hasBeenLoaded = true;
 
 #pragma region Load Animations
 
-	GraphicsHelper::InsertAnimation(AIRCRAFT_ANIMATION_ID::NORMAL, 150,
+	GraphicsHelper::InsertAnimation(AIRCRAFT_ANIMATION_ID::NORMAL, Constants::Enemies::AirCraft::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{AIRCRAFT_SPRITE_ID::NORMAL_01,0},
 		});

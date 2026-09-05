@@ -1,130 +1,115 @@
 #include "BossStage3Hand.h"
 
-BossStage3HandAttackState::BossStage3HandAttackState(BossStage3Hand& bossStage3hand) : BossStage3HandState()
+BossStage3HandAttackState::BossStage3HandAttackState(BossStage3Hand& bossStage3Hand) : BossStage3HandState()
 {
-
+	// Moved out of the destructor, where the stores were dead and left the
+	// object uninitialised between construction and Enter().
+	this->_delayChangeState = 0;
+	this->_frameAttack = 0;
+	this->_joints = nullptr;
 }
 
 BossStage3HandAttackState::~BossStage3HandAttackState()
 {
-    delayChangeState = NULL;
-    frameAttack = NULL;
-    joints = NULL;
 }
 
 
-void BossStage3HandAttackState::Exit(BossStage3Hand& bossStage3hand)
+void BossStage3HandAttackState::Exit(BossStage3Hand& bossStage3Hand)
 {
 }
 
-void BossStage3HandAttackState::Enter(BossStage3Hand& bossStage3hand)
+void BossStage3HandAttackState::Enter(BossStage3Hand& bossStage3Hand)
 {
-    float speed = 5.0f;
-    float limitFrame = 100 / speed;
-    frameAttack = 10;
-    delayChangeState = 40;
+	float speed = Constants::Enemies::BossStage3::Hand::ATTACK_SPEED;
+	float limitFrame = Constants::Enemies::BossStage3::Hand::ATTACK_LIMIT_FRAME_DIVIDEND / speed;
+	this->_frameAttack = Constants::Enemies::BossStage3::Hand::ATTACK_FRAME_DURATION;
+	this->_delayChangeState = Constants::Enemies::BossStage3::Hand::ATTACK_STATE_DELAY_FRAMES;
 
-    joints = bossStage3hand.joints;
+	this->_joints = bossStage3Hand.GetJoints();
 
-    if (bossStage3hand.GetMovingDirection() == DIRECTION::LEFT)
-    {
-        moveAround(bossStage3hand.joints[1], bossStage3hand.joints[0], 0, speed,
-            limitFrame, BossStage3Joint::MoveAroundDirection::Negative);
-    }
-    else
-    {
-        moveAround(bossStage3hand.joints[1], bossStage3hand.joints[0], 0, speed,
-            limitFrame, BossStage3Joint::MoveAroundDirection::Positive);
-    }
+	if (bossStage3Hand.GetMovingDirection() == DIRECTION::LEFT)
+	{
+		this->MoveAround(bossStage3Hand.GetJoint(1), bossStage3Hand.GetJoint(0), 0, speed,
+			limitFrame, BossStage3Joint::MoveAroundDirection::Negative);
+	}
+	else
+	{
+		this->MoveAround(bossStage3Hand.GetJoint(1), bossStage3Hand.GetJoint(0), 0, speed,
+			limitFrame, BossStage3Joint::MoveAroundDirection::Positive);
+	}
 
-    bossStage3hand.joints[2]->moveFollow(bossStage3hand.joints[1]);
-    bossStage3hand.joints[3]->moveFollow(bossStage3hand.joints[2]);
-    bossStage3hand.joints[4]->moveFollow(bossStage3hand.joints[3]);
+	bossStage3Hand.GetJoint(2)->MoveFollow(bossStage3Hand.GetJoint(1));
+	bossStage3Hand.GetJoint(3)->MoveFollow(bossStage3Hand.GetJoint(2));
+	bossStage3Hand.GetJoint(4)->MoveFollow(bossStage3Hand.GetJoint(3));
 }
 
-void BossStage3HandAttackState::Render(BossStage3Hand& bossStage3hand)
+
+
+BossStage3HandState* BossStage3HandAttackState::Update(BossStage3Hand& bossStage3Hand)
 {
-    for (size_t i = 0; i < 5; i++)
-    {
-        bossStage3hand.joints[i]->Render();
-    }
+	if (this->_frameAttack > 0)
+	{
+		this->_frameAttack--;
+
+		if (this->_frameAttack == 0 && bossStage3Hand.GetTarget())
+		{
+			// Fire a bullet from the hand joint
+			float xBill = bossStage3Hand.GetTarget()->GetPosition().x;
+			float yBill = bossStage3Hand.GetTarget()->GetPosition().y;
+			D3DXVECTOR3 j = bossStage3Hand.GetJoint(4)->GetPosition();
+			float angle = this->GetAngle(D3DXVECTOR2(xBill, yBill), D3DXVECTOR2(j.x, j.y));
+
+			bossStage3Hand.Fire(bossStage3Hand.GetJoint(4)->GetX(), bossStage3Hand.GetJoint(4)->GetY(),angle, Constants::Enemies::BossStage3::Hand::ATTACK_FIRE_ANGLE_OFFSET);
+		}
+	}
+
+	if (!bossStage3Hand.GetJoint(1)->IsMoveAround())
+	{
+		bossStage3Hand.GetJoint(2)->SetMoveAroundSpeed(bossStage3Hand.GetJoint(2)->GetMoveAroundSpeed() * Constants::Enemies::BossStage3::Hand::JOINT_2_SPEED_DECAY);
+	}
+
+	if (!bossStage3Hand.GetJoint(2)->IsMoveAround())
+	{
+		bossStage3Hand.GetJoint(3)->SetMoveAroundSpeed(bossStage3Hand.GetJoint(3)->GetMoveAroundSpeed() * Constants::Enemies::BossStage3::Hand::JOINT_3_SPEED_BOOST);
+	}
+
+	if (!bossStage3Hand.GetJoint(4)->IsMoveAround() && !bossStage3Hand.GetJoint(1)->IsMoveAround())
+	{
+		if (this->_delayChangeState >= 0)
+		{
+			this->_delayChangeState--;
+		}
+		else
+		{
+			return new BossStage3HandDirectPlayerState(bossStage3Hand);
+		}
+	}
+
+	for (size_t i = 0; i < Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT; i++)
+	{
+		bossStage3Hand.GetJoint(i)->Update();
+	}
+
+	return nullptr;
 }
 
-BossStage3HandState* BossStage3HandAttackState::Update(BossStage3Hand& bossStage3hand)
+BossStage3HandState* BossStage3HandAttackState::HandleInput(BossStage3Hand& bossStage3Hand, Input& input)
 {
-    if (frameAttack > 0)
-    {
-        frameAttack--;
-
-        if (frameAttack == 0)
-        {
-            // Nhet dan vao
-            FLOAT xBill = bossStage3hand.GetTarget()->GetPosition().x;
-            FLOAT yBill = bossStage3hand.GetTarget()->GetPosition().y;
-            D3DXVECTOR3 j = bossStage3hand.joints[4]->GetPosition();
-            float angle = getAngle(D3DXVECTOR2(xBill, yBill), D3DXVECTOR2(j.x, j.y));
-           
-            bossStage3hand.Fire(bossStage3hand.joints[4]->GetX(), bossStage3hand.joints[4]->GetY(),angle, -0.5f);
-        }
-    }
-
-    if (bossStage3hand.joints[1]->isMoveAround == false)
-    {
-        bossStage3hand.joints[2]->moveAroundSpeed *= 0.99;
-    }
-
-    if (bossStage3hand.joints[2]->isMoveAround == false)
-    {
-        bossStage3hand.joints[3]->moveAroundSpeed *= 1.1;
-    }
-
-    if (bossStage3hand.joints[4]->isMoveAround == false && bossStage3hand.joints[1]->isMoveAround == false)
-    {
-        if (delayChangeState >= 0)
-        {
-            delayChangeState--;
-        }
-        else
-        {
-            return new BossStage3HandDirectPlayerState(bossStage3hand);
-        }
-    }
-
-    for (size_t i = 0; i < 5; i++)
-    {
-        bossStage3hand.joints[i]->Update();
-    }
-
-    return NULL;
+	return nullptr;
 }
 
-BossStage3HandState* BossStage3HandAttackState::HandleInput(BossStage3Hand& bossStage3hand, Input& input)
+void BossStage3HandAttackState::MoveAround(BossStage3Joint* joint, BossStage3Joint* joint0, float deltaRadius,
+	float speed, float frame, BossStage3Joint::MoveAroundDirection dir, float accelerator)
 {
-    return NULL;
-}
+	float x = joint0->GetX() + joint0->GetW() / 2;
+	float y = joint0->GetY() + joint0->GetH() / 2;
 
-void BossStage3HandAttackState::moveAround(BossStage3Joint* joint, BossStage3Joint* joint0, float deltaRadius,
-    float speed, float frame, BossStage3Joint::MoveAroundDirection dir, float delay)
-{
-    float x = joint0->GetX() + joint0->GetW() / 2;
-    float y = joint0->GetY() + joint0->GetH() / 2;
+	float x2 = joint->GetX() + joint->GetW() / 2;
+	float y2 = joint->GetY() + joint->GetH() / 2;
+	D3DXVECTOR2 dist(x - x2, y - y2);
 
-    float x2 = joint->GetX() + joint->GetW() / 2;
-    float y2 = joint->GetY() + joint->GetH() / 2;
-    D3DXVECTOR2 dist(x - x2, y - y2);
-
-    //joint ngoai cung se dung lai truoc joint trong cung va hand dung lai dau tien
-    //thu hep khoang cach cua joint va hand lai vi xoay khoang cach bi gian ra
-    //de tao hieu ung wave thi van toc cua cac joint phai khac nhau va joint trong cung di chuyen nhanh nhat
-    joint->moveAround(x, y, D3DXVec2Length(&dist) - deltaRadius, frame, speed, dir, delay);
-}
-
-float BossStage3HandAttackState::getAngle(D3DXVECTOR2 pos1, D3DXVECTOR2 pos2)
-{
-    D3DXVECTOR2 vec(pos1 - pos2);
-    D3DXVec2Normalize(&vec, &vec);
-
-    //float angle = acos(vec.x) * (abs(vec.y) / vec.y);
-    float angle = -vec.x / vec.y;
-    return angle;
+	// The outer joints stop before the inner ones, and the hand stops first.
+	// Pull the joint-to-hand distances back in: rotating stretches them out.
+	// The wave effect needs a different speed per joint, innermost fastest.
+	joint->MoveAround(x, y, D3DXVec2Length(&dist) - deltaRadius, static_cast<int>(frame), speed, dir, accelerator);
 }

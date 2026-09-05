@@ -1,109 +1,102 @@
 #include "BossStage3Hand.h"
+#include "Explosion.h"
 
 BossStage3Hand::BossStage3Hand() : Entity(), HasTextures(), HasSprites(), HasAnimations(), HasWeapons(new BulletBossStage2StateHand())
 {
-	this->w = 15;
-	this->h = 15;
+	this->_w = Constants::Enemies::BossStage3::Hand::JOINT_WIDTH;
+	this->_h = Constants::Enemies::BossStage3::Hand::JOINT_HEIGHT;
 
-	this->vx = 1.0f;
-	this->vy = 1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
-	this->position.x = 200;
-	this->position.y = 200;
-	this->name = L"BossStage3Hand\n";
+	this->_vx = Constants::Physics::DEFAULT_INITIAL_VELOCITY_X;
+	this->_vy = Constants::Physics::DEFAULT_INITIAL_VELOCITY_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_position.x = Constants::Enemies::BossStage3::DEFAULT_SPAWN_X;
+	this->_position.y = Constants::Enemies::BossStage3::DEFAULT_SPAWN_Y;
+	this->SetDebugName(L"BossStage3Hand\n");
 
-	this->updateState = NULL;
-	this->handleInputState = NULL;
+	this->_updateState = nullptr;
+	this->_handleInputState = nullptr;
 	// set direction default is right
-	this->movingDirection = DIRECTION::RIGHT;
+	this->_movingDirection = DIRECTION::RIGHT;
 	// set state begin is run
-	this->state = new BossStage3HandStartState(*this);
+	this->_state = new BossStage3HandStartState(*this);
 
-	isInitPositionJoints = false;
+	this->_isInitPositionJoints = true;
 
-	initPositionJoints();
+	this->InitPositionJoints();
 
-	this->hitCounts = 30;
-	this->enemyType = ENEMY_TYPE::BOSS;
+	this->_hitCounts = Constants::Enemies::BossStage3::Hand::HEALTH_POINTS;
+	this->_enemyType = ENEMY_TYPE::BOSS;
 
-	this->isFire = false;
+	this->_isFire = false;
 
-	SetFiringRate(500);
+	this->SetFiringRate(Constants::Enemies::BossStage3::Hand::FIRING_RATE_MILLISECONDS);
 }
 
 BossStage3Hand::~BossStage3Hand()
 {
-	isFire = NULL;
-	Destroy(state);
-	Destroy(updateState);
-	Destroy(handleInputState);
+	this->_isFire = false;
+	Destroy(this->_state);
+	Destroy(this->_updateState);
+	Destroy(this->_handleInputState);
 
-	for (size_t i = 0; i < 5; i++)
+	for (size_t i = 0; i < Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT; i++)
 	{
-		Destroy(joints[i]);
+		Destroy(this->_joints[i]);
 	}
-	isInitPositionJoints = NULL;
+	this->_isInitPositionJoints = false;
 }
 
-void BossStage3Hand::initPositionJoints()
+void BossStage3Hand::InitPositionJoints()
 {
-	for (size_t i = 0; i < 4; i++)
+	for (size_t i = 0; i < Constants::Enemies::BossStage3::Hand::ARM_JOINTS_COUNT; i++)
 	{
-		joints[i] = new BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID::ARM, position, movingDirection, this);
+		this->_joints[i] = new BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID::ARM, this->_position, this->_movingDirection, this);
 	}
-	joints[4] = new BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID::HAND, position, movingDirection, this);
+	this->_joints[Constants::Enemies::BossStage3::Hand::HAND_JOINT_INDEX] = new BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID::HAND, this->_position, this->_movingDirection, this);
 }
 
 void BossStage3Hand::Update()
 {
-	if (this->isDead)
+	if (this->IsDead())
 	{
-		Sound::getInstance()->play("boss2finalhanddisappear.wav", false, 1);
+		Sound::GetInstance()->Play("boss2finalhanddisappear", false, 1);
 	}
 
-	if (!isInitPositionJoints) 
+	if (!this->_isInitPositionJoints)
 	{
-		initPositionJoints();
-		this->state->Enter(*this);
-		isInitPositionJoints = true;
+		this->InitPositionJoints();
+		this->_state->Enter(*this);
+		this->_isInitPositionJoints = true;
 	}
-	updateState = state->Update(*this);
+	DeferState(this->_updateState, this->_state->Update(*this));
+
+	ApplyDeferredState(this->_state, this->_updateState, this);
+	ApplyDeferredState(this->_state, this->_handleInputState, this);
 }
 
 void BossStage3Hand::Render()
 {
-	state->Render(*this);
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
-
-	if (updateState)
-	{
-		ChangeState(state, updateState, this);
-		updateState = NULL;
-	}
-	if (handleInputState)
-	{
-		ChangeState(state, handleInputState, this);
-		handleInputState = NULL;
-	}
+	this->_state->Render(*this);
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
 }
 
 void BossStage3Hand::HandleInput(Input& input)
 {
-	handleInputState = state->HandleInput(*this, input);
+	DeferState(this->_handleInputState, this->_state->HandleInput(*this, input));
 }
 
-void InsertSpriteBoss3Hand(SPRITE_ID spriteId, INT left, INT top, INT right, INT bottom)
+void InsertSpriteBoss3Hand(SPRITE_ID spriteId, int left, int top, int right, int bottom)
 {
-	// i write this function to shorten the fuction: GraphicsHelper
+	// i write this function to shorten the function: GraphicsHelper
 	GraphicsHelper::InsertSprite(spriteId, top, left, right, bottom, DIRECTION::RIGHT, ROCK_FLY_TEXTURE_ID::ROCK_FLY);
 }
 
 void BossStage3Hand::LoadSprites()
 {
-	if (HasSprites<BossStage3Hand>::hasBeenLoaded.value) return;
-	HasSprites<BossStage3Hand>::hasBeenLoaded.value = true;
+	if (HasSprites<BossStage3Hand>::_hasBeenLoaded) return;
+	HasSprites<BossStage3Hand>::_hasBeenLoaded = true;
 
 #pragma region Load Sprites
 
@@ -124,30 +117,56 @@ void BossStage3Hand::LoadTextures()
 
 void BossStage3Hand::LoadAnimations()
 {
-	if (HasAnimations<BossStage3Hand>::hasBeenLoaded.value) return;
-	HasAnimations<BossStage3Hand>::hasBeenLoaded.value = true;
+	if (HasAnimations<BossStage3Hand>::_hasBeenLoaded) return;
+	HasAnimations<BossStage3Hand>::_hasBeenLoaded = true;
 
 #pragma region Load Animations
 
-	GraphicsHelper::InsertAnimation(BOSS_STAGE_3_HAND_ANIMATION_ID::ARM, 150,
+	GraphicsHelper::InsertAnimation(BOSS_STAGE_3_HAND_ANIMATION_ID::ARM, Constants::Enemies::BossStage3::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{BOSS_STAGE_3_HAND_SPRITE_ID::ARM_01,0},
 		});
-	GraphicsHelper::InsertAnimation(BOSS_STAGE_3_HAND_ANIMATION_ID::HAND, 150,
+
+	GraphicsHelper::InsertAnimation(BOSS_STAGE_3_HAND_ANIMATION_ID::HAND, Constants::Enemies::BossStage3::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{BOSS_STAGE_3_HAND_SPRITE_ID::HAND_01,0},
 		});
+
 #pragma endregion Load Animations
 
 	OutputDebugString(L"BossStage3Hand Animations Loaded Successfully\n");
 }
 
-void BossStage3Hand::Fire(FLOAT x, FLOAT y, FLOAT vx, FLOAT vy)
+void BossStage3Hand::Fire(float x, float y, float vx, float vy)
 {
-	HasWeapons::Fire(x, y, 0.0f, vx, vy, 0.0f, 0.0f, movingDirection);
+	this->HasWeapons::Fire(x, y, 0.0f, vx, vy, 0.0f, 0.0f, this->_movingDirection);
 }
 
 void BossStage3Hand::Fire()
 {
-	HasWeapons::Fire(position.x, position.y, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, movingDirection);
+	this->HasWeapons::Fire(this->_position.x, this->_position.y, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, this->_movingDirection);
+}
+
+void BossStage3Hand::ForEachCollisionEntity(std::function<void(Entity*)> callback)
+{
+	callback(this);
+	for (size_t i = 0; i < Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT; i++)
+	{
+		if (this->_joints[i]) callback(this->_joints[i]);
+	}
+}
+
+void BossStage3Hand::ProcessSpecialDeathEffects(std::vector<Entity*>& effectEntities)
+{
+	Sound::GetInstance()->Play("boss2finalhanddisappear", false, 1);
+	for (size_t i = 0; i < Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT; i++)
+	{
+		if (this->_joints[i])
+		{
+			Explosion* subExplosion = new Explosion(new ExplosionType3State());
+			subExplosion->SetX(this->_joints[i]->GetX());
+			subExplosion->SetY(this->_joints[i]->GetY());
+			effectEntities.push_back(subExplosion);
+		}
+	}
 }

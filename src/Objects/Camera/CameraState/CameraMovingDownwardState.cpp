@@ -30,7 +30,7 @@ CameraState* CameraMovingDownwardState::HandleInput(Camera& camera, Input& input
 	return this;
 }
 
-CameraState* CameraMovingDownwardState::Capture(FLOAT x, FLOAT y, Camera& camera)
+CameraState* CameraMovingDownwardState::Capture(float x, float y, Camera& camera)
 {
 	if (y <= camera.GetY())
 	{
@@ -38,7 +38,7 @@ CameraState* CameraMovingDownwardState::Capture(FLOAT x, FLOAT y, Camera& camera
 	}
 	if (y >= camera.GetY() + Camera::CalculateHH())
 	{
-		camera.SetY(camera.GetY() + 2.0f * Camera::CalculateHH());
+		camera.SetY(camera.GetY() + Constants::Graphics::CAMERA_TRANSITION_STEP_FACTOR * Camera::CalculateHH());
 		return new CameraMovingUpwardState();
 	}
 	return this;

@@ -34,7 +34,6 @@
     <ClInclude Include="src\Objects\Bridge\Bridge.h" />
     <ClInclude Include="src\Objects\Bridge\BridgeCommon.h" />
     <ClInclude Include="src\Objects\Camera\Camera.h" />
-    <ClInclude Include="src\Objects\Camera\CameraCommon.h" />
     <ClInclude Include="src\Objects\Enemies\Cannon\Cannon.h" />
     <ClInclude Include="src\Objects\Enemies\Cannon\CannonCommon.h" />
     <ClInclude Include="src\Abstractions\Object\CollidableState.h" />
@@ -42,6 +41,7 @@
     <ClInclude Include="src\Objects\Bullet\BulletCommon.h" />
     <ClInclude Include="src\Objects\Bullet\ParticleSystem.h" />
     <ClInclude Include="src\Common.h" />
+    <ClInclude Include="src\Constants.h" />
     <ClInclude Include="src\Abstractions\Graphics\DX11Math.h" />
     <ClInclude Include="src\Abstractions\Object\Enemy.h" />
     <ClInclude Include="src\Abstractions\Object\Entity.h" />
@@ -66,15 +66,12 @@
     <ClInclude Include="src\Abstractions\Graphics\HasSprites.h" />
     <ClInclude Include="src\Abstractions\Graphics\HasTextures.h" />
     <ClInclude Include="src\Abstractions\Device\Input.h" />
-    <!-- DEAD CODE: QuadTree.h / QuadTreeCommon.h / QuadTreeContainer.h are an
-         abandoned quadtree design, unreachable from any compiled file. Listing
-         them here only puts them in Solution Explorer (a ClInclude never causes
-         compilation), which is precisely what makes them look live. The quadtree
-         the game actually runs on is QuadTreeNode below. See docs/DeadCode.md. -->
-    <ClInclude Include="src\Abstractions\Space\QuadTree.h" />
-    <ClInclude Include="src\Abstractions\Space\QuadTreeCommon.h" />
-    <ClInclude Include="src\Abstractions\Space\QuadTreeContainer.h" />
-    <ClInclude Include="src\Abstractions\Space\QuadTreeNode.h" />   <!-- live -->
+    <ClInclude Include="src\Abstractions\Space\AABB.h" />
+    <ClInclude Include="src\Abstractions\Space\BLAS.h" />
+    <ClInclude Include="src\Abstractions\Space\BVH.h" />
+    <ClInclude Include="src\Abstractions\Space\TLAS.h" />
+    <ClInclude Include="src\Abstractions\Space\SpatialPartitioning.h" />
+    <ClInclude Include="src\Abstractions\Space\QuadTreeNode.h" />
     <ClInclude Include="src\Objects\Enemies\RifleMan\RifleMan.h" />
     <ClInclude Include="src\Objects\Enemies\RifleMan\RifleManCommon.h" />
     <ClInclude Include="src\Objects\Enemies\RifleMan\HideOnBush\RifleManHideOnBush.h" />
@@ -102,7 +99,6 @@
     <ClInclude Include="src\Objects\Terrains\TerrainStage2\TerrainStage2Common.h" />
     <ClInclude Include="src\Objects\TestingEntity\TestingEntity.h" />
     <ClInclude Include="src\Objects\Enemies\WallTurret\WallTurret.h" />
-    <ClInclude Include="src\Objects\TestingEntity\TestingEntityCommon.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Objects\Enemies\AirCraft\AirCraft.cpp" />
@@ -165,13 +161,15 @@
     <ClCompile Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State\GunBossStage1NormalState.cpp" />
     <ClCompile Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State\GunBossStage1PrepareShootState.cpp" />
     <ClCompile Include="src\Objects\Item\Item.cpp" />
-    <ClCompile Include="src\Objects\Item\ItemState.cpp" />
     <ClCompile Include="src\Objects\Letter\Letter.cpp" />
     <ClCompile Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1.cpp" />
     <ClCompile Include="src\Objects\Enemies\BossStage1\GunBossStage1\GunBossStage1State.cpp" />
     <ClCompile Include="src\Abstractions\Object\HasWeapons.cpp" />
     <ClCompile Include="src\Objects\Scene\SceneState\LoadingSceneState.cpp" />
     <ClCompile Include="src\Abstractions\Object\Motion.cpp" />
+    <ClCompile Include="src\Abstractions\Space\BLAS.cpp" />
+    <ClCompile Include="src\Abstractions\Space\BVH.cpp" />
+    <ClCompile Include="src\Abstractions\Space\TLAS.cpp" />
     <ClCompile Include="src\Abstractions\Space\QuadTreeNode.cpp" />
     <ClCompile Include="src\Objects\Enemies\RifleMan\HideOnBush\RifleManHideOnBushState.cpp" />
     <ClCompile Include="src\Objects\Enemies\RifleMan\Standing\RifleManStanding.cpp" />

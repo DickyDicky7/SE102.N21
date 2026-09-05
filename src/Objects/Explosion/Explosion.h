@@ -15,30 +15,30 @@ class ExplosionType1State;
 class ExplosionType2State;
 class ExplosionType3State;
 class ExplosionDrownState;
-// explosion co 2 type
-// type 1: danh cho cac enity dang nguoi nhu: soldier, scuba soldier, rifleMan,...
-// type 2: danh cho cac enity dang vat the con lai
-// type 3: danh cho boss 1, 2
+// Explosion types:
+// type 1: for human-shaped entities, e.g. soldier, scuba soldier, rifleMan, ...
+// type 2: for all remaining object-shaped entities
+// type 3: for boss 1 and boss 2
 
 class Explosion : public Entity
 	, public HasTextures<Explosion>, public HasSprites<Explosion>, public HasAnimations<Explosion>
 {
 public:
 	Explosion();
-	Explosion(ExplosionState*);
+	Explosion(ExplosionState* state);
 	virtual ~Explosion();
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
 protected:
-	ExplosionState* state;
-	ExplosionState* updateState;
-	ExplosionState* handleInputState;
+	ExplosionState* _state;
+	ExplosionState* _updateState;
+	ExplosionState* _handleInputState;
 };
 
 
@@ -51,12 +51,12 @@ public:
 	ExplosionState();
 	virtual ~ExplosionState();
 
-	virtual void Exit(Explosion&) override = 0;
-	virtual void Enter(Explosion&) override = 0;
-	virtual void Render(Explosion&) override = 0;
+	virtual void Exit(Explosion& explosion) override = 0;
+	virtual void Enter(Explosion& explosion) override = 0;
+	virtual void Render(Explosion& explosion) override = 0;
 
-	virtual ExplosionState* Update(Explosion&) override = 0;
-	virtual ExplosionState* HandleInput(Explosion&, Input&) override = 0;
+	virtual ExplosionState* Update(Explosion& explosion) override = 0;
+	virtual ExplosionState* HandleInput(Explosion& explosion, Input& input) override = 0;
 };
 
 
@@ -68,12 +68,12 @@ public:
 	ExplosionType1State();
 	virtual ~ExplosionType1State();
 
-	virtual void Exit(Explosion&) override;
-	virtual void Enter(Explosion&) override;
-	virtual void Render(Explosion&) override;
+	virtual void Exit(Explosion& explosion) override;
+	virtual void Enter(Explosion& explosion) override;
+	virtual void Render(Explosion& explosion) override;
 
-	virtual ExplosionState* Update(Explosion&) override;
-	virtual ExplosionState* HandleInput(Explosion&, Input&) override;
+	virtual ExplosionState* Update(Explosion& explosion) override;
+	virtual ExplosionState* HandleInput(Explosion& explosion, Input& input) override;
 };
 
 
@@ -85,12 +85,12 @@ public:
 	ExplosionType2State();
 	virtual ~ExplosionType2State();
 
-	virtual void Exit(Explosion&) override;
-	virtual void Enter(Explosion&) override;
-	virtual void Render(Explosion&) override;
+	virtual void Exit(Explosion& explosion) override;
+	virtual void Enter(Explosion& explosion) override;
+	virtual void Render(Explosion& explosion) override;
 
-	virtual ExplosionState* Update(Explosion&) override;
-	virtual ExplosionState* HandleInput(Explosion&, Input&) override;
+	virtual ExplosionState* Update(Explosion& explosion) override;
+	virtual ExplosionState* HandleInput(Explosion& explosion, Input& input) override;
 };
 
 class ExplosionType3State : public ExplosionState
@@ -101,12 +101,12 @@ public:
 	ExplosionType3State();
 	virtual ~ExplosionType3State();
 
-	virtual void Exit(Explosion&) override;
-	virtual void Enter(Explosion&) override;
-	virtual void Render(Explosion&) override;
+	virtual void Exit(Explosion& explosion) override;
+	virtual void Enter(Explosion& explosion) override;
+	virtual void Render(Explosion& explosion) override;
 
-	virtual ExplosionState* Update(Explosion&) override;
-	virtual ExplosionState* HandleInput(Explosion&, Input&) override;
+	virtual ExplosionState* Update(Explosion& explosion) override;
+	virtual ExplosionState* HandleInput(Explosion& explosion, Input& input) override;
 };
 
 
@@ -118,16 +118,16 @@ public:
 	ExplosionDrownState();
 	virtual ~ExplosionDrownState();
 
-	virtual void Exit(Explosion&) override;
-	virtual void Enter(Explosion&) override;
-	virtual void Render(Explosion&) override;
+	virtual void Exit(Explosion& explosion) override;
+	virtual void Enter(Explosion& explosion) override;
+	virtual void Render(Explosion& explosion) override;
 
-	virtual ExplosionState* Update(Explosion&) override;
-	virtual ExplosionState* HandleInput(Explosion&, Input&) override;
+	virtual ExplosionState* Update(Explosion& explosion) override;
+	virtual ExplosionState* HandleInput(Explosion& explosion, Input& input) override;
 
 protected:
 
-	ULONGLONG time;
+	ULONGLONG _time;
 
 };
 

@@ -2,90 +2,85 @@
 
 Cannon::Cannon() : HasWeapons(new BulletEnemyState())
 {
-	this->vx = 1.0f;
-	this->vy = 1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
-	this->angle = 0;
-	this->position.x = 50;
-	this->position.y = 00;
+	this->_vx = Constants::Physics::DEFAULT_INITIAL_VELOCITY_X;
+	this->_vy = Constants::Physics::DEFAULT_INITIAL_VELOCITY_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_angle = 0;
+	this->_position.x = Constants::Enemies::Cannon::DEFAULT_SPAWN_X;
+	this->_position.y = Constants::Enemies::Cannon::DEFAULT_SPAWN_Y;
 
-	this->state = NULL;
-	this->updateState = NULL;
+	this->_state = nullptr;
+	this->_updateState = nullptr;
 
 	//
-	this->name = L"Cannon\n";
+	this->SetDebugName(L"Cannon\n");
 	//
 
-	this->hitCounts = 8;
-	this->enemyType = ENEMY_TYPE::MACHINE;
+	this->_hitCounts = Constants::Enemies::Cannon::HEALTH_POINTS;
+	this->_enemyType = ENEMY_TYPE::MACHINE;
 
-	this->firingRate = 0;
+	this->_firingRate = 0;
 
-	shootDelay = CANON_SHOOT_DELAY;
-	shootTime = CANON_SHOOT_TIME;
-	shootDelayPerBullet = CANON_SHOOT_DELAY_PER_BULLET;
+	this->ResetBurst();
 }
 
 Cannon::~Cannon()
 {
-	Destroy(state);
-	Destroy(updateState);
+	Destroy(this->_state);
+	Destroy(this->_updateState);
 }
 
-BOOLEAN Cannon::IsTargetInRange()
+bool Cannon::IsTargetInRange() const
 {
-	float dx = this->GetX() - Enemy::target->GetX();
-	float dy = this->GetY() - Enemy::target->GetY();
+	if (!this->_target) return false;
+	float dx = this->GetX() - this->_target->GetX();
+	float dy = this->GetY() - this->_target->GetY();
 
-	return (dx > 0 && dy <= 0 && CalculateShootingAngle() > 0);
+	return (dx > 0 && dy <= 0 && this->CalculateShootingAngle() > 0);
 }
 
 const Bill* Cannon::GetEnemyTarget()
 {
-	return Enemy::target;
+	return this->_target;
 }
 
-FLOAT Cannon::CalculateShootingAngle()
+float Cannon::CalculateShootingAngle() const
 {
-	// first and third quarter is positive, second and fourth quarter is negative, top and bottom is 0, left right is 90
-	const Bill* bill = Enemy::target;
-
-	float dx = (this->GetPosition().x) - (bill->GetPosition().x);
-	float dy = -((this->GetPosition().y) - (bill->GetPosition().y));
-
-	if (dy == 0)
-	{
-		return 90;
-	}
-
-	return D3DXToDegree(atan(dx / dy));
+	return this->Enemy<Bill>::CalculateShootingAngle(this);
 }
 
 void Cannon::Update()
 {
-	if (!state)
+	if (!this->_state)
 	{
-		state = new CannonAppearState();
+		this->_state = new CannonAppearState();
 	}
 
-	updateState = state->Update(*this);
+	DeferState(this->_updateState, this->_state->Update(*this));
+
+	// Firing lives in the states' Enter, so a step with no transition has to
+	// re-enter the current state to keep the cannon shooting - exactly one Enter
+	// per step either way, since ChangeState runs it for a transition.
+	//
+	// This ran once per rendered FRAME while it lived in Render, which left the
+	// shootDelay countdown inside UpdateShooting paced by the display rather than
+	// by the 60 Hz logic clock the rest of the cannon is tuned against.
+	if (this->_updateState)
+	{
+		ApplyDeferredState(this->_state, this->_updateState, this);
+	}
+	else
+	{
+		this->_state->Enter(*this);
+	}
 }
 
 void Cannon::Render()
 {
-	state->Render(*this);
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
-
-	if (updateState)
-	{
-		ChangeState(state, updateState, this);
-		updateState = NULL;
-		return;
-	}
-	// i put fire in enter, so i need this
-	state->Enter(*this);
+	this->_state->Render(*this);
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
 }
 
 void Cannon::HandleInput(Input&)
@@ -95,20 +90,20 @@ void Cannon::HandleInput(Input&)
 
 void Cannon::LoadTextures()
 {
-	if (HasTextures<Cannon>::hasBeenLoaded.value) {
+	if (HasTextures<Cannon>::_hasBeenLoaded) {
 		return;
 	}
-	HasTextures<Cannon>::hasBeenLoaded.value = true;
+	HasTextures<Cannon>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertTexure(CANNON_TEXTURE_ID::CANNON, L"Resources\\Textures\\Cannon_all.bmp");
+	GraphicsHelper::InsertTexture(CANNON_TEXTURE_ID::CANNON, L"Resources\\Textures\\Cannon_all.bmp");
 }
 
 void Cannon::LoadSprites()
 {
-	if (HasSprites<Cannon>::hasBeenLoaded.value) {
+	if (HasSprites<Cannon>::_hasBeenLoaded) {
 		return;
 	}
-	HasSprites<Cannon>::hasBeenLoaded.value = true;
+	HasSprites<Cannon>::_hasBeenLoaded = true;
 
 	GraphicsHelper::InsertSprite(CANNON_SPRITE_ID::HALF_APPEAR_01, 2, 2, 34, 34, DIRECTION::LEFT, CANNON_TEXTURE_ID::CANNON);
 	GraphicsHelper::InsertSprite(CANNON_SPRITE_ID::HALF_APPEAR_02, 34, 2, 34, 66, DIRECTION::LEFT, CANNON_TEXTURE_ID::CANNON);
@@ -133,12 +128,12 @@ void Cannon::LoadSprites()
 
 void Cannon::LoadAnimations()
 {
-	if (HasAnimations<Cannon>::hasBeenLoaded.value) {
+	if (HasAnimations<Cannon>::_hasBeenLoaded) {
 		return;
 	}
-	HasAnimations<Cannon>::hasBeenLoaded.value = true;
+	HasAnimations<Cannon>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertAnimation(CANNON_ANIMATION_ID::APPEAR, 50,
+	GraphicsHelper::InsertAnimation(CANNON_ANIMATION_ID::APPEAR, Constants::Enemies::Cannon::ANIMATION_APPEAR_DELAY_MILLISECONDS,
 		{
 			{CANNON_SPRITE_ID::HALF_APPEAR_01, 0},
 			{CANNON_SPRITE_ID::HALF_APPEAR_02, 0},
@@ -148,21 +143,21 @@ void Cannon::LoadAnimations()
 			{CANNON_SPRITE_ID::THREE_FOURS_APPEAR_03, 0}
 		});
 
-	GraphicsHelper::InsertAnimation(CANNON_ANIMATION_ID::NORMAL, 165,
+	GraphicsHelper::InsertAnimation(CANNON_ANIMATION_ID::NORMAL, Constants::Enemies::Cannon::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 		{
 			{CANNON_SPRITE_ID::NORMAL_01, 0},
 			{CANNON_SPRITE_ID::NORMAL_02, 0},
 			{CANNON_SPRITE_ID::NORMAL_03, 0}
 		});
 
-	GraphicsHelper::InsertAnimation(CANNON_ANIMATION_ID::UP_30, 165,
+	GraphicsHelper::InsertAnimation(CANNON_ANIMATION_ID::UP_30, Constants::Enemies::Cannon::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 		{
 			{CANNON_SPRITE_ID::UP_30_01, 0},
 			{CANNON_SPRITE_ID::UP_30_02, 0},
 			{CANNON_SPRITE_ID::UP_30_03, 0}
 		});
 
-	GraphicsHelper::InsertAnimation(CANNON_ANIMATION_ID::UP_60, 165,
+	GraphicsHelper::InsertAnimation(CANNON_ANIMATION_ID::UP_60, Constants::Enemies::Cannon::ANIMATION_DEFAULT_DELAY_MILLISECONDS,
 		{
 			{CANNON_SPRITE_ID::UP_60_01, 0},
 			{CANNON_SPRITE_ID::UP_60_02, 0},
@@ -172,17 +167,17 @@ void Cannon::LoadAnimations()
 
 void Cannon::Fire()
 {
-	if (Enemy::target->isDead)
+	if (!Enemy::_target || Enemy::_target->IsDead())
 	{
 		return;
 	}
 }
 
-void Cannon::Fire(FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION direction)
+void Cannon::Fire(float angle, float vx, float vy, float ax, float ay, DIRECTION direction)
 {
-	if (Enemy::target->isDead)
+	if (!Enemy::_target || Enemy::_target->IsDead())
 	{
 		return;
 	}
-	HasWeapons::Fire(this->position.x, this->position.y + this->h / 2, angle, vx, vy, ax, ay, direction);
+	HasWeapons::Fire(this->_position.x, this->_position.y + this->_h / 2, angle, vx, vy, ax, ay, direction);
 }

@@ -231,19 +231,28 @@
     <ClInclude Include="src\Abstractions\Object\Terrain.h">
       <Filter>src\Abstractions\Object</Filter>
     </ClInclude>
-    <ClInclude Include="src\Abstractions\Space\QuadTree.h">
+    <ClInclude Include="src\Abstractions\Space\AABB.h">
       <Filter>src\Abstractions\Space</Filter>
     </ClInclude>
-    <ClInclude Include="src\Abstractions\Space\QuadTreeCommon.h">
+    <ClInclude Include="src\Abstractions\Space\BLAS.h">
       <Filter>src\Abstractions\Space</Filter>
     </ClInclude>
-    <ClInclude Include="src\Abstractions\Space\QuadTreeContainer.h">
+    <ClInclude Include="src\Abstractions\Space\BVH.h">
+      <Filter>src\Abstractions\Space</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Abstractions\Space\TLAS.h">
+      <Filter>src\Abstractions\Space</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Abstractions\Space\SpatialPartitioning.h">
       <Filter>src\Abstractions\Space</Filter>
     </ClInclude>
     <ClInclude Include="src\Abstractions\Space\QuadTreeNode.h">
       <Filter>src\Abstractions\Space</Filter>
     </ClInclude>
     <ClInclude Include="src\Common.h">
+      <Filter>src</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Constants.h">
       <Filter>src</Filter>
     </ClInclude>
     <ClInclude Include="src\Objects\Bill\Bill.h">
@@ -268,9 +277,6 @@
       <Filter>src\Objects\Bullet</Filter>
     </ClInclude>
     <ClInclude Include="src\Objects\Camera\Camera.h">
-      <Filter>src\Objects\Camera</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Objects\Camera\CameraCommon.h">
       <Filter>src\Objects\Camera</Filter>
     </ClInclude>
     <ClInclude Include="src\Objects\Enemies\AirCraft\AirCraft.h">
@@ -408,9 +414,6 @@
     <ClInclude Include="src\Objects\TestingEntity\TestingEntity.h">
       <Filter>src\Objects\TestingEntity</Filter>
     </ClInclude>
-    <ClInclude Include="src\Objects\TestingEntity\TestingEntityCommon.h">
-      <Filter>src\Objects\TestingEntity</Filter>
-    </ClInclude>
     <ClInclude Include="src\Stages\Stage.h">
       <Filter>src\Stages</Filter>
     </ClInclude>
@@ -466,6 +469,15 @@
     </ClCompile>
     <ClCompile Include="src\Abstractions\Object\Terrain.cpp">
       <Filter>src\Abstractions\Object</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Abstractions\Space\BLAS.cpp">
+      <Filter>src\Abstractions\Space</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Abstractions\Space\BVH.cpp">
+      <Filter>src\Abstractions\Space</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Abstractions\Space\TLAS.cpp">
+      <Filter>src\Abstractions\Space</Filter>
     </ClCompile>
     <ClCompile Include="src\Abstractions\Space\QuadTreeNode.cpp">
       <Filter>src\Abstractions\Space</Filter>
@@ -882,9 +894,6 @@
       <Filter>src\Objects\Fire</Filter>
     </ClCompile>
     <ClCompile Include="src\Objects\Item\Item.cpp">
-      <Filter>src\Objects\Item</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Objects\Item\ItemState.cpp">
       <Filter>src\Objects\Item</Filter>
     </ClCompile>
     <ClCompile Include="src\Objects\Letter\Letter.cpp">

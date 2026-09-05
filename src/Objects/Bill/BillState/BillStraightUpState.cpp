@@ -23,7 +23,7 @@ void BillStraightUpState::Render(Bill& bill)
 
 BillState* BillStraightUpState::Update(Bill& bill)
 {
-	return NULL;
+	return nullptr;
 }
 
 BillState* BillStraightUpState::HandleInput(Bill& bill, Input& input)
@@ -34,7 +34,7 @@ BillState* BillStraightUpState::HandleInput(Bill& bill, Input& input)
 		{
 			return new BillShotStraightUpState();
 		}
-		return NULL;
+		return nullptr;
 	}
 	return new BillNormalState();
 }

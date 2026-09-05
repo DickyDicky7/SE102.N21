@@ -16,92 +16,111 @@ class BossStage3Joint : public Entity, public Enemy<Bill>
 {
 public:
 
-    enum MoveAroundDirection
-    {
-        Positive, //chieu duong - chieu kim dong ho
-        Negative, //chieu am
-        Unknow //default
-    };
+	enum class MoveAroundDirection
+	{
+		Positive, // clockwise
+		Negative, // counter-clockwise
+		Unknown   // default
+	};
 
-	BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID, D3DXVECTOR3, DIRECTION, BossStage3Hand*);
+	BossStage3Joint(BOSS_STAGE_3_HAND_ANIMATION_ID type, D3DXVECTOR3 positionInit, DIRECTION direction, BossStage3Hand* parent);
 	virtual ~BossStage3Joint();
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
-    //di chuyen theo van toc vx, vy trong vong frames Frame
-    virtual void moveBy(float x, float y, int frames, int delayFrame = 0);
+	// Moves with velocity vx, vy for frames count
+	virtual void MoveBy(float x, float y, int frames, int delayFrames = 0);
 
-    //di chuyen vong tron quanh toa do x,y ban kinh radius voi van toc speed (Degree / frame) - chuyen dong deu
-    virtual void moveAround(float x, float y, float radius, int frames, float speed, MoveAroundDirection direction, float accelemetor = 0, int delayFrame = 0);
+	// Moves in a circle around (x, y) with radius and speed (degrees / frame)
+	virtual void MoveAround(float x, float y, float radius, int frames, float speed, MoveAroundDirection direction, float accelerator = 0, int delayFrames = 0);
 
-    virtual void moveFollow(BossStage3Joint* joint, bool isMoveFollowWithAccelemetor = true);
+	virtual void MoveFollow(BossStage3Joint* joint, bool isMoveFollowWithAccelerator = true);
 
-    virtual void setMoveAroundSpeed(float speed);
+	virtual void SetMoveAroundSpeed(float speed);
 
-    virtual void setMoveAroundRadius(float radius);
+	virtual void SetMoveAroundRadius(float radius);
 
-    virtual void reverseMoveAroundDirection();
+	virtual void ReverseMoveAroundDirection();
 
-    virtual void setMoveAroundDelay(int frame);
+	virtual void SetMoveAroundDelay(int frame);
 
-    virtual float getAngleSpeed();
+	virtual float GetAngleSpeed();
 
-    virtual void stopMoveFollow();
+	virtual void StopMoveFollow();
 
-    virtual int getMoveAroundCurrFrame();
+	virtual int GetMoveAroundCurrFrame();
 
-    virtual D3DXVECTOR2 getCurrentMoveDirection();
+	virtual D3DXVECTOR2 GetCurrentMoveDirection();
 
-    virtual void stopMoveAround();
+	virtual void StopMoveAround();
 
-    virtual void alignDistance(BossStage3Joint* joint2); // lam cho joint1 luon cach joint2 1 khoang = tong ban kinh 2 thang luon co dinh
+	virtual void AlignDistance(BossStage3Joint* joint2); // Keeps joint1 distance to joint2 fixed
+
+	bool IsEnemy() const override { return true; }
+	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	bool TakeBulletHit() override;
 
 
-    bool    isMoveAround,
-            isMoveTo,
-            isMoveBy,
-            isMoveByVelocity,
-            isMoveFollow;
+	bool IsMoveAround() const { return this->_isMoveAround; }
+	bool IsMoveTo() const { return this->_isMoveTo; }
+	bool IsMoveBy() const { return this->_isMoveBy; }
+	bool IsMoveFollow() const { return this->_isMoveFollow; }
 
-    float distanceMoved;
-    float angleMoved;
-    float moveAroundSpeed; // (Degree / frame)
-
-    BossStage3Hand* parent;
-    MoveAroundDirection moveAroundDirection;
+	float GetDistanceMoved() const { return this->_distanceMoved; }
+	float GetAngleMoved() const { return this->_angleMoved; }
+	float GetMoveAroundSpeed() const { return this->_moveAroundSpeed; }
+	MoveAroundDirection GetMoveAroundDirection() const { return this->_moveAroundDirection; }
+	BossStage3Hand* GetParent() const { return this->_parent; }
 
 protected:
-	BOSS_STAGE_3_HAND_ANIMATION_ID type; // type of hand: hand or arm
+	bool _isMoveAround;
+	bool _isMoveTo;
+	bool _isMoveBy;
+	bool _isMoveFollow;
 
-    void updateMoveBy(float oldx, float oldy);
-    void updateMoveFollow();
-    void updateMoveTo(float oldx, float oldy);
-    void updateMoveAround();
+	float _distanceMoved;
+	float _angleMoved;
+	float _moveAroundSpeed; // (Degree / frame)
 
-    float   moveAroundX,
-            moveAroundY,
-            moveAroundRadius,
-            moveAroundDelay,
-            moveAroundFrame,
-            moveAroundAccelemetor,
-            moveToX,
-            moveToY,
-            moveToFrame,
-            moveToCurrFrame,
-            moveByCurrFrame,
-            moveByFrame,
-            moveByDelay;
+	BossStage3Hand* _parent;
+	MoveAroundDirection _moveAroundDirection;
 
-    int moveToDelay, moveAroundCurrFrame;
+	BOSS_STAGE_3_HAND_ANIMATION_ID _type; // type of hand: hand or arm
 
-    D3DXVECTOR2 currMoveDirection;
+	void UpdateMoveBy(float oldx, float oldy);
+	void UpdateMoveFollow();
+	void UpdateMoveTo(float oldx, float oldy);
+	void UpdateMoveAround();
 
-    BossStage3Joint* jointFollow;
+	float _moveAroundX;
+	float _moveAroundY;
+	float _moveAroundRadius;
+	float _moveAroundAccelerator;
+	float _moveToX;
+	float _moveToY;
 
-	bool isMoveAroundAcclemetor, allowMoveReverse, isJointFollowStoped, isMoveFollowFirstTime, isMoveFollowWithAccelemetor;
+	int _moveAroundFrame;
+	int _moveAroundDelay;
+	int _moveAroundCurrFrame;
+	int _moveToFrame;
+	int _moveToCurrFrame;
+	int _moveToDelay;
+	int _moveByFrame;
+	int _moveByCurrFrame;
+	int _moveByDelay;
+
+	D3DXVECTOR2 _currMoveDirection;
+
+	BossStage3Joint* _jointFollow;
+
+	bool _isMoveAroundAccelerator;
+	bool _allowMoveReverse;
+	bool _isJointFollowStopped;
+	bool _isMoveFollowFirstTime;
+	bool _isMoveFollowWithAccelerator;
 };

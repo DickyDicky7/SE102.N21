@@ -5,8 +5,9 @@
 ## **Đề tài: Lập trình Game Contra bằng DirectX 11**
 
 > Dự án ban đầu được viết bằng DirectX 9 (D3DX9 + `ID3DXSprite`) và sau đó đã
-> được chuyển sang DirectX 11. Chi tiết xem
-> [docs/DirectX9_to_DirectX11_Upgrade_Assessment.md](docs/DirectX9_to_DirectX11_Upgrade_Assessment.md).
+> được chuyển sang DirectX 11. `src/Abstractions/Graphics/DX11Math.h` là lớp
+> tương thích còn lại của lần chuyển đó: nó dựng lại các kiểu toán học của D3DX9
+> (`D3DXVECTOR2/3`, `D3DXMATRIX`) trên nền DirectXMath.
 
 ## Lớp: SE102.N21
 
@@ -20,8 +21,8 @@ Nhóm sinh viên thực hiện:
 
 ### **Các kĩ thuật đã được áp dụng trong đồ án:**
 
-- QuadTree
-- AABB Collision
+- Phân hoạch không gian phân cấp: QuadTreeNode + BVH hai tầng (TLAS/BLAS)
+- AABB Collision (kèm swept AABB cho broadphase)
 - Tiled Map
 - Scrolling
 - Sprite - Animation
@@ -50,8 +51,8 @@ src/
     Graphics/                 GraphicsHelper (back end D3D11), DX11Math, 4 file .hlsl,
                               GraphicsDatabase, Has{Sprites,Textures,Animations}
     Object/                   Entity, State, Motion, Enemy, CollidableEntity, Terrain
-    Space/                    QuadTreeNode (quadtree đang dùng)
-                              + QuadTree/QuadTreeContainer — CODE CHẾT, xem docs/DeadCode.md
+    Space/                    QuadTreeNode, AABB, BVH, BLAS, TLAS,
+                              SpatialPartitioning
     Device/                   Input (DirectInput 8), Sound (DirectSound 8)
   Objects/
     Bill/                     Bill.h|.cpp, BillCommon.h
@@ -63,12 +64,10 @@ src/
       RifleMan/{HideOnBush,Standing}/,
       BossStage1/{FinalBossStage1,GunBossStage1}/,
       BossStage3/{BossStage3Gate,BossStage3Hand,BossStage3Head}/
-      AirCraft/AirCraftState/ và Fire/FireState/ — CODE CHẾT, xem docs/DeadCode.md
     Terrains/                 TerrainBlock, TerrainStage1, TerrainStage2
   Stages/                     Stage, Stage1, Stage2
 third_party/tileson/          thư viện header-only đọc Tiled map (.json)
 Resources/                    texture, sound, font, map — copy sang output khi build
-docs/                         tài liệu thiết kế / migration
 ```
 
 Các header được `#include` bằng **tên trần** (`#include "Bill.h"`) từ bất kì đâu:
@@ -76,11 +75,10 @@ mọi thư mục chứa header đều nằm trên include path, khai báo một 
 `GameIncludeDirs` trong `NESContra.vcxproj`. Khi thêm một thư mục mới có chứa
 header, nhớ thêm nó vào đó.
 
-> **Lưu ý:** trong `src/` có **14 file là code chết** — không được biên dịch ở bất
-> kì configuration nào, và 8 file trong số đó thậm chí *không compile được* (thiếu
-> class cơ sở `AirCraftState`). Chúng được giữ lại có chủ ý, nhưng 3 file header
-> trong số đó vẫn còn khai báo trong `NESContra.vcxproj` nên rất dễ nhầm là code
-> đang dùng. Danh sách đầy đủ kèm bằng chứng: **[docs/DeadCode.md](docs/DeadCode.md)**.
+> **Lưu ý:** mọi file `.cpp` trong `src/` đều được biên dịch. Số code chết trước
+> đây (`QuadTree` / `QuadTreeContainer`, `AirCraft/AirCraftState/`,
+> `Fire/FireState/`) đã bị xoá, nên cây thư mục ở trên đúng bằng những gì thực sự
+> đang chạy.
 
 ## Các màn chơi
 

@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 #include "Bill.h"
 #include "Enemy.h"
 #include "State.h"
@@ -14,43 +14,55 @@ class AirCraft : public Entity, public Enemy<Bill>
 {
 public:
 
-	AirCraft(ITEM_TYPE, AIRCRAFT_DIRECTION);
+	AirCraft(ITEM_TYPE ammoType, AIRCRAFT_DIRECTION direction);
 	virtual ~AirCraft();
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
-	ITEM_TYPE getAmmoType();
-	void setAmmoType(ITEM_TYPE);
+	ITEM_TYPE GetAmmoType();
+	void SetAmmoType(ITEM_TYPE ammoType);
 
-	AIRCRAFT_DIRECTION getAircarftDirection() 
+	bool IsEnemy() const override { return true; }
+	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
+	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	Item* CreateDroppedItem() const override;
+	bool TakeBulletHit() override { return this->Enemy<Bill>::TakeEnemyBulletHit(this); }
+
+	AIRCRAFT_DIRECTION GetAircraftDirection()
 	{
-		return _aircarftDirection;
+		return this->_aircraftDirection;
 	}
-	void setAircarftDirection(AIRCRAFT_DIRECTION direction) {
-		_aircarftDirection = direction;
+	void SetAircraftDirection(AIRCRAFT_DIRECTION direction) {
+		this->_aircraftDirection = direction;
 	}
 protected:
 
 	ITEM_TYPE _ammoType;
-	AIRCRAFT_DIRECTION _aircarftDirection; // huong ngang hoac doc
+	AIRCRAFT_DIRECTION _aircraftDirection; // horizontal or vertical
 
-	FLOAT time;
-	FLOAT y0;
-	FLOAT x0;
-	FLOAT dt;
-	FLOAT T;
-	FLOAT A;
-	FLOAT φ;
+	float _time;
+	float _y0;
+	float _x0;
+	float _dt;
+	float _period;
+	float _amplitude;
+	float _phi;
 
-	// x0, y0: vị trí lúc đầu
-	// time: thời gian
+	// Distinguishes "x0/y0 not captured yet" from "the spawn position really is
+	// 0".  Testing _x0 == 0.0f for that conflated the two, and would have
+	// re-captured the origin on the second frame - after the first one had
+	// already displaced the craft by the amplitude.
+	bool _hasCapturedOrigin;
+
+	// x0, y0: initial position
+	// time: time
 	// dt: delta time ( t = t + dt )
-	// T: khoảng thời gian để quay hết 1 vòng (tính bằng giây)
-	// A: Bán kính
-	// φ: pha ban đầu của dao động (-π<φ<π)
+	// period: period (in seconds)
+	// amplitude: amplitude / radius
+	// phi: initial phase (-pi < phi < pi)
 };

@@ -23,7 +23,7 @@ void BillSwimShotStraightUpState::Render(Bill& bill)
 
 BillState* BillSwimShotStraightUpState::Update(Bill& bill)
 {
-	return NULL;
+	return nullptr;
 }
 
 BillState* BillSwimShotStraightUpState::HandleInput(Bill& bill, Input& input)
@@ -31,7 +31,7 @@ BillState* BillSwimShotStraightUpState::HandleInput(Bill& bill, Input& input)
 	if (input.IsKey(DIK_UP) && input.IsKey(DIK_X))
 	{
 		bill.Fire();
-		return NULL;
+		return nullptr;
 	}
 	return new BillSwimNormalState();
 }

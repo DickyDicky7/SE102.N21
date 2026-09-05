@@ -2,14 +2,14 @@
 
 EndingSceneState::EndingSceneState() : SceneState()
 {
-	Sound::getInstance()->loadSound("Resources\\Sounds\\aircraft.wav", "aircraft");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\bridgeexplosion.wav", "bridgeexplosion");
-	delayToExplosion = 120;
+	Sound::GetInstance()->LoadSound("Resources\\Sounds\\aircraft.wav", "aircraft");
+	Sound::GetInstance()->LoadSound("Resources\\Sounds\\bridgeexplosion.wav", "bridgeexplosion");
+	this->_delayToExplosion = Constants::Scene::ENDING_EXPLOSION_DELAY_FRAMES;
 }
 
 EndingSceneState::~EndingSceneState()
 {
-	delayToExplosion = NULL;
+	this->_delayToExplosion = 0;
 }
 
 void EndingSceneState::Exit(Scene& scene)
@@ -18,10 +18,10 @@ void EndingSceneState::Exit(Scene& scene)
 
 void EndingSceneState::Enter(Scene& scene)
 {
-	scene.stageIsReady = false;
-	scene.SetX(IN_GAME_SCREEN_W * 0.5f);
+	scene.SetStageReady(false);
+	scene.SetX(Constants::Screen::IN_GAME_WIDTH * Constants::Scene::SCENE_CENTRE_WIDTH_FACTOR);
 	scene.SetY(0.0f);
-	Sound::getInstance()->play("aircraft", false, 1);
+	Sound::GetInstance()->Play("aircraft", false, 1);
 }
 
 void EndingSceneState::Render(Scene& scene)
@@ -31,8 +31,8 @@ void EndingSceneState::Render(Scene& scene)
 
 SceneState* EndingSceneState::Update(Scene& scene)
 {
-	if (--delayToExplosion == 0)
-		Sound::getInstance()->play("bridgeexplosion", false, 1);
+	if (--this->_delayToExplosion == 0)
+		Sound::GetInstance()->Play("bridgeexplosion", false, 1);
 
 	std::vector<std::tuple<SPRITE_ID, TIME>>& frames = std::get<
 		std::vector<std::tuple<SPRITE_ID, TIME>>>(GraphicsDatabase::animations[SCENE_ANIMATION_ID::ENDING_FRAME]);
@@ -41,10 +41,10 @@ SceneState* EndingSceneState::Update(Scene& scene)
 	{
 		return new CreditSceneState();
 	}
-	return NULL;
+	return nullptr;
 }
 
 SceneState* EndingSceneState::HandleInput(Scene& scene, Input& input)
 {
-	return NULL;
+	return nullptr;
 }

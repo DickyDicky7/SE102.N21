@@ -25,23 +25,31 @@ public:
 
 	virtual void Update() override;
 	virtual void Render() override;
-	virtual void HandleInput(Input&) override;
+	virtual void HandleInput(Input& input) override;
 
 	void LoadTextures() override;
 	void LoadSprites() override;
 	void LoadAnimations() override;
 
-	void SetGun1(GunBossStage1*);
-	void SetGun2(GunBossStage1*);
+	void SetGun1(GunBossStage1* gun1);
+	void SetGun2(GunBossStage1* gun2);
 
-	ULONGLONG deadTurns;
+	ULONGLONG GetDeadTurns() const { return this->_deadTurns; }
+	void IncrementDeadTurns() { ++this->_deadTurns; }
 
+	bool IsEnemy() const override { return true; }
+	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
+	bool IsPushableObstacle() const override { return !this->IsDead(); }
+	bool IsVulnerableToBullet() const override { return !this->IsDead(); }
+	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	bool TakeBulletHit() override { return this->IsDead() ? false : this->Enemy<Bill>::TakeEnemyBulletHit(this); }
 protected:
-	FinalBossStage1State* state;
-	FinalBossStage1State* updateState;
+	FinalBossStage1State* _state;
+	FinalBossStage1State* _updateState;
 
-	GunBossStage1* gun1;
-	GunBossStage1* gun2;
+	GunBossStage1* _gun1;
+	GunBossStage1* _gun2;
+	ULONGLONG _deadTurns;
 };
 
 class FinalBossStage1State : public State<FinalBossStage1State, FinalBossStage1>
@@ -50,15 +58,15 @@ public:
 	FinalBossStage1State();
 	~FinalBossStage1State();
 
-	virtual void Exit(FinalBossStage1&) = 0;
-	virtual void Enter(FinalBossStage1&) = 0;
-	virtual void Render(FinalBossStage1&) = 0;
+	virtual void Exit(FinalBossStage1& finalBossStage1) = 0;
+	virtual void Enter(FinalBossStage1& finalBossStage1) = 0;
+	virtual void Render(FinalBossStage1& finalBossStage1) = 0;
 
-	virtual FinalBossStage1State* Update(FinalBossStage1&) = 0;
-	virtual FinalBossStage1State* HandleInput(FinalBossStage1&, Input&) override;
+	virtual FinalBossStage1State* Update(FinalBossStage1& finalBossStage1) = 0;
+	virtual FinalBossStage1State* HandleInput(FinalBossStage1& finalBossStage1, Input& input) override;
 
 protected:
-	FLOAT time;
+	float _time;
 };
 
 class FinalBossStage1NormalState : public FinalBossStage1State
@@ -67,11 +75,11 @@ public:
 	FinalBossStage1NormalState();
 	~FinalBossStage1NormalState();
 
-	virtual void Exit(FinalBossStage1&);
-	virtual void Enter(FinalBossStage1&);
-	virtual void Render(FinalBossStage1&);
+	virtual void Exit(FinalBossStage1& finalBossStage1);
+	virtual void Enter(FinalBossStage1& finalBossStage1);
+	virtual void Render(FinalBossStage1& finalBossStage1);
 
-	virtual FinalBossStage1State* Update(FinalBossStage1&);
+	virtual FinalBossStage1State* Update(FinalBossStage1& finalBossStage1);
 };
 
 class FinalBossStage1DestroyState : public FinalBossStage1State
@@ -80,11 +88,11 @@ public:
 	FinalBossStage1DestroyState();
 	~FinalBossStage1DestroyState();
 
-	virtual void Exit(FinalBossStage1&);
-	virtual void Enter(FinalBossStage1&);
-	virtual void Render(FinalBossStage1&);
+	virtual void Exit(FinalBossStage1& finalBossStage1);
+	virtual void Enter(FinalBossStage1& finalBossStage1);
+	virtual void Render(FinalBossStage1& finalBossStage1);
 
-	virtual FinalBossStage1State* Update(FinalBossStage1&);
+	virtual FinalBossStage1State* Update(FinalBossStage1& finalBossStage1);
 protected:
-	boolean isDestroy;
+	bool _isDestroy;
 };

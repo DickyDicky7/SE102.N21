@@ -21,7 +21,7 @@ public:
 	virtual ~ScubaSoldier();
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 
 	void LoadSprites() override;
 	void LoadTextures() override;
@@ -30,13 +30,18 @@ public:
 	void Fire() override;
 	void CalculateBillAngle();
 
+	bool IsEnemy() const override { return true; }
+	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
+	bool IsLethalToTouch() const override { return true; }
+	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	bool TakeBulletHit() override { return this->Enemy<Bill>::TakeEnemyBulletHit(this); }
 protected:
 
-	ScubaSoldierState* state;
-	ScubaSoldierState* updateState;
-	ScubaSoldierState* handleInputState;
+	ScubaSoldierState* _state;
+	ScubaSoldierState* _updateState;
+	ScubaSoldierState* _handleInputState;
 
-	float billAngle;
+	float _billAngle;
 };
 
 // build state of soldier
@@ -48,16 +53,18 @@ public:
 	ScubaSoldierState();
 	virtual ~ScubaSoldierState();
 
-	virtual void Exit(ScubaSoldier&) override = 0;
-	virtual void Enter(ScubaSoldier&) override = 0;
-	virtual void Render(ScubaSoldier&) override = 0;
+	virtual void Exit(ScubaSoldier& scubaSoldier) override = 0;
+	virtual void Enter(ScubaSoldier& scubaSoldier) override = 0;
+	virtual void Render(ScubaSoldier& scubaSoldier) override = 0;
 
-	virtual ScubaSoldierState* Update(ScubaSoldier&) override = 0;
-	virtual ScubaSoldierState* HandleInput(ScubaSoldier&, Input&) override = 0;
+	virtual ScubaSoldierState* Update(ScubaSoldier& scubaSoldier) override = 0;
+	virtual ScubaSoldierState* HandleInput(ScubaSoldier& scubaSoldier, Input& input) override = 0;
+
+	virtual bool IsHidden() const { return false; }
 
 protected:
 
-	FLOAT time;
+	float _time;
 
 };
 
@@ -70,12 +77,12 @@ public:
 	ScubaSoldierShootingState();
 	virtual ~ScubaSoldierShootingState();
 
-	virtual void Exit(ScubaSoldier&) override;
-	virtual void Enter(ScubaSoldier&) override;
-	virtual void Render(ScubaSoldier&) override;
+	virtual void Exit(ScubaSoldier& scubaSoldier) override;
+	virtual void Enter(ScubaSoldier& scubaSoldier) override;
+	virtual void Render(ScubaSoldier& scubaSoldier) override;
 
-	virtual ScubaSoldierState* Update(ScubaSoldier&) override;
-	virtual ScubaSoldierState* HandleInput(ScubaSoldier&, Input&) override;
+	virtual ScubaSoldierState* Update(ScubaSoldier& scubaSoldier) override;
+	virtual ScubaSoldierState* HandleInput(ScubaSoldier& scubaSoldier, Input& input) override;
 
 };
 
@@ -88,11 +95,13 @@ public:
 	ScubaSoldierHiddenState();
 	virtual ~ScubaSoldierHiddenState();
 
-	virtual void Exit(ScubaSoldier&) override;
-	virtual void Enter(ScubaSoldier&) override;
-	virtual void Render(ScubaSoldier&) override;
+	virtual void Exit(ScubaSoldier& scubaSoldier) override;
+	virtual void Enter(ScubaSoldier& scubaSoldier) override;
+	virtual void Render(ScubaSoldier& scubaSoldier) override;
 
-	virtual ScubaSoldierState* Update(ScubaSoldier&) override;
-	virtual ScubaSoldierState* HandleInput(ScubaSoldier&, Input&) override;
+	virtual ScubaSoldierState* Update(ScubaSoldier& scubaSoldier) override;
+	virtual ScubaSoldierState* HandleInput(ScubaSoldier& scubaSoldier, Input& input) override;
+
+	bool IsHidden() const override { return true; }
 
 };

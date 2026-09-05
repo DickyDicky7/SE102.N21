@@ -9,44 +9,44 @@ RockFallNormalState::~RockFallNormalState()
 }
 
 
-void RockFallNormalState::Exit(RockFall& RockFall)
+void RockFallNormalState::Exit(RockFall& rockFall)
 {
 }
 
-void RockFallNormalState::Enter(RockFall& RockFall)
+void RockFallNormalState::Enter(RockFall& rockFall)
 {
 }
 
-void RockFallNormalState::Render(RockFall& RockFall)
+void RockFallNormalState::Render(RockFall& rockFall)
 {
-	RockFall.SetAnimation(ROCK_FALL_ANIMATION_ID::NORMAL, RockFall.GetPosition(), RockFall.GetMovingDirection(), RockFall.GetAngle());
+	rockFall.SetAnimation(ROCK_FALL_ANIMATION_ID::NORMAL, rockFall.GetPosition(), rockFall.GetMovingDirection(), rockFall.GetAngle());
 }
 
 RockFallState* RockFallNormalState::Update(RockFall& rockFall)
 {
-	// delay 2s roi fall
-	FLOAT t = rockFall.getTimeDelayToFall();
+	// Delay ~2s, then start falling
+	float t = rockFall.GetTimeDelayToFall();
 	if (--t == 0)
 	{
 		return new RockFallFallState();
 	}
 	else {
-		// rung lac
-		if ((int)t % 5 == 0) {
-			FLOAT x = rockFall.GetX();
-			FLOAT vx = rockFall.GetVX();
+		// Shake in place
+		if (static_cast<int>(t) % Constants::Enemies::RockFall::SHAKE_FRAME_MODULO == 0) {
+			float x = rockFall.GetX();
+			float vx = rockFall.GetVX();
 
-			x += 2 * vx;
+			x += Constants::Enemies::RockFall::SHAKE_DISPLACEMENT_FACTOR * vx;
 			vx = -vx;
 			rockFall.SetX(x);
 			rockFall.SetVX(vx);
 		}
 	}
-	rockFall.setTimeDelayToFall(t);
-	return NULL;
+	rockFall.SetTimeDelayToFall(t);
+	return nullptr;
 }
 
-RockFallState* RockFallNormalState::HandleInput(RockFall& RockFall, Input& input)
+RockFallState* RockFallNormalState::HandleInput(RockFall& rockFall, Input& input)
 {
-	return NULL;
+	return nullptr;
 }

@@ -19,12 +19,12 @@ public:
 
 	void Update() override;
 	void Render() override;
-	void HandleInput(Input&) override;
+	void HandleInput(Input& input) override;
 
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
-	void SetAnimationId(const std::string&) override;
+	void SetAnimationId(const std::string& animationId) override;
 
 };
 

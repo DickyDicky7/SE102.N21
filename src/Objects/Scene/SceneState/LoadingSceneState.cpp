@@ -1,16 +1,16 @@
 #include "Scene.h"
 #include "Sound.h"
-LoadingSceneState::LoadingSceneState() : SceneState(), T_LIVES_LEFT(NULL), T_STAGE_NUMB(NULL), T_STAGE_NAME(NULL), T_CURRENT_SCORE(NULL), T_HIGHEST_SCORE(NULL)
+LoadingSceneState::LoadingSceneState() : SceneState(), _tLivesLeft(nullptr), _tStageNumb(nullptr), _tStageName(nullptr), _tCurrentScore(nullptr), _tHighestScore(nullptr)
 {
 }
 
 LoadingSceneState::~LoadingSceneState()
 {
-	Destroy(T_LIVES_LEFT);
-	Destroy(T_STAGE_NUMB);
-	Destroy(T_STAGE_NAME);
-	Destroy(T_CURRENT_SCORE);
-	Destroy(T_HIGHEST_SCORE);
+	Destroy(this->_tLivesLeft);
+	Destroy(this->_tStageNumb);
+	Destroy(this->_tStageName);
+	Destroy(this->_tCurrentScore);
+	Destroy(this->_tHighestScore);
 }
 
 void LoadingSceneState::Exit(Scene& scene)
@@ -19,111 +19,116 @@ void LoadingSceneState::Exit(Scene& scene)
 
 void LoadingSceneState::Enter(Scene& scene)
 {
-	scene.stageIsReady = false;
+	scene.SetStageReady(false);
 
-	if (++scene.currentStage > 2) 
-		  scene.currentStage = 1;
+	scene.SetCurrentStage(scene.GetCurrentStage() + 1);
+	if (scene.GetCurrentStage() > Constants::Stages::TOTAL_STAGES)
+		scene.SetCurrentStage(Constants::Stages::STAGE_1_INDEX);
 
-	std::string stageNumb = "STAGE " 
-		   + std::to_string(scene.currentStage);
-	std::string stageName = scene.currentStage == 1 ? "JUNGLE" 
-		                  : scene.currentStage == 2 ? "WATERFALL" : "";
-	
-	T_LIVES_LEFT    = new Text(std::to_string(*scene.livesLeft   ), AtRow(23.0f), AtCol(10.0f));
-	T_STAGE_NUMB    = new Text(stageNumb                          , AtRow(14.0f), AtCol(12.0f));
-	T_STAGE_NAME    = new Text(stageName                          , AtRow(12.0f), AtCol(12.0f));
-	T_CURRENT_SCORE = new Text(std::to_string( scene.currentScore), AtRow(25.0f), AtCol(10.0f));
-	T_HIGHEST_SCORE = new Text(std::to_string( scene.highestScore), AtRow(19.0f), AtCol(15.0f));
+	const int currentStage = scene.GetCurrentStage();
 
-	if (scene.currentStage == 1)
+	std::string stageNumb = "STAGE "
+		   + std::to_string(currentStage);
+	std::string stageName = currentStage == Constants::Stages::STAGE_1_INDEX ? "JUNGLE"
+		                  : currentStage == Constants::Stages::STAGE_2_INDEX ? "WATERFALL" : "";
+
+	this->_tLivesLeft    = new Text(std::to_string(*scene.GetLivesLeft()   ), AtRow(Constants::Scene::UI_ROW_LIVES_LEFT_VALUE), AtCol(Constants::Scene::UI_COLUMN_LIVES_LEFT_VALUE));
+	this->_tStageNumb    = new Text(stageNumb                          , AtRow(Constants::Scene::UI_ROW_STAGE_NUMBER), AtCol(Constants::Scene::UI_COLUMN_STAGE_NUMBER));
+	this->_tStageName    = new Text(stageName                          , AtRow(Constants::Scene::UI_ROW_STAGE_NAME), AtCol(Constants::Scene::UI_COLUMN_STAGE_NAME));
+	this->_tCurrentScore = new Text(std::to_string( scene.GetCurrentScore()), AtRow(Constants::Scene::UI_ROW_SCORE_VALUE), AtCol(Constants::Scene::UI_COLUMN_SCORE_VALUE));
+	this->_tHighestScore = new Text(std::to_string( scene.GetHighestScore()), AtRow(Constants::Scene::UI_ROW_HIGH_SCORE_VALUE), AtCol(Constants::Scene::UI_COLUMN_HIGH_SCORE_VALUE));
+
+	if (currentStage == Constants::Stages::STAGE_1_INDEX)
 	{
-		Destroy(scene.stage);
-		scene.stage = new Stage1();
-		scene.stage->Load<TerrainStage1, CameraMovingForwardState>();
+		scene.ReplaceStage(new Stage1());
+		scene.GetStage()->Load<TerrainStage1, CameraMovingForwardState>();
 	}
 	else
-	if (scene.currentStage == 2)
+	if (currentStage == Constants::Stages::STAGE_2_INDEX)
 	{
-		Destroy(scene.stage);
-		scene.stage = new Stage2();
-		scene.stage->Load<TerrainStage2, CameraMovingUpwardState >();
+		scene.ReplaceStage(new Stage2());
+		scene.GetStage()->Load<TerrainStage2, CameraMovingUpwardState >();
 	}
 
-	if (scene.stage)
+	if (scene.GetStage())
 	{
-		scene.stage->GetBill()->livesLeft = scene.livesLeft;
+		scene.GetStage()->GetBill()->SetLivesLeft(scene.GetLivesLeft());
 	}
 
 
-	Sound::getInstance()->loadSound("Resources\\Sounds\\clearStage.wav", "clearStage");
-	Sound::getInstance()->play("clearStage", false, 1);
+	static const struct SoundResource {
+		const char* path;
+		const char* id;
+	} soundResources[] = {
+		{ "Resources\\Sounds\\clearStage.wav", "clearStage" },
+		{ "Resources\\Sounds\\stage1.wav", "stage1" },
+		{ "Resources\\Sounds\\stage2.wav", "stage2" },
+		{ "Resources\\Sounds\\stage3.wav", "stage3" },
+		{ "Resources\\Sounds\\beep.wav", "beep" },
+		{ "Resources\\Sounds\\boss1dead.wav", "boss1dead" },
+		{ "Resources\\Sounds\\boss2bulletsound.wav", "boss2bulletsound" },
+		{ "Resources\\Sounds\\boss2finaldestroy.wav", "boss2finaldestroy" },
+		{ "Resources\\Sounds\\boss2finalhanddisappear.wav", "boss2finalhanddisappear" },
+		{ "Resources\\Sounds\\bridgeexplosion.wav", "bridgeexplosion" },
+		{ "Resources\\Sounds\\enemydead.wav", "enemydead" },
+		{ "Resources\\Sounds\\warning.wav", "warning" },
+		{ "Resources\\Sounds\\explode.wav", "explode" },
+		{ "Resources\\Sounds\\beShooted.wav", "beShooted" },
+		{ "Resources\\Sounds\\qexplode.wav", "qexplode" },
+		{ "Resources\\Sounds\\stonefailing.wav", "stonefailing" },
+		{ "Resources\\Sounds\\fallingmine.wav", "fallingmine" },
+		{ "Resources\\Sounds\\playerdie.wav", "playerdie" },
+		{ "Resources\\Sounds\\addlife.wav", "addlife" },
+		{ "Resources\\Sounds\\gameOver.wav", "gameOver" },
+		{ "Resources\\Sounds\\passboss.wav", "passboss" },
+		{ "Resources\\Sounds\\shootL.wav", "shootL" },
+		{ "Resources\\Sounds\\shootM.wav", "shootM" },
+		{ "Resources\\Sounds\\shootS.wav", "shootS" },
+		{ "Resources\\Sounds\\shootF.wav", "shootF" },
+		{ "Resources\\Sounds\\weaponL.wav", "weaponL" },
+		{ "Resources\\Sounds\\weaponM.wav", "weaponM" },
+		{ "Resources\\Sounds\\weaponS.wav", "weaponS" },
+		{ "Resources\\Sounds\\weaponF.wav", "weaponF" },
+		{ "Resources\\Sounds\\weaponB.wav", "weaponB" },
+		{ "Resources\\Sounds\\weaponR.wav", "weaponR" },
+		{ "Resources\\Sounds\\weaponD.wav", "weaponD" },
+		{ "Resources\\Sounds\\landing.wav", "landing" },
+		{ "Resources\\Sounds\\tank.wav", "tank" },
+		{ "Resources\\Sounds\\exbullet.wav", "exbullet" },
+	};
 
-	Sound::getInstance()->loadSound("Resources\\Sounds\\stage1.wav", "stage1");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\stage2.wav", "stage2");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\stage3.wav", "stage3");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\beep.wav", "beep.wav");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\boss1dead.wav", "boss1dead");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\boss2bulletsound.wav", "boss2bulletsound.wav");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\boss2finaldestroy.wav", "boss2finaldestroy");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\boss2finalhanddisappear.wav", "boss2finalhanddisappear");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\bridgeexplosion.wav", "bridgeexplosion.wav");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\enemydead.wav", "enemydead");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\warning.wav", "warning");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\explode.wav", "explode");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\beShooted.wav", "beShooted");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\qexplode.wav", "qexplode");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\stonefailing.wav", "stonefailing");
+	for (const auto& res : soundResources)
+	{
+		Sound::GetInstance()->LoadSound(res.path, res.id);
+	}
 
-	Sound::getInstance()->loadSound("Resources\\Sounds\\fallingmine.wav", "fallingmine");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\playerdie.wav", "playerdie");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\addlife.wav", "addlife");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\gameOver.wav", "gameOver");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\passboss.wav", "passboss");
-
-	Sound::getInstance()->loadSound("Resources\\Sounds\\shootL.wav", "shootL");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\shootM.wav", "shootM");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\shootS.wav", "shootS");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\shootF.wav", "shootF");
-
-	Sound::getInstance()->loadSound("Resources\\Sounds\\weaponL.wav", "weaponL");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\weaponM.wav", "weaponM");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\weaponS.wav", "weaponS");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\weaponF.wav", "weaponF");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\weaponB.wav", "weaponB");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\weaponR.wav", "weaponR");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\weaponD.wav", "weaponD");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\landing.wav", "landing");
-
-	Sound::getInstance()->loadSound("Resources\\Sounds\\tank.wav", "tank");
-	Sound::getInstance()->loadSound("Resources\\Sounds\\exbullet.wav", "exbullet");
-
-	
+	Sound::GetInstance()->Play("clearStage", false, 1);
 }
 
 void LoadingSceneState::Render(Scene& scene)
 {
-	T_1P.Render();
-	T_HI.Render();
-	T_REST.Render();
-	T_STAGE_NUMB->Render();
-	T_STAGE_NAME->Render();
+	this->_t1P.Render();
+	this->_tHi.Render();
+	this->_tRest.Render();
+	this->_tStageNumb->Render();
+	this->_tStageName->Render();
 	ULONGLONG now = GetTickCount64();
-	if (now - time > 300)
+	if (now - this->_time > Constants::Scene::TEXT_BLINK_INTERVAL_MILLISECONDS)
 	{
-		T_LIVES_LEFT->Render();
-		T_CURRENT_SCORE->Render();
-		T_HIGHEST_SCORE->Render();
-		if (now - time > 600) time = now;
+		this->_tLivesLeft->Render();
+		this->_tCurrentScore->Render();
+		this->_tHighestScore->Render();
+		if (now - this->_time > Constants::Scene::TEXT_BLINK_PERIOD_MILLISECONDS) this->_time = now;
 	}
 }
 
 SceneState* LoadingSceneState::Update(Scene& scene)
 {
-	if (++turn == 300) return new PlayingSceneState();
-	return NULL;
+	if (++this->_turn == Constants::Scene::LOADING_SCENE_TRANSITION_TURNS) return new PlayingSceneState();
+	return nullptr;
 }
 
 SceneState* LoadingSceneState::HandleInput(Scene& scene, Input& input)
 {
-	return NULL;
+	return nullptr;
 }

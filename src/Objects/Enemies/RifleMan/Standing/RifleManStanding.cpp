@@ -1,50 +1,51 @@
-#pragma once
 #include "RifleManStanding.h"
 
 RifleManStanding::RifleManStanding() : Entity(), HasAnimations(), HasWeapons(new BulletEnemyState())
 {
-	this->vx = 1.0f;
-	this->vy = 1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
-	this->position.x = 300;
-	this->position.y = 200;
+	this->_vx = Constants::Physics::DEFAULT_INITIAL_VELOCITY_X;
+	this->_vy = Constants::Physics::DEFAULT_INITIAL_VELOCITY_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_position.x = Constants::Enemies::RifleMan::STANDING_DEFAULT_SPAWN_X;
+	this->_position.y = Constants::Enemies::RifleMan::STANDING_DEFAULT_SPAWN_Y;
 
-	this->movingDirection = DIRECTION::LEFT;
-	this->name = L"RifleManStanding\n";
+	this->_movingDirection = DIRECTION::LEFT;
+	this->SetDebugName(L"RifleManStanding\n");
 
-	this->updateState = NULL;
-	this->state = new RifleManStandingNormalState();
+	this->_updateState = nullptr;
+	this->_state = new RifleManStandingNormalState();
 
-	this->hitCounts = 1;
-	this->enemyType = ENEMY_TYPE::HUMAN;
+	this->_hitCounts = Constants::Enemies::RifleMan::HEALTH_POINTS;
+	this->_enemyType = ENEMY_TYPE::HUMAN;
 
-	this->firingRate = 0; 
+	this->_firingRate = 0;
 
-	shootDelay = RILFE_MAN_STANDING_SHOOT_DELAY;
-	shootTime = RILFE_MAN_STANDING_SHOOT_TIME;
-	shootDelayPerBullet = RILFE_MAN_STANDING_SHOOT_DELAY_PER_BULLET;
+	this->ResetBurst();
 }
 
 RifleManStanding::~RifleManStanding()
 {
-
+	Destroy(this->_state);
+	Destroy(this->_updateState);
 }
 
 const Bill* RifleManStanding::GetEnemyTarget()
 {
-	return Enemy::target;
+	return this->_target;
 }
 
 void RifleManStanding::Update()
 {
-	if (Enemy::target->isDead)
+	// Single exit, so the queue drained at the bottom is reached on every path.
+	// The dead-target case returns without touching it, which leaves the rifleman
+	// frozen in whatever state it was aiming from - as it did before.
+	if (!this->_target || this->_target->IsDead())
 		return;
 
-	const float _shootingAngle = this->CalculateShootingAngle();
+	const float shootingAngle = this->CalculateShootingAngle();
 
-	float dx = (this->GetPosition().x) - (Enemy::target->GetPosition().x);
-	float dy = -((this->GetPosition().y) - (Enemy::target->GetPosition().y));
+	float dx = (this->GetPosition().x) - (this->_target->GetPosition().x);
+	float dy = -((this->GetPosition().y) - (this->_target->GetPosition().y));
 
 	this->SetMovingDirection(DIRECTION::RIGHT);
 	if (dx > 0)
@@ -52,56 +53,40 @@ void RifleManStanding::Update()
 		this->SetMovingDirection(DIRECTION::LEFT);
 	}
 
-	if ((_shootingAngle >= 0 && _shootingAngle < 65) || (_shootingAngle < 0 && _shootingAngle >= -65))
+	if ((shootingAngle >= 0 && shootingAngle < Constants::Enemies::RifleMan::SHOOTING_ANGLE_THRESHOLD_DEGREES) || (shootingAngle < 0 && shootingAngle >= -Constants::Enemies::RifleMan::SHOOTING_ANGLE_THRESHOLD_DEGREES))
 	{
-		updateState = new RifleManStandingAimUpState();
 		if (dy < 0)
 		{
-			updateState = new RifleManStandingAimDownState();
+			DeferState(this->_updateState, static_cast<RifleManStandingState*>(new RifleManStandingAimDownState()));
 		}
-		return;
+		else
+		{
+			DeferState(this->_updateState, static_cast<RifleManStandingState*>(new RifleManStandingAimUpState()));
+		}
 	}
-
-	if (_shootingAngle >= 65 || _shootingAngle < -65 || _shootingAngle == 90)
+	else
+	if (shootingAngle >= Constants::Enemies::RifleMan::SHOOTING_ANGLE_THRESHOLD_DEGREES || shootingAngle < -Constants::Enemies::RifleMan::SHOOTING_ANGLE_THRESHOLD_DEGREES || shootingAngle == Constants::Enemies::RifleMan::STRAIGHT_UP_ANGLE_DEGREES)
 	{
-		updateState = new RifleManStandingNormalState();
-		return;
+		DeferState(this->_updateState, static_cast<RifleManStandingState*>(new RifleManStandingNormalState()));
+	}
+	else
+	{
+		Destroy(this->_updateState);
 	}
 
-	updateState = NULL;
-	return;
+	ApplyDeferredState(this->_state, this->_updateState, this);
 }
 
 void RifleManStanding::Render()
 {
-	state->Render(*this);
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
-
-	if (updateState)
-	{
-		state->Exit(*this);
-		delete state;
-		state = updateState;
-		state->Enter(*this);
-		updateState = NULL;
-	}
+	this->_state->Render(*this);
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
 }
 
-FLOAT RifleManStanding::CalculateShootingAngle()
+float RifleManStanding::CalculateShootingAngle() const
 {
-	// first and third quarter is positive, second and fourth quarter is negative, top and bottom is 0, left right is 90
-	const Bill* bill = Enemy::target;
-
-	float dx = (this->GetPosition().x) - (bill->GetPosition().x);
-	float dy = -((this->GetPosition().y) - (bill->GetPosition().y));
-
-	if (dy == 0)
-	{
-		return 90;
-	}
-
-	return D3DXToDegree(atan(dx / dy));
+	return this->Enemy<Bill>::CalculateShootingAngle(this);
 }
 
 void RifleManStanding::HandleInput(Input& input)
@@ -116,10 +101,10 @@ void RifleManStanding::LoadTextures()
 
 void RifleManStanding::LoadSprites()
 {
-	if (HasSprites<RifleManStanding>::hasBeenLoaded.value) {
+	if (HasSprites<RifleManStanding>::_hasBeenLoaded) {
 		return;
 	}
-	HasSprites<RifleManStanding>::hasBeenLoaded.value = true;
+	HasSprites<RifleManStanding>::_hasBeenLoaded = true;
 
 	GraphicsHelper::InsertSprite(RIFLE_MAN_SPRITE_ID::SHOOT_NORMAL_01, 0, 0, 23, 38, DIRECTION::LEFT, RIFLE_MAN_TEXTURE_ID::RIFLE_MAN);
 	GraphicsHelper::InsertSprite(RIFLE_MAN_SPRITE_ID::SHOOT_NORMAL_02, 0, 26, 49, 38, DIRECTION::LEFT, RIFLE_MAN_TEXTURE_ID::RIFLE_MAN);
@@ -130,24 +115,24 @@ void RifleManStanding::LoadSprites()
 
 void RifleManStanding::LoadAnimations()
 {
-	if (HasAnimations<RifleManStanding>::hasBeenLoaded.value) {
+	if (HasAnimations<RifleManStanding>::_hasBeenLoaded) {
 		return;
 	}
-	HasAnimations<RifleManStanding>::hasBeenLoaded.value = true;
+	HasAnimations<RifleManStanding>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertAnimation(RIFLE_MAN_ANIMATION_ID::SHOOT_NORMAL, 165,
+	GraphicsHelper::InsertAnimation(RIFLE_MAN_ANIMATION_ID::SHOOT_NORMAL, Constants::Enemies::RifleMan::ANIMATION_STANDING_DELAY_MILLISECONDS,
 		{
 			{RIFLE_MAN_SPRITE_ID::SHOOT_NORMAL_01, 0},
 			{RIFLE_MAN_SPRITE_ID::SHOOT_NORMAL_02, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(RIFLE_MAN_ANIMATION_ID::SHOOT_UP, 165,
+	GraphicsHelper::InsertAnimation(RIFLE_MAN_ANIMATION_ID::SHOOT_UP, Constants::Enemies::RifleMan::ANIMATION_STANDING_DELAY_MILLISECONDS,
 		{
 			{RIFLE_MAN_SPRITE_ID::SHOOT_UP_01, 0},
 			{RIFLE_MAN_SPRITE_ID::SHOOT_UP_02, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(RIFLE_MAN_ANIMATION_ID::SHOOT_DOWN, 165,
+	GraphicsHelper::InsertAnimation(RIFLE_MAN_ANIMATION_ID::SHOOT_DOWN, Constants::Enemies::RifleMan::ANIMATION_STANDING_DELAY_MILLISECONDS,
 		{
 			{RIFLE_MAN_SPRITE_ID::SHOOT_DOWN, 0},
 		});
@@ -155,15 +140,15 @@ void RifleManStanding::LoadAnimations()
 
 void RifleManStanding::Fire()
 {
-	if (Enemy::target->isDead)
+	if (!Enemy::_target || Enemy::_target->IsDead())
 	{
 		return;
 	}
 }
 
-void RifleManStanding::CustomFire(FLOAT x, FLOAT y, FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION movingDirection)
+void RifleManStanding::CustomFire(float x, float y, float angle, float vx, float vy, float ax, float ay, DIRECTION movingDirection)
 {
-	if (Enemy::target->isDead)
+	if (!Enemy::_target || Enemy::_target->IsDead())
 	{
 		return;
 	}

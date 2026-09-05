@@ -14,27 +14,19 @@ void BillNormalState::Exit(Bill& bill)
 
 void BillNormalState::Enter(Bill& bill)
 {
-	//bill.SetVX(0.0f);
-	//bill.SetVY(0.0f);
-	//bill.SetAX(0.0f);
-	//bill.SetAY(0.0f);
-
 	if (bill.GetMovingDirection() == DIRECTION::LEFT)
 	{
-		bill.SetVX(-2.0f);
+		bill.SetVX(-Constants::Bill::MOVE_SPEED);
 		bill.SetAX(-0.0f);
 	}
 	if (bill.GetMovingDirection() == DIRECTION::RIGHT)
 	{
-		bill.SetVX(+2.0f);
+		bill.SetVX(+Constants::Bill::MOVE_SPEED);
 		bill.SetAX(+0.0f);
 	}
 
-	//bill.SetVY(0.0f);
-	//bill.SetAY(0.0f);
-
-	bill.SetVY(+1.0f);
-	bill.SetAY(+1.0f);
+	bill.SetVY(+Constants::Bill::NORMAL_RESET_VELOCITY_Y);
+	bill.SetAY(+Constants::Bill::NORMAL_RESET_ACCELERATION_Y);
 }
 
 void BillNormalState::Render(Bill& bill)
@@ -44,7 +36,7 @@ void BillNormalState::Render(Bill& bill)
 
 BillState* BillNormalState::Update(Bill& bill)
 {
-	return NULL;
+	return nullptr;
 }
 
 BillState* BillNormalState::HandleInput(Bill& bill, Input& input)
@@ -63,48 +55,16 @@ BillState* BillNormalState::HandleInput(Bill& bill, Input& input)
 		bill.SetMovingDirection(DIRECTION::RIGHT); return new BillRunState();
 	}
 
-
 	if (input.IsKey(DIK_C))
 	{
 		bill.SetY(bill.GetY() - bill.GetH() * 0.5f);
 		return new BillFallState();
 	}
 
-
 	if (input.IsKey(DIK_F))
 	{
 		return new BillFallState(new BillBeginSwimState());
 	}
 
-
-	// FOR DEBUG PURPOSE
-	//if (input.IsKey(DIK_W))
-	//{
-	//	bill.SetVY(+1.0f);
-	//	bill.SetY(bill.GetY() + bill.GetVY());
-	//}
-	//if (input.IsKey(DIK_S))
-	//{
-	//	bill.SetVY(-1.0f);
-	//	bill.SetY(bill.GetY() + bill.GetVY());
-	//}
-	//if (input.IsKey(DIK_R))
-	//{
-	//	bill.SetY(500);
-	//}
-	//if (input.IsKey(DIK_G))
-	//{
-	//	bill.SetVX(-1.0f);
-	//	bill.SetX(bill.GetX() + bill.GetVX());
-	//}
-	//if (input.IsKey(DIK_H))
-	//{
-	//	return new BillDeadState();
-	//	bill.SetVX(+1.0f);
-	//	bill.SetX(bill.GetX() + bill.GetVX());
-	//}
-	// FOR DEBUG PURPOSE
-
-
-	return NULL;
+	return nullptr;
 }

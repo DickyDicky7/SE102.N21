@@ -2,67 +2,76 @@
 
 FinalBossStage1::FinalBossStage1()
 {
-	this->vx = 1.0f;
-	this->vy = 1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
-	this->angle = 0;
-	this->position.x = 50;
-	this->position.y = 00;
+	this->_vx = Constants::Physics::DEFAULT_INITIAL_VELOCITY_X;
+	this->_vy = Constants::Physics::DEFAULT_INITIAL_VELOCITY_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_angle = 0;
+	this->_position.x = Constants::Enemies::BossStage1::DEFAULT_SPAWN_X;
+	this->_position.y = Constants::Enemies::BossStage1::DEFAULT_SPAWN_Y;
 
-	this->state = NULL;
-	this->updateState = NULL;
+	this->_state = nullptr;
+	this->_updateState = nullptr;
 
-	this->name = L"Final Boss Stage 1\n";
+	// Filled in by SetGun1/SetGun2, which the caller is free to skip - and Update
+	// reads both unconditionally, so leaving them indeterminate made that read
+	// undefined rather than merely wrong.
+	this->_gun1 = nullptr;
+	this->_gun2 = nullptr;
+
+	this->SetDebugName(L"Final Boss Stage 1\n");
 
 	//
-	this->hitCounts = 0;
-	this->enemyType = ENEMY_TYPE::BOSS;
+	this->_hitCounts = 0;
+	this->_enemyType = ENEMY_TYPE::BOSS;
 
-	this->deadTurns = 0;
+	this->_deadTurns = 0;
 }
 
 FinalBossStage1::~FinalBossStage1()
 {
-
-};
+	Destroy(this->_state);
+	Destroy(this->_updateState);
+}
 
 void FinalBossStage1::Update()
 {
-	if (gun1->isDead && gun2->isDead && hitCounts <= 0 && !isDead)
+	if (this->_gun1 && this->_gun2 && this->_gun1->IsDead() && this->_gun2->IsDead() && this->_hitCounts <= 0 && !this->IsDead())
 	{
-		hitCounts = 32;
+		this->_hitCounts = Constants::Enemies::BossStage1::FinalBoss::HEALTH_POINTS;
 	}
 
-	if (!state)
+	if (!this->_state)
 	{
-		state = new FinalBossStage1NormalState();
+		this->_state = new FinalBossStage1NormalState();
 	}
 
-	updateState = state->Update(*this);
+	DeferState(this->_updateState, this->_state->Update(*this));
+
+	ApplyDeferredState(this->_state, this->_updateState, this);
 };
 
 void FinalBossStage1::Render()
 {
-	state->Render(*this);
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
-
-	if (updateState)
+	// Unlike every other entity, this one starts with a null _state and only
+	// creates it lazily in Update - so Render is reachable with none, e.g. via
+	// Stage1::RenderBossCompletion.
+	if (this->_state)
 	{
-		ChangeState(state, updateState, this);
-		updateState = NULL;
+		this->_state->Render(*this);
 	}
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
 };
 
-void FinalBossStage1::SetGun1(GunBossStage1* _gun1)
+void FinalBossStage1::SetGun1(GunBossStage1* gun1)
 {
-	gun1 = _gun1;
+	this->_gun1 = gun1;
 }
 
-void FinalBossStage1::SetGun2(GunBossStage1* _gun2)
+void FinalBossStage1::SetGun2(GunBossStage1* gun2)
 {
-	gun2 = _gun2;
+	this->_gun2 = gun2;
 }
 
 void FinalBossStage1::HandleInput(Input&)
@@ -77,10 +86,10 @@ void FinalBossStage1::LoadTextures()
 
 void FinalBossStage1::LoadSprites()
 {
-	if (HasSprites::hasBeenLoaded.value) {
+	if (HasSprites::_hasBeenLoaded) {
 		return;
 	}
-	HasSprites::hasBeenLoaded.value = true;
+	HasSprites::_hasBeenLoaded = true;
 
 	GraphicsHelper::InsertSprite(BOSS_STAGE_1_SPRITE_ID::FINAL_BOSS_01, 54, 0, 23, 84, DIRECTION::LEFT, BOSS_STAGE_1_TEXTURE_ID::BOSS_STAGE_1);
 	GraphicsHelper::InsertSprite(BOSS_STAGE_1_SPRITE_ID::FINAL_BOSS_02, 54, 27, 50, 84, DIRECTION::LEFT, BOSS_STAGE_1_TEXTURE_ID::BOSS_STAGE_1);
@@ -91,19 +100,19 @@ void FinalBossStage1::LoadSprites()
 
 void FinalBossStage1::LoadAnimations()
 {
-	if (HasAnimations::hasBeenLoaded.value) {
+	if (HasAnimations::_hasBeenLoaded) {
 		return;
 	}
-	HasAnimations::hasBeenLoaded.value = true;
+	HasAnimations::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::FINAL_BOSS_NORMAL, 165,
+	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::FINAL_BOSS_NORMAL, Constants::Enemies::BossStage1::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{BOSS_STAGE_1_SPRITE_ID::FINAL_BOSS_01, 0},
 			{BOSS_STAGE_1_SPRITE_ID::FINAL_BOSS_02, 0},
 			{BOSS_STAGE_1_SPRITE_ID::FINAL_BOSS_03, 0},
 		});
 
-	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::FINAL_BOSS_DESTROY, 165,
+	GraphicsHelper::InsertAnimation(BOSS_STAGE_1_ANIMATION_ID::FINAL_BOSS_DESTROY, Constants::Enemies::BossStage1::ANIMATION_DELAY_MILLISECONDS,
 		{
 			{BOSS_STAGE_1_SPRITE_ID::FINAL_BOSS_DESTROY, 0},
 		});

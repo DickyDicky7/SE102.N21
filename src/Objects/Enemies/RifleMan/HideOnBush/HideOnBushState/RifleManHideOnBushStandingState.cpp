@@ -2,14 +2,18 @@
 
 RifleManHideOnBushStandingState::RifleManHideOnBushStandingState(RifleManHideOnBush& rifleManHideOnBush)
 {
-	isShoot = false;
+	this->_isShoot = false;
 
-	float dx = (rifleManHideOnBush.GetPosition().x) - (rifleManHideOnBush.GetEnemyTarget()->GetPosition().x);
-
-	rifleManHideOnBush.SetMovingDirection(DIRECTION::RIGHT);
-	if (dx > 0)
+	const Bill* target = rifleManHideOnBush.GetEnemyTarget();
+	if (target)
 	{
-		rifleManHideOnBush.SetMovingDirection(DIRECTION::LEFT);
+		float dx = (rifleManHideOnBush.GetPosition().x) - (target->GetPosition().x);
+
+		rifleManHideOnBush.SetMovingDirection(DIRECTION::RIGHT);
+		if (dx > 0)
+		{
+			rifleManHideOnBush.SetMovingDirection(DIRECTION::LEFT);
+		}
 	}
 }
 
@@ -35,26 +39,25 @@ void RifleManHideOnBushStandingState::Render(RifleManHideOnBush& rifleManHideOnB
 
 RifleManHideOnBushState* RifleManHideOnBushStandingState::Update(RifleManHideOnBush& rifleManHideOnBush)
 {
-	if (GetTickCount64() - this->time >= 1500.0f && !isShoot)
+	if (GetTickCount64() - this->_time >= Constants::Enemies::RifleMan::STANDING_SHOOT_DELAY_MILLISECONDS && !this->_isShoot)
 	{
-		isShoot = true;
-		FLOAT w = rifleManHideOnBush.GetW();
-		FLOAT h = rifleManHideOnBush.GetH();
+		this->_isShoot = true;
+		float w = rifleManHideOnBush.GetW();
 
-		FLOAT offSet = rifleManHideOnBush.GetMovingDirection() == DIRECTION::LEFT ? w * -0.5f : w * 0.5f;
+		float offSet = rifleManHideOnBush.GetMovingDirection() == DIRECTION::LEFT ? w * -0.5f : w * 0.5f;
 
-		FLOAT x = rifleManHideOnBush.GetX() + offSet;
-		FLOAT y = rifleManHideOnBush.GetY() + 10.0f;
+		float x = rifleManHideOnBush.GetX() + offSet;
+		float y = rifleManHideOnBush.GetY() + Constants::Enemies::RifleMan::HIDE_ON_BUSH_BULLET_OFFSET_Y;
 
-		FLOAT vx = rifleManHideOnBush.GetMovingDirection() == DIRECTION::LEFT ? -1.0f : 1.0f;
+		float vx = rifleManHideOnBush.GetMovingDirection() == DIRECTION::LEFT ? -1.0f : 1.0f;
 
 		rifleManHideOnBush.CustomFire(x, y, 0.0f, vx, 0.0f, 0.0f, 0.0f, rifleManHideOnBush.GetMovingDirection());
 	}
 
-	if (GetTickCount64() - this->time > 3000.0f)
+	if (GetTickCount64() - this->_time > Constants::Enemies::RifleMan::STANDING_INTERVAL_MILLISECONDS)
 	{
 		return new RifleManHideOnBushHideState();
 	}
 
-	return NULL;
+	return nullptr;
 }

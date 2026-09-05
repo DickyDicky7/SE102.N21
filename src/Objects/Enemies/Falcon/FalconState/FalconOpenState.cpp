@@ -24,7 +24,7 @@ void FalconOpenState::Render(Falcon& falcon)
 
 FalconState* FalconOpenState::Update(Falcon& falcon)
 {
-	return NULL;
+	return nullptr;
 }
 
 FalconState* FalconOpenState::HandleInput(Falcon& falcon, Input& input)
@@ -34,5 +34,5 @@ FalconState* FalconOpenState::HandleInput(Falcon& falcon, Input& input)
 		return new FalconOpeningState(FALCON_ANIMATION_ID::CLOSE);
 	}*/
 
-	return NULL;
+	return nullptr;
 }

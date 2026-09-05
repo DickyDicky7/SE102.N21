@@ -10,34 +10,37 @@ void WallTurretUpState::Render(WallTurret& wallTurret) {
 	wallTurret.SetAnimation(WALL_TURRET_ANIMATION_ID::UP, wallTurret.GetPosition(), wallTurret.GetMovingDirection(), wallTurret.GetAngle());
 }
 
-void WallTurretUpState::Enter(WallTurret& wallTurret) 
+void WallTurretUpState::Enter(WallTurret& wallTurret)
 {
-	if (--wallTurret.shootDelay == 0)
+	if (this->UpdateShooting(wallTurret))
 	{
 		wallTurret.Fire(0.0f, 0.0f, 1.0f, 0.0f, 0.0f, wallTurret.GetMovingDirection());
-		wallTurret.shootDelay = WALL_TURRET_SHOOT_DELAY;
-
 	}
-	return;
 }
 
-WallTurretState* WallTurretUpState::Update(WallTurret& wallTurret) 
+WallTurretState* WallTurretUpState::Update(WallTurret& wallTurret)
 {
-	if (--delayBeforeChangeState > 0)
+	if (--this->_delayBeforeChangeState > 0)
 	{
-		return NULL;
+		return nullptr;
 	}
 
-	FLOAT billAngle = wallTurret.CalculateBillAngle();
+	float billAngle = wallTurret.CalculateBillAngle();
 
-	if (billAngle >= 165 && billAngle > -165)
-		return NULL;
+	// Up owns the sector that wraps past +/-180, so this has to be || - every
+	// other turret state guards a contiguous 30-degree band and uses &&.  As
+	// written with &&, "billAngle >= 165" already implied "billAngle > -165"
+	// and the second test was dead; the behaviour happened to come out right
+	// anyway, because angles in (-180, -165) fall past both transitions below
+	// and reach the "return nullptr" at the end, which also means "stay Up".
+	if (billAngle >= Constants::Enemies::WallTurret::AIM_ANGLE_165_DEGREES || billAngle < -Constants::Enemies::WallTurret::AIM_ANGLE_165_DEGREES)
+		return nullptr;
 
-	if (billAngle >= -165 && billAngle < 0)
+	if (billAngle >= -Constants::Enemies::WallTurret::AIM_ANGLE_165_DEGREES && billAngle < 0)
 		return new WallTurretLeft30State();
 
-	if (billAngle < 165 && billAngle > 0)
+	if (billAngle < Constants::Enemies::WallTurret::AIM_ANGLE_165_DEGREES && billAngle > 0)
 		return new WallTurretRight30State();
 
-	return NULL;
+	return nullptr;
 }

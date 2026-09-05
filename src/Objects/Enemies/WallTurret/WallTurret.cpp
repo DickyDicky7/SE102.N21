@@ -1,108 +1,101 @@
 #include "WallTurret.h"
 
-#define PI D3DX_PI
-#define	TURRET_HEIGHT 32
-#define TURRET_WIDTH 32
-
 void AutoIncreasePositionSpriteLoader(
-	std::vector<std::pair<int, int>>,
-	std::vector<WALL_TURRET_SPRITE_ID>,
-	TEXTURE_ID
+	const std::vector<std::pair<int, int>>&,
+	const std::vector<WALL_TURRET_SPRITE_ID>&,
+	const TEXTURE_ID&
 );
-void AutoInscreaseSpriteIdLoadAnimations(std::vector<WALL_TURRET_SPRITE_ID>, ANIMATION_ID);
+void AutoIncreaseSpriteIdLoadAnimations(const std::vector<WALL_TURRET_SPRITE_ID>&, const ANIMATION_ID&);
 
 WallTurret::WallTurret() : Entity(), HasAnimations(), HasWeapons(new BulletEnemyState())
 {
-	this->name = L"WallTurret\n";
+	this->SetDebugName(L"WallTurret\n");
 
-	this->vx = 1.0f;
-	this->vy = 1.0f;
-	this->ax = 0.1f;
-	this->ay = 0.1f;
-	this->position.x = 50;
-	this->position.y = 50;
+	this->_vx = Constants::Physics::DEFAULT_INITIAL_VELOCITY_X;
+	this->_vy = Constants::Physics::DEFAULT_INITIAL_VELOCITY_Y;
+	this->_ax = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_X;
+	this->_ay = Constants::Physics::DEFAULT_INITIAL_ACCELERATION_Y;
+	this->_position.x = Constants::Enemies::WallTurret::DEFAULT_SPAWN_X;
+	this->_position.y = Constants::Enemies::WallTurret::DEFAULT_SPAWN_Y;
 
 
-	this->movingDirection = DIRECTION::LEFT;
+	this->_movingDirection = DIRECTION::LEFT;
 
-	this->updateState = NULL;
-	this->state = NULL;
+	this->_updateState = nullptr;
+	this->_state = nullptr;
 
-	this->hitCounts = 10;
-	this->enemyType = ENEMY_TYPE::MACHINE;
-	shootDelay = WALL_TURRET_SHOOT_DELAY;
+	this->_hitCounts = Constants::Enemies::WallTurret::HEALTH_POINTS;
+	this->_enemyType = ENEMY_TYPE::MACHINE;
+	this->ResetShootDelay();
 }
 
-WallTurret::~WallTurret() {}
+WallTurret::~WallTurret()
+{
+	Destroy(this->_state);
+	Destroy(this->_updateState);
+}
 
 void WallTurret::Update() {
-	if (!state)
+	if (!this->_state)
 	{
-		state = new WallTurretNormalState();
+		this->_state = new WallTurretNormalState();
 	}
 
-	if (!Enemy::target->isDead)
-		updateState = state->Update(*this);
+	if (this->_target && !this->_target->IsDead())
+		DeferState(this->_updateState, this->_state->Update(*this));
+
+	// As in Cannon: firing lives in the states' Enter, so a step with no
+	// transition re-enters the current state, and the countdown that gates it now
+	// runs on the logic clock instead of once per rendered frame.
+	if (this->_updateState)
+	{
+		this->ResetShootDelay();
+
+		ApplyDeferredState(this->_state, this->_updateState, this);
+	}
+	else
+	{
+		this->_state->Enter(*this);
+	}
 }
 
 void WallTurret::Render() {
-	state->Render(*this);
-	this->w = this->currentFrameW;
-	this->h = this->currentFrameH;
-
-	if (updateState)
-	{
-		shootDelay = WALL_TURRET_SHOOT_DELAY;
-
-		ChangeState(state, updateState, this);
-		updateState = NULL;
-		return;
-	}
-	state->Enter(*this);
+	this->_state->Render(*this);
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
 }
 
 void WallTurret::HandleInput(Input& input) {}
 
-FLOAT WallTurret::CalculateBillAngle()
+float WallTurret::CalculateBillAngle()
 {
-	float dx = +(this->GetPosition().x - Enemy::target->GetPosition().x);
-	float dy = -(this->GetPosition().y - Enemy::target->GetPosition().y);
-
-	if (dx > 0 && dy < 0)
-		return (-atan(dx / (abs(dy))) * 180 / PI);
-	else if (dx < 0 && dy < 0)
-		return (atan(abs(dx) / abs(dy)) * 180 / PI);
-	else if (dx > 0 && dy > 0)
-		return (atan(dx / dy) * 180 / PI - 180);
-	else if (dx < 0 && dy > 0)
-		return (-atan(abs(dx) / dy) * 180 / PI + 180);
-
-	return -90.0f;
+	return this->CalculateTargetAngle(this);
 }
 
-BOOLEAN WallTurret::IsTargetInRange()
+bool WallTurret::IsTargetInRange() const
 {
-	float dx = abs(this->GetX() - Enemy::target->GetX());
+	if (!this->_target) return false;
+	float dx = std::abs(this->GetX() - this->_target->GetX());
 
-	return dx <= 16.0f * 6;
+	return dx <= Constants::Screen::TILE_SIZE * Constants::Enemies::WallTurret::TARGET_RANGE_TILES;
 }
 
 void WallTurret::LoadTextures() {
-	if (HasTextures<WallTurret>::hasBeenLoaded.value) {
+	if (HasTextures<WallTurret>::_hasBeenLoaded) {
 		return;
 	}
-	HasTextures<WallTurret>::hasBeenLoaded.value = true;
+	HasTextures<WallTurret>::_hasBeenLoaded = true;
 
-	GraphicsHelper::InsertTexure(WALL_TURRET_TEXTURE_ID::WALL_TURRET, L"Resources\\Textures\\WallTurretAll.bmp");
+	GraphicsHelper::InsertTexture(WALL_TURRET_TEXTURE_ID::WALL_TURRET, L"Resources\\Textures\\WallTurretAll.bmp");
 	return;
 }
 
 void WallTurret::LoadSprites() {
 
-	if (HasSprites<WallTurret>::hasBeenLoaded.value) {
+	if (HasSprites<WallTurret>::_hasBeenLoaded) {
 		return;
 	}
-	HasSprites<WallTurret>::hasBeenLoaded.value = true;
+	HasSprites<WallTurret>::_hasBeenLoaded = true;
 
 #pragma region WALL_TURRET_LEFT_30 SPRITE
 
@@ -246,34 +239,34 @@ void WallTurret::LoadSprites() {
 
 void WallTurret::LoadAnimations() {
 
-	if (HasAnimations<WallTurret>::hasBeenLoaded.value) {
+	if (HasAnimations<WallTurret>::_hasBeenLoaded) {
 		return;
 	}
-	HasAnimations<WallTurret>::hasBeenLoaded.value = true;
+	HasAnimations<WallTurret>::_hasBeenLoaded = true;
 
 #pragma region LOAD LEFT ANIMATIONS
 
-	AutoInscreaseSpriteIdLoadAnimations(
+	AutoIncreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>{WALL_TURRET_SPRITE_ID::LEFT_30_01, WALL_TURRET_SPRITE_ID::LEFT_30_02, WALL_TURRET_SPRITE_ID::LEFT_30_03},
 		WALL_TURRET_ANIMATION_ID::LEFT_30
 	);
 
-	AutoInscreaseSpriteIdLoadAnimations(
+	AutoIncreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>{WALL_TURRET_SPRITE_ID::LEFT_60_01, WALL_TURRET_SPRITE_ID::LEFT_60_02, WALL_TURRET_SPRITE_ID::LEFT_60_03},
 		WALL_TURRET_ANIMATION_ID::LEFT_60
 	);
 
-	AutoInscreaseSpriteIdLoadAnimations(
+	AutoIncreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>{WALL_TURRET_SPRITE_ID::LEFT_90_01, WALL_TURRET_SPRITE_ID::LEFT_90_02, WALL_TURRET_SPRITE_ID::LEFT_90_03},
 		WALL_TURRET_ANIMATION_ID::LEFT_90
 	);
 
-	AutoInscreaseSpriteIdLoadAnimations(
+	AutoIncreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>{WALL_TURRET_SPRITE_ID::LEFT_120_01, WALL_TURRET_SPRITE_ID::LEFT_120_02, WALL_TURRET_SPRITE_ID::LEFT_120_03},
 		WALL_TURRET_ANIMATION_ID::LEFT_120
 	);
 
-	AutoInscreaseSpriteIdLoadAnimations(
+	AutoIncreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>{WALL_TURRET_SPRITE_ID::LEFT_150_01, WALL_TURRET_SPRITE_ID::LEFT_150_02, WALL_TURRET_SPRITE_ID::LEFT_150_03},
 		WALL_TURRET_ANIMATION_ID::LEFT_150
 	);
@@ -282,27 +275,27 @@ void WallTurret::LoadAnimations() {
 
 #pragma region LOAD RIGHT ANIMATIONS
 
-	AutoInscreaseSpriteIdLoadAnimations(
+	AutoIncreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>{WALL_TURRET_SPRITE_ID::RIGHT_30_01, WALL_TURRET_SPRITE_ID::RIGHT_30_02, WALL_TURRET_SPRITE_ID::RIGHT_30_03},
 		WALL_TURRET_ANIMATION_ID::RIGHT_30
 	);
 
-	AutoInscreaseSpriteIdLoadAnimations(
+	AutoIncreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>{WALL_TURRET_SPRITE_ID::RIGHT_60_01, WALL_TURRET_SPRITE_ID::RIGHT_60_02, WALL_TURRET_SPRITE_ID::RIGHT_60_03},
 		WALL_TURRET_ANIMATION_ID::RIGHT_60
 	);
 
-	AutoInscreaseSpriteIdLoadAnimations(
+	AutoIncreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>{WALL_TURRET_SPRITE_ID::RIGHT_90_01, WALL_TURRET_SPRITE_ID::RIGHT_90_02, WALL_TURRET_SPRITE_ID::RIGHT_90_03},
 		WALL_TURRET_ANIMATION_ID::RIGHT_90
 	);
 
-	AutoInscreaseSpriteIdLoadAnimations(
+	AutoIncreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>{WALL_TURRET_SPRITE_ID::RIGHT_120_01, WALL_TURRET_SPRITE_ID::RIGHT_120_02, WALL_TURRET_SPRITE_ID::RIGHT_120_03},
 		WALL_TURRET_ANIMATION_ID::RIGHT_120
 	);
 
-	AutoInscreaseSpriteIdLoadAnimations(
+	AutoIncreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>{WALL_TURRET_SPRITE_ID::RIGHT_150_01, WALL_TURRET_SPRITE_ID::RIGHT_150_02, WALL_TURRET_SPRITE_ID::RIGHT_150_03},
 		WALL_TURRET_ANIMATION_ID::RIGHT_150
 	);
@@ -311,7 +304,7 @@ void WallTurret::LoadAnimations() {
 
 #pragma region LOAD UP ANIMATIONS
 
-	AutoInscreaseSpriteIdLoadAnimations(
+	AutoIncreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>{WALL_TURRET_SPRITE_ID::UP_01, WALL_TURRET_SPRITE_ID::UP_02, WALL_TURRET_SPRITE_ID::UP_03},
 		WALL_TURRET_ANIMATION_ID::UP
 	);
@@ -320,7 +313,7 @@ void WallTurret::LoadAnimations() {
 
 #pragma region LOAD DOWN ANIMATIONS
 
-	AutoInscreaseSpriteIdLoadAnimations(
+	AutoIncreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>{WALL_TURRET_SPRITE_ID::DOWN_01, WALL_TURRET_SPRITE_ID::DOWN_02, WALL_TURRET_SPRITE_ID::DOWN_03},
 		WALL_TURRET_ANIMATION_ID::DOWN
 	);
@@ -329,7 +322,7 @@ void WallTurret::LoadAnimations() {
 
 #pragma region LOAD OPENING ANIMATIONS
 
-	AutoInscreaseSpriteIdLoadAnimations(
+	AutoIncreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>
 	{
 		WALL_TURRET_SPRITE_ID::APPEAR_01,
@@ -345,7 +338,7 @@ void WallTurret::LoadAnimations() {
 
 #pragma region LOAD CLOSING ANIMATIONS
 
-	AutoInscreaseSpriteIdLoadAnimations(
+	AutoIncreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>
 	{
 		WALL_TURRET_SPRITE_ID::APPEAR_06,
@@ -361,7 +354,7 @@ void WallTurret::LoadAnimations() {
 
 #pragma region LOAD NORMAL ANIMATIONS
 
-	AutoInscreaseSpriteIdLoadAnimations(
+	AutoIncreaseSpriteIdLoadAnimations(
 		std::vector<WALL_TURRET_SPRITE_ID>
 	{
 		WALL_TURRET_SPRITE_ID::APPEAR_01,
@@ -376,35 +369,39 @@ void WallTurret::LoadAnimations() {
 #pragma region Helpers
 
 void AutoIncreasePositionSpriteLoader(
-	std::vector<std::pair<int, int>> topRightConnerOfSpritePositions,
-	std::vector<WALL_TURRET_SPRITE_ID> spriteIdList,
-	TEXTURE_ID textureId
+	const std::vector<std::pair<int, int>>& topRightConnerOfSpritePositions,
+	const std::vector<WALL_TURRET_SPRITE_ID>& spriteIdList,
+	const TEXTURE_ID& textureId
 )
 {
+	constexpr int turretW = static_cast<int>(Constants::Enemies::WallTurret::WIDTH);
+	constexpr int turretH = static_cast<int>(Constants::Enemies::WallTurret::HEIGHT);
+
 	for (int i = 0; std::cmp_less(i, topRightConnerOfSpritePositions.size()); i++)
 	{
 		GraphicsHelper::InsertSprite(
 			spriteIdList[i],
 			topRightConnerOfSpritePositions[i].first,
 			topRightConnerOfSpritePositions[i].second,
-			topRightConnerOfSpritePositions[i].second + TURRET_WIDTH,
-			topRightConnerOfSpritePositions[i].first + TURRET_HEIGHT,
+			topRightConnerOfSpritePositions[i].second + turretW,
+			topRightConnerOfSpritePositions[i].first + turretH,
 			DIRECTION::LEFT,
 			textureId
 		);
 	}
 }
 
-void AutoInscreaseSpriteIdLoadAnimations(std::vector<WALL_TURRET_SPRITE_ID> spriteIdList, ANIMATION_ID animationId)
+void AutoIncreaseSpriteIdLoadAnimations(const std::vector<WALL_TURRET_SPRITE_ID>& spriteIdList, const ANIMATION_ID& animationId)
 {
 	std::vector<std::tuple<SPRITE_ID, DWORD>> listOfSpriteWithRefreshRate;
+	listOfSpriteWithRefreshRate.reserve(spriteIdList.size());
 
 	for (int i = 0; std::cmp_less(i, spriteIdList.size()); i++)
 	{
 		listOfSpriteWithRefreshRate.push_back(std::make_tuple(spriteIdList[i], 0));
 	}
 
-	GraphicsHelper::InsertAnimation(animationId, 150, listOfSpriteWithRefreshRate);
+	GraphicsHelper::InsertAnimation(animationId, Constants::Enemies::WallTurret::ANIMATION_DELAY_MILLISECONDS, std::move(listOfSpriteWithRefreshRate));
 }
 
 #pragma endregion
@@ -412,17 +409,17 @@ void AutoInscreaseSpriteIdLoadAnimations(std::vector<WALL_TURRET_SPRITE_ID> spri
 
 void WallTurret::Fire()
 {
-	if (Enemy::target->isDead)
+	if (!Enemy::_target || Enemy::_target->IsDead())
 	{
 		return;
 	}
 }
 
-void WallTurret::Fire(FLOAT angle, FLOAT vx, FLOAT vy, FLOAT ax, FLOAT ay, DIRECTION direction)
+void WallTurret::Fire(float angle, float vx, float vy, float ax, float ay, DIRECTION direction)
 {
-	if (Enemy::target->isDead)
+	if (!Enemy::_target || Enemy::_target->IsDead())
 	{
 		return;
 	}
-	HasWeapons::Fire(this->position.x, this->position.y + this->h / 2, angle, vx, vy, ax, ay, direction);
+	HasWeapons::Fire(this->_position.x, this->_position.y + this->_h / 2, angle, vx, vy, ax, ay, direction);
 }

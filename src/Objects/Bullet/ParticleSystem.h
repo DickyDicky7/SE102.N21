@@ -7,14 +7,17 @@
 
 struct BulletParticle
 {
-	float x, y;
-	float vx, vy;
+	float x;
+	float y;
+	float vx;
+	float vy;
 	float size;
 	float maxLife;
 	float life;
 	DirectX::XMFLOAT4 color;
 	bool isLaser;
-	float laserEndX, laserEndY;
+	float laserEndX;
+	float laserEndY;
 };
 
 class BulletParticleSystem
@@ -26,5 +29,5 @@ public:
 	static void Clear();
 
 private:
-	static std::vector<BulletParticle> particles;
+	static std::vector<BulletParticle> _particles;
 };

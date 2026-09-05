@@ -1,4 +1,4 @@
-﻿#pragma once
+#pragma once
 
 #include "Common.h"
 
@@ -7,132 +7,132 @@ namespace Motion
 
 	struct UniformMotionInputParameters
 	{
-		FLOAT c;
-		FLOAT v;
+		float coordinate;
+		float velocity;
 	};
 
 	struct UniformMotionOutputParameters
 	{
-		FLOAT c;
-		FLOAT v;
+		float coordinate;
+		float velocity;
 	};
 
 	struct ProjectileMotionInputParameters
 	{
-		FLOAT x;
-		FLOAT y;
-		FLOAT v0;
-		FLOAT θ;
-		FLOAT t;
-		FLOAT dt;
+		float positionX;
+		float positionY;
+		float initialVelocity;
+		float launchAngleDegrees;
+		float elapsedTime;
+		float deltaTime;
 	};
 
 	struct ProjectileMotionOutputParameters
 	{
-		FLOAT x;
-		FLOAT y;
-		FLOAT v0;
-		FLOAT θ;
-		FLOAT t;
-		FLOAT dt;
+		float positionX;
+		float positionY;
+		float initialVelocity;
+		float launchAngleDegrees;
+		float elapsedTime;
+		float deltaTime;
 
-		FLOAT vx;
-		FLOAT vy;
+		float velocityX;
+		float velocityY;
 	};
 
 	struct OscillatoryMotionInputParameters
 	{
-		FLOAT c0;
-		FLOAT t;
-		FLOAT dt;
-		FLOAT T;
-		FLOAT A;
-		FLOAT φ;
-		// c0: vị trí lúc đầu
-		// t: thời gian
-		// dt: delta time
-		// T: khoảng thời gian để quay hết 1 vòng (tính bằng giây)
-		// A: Bán kính
-		// φ: pha ban đầu của dao động (-π<φ<π)
+		float initialCoordinate;
+		float elapsedTime;
+		float deltaTime;
+		float period;
+		float amplitude;
+		float initialPhaseDegrees;
+		// initialCoordinate: initial position
+		// elapsedTime: elapsed time
+		// deltaTime: delta time
+		// period: period (in seconds)
+		// amplitude: amplitude / radius
+		// initialPhaseDegrees: initial phase (-pi < phi < pi in degrees)
 	};
 
 	struct OscillatoryMotionOutputParameters
 	{
-		FLOAT c0;
-		FLOAT t;
-		FLOAT dt;
-		FLOAT T;
-		FLOAT A;
-		FLOAT φ;
+		float initialCoordinate;
+		float elapsedTime;
+		float deltaTime;
+		float period;
+		float amplitude;
+		float initialPhaseDegrees;
 
-		FLOAT c;
-		FLOAT v;
-		FLOAT a;
+		float coordinate;
+		float velocity;
+		float acceleration;
 	};
 
 	struct UniformCircularMotionInputParameters
 	{
-		FLOAT r;
-		FLOAT ω;
-		FLOAT dω;
-		FLOAT xO;
-		FLOAT yO;
+		float radius;
+		float angleDegrees;
+		float deltaAngleDegrees;
+		float centerPositionX;
+		float centerPositionY;
 	};
 
 	struct UniformCircularMotionOutputParameters
 	{
-		FLOAT r;
-		FLOAT ω;
-		FLOAT dω;
-		FLOAT xO;
-		FLOAT yO;
+		float radius;
+		float angleDegrees;
+		float deltaAngleDegrees;
+		float centerPositionX;
+		float centerPositionY;
 
-		FLOAT x;
-		FLOAT y;
+		float positionX;
+		float positionY;
 	};
 
 	struct UniformlyAcceleratedMotionInputParameters
 	{
-		FLOAT c;
-		FLOAT v;
-		FLOAT a;
-		FLOAT t;
-		FLOAT dt;
+		float coordinate;
+		float velocity;
+		float acceleration;
+		float elapsedTime;
+		float deltaTime;
 	};
 
 	struct UniformlyAcceleratedMotionOutputParameters
 	{
-		FLOAT c;
-		FLOAT v;
-		FLOAT a;
-		FLOAT t;
-		FLOAT dt;
+		float coordinate;
+		float velocity;
+		float acceleration;
+		float elapsedTime;
+		float deltaTime;
 	};
 
 	struct UniformlyDeceleratedMotionInputParameters
 	{
-		FLOAT c;
-		FLOAT v;
-		FLOAT a;
-		FLOAT t;
-		FLOAT dt;
+		float coordinate;
+		float velocity;
+		float acceleration;
+		float elapsedTime;
+		float deltaTime;
 	};
 
 	struct UniformlyDeceleratedMotionOutputParameters
 	{
-		FLOAT c;
-		FLOAT v;
-		FLOAT a;
-		FLOAT t;
-		FLOAT dt;
+		float coordinate;
+		float velocity;
+		float acceleration;
+		float elapsedTime;
+		float deltaTime;
 	};
 
-	UniformMotionOutputParameters CalculateUniformMotion(UniformMotionInputParameters);
-	ProjectileMotionOutputParameters CalculateProjectileMotion(ProjectileMotionInputParameters);
-	OscillatoryMotionOutputParameters CalculateOscillatoryMotion(OscillatoryMotionInputParameters);
-	UniformCircularMotionOutputParameters CalculateUniformCircularMotion(UniformCircularMotionInputParameters);
-	UniformlyAcceleratedMotionOutputParameters CalculateUniformlyAcceleratedMotion(UniformlyAcceleratedMotionInputParameters);
-	UniformlyDeceleratedMotionOutputParameters CalculateUniformlyDeceleratedMotion(UniformlyDeceleratedMotionInputParameters);
+	UniformMotionOutputParameters CalculateUniformMotion(UniformMotionInputParameters uniformMotionInputParameters);
+	ProjectileMotionOutputParameters CalculateProjectileMotion(ProjectileMotionInputParameters projectileMotionInputParameters);
+	OscillatoryMotionOutputParameters CalculateOscillatoryMotion(OscillatoryMotionInputParameters oscillatoryMotionInputParameters);
+	UniformCircularMotionOutputParameters CalculateUniformCircularMotion(UniformCircularMotionInputParameters uniformCircularMotionInputParameters);
+	UniformlyAcceleratedMotionOutputParameters CalculateUniformlyAcceleratedMotion(UniformlyAcceleratedMotionInputParameters acceleratedMotionInputParameters);
+	UniformlyDeceleratedMotionOutputParameters CalculateUniformlyDeceleratedMotion(UniformlyDeceleratedMotionInputParameters deceleratedMotionInputParameters);
 
 };
 

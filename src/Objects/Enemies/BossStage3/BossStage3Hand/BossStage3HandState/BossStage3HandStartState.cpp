@@ -1,75 +1,71 @@
+#include <cmath>
 #include "BossStage3Hand.h"
 
-BossStage3HandStartState::BossStage3HandStartState(BossStage3Hand& bossStage3hand) : BossStage3HandState()
+BossStage3HandStartState::BossStage3HandStartState(BossStage3Hand& bossStage3Hand) : BossStage3HandState()
 {
-    
+	// Moved out of the destructor, where the stores were dead and left the
+	// object uninitialised between construction and Enter().
+	this->_direction = D3DXVECTOR2(0.0f, 0.0f);
+	this->_speedFrame = 0.0f;
+	this->_distance = 0.0f;
+	this->_delayFrame = 0;
 }
 
 BossStage3HandStartState::~BossStage3HandStartState()
 {
-    direction = D3DXVECTOR2(NULL,NULL);
-    speedFrame = NULL; 
-    distance = NULL; 
-    delayFrame = NULL;
 }
 
 
-void BossStage3HandStartState::Exit(BossStage3Hand& bossStage3hand)
+void BossStage3HandStartState::Exit(BossStage3Hand& bossStage3Hand)
 {
 }
 
-void BossStage3HandStartState::Enter(BossStage3Hand& bossStage3hand)
+void BossStage3HandStartState::Enter(BossStage3Hand& bossStage3Hand)
 {
-    delayFrame = 80;
+	this->_delayFrame = Constants::Enemies::BossStage3::Hand::START_STATE_DELAY_FRAMES;
 
-    if (bossStage3hand.GetMovingDirection() == DIRECTION::LEFT)
-    {
-        direction = D3DXVECTOR2(cos(D3DXToRadian(110)), sin(D3DXToRadian(110))); //huong di 
-    }
-    else
-    {
-        direction = D3DXVECTOR2(cos(D3DXToRadian(70)), sin(D3DXToRadian(70))); //huong di 
-    }
-
-    distance = 4 * 16; //quang duong di chuyen
-    speedFrame = distance / D3DXVec2Length(&direction); // quang duong / frame
-    float t = 16 / D3DXVec2Length(&direction); // thoi gian di het 16pixel - de tinh thoi gian delay cua joint ke tiep
-
-    for (size_t i = 4; i > 0; i--)
-    {
-        bossStage3hand.joints[i]->moveBy(direction.x, direction.y, speedFrame - (3 - i + 1) * t, (3 - i + 1) * t);
-    }
-}
-
-void BossStage3HandStartState::Render(BossStage3Hand& bossStage3hand)
-{
-	for (size_t i = 0; i < 5; i++)
+	if (bossStage3Hand.GetMovingDirection() == DIRECTION::LEFT)
 	{
-		bossStage3hand.joints[i]->Render();
+		this->_direction = D3DXVECTOR2(std::cos(D3DXToRadian(Constants::Enemies::BossStage3::Hand::START_DIRECTION_ANGLE_LEFT_DEGREES)), std::sin(D3DXToRadian(Constants::Enemies::BossStage3::Hand::START_DIRECTION_ANGLE_LEFT_DEGREES))); // Direction of travel
+	}
+	else
+	{
+		this->_direction = D3DXVECTOR2(std::cos(D3DXToRadian(Constants::Enemies::BossStage3::Hand::START_DIRECTION_ANGLE_RIGHT_DEGREES)), std::sin(D3DXToRadian(Constants::Enemies::BossStage3::Hand::START_DIRECTION_ANGLE_RIGHT_DEGREES))); // Direction of travel
+	}
+
+	this->_distance = Constants::Enemies::BossStage3::Hand::START_DISTANCE_TILES * Constants::Screen::TILE_SIZE; // Distance to travel
+	this->_speedFrame = this->_distance / D3DXVec2Length(&this->_direction); // Distance per frame
+	float t = Constants::Screen::TILE_SIZE / D3DXVec2Length(&this->_direction); // Time to cover one tile - used to stagger the next joint's delay
+
+	for (size_t i = 4; i > 0; i--)
+	{
+		bossStage3Hand.GetJoint(i)->MoveBy(this->_direction.x, this->_direction.y, static_cast<int>(this->_speedFrame - static_cast<float>(4 - i) * t), static_cast<int>(static_cast<float>(4 - i) * t));
 	}
 }
 
-BossStage3HandState* BossStage3HandStartState::Update(BossStage3Hand& bossStage3hand)
+
+
+BossStage3HandState* BossStage3HandStartState::Update(BossStage3Hand& bossStage3Hand)
 {
-    if (delayFrame > 0)
-    {
-        delayFrame--;
-        return NULL;
-    }
+	if (this->_delayFrame > 0)
+	{
+		this->_delayFrame--;
+		return nullptr;
+	}
 
-    for (size_t i = 0; i < 5; i++)
-    {
-        bossStage3hand.joints[i]->Update();
-    }
+	for (size_t i = 0; i < Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT; i++)
+	{
+		bossStage3Hand.GetJoint(i)->Update();
+	}
 
-    if ( bossStage3hand.joints[4]->isMoveBy == false)
-    {
-        return new BossStage3HandWaveState(bossStage3hand);
-    }
-	return NULL;
+	if (!bossStage3Hand.GetJoint(4)->IsMoveBy())
+	{
+		return new BossStage3HandWaveState(bossStage3Hand);
+	}
+	return nullptr;
 }
 
-BossStage3HandState* BossStage3HandStartState::HandleInput(BossStage3Hand& bossStage3hand, Input& input)
+BossStage3HandState* BossStage3HandStartState::HandleInput(BossStage3Hand& bossStage3Hand, Input& input)
 {
-	return NULL;
+	return nullptr;
 }

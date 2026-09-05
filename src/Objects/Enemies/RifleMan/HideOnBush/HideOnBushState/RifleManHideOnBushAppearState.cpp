@@ -34,5 +34,5 @@ RifleManHideOnBushState* RifleManHideOnBushAppearState::Update(RifleManHideOnBus
 	{
 		return new RifleManHideOnBushStandingState(rifleManHideOnBush);
 	}
-	return NULL;
+	return nullptr;
 }

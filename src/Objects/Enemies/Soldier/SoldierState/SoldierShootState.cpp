@@ -15,10 +15,11 @@ void SoldierShootState::Exit(Soldier& soldier)
 void SoldierShootState::Enter(Soldier& soldier)
 {
 	soldier.Fire();
-	soldier.SetVX(+1.0f);
-	soldier.SetAX(+1.0f);
-	soldier.SetVY(+1.0f);
-	soldier.SetAY(+1.0f);
+	this->_time = static_cast<float>(GetTickCount64());
+	soldier.SetVX(+Constants::Enemies::Soldier::PARK_VELOCITY);
+	soldier.SetAX(+Constants::Enemies::Soldier::PARK_ACCELERATION);
+	soldier.SetVY(+Constants::Enemies::Soldier::PARK_VELOCITY);
+	soldier.SetAY(+Constants::Enemies::Soldier::PARK_ACCELERATION);
 }
 
 void SoldierShootState::Render(Soldier& soldier)
@@ -29,15 +30,15 @@ void SoldierShootState::Render(Soldier& soldier)
 SoldierState* SoldierShootState::Update(Soldier& soldier)
 {
 	ULONGLONG now = GetTickCount64();
-	if (now - time >= soldier.GetFiringRate())
+	if (now - this->_time >= soldier.GetFiringRate())
 	{
 		soldier.Fire();
-		time = FLOAT(now);
+		this->_time = static_cast<float>(now);
 	}
-	return NULL;
+	return nullptr;
 }
 
 SoldierState* SoldierShootState::HandleInput(Soldier& soldier, Input& input)
 {
-	return NULL;
+	return nullptr;
 }

@@ -32,11 +32,11 @@ BridgePartState* BridgePartExplosionState::Update(BridgePart& bridgePart)
 
 	if (std::cmp_greater_equal(bridgePart.GetCurrentFrame() + 1, frames.size()))
 	{
-		this->time = (FLOAT)GetTickCount64();
+		this->_time = static_cast<float>(GetTickCount64());
 		bridgePart.SetIsDestroy(true);
 
-		return NULL;
+		return nullptr;
 	}
 
-	return NULL;
+	return nullptr;
 }
