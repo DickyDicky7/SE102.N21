@@ -43,16 +43,16 @@ class Bill : public Entity, public HasTextures<Bill>, public HasSprites<Bill>, p
 public:
 
 	// Points at Scene's life counter, so a death decrements the one the HUD reads.
-	int* GetLivesLeft() const { return this->_livesLeft; }
-	void SetLivesLeft(int* livesLeft) { this->_livesLeft = livesLeft; }
+	int* GetLivesLeft() const;
+	void SetLivesLeft(int* livesLeft);
 
 	// Cleared on respawn; Update counts it back up to _immortalTime.
-	void ResetImmortalTick() { this->_immortalTick = 0; }
+	void ResetImmortalTick();
 
 	Bill();
 	virtual ~Bill();
 	virtual void GoDead();
-	bool IsBill() const override { return true; }
+	bool IsBill() const override;
 	void Update() override;
 	void Render() override;
 	void HandleInput(Input& input) override;
@@ -63,7 +63,7 @@ public:
 
 	void  Fire                    (                               ) override;
 	void  CollectItem             (ITEM_TYPE type                 );
-	CollidableEntity* AsCollidable(                               ) override { return this; }
+	CollidableEntity* AsCollidable(                               ) override;
 	void  StaticResolveNoCollision(                               ) override;
 	void  StaticResolveOnCollision(AABBSweepResult aabbSweepResult) override;
 	void DynamicResolveNoCollision(                               ) override;
@@ -98,12 +98,12 @@ public:
 	virtual BillState* HandleInput(Bill& bill, Input& input) override = 0;
 
 	virtual std::optional<BulletSpawnParams> GetBulletSpawnParams(const Bill& bill) const;
-	virtual bool IsDead() const { return false; }
-	virtual bool IsInvulnerable() const { return false; }
-	virtual bool IsJumping() const { return false; }
-	virtual bool IsNormal() const { return false; }
-	virtual bool IsFalling() const { return false; }
-	virtual bool IsBeginning() const { return false; }
+	virtual bool IsDead() const;
+	virtual bool IsInvulnerable() const;
+	virtual bool IsJumping() const;
+	virtual bool IsNormal() const;
+	virtual bool IsFalling() const;
+	virtual bool IsBeginning() const;
 
 protected:
 
@@ -146,7 +146,7 @@ public:
 	virtual BillState* Update(Bill& bill) override;
 	virtual BillState* HandleInput(Bill& bill, Input& input) override;
 
-	bool IsFalling() const override { return true; }
+	bool IsFalling() const override;
 
 protected:
 
@@ -170,7 +170,7 @@ public:
 	virtual BillState* Update(Bill& bill) override;
 	virtual BillState* HandleInput(Bill& bill, Input& input) override;
 
-	bool IsJumping() const override { return true; }
+	bool IsJumping() const override;
 	std::optional<BulletSpawnParams> GetBulletSpawnParams(const Bill& bill) const override;
 
 protected:
@@ -196,7 +196,7 @@ public:
 	virtual BillState* Update(Bill& bill) override;
 	virtual BillState* HandleInput(Bill& bill, Input& input) override;
 
-	bool IsInvulnerable() const override { return true; }
+	bool IsInvulnerable() const override;
 
 };
 
@@ -216,7 +216,7 @@ public:
 	virtual BillState* Update(Bill& bill) override;
 	virtual BillState* HandleInput(Bill& bill, Input& input) override;
 
-	bool IsDead() const override { return true; }
+	bool IsDead() const override;
 
 protected:
 
@@ -241,7 +241,7 @@ public:
 	virtual BillState* Update(Bill& bill) override;
 	virtual BillState* HandleInput(Bill& bill, Input& input) override;
 
-	bool IsBeginning() const override { return true; }
+	bool IsBeginning() const override;
 
 };
 
@@ -261,7 +261,7 @@ public:
 	virtual BillState* Update(Bill& bill) override;
 	virtual BillState* HandleInput(Bill& bill, Input& input) override;
 
-	bool IsNormal() const override { return true; }
+	bool IsNormal() const override;
 
 };
 
@@ -540,54 +540,3 @@ public:
 	std::optional<BulletSpawnParams> GetBulletSpawnParams(const Bill& bill) const override;
 
 };
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

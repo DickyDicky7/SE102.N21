@@ -9,6 +9,31 @@ TerrainBlock::~TerrainBlock()
 {
 }
 
+void TerrainBlock::SetTerrainType(TERRAIN_BLOCK_TYPE type)
+{
+	this->_type = type;
+}
+
+TERRAIN_BLOCK_TYPE TerrainBlock::GetTerrainType() const
+{
+	return this->_type;
+}
+
+void TerrainBlock::SetEntityName(std::string_view entityName)
+{
+	this->_name = entityName;
+}
+
+std::string TerrainBlock::GetEntityName() const
+{
+	return this->_name;
+}
+
+CollidableEntity* TerrainBlock::AsCollidable()
+{
+	return this;
+}
+
 void TerrainBlock::Update()
 {
 }

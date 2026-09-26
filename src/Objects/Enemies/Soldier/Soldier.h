@@ -33,20 +33,20 @@ public:
 	SoldierState* GetState();
 	void SetState(SoldierState* state);
 	void GoDead();
-	bool IsShootable() const { return this->_shootable; }
-	void SetShootable(bool shootable) { this->_shootable = shootable; }
+	bool IsShootable() const;
+	void SetShootable(bool shootable);
 	void Fire() override;
-	CollidableEntity* AsCollidable() override { return this; }
+	CollidableEntity* AsCollidable() override;
 	void StaticResolveNoCollision() override;
 	void StaticResolveOnCollision(AABBSweepResult aabbSweepResult) override;
 	void DynamicResolveNoCollision() override;
 	void DynamicResolveOnCollision(AABBSweepResult aabbSweepResult) override;
 
-	bool IsEnemy() const override { return true; }
-	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
-	bool CollidesWithBoundaryWalls() const override { return true; }
+	bool IsEnemy() const override;
+	ENEMY_TYPE GetEnemyType() const override;
+	bool CollidesWithBoundaryWalls() const override;
 	bool IsLethalToTouch() const override;
-	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	void SetTarget(const Bill* target) override;
 	bool TakeBulletHit() override;
 protected:
 
@@ -72,11 +72,11 @@ public:
 	virtual SoldierState* Update(Soldier& soldier) override = 0;
 	virtual SoldierState* HandleInput(Soldier& soldier, Input& input) override = 0;
 
-	virtual float GetGunMountOffsetRatio() const { return 0.0f; }
-	virtual bool IsDead() const { return false; }
-	virtual bool IsJumping() const { return false; }
-	virtual bool IsShooting() const { return false; }
-	virtual bool IsLayingDown() const { return false; }
+	virtual float GetGunMountOffsetRatio() const;
+	virtual bool IsDead() const;
+	virtual bool IsJumping() const;
+	virtual bool IsShooting() const;
+	virtual bool IsLayingDown() const;
 
 protected:
 
@@ -116,7 +116,7 @@ public:
 	virtual SoldierState* Update(Soldier& soldier) override;
 	virtual SoldierState* HandleInput(Soldier& soldier, Input& input) override;
 
-	bool IsJumping() const override { return true; }
+	bool IsJumping() const override;
 
 protected:
 
@@ -140,8 +140,8 @@ public:
 	virtual SoldierState* Update(Soldier& soldier) override;
 	virtual SoldierState* HandleInput(Soldier& soldier, Input& input) override;
 
-	float GetGunMountOffsetRatio() const override { return Constants::Enemies::Soldier::GUN_MOUNT_OFFSET_RATIO_STANDING; }
-	bool IsShooting() const override { return true; }
+	float GetGunMountOffsetRatio() const override;
+	bool IsShooting() const override;
 
 };
 
@@ -160,8 +160,8 @@ public:
 	virtual SoldierState* Update(Soldier& soldier) override;
 	virtual SoldierState* HandleInput(Soldier& soldier, Input& input) override;
 
-	float GetGunMountOffsetRatio() const override { return Constants::Enemies::Soldier::GUN_MOUNT_OFFSET_RATIO_PRONE; }
-	bool IsLayingDown() const override { return true; }
+	float GetGunMountOffsetRatio() const override;
+	bool IsLayingDown() const override;
 
 };
 
@@ -180,6 +180,6 @@ public:
 	virtual SoldierState* Update(Soldier& soldier) override;
 	virtual SoldierState* HandleInput(Soldier& soldier, Input& input) override;
 
-	bool IsDead() const override { return true; }
+	bool IsDead() const override;
 
 };

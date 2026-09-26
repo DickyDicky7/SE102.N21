@@ -51,6 +51,36 @@ Item* Falcon::CreateDroppedItem() const
 	return item;
 }
 
+void Falcon::SetCurrentState(FALCON_ANIMATION_ID id)
+{
+	this->_currentState = id;
+}
+
+FALCON_ANIMATION_ID Falcon::GetCurrentState()
+{
+	return this->_currentState;
+}
+
+bool Falcon::IsEnemy() const
+{
+	return true;
+}
+
+ENEMY_TYPE Falcon::GetEnemyType() const
+{
+	return this->_enemyType;
+}
+
+void Falcon::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
+bool Falcon::TakeBulletHit()
+{
+	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
+}
+
 void Falcon::Update()
 {
 	this->CalculateBillDistance();

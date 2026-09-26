@@ -23,11 +23,11 @@ public:
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
-	bool IsRockFly() const override { return true; }
-	bool IsWalkableSurface() const override { return true; }
-	bool RidesWithSurface() const override { return true; }
-	bool IsEnemy() const override { return true; }
-	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	bool IsRockFly() const override;
+	bool IsWalkableSurface() const override;
+	bool RidesWithSurface() const override;
+	bool IsEnemy() const override;
+	void SetTarget(const Bill* target) override;
 protected:
 	float _xBegin;
 	float _xEnd;

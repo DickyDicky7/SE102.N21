@@ -14,6 +14,36 @@ std::optional<BulletSpawnParams> BillState::GetBulletSpawnParams(const Bill&) co
 	return std::nullopt;
 }
 
+bool BillState::IsDead() const
+{
+	return false;
+}
+
+bool BillState::IsInvulnerable() const
+{
+	return false;
+}
+
+bool BillState::IsJumping() const
+{
+	return false;
+}
+
+bool BillState::IsNormal() const
+{
+	return false;
+}
+
+bool BillState::IsFalling() const
+{
+	return false;
+}
+
+bool BillState::IsBeginning() const
+{
+	return false;
+}
+
 std::optional<BulletSpawnParams> BillJumpState::GetBulletSpawnParams(const Bill& bill) const
 {
 	const float dirSign = (bill.GetMovingDirection() == DIRECTION::RIGHT ? 1.0f : -1.0f);

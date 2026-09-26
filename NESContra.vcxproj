@@ -171,6 +171,7 @@
     <ClCompile Include="src\Abstractions\Space\BVH.cpp" />
     <ClCompile Include="src\Abstractions\Space\TLAS.cpp" />
     <ClCompile Include="src\Abstractions\Space\QuadTreeNode.cpp" />
+    <ClCompile Include="src\Abstractions\Space\SpatialPartitioning.cpp" />
     <ClCompile Include="src\Objects\Enemies\RifleMan\HideOnBush\RifleManHideOnBushState.cpp" />
     <ClCompile Include="src\Objects\Enemies\RifleMan\Standing\RifleManStanding.cpp" />
     <ClCompile Include="src\Objects\Enemies\RifleMan\Standing\StandingState\RifleManStandingAimDownState.cpp" />

@@ -30,11 +30,11 @@ public:
 	void Fire() override;
 	void CalculateBillAngle();
 
-	bool IsEnemy() const override { return true; }
-	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
-	bool IsLethalToTouch() const override { return true; }
-	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
-	bool TakeBulletHit() override { return this->Enemy<Bill>::TakeEnemyBulletHit(this); }
+	bool IsEnemy() const override;
+	ENEMY_TYPE GetEnemyType() const override;
+	bool IsLethalToTouch() const override;
+	void SetTarget(const Bill* target) override;
+	bool TakeBulletHit() override;
 protected:
 
 	ScubaSoldierState* _state;
@@ -60,7 +60,7 @@ public:
 	virtual ScubaSoldierState* Update(ScubaSoldier& scubaSoldier) override = 0;
 	virtual ScubaSoldierState* HandleInput(ScubaSoldier& scubaSoldier, Input& input) override = 0;
 
-	virtual bool IsHidden() const { return false; }
+	virtual bool IsHidden() const;
 
 protected:
 
@@ -102,6 +102,6 @@ public:
 	virtual ScubaSoldierState* Update(ScubaSoldier& scubaSoldier) override;
 	virtual ScubaSoldierState* HandleInput(ScubaSoldier& scubaSoldier, Input& input) override;
 
-	bool IsHidden() const override { return true; }
+	bool IsHidden() const override;
 
 };

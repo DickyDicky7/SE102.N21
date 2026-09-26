@@ -8,6 +8,11 @@ BillBeginState::~BillBeginState()
 {
 }
 
+bool BillBeginState::IsBeginning() const
+{
+	return true;
+}
+
 void BillBeginState::Exit(Bill& bill)
 {
 }

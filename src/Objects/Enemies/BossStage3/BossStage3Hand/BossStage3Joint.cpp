@@ -431,6 +431,16 @@ int BossStage3Joint::GetMoveAroundCurrFrame()
 	return this->_moveAroundCurrFrame;
 }
 
+bool BossStage3Joint::IsEnemy() const
+{
+	return true;
+}
+
+void BossStage3Joint::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
 bool BossStage3Joint::TakeBulletHit()
 {
 	if (this->_parent && this->_parent->RegisterHit())
@@ -438,4 +448,49 @@ bool BossStage3Joint::TakeBulletHit()
 		this->_parent->SetDead(true);
 	}
 	return true;
+}
+
+bool BossStage3Joint::IsMoveAround() const
+{
+	return this->_isMoveAround;
+}
+
+bool BossStage3Joint::IsMoveTo() const
+{
+	return this->_isMoveTo;
+}
+
+bool BossStage3Joint::IsMoveBy() const
+{
+	return this->_isMoveBy;
+}
+
+bool BossStage3Joint::IsMoveFollow() const
+{
+	return this->_isMoveFollow;
+}
+
+float BossStage3Joint::GetDistanceMoved() const
+{
+	return this->_distanceMoved;
+}
+
+float BossStage3Joint::GetAngleMoved() const
+{
+	return this->_angleMoved;
+}
+
+float BossStage3Joint::GetMoveAroundSpeed() const
+{
+	return this->_moveAroundSpeed;
+}
+
+BossStage3Joint::MoveAroundDirection BossStage3Joint::GetMoveAroundDirection() const
+{
+	return this->_moveAroundDirection;
+}
+
+BossStage3Hand* BossStage3Joint::GetParent() const
+{
+	return this->_parent;
 }

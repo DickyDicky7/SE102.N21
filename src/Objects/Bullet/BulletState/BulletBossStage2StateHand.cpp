@@ -47,6 +47,9 @@ DirectX::XMFLOAT4 BulletBossStage2State::GetExplodeColor() const
 	return GraphicsHelper::ToXMFloat4(Constants::Particles::EXPLODE_COLOUR_BOSS);
 }
 
+BulletBossStage2StateHand::BulletBossStage2StateHand() = default;
+BulletBossStage2StateHand::~BulletBossStage2StateHand() = default;
+
 void BulletBossStage2StateHand::SpawnBullets(float x, float y, float angle, float vx, float vy, float ax, float ay, DIRECTION movingDirection, std::vector<Bullet*>& bullets) const
 {
 	bullets.push_back(Bullet::Create(x, y, vx, vy, ax, ay, angle, movingDirection, true, new BulletBossStage2StateHand()));

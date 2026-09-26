@@ -32,8 +32,8 @@ class Bullet : public Entity, public HasTextures<Bullet>, public HasSprites<Bull
 
 public:
 
-	bool IsFake () const { return this->_isFake ; }
-	bool IsEnemyBullet() const { return this->_isEnemy; }
+	bool IsFake () const;
+	bool IsEnemyBullet() const;
 
 	Bullet(            );
 	Bullet(BulletState* state);
@@ -50,10 +50,10 @@ public:
 
 	static Bullet* Create(float x, float y, float vx, float vy, float ax, float ay, float angle, DIRECTION movingDirection, bool isEnemy, BulletState* state, bool isFake = false);
 
-	bool IsBullet() const override { return true; }
+	bool IsBullet() const override;
 	Explosion* CreateDeathExplosion() const override;
 	Bullet* CreateBulletExplosion() const;
-	CollidableEntity* AsCollidable() override { return this; }
+	CollidableEntity* AsCollidable() override;
 
 	void  StaticResolveNoCollision(                               ) override;
 	void  StaticResolveOnCollision(AABBSweepResult aabbSweepResult) override;
@@ -98,9 +98,9 @@ public:
 	virtual void SpawnBullets(float x, float y, float angle, float vx, float vy, float ax, float ay, DIRECTION movingDirection, std::vector<Bullet*>& bullets) const;
 
 	virtual BulletParticleConfig GetParticleConfig() const;
-	virtual bool IsExploding() const { return false; }
-	virtual Explosion* CreateDeathExplosion(const Bullet& bullet) const { return nullptr; }
-	virtual void OnTerrainCollision(Bullet& bullet, TERRAIN_BLOCK_TYPE terrainType, float normalY) const {}
+	virtual bool IsExploding() const;
+	virtual Explosion* CreateDeathExplosion(const Bullet& bullet) const;
+	virtual void OnTerrainCollision(Bullet& bullet, TERRAIN_BLOCK_TYPE terrainType, float normalY) const;
 
 protected:
 
@@ -306,16 +306,19 @@ public:
 class BulletBossStage2StateHand : public BulletBossStage2State
 {
 public:
-	BulletBossStage2StateHand() = default;
+	BulletBossStage2StateHand();
+	virtual ~BulletBossStage2StateHand();
 	void SpawnBullets(float x, float y, float angle, float vx, float vy, float ax, float ay, DIRECTION movingDirection, std::vector<Bullet*>& bullets) const override;
 };
 
 class BulletBossStage2StateHead : public BulletBossStage2State
 {
 public:
-	BulletBossStage2StateHead() = default;
+	BulletBossStage2StateHead();
+	virtual ~BulletBossStage2StateHead();
 	void SpawnBullets(float x, float y, float angle, float vx, float vy, float ax, float ay, DIRECTION movingDirection, std::vector<Bullet*>& bullets) const override;
 };
+
 
 
 class BulletExplodeState : public BulletState
@@ -333,7 +336,7 @@ public:
 	virtual BulletState* Update(Bullet& bullet) override;
 	virtual BulletState* HandleInput(Bullet& bullet, Input& input) override;
 
-	bool IsExploding() const override { return true; }
+	bool IsExploding() const override;
 
 protected:
 	DirectX::XMFLOAT4 _explodeColor;

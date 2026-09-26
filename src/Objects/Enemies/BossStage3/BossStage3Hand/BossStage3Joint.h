@@ -61,21 +61,20 @@ public:
 
 	virtual void AlignDistance(BossStage3Joint* joint2); // Keeps joint1 distance to joint2 fixed
 
-	bool IsEnemy() const override { return true; }
-	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	bool IsEnemy() const override;
+	void SetTarget(const Bill* target) override;
 	bool TakeBulletHit() override;
 
+	bool IsMoveAround() const;
+	bool IsMoveTo() const;
+	bool IsMoveBy() const;
+	bool IsMoveFollow() const;
 
-	bool IsMoveAround() const { return this->_isMoveAround; }
-	bool IsMoveTo() const { return this->_isMoveTo; }
-	bool IsMoveBy() const { return this->_isMoveBy; }
-	bool IsMoveFollow() const { return this->_isMoveFollow; }
-
-	float GetDistanceMoved() const { return this->_distanceMoved; }
-	float GetAngleMoved() const { return this->_angleMoved; }
-	float GetMoveAroundSpeed() const { return this->_moveAroundSpeed; }
-	MoveAroundDirection GetMoveAroundDirection() const { return this->_moveAroundDirection; }
-	BossStage3Hand* GetParent() const { return this->_parent; }
+	float GetDistanceMoved() const;
+	float GetAngleMoved() const;
+	float GetMoveAroundSpeed() const;
+	MoveAroundDirection GetMoveAroundDirection() const;
+	BossStage3Hand* GetParent() const;
 
 protected:
 	bool _isMoveAround;

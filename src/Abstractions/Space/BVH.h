@@ -32,20 +32,20 @@ namespace Space
 	class BVH
 	{
 	public:
-		BVH() = default;
-		~BVH() = default;
+		BVH();
+		~BVH();
 
 		void Clear() noexcept;
 		void Build(std::vector<BVHPrimitive> primitives);
 		void Refit();
 
-		bool IsEmpty() const noexcept { return this->_nodes.empty(); }
-		size_t GetNodeCount() const noexcept { return this->_nodes.size(); }
-		size_t GetPrimitiveCount() const noexcept { return this->_primitives.size(); }
+		bool IsEmpty() const noexcept;
+		size_t GetNodeCount() const noexcept;
+		size_t GetPrimitiveCount() const noexcept;
 		const AABB& GetRootAABB() const noexcept;
-		const std::vector<BVHNode>& GetNodes() const noexcept { return this->_nodes; }
-		std::vector<BVHPrimitive>& GetPrimitives() noexcept { return this->_primitives; }
-		const std::vector<BVHPrimitive>& GetPrimitives() const noexcept { return this->_primitives; }
+		const std::vector<BVHNode>& GetNodes() const noexcept;
+		std::vector<BVHPrimitive>& GetPrimitives() noexcept;
+		const std::vector<BVHPrimitive>& GetPrimitives() const noexcept;
 
 		template <typename Func>
 		void Query(const AABB& queryBox, Func&& callback) const

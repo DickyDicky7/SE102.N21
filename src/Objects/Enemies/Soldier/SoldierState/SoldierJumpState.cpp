@@ -82,3 +82,8 @@ SoldierState* SoldierJumpState::HandleInput(Soldier& soldier, Input& input)
 {
 	return nullptr;
 }
+
+bool SoldierJumpState::IsJumping() const
+{
+	return true;
+}

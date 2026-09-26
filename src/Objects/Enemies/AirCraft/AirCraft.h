@@ -27,19 +27,14 @@ public:
 	ITEM_TYPE GetAmmoType();
 	void SetAmmoType(ITEM_TYPE ammoType);
 
-	bool IsEnemy() const override { return true; }
-	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
-	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	bool IsEnemy() const override;
+	ENEMY_TYPE GetEnemyType() const override;
+	void SetTarget(const Bill* target) override;
 	Item* CreateDroppedItem() const override;
-	bool TakeBulletHit() override { return this->Enemy<Bill>::TakeEnemyBulletHit(this); }
+	bool TakeBulletHit() override;
 
-	AIRCRAFT_DIRECTION GetAircraftDirection()
-	{
-		return this->_aircraftDirection;
-	}
-	void SetAircraftDirection(AIRCRAFT_DIRECTION direction) {
-		this->_aircraftDirection = direction;
-	}
+	AIRCRAFT_DIRECTION GetAircraftDirection();
+	void SetAircraftDirection(AIRCRAFT_DIRECTION direction);
 protected:
 
 	ITEM_TYPE _ammoType;

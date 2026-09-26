@@ -158,6 +158,11 @@ namespace Space
 		this->_bounds = this->_bvh.GetRootAABB();
 	}
 
+	bool TLAS::IsEmpty() const noexcept
+	{
+		return this->_instances.empty();
+	}
+
 	size_t TLAS::GetEntityCount() const noexcept
 	{
 		size_t count = 0;
@@ -174,6 +179,11 @@ namespace Space
 	const AABB& TLAS::GetBounds() const noexcept
 	{
 		return this->_bounds;
+	}
+
+	const std::vector<TLASInstance>& TLAS::GetInstances() const noexcept
+	{
+		return this->_instances;
 	}
 
 	void TLAS::FindCollisionsFor(Entity* collidable, const std::function<void(Entity*)>& callback) const

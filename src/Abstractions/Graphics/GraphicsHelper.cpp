@@ -27,6 +27,11 @@ ID3D11Device*        GraphicsHelper::device    = nullptr;
 ID3D11DeviceContext* GraphicsHelper::context   = nullptr;
 IDXGISwapChain*      GraphicsHelper::swapChain = nullptr;
 
+DirectX::XMFLOAT4 GraphicsHelper::ToXMFloat4(const Constants::Rgba& colour)
+{
+	return DirectX::XMFLOAT4(colour.r, colour.g, colour.b, colour.a);
+}
+
 // ===========================================================================
 // Internal state
 // ===========================================================================

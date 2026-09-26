@@ -62,7 +62,7 @@ struct QuadTreeNode
 	float GetR() const;
 	bool IsSmallestNode() const;
 
-	Space::TLAS* GetTLAS() const { return this->_tlas.get(); }
+	Space::TLAS* GetTLAS() const;
 
 	static QuadTreeNode* New(float x, float y, float w, float h);
 	static bool Update(QuadTreeNode* root, const std::unordered_map<Entity*, QuadTreeNode*>& result);

@@ -62,6 +62,41 @@ const Bill* GunBossStage1::GetEnemyTarget()
 	return this->_target;
 }
 
+bool GunBossStage1::IsEnemy() const
+{
+	return true;
+}
+
+bool GunBossStage1::ShouldRetainWhenDead() const
+{
+	return true;
+}
+
+ENEMY_TYPE GunBossStage1::GetEnemyType() const
+{
+	return this->_enemyType;
+}
+
+bool GunBossStage1::IsPushableObstacle() const
+{
+	return !this->IsDead();
+}
+
+bool GunBossStage1::IsVulnerableToBullet() const
+{
+	return !this->IsDead();
+}
+
+void GunBossStage1::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
+bool GunBossStage1::TakeBulletHit()
+{
+	return this->IsDead() ? false : this->Enemy<Bill>::TakeEnemyBulletHit(this);
+}
+
 void GunBossStage1::Update()
 {
 	if (!this->_state)

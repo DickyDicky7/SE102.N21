@@ -50,3 +50,8 @@ BulletState* BulletExplodeState::HandleInput(Bullet& bullet, Input& input)
 {
 	return nullptr;
 }
+
+bool BulletExplodeState::IsExploding() const
+{
+	return true;
+}

@@ -9,6 +9,11 @@ BillDeadState::~BillDeadState()
 {
 }
 
+bool BillDeadState::IsDead() const
+{
+	return true;
+}
+
 void BillDeadState::Exit(Bill& bill)
 {
 }

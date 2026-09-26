@@ -37,10 +37,10 @@ namespace Space
 		void Build();
 		void Update();
 
-		bool IsEmpty() const noexcept { return this->_instances.empty(); }
+		bool IsEmpty() const noexcept;
 		size_t GetEntityCount() const noexcept;
 		const AABB& GetBounds() const noexcept;
-		const std::vector<TLASInstance>& GetInstances() const noexcept { return this->_instances; }
+		const std::vector<TLASInstance>& GetInstances() const noexcept;
 
 		// Range / Box Query against TLAS top-level instances
 		template <typename Func>

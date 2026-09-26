@@ -61,6 +61,12 @@ BulletState*& HasWeapons::GetBulletState()
 	return this->_bulletState;
 }
 
+void HasWeapons::SetBulletState(BulletState* bulletState)
+{
+	Destroy(this->_bulletState);
+	this->_bulletState = bulletState;
+}
+
 std::vector<Bullet*>& HasWeapons::GetBullets()
 {
 	return _bullets;

@@ -34,6 +34,26 @@ BridgePart::~BridgePart()
 	Destroy(this->_updateState);
 }
 
+bool BridgePart::IsBridge() const
+{
+	return true;
+}
+
+bool BridgePart::IsWalkableSurface() const
+{
+	return true;
+}
+
+bool BridgePart::IsEnemy() const
+{
+	return true;
+}
+
+void BridgePart::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
 void BridgePart::Update()
 {
 	DeferState(this->_updateState, this->_state->Update(*this));

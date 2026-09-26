@@ -40,3 +40,8 @@ BridgePartState* BridgePartExplosionState::Update(BridgePart& bridgePart)
 
 	return nullptr;
 }
+
+bool BridgePartExplosionState::HasZeroDimensions() const
+{
+	return true;
+}

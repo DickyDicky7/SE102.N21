@@ -37,10 +37,7 @@ public:
 	// Constants::Rgba deliberately knows nothing about DirectXMath, so the two
 	// are bridged here - the one place that already depends on both - rather
 	// than by a free function at global scope in whichever header needed it.
-	static DirectX::XMFLOAT4 ToXMFloat4(const Constants::Rgba& colour)
-	{
-		return DirectX::XMFLOAT4(colour.r, colour.g, colour.b, colour.a);
-	}
+	static DirectX::XMFLOAT4 ToXMFloat4(const Constants::Rgba& colour);
 
 	// Lifecycle
 	static bool Init    (HWND hWnd, UINT clientWidth, UINT clientHeight);

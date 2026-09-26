@@ -27,6 +27,16 @@ Item::~Item()
 {
 }
 
+ITEM_TYPE Item::GetItemType() const
+{
+	return this->_type;
+}
+
+CollidableEntity* Item::AsCollidable()
+{
+	return this;
+}
+
 void Item::Update()
 {
 	if (!this->_stopUpdate)

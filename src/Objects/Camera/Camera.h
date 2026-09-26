@@ -38,11 +38,9 @@ public:
 	static float CalculateHH();
 	const D3DMATRIX& GetViewMatrix() const;
 
-	void LogName() override {
-		OutputDebugString(L"Camera");
-	}
+	void LogName() override;
 
-	bool IsStatic() const { return this->_isStatic; }
+	bool IsStatic() const;
 	void ToStatic();
 	bool CouldSee(Entity* entity);
 	float GetB() const override;

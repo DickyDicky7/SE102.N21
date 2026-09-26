@@ -46,3 +46,8 @@ BossStage3State* BossStage3OpenState::HandleInput(BossStage3& bossStage3, Input&
 
 	return nullptr;
 }
+
+bool BossStage3OpenState::CanFire() const
+{
+	return true;
+}

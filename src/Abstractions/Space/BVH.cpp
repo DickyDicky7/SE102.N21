@@ -4,6 +4,9 @@
 
 namespace Space
 {
+	BVH::BVH() = default;
+	BVH::~BVH() = default;
+
 	static const AABB s_emptyAABB = AABB::Inverted();
 
 	const AABB& BVH::GetRootAABB() const noexcept
@@ -146,5 +149,35 @@ namespace Space
 				node.aabb = box;
 			}
 		}
+	}
+
+	bool BVH::IsEmpty() const noexcept
+	{
+		return this->_nodes.empty();
+	}
+
+	size_t BVH::GetNodeCount() const noexcept
+	{
+		return this->_nodes.size();
+	}
+
+	size_t BVH::GetPrimitiveCount() const noexcept
+	{
+		return this->_primitives.size();
+	}
+
+	const std::vector<BVHNode>& BVH::GetNodes() const noexcept
+	{
+		return this->_nodes;
+	}
+
+	std::vector<BVHPrimitive>& BVH::GetPrimitives() noexcept
+	{
+		return this->_primitives;
+	}
+
+	const std::vector<BVHPrimitive>& BVH::GetPrimitives() const noexcept
+	{
+		return this->_primitives;
 	}
 }

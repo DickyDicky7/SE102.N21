@@ -19,6 +19,11 @@ BillFallState::~BillFallState()
 	Destroy(this->_returnState);
 }
 
+bool BillFallState::IsFalling() const
+{
+	return true;
+}
+
 void BillFallState::Exit(Bill& bill)
 {
 }

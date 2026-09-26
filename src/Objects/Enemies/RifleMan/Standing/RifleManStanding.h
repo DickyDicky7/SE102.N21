@@ -43,23 +43,18 @@ public:
 	// RifleManStandingState::UpdateShooting: _shootDelay gates the burst as a
 	// whole, _shootDelayPerBullet paces the rounds inside it, and _shootTime
 	// counts the rounds still owed.
-	int  TickShootDelay()           { return --this->_shootDelay; }
-	int  TickShootDelayPerBullet()  { return --this->_shootDelayPerBullet; }
-	int  GetShotsLeftInBurst() const { return this->_shootTime; }
-	void ConsumeShotInBurst()       { --this->_shootTime; }
-	void ResetShootDelayPerBullet() { this->_shootDelayPerBullet = Constants::Enemies::RifleMan::SHOOT_DELAY_PER_BULLET_FRAMES; }
-	void ResetBurst()
-	{
-		this->_shootTime  = Constants::Enemies::RifleMan::SHOOT_BURST_COUNT;
-		this->_shootDelay = Constants::Enemies::RifleMan::SHOOT_DELAY_FRAMES;
-		this->ResetShootDelayPerBullet();
-	}
+	int  TickShootDelay();
+	int  TickShootDelayPerBullet();
+	int  GetShotsLeftInBurst() const;
+	void ConsumeShotInBurst();
+	void ResetShootDelayPerBullet();
+	void ResetBurst();
 
-	bool IsEnemy() const override { return true; }
-	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
-	bool IsLethalToTouch() const override { return true; }
-	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
-	bool TakeBulletHit() override { return this->Enemy<Bill>::TakeEnemyBulletHit(this); }
+	bool IsEnemy() const override;
+	ENEMY_TYPE GetEnemyType() const override;
+	bool IsLethalToTouch() const override;
+	void SetTarget(const Bill* target) override;
+	bool TakeBulletHit() override;
 protected:
 	int _shootDelay;
 	int _shootDelayPerBullet;

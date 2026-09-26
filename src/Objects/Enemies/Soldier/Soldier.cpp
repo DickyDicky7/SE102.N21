@@ -467,3 +467,38 @@ bool Soldier::IsLethalToTouch() const
 {
 	return this->_state ? !this->_state->IsDead() : true;
 }
+
+bool Soldier::IsShootable() const
+{
+	return this->_shootable;
+}
+
+void Soldier::SetShootable(bool shootable)
+{
+	this->_shootable = shootable;
+}
+
+CollidableEntity* Soldier::AsCollidable()
+{
+	return this;
+}
+
+bool Soldier::IsEnemy() const
+{
+	return true;
+}
+
+ENEMY_TYPE Soldier::GetEnemyType() const
+{
+	return this->_enemyType;
+}
+
+bool Soldier::CollidesWithBoundaryWalls() const
+{
+	return true;
+}
+
+void Soldier::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}

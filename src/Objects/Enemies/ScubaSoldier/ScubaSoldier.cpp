@@ -59,6 +59,31 @@ void ScubaSoldier::CalculateBillAngle()
 	this->_billAngle = this->CalculateTargetAngle(this);
 }
 
+bool ScubaSoldier::IsEnemy() const
+{
+	return true;
+}
+
+ENEMY_TYPE ScubaSoldier::GetEnemyType() const
+{
+	return this->_enemyType;
+}
+
+bool ScubaSoldier::IsLethalToTouch() const
+{
+	return true;
+}
+
+void ScubaSoldier::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
+bool ScubaSoldier::TakeBulletHit()
+{
+	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
+}
+
 void ScubaSoldier::Render()
 {
 	this->_state->Render(*this);

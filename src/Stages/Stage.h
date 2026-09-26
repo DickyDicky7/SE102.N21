@@ -16,7 +16,7 @@ public:
 	virtual void Update();
 	virtual void Render();
 	virtual void HandleInput(Input& input);
-	virtual void RenderBossCompletion() {}
+	virtual void RenderBossCompletion();
 	template <class T, class S> void Load();
 	virtual void CheckResolveClearCollision();
 
@@ -32,8 +32,8 @@ public:
 	virtual void  SetBill(Bill* bill);
 	virtual Bill* GetBill(          );
 
-	bool HasDone() const { return this->_hasDone; }
-	void SetHasDone(bool done = true) { this->_hasDone = done; }
+	bool HasDone() const;
+	void SetHasDone(bool done = true);
 	virtual void  CheckIfHasDone() = 0;
 
 	virtual void    SetCamera(Camera* camera);

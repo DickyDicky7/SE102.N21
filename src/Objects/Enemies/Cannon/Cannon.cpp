@@ -50,6 +50,63 @@ float Cannon::CalculateShootingAngle() const
 	return this->Enemy<Bill>::CalculateShootingAngle(this);
 }
 
+int Cannon::TickShootDelay()
+{
+	return --this->_shootDelay;
+}
+
+int Cannon::TickShootDelayPerBullet()
+{
+	return --this->_shootDelayPerBullet;
+}
+
+int Cannon::GetShotsLeftInBurst() const
+{
+	return this->_shootTime;
+}
+
+void Cannon::ConsumeShotInBurst()
+{
+	--this->_shootTime;
+}
+
+void Cannon::ResetShootDelayPerBullet()
+{
+	this->_shootDelayPerBullet = Constants::Enemies::Cannon::SHOOT_DELAY_PER_BULLET_FRAMES;
+}
+
+void Cannon::ResetBurst()
+{
+	this->_shootTime = Constants::Enemies::Cannon::SHOOT_BURST_COUNT;
+	this->_shootDelay = Constants::Enemies::Cannon::SHOOT_DELAY_FRAMES;
+	this->ResetShootDelayPerBullet();
+}
+
+bool Cannon::IsEnemy() const
+{
+	return true;
+}
+
+ENEMY_TYPE Cannon::GetEnemyType() const
+{
+	return this->_enemyType;
+}
+
+bool Cannon::IsLethalToTouch() const
+{
+	return true;
+}
+
+void Cannon::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
+bool Cannon::TakeBulletHit()
+{
+	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
+}
+
 void Cannon::Update()
 {
 	if (!this->_state)

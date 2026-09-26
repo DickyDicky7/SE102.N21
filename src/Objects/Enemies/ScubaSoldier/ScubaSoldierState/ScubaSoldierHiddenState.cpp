@@ -36,3 +36,8 @@ ScubaSoldierState* ScubaSoldierHiddenState::HandleInput(ScubaSoldier& scubaSoldi
 
 	return nullptr;
 }
+
+bool ScubaSoldierHiddenState::IsHidden() const
+{
+	return true;
+}

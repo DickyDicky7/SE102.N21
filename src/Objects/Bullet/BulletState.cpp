@@ -28,6 +28,20 @@ BulletParticleConfig BulletState::GetParticleConfig() const
 	return { GraphicsHelper::ToXMFloat4(Constants::Particles::GLOW_COLOUR_DEFAULT), Constants::Particles::GLOW_SIZE_DEFAULT };
 }
 
+bool BulletState::IsExploding() const
+{
+	return false;
+}
+
+Explosion* BulletState::CreateDeathExplosion(const Bullet& bullet) const
+{
+	return nullptr;
+}
+
+void BulletState::OnTerrainCollision(Bullet& bullet, TERRAIN_BLOCK_TYPE terrainType, float normalY) const
+{
+}
+
 BulletParticleConfig BulletRState::GetParticleConfig() const
 {
 	return { GraphicsHelper::ToXMFloat4(Constants::Particles::GLOW_COLOUR_R), Constants::Particles::GLOW_SIZE_R };

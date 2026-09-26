@@ -34,6 +34,26 @@ Bullet::~Bullet()
 	Destroy(this->_handleInputState);
 }
 
+bool Bullet::IsFake() const
+{
+	return this->_isFake;
+}
+
+bool Bullet::IsEnemyBullet() const
+{
+	return this->_isEnemy;
+}
+
+bool Bullet::IsBullet() const
+{
+	return true;
+}
+
+CollidableEntity* Bullet::AsCollidable()
+{
+	return this;
+}
+
 Bullet* Bullet::Create(float x, float y, float vx, float vy, float ax, float ay, float angle, DIRECTION movingDirection, bool isEnemy, BulletState* state, bool isFake)
 {
 	Bullet* bullet = new Bullet();

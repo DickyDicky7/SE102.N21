@@ -32,6 +32,31 @@ const Bill* RifleManHideOnBush::GetEnemyTarget()
 	return this->_target;
 }
 
+bool RifleManHideOnBush::IsEnemy() const
+{
+	return true;
+}
+
+ENEMY_TYPE RifleManHideOnBush::GetEnemyType() const
+{
+	return this->_enemyType;
+}
+
+bool RifleManHideOnBush::IsLethalToTouch() const
+{
+	return true;
+}
+
+void RifleManHideOnBush::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
+bool RifleManHideOnBush::TakeBulletHit()
+{
+	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
+}
+
 void RifleManHideOnBush::Update()
 {
 	DeferState(this->_updateState, this->_state->Update(*this));

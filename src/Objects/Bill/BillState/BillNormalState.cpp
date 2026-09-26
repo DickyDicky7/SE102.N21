@@ -8,6 +8,11 @@ BillNormalState::~BillNormalState()
 {
 }
 
+bool BillNormalState::IsNormal() const
+{
+	return true;
+}
+
 void BillNormalState::Exit(Bill& bill)
 {
 }

@@ -10,3 +10,8 @@ BossStage3State::~BossStage3State()
 	this->_time = 0;
 }
 
+bool BossStage3State::CanFire() const
+{
+	return false;
+}
+

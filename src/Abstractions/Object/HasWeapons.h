@@ -33,7 +33,8 @@ public:
 	virtual ULONGLONG GetFiringTime() const;
 	virtual ULONGLONG GetFiringRate() const;
 	static std::vector<Bullet*>& GetBullets();
-	virtual BulletState*& GetBulletState(); template <class T> requires std::derived_from<T, BulletState> void SetBulletState(T* bulletState);
+	virtual BulletState*& GetBulletState();
+	virtual void SetBulletState(BulletState* bulletState);
 
 protected:
 
@@ -43,10 +44,3 @@ protected:
 	static std::vector<Bullet*> _bullets;
 
 };
-
-template <class T> requires std::derived_from<T, BulletState>
-inline void HasWeapons::SetBulletState(T* bulletState)
-{
-	Destroy(this->_bulletState);
-			this->_bulletState = bulletState;
-}

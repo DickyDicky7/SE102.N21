@@ -19,17 +19,17 @@ namespace Space
 	class BLAS
 	{
 	public:
-		BLAS() = default;
+		BLAS();
 		explicit BLAS(Entity* owner);
 
 		void Build(Entity* owner);
 		void Refit();
 
-		Entity* GetOwner() const noexcept { return this->_owner; }
-		const AABB& GetWorldAABB() const noexcept { return this->_worldAABB; }
-		bool IsComposite() const noexcept { return this->_isComposite; }
-		size_t GetPrimitiveCount() const noexcept { return this->_primitives.size(); }
-		const std::vector<BLASPrimitive>& GetPrimitives() const noexcept { return this->_primitives; }
+		Entity* GetOwner() const noexcept;
+		const AABB& GetWorldAABB() const noexcept;
+		bool IsComposite() const noexcept;
+		size_t GetPrimitiveCount() const noexcept;
+		const std::vector<BLASPrimitive>& GetPrimitives() const noexcept;
 
 		template <typename Func>
 		void Query(const AABB& queryBox, Func&& callback) const
