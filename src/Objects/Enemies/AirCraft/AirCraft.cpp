@@ -60,6 +60,36 @@ Item* AirCraft::CreateDroppedItem() const
 	return item;
 }
 
+bool AirCraft::IsEnemy() const
+{
+	return true;
+}
+
+ENEMY_TYPE AirCraft::GetEnemyType() const
+{
+	return this->_enemyType;
+}
+
+void AirCraft::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
+bool AirCraft::TakeBulletHit()
+{
+	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
+}
+
+AIRCRAFT_DIRECTION AirCraft::GetAircraftDirection()
+{
+	return this->_aircraftDirection;
+}
+
+void AirCraft::SetAircraftDirection(AIRCRAFT_DIRECTION direction)
+{
+	this->_aircraftDirection = direction;
+}
+
 void AirCraft::Update()
 {
 	// Sinusoidal motion

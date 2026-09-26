@@ -21,6 +21,31 @@ RockFly::~RockFly()
 	this->_xEnd = 0.0f;
 }
 
+bool RockFly::IsRockFly() const
+{
+	return true;
+}
+
+bool RockFly::IsWalkableSurface() const
+{
+	return true;
+}
+
+bool RockFly::RidesWithSurface() const
+{
+	return true;
+}
+
+bool RockFly::IsEnemy() const
+{
+	return true;
+}
+
+void RockFly::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
 void RockFly::Update()
 {
 	float x = this->GetX();

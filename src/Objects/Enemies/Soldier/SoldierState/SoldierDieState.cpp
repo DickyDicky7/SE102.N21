@@ -66,3 +66,8 @@ SoldierState* SoldierDieState::HandleInput(Soldier& soldier, Input& input)
 {
 	return nullptr;
 }
+
+bool SoldierDieState::IsDead() const
+{
+	return true;
+}

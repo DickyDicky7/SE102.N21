@@ -9,6 +9,11 @@ BillJumpState::~BillJumpState()
 {
 }
 
+bool BillJumpState::IsJumping() const
+{
+	return true;
+}
+
 void BillJumpState::Exit(Bill& bill)
 {
 	Sound::GetInstance()->Play("landing", false, 1);

@@ -22,10 +22,10 @@ public:
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
-	bool IsVulnerableToBullet() const override { return false; }
-	bool IsEnemy() const override { return true; }
-	bool IsLethalToTouch() const override { return true; }
-	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	bool IsVulnerableToBullet() const override;
+	bool IsEnemy() const override;
+	bool IsLethalToTouch() const override;
+	void SetTarget(const Bill* target) override;
 protected:
 	float _distanceMove;
 	float _x0;

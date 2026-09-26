@@ -37,25 +37,25 @@ public:
 	void  Fire() override;
 	void  Fire(float x, float y, float vx, float vy);
 
-	bool GetIsFire() { return this->_isFire; }
-	void SetIsFire(bool check) { this->_isFire = check; }
+	bool GetIsFire();
+	void SetIsFire(bool check);
 
 	// Fixed-length bone chain: index 0 is the shoulder anchor and the last index
 	// is the hand itself, so the roles below are tied to this exact count.
 	static_assert(Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT == 5,
 		"Joint indices 0/1/4 are hardcoded across the BossStage3Hand states.");
 
-	BossStage3Joint* GetJoint(size_t index) const { return this->_joints[index]; }
+	BossStage3Joint* GetJoint(size_t index) const;
 	// The chain itself, for a state that wants to hold on to it across frames.
 	// Pointer-to-const-pointer: the joints stay mutable, the wiring does not.
-	BossStage3Joint* const* GetJoints() const { return this->_joints; }
+	BossStage3Joint* const* GetJoints() const;
 
-	bool IsEnemy() const override { return true; }
-	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
-	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	bool IsEnemy() const override;
+	ENEMY_TYPE GetEnemyType() const override;
+	void SetTarget(const Bill* target) override;
 	void ForEachCollisionEntity(std::function<void(Entity*)> callback) override;
 	void ProcessSpecialDeathEffects(std::vector<Entity*>& effectEntities) override;
-	bool TakeBulletHit() override { return this->Enemy<Bill>::TakeEnemyBulletHit(this); }
+	bool TakeBulletHit() override;
 protected:
 	BossStage3Joint* _joints[Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT];
 

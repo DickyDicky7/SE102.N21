@@ -60,14 +60,14 @@ public:
 
 	// Countdown to the next shot, ticked once per logic step by
 	// WallTurretState::UpdateShooting.
-	int  TickShootDelay()  { return --this->_shootDelay; }
-	void ResetShootDelay() { this->_shootDelay = Constants::Enemies::WallTurret::SHOOT_DELAY_FRAMES; }
+	int  TickShootDelay();
+	void ResetShootDelay();
 
-	bool IsEnemy() const override { return true; }
-	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
-	bool IsLethalToTouch() const override { return true; }
-	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
-	bool TakeBulletHit() override { return this->Enemy<Bill>::TakeEnemyBulletHit(this); }
+	bool IsEnemy() const override;
+	ENEMY_TYPE GetEnemyType() const override;
+	bool IsLethalToTouch() const override;
+	void SetTarget(const Bill* target) override;
+	bool TakeBulletHit() override;
 protected:
 	int _shootDelay;
 

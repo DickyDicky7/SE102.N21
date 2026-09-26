@@ -50,3 +50,8 @@ BridgePartState* BridgePartState::HandleInput(BridgePart&, Input&)
 {
 	return nullptr;
 }
+
+bool BridgePartState::HasZeroDimensions() const
+{
+	return false;
+}

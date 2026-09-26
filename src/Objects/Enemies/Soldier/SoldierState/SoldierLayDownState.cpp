@@ -41,3 +41,13 @@ SoldierState* SoldierLayDownState::HandleInput(Soldier& soldier, Input& input)
 {
 	return nullptr;
 }
+
+float SoldierLayDownState::GetGunMountOffsetRatio() const
+{
+	return Constants::Enemies::Soldier::GUN_MOUNT_OFFSET_RATIO_PRONE;
+}
+
+bool SoldierLayDownState::IsLayingDown() const
+{
+	return true;
+}

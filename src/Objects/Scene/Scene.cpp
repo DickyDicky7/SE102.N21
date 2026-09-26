@@ -1,5 +1,15 @@
 #include "Scene.h"
 
+float AtCol(float x)
+{
+	return x / (Constants::Screen::IN_GAME_WIDTH  / Letter::letterW) * Constants::Screen::IN_GAME_WIDTH;
+}
+
+float AtRow(float y)
+{
+	return y / (Constants::Screen::IN_GAME_HEIGHT / Letter::letterH) * Constants::Screen::IN_GAME_HEIGHT;
+}
+
 // Initialiser order follows the declaration order in Scene.h; _livesLeft points
 // at _livesLeftCount, so that one has to be initialised first.
 Scene::Scene() : Entity(), HasTextures(), HasSprites(), HasAnimations()
@@ -23,6 +33,62 @@ Scene::~Scene()
 	Destroy(this->_updateState);
 	Destroy(this->_handleInputState);
 	Destroy(this->_stage);
+}
+
+Stage* Scene::GetStage() const
+{
+	return this->_stage;
+}
+
+void Scene::ReplaceStage(Stage* stage)
+{
+	Destroy(this->_stage);
+	this->_stage = stage;
+}
+
+int* Scene::GetLivesLeft() const
+{
+	return this->_livesLeft;
+}
+
+bool Scene::IsStageReady() const
+{
+	return this->_stageIsReady;
+}
+
+void Scene::SetStageReady(bool stageIsReady)
+{
+	this->_stageIsReady = stageIsReady;
+}
+
+int Scene::GetCurrentStage() const
+{
+	return this->_currentStage;
+}
+
+void Scene::SetCurrentStage(int currentStage)
+{
+	this->_currentStage = currentStage;
+}
+
+int Scene::GetCurrentScore() const
+{
+	return this->_currentScore;
+}
+
+void Scene::SetCurrentScore(int currentScore)
+{
+	this->_currentScore = currentScore;
+}
+
+int Scene::GetHighestScore() const
+{
+	return this->_highestScore;
+}
+
+void Scene::SetHighestScore(int highestScore)
+{
+	this->_highestScore = highestScore;
 }
 
 void Scene::Update()

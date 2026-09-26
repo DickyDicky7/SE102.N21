@@ -29,7 +29,7 @@ public:
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
-	void SetHead(BossStage3* head) { this->_bossStage3Head = head; }
+	void SetHead(BossStage3* head);
 	bool IsHeadDead() const;
 
 protected:

@@ -17,8 +17,8 @@
 #include "Sound.h"
 
 // Column/row of the letter grid -> world position, in in-game pixels.
-inline float AtCol(float x) { return x / (Constants::Screen::IN_GAME_WIDTH  / Letter::letterW) * Constants::Screen::IN_GAME_WIDTH ; }
-inline float AtRow(float y) { return y / (Constants::Screen::IN_GAME_HEIGHT / Letter::letterH) * Constants::Screen::IN_GAME_HEIGHT; }
+float AtCol(float x);
+float AtRow(float y);
 
 
 class Scene; class SceneState; class StartSceneState; class LoadingSceneState; class PlayingSceneState; class GameOverSceneState; class EndingSceneState; class CreditSceneState;
@@ -29,26 +29,26 @@ class Scene : public Entity, public HasTextures<Scene>, public HasSprites<Scene>
 
 public:
 
-	Stage* GetStage() const { return this->_stage; }
+	Stage* GetStage() const;
 	// Destroys the stage in place before adopting the new one, so a caller
 	// swapping stages cannot leak the outgoing one by forgetting to.
-	void ReplaceStage(Stage* stage) { Destroy(this->_stage); this->_stage = stage; }
+	void ReplaceStage(Stage* stage);
 
 	// Points into _livesLeftCount; Bill holds the same pointer, so a death it
 	// counts down is the count the HUD reads back.
-	int* GetLivesLeft() const { return this->_livesLeft; }
+	int* GetLivesLeft() const;
 
-	bool IsStageReady() const { return this->_stageIsReady; }
-	void SetStageReady(bool stageIsReady) { this->_stageIsReady = stageIsReady; }
+	bool IsStageReady() const;
+	void SetStageReady(bool stageIsReady);
 
-	int  GetCurrentStage() const { return this->_currentStage; }
-	void SetCurrentStage(int currentStage) { this->_currentStage = currentStage; }
+	int  GetCurrentStage() const;
+	void SetCurrentStage(int currentStage);
 
-	int  GetCurrentScore() const { return this->_currentScore; }
-	void SetCurrentScore(int currentScore) { this->_currentScore = currentScore; }
+	int  GetCurrentScore() const;
+	void SetCurrentScore(int currentScore);
 
-	int  GetHighestScore() const { return this->_highestScore; }
-	void SetHighestScore(int highestScore) { this->_highestScore = highestScore; }
+	int  GetHighestScore() const;
+	void SetHighestScore(int highestScore);
 
 	Scene();
 	virtual ~Scene();

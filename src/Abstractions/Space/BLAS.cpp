@@ -22,6 +22,8 @@ namespace Space
 		return AABB(camera->GetL(), camera->GetB(), camera->GetR(), camera->GetT());
 	}
 
+	BLAS::BLAS() = default;
+
 	BLAS::BLAS(Entity* owner)
 	{
 		this->Build(owner);
@@ -97,5 +99,30 @@ namespace Space
 				this->_worldAABB = this->_worldAABB.Union(prim.aabb);
 			}
 		}
+	}
+
+	Entity* BLAS::GetOwner() const noexcept
+	{
+		return this->_owner;
+	}
+
+	const AABB& BLAS::GetWorldAABB() const noexcept
+	{
+		return this->_worldAABB;
+	}
+
+	bool BLAS::IsComposite() const noexcept
+	{
+		return this->_isComposite;
+	}
+
+	size_t BLAS::GetPrimitiveCount() const noexcept
+	{
+		return this->_primitives.size();
+	}
+
+	const std::vector<BLASPrimitive>& BLAS::GetPrimitives() const noexcept
+	{
+		return this->_primitives;
 	}
 }

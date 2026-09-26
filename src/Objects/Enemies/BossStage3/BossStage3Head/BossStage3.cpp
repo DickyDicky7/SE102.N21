@@ -155,6 +155,56 @@ void BossStage3::Fire()
 	}
 }
 
+bool BossStage3::GetIsFire() const
+{
+	return this->_isFire;
+}
+
+void BossStage3::SetIsFire(bool check)
+{
+	this->_isFire = check;
+}
+
+BossStage3Hand* BossStage3::GetHandLeft() const
+{
+	return this->_boss3Stage3HandLeft;
+}
+
+BossStage3Hand* BossStage3::GetHandRight() const
+{
+	return this->_boss3Stage3HandRight;
+}
+
+void BossStage3::SetHandLeft(BossStage3Hand* handLeft)
+{
+	this->_boss3Stage3HandLeft = handLeft;
+}
+
+void BossStage3::SetHandRight(BossStage3Hand* handRight)
+{
+	this->_boss3Stage3HandRight = handRight;
+}
+
+bool BossStage3::IsEnemy() const
+{
+	return true;
+}
+
+ENEMY_TYPE BossStage3::GetEnemyType() const
+{
+	return this->_enemyType;
+}
+
+void BossStage3::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
+bool BossStage3::TakeBulletHit()
+{
+	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
+}
+
 bool BossStage3::IsHandsDead() const
 {
 	return this->_boss3Stage3HandLeft && this->_boss3Stage3HandRight

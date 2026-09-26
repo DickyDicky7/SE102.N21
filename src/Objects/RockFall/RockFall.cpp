@@ -35,6 +35,56 @@ RockFall::~RockFall()
 	this->_timeDelayToFall = 0.0f;
 }
 
+void RockFall::SetTimeDelayToFall(float timeDelayToFall)
+{
+	this->_timeDelayToFall = timeDelayToFall;
+}
+
+float RockFall::GetTimeDelayToFall() const
+{
+	return this->_timeDelayToFall;
+}
+
+bool RockFall::HasBouncedBack() const
+{
+	return this->_bouncedBack;
+}
+
+void RockFall::SetBouncedBack(bool bouncedBack)
+{
+	this->_bouncedBack = bouncedBack;
+}
+
+CollidableEntity* RockFall::AsCollidable()
+{
+	return this;
+}
+
+bool RockFall::IsEnemy() const
+{
+	return true;
+}
+
+bool RockFall::IsLethalToTouch() const
+{
+	return true;
+}
+
+ENEMY_TYPE RockFall::GetEnemyType() const
+{
+	return this->_enemyType;
+}
+
+bool RockFall::TakeBulletHit()
+{
+	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
+}
+
+void RockFall::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
 void RockFall::Update()
 {
 	DeferState(this->_updateState, this->_state->Update(*this));

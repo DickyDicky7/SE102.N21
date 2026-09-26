@@ -39,13 +39,13 @@ public:
 
 	const Bill* GetEnemyTarget();
 
-	bool IsEnemy() const override { return true; }
-	bool ShouldRetainWhenDead() const override { return true; }
-	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
-	bool IsPushableObstacle() const override { return !this->IsDead(); }
-	bool IsVulnerableToBullet() const override { return !this->IsDead(); }
-	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
-	bool TakeBulletHit() override { return this->IsDead() ? false : this->Enemy<Bill>::TakeEnemyBulletHit(this); }
+	bool IsEnemy() const override;
+	bool ShouldRetainWhenDead() const override;
+	ENEMY_TYPE GetEnemyType() const override;
+	bool IsPushableObstacle() const override;
+	bool IsVulnerableToBullet() const override;
+	void SetTarget(const Bill* target) override;
+	bool TakeBulletHit() override;
 protected:
 	GunBossStage1State* _state;
 	GunBossStage1State* _updateState;

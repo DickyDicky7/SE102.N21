@@ -33,24 +33,17 @@ public:
 
 	void CalculateBillDistance();
 
-	void SetCurrentState(FALCON_ANIMATION_ID id)
-	{
-		this->_currentState = id;
-	}
-
-	FALCON_ANIMATION_ID GetCurrentState()
-	{
-		return this->_currentState;
-	}
+	void SetCurrentState(FALCON_ANIMATION_ID id);
+	FALCON_ANIMATION_ID GetCurrentState();
 
 	ITEM_TYPE GetAmmoType();
 	void SetAmmoType(ITEM_TYPE ammoType);
 
-	bool IsEnemy() const override { return true; }
-	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
-	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	bool IsEnemy() const override;
+	ENEMY_TYPE GetEnemyType() const override;
+	void SetTarget(const Bill* target) override;
 	Item* CreateDroppedItem() const override;
-	bool TakeBulletHit() override { return this->Enemy<Bill>::TakeEnemyBulletHit(this); }
+	bool TakeBulletHit() override;
 protected:
 	FalconState* _state;
 	FalconState* _updateState;

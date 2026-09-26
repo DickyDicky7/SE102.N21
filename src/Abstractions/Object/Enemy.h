@@ -11,13 +11,13 @@ class Enemy
 
 public:
 
-	int  GetHitCounts() const { return this->_hitCounts; }
-	void SetHitCounts(int hitCounts) { this->_hitCounts = hitCounts; }
+	int  GetHitCounts() const;
+	void SetHitCounts(int hitCounts);
 
 	// Consumes one hit; true when this was the hit that brought the count to
 	// zero, so the caller knows it owns the death. Used when something other
 	// than the enemy itself absorbs the shot (a boss joint hit on its hand).
-	bool RegisterHit() { return --this->_hitCounts == 0; }
+	bool RegisterHit();
 
 	Enemy();
 	virtual ~Enemy();
@@ -32,15 +32,7 @@ public:
 	float CalculateTargetDistance(const Entity* self) const;
 	float CalculateShootingAngle(const Entity* self) const;
 
-	virtual bool TakeEnemyBulletHit(Entity* self)
-	{
-		if (!self) return false;
-		if (--this->_hitCounts <= 0)
-		{
-			self->SetDead(true);
-		}
-		return true;
-	}
+	virtual bool TakeEnemyBulletHit(Entity* self);
 protected:
 
 	int _hp;
@@ -61,6 +53,15 @@ inline Enemy<T>::~Enemy()
 }
 
 template <class T>
+inline int Enemy<T>::GetHitCounts() const { return this->_hitCounts; }
+
+template <class T>
+inline void Enemy<T>::SetHitCounts(int hitCounts) { this->_hitCounts = hitCounts; }
+
+template <class T>
+inline bool Enemy<T>::RegisterHit() { return --this->_hitCounts == 0; }
+
+template <class T>
 inline void Enemy<T>::SetHP(int hp) { this->_hp = hp; }
 
 template <class T>
@@ -71,6 +72,17 @@ inline int Enemy<T>::GetHP() const { return this->_hp; }
 
 template <class T>
 inline const T* Enemy<T>::GetTarget() const { return this->_target; }
+
+template <class T>
+inline bool Enemy<T>::TakeEnemyBulletHit(Entity* self)
+{
+	if (!self) return false;
+	if (--this->_hitCounts <= 0)
+	{
+		self->SetDead(true);
+	}
+	return true;
+}
 
 template <class T>
 inline float Enemy<T>::CalculateTargetAngle(const Entity* self) const

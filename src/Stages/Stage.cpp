@@ -326,9 +326,15 @@ void Stage::CheckResolveClearCollision()
 }
 
 
+void Stage::RenderBossCompletion()
+{
+}
+
 void  Stage::SetBill(Bill* bill) {		  this->_bill = bill; }
 Bill* Stage::GetBill(          ) { return this->_bill       ; }
 
+bool Stage::HasDone() const { return this->_hasDone; }
+void Stage::SetHasDone(bool done) { this->_hasDone = done; }
 
 void    Stage::SetCamera(Camera* camera) {		  this->_camera = camera; }
 Camera* Stage::GetCamera(              ) { return this->_camera         ; }

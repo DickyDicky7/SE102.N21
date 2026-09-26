@@ -34,6 +34,63 @@ const Bill* RifleManStanding::GetEnemyTarget()
 	return this->_target;
 }
 
+int RifleManStanding::TickShootDelay()
+{
+	return --this->_shootDelay;
+}
+
+int RifleManStanding::TickShootDelayPerBullet()
+{
+	return --this->_shootDelayPerBullet;
+}
+
+int RifleManStanding::GetShotsLeftInBurst() const
+{
+	return this->_shootTime;
+}
+
+void RifleManStanding::ConsumeShotInBurst()
+{
+	--this->_shootTime;
+}
+
+void RifleManStanding::ResetShootDelayPerBullet()
+{
+	this->_shootDelayPerBullet = Constants::Enemies::RifleMan::SHOOT_DELAY_PER_BULLET_FRAMES;
+}
+
+void RifleManStanding::ResetBurst()
+{
+	this->_shootTime = Constants::Enemies::RifleMan::SHOOT_BURST_COUNT;
+	this->_shootDelay = Constants::Enemies::RifleMan::SHOOT_DELAY_FRAMES;
+	this->ResetShootDelayPerBullet();
+}
+
+bool RifleManStanding::IsEnemy() const
+{
+	return true;
+}
+
+ENEMY_TYPE RifleManStanding::GetEnemyType() const
+{
+	return this->_enemyType;
+}
+
+bool RifleManStanding::IsLethalToTouch() const
+{
+	return true;
+}
+
+void RifleManStanding::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
+bool RifleManStanding::TakeBulletHit()
+{
+	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
+}
+
 void RifleManStanding::Update()
 {
 	// Single exit, so the queue drained at the bottom is reached on every path.

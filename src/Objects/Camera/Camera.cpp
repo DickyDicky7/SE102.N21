@@ -91,6 +91,16 @@ const D3DMATRIX& Camera::GetViewMatrix() const
 	return this->_viewMatrix;
 }
 
+void Camera::LogName()
+{
+	OutputDebugString(L"Camera");
+}
+
+bool Camera::IsStatic() const
+{
+	return this->_isStatic;
+}
+
 void Camera::ToStatic()
 {
 	this->_isStatic = true;

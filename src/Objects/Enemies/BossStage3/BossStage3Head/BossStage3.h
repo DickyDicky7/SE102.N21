@@ -33,20 +33,20 @@ public:
 
 	void  Fire() override;
 
-	bool GetIsFire() const { return this->_isFire; }
-	void SetIsFire(bool check) { this->_isFire = check; }
+	bool GetIsFire() const;
+	void SetIsFire(bool check);
 
-	BossStage3Hand* GetHandLeft() const { return this->_boss3Stage3HandLeft; }
-	BossStage3Hand* GetHandRight() const { return this->_boss3Stage3HandRight; }
-	void SetHandLeft(BossStage3Hand* handLeft) { this->_boss3Stage3HandLeft = handLeft; }
-	void SetHandRight(BossStage3Hand* handRight) { this->_boss3Stage3HandRight = handRight; }
+	BossStage3Hand* GetHandLeft() const;
+	BossStage3Hand* GetHandRight() const;
+	void SetHandLeft(BossStage3Hand* handLeft);
+	void SetHandRight(BossStage3Hand* handRight);
 	bool IsHandsDead() const;
 
-	bool IsEnemy() const override { return true; }
-	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
-	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	bool IsEnemy() const override;
+	ENEMY_TYPE GetEnemyType() const override;
+	void SetTarget(const Bill* target) override;
 	void ProcessSpecialDeathEffects(std::vector<Entity*>& effectEntities) override;
-	bool TakeBulletHit() override { return this->Enemy<Bill>::TakeEnemyBulletHit(this); }
+	bool TakeBulletHit() override;
 protected:
 	BossStage3State* _state;
 	BossStage3State* _updateState;
@@ -75,7 +75,7 @@ public:
 	virtual BossStage3State* Update(BossStage3& bossStage3) override = 0;
 	virtual BossStage3State* HandleInput(BossStage3& bossStage3, Input& input) override = 0;
 
-	virtual bool CanFire() const { return false; }
+	virtual bool CanFire() const;
 
 protected:
 	float _time;
@@ -97,7 +97,7 @@ public:
 	virtual BossStage3State* Update(BossStage3& bossStage3) override;
 	virtual BossStage3State* HandleInput(BossStage3& bossStage3, Input& input) override;
 
-	bool CanFire() const override { return true; }
+	bool CanFire() const override;
 };
 
 

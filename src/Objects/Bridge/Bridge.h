@@ -30,10 +30,10 @@ public:
 
 	void InitBridgePart();
 
-	bool IsBridge() const override { return true; }
-	bool IsWalkableSurface() const override { return true; }
-	bool IsEnemy() const override { return true; }
-	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	bool IsBridge() const override;
+	bool IsWalkableSurface() const override;
+	bool IsEnemy() const override;
+	void SetTarget(const Bill* target) override;
 protected:
 	BridgePart* _bridgePart[Constants::Enemies::Bridge::PART_COUNT];
 	bool _isInitBridge;
@@ -53,10 +53,10 @@ public:
 	void SetIsDestroy(bool isDestroy);
 	bool GetIsDestroy() const;
 
-	bool IsBridge() const override { return true; }
-	bool IsWalkableSurface() const override { return true; }
-	bool IsEnemy() const override { return true; }
-	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	bool IsBridge() const override;
+	bool IsWalkableSurface() const override;
+	bool IsEnemy() const override;
+	void SetTarget(const Bill* target) override;
 protected:
 	bool _isDestroy;
 	BridgePartState* _state;
@@ -77,7 +77,7 @@ public:
 	virtual BridgePartState* Update(BridgePart& bridgePart);
 	virtual BridgePartState* HandleInput(BridgePart& bridgePart, Input& input) override;
 
-	virtual bool HasZeroDimensions() const { return false; }
+	virtual bool HasZeroDimensions() const;
 protected:
 	float _time;
 	ANIMATION_ID _animationId;
@@ -96,5 +96,5 @@ public:
 
 	virtual BridgePartState* Update(BridgePart& bridgePart);
 
-	bool HasZeroDimensions() const override { return true; }
+	bool HasZeroDimensions() const override;
 };

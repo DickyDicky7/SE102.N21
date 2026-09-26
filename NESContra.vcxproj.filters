@@ -488,6 +488,9 @@
     <ClCompile Include="src\Abstractions\Space\QuadTreeNode.cpp">
       <Filter>src\Abstractions\Space</Filter>
     </ClCompile>
+    <ClCompile Include="src\Abstractions\Space\SpatialPartitioning.cpp">
+      <Filter>src\Abstractions\Space</Filter>
+    </ClCompile>
     <ClCompile Include="src\main.cpp">
       <Filter>src</Filter>
     </ClCompile>

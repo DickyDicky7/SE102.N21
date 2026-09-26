@@ -8,6 +8,11 @@ BillDiveState::~BillDiveState()
 {
 }
 
+bool BillDiveState::IsInvulnerable() const
+{
+	return true;
+}
+
 void BillDiveState::Exit(Bill& bill)
 {
 }

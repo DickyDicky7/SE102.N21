@@ -100,6 +100,11 @@ void BossStage3Gate::LoadAnimations()
 	OutputDebugString(L"BossStage3Gate Animations Loaded Successfully\n");
 }
 
+void BossStage3Gate::SetHead(BossStage3* head)
+{
+	this->_bossStage3Head = head;
+}
+
 bool BossStage3Gate::IsHeadDead() const
 {
 	return this->_bossStage3Head && this->_bossStage3Head->IsDead();

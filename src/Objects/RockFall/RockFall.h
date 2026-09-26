@@ -28,29 +28,23 @@ public:
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
-	void SetTimeDelayToFall(float timeDelayToFall)
-	{
-		this->_timeDelayToFall = timeDelayToFall;
-	}
-	float GetTimeDelayToFall() const
-	{
-		return this->_timeDelayToFall;
-	}
+	void SetTimeDelayToFall(float timeDelayToFall);
+	float GetTimeDelayToFall() const;
 
-	bool HasBouncedBack() const { return this->_bouncedBack; }
-	void SetBouncedBack(bool bouncedBack) { this->_bouncedBack = bouncedBack; }
+	bool HasBouncedBack() const;
+	void SetBouncedBack(bool bouncedBack);
 
-	CollidableEntity* AsCollidable() override { return this; }
+	CollidableEntity* AsCollidable() override;
 	void  StaticResolveNoCollision() override;
 	void  StaticResolveOnCollision(AABBSweepResult aabbSweepResult) override;
 	void DynamicResolveNoCollision() override;
 	void DynamicResolveOnCollision(AABBSweepResult aabbSweepResult) override;
 
-	bool IsEnemy() const override { return true; }
-	bool IsLethalToTouch() const override { return true; }
-	ENEMY_TYPE GetEnemyType() const override { return this->_enemyType; }
-	bool TakeBulletHit() override { return this->Enemy<Bill>::TakeEnemyBulletHit(this); }
-	void SetTarget(const Bill* target) override { this->Enemy<Bill>::SetTarget(target); }
+	bool IsEnemy() const override;
+	bool IsLethalToTouch() const override;
+	ENEMY_TYPE GetEnemyType() const override;
+	bool TakeBulletHit() override;
+	void SetTarget(const Bill* target) override;
 protected:
 	std::unordered_set<Entity*> _alreadyCollidedWithEntities;
 	bool _bouncedBack = false;

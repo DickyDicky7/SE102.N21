@@ -48,6 +48,26 @@ Bridge::~Bridge()
 	}
 }
 
+bool Bridge::IsBridge() const
+{
+	return true;
+}
+
+bool Bridge::IsWalkableSurface() const
+{
+	return true;
+}
+
+bool Bridge::IsEnemy() const
+{
+	return true;
+}
+
+void Bridge::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
 void Bridge::InitBridgePart()
 {
 	float bridgePartW = this->_w / Constants::Enemies::Bridge::PART_COUNT;

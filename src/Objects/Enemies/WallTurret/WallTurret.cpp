@@ -80,6 +80,41 @@ bool WallTurret::IsTargetInRange() const
 	return dx <= Constants::Screen::TILE_SIZE * Constants::Enemies::WallTurret::TARGET_RANGE_TILES;
 }
 
+int WallTurret::TickShootDelay()
+{
+	return --this->_shootDelay;
+}
+
+void WallTurret::ResetShootDelay()
+{
+	this->_shootDelay = Constants::Enemies::WallTurret::SHOOT_DELAY_FRAMES;
+}
+
+bool WallTurret::IsEnemy() const
+{
+	return true;
+}
+
+ENEMY_TYPE WallTurret::GetEnemyType() const
+{
+	return this->_enemyType;
+}
+
+bool WallTurret::IsLethalToTouch() const
+{
+	return true;
+}
+
+void WallTurret::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
+bool WallTurret::TakeBulletHit()
+{
+	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
+}
+
 void WallTurret::LoadTextures() {
 	if (HasTextures<WallTurret>::_hasBeenLoaded) {
 		return;

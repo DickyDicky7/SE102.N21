@@ -210,6 +210,11 @@ bool QuadTreeNode::IsSmallestNode() const
 		&& this->h <= Constants::Physics::QUADTREE_NODE_SMALLEST_HEIGHT;
 }
 
+Space::TLAS* QuadTreeNode::GetTLAS() const
+{
+	return this->_tlas.get();
+}
+
 QuadTreeNode* QuadTreeNode::New(float x, float y, float w, float h)
 {
 	return new QuadTreeNode(x, y, w, h);

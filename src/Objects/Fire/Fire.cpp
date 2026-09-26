@@ -23,6 +23,26 @@ Fire::~Fire()
 {
 }
 
+bool Fire::IsVulnerableToBullet() const
+{
+	return false;
+}
+
+bool Fire::IsEnemy() const
+{
+	return true;
+}
+
+bool Fire::IsLethalToTouch() const
+{
+	return true;
+}
+
+void Fire::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
 void Fire::Update()
 {
 	float x = this->GetX();

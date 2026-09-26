@@ -147,6 +147,46 @@ void BossStage3Hand::Fire()
 	this->HasWeapons::Fire(this->_position.x, this->_position.y, 0.0f, 0.0f, -1.0f, 0.0f, 0.0f, this->_movingDirection);
 }
 
+bool BossStage3Hand::GetIsFire()
+{
+	return this->_isFire;
+}
+
+void BossStage3Hand::SetIsFire(bool check)
+{
+	this->_isFire = check;
+}
+
+BossStage3Joint* BossStage3Hand::GetJoint(size_t index) const
+{
+	return this->_joints[index];
+}
+
+BossStage3Joint* const* BossStage3Hand::GetJoints() const
+{
+	return this->_joints;
+}
+
+bool BossStage3Hand::IsEnemy() const
+{
+	return true;
+}
+
+ENEMY_TYPE BossStage3Hand::GetEnemyType() const
+{
+	return this->_enemyType;
+}
+
+void BossStage3Hand::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
+bool BossStage3Hand::TakeBulletHit()
+{
+	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
+}
+
 void BossStage3Hand::ForEachCollisionEntity(std::function<void(Entity*)> callback)
 {
 	callback(this);

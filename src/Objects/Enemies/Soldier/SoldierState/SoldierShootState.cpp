@@ -42,3 +42,13 @@ SoldierState* SoldierShootState::HandleInput(Soldier& soldier, Input& input)
 {
 	return nullptr;
 }
+
+float SoldierShootState::GetGunMountOffsetRatio() const
+{
+	return Constants::Enemies::Soldier::GUN_MOUNT_OFFSET_RATIO_STANDING;
+}
+
+bool SoldierShootState::IsShooting() const
+{
+	return true;
+}

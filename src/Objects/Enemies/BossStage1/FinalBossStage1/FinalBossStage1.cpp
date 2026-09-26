@@ -74,6 +74,46 @@ void FinalBossStage1::SetGun2(GunBossStage1* gun2)
 	this->_gun2 = gun2;
 }
 
+ULONGLONG FinalBossStage1::GetDeadTurns() const
+{
+	return this->_deadTurns;
+}
+
+void FinalBossStage1::IncrementDeadTurns()
+{
+	++this->_deadTurns;
+}
+
+bool FinalBossStage1::IsEnemy() const
+{
+	return true;
+}
+
+ENEMY_TYPE FinalBossStage1::GetEnemyType() const
+{
+	return this->_enemyType;
+}
+
+bool FinalBossStage1::IsPushableObstacle() const
+{
+	return !this->IsDead();
+}
+
+bool FinalBossStage1::IsVulnerableToBullet() const
+{
+	return !this->IsDead();
+}
+
+void FinalBossStage1::SetTarget(const Bill* target)
+{
+	this->Enemy<Bill>::SetTarget(target);
+}
+
+bool FinalBossStage1::TakeBulletHit()
+{
+	return this->IsDead() ? false : this->Enemy<Bill>::TakeEnemyBulletHit(this);
+}
+
 void FinalBossStage1::HandleInput(Input&)
 {
 

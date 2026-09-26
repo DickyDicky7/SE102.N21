@@ -13,7 +13,7 @@ class Item : public Entity
 	, public HasTextures<Item>, public HasSprites<Item>, public HasAnimations<Item>, public CollidableEntity
 {
 public:
-	ITEM_TYPE GetItemType() const { return this->_type; }
+	ITEM_TYPE GetItemType() const;
 
 	Item(ITEM_TYPE type);
 	virtual ~Item();
@@ -25,7 +25,7 @@ public:
 	void LoadTextures() override;
 	void LoadAnimations() override;
 
-	CollidableEntity* AsCollidable() override { return this; }
+	CollidableEntity* AsCollidable() override;
 	void  StaticResolveNoCollision() override;
 	void  StaticResolveOnCollision(AABBSweepResult aabbSweepResult) override;
 	void DynamicResolveNoCollision() override;

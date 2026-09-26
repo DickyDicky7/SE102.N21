@@ -50,6 +50,31 @@ Bill::~Bill()
 	Destroy(this->_handleInputState);
 }
 
+int* Bill::GetLivesLeft() const
+{
+	return this->_livesLeft;
+}
+
+void Bill::SetLivesLeft(int* livesLeft)
+{
+	this->_livesLeft = livesLeft;
+}
+
+void Bill::ResetImmortalTick()
+{
+	this->_immortalTick = 0;
+}
+
+bool Bill::IsBill() const
+{
+	return true;
+}
+
+CollidableEntity* Bill::AsCollidable()
+{
+	return this;
+}
+
 void Bill::GoDead()
 {
 	if (this->_immortalTick > this->_immortalTime)
