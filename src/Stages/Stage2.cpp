@@ -42,10 +42,30 @@ Stage2::Stage2() : Stage()
 	this->_walls.insert({ "L", wallL });
 	this->_walls.insert({ "R", wallR });
 	this->_walls.insert({ "B", wallB });
+
+	this->_bossStage3Head      = nullptr;
+	this->_bossStage3HandLeft  = nullptr;
+	this->_bossStage3HandRight = nullptr;
 }
 
 Stage2::~Stage2()
 {
+	// Already out of the entity tree, so Stage::~Stage will not free these.
+	for (auto& deadBossPart : this->_deadBossParts) Destroy(deadBossPart);
+	this->_deadBossParts.clear();
+}
+
+bool Stage2::RetainDeadEntity(Entity* deadEntity)
+{
+	if (deadEntity
+	&& (deadEntity == this->_bossStage3Head
+	||  deadEntity == this->_bossStage3HandLeft
+	||  deadEntity == this->_bossStage3HandRight))
+	{
+		this->_deadBossParts.push_back(deadEntity);
+		return true;
+	}
+	return false;
 }
 
 void Stage2::CheckIfHasDone()
@@ -200,6 +220,10 @@ void Stage2::LoadEntities(void* entitiesLayer)
 	boss3StageHead->SetHandRight(boss3Stage3HandRight);
 	boss3StageHead->SetHandLeft(boss3Stage3HandLeft);
 	boss3StageGate->SetHead(boss3StageHead);
+
+	this->_bossStage3Head      = boss3StageHead;
+	this->_bossStage3HandLeft  = boss3Stage3HandLeft;
+	this->_bossStage3HandRight = boss3Stage3HandRight;
 
 	for (auto& object : entitiesLyr->getObjects())
 	{

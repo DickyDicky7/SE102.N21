@@ -177,7 +177,8 @@ void Sound::LoadSound(const char* fileName, std::string_view name)
 		return;
 	}
 
-	fread(bufferPtr, waveHeaderStruct.dataSize, 1, filePtr);
+	// Bounded by what Lock actually handed back, not by the header's claim.
+	fread(bufferPtr, 1, bufferSize, filePtr);
 	fclose(filePtr);
 
 	secondaryBuffer->Unlock(bufferPtr, bufferSize, nullptr, 0);
@@ -207,7 +208,11 @@ void Sound::Play(std::string_view name, bool infiniteLoop, int times)
 	{
 		it->second->Stop();
 		it->second->SetCurrentPosition(0);
-		it->second->Play(0, 0, times - 1);
+		// The third argument of IDirectSoundBuffer::Play is dwFlags, not a repeat
+		// count: "times - 1" turned times == 2 into DSBPLAY_LOOPING (play forever)
+		// and times == 0 into an all-bits-set invalid flag word.  DirectSound has no
+		// play-N-times, so a non-looping request plays once.
+		it->second->Play(0, 0, 0);
 	}
 
 }

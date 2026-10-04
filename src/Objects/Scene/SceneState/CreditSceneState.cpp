@@ -22,8 +22,6 @@ void CreditSceneState::Enter(Scene& scene)
 
 void CreditSceneState::Render(Scene& scene)
 {
-	++this->_time;
-
 	if (this->_time >= Constants::Scene::CREDIT_PAGE_TWO_DURATION_TURNS)
 	{
 		this->_tCredit5.Render();
@@ -47,6 +45,9 @@ void CreditSceneState::Render(Scene& scene)
 
 SceneState* CreditSceneState::Update(Scene& scene)
 {
+	// Counted here, once per logic step: Render runs once per presented frame,
+	// which is not 60 Hz on a faster display, so the pages raced through there.
+	++this->_time;
 	return nullptr;
 }
 

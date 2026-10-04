@@ -137,6 +137,7 @@ void Bridge::Update()
 void Bridge::Render()
 {
 	float ow = this->_w;
+	float oL = this->GetL(); // must be read before _w is rebuilt below
 	this->_w = 0.0f;
 	this->_h = 0.0f;
 	for (int i = 0; i < Constants::Enemies::Bridge::PART_COUNT; i++)
@@ -148,7 +149,7 @@ void Bridge::Render()
 			this->_h = this->_bridgePart[i]->GetH() * Constants::Enemies::Bridge::HITBOX_HEIGHT_RATIO;
 		}
 	}
-	float L = this->GetL() + ow - this->_w;
+	float L = oL + ow - this->_w;
 	this->_position.x = L + this->_w * 0.5f;
 }
 

@@ -72,6 +72,11 @@ protected:
 	virtual bool ProcessSpecialEntity   (Entity* entity) = 0;
 	virtual bool ProcessSpecialBullet   (Bullet* bullet) = 0;
 	virtual bool ProcessSpecialExplosion(Entity* deadEntity) = 0;
+	// Called for a dead entity once it is out of the tree and its explosion has
+	// been spawned.  Returning true hands ownership to the stage instead of the
+	// entity being destroyed there and then - for entities other entities still
+	// hold raw pointers to and read every Update.
+	virtual bool RetainDeadEntity       (Entity* deadEntity);
 
 	virtual void LoadEntities(void* entitiesLayer) = 0;
 	template <class T> void LoadBackgroundTerrains(void* backgroundTerrainsLayer);

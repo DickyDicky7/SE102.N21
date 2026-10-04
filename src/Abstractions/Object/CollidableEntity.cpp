@@ -103,9 +103,9 @@ AABBSweepResult CollidableEntity::AABBSweepX(Entity* targetEntity)
 	aabbSweepResult.normalY
 	=  0.0f;
 	aabbSweepResult.contactX
-	= (this->_self->GetVX() > 0.0f ? this->_self->GetR() : this->_self->GetL()) + aabbSweepResult.normalX * this->_self->GetVX() * aabbSweepResult.enTime;
+	= (this->_self->GetVX() > 0.0f ? this->_self->GetR() : this->_self->GetL()) + this->_self->GetVX() * aabbSweepResult.enTime;
 	aabbSweepResult.contactY
-	=  this->_self->GetT () / 2.0f;
+	= (this->_self->GetB() + this->_self->GetT()) / 2.0f;
 	aabbSweepResult.isCollided = true;
 	aabbSweepResult.surfaceEntity
 	=  targetEntity;
@@ -151,7 +151,7 @@ AABBSweepResult CollidableEntity::AABBSweepY(Entity* targetEntity)
 	aabbSweepResult.contactX
 	=  this->_self->GetX ();
 	aabbSweepResult.contactY
-	= (this->_self->GetVY() > 0.0f ? this->_self->GetT() : this->_self->GetB()) + aabbSweepResult.normalY * this->_self->GetVY() * aabbSweepResult.enTime;
+	= (this->_self->GetVY() > 0.0f ? this->_self->GetT() : this->_self->GetB()) + this->_self->GetVY() * aabbSweepResult.enTime;
 	aabbSweepResult.isCollided = true;
 	aabbSweepResult.surfaceEntity
 	=  targetEntity;

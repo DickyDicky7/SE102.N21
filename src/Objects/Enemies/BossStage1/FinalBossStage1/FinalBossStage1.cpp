@@ -111,7 +111,20 @@ void FinalBossStage1::SetTarget(const Bill* target)
 
 bool FinalBossStage1::TakeBulletHit()
 {
-	return this->IsDead() ? false : this->Enemy<Bill>::TakeEnemyBulletHit(this);
+	if (this->IsDead())
+	{
+		return false;
+	}
+
+	// The core starts with no hit points and is only armed by Update once both
+	// guns are down; until then it absorbs shots without dying.  Passing them
+	// to TakeEnemyBulletHit would drive 0 to -1 and kill it on the first hit.
+	if (this->_hitCounts <= 0)
+	{
+		return true;
+	}
+
+	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
 }
 
 void FinalBossStage1::HandleInput(Input&)

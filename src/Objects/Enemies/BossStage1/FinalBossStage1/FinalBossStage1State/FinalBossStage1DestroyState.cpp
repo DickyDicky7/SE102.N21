@@ -15,9 +15,11 @@ void FinalBossStage1DestroyState::Exit(FinalBossStage1&)
 
 }
 
-void FinalBossStage1DestroyState::Enter(FinalBossStage1&)
+void FinalBossStage1DestroyState::Enter(FinalBossStage1& finalBossStage1)
 {
-
+	// Update ends the explosion once it reaches its last frame; start it from
+	// frame 0 rather than wherever the previous animation was.
+	finalBossStage1.ResetAnimationFrame();
 }
 
 void FinalBossStage1DestroyState::Render(FinalBossStage1& finalBossStage1)

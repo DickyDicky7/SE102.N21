@@ -34,6 +34,9 @@ RockFallState* RockFallFallState::Update(RockFall& rockFall)
 		{
 			rockFall.SetBouncedBack(false);
 			rockFall.SetVY(Constants::Enemies::RockFall::BOUNCE_SPEED_Y);
+			// Each bounce integrates from its own start; carried over, the next
+			// bounce began with this one's elapsed time and decayed almost at once.
+			this->_time = 0.0f;
 		}
 	}
 	else

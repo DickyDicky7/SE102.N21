@@ -292,6 +292,11 @@ void Stage1::LoadEntities(void* entitiesLayer)
 			entity = new AirCraft(ITEM_TYPE::L, AIRCRAFT_DIRECTION::HORIZONTAL);
 			entity->SetMovingDirection(DIRECTION::LEFT);
 		}
+		else if (object.getName() == "capsuleweapons")
+		{
+			entity = new AirCraft(ITEM_TYPE::S, AIRCRAFT_DIRECTION::HORIZONTAL);
+			entity->SetMovingDirection(DIRECTION::LEFT);
+		}
 		else if (object.getName() == "respawnposition")
 		{
 			this->_bill->SetX(position.x + size.x * 0.5f);

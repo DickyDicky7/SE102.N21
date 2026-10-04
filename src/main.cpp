@@ -78,7 +78,7 @@ int WINAPI WinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance, _
 	WNDCLASSEX wc{};
 
 	wc.cbSize = sizeof(WNDCLASSEX); wc.style = CS_HREDRAW | CS_VREDRAW; wc.lpfnWndProc = WindowProc; wc.hInstance = hInstance;
-	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);	wc.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW);	wc.lpszClassName = L"WindowClass";
+	wc.hCursor = LoadCursor(nullptr, IDC_ARROW);	wc.hbrBackground = reinterpret_cast<HBRUSH>(COLOR_WINDOW + 1);	wc.lpszClassName = L"WindowClass";
 	RegisterClassEx(&wc);
 
 	// Adjust window rect so client area matches SCREEN_WIDTH x SCREEN_HEIGHT

@@ -100,6 +100,16 @@ inline float Enemy<T>::CalculateTargetAngle(const Entity* self) const
 	if (dx < 0 && dy > 0)
 		return D3DXToDegree(-std::atan(std::abs(dx) / dy)) + Constants::Physics::HALF_CIRCLE_DEGREES;
 
+	// Axis-aligned cases: the quadrant tests above are all strict, so a target at
+	// exactly the same height or column used to fall through to "left" whatever
+	// side it was actually on.
+	if (dy == 0 && dx < 0)
+		return +Constants::Physics::QUARTER_CIRCLE_DEGREES;
+	if (dx == 0 && dy < 0)
+		return 0.0f;
+	if (dx == 0 && dy > 0)
+		return +Constants::Physics::HALF_CIRCLE_DEGREES;
+
 	return -Constants::Physics::QUARTER_CIRCLE_DEGREES;
 }
 

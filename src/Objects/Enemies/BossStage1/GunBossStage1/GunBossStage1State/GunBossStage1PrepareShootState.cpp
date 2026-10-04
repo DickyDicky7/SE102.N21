@@ -5,7 +5,7 @@ GunBossStage1PrepareShootState::GunBossStage1PrepareShootState()
 
 }
 
-GunBossStage1PrepareShootState::GunBossStage1PrepareShootState(float time)
+GunBossStage1PrepareShootState::GunBossStage1PrepareShootState(ULONGLONG time)
 {
 	this->_time = time;
 }
@@ -56,7 +56,7 @@ GunBossStage1State* GunBossStage1PrepareShootState::Update(GunBossStage1& gunBos
 		float newX = gunBossStage1.GetX();
 		newX = gunBossStage1.GetX() - Constants::Enemies::BossStage1::Gun::STEP_DISTANCE_X;
 		gunBossStage1.SetX(newX);
-		return new GunBossStage1NormalState(static_cast<float>(GetTickCount64()));
+		return new GunBossStage1NormalState(GetTickCount64());
 	}
 
 	return nullptr;

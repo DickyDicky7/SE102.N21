@@ -15,9 +15,11 @@ void BridgePartExplosionState::Exit(BridgePart&)
 
 }
 
-void BridgePartExplosionState::Enter(BridgePart&)
+void BridgePartExplosionState::Enter(BridgePart& bridgePart)
 {
-
+	// Update ends the part once the explosion reaches its last frame; start it
+	// from frame 0 rather than wherever the body animation was.
+	bridgePart.ResetAnimationFrame();
 }
 
 void BridgePartExplosionState::Render(BridgePart& bridgePart)

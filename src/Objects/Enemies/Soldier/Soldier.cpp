@@ -275,6 +275,14 @@ void Soldier::Update()
 		{
 			targetAngle = D3DXToDegree(-std::atan(std::abs(dx) / dy)) + Constants::Physics::HALF_CIRCLE_DEGREES;
 		}
+		else
+		if (dy == 0.0f && dx != 0.0f)
+		{
+			// Target exactly level: none of the quadrant branches above match, and
+			// leaving 0 here reads as "straight below", so a level target was never
+			// faced or shot at.
+			targetAngle = dx > 0.0f ? -Constants::Physics::QUARTER_CIRCLE_DEGREES : +Constants::Physics::QUARTER_CIRCLE_DEGREES;
+		}
 
 		if (std::abs(this->_target->GetX() - this->_position.x) >= Constants::Enemies::Soldier::DETECT_DISTANCE)
 		{
