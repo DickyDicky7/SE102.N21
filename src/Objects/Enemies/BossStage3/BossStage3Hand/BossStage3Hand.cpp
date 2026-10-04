@@ -21,7 +21,11 @@ BossStage3Hand::BossStage3Hand() : Entity(), HasTextures(), HasSprites(), HasAni
 	// set state begin is run
 	this->_state = new BossStage3HandStartState(*this);
 
-	this->_isInitPositionJoints = true;
+	// The joints are built here so they exist for Render and the BLAS, but at the
+	// default spawn: the stage only positions the hand after construction.  The
+	// first Update moves them onto the hand and runs the start state's Enter,
+	// which nothing else calls - so this must start out false.
+	this->_isInitPositionJoints = false;
 
 	this->InitPositionJoints();
 
@@ -65,7 +69,13 @@ void BossStage3Hand::Update()
 
 	if (!this->_isInitPositionJoints)
 	{
-		this->InitPositionJoints();
+		// Reposition rather than reallocate: the BLAS built when the hand was
+		// inserted holds pointers to these joints, and the old ones would leak.
+		for (size_t i = 0; i < Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT; i++)
+		{
+			this->_joints[i]->SetX(this->_position.x);
+			this->_joints[i]->SetY(this->_position.y);
+		}
 		this->_state->Enter(*this);
 		this->_isInitPositionJoints = true;
 	}

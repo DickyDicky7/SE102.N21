@@ -2,7 +2,7 @@
 
 GunBossStage1State::GunBossStage1State()
 {
-	this->_time = 0.0f;
+	this->_time = 0;
 }
 
 GunBossStage1State::~GunBossStage1State()

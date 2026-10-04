@@ -111,7 +111,11 @@ void GunBossStage1::Update()
 
 void GunBossStage1::Render()
 {
-	this->_state->Render(*this);
+	// _state is only created lazily in Update, so guard like FinalBossStage1.
+	if (this->_state)
+	{
+		this->_state->Render(*this);
+	}
 	this->_w = this->GetCurrentFrameW();
 	this->_h = this->GetCurrentFrameH();
 };

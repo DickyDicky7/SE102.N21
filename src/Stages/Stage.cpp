@@ -163,7 +163,8 @@ void Stage::Update()
 			this->_entities->Insert(item);
 		}
 		this->_entitiesResult.erase(deadEntity);
-		Destroy             (deadEntity);
+		if (!this->RetainDeadEntity(deadEntity))
+			Destroy             (deadEntity);
 	}
 	for (auto& outOfBoundBullet : outOfBoundBullets)
 	{
@@ -328,6 +329,11 @@ void Stage::CheckResolveClearCollision()
 
 void Stage::RenderBossCompletion()
 {
+}
+
+bool Stage::RetainDeadEntity(Entity* deadEntity)
+{
+	return false;
 }
 
 void  Stage::SetBill(Bill* bill) {		  this->_bill = bill; }

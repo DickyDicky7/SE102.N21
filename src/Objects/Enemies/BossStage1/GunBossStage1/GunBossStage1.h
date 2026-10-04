@@ -66,14 +66,17 @@ public:
 	virtual GunBossStage1State* HandleInput(GunBossStage1& gunBossStage1, Input& input) override;
 
 protected:
-	float _time;
+	// GetTickCount64 timestamp; a float only has 24 bits of mantissa, so storing
+	// it there rounds to tens or hundreds of ms once the machine has been up a
+	// few days - coarser than the 400/500 ms intervals it times.
+	ULONGLONG _time;
 };
 
 class GunBossStage1NormalState : public GunBossStage1State
 {
 public:
 	GunBossStage1NormalState();
-	GunBossStage1NormalState(float time);
+	GunBossStage1NormalState(ULONGLONG time);
 	~GunBossStage1NormalState();
 
 	virtual void Exit(GunBossStage1& gunBossStage1);
@@ -88,7 +91,7 @@ class GunBossStage1PrepareShootState : public GunBossStage1State
 {
 public:
 	GunBossStage1PrepareShootState();
-	GunBossStage1PrepareShootState(float time);
+	GunBossStage1PrepareShootState(ULONGLONG time);
 	~GunBossStage1PrepareShootState();
 
 	virtual void Exit(GunBossStage1& gunBossStage1);

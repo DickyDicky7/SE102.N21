@@ -58,10 +58,12 @@ void RockFly::Update()
 
 void RockFly::Render()
 {
+	// Animation first, as everywhere else: read before it, the frame size is
+	// still 0x0 on the first Render and the hitbox became 0 wide, -7 tall.
+	this->SetAnimation(ROCK_FLY_ANIMATION_ID::NORMAL, this->GetPosition(), this->GetMovingDirection(), this->GetAngle());
 	this->_w = this->GetCurrentFrameW();
 	this->_h = this->GetCurrentFrameH();
 	this->_h -= Constants::Objects::RockFly::HITBOX_HEIGHT_OFFSET;
-	this->SetAnimation(ROCK_FLY_ANIMATION_ID::NORMAL, this->GetPosition(), this->GetMovingDirection(), this->GetAngle());
 }
 
 void RockFly::HandleInput(Input& input)

@@ -12,6 +12,7 @@
 #include <queue>
 #include <vector>
 #include <string>
+#include <limits>
 #include <d3d11.h>
 #include "DX11Math.h"
 #include <variant>

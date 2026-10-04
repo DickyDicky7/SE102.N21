@@ -20,6 +20,12 @@ public:
 	virtual void SetAnimation(const ANIMATION_ID& animationId, D3DXVECTOR3 position, DIRECTION movingDirection, float angle);
 	virtual void LoadAnimations()									   = 0;
 
+	// Restarts whatever animation is set next from its first frame.  SetAnimation
+	// keeps _currentFrame across animation changes, so a state that reads the frame
+	// index to detect a one-shot animation's end would otherwise see the previous
+	// animation's index.
+	void ResetAnimationFrame();
+
 protected:
 
 	int _currentFrame;
@@ -48,6 +54,12 @@ template <class T>
 inline int HasAnimations<T>::GetCurrentFrame() const
 {
 	return this->_currentFrame;
+}
+
+template <class T>
+inline void HasAnimations<T>::ResetAnimationFrame()
+{
+	this->_currentFrame = -1;
 }
 
 template <class T>

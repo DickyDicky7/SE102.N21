@@ -869,15 +869,21 @@ void GraphicsHelper::Cleanup(void)
 	g_postProcessPS.Reset();
 	g_postProcessConstantBuffer.Reset();
 
-	if (swapChain) { swapChain->Release(); swapChain = nullptr; }
 	if (context)
 	{
 		// ClearState only unbinds; the destruction that makes possible is deferred
 		// until the next command-list submission.  Flushing forces it now, so the
 		// device really is the last reference left when it is released - otherwise
-		// the debug layer reports the still-live objects at teardown.
+		// the debug layer reports the still-live objects at teardown.  This has to
+		// happen BEFORE the swap chain goes: a flip-model swap chain whose back
+		// buffer views are still pending deferred destruction is not really
+		// released, and keeps its HWND association alive.
 		context->ClearState();
 		context->Flush();
+	}
+	if (swapChain) { swapChain->Release(); swapChain = nullptr; }
+	if (context)
+	{
 		context->Release();
 		context = nullptr;
 	}
@@ -896,6 +902,10 @@ void GraphicsHelper::OnResize(UINT clientWidth, UINT clientHeight)
 
 	context->OMSetRenderTargets(0, nullptr, nullptr);
 	g_renderTargetView.Reset();
+	// D3D11 defers destroying the released view; until it is really gone it
+	// still references the back buffer and ResizeBuffers fails with
+	// DXGI_ERROR_INVALID_CALL - which below would end the game.
+	context->Flush();
 
 	// 0 buffer count / 0 format = "keep what the swap chain already has",
 	// which is what makes this work for both the flip and bitblt paths.
@@ -1068,8 +1078,10 @@ GraphicsHelper::PresentResult GraphicsHelper::Present(void)
 
 	const HRESULT hr = swapChain->Present(1, 0);
 
-	if (hr == S_OK)                 { g_occluded = false; return PresentResult::Presented; }
 	if (hr == DXGI_STATUS_OCCLUDED) { g_occluded = true;  return PresentResult::Occluded;  }
+	// Other success codes (e.g. DXGI_STATUS_MODE_CHANGED) still presented the
+	// frame; only failures may be treated as fatal below.
+	if (SUCCEEDED(hr))              { g_occluded = false; return PresentResult::Presented; }
 
 	// Everything else is fatal to rendering and must be distinguished from
 	// occlusion: a device lost to a TDR or a driver update also stops returning

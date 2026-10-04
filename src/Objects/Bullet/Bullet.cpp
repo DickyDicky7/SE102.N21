@@ -275,6 +275,12 @@ void Bullet::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 	if (!target)
 		return;
 
+	// A bullet that has already hit something this step is only waiting to be
+	// removed by the next Stage::Update; without this a single shot could damage
+	// every enemy its swept box overlaps, or kill Bill after striking terrain.
+	if (this->IsDead())
+		return;
+
 	if (target->IsRockFly() || target->IsBridge())
 	{
 		return;

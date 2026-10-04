@@ -32,6 +32,11 @@ void BillDeadState::Enter(Bill& bill)
 
 	bill.SetVY(+Constants::Bill::DEAD_SPEED_Y);
 	bill.SetAY(Constants::Bill::DEAD_ACCELERATION_Y);
+
+	// Update ends the death once the frame index reaches DEAD_FINAL_FRAME; the
+	// index is otherwise carried over from the previous animation (RUN has 6
+	// frames, JUMP 4), so dying on frame 3 of either skipped the death entirely.
+	bill.ResetAnimationFrame();
 }
 
 void BillDeadState::Render(Bill& bill)
