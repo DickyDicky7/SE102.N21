@@ -19,7 +19,7 @@ Camera::~Camera()
 // Advances camera state, deleting the outgoing state and running Exit/Enter handlers.
 void Camera::AdvanceState(CameraState* next)
 {
-	if (next == this->_state) return;
+	if (!next || next == this->_state) return;
 
 	ChangeState(this->_state, next, this);
 }

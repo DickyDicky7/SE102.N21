@@ -94,7 +94,12 @@ ENEMY_TYPE Cannon::GetEnemyType() const
 
 bool Cannon::IsLethalToTouch() const
 {
-	return true;
+	return !this->IsDead();
+}
+
+bool Cannon::IsVulnerableToBullet() const
+{
+	return !this->IsDead();
 }
 
 void Cannon::SetTarget(const Bill* target)
@@ -104,11 +109,20 @@ void Cannon::SetTarget(const Bill* target)
 
 bool Cannon::TakeBulletHit()
 {
+	if (!this->IsVulnerableToBullet())
+	{
+		return false;
+	}
 	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
 }
 
 void Cannon::Update()
 {
+	if (this->IsDead())
+	{
+		return;
+	}
+
 	if (!this->_state)
 	{
 		this->_state = new CannonAppearState();
@@ -135,7 +149,10 @@ void Cannon::Update()
 
 void Cannon::Render()
 {
-	this->_state->Render(*this);
+	if (this->_state)
+	{
+		this->_state->Render(*this);
+	}
 	this->_w = this->GetCurrentFrameW();
 	this->_h = this->GetCurrentFrameH();
 }

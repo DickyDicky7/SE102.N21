@@ -10,7 +10,14 @@ void WallTurretOpeningState::Render(WallTurret& wallTurret) {
 	wallTurret.SetAnimation(WALL_TURRET_ANIMATION_ID::OPENING, wallTurret.GetPosition(), wallTurret.GetMovingDirection(), wallTurret.GetAngle());
 }
 
-void WallTurretOpeningState::Enter(WallTurret& wallTurret) {}
+void WallTurretOpeningState::Enter(WallTurret& wallTurret)
+{
+	if (!this->_hasReset)
+	{
+		this->_hasReset = true;
+		wallTurret.ResetAnimationFrame();
+	}
+}
 
 WallTurretState* WallTurretOpeningState::Update(WallTurret& wallTurret)
 {

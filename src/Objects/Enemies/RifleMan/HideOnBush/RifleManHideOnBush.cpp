@@ -44,7 +44,12 @@ ENEMY_TYPE RifleManHideOnBush::GetEnemyType() const
 
 bool RifleManHideOnBush::IsLethalToTouch() const
 {
-	return true;
+	return !this->IsDead() && (this->_state ? !this->_state->IsHidden() : false);
+}
+
+bool RifleManHideOnBush::IsVulnerableToBullet() const
+{
+	return !this->IsDead() && (this->_state ? !this->_state->IsHidden() : false);
 }
 
 void RifleManHideOnBush::SetTarget(const Bill* target)
@@ -54,11 +59,20 @@ void RifleManHideOnBush::SetTarget(const Bill* target)
 
 bool RifleManHideOnBush::TakeBulletHit()
 {
+	if (!this->IsVulnerableToBullet())
+	{
+		return false;
+	}
 	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
 }
 
 void RifleManHideOnBush::Update()
 {
+	if (this->IsDead())
+	{
+		return;
+	}
+
 	DeferState(this->_updateState, this->_state->Update(*this));
 
 	ApplyDeferredState(this->_state, this->_updateState, this);

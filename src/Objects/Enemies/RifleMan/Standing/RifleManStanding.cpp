@@ -78,7 +78,12 @@ ENEMY_TYPE RifleManStanding::GetEnemyType() const
 
 bool RifleManStanding::IsLethalToTouch() const
 {
-	return true;
+	return !this->IsDead();
+}
+
+bool RifleManStanding::IsVulnerableToBullet() const
+{
+	return !this->IsDead();
 }
 
 void RifleManStanding::SetTarget(const Bill* target)
@@ -88,11 +93,20 @@ void RifleManStanding::SetTarget(const Bill* target)
 
 bool RifleManStanding::TakeBulletHit()
 {
+	if (!this->IsVulnerableToBullet())
+	{
+		return false;
+	}
 	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
 }
 
 void RifleManStanding::Update()
 {
+	if (this->IsDead())
+	{
+		return;
+	}
+
 	// Single exit, so the queue drained at the bottom is reached on every path.
 	// The dead-target case returns without touching it, which leaves the rifleman
 	// frozen in whatever state it was aiming from - as it did before.

@@ -56,6 +56,10 @@ public:
 	void ForEachCollisionEntity(std::function<void(Entity*)> callback) override;
 	void ProcessSpecialDeathEffects(std::vector<Entity*>& effectEntities) override;
 	bool TakeBulletHit() override;
+	bool IsVulnerableToBullet() const override;
+
+	void SetX(float x = 0.0f) override;
+	void SetY(float y = 0.0f) override;
 protected:
 	BossStage3Joint* _joints[Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT];
 

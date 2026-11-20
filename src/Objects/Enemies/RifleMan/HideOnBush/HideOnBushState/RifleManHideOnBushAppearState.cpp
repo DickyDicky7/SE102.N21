@@ -17,7 +17,7 @@ void RifleManHideOnBushAppearState::Exit(RifleManHideOnBush& rifleManHideOnBush)
 
 void RifleManHideOnBushAppearState::Enter(RifleManHideOnBush& rifleManHideOnBush)
 {
-
+	rifleManHideOnBush.ResetAnimationFrame();
 }
 
 void RifleManHideOnBushAppearState::Render(RifleManHideOnBush& rifleManHideOnBush)

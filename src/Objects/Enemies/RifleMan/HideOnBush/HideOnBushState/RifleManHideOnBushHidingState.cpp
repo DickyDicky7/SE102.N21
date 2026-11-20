@@ -31,3 +31,8 @@ RifleManHideOnBushState* RifleManHideOnBushHidingState::Update(RifleManHideOnBus
 		return new RifleManHideOnBushAppearState();
 	return nullptr;
 }
+
+bool RifleManHideOnBushHidingState::IsHidden() const
+{
+	return true;
+}

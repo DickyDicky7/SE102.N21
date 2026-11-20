@@ -66,6 +66,7 @@ public:
 	bool IsEnemy() const override;
 	ENEMY_TYPE GetEnemyType() const override;
 	bool IsLethalToTouch() const override;
+	bool IsVulnerableToBullet() const override;
 	void SetTarget(const Bill* target) override;
 	bool TakeBulletHit() override;
 protected:
@@ -87,6 +88,8 @@ public:
 
 	virtual WallTurretState* Update(WallTurret& wallTurret) override;
 	virtual WallTurretState* HandleInput(WallTurret& wallTurret, Input& input) override;
+
+	virtual bool IsClosed() const;
 
 protected:
 	int _delayBeforeChangeState;
@@ -260,6 +263,8 @@ public:
 	virtual void Enter(WallTurret& wallTurret) override;
 
 	virtual WallTurretState* Update(WallTurret& wallTurret) override;
+private:
+	bool _hasReset = false;
 };
 
 class WallTurretClosingState : public WallTurretState
@@ -286,4 +291,6 @@ public:
 	virtual void Enter(WallTurret& wallTurret) override;
 
 	virtual WallTurretState* Update(WallTurret& wallTurret) override;
+
+	bool IsClosed() const override;
 };

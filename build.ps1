@@ -15,7 +15,7 @@
     silently ignored by MSBuild): concurrent cl instances share one PDB, and
     without /FS they can corrupt it.
 
-    FXC compiles the four .hlsl files to .cso in the output directory, and a
+    FXC compiles the six .hlsl files to .cso in the output directory, and a
     post-build target copies Resources/ + the shader sources alongside them.
 
 .USAGE

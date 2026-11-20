@@ -89,6 +89,11 @@ bool FinalBossStage1::IsEnemy() const
 	return true;
 }
 
+bool FinalBossStage1::ShouldRetainWhenDead() const
+{
+	return true;
+}
+
 ENEMY_TYPE FinalBossStage1::GetEnemyType() const
 {
 	return this->_enemyType;

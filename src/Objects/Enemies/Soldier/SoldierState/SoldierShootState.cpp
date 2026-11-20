@@ -1,6 +1,6 @@
 #include "Soldier.h"
 
-SoldierShootState::SoldierShootState() : SoldierState()
+SoldierShootState::SoldierShootState() : SoldierState(), _lastFireTime(0)
 {
 }
 
@@ -15,7 +15,7 @@ void SoldierShootState::Exit(Soldier& soldier)
 void SoldierShootState::Enter(Soldier& soldier)
 {
 	soldier.Fire();
-	this->_time = static_cast<float>(GetTickCount64());
+	this->_lastFireTime = GetTickCount64();
 	soldier.SetVX(+Constants::Enemies::Soldier::PARK_VELOCITY);
 	soldier.SetAX(+Constants::Enemies::Soldier::PARK_ACCELERATION);
 	soldier.SetVY(+Constants::Enemies::Soldier::PARK_VELOCITY);
@@ -30,10 +30,10 @@ void SoldierShootState::Render(Soldier& soldier)
 SoldierState* SoldierShootState::Update(Soldier& soldier)
 {
 	ULONGLONG now = GetTickCount64();
-	if (now - this->_time >= soldier.GetFiringRate())
+	if (now - this->_lastFireTime >= soldier.GetFiringRate())
 	{
 		soldier.Fire();
-		this->_time = static_cast<float>(now);
+		this->_lastFireTime = now;
 	}
 	return nullptr;
 }

@@ -1,6 +1,6 @@
 #include "Soldier.h"
 
-SoldierLayDownState::SoldierLayDownState() : SoldierState()
+SoldierLayDownState::SoldierLayDownState() : SoldierState(), _lastFireTime(0)
 {
 }
 
@@ -14,7 +14,11 @@ void SoldierLayDownState::Exit(Soldier& soldier)
 
 void SoldierLayDownState::Enter(Soldier& soldier)
 {
-	this->_time = static_cast<float>(GetTickCount64());
+	// Unlike SoldierShootState, lying down does not fire on entry: the first shot
+	// waits one firing interval.  Starting from 0 instead fired on the very first
+	// Update, a second shot right after the one SoldierShootState::Enter fired
+	// when the soldier went straight from shooting to lying down.
+	this->_lastFireTime = GetTickCount64();
 	soldier.SetVX(+Constants::Enemies::Soldier::PARK_VELOCITY);
 	soldier.SetAX(+Constants::Enemies::Soldier::PARK_ACCELERATION);
 	soldier.SetVY(+Constants::Enemies::Soldier::PARK_VELOCITY);
@@ -29,10 +33,10 @@ void SoldierLayDownState::Render(Soldier& soldier)
 SoldierState* SoldierLayDownState::Update(Soldier& soldier)
 {
 	ULONGLONG now = GetTickCount64();
-	if (now - this->_time > soldier.GetFiringRate())
+	if (now - this->_lastFireTime > soldier.GetFiringRate())
 	{
 		soldier.Fire();
-		this->_time = static_cast<float>(now);
+		this->_lastFireTime = now;
 	}
 	return nullptr;
 }

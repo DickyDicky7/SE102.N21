@@ -17,7 +17,7 @@ void RifleManHideOnBushHideState::Exit(RifleManHideOnBush& rifleManHideOnBush)
 
 void RifleManHideOnBushHideState::Enter(RifleManHideOnBush& rifleManHideOnBush)
 {
-
+	rifleManHideOnBush.ResetAnimationFrame();
 }
 
 void RifleManHideOnBushHideState::Render(RifleManHideOnBush& rifleManHideOnBush)
@@ -32,7 +32,6 @@ RifleManHideOnBushState* RifleManHideOnBushHideState::Update(RifleManHideOnBush&
 
 	if (std::cmp_greater_equal(rifleManHideOnBush.GetCurrentFrame() + 1, frames.size()))
 	{
-		this->_time = static_cast<float>(GetTickCount64());
 		return new RifleManHideOnBushHidingState();
 	}
 	return nullptr;

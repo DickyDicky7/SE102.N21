@@ -58,9 +58,6 @@ void Item::Update()
 
 void Item::Render()
 {
-	this->_w = this->GetCurrentFrameW();
-	this->_h = this->GetCurrentFrameH();
-
 	ITEM_ANIMATION_ID animId = ITEM_ANIMATION_ID::B_AMMO;
 	switch (this->_type)
 	{
@@ -74,6 +71,8 @@ void Item::Render()
 	default: break;
 	}
 	this->SetAnimation(animId, this->GetPosition(), this->GetMovingDirection(), this->GetAngle());
+	this->_w = this->GetCurrentFrameW();
+	this->_h = this->GetCurrentFrameH();
 }
 
 void Item::HandleInput(Input& input)
@@ -184,6 +183,10 @@ void Item::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 
 bool Item::OnBillCollision(Bill& bill, const AABBSweepResult& result)
 {
+	if (this->IsDead())
+	{
+		return true;
+	}
 	this->SetDead(true);
 	bill.CollectItem(this->_type);
 	return true;

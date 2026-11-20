@@ -68,9 +68,9 @@ void Fire::Update()
 
 void Fire::Render()
 {
+	this->SetAnimation(FIRE_ANIMATION_ID::NORMAL, this->GetPosition(), this->GetMovingDirection(), this->GetAngle());
 	this->_w = this->GetCurrentFrameW();
 	this->_h = this->GetCurrentFrameH();
-	this->SetAnimation(FIRE_ANIMATION_ID::NORMAL, this->GetPosition(), this->GetMovingDirection(), this->GetAngle());
 }
 
 void Fire::HandleInput(Input& input)

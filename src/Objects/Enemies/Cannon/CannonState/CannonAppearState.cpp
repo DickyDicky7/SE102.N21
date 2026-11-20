@@ -17,7 +17,11 @@ void CannonAppearState::Exit(Cannon& cannon)
 
 void CannonAppearState::Enter(Cannon& cannon)
 {
-
+	if (!this->_hasReset)
+	{
+		this->_hasReset = true;
+		cannon.ResetAnimationFrame();
+	}
 }
 
 void CannonAppearState::Render(Cannon& cannon)

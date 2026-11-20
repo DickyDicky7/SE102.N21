@@ -38,6 +38,7 @@ public:
 	void IncrementDeadTurns();
 
 	bool IsEnemy() const override;
+	bool ShouldRetainWhenDead() const override;
 	ENEMY_TYPE GetEnemyType() const override;
 	bool IsPushableObstacle() const override;
 	bool IsVulnerableToBullet() const override;

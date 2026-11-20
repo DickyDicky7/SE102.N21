@@ -1062,6 +1062,7 @@ void GraphicsHelper::End(void)
 			g_samplerState.Get()
 		};
 		context->PSSetSamplers(0, 2, samplers);
+		context->OMSetBlendState(g_blendState.Get(), nullptr, 0xFFFFFFFF);
 
 		// Draw the full-screen triangle/quad
 		context->Draw(3, 0);
@@ -1248,6 +1249,7 @@ namespace
 
 				context->VSSetShader(g_debugVS.Get(), nullptr, 0);
 				context->PSSetShader(g_debugPS.Get(), nullptr, 0);
+				context->OMSetBlendState(g_blendState.Get(), nullptr, 0xFFFFFFFF);
 
 				g_boundPipeline = BoundPipeline::Debug;
 			}
@@ -1438,10 +1440,6 @@ void GraphicsHelper::DrawSprite(const SPRITE& sprite, D3DXVECTOR3 position,
 	const RECT&       rect            = std::get<RECT>(sprite);
 	const DIRECTION   spriteDirection = std::get<DIRECTION>(sprite);
 	const TEXTURE_ID& textureId       = std::get<TEXTURE_ID>(sprite);
-	if (std::holds_alternative<BULLET_TEXTURE_ID>(textureId))
-	{
-		return;
-	}
 
 	const TEXTURE* found = ResolveTexture(textureId);
 	if (!found) return;

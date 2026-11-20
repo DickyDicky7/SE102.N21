@@ -1,6 +1,6 @@
 #include "GunBossStage1.h"
 
-GunBossStage1NormalState::GunBossStage1NormalState()
+GunBossStage1NormalState::GunBossStage1NormalState() : GunBossStage1NormalState(GetTickCount64())
 {
 
 }

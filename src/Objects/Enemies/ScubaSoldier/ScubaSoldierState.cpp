@@ -2,12 +2,12 @@
 
 ScubaSoldierState::ScubaSoldierState()
 {
-	this->_time = 0.0f;
+	this->_time = 0;
 }
 
 ScubaSoldierState::~ScubaSoldierState()
 {
-	this->_time = 0.0f;
+	this->_time = 0;
 }
 
 bool ScubaSoldierState::IsHidden() const

@@ -67,7 +67,12 @@ bool RockFall::IsEnemy() const
 
 bool RockFall::IsLethalToTouch() const
 {
-	return true;
+	return !this->IsDead();
+}
+
+bool RockFall::IsVulnerableToBullet() const
+{
+	return !this->IsDead();
 }
 
 ENEMY_TYPE RockFall::GetEnemyType() const
@@ -77,6 +82,10 @@ ENEMY_TYPE RockFall::GetEnemyType() const
 
 bool RockFall::TakeBulletHit()
 {
+	if (!this->IsVulnerableToBullet())
+	{
+		return false;
+	}
 	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
 }
 
@@ -87,6 +96,11 @@ void RockFall::SetTarget(const Bill* target)
 
 void RockFall::Update()
 {
+	if (this->IsDead())
+	{
+		return;
+	}
+
 	DeferState(this->_updateState, this->_state->Update(*this));
 
 	ApplyDeferredState(this->_state, this->_updateState, this);

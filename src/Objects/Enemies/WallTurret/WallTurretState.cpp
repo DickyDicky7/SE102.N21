@@ -30,3 +30,8 @@ bool WallTurretState::UpdateShooting(WallTurret& wallTurret)
 	}
 	return false;
 }
+
+bool WallTurretState::IsClosed() const
+{
+	return false;
+}

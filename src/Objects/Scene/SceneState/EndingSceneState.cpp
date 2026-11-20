@@ -18,6 +18,7 @@ void EndingSceneState::Exit(Scene& scene)
 
 void EndingSceneState::Enter(Scene& scene)
 {
+	scene.ResetAnimationFrame();
 	scene.SetStageReady(false);
 	scene.SetX(Constants::Screen::IN_GAME_WIDTH * Constants::Scene::SCENE_CENTRE_WIDTH_FACTOR);
 	scene.SetY(0.0f);

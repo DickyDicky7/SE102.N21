@@ -177,7 +177,7 @@ void Soldier::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			}
 			if (this->_surfaceEntity)
 			{
-				if (std::abs(aabbSweepResult.surfaceEntity->GetY() - this->_surfaceEntity->GetY()) > Constants::Enemies::Soldier::MAX_STEP_HEIGHT)
+				if ((aabbSweepResult.surfaceEntity->GetY() - this->_surfaceEntity->GetY()) > Constants::Enemies::Soldier::MAX_STEP_HEIGHT)
 					return;
 			}
 			this->_position.y += aabbSweepResult.enTime * this->_vy;
@@ -227,7 +227,7 @@ void Soldier::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			{
 				if (this->_surfaceEntity)
 				{
-					if (std::abs(aabbSweepResult.surfaceEntity->GetY() - this->_surfaceEntity->GetY()) > Constants::Enemies::Soldier::MAX_STEP_HEIGHT)
+					if ((aabbSweepResult.surfaceEntity->GetY() - this->_surfaceEntity->GetY()) > Constants::Enemies::Soldier::MAX_STEP_HEIGHT)
 						return;
 				}
 				this->_position.y += aabbSweepResult.enTime * this->_vy;
@@ -249,6 +249,11 @@ Soldier::~Soldier()
 
 void Soldier::Update()
 {
+	if (this->IsDead())
+	{
+		return;
+	}
+
 	if (this->_state && !this->_state->IsDead() && !this->_state->IsJumping() && this->_target)
 	{
 		float dx = +(this->_position.x - this->_target->GetX());
@@ -306,7 +311,7 @@ void Soldier::Update()
 					}
 				}
 				else
-				if (this->_state->IsShooting())
+				if (this->_state->IsShooting() || this->_state->IsLayingDown())
 				{
 					ChangeState(this->_state, new SoldierRunState(), this);
 				}
@@ -335,7 +340,7 @@ void Soldier::Update()
 					}
 				}
 				else
-				if (this->_state->IsLayingDown())
+				if (this->_state->IsLayingDown() || this->_state->IsShooting())
 				{
 					ChangeState(this->_state, new SoldierRunState(), this);
 				}
@@ -464,7 +469,11 @@ void Soldier::GoDead()
 
 bool Soldier::TakeBulletHit()
 {
-	if (--this->_hitCounts == 0)
+	if (!this->IsVulnerableToBullet())
+	{
+		return false;
+	}
+	if (--this->_hitCounts <= 0)
 	{
 		this->GoDead();
 	}
@@ -473,7 +482,12 @@ bool Soldier::TakeBulletHit()
 
 bool Soldier::IsLethalToTouch() const
 {
-	return this->_state ? !this->_state->IsDead() : true;
+	return !this->IsDead() && (this->_state ? !this->_state->IsDead() : true);
+}
+
+bool Soldier::IsVulnerableToBullet() const
+{
+	return !this->IsDead() && (this->_state ? !this->_state->IsDead() : true);
 }
 
 bool Soldier::IsShootable() const

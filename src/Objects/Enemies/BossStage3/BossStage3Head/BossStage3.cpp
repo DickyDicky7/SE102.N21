@@ -43,7 +43,7 @@ void BossStage3::Update()
 {
 	if (this->IsDead())
 	{
-		Sound::GetInstance()->Play("boss2finaldestroy", false, 1);
+		return;
 	}
 
 	if (this->IsHandsDead())
@@ -198,11 +198,24 @@ ENEMY_TYPE BossStage3::GetEnemyType() const
 void BossStage3::SetTarget(const Bill* target)
 {
 	this->Enemy<Bill>::SetTarget(target);
+	if (this->_boss3Stage3HandLeft)
+	{
+		this->_boss3Stage3HandLeft->SetTarget(target);
+	}
+	if (this->_boss3Stage3HandRight)
+	{
+		this->_boss3Stage3HandRight->SetTarget(target);
+	}
 }
 
 bool BossStage3::TakeBulletHit()
 {
-	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
+	return this->IsDead() ? false : this->Enemy<Bill>::TakeEnemyBulletHit(this);
+}
+
+bool BossStage3::IsVulnerableToBullet() const
+{
+	return !this->IsDead();
 }
 
 bool BossStage3::IsHandsDead() const

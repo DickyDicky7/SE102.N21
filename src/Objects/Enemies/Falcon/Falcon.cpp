@@ -76,13 +76,27 @@ void Falcon::SetTarget(const Bill* target)
 	this->Enemy<Bill>::SetTarget(target);
 }
 
+bool Falcon::IsVulnerableToBullet() const
+{
+	return !this->IsDead() && this->_currentState == FALCON_ANIMATION_ID::OPEN;
+}
+
 bool Falcon::TakeBulletHit()
 {
+	if (!this->IsVulnerableToBullet())
+	{
+		return false;
+	}
 	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
 }
 
 void Falcon::Update()
 {
+	if (this->IsDead())
+	{
+		return;
+	}
+
 	this->CalculateBillDistance();
 
 	if (this->_billDistance > Constants::Enemies::Falcon::DETECT_DISTANCE)

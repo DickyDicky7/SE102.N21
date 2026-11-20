@@ -44,6 +44,7 @@ public:
 	void SetTarget(const Bill* target) override;
 	Item* CreateDroppedItem() const override;
 	bool TakeBulletHit() override;
+	bool IsVulnerableToBullet() const override;
 protected:
 	FalconState* _state;
 	FalconState* _updateState;

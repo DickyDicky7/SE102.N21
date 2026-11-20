@@ -2,7 +2,7 @@
 
 GunBossStage1State::GunBossStage1State()
 {
-	this->_time = 0;
+	this->_time = GetTickCount64();
 }
 
 GunBossStage1State::~GunBossStage1State()

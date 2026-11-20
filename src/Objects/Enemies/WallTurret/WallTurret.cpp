@@ -36,6 +36,11 @@ WallTurret::~WallTurret()
 }
 
 void WallTurret::Update() {
+	if (this->IsDead())
+	{
+		return;
+	}
+
 	if (!this->_state)
 	{
 		this->_state = new WallTurretNormalState();
@@ -60,7 +65,10 @@ void WallTurret::Update() {
 }
 
 void WallTurret::Render() {
-	this->_state->Render(*this);
+	if (this->_state)
+	{
+		this->_state->Render(*this);
+	}
 	this->_w = this->GetCurrentFrameW();
 	this->_h = this->GetCurrentFrameH();
 }
@@ -102,7 +110,12 @@ ENEMY_TYPE WallTurret::GetEnemyType() const
 
 bool WallTurret::IsLethalToTouch() const
 {
-	return true;
+	return !this->IsDead() && (this->_state ? !this->_state->IsClosed() : false);
+}
+
+bool WallTurret::IsVulnerableToBullet() const
+{
+	return !this->IsDead() && (this->_state ? !this->_state->IsClosed() : false);
 }
 
 void WallTurret::SetTarget(const Bill* target)
@@ -112,6 +125,10 @@ void WallTurret::SetTarget(const Bill* target)
 
 bool WallTurret::TakeBulletHit()
 {
+	if (!this->IsVulnerableToBullet())
+	{
+		return false;
+	}
 	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
 }
 

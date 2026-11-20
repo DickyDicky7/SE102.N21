@@ -147,9 +147,6 @@ bool Stage1::ProcessSpecialEntity(Entity* entity)
 	if (!entity)
 		return false;
 
-	if (entity->ShouldRetainWhenDead())
-		return true;
-
 	if (entity == this->_finalBossStage1)
 	{
 		if (!this->_finalBossStage1->IsDead())
@@ -177,6 +174,9 @@ bool Stage1::ProcessSpecialEntity(Entity* entity)
 		}
 		return true;
 	}
+
+	if (entity->ShouldRetainWhenDead())
+		return true;
 
 	return false;
 }

@@ -14,11 +14,6 @@ public:
 	int  GetHitCounts() const;
 	void SetHitCounts(int hitCounts);
 
-	// Consumes one hit; true when this was the hit that brought the count to
-	// zero, so the caller knows it owns the death. Used when something other
-	// than the enemy itself absorbs the shot (a boss joint hit on its hand).
-	bool RegisterHit();
-
 	Enemy();
 	virtual ~Enemy();
 
@@ -57,9 +52,6 @@ inline int Enemy<T>::GetHitCounts() const { return this->_hitCounts; }
 
 template <class T>
 inline void Enemy<T>::SetHitCounts(int hitCounts) { this->_hitCounts = hitCounts; }
-
-template <class T>
-inline bool Enemy<T>::RegisterHit() { return --this->_hitCounts == 0; }
 
 template <class T>
 inline void Enemy<T>::SetHP(int hp) { this->_hp = hp; }

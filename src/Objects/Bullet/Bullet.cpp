@@ -138,6 +138,14 @@ void Bullet::Render()
 	GraphicsHelper::DrawParticle(D3DXVECTOR3(this->GetX(), this->GetY(), 0.0f), config.coreSize, config.coreColor);
 }
 
+void Bullet::SetAnimation(const ANIMATION_ID& animationId, D3DXVECTOR3 position, DIRECTION movingDirection, float angle)
+{
+	// Flying bullets render via BulletParticleSystem / DrawParticle instead of 2D sprites,
+	// while still advancing animation frames to track _w/_h. Exploding bullets keep their sprite.
+	const bool draw = (this->_state && this->_state->IsExploding());
+	this->UpdateAndDrawAnimation(animationId, position, movingDirection, angle, draw);
+}
+
 void Bullet::HandleInput(Input& input)
 {
 	if (this->_state)

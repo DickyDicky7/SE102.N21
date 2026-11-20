@@ -47,6 +47,7 @@ public:
 	void SetTarget(const Bill* target) override;
 	void ProcessSpecialDeathEffects(std::vector<Entity*>& effectEntities) override;
 	bool TakeBulletHit() override;
+	bool IsVulnerableToBullet() const override;
 protected:
 	BossStage3State* _state;
 	BossStage3State* _updateState;

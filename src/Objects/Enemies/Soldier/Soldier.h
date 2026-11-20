@@ -46,6 +46,7 @@ public:
 	ENEMY_TYPE GetEnemyType() const override;
 	bool CollidesWithBoundaryWalls() const override;
 	bool IsLethalToTouch() const override;
+	bool IsVulnerableToBullet() const override;
 	void SetTarget(const Bill* target) override;
 	bool TakeBulletHit() override;
 protected:
@@ -143,6 +144,8 @@ public:
 	float GetGunMountOffsetRatio() const override;
 	bool IsShooting() const override;
 
+protected:
+	ULONGLONG _lastFireTime;
 };
 
 class SoldierLayDownState : public SoldierState
@@ -163,6 +166,8 @@ public:
 	float GetGunMountOffsetRatio() const override;
 	bool IsLayingDown() const override;
 
+protected:
+	ULONGLONG _lastFireTime;
 };
 
 class SoldierDieState : public SoldierState

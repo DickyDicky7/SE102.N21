@@ -75,8 +75,17 @@ void AirCraft::SetTarget(const Bill* target)
 	this->Enemy<Bill>::SetTarget(target);
 }
 
+bool AirCraft::IsVulnerableToBullet() const
+{
+	return !this->IsDead();
+}
+
 bool AirCraft::TakeBulletHit()
 {
+	if (!this->IsVulnerableToBullet())
+	{
+		return false;
+	}
 	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
 }
 
@@ -92,6 +101,11 @@ void AirCraft::SetAircraftDirection(AIRCRAFT_DIRECTION direction)
 
 void AirCraft::Update()
 {
+	if (this->IsDead())
+	{
+		return;
+	}
+
 	// Sinusoidal motion
 	float x = this->GetX();
 	float y = this->GetY();
@@ -138,9 +152,9 @@ void AirCraft::Update()
 
 void AirCraft::Render()
 {
+	this->SetAnimation(AIRCRAFT_ANIMATION_ID::NORMAL, this->GetPosition(), this->GetMovingDirection(), this->GetAngle());
 	this->_w = this->GetCurrentFrameW();
 	this->_h = this->GetCurrentFrameH();
-	this->SetAnimation(AIRCRAFT_ANIMATION_ID::NORMAL, this->GetPosition(), this->GetMovingDirection(), this->GetAngle());
 }
 
 void AirCraft::HandleInput(Input& input)

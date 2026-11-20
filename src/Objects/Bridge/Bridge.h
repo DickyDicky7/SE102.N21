@@ -79,7 +79,7 @@ public:
 
 	virtual bool HasZeroDimensions() const;
 protected:
-	float _time;
+	ULONGLONG _time;
 	ANIMATION_ID _animationId;
 };
 

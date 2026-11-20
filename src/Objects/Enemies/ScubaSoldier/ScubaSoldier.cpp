@@ -34,6 +34,11 @@ ScubaSoldier::~ScubaSoldier()
 
 void ScubaSoldier::Update()
 {
+	if (this->IsDead())
+	{
+		return;
+	}
+
 	this->CalculateBillAngle();
 	if (this->_billAngle >= Constants::Enemies::ScubaSoldier::DETECT_ANGLE_MAX_DEGREES || this->_billAngle < Constants::Enemies::ScubaSoldier::DETECT_ANGLE_MIN_DEGREES)
 	{
@@ -71,7 +76,12 @@ ENEMY_TYPE ScubaSoldier::GetEnemyType() const
 
 bool ScubaSoldier::IsLethalToTouch() const
 {
-	return true;
+	return !this->IsDead() && (this->_state ? !this->_state->IsHidden() : false);
+}
+
+bool ScubaSoldier::IsVulnerableToBullet() const
+{
+	return !this->IsDead() && (this->_state ? !this->_state->IsHidden() : false);
 }
 
 void ScubaSoldier::SetTarget(const Bill* target)
@@ -81,6 +91,10 @@ void ScubaSoldier::SetTarget(const Bill* target)
 
 bool ScubaSoldier::TakeBulletHit()
 {
+	if (!this->IsVulnerableToBullet())
+	{
+		return false;
+	}
 	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
 }
 

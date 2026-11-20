@@ -48,7 +48,7 @@ src/
   main.cpp                    vòng lặp game (fixed timestep) + cửa sổ Win32
   Common.h                    header dùng chung toàn dự án
   Abstractions/
-    Graphics/                 GraphicsHelper (back end D3D11), DX11Math, 4 file .hlsl,
+    Graphics/                 GraphicsHelper (back end D3D11), DX11Math, 6 file .hlsl,
                               GraphicsDatabase, Has{Sprites,Textures,Animations}
     Object/                   Entity, State, Motion, Enemy, CollidableEntity, Terrain
     Space/                    QuadTreeNode, AABB, BVH, BLAS, TLAS,
@@ -104,7 +104,7 @@ header, nhớ thêm nó vào đó.
 .\build.ps1 -Config Release    # Release|x64
 ```
 
-FXC sẽ biên dịch 4 file `.hlsl` thành `.cso` và một post-build target sẽ copy
+FXC sẽ biên dịch 6 file `.hlsl` thành `.cso` và một post-build target sẽ copy
 `Resources/` cùng các file shader sang thư mục output, nên có thể chạy
 `NESContra.exe` trực tiếp từ đó.
 

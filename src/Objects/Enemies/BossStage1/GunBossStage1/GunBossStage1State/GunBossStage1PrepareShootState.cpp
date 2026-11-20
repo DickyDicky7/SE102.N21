@@ -1,6 +1,6 @@
 #include "GunBossStage1.h"
 
-GunBossStage1PrepareShootState::GunBossStage1PrepareShootState()
+GunBossStage1PrepareShootState::GunBossStage1PrepareShootState() : GunBossStage1PrepareShootState(GetTickCount64())
 {
 
 }

@@ -63,7 +63,16 @@ void Stage::Update()
 
 	this->_entitiesResult.clear();
 	this->_entities->Retrieve(this->_camera, this->_entitiesResult);
-	for (auto& [entity, node] : this->_entitiesResult) entity->Update();
+	for (auto& [entity, node] : this->_entitiesResult)
+	{
+		// Bill is never removed while dead: BillDeadState::Update runs the lives
+		// decrement and revival countdown only while IsDead() is true, so skipping
+		// him here would freeze the game on the first death.
+		if (entity == this->_bill || !entity->IsDead() || entity->ShouldRetainWhenDead())
+		{
+			entity->Update();
+		}
+	}
 
 
 	std::vector<Entity*> deadEntities;
@@ -215,7 +224,13 @@ void Stage::Render()
 	}
 
 
-	for (auto& [entity, node] : this->_entitiesResult) entity->Render();
+	for (auto& [entity, node] : this->_entitiesResult)
+	{
+		if (entity != this->_bill)
+		{
+			entity->Render();
+		}
+	}
 	for (auto& effectEntity : this->_effectEntities) effectEntity->Render();
 	this->_bill->Render();
 	BulletParticleSystem::Render();

@@ -47,6 +47,7 @@ public:
 	void LoadSprites() override;
 	void LoadTextures() override;
 	void LoadAnimations() override;
+	void SetAnimation(const ANIMATION_ID& animationId, D3DXVECTOR3 position, DIRECTION movingDirection, float angle) override;
 
 	static Bullet* Create(float x, float y, float vx, float vy, float ax, float ay, float angle, DIRECTION movingDirection, bool isEnemy, BulletState* state, bool isFake = false);
 

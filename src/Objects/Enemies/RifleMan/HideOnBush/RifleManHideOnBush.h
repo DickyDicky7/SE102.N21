@@ -41,6 +41,7 @@ public:
 	bool IsEnemy() const override;
 	ENEMY_TYPE GetEnemyType() const override;
 	bool IsLethalToTouch() const override;
+	bool IsVulnerableToBullet() const override;
 	void SetTarget(const Bill* target) override;
 	bool TakeBulletHit() override;
 protected:
@@ -62,8 +63,10 @@ public:
 	virtual RifleManHideOnBushState* Update(RifleManHideOnBush& rifleManHideOnBush) = 0;
 	virtual RifleManHideOnBushState* HandleInput(RifleManHideOnBush& rifleManHideOnBush, Input& input) override;
 
+	virtual bool IsHidden() const;
+
 protected:
-	float _time;
+	ULONGLONG _time;
 };
 
 class RifleManHideOnBushHidingState : public RifleManHideOnBushState
@@ -77,6 +80,8 @@ public:
 	virtual void Render(RifleManHideOnBush& rifleManHideOnBush);
 
 	virtual RifleManHideOnBushState* Update(RifleManHideOnBush& rifleManHideOnBush);
+
+	bool IsHidden() const override;
 };
 
 class RifleManHideOnBushAppearState : public RifleManHideOnBushState

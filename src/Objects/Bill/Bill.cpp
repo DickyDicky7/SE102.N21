@@ -79,7 +79,7 @@ void Bill::GoDead()
 {
 	if (this->_immortalTick > this->_immortalTime)
 	{
-		if (this->_state && !this->_state->IsDead() && !this->_state->IsInvulnerable())
+		if (this->_state && !this->_state->IsDead() && !this->_state->IsInvulnerable() && !this->_state->IsBeginning())
 		{
 			ChangeState(this->_state, new BillDeadState(), this);
 		}
@@ -520,7 +520,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			}
 			if (this->_surfaceEntity)
 			{
-				if (std::abs(aabbSweepResult.surfaceEntity->GetY() - this->_surfaceEntity->GetY()) > Constants::Bill::MAX_STEP_HEIGHT)
+				if ((aabbSweepResult.surfaceEntity->GetY() - this->_surfaceEntity->GetY()) > Constants::Bill::MAX_STEP_HEIGHT)
 					return;
 			}
 			this->_position.y += aabbSweepResult.enTime * this->_vy;
@@ -587,7 +587,7 @@ void Bill::DynamicResolveOnCollision(AABBSweepResult aabbSweepResult)
 			{
 				if (this->_surfaceEntity)
 				{
-					if (std::abs(aabbSweepResult.surfaceEntity->GetY() - this->_surfaceEntity->GetY()) > Constants::Bill::MAX_STEP_HEIGHT)
+					if ((aabbSweepResult.surfaceEntity->GetY() - this->_surfaceEntity->GetY()) > Constants::Bill::MAX_STEP_HEIGHT)
 						return;
 				}
 				this->_position.y += aabbSweepResult.enTime * this->_vy;

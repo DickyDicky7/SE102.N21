@@ -16,7 +16,7 @@ void ScubaSoldierShootingState::Exit(ScubaSoldier& scubaSoldier)
 void ScubaSoldierShootingState::Enter(ScubaSoldier& scubaSoldier)
 {
 	scubaSoldier.Fire();
-	this->_time = static_cast<float>(GetTickCount64());
+	this->_time = GetTickCount64();
 }
 
 void ScubaSoldierShootingState::Render(ScubaSoldier& scubaSoldier)
@@ -30,7 +30,7 @@ ScubaSoldierState* ScubaSoldierShootingState::Update(ScubaSoldier& scubaSoldier)
 	if (now - this->_time >= scubaSoldier.GetFiringRate())
 	{
 		scubaSoldier.Fire();
-		this->_time = static_cast<float>(now);
+		this->_time = now;
 	}
 	return nullptr;
 }

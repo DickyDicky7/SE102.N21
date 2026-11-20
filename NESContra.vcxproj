@@ -201,7 +201,7 @@
     <ClCompile Include="src\Objects\Bill\BillState\BillSwimNormalState.cpp" />
     <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3.cpp" />
     <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State\BossStage3CloseState.cpp" />
-    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3Common.h" />
+    <ClInclude Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3Common.h" />
     <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State\BossStage3MiddleState.cpp" />
     <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State\BossStage3OpenState.cpp" />
     <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State.cpp" />
@@ -279,7 +279,7 @@
     <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretRight90State.cpp" />
     <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretUpState.cpp" />
     <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState\WallTurretDownState.cpp" />
-    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretCommon.h" />
+    <ClInclude Include="src\Objects\Enemies\WallTurret\WallTurretCommon.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -704,9 +704,9 @@
     <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3.cpp">
       <Filter>src\Objects\Enemies\BossStage3\BossStage3Head</Filter>
     </ClCompile>
-    <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3Common.h">
+    <ClInclude Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3Common.h">
       <Filter>src\Objects\Enemies\BossStage3\BossStage3Head</Filter>
-    </ClCompile>
+    </ClInclude>
     <ClCompile Include="src\Objects\Enemies\BossStage3\BossStage3Head\BossStage3State.cpp">
       <Filter>src\Objects\Enemies\BossStage3\BossStage3Head</Filter>
     </ClCompile>
@@ -824,9 +824,9 @@
     <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurret.cpp">
       <Filter>src\Objects\Enemies\WallTurret</Filter>
     </ClCompile>
-    <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretCommon.h">
+    <ClInclude Include="src\Objects\Enemies\WallTurret\WallTurretCommon.h">
       <Filter>src\Objects\Enemies\WallTurret</Filter>
-    </ClCompile>
+    </ClInclude>
     <ClCompile Include="src\Objects\Enemies\WallTurret\WallTurretState.cpp">
       <Filter>src\Objects\Enemies\WallTurret</Filter>
     </ClCompile>

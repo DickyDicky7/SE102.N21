@@ -64,6 +64,7 @@ public:
 	bool IsEnemy() const override;
 	void SetTarget(const Bill* target) override;
 	bool TakeBulletHit() override;
+	bool IsVulnerableToBullet() const override;
 
 	bool IsMoveAround() const;
 	bool IsMoveTo() const;

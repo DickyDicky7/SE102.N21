@@ -28,6 +28,9 @@ public:
 
 protected:
 
+	// Advances the animation frame and updates frame dimensions; draws the sprite only when draw is true.
+	void UpdateAndDrawAnimation(const ANIMATION_ID& animationId, D3DXVECTOR3 position, DIRECTION movingDirection, float angle, bool draw);
+
 	int _currentFrame;
 	float _currentFrameW;
 	float _currentFrameH;
@@ -77,6 +80,12 @@ inline float HasAnimations<T>::GetCurrentFrameH() const
 template <class T>
 inline void HasAnimations<T>::SetAnimation(const ANIMATION_ID& animationId, D3DXVECTOR3 position, DIRECTION movingDirection, float angle)
 {
+	this->UpdateAndDrawAnimation(animationId, position, movingDirection, angle, true);
+}
+
+template <class T>
+inline void HasAnimations<T>::UpdateAndDrawAnimation(const ANIMATION_ID& animationId, D3DXVECTOR3 position, DIRECTION movingDirection, float angle, bool draw)
+{
 	ULONGLONG now = GetTickCount64();
 	auto animIt = GraphicsDatabase::animations.find(animationId);
 	if (animIt == GraphicsDatabase::animations.end()) return;
@@ -112,5 +121,8 @@ inline void HasAnimations<T>::SetAnimation(const ANIMATION_ID& animationId, D3DX
 	this->_currentFrameW = static_cast<float>(rect.right  - rect.left);
 	this->_currentFrameH = static_cast<float>(rect.bottom - rect.top );
 
-	GraphicsHelper::DrawSprite(currentSprite, position, movingDirection, angle);
+	if (draw)
+	{
+		GraphicsHelper::DrawSprite(currentSprite, position, movingDirection, angle);
+	}
 }

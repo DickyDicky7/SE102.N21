@@ -53,6 +53,7 @@ public:
 	bool IsEnemy() const override;
 	ENEMY_TYPE GetEnemyType() const override;
 	bool IsLethalToTouch() const override;
+	bool IsVulnerableToBullet() const override;
 	void SetTarget(const Bill* target) override;
 	bool TakeBulletHit() override;
 protected:

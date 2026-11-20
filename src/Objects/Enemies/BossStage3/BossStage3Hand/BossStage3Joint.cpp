@@ -443,11 +443,16 @@ void BossStage3Joint::SetTarget(const Bill* target)
 
 bool BossStage3Joint::TakeBulletHit()
 {
-	if (this->_parent && this->_parent->RegisterHit())
+	if (!this->_parent || this->_parent->IsDead())
 	{
-		this->_parent->SetDead(true);
+		return false;
 	}
-	return true;
+	return this->_parent->TakeBulletHit();
+}
+
+bool BossStage3Joint::IsVulnerableToBullet() const
+{
+	return this->_parent && !this->_parent->IsDead();
 }
 
 bool BossStage3Joint::IsMoveAround() const

@@ -21,3 +21,8 @@ WallTurretState* WallTurretNormalState::Update(WallTurret& wallTurret)
 
 	return nullptr;
 }
+
+bool WallTurretNormalState::IsClosed() const
+{
+	return true;
+}

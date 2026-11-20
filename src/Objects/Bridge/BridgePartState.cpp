@@ -2,13 +2,13 @@
 
 BridgePartState::BridgePartState()
 {
-	this->_time = 0.0f;
+	this->_time = 0;
 	this->_animationId = BRIDGE_ANIMATION_ID::BODY;
 }
 
 BridgePartState::BridgePartState(ANIMATION_ID animationId)
 {
-	this->_time = 0.0f;
+	this->_time = 0;
 	this->_animationId = animationId;
 }
 
@@ -39,7 +39,7 @@ BridgePartState* BridgePartState::Update(BridgePart& bridgePart)
 
 	if (std::cmp_greater_equal(bridgePart.GetCurrentFrame() + 1, frames.size()))
 	{
-		this->_time = static_cast<float>(GetTickCount64());
+		this->_time = GetTickCount64();
 		Sound::GetInstance()->Play("bridgeexplosion", false, 1);
 		return new BridgePartExplosionState();
 	}

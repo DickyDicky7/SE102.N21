@@ -64,7 +64,7 @@ void BossStage3Hand::Update()
 {
 	if (this->IsDead())
 	{
-		Sound::GetInstance()->Play("boss2finalhanddisappear", false, 1);
+		return;
 	}
 
 	if (!this->_isInitPositionJoints)
@@ -190,11 +190,23 @@ ENEMY_TYPE BossStage3Hand::GetEnemyType() const
 void BossStage3Hand::SetTarget(const Bill* target)
 {
 	this->Enemy<Bill>::SetTarget(target);
+	for (size_t i = 0; i < Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT; i++)
+	{
+		if (this->_joints[i])
+		{
+			this->_joints[i]->SetTarget(target);
+		}
+	}
 }
 
 bool BossStage3Hand::TakeBulletHit()
 {
-	return this->Enemy<Bill>::TakeEnemyBulletHit(this);
+	return this->IsDead() ? false : this->Enemy<Bill>::TakeEnemyBulletHit(this);
+}
+
+bool BossStage3Hand::IsVulnerableToBullet() const
+{
+	return !this->IsDead();
 }
 
 void BossStage3Hand::ForEachCollisionEntity(std::function<void(Entity*)> callback)
@@ -217,6 +229,30 @@ void BossStage3Hand::ProcessSpecialDeathEffects(std::vector<Entity*>& effectEnti
 			subExplosion->SetX(this->_joints[i]->GetX());
 			subExplosion->SetY(this->_joints[i]->GetY());
 			effectEntities.push_back(subExplosion);
+		}
+	}
+}
+
+void BossStage3Hand::SetX(float x)
+{
+	Entity::SetX(x);
+	for (size_t i = 0; i < Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT; i++)
+	{
+		if (this->_joints[i])
+		{
+			this->_joints[i]->SetX(x);
+		}
+	}
+}
+
+void BossStage3Hand::SetY(float y)
+{
+	Entity::SetY(y);
+	for (size_t i = 0; i < Constants::Enemies::BossStage3::Hand::TOTAL_JOINTS_COUNT; i++)
+	{
+		if (this->_joints[i])
+		{
+			this->_joints[i]->SetY(y);
 		}
 	}
 }

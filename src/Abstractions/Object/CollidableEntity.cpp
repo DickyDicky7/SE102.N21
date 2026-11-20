@@ -1,3 +1,4 @@
+#include <algorithm>
 #include "CollidableEntity.h"
 #include "Constants.h"
 
@@ -12,6 +13,11 @@ CollidableEntity::~CollidableEntity()
 
 bool CollidableEntity::AABBCheck(Entity* targetEntity)
 {
+	if (!targetEntity || !this->_self)
+	{
+		return false;
+	}
+
 	return targetEntity->GetL() <= this->_self->GetR()
 		&& targetEntity->GetR() >= this->_self->GetL()
 		&& targetEntity->GetT() >= this->_self->GetB()
@@ -20,7 +26,7 @@ bool CollidableEntity::AABBCheck(Entity* targetEntity)
 
 void CollidableEntity::CollideWith(Entity* targetEntity)
 {
-	if (!targetEntity)
+	if (!targetEntity || !this->_self)
 		return;
 
 	AABBSweepResult aabbSweepResult = this->AABBSweep(targetEntity);
@@ -39,29 +45,46 @@ void CollidableEntity::CollideWith(Entity* targetEntity)
 
 AABBSweepResult CollidableEntity::AABBSweep(Entity* targetEntity)
 {
+	if (!targetEntity || !this->_self)
+	{
+		return AABBSweepResult();
+	}
+
 	AABBSweepResult aabbSweepResultX = this->AABBSweepX(targetEntity);
 	AABBSweepResult aabbSweepResultY = this->AABBSweepY(targetEntity);
 
 	if (aabbSweepResultX.isCollided && aabbSweepResultY.isCollided)
 	{
-		if (aabbSweepResultX.enTime > aabbSweepResultY.enTime)
+		float entryTime = (std::max)(aabbSweepResultX.enTime, aabbSweepResultY.enTime);
+		float exitTime = (std::min)(aabbSweepResultX.exTime, aabbSweepResultY.exTime);
+
+		if (exitTime < 0.0f || entryTime > exitTime || entryTime > 1.0f)
+		{
+			return AABBSweepResult();
+		}
+
+		if (aabbSweepResultX.enTime >= aabbSweepResultY.enTime)
 		{
 			return aabbSweepResultX;
 		}
-		if (aabbSweepResultX.enTime < aabbSweepResultY.enTime)
+		else
 		{
 			return aabbSweepResultY;
 		}
 	}
 	if (aabbSweepResultX.isCollided)
 	{
-		if (this->AABBCheck(targetEntity))
+		if (this->_self->GetVY() == 0.0f && this->_self->GetB() <= targetEntity->GetT() && this->_self->GetT() >= targetEntity->GetB())
+		{
 			return aabbSweepResultX;
+		}
 	}
 	if (aabbSweepResultY.isCollided)
 	{
-		if (this->AABBCheck(targetEntity))
+		if (this->_self->GetVX() == 0.0f && this->_self->GetL() <= targetEntity->GetR() && this->_self->GetR() >= targetEntity->GetL())
+		{
 			return aabbSweepResultY;
+		}
 	}
 
 	return AABBSweepResult();
@@ -71,7 +94,7 @@ AABBSweepResult CollidableEntity::AABBSweepX(Entity* targetEntity)
 {
 	AABBSweepResult aabbSweepResult{};
 
-	if (this->_self->GetVX() == 0.0f)
+	if (!targetEntity || !this->_self || this->_self->GetVX() == 0.0f)
 	{
 		return aabbSweepResult;
 	}
@@ -117,7 +140,7 @@ AABBSweepResult CollidableEntity::AABBSweepY(Entity* targetEntity)
 {
 	AABBSweepResult aabbSweepResult{};
 
-	if (this->_self->GetVY() == 0.0f)
+	if (!targetEntity || !this->_self || this->_self->GetVY() == 0.0f)
 	{
 		return aabbSweepResult;
 	}
